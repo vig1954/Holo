@@ -1,0 +1,11 @@
+D:\Programming\Library\Canon\LibraryCanonSDK\CanonSDKTutorial\EDSDKLib\bin\Release\EDSDKLib.xml
+D:\Programming\Library\Canon\LibraryCanonSDK\CanonSDKTutorial\EDSDKLib\bin\Release\EDSDKLib.dll
+D:\Programming\Library\Canon\LibraryCanonSDK\CanonSDKTutorial\EDSDKLib\bin\Release\EDSDKLib.pdb
+D:\Programming\Library\Canon\LibraryCanonSDK\CanonSDKTutorial\EDSDKLib\obj\x86\Release\EDSDKLib.dll
+D:\Programming\Library\Canon\LibraryCanonSDK\CanonSDKTutorial\EDSDKLib\obj\x86\Release\EDSDKLib.pdb
+D:\InterferogramProcessing\EDSDKLib\bin\Release\EDSDKLib.xml
+D:\InterferogramProcessing\EDSDKLib\bin\Release\EDSDKLib.dll
+D:\InterferogramProcessing\EDSDKLib\bin\Release\EDSDKLib.pdb
+D:\InterferogramProcessing\EDSDKLib\obj\x86\Release\EDSDKLib.dll
+D:\InterferogramProcessing\EDSDKLib\obj\x86\Release\EDSDKLib.pdb
+D:\InterferogramProcessing\EDSDKLib\obj\x86\Release\EDSDKLib.csprojResolveAssemblyReference.cache

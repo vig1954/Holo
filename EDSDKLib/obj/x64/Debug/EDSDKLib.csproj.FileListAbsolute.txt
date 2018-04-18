@@ -1,0 +1,17 @@
+D:\Projects\InterferogramProcessing2\EDSDKLib\bin\x64\Debug\EDSDKLib.dll
+D:\Projects\InterferogramProcessing2\EDSDKLib\bin\x64\Debug\EDSDKLib.pdb
+D:\Projects\InterferogramProcessing2\EDSDKLib\obj\x64\Debug\EDSDKLib.dll
+D:\Projects\InterferogramProcessing2\EDSDKLib\obj\x64\Debug\EDSDKLib.pdb
+D:\Projects\Голография_new\EDSDKLib\bin\x64\Debug\EDSDKLib.dll
+D:\Projects\Голография_new\EDSDKLib\bin\x64\Debug\EDSDKLib.pdb
+D:\Projects\Голография_new\EDSDKLib\obj\x64\Debug\EDSDKLib.dll
+D:\Projects\Голография_new\EDSDKLib\obj\x64\Debug\EDSDKLib.pdb
+D:\Projects\Голография_new\EDSDKLib\bin\x64\Debug\DppCore.dll
+D:\Projects\Голография_new\EDSDKLib\bin\x64\Debug\DppCoreSub.dll
+D:\Projects\Голография_new\EDSDKLib\bin\x64\Debug\DppMath.dll
+D:\Projects\Голография_new\EDSDKLib\bin\x64\Debug\EdsCFParse.dll
+D:\Projects\Голография_new\EDSDKLib\bin\x64\Debug\EDSDK.dll
+D:\Projects\Голография_new\EDSDKLib\bin\x64\Debug\EdsImage.dll
+D:\Projects\Голография_new\EDSDKLib\bin\x64\Debug\MLib.dll
+D:\Projects\Голография_new\EDSDKLib\bin\x64\Debug\Ucs32P.dll
+D:\Projects\Голография_new\EDSDKLib\obj\x64\Debug\EDSDKLib.csprojResolveAssemblyReference.cache
