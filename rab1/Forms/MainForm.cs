@@ -35,7 +35,7 @@ namespace rab1
                 }
 
         */
-
+// -----------------------------------------------------------------------------------------------------------
         Image[] img = new Image[12];
         public static ZArrayDescriptor[] zArrayDescriptor = new ZArrayDescriptor[12];     // Иконки справа      
         public static ZArrayDescriptor zArrayPicture = new ZArrayDescriptor();            // Массив для главного окна

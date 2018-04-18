@@ -756,3 +756,6 @@ D:\Эксперимент\Голография_new\rab1\obj\x86\Debug\rab1.cspro
 D:\Эксперимент\Голография_new\rab1\obj\x86\Debug\rab1.csproj.CoreCompileInputs.cache
 D:\Эксперимент\Голография_new\rab1\obj\x86\Debug\rab1.exe
 D:\Эксперимент\Голография_new\rab1\obj\x86\Debug\rab1.pdb
+R:\Программы\Голография GitHub\rab1\bin\Debug\rab1.exe.config
+R:\Программы\Голография GitHub\rab1\obj\x86\Debug\rab1.exe
+R:\Программы\Голография GitHub\rab1\obj\x86\Debug\rab1.pdb
