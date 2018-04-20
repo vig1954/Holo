@@ -2082,6 +2082,7 @@ namespace rab1
             double max = Convert.ToDouble(textBox1.Text);
             double min = Convert.ToDouble(textBox2.Text);
             SumClass.Range_Picture(pictureBox01, zArrayPicture, min, max);
+            
         }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //            Shift  (основное окно)  Сдвиг по интенсивности

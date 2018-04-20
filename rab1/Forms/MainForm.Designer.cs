@@ -195,6 +195,8 @@
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button9 = new System.Windows.Forms.Button();
+            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
+            this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox01)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -1636,7 +1638,7 @@
             // x1
             // 
             this.x1.AutoSize = true;
-            this.x1.Location = new System.Drawing.Point(846, 113);
+            this.x1.Location = new System.Drawing.Point(873, 116);
             this.x1.Name = "x1";
             this.x1.Size = new System.Drawing.Size(12, 13);
             this.x1.TabIndex = 93;
@@ -1645,7 +1647,7 @@
             // y1
             // 
             this.y1.AutoSize = true;
-            this.y1.Location = new System.Drawing.Point(846, 144);
+            this.y1.Location = new System.Drawing.Point(871, 144);
             this.y1.Name = "y1";
             this.y1.Size = new System.Drawing.Size(12, 13);
             this.y1.TabIndex = 94;
@@ -1654,7 +1656,7 @@
             // xx2
             // 
             this.xx2.AutoSize = true;
-            this.xx2.Location = new System.Drawing.Point(848, 177);
+            this.xx2.Location = new System.Drawing.Point(873, 177);
             this.xx2.Name = "xx2";
             this.xx2.Size = new System.Drawing.Size(12, 13);
             this.xx2.TabIndex = 95;
@@ -1663,7 +1665,7 @@
             // yy2
             // 
             this.yy2.AutoSize = true;
-            this.yy2.Location = new System.Drawing.Point(848, 206);
+            this.yy2.Location = new System.Drawing.Point(873, 206);
             this.yy2.Name = "yy2";
             this.yy2.Size = new System.Drawing.Size(12, 13);
             this.yy2.TabIndex = 96;
@@ -1672,7 +1674,7 @@
             // xx3
             // 
             this.xx3.AutoSize = true;
-            this.xx3.Location = new System.Drawing.Point(848, 245);
+            this.xx3.Location = new System.Drawing.Point(873, 245);
             this.xx3.Name = "xx3";
             this.xx3.Size = new System.Drawing.Size(12, 13);
             this.xx3.TabIndex = 98;
@@ -1681,7 +1683,7 @@
             // yy3
             // 
             this.yy3.AutoSize = true;
-            this.yy3.Location = new System.Drawing.Point(846, 271);
+            this.yy3.Location = new System.Drawing.Point(871, 271);
             this.yy3.Name = "yy3";
             this.yy3.Size = new System.Drawing.Size(12, 13);
             this.yy3.TabIndex = 99;
@@ -1695,7 +1697,7 @@
             // yy4
             // 
             this.yy4.AutoSize = true;
-            this.yy4.Location = new System.Drawing.Point(848, 327);
+            this.yy4.Location = new System.Drawing.Point(873, 327);
             this.yy4.Name = "yy4";
             this.yy4.Size = new System.Drawing.Size(12, 13);
             this.yy4.TabIndex = 101;
@@ -1704,7 +1706,7 @@
             // xx4
             // 
             this.xx4.AutoSize = true;
-            this.xx4.Location = new System.Drawing.Point(846, 301);
+            this.xx4.Location = new System.Drawing.Point(871, 301);
             this.xx4.Name = "xx4";
             this.xx4.Size = new System.Drawing.Size(12, 13);
             this.xx4.TabIndex = 100;
@@ -1719,80 +1721,80 @@
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(874, 113);
+            this.textBox3.Location = new System.Drawing.Point(898, 113);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(77, 20);
+            this.textBox3.Size = new System.Drawing.Size(53, 20);
             this.textBox3.TabIndex = 103;
             this.textBox3.Text = "0";
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(874, 141);
+            this.textBox4.Location = new System.Drawing.Point(898, 141);
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(77, 20);
+            this.textBox4.Size = new System.Drawing.Size(53, 20);
             this.textBox4.TabIndex = 104;
             this.textBox4.Text = "0";
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(874, 179);
+            this.textBox5.Location = new System.Drawing.Point(898, 179);
             this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(77, 20);
+            this.textBox5.Size = new System.Drawing.Size(53, 20);
             this.textBox5.TabIndex = 105;
             this.textBox5.Text = "0";
             // 
             // textBox6
             // 
-            this.textBox6.Location = new System.Drawing.Point(874, 206);
+            this.textBox6.Location = new System.Drawing.Point(898, 206);
             this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(77, 20);
+            this.textBox6.Size = new System.Drawing.Size(53, 20);
             this.textBox6.TabIndex = 106;
             this.textBox6.Text = "0";
             // 
             // textBox7
             // 
-            this.textBox7.Location = new System.Drawing.Point(874, 245);
+            this.textBox7.Location = new System.Drawing.Point(898, 245);
             this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(77, 20);
+            this.textBox7.Size = new System.Drawing.Size(53, 20);
             this.textBox7.TabIndex = 107;
             this.textBox7.Text = "0";
             // 
             // textBox8
             // 
-            this.textBox8.Location = new System.Drawing.Point(874, 271);
+            this.textBox8.Location = new System.Drawing.Point(898, 271);
             this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(77, 20);
+            this.textBox8.Size = new System.Drawing.Size(53, 20);
             this.textBox8.TabIndex = 108;
             this.textBox8.Text = "0";
             // 
             // textBox9
             // 
-            this.textBox9.Location = new System.Drawing.Point(874, 301);
+            this.textBox9.Location = new System.Drawing.Point(898, 301);
             this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(77, 20);
+            this.textBox9.Size = new System.Drawing.Size(53, 20);
             this.textBox9.TabIndex = 109;
             this.textBox9.Text = "0";
             // 
             // textBox10
             // 
-            this.textBox10.Location = new System.Drawing.Point(874, 327);
+            this.textBox10.Location = new System.Drawing.Point(898, 327);
             this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(77, 20);
+            this.textBox10.Size = new System.Drawing.Size(53, 20);
             this.textBox10.TabIndex = 110;
             this.textBox10.Text = "0";
             // 
             // textBox11
             // 
-            this.textBox11.Location = new System.Drawing.Point(874, 365);
+            this.textBox11.Location = new System.Drawing.Point(898, 365);
             this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(77, 20);
+            this.textBox11.Size = new System.Drawing.Size(53, 20);
             this.textBox11.TabIndex = 111;
             this.textBox11.Text = "0";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(848, 368);
+            this.label1.Location = new System.Drawing.Point(873, 368);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(10, 13);
             this.label1.TabIndex = 112;
@@ -1801,18 +1803,34 @@
             // button9
             // 
             this.button9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button9.Location = new System.Drawing.Point(836, 73);
+            this.button9.Location = new System.Drawing.Point(874, 73);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(115, 25);
+            this.button9.Size = new System.Drawing.Size(77, 25);
             this.button9.TabIndex = 113;
             this.button9.Text = "refresh";
             this.button9.UseVisualStyleBackColor = true;
             this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
+            // vScrollBar1
+            // 
+            this.vScrollBar1.Location = new System.Drawing.Point(828, 77);
+            this.vScrollBar1.Name = "vScrollBar1";
+            this.vScrollBar1.Size = new System.Drawing.Size(16, 270);
+            this.vScrollBar1.TabIndex = 114;
+            // 
+            // vScrollBar2
+            // 
+            this.vScrollBar2.Location = new System.Drawing.Point(828, 349);
+            this.vScrollBar2.Name = "vScrollBar2";
+            this.vScrollBar2.Size = new System.Drawing.Size(16, 279);
+            this.vScrollBar2.TabIndex = 115;
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1129, 737);
+            this.Controls.Add(this.vScrollBar2);
+            this.Controls.Add(this.vScrollBar1);
             this.Controls.Add(this.button9);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox11);
@@ -2078,6 +2096,8 @@
         private System.Windows.Forms.ToolStripMenuItem разряжениеМассиваНулямиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem добвлениеМассиваПовторениемЗначенийToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem manageToolStripMenuItem;
+        private System.Windows.Forms.VScrollBar vScrollBar1;
+        private System.Windows.Forms.VScrollBar vScrollBar2;
     }
 }
 

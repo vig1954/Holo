@@ -22,15 +22,15 @@ namespace rab1.Forms
             // c1 = ImageProcessor.getPixel(i, j, data1);                       // c1 = bmp1.GetPixel(i, j);   
             // ImageProcessor.setPixel(data5, i, j, Color.FromArgb(r, r, r));   // bmp2.SetPixel(j, i, c1);
             // bmp5.UnlockBits(data5);   
-            if (pictureBox01     == null) { MessageBox.Show("Vizual_Picture pictureBox01 == null"); return; }
-            if (zArrayDescriptor == null) { MessageBox.Show("Vizual_Picture ZArrayDescriptor array == null"); return; }
+            if (pictureBox01     == null) { MessageBox.Show("Vizual_Picture: pictureBox01 == null"); return; }
+            if (zArrayDescriptor == null) { MessageBox.Show("Vizual_Picture: ZArrayDescriptor array == null"); return; }
 
             int width = zArrayDescriptor.width;
             int height = zArrayDescriptor.height;
 
-            if (width == 0 || height == 0) { MessageBox.Show("width == 0 || height == 0"); return; }
+            if (width == 0 || height == 0) { MessageBox.Show("Vizual_Picture: width == 0 || height == 0"); return; }
 
-            Bitmap bmp2 = new Bitmap(width, height);
+            Bitmap     bmp2  = new Bitmap(width, height);
             BitmapData data2 = ImageProcessor.getBitmapData(bmp2);
 
             double max = SumClass.getMax(zArrayDescriptor);
@@ -40,7 +40,7 @@ namespace rab1.Forms
 
             if (Math.Abs(max - min) < 0.0000001)
             {
-                // MessageBox.Show("max = min");
+                                                                        // MessageBox.Show("max = min");
                 int c = 0;
                 if (max < 255 && max > 0.0) c = Convert.ToInt32(max);
                 if (max > 255) c = 255;

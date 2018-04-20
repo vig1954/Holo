@@ -104,17 +104,16 @@ namespace rab1
         public static void Range_Picture(PictureBox pictureBox01, ZArrayDescriptor zArrayPicture, double min, double max)
         {
 
-            int width  = zArrayPicture.width;
-            int height = zArrayPicture.height;
-            Bitmap bmp2 = new Bitmap(width, height);
-            BitmapData data2 = ImageProcessor.getBitmapData(bmp2);
-
             // c1 = ImageProcessor.getPixel(i, j, data1);                       // c1 = bmp1.GetPixel(i, j);   
             // ImageProcessor.setPixel(data5, i, j, Color.FromArgb(r, r, r));   // bmp2.SetPixel(j, i, c1);
             // bmp5.UnlockBits(data5);   
-            if (pictureBox01  == null) {  }
-            if (zArrayPicture == null) { MessageBox.Show("SumClass ZArrayDescriptor array == null"); return; }
-
+            if (pictureBox01  == null)  { MessageBox.Show("SumClass pictureBox01 == null");           return; }
+            if (zArrayPicture == null)  { MessageBox.Show("SumClass ZArrayDescriptor array == null"); return; }
+           
+            int width = zArrayPicture.width;
+            int height = zArrayPicture.height;
+            Bitmap bmp2 = new Bitmap(width, height);
+            BitmapData data2 = ImageProcessor.getBitmapData(bmp2);
            
             if (max == min)
             {   
@@ -165,51 +164,28 @@ namespace rab1
         /// <returns></returns>
         public static ZArrayDescriptor Range_Array(ZArrayDescriptor zArrayPicture, double min, double max)
         {
-
+            if (zArrayPicture == null) { MessageBox.Show("SumClass ZArrayPicture == null"); return null; }
             int width  = zArrayPicture.width;
             int height = zArrayPicture.height;
             ZArrayDescriptor rezult = new ZArrayDescriptor(width, height);
-                   
-            if (zArrayPicture == null) { MessageBox.Show("SumClass ZArrayPicture == null"); return null; }
 
-            if (max == min)
-            {
-                
-                for (int j = 0; j < width; j++) 
-                  {  
-                      for (int i = 0; i < height; i++)  
-                         {
-                             if (max < 255 && max > 0.0) rezult.array[i, j] = max; 
-                             if (max > 255)              rezult.array[i, j] = 255; 
-                             if (max < 0)                rezult.array[i, j] = 0; 
-                             
-                         }  
-                   }
-                return rezult;
-            }
-
-
-            double min1 = getMin(zArrayPicture);
-            double max1 = getMax(zArrayPicture);
-
-
-            double mxmn = 1 / (max1 - min1);
+            if (max == min) return rezult;
+ 
+            double max1 = max-min;
+         
+            //MessageBox.Show("max1 = " + max1);
 
             for (int i = 0; i < width; i++)
                 {
                     for (int j = 0; j < height; j++)
                     {
                        double fc = zArrayPicture.array[i, j];
-                    //if (fc > max) fc = max;
-                    //if (fc < min) fc = min;
-                    //if (fc > max && fc < min) { fc = (fc - min) * mxmn; }
-                       fc =(max-min)* (fc - min) * mxmn + min;
-                       rezult.array[i, j] = fc;
+                       if (fc > max) { rezult.array[i, j] = max; continue; }
+                       if (fc < min) { rezult.array[i, j] = min; continue; }
+                       rezult.array[i, j] = max1 * (fc - min) / (max - min) + min;   
                     }
-                }
-           
+                }           
             return rezult;
-
         }
 
         //

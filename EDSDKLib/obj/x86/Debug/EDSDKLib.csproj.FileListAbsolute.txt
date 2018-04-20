@@ -74,3 +74,16 @@ D:\Эксперимент\Голография_new\EDSDKLib\obj\x86\Debug\EDSDKL
 D:\Эксперимент\Голография_new\EDSDKLib\obj\x86\Debug\EDSDKLib.csproj.CoreCompileInputs.cache
 D:\Эксперимент\Голография_new\EDSDKLib\obj\x86\Debug\EDSDKLib.dll
 D:\Эксперимент\Голография_new\EDSDKLib\obj\x86\Debug\EDSDKLib.pdb
+R:\Программы\Голография GitHub\EDSDKLib\bin\Debug\DppCore.dll
+R:\Программы\Голография GitHub\EDSDKLib\bin\Debug\DppCoreSub.dll
+R:\Программы\Голография GitHub\EDSDKLib\bin\Debug\DppMath.dll
+R:\Программы\Голография GitHub\EDSDKLib\bin\Debug\EdsCFParse.dll
+R:\Программы\Голография GitHub\EDSDKLib\bin\Debug\EDSDK.dll
+R:\Программы\Голография GitHub\EDSDKLib\bin\Debug\EdsImage.dll
+R:\Программы\Голография GitHub\EDSDKLib\bin\Debug\MLib.dll
+R:\Программы\Голография GitHub\EDSDKLib\bin\Debug\Ucs32P.dll
+R:\Программы\Голография GitHub\EDSDKLib\bin\Debug\EDSDKLib.dll
+R:\Программы\Голография GitHub\EDSDKLib\bin\Debug\EDSDKLib.pdb
+R:\Программы\Голография GitHub\EDSDKLib\obj\x86\Debug\EDSDKLib.csprojResolveAssemblyReference.cache
+R:\Программы\Голография GitHub\EDSDKLib\obj\x86\Debug\EDSDKLib.dll
+R:\Программы\Голография GitHub\EDSDKLib\obj\x86\Debug\EDSDKLib.pdb
