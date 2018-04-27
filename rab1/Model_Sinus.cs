@@ -378,6 +378,45 @@ namespace rab1.Forms
             return cmpl;
         }
 
+
+        // Вычитание двух профилей
+
+        public static ZArrayDescriptor Model_FAZA_T(ZArrayDescriptor z1, ZArrayDescriptor z2, double n123, double n23)
+        {
+            int NX = z2.width;
+            int NY = z2.height;
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(NX, NY);      // Результирующий фронт  
+            //double n123 = n12 * n23 / (Math.Abs(n12 - n23));
+            for (int i = 0; i < NX; i++)
+                for (int j = 0; j < NY; j++)
+                {
+                    double rzn = z1.array[i, j] * n123 - z2.array[i, j] * n23;
+                    int k = Convert.ToInt32(rzn / (Math.PI * n23));  //Convert.ToInt32
+                    cmpl.array[i, j] = k * Math.PI * n23;
+                }
+
+         
+            return cmpl;
+        }
+        // Сложение с минимальным
+
+        public static ZArrayDescriptor Model_FAZA_SUM(ZArrayDescriptor z1, ZArrayDescriptor z2, double n1)
+        {
+            int NX = z2.width;
+            int NY = z2.height;
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(NX, NY);      // Результирующий фронт  
+            
+            for (int i = 0; i < NX; i++)
+                for (int j = 0; j < NY; j++)
+                {
+
+                    cmpl.array[i, j] = z1.array[i, j] + z2.array[i, j]*n1;
+                }
+
+
+            return cmpl;
+        }
+        
         public static ZArrayDescriptor Model_FAZA_T1(ZArrayDescriptor z2, double n1, double n2)
         {
             int NX = z2.width;
