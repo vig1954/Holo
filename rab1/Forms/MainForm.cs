@@ -2036,25 +2036,48 @@ namespace rab1
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //           
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
- /*       private void vScrollBar2_Scroll(object sender, ScrollEventArgs e)
+      private void vScrollBar2_Scroll(object sender, ScrollEventArgs e)  // -------------------------   Нижний движок
         {
-            vScrollBar2.Maximum = 255;
-            vScrollBar2.Value=50;
+            //vScrollBar2.Maximum = 255;
+            //vScrollBar2.Value=50;
             //label33.Text = e.NewValue.ToString();
-            vScrollBar2.Update();
-            vScrollBar2.Show();
+            //vScrollBar2.Update();
+            //vScrollBar2.Show();
+
+           // double max = Convert.ToDouble(textBox1.Text);    // Отображение pictureBox01
+           // double min = Convert.ToDouble(textBox2.Text);
+           // vScrollBar1.Maximum = Convert.ToInt32(max);
+           // vScrollBar1.Minimum = Convert.ToInt32(min);
+
+            int k = vScrollBar2.Maximum - e.NewValue;
+           
+            int k1 = Convert.ToInt32(textBox1.Text);   // Max
+            if (k < k1) textBox2.Text = k.ToString();
+
+           // double max = Convert.ToDouble(textBox1.Text);    // Отображение pictureBox01
+           // double min = Convert.ToDouble(textBox2.Text);
+           // SumClass.Range_Picture(pictureBox01, min, max);
         }
 
-        private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)
+        private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)  // ----------------------- Верхний движок
         {
-            vScrollBar1.Maximum = 255;
+            //double max = Convert.ToDouble(textBox1.Text);    // Отображение pictureBox01
+            //double min = Convert.ToDouble(textBox2.Text);
+            //vScrollBar1.Maximum = Convert.ToInt32(max);
+            //vScrollBar1.Minimum = Convert.ToInt32(min);
+            
+
+            int k = vScrollBar1.Maximum - e.NewValue;
            
-            //label32.Text = e.NewValue.ToString();
-            //label27.Text = e.NewValue.ToString();
+            int k1 = Convert.ToInt32(textBox2.Text);  // Min
+            if (k > k1) textBox1.Text = k.ToString();
+           // textBox2.Text = e.NewValue.ToString();
+            
+            //SumClass.Range_Picture(pictureBox01, min, max);
         }
-  * */
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //            Max Min zArrayPicture (основное окно)
+        //        Определение  Max Min zArrayPicture (основное окно)
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void button5_Click(object sender, EventArgs e)
         {
@@ -2064,15 +2087,22 @@ namespace rab1
             double max, min;
             max = SumClass.getMax(zArrayPicture); textBox1.Text = Convert.ToString(max);
             min = SumClass.getMin(zArrayPicture); textBox2.Text = Convert.ToString(min);
+            SumClass.Range_Picture(pictureBox01, zArrayPicture, min, max);
             //MessageBox.Show("min = " + Convert.ToString(min) + "max = " + Convert.ToString(max));
 
-
-
             //int BarMax = Convert.ToInt32(max - min);
-            //vScrollBar2.Maximum = BarMax;
-            //vScrollBar2.Minimum = 0;
-            //vScrollBar2.Value = vScrollBar2.Maximum;
-            //vScrollBar2.Update();
+
+            vScrollBar1.Maximum = Convert.ToInt32(max);
+            vScrollBar1.Minimum = Convert.ToInt32(min);
+            vScrollBar1.Value = Convert.ToInt32(min);
+            vScrollBar1.Update();
+            vScrollBar1.Show();
+
+            vScrollBar2.Maximum = Convert.ToInt32(max);
+            vScrollBar2.Minimum = Convert.ToInt32(min);
+            vScrollBar2.Value = Convert.ToInt32(max);
+            vScrollBar2.Update();
+            vScrollBar2.Show();
         }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //            Range  (основное окно)  Приведение изображения к диапазону
@@ -2082,6 +2112,7 @@ namespace rab1
             double max = Convert.ToDouble(textBox1.Text);
             double min = Convert.ToDouble(textBox2.Text);
             SumClass.Range_Picture(pictureBox01, zArrayPicture, min, max);
+            //SumClass.Range_Picture(pictureBox01,  min, max);
             
         }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2104,6 +2135,7 @@ namespace rab1
             double max = Convert.ToDouble(textBox1.Text);
             double min = Convert.ToDouble(textBox2.Text);
             zArrayPicture = SumClass.Range_Array(zArrayPicture, min, max);
+            SumClass.Range_Picture(pictureBox01, zArrayPicture, min, max);
             //zArrayPicture.Double_Picture(pictureBox01);
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
         }

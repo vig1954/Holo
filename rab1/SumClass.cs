@@ -153,6 +153,69 @@ namespace rab1
             bmp2.UnlockBits(data2);
 
         }
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        ///          Приведение изображения к диапазону без ZArrayDescriptor (перегруженный метод)
+        /// </summary>     
+        public static void Range_Picture(PictureBox pictureBox01,  double min, double max)
+        {
+
+            // c1 = ImageProcessor.getPixel(i, j, data1);                       // c1 = bmp1.GetPixel(i, j);   
+            // ImageProcessor.setPixel(data5, i, j, Color.FromArgb(r, r, r));   // bmp2.SetPixel(j, i, c1);
+            // bmp5.UnlockBits(data5);   
+            if (pictureBox01 == null) { MessageBox.Show("SumClass pictureBox01 == null"); return; }
+
+
+            int width = pictureBox01.Image.Width;
+            int height = pictureBox01.Image.Height;
+
+            Bitmap     bmp2  = new Bitmap(width, height);
+            BitmapData data2 = ImageProcessor.getBitmapData(bmp2);
+
+            Bitmap     bmp1  = new Bitmap(pictureBox01.Image, width, height);
+            BitmapData data1 = ImageProcessor.getBitmapData(bmp1);
+
+
+            if (max == min)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    for (int i = 0; i < height; i++)
+                    {
+                        int c = 0;
+                        if (max < 255 && max > 0.0) c = Convert.ToInt32(max);
+                        if (max > 255) c = 255;
+                        if (max < 0) c = 0;
+                        Color c1 = Color.FromArgb(c, c, c);
+                        ImageProcessor.setPixel(data2, j, i, c1);
+                    }
+
+                }
+
+            }
+            if (max != min)
+            {
+                double mxmn = 255.0 / (max - min);
+                for (int i = 0; i < width; i++)
+                {
+                    for (int j = 0; j < height; j++)
+                    {
+                        //double fc = zArrayPicture.array[j, i];
+                        Color c2 = ImageProcessor.getPixel(i, j, data1);
+                        double fc = c2.G;
+                        if (fc > max) fc = max;
+                        if (fc < min) fc = min;
+                        int c = Convert.ToInt32((fc - min) * mxmn);
+                        Color c1 = Color.FromArgb(c, c, c);
+                        ImageProcessor.setPixel(data2, i, j, c1);
+                    }
+
+                }
+            }
+            pictureBox01.Image = bmp2;
+            bmp2.UnlockBits(data2);
+
+        }
         /// <summary>
         /// Прведение к диапазону
         /// Если zArrayPicture распределен от min1 до max1 => диапазон расширяется до  min max
