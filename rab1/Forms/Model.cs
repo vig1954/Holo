@@ -12,7 +12,7 @@ public delegate void ModelBox1(double sdvg0, double sdvg, double noise, double L
 public delegate void ModelBox2(double sdvg0, double sdvg, double noise, double Lambda, double lm, double dx, double AngleX, double AngleY);
 
 //public delegate void ModelBoxPSI(double sdvg0, double sdvg1, double noise, double Lambda, double dx, double[] fz);
-public delegate void ModelBoxPSI_Fr(double sdvg0, double sdvg1, double noise, double Lambda, double d, double dx, double[] fz);
+public delegate void ModelBoxPSI_Fr(double sdvg0, double sdvg1, double noise, double Lambda, double d, double dx, double[] fz, double ax, double ay);
 public delegate void ModelBoxPSI_Fr8(double sdvg0, double sdvg1, double noise, double Lambda, double d, double dx, double[] fz, double ax, double dy);
 //public delegate void ModelBoxPSI8_Fr(double sdvg0, double sdvg1, double noise, double Lambda, double d, double dx, double[] fz);
 public delegate void ModelBox_Fr(double sdvg0, double sdvg, double noise, double Lambda, double dx, double dy, double Ax, double Ay);
@@ -128,6 +128,8 @@ namespace rab1.Forms
             noise = Convert.ToDouble(textBox3.Text);
             dx = Convert.ToDouble(textBox9.Text);
             d = Convert.ToDouble(textBox10.Text);
+            AngleX = Convert.ToDouble(textBox11.Text); double Ax = Math.PI * AngleX / 180.0;
+            AngleY = Convert.ToDouble(textBox12.Text); double Ay = Math.PI * AngleY / 180.0;
 
             double[] fzrad = new double[4];
             fz[0] = Convert.ToDouble(textBox5.Text); fzrad[0] = Math.PI * fz[0] / 180.0;   // Фаза в радианах  
@@ -135,7 +137,7 @@ namespace rab1.Forms
             fz[2] = Convert.ToDouble(textBox7.Text); fzrad[2] = Math.PI * fz[2] / 180.0;
             fz[3] = Convert.ToDouble(textBox8.Text); fzrad[3] = Math.PI * fz[3] / 180.0;
 
-            OnInterfPSI_Fr(sdvg0, sdvg, noise, Lambda, dx*1000, d*1000, fzrad);
+            OnInterfPSI_Fr(sdvg0, sdvg, noise, Lambda, dx*1000, d*1000, fzrad, Ax, Ay);
             Close();
         }
              //  Прямое сравнение волновых фронтов (PSI)

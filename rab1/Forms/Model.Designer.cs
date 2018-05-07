@@ -185,7 +185,7 @@
             this.button6.Size = new System.Drawing.Size(271, 68);
             this.button6.TabIndex = 17;
             this.button6.Text = "Формирование 4 интерферограмм (PSI)-> 8,9,10,11\r\nОбласть Френеля -> результат  в " +
-    "zComplex[2]\r\nУгол между пучками по x=0 по y=0,5";
+    "zComplex[1]\r\n";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 

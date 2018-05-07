@@ -2226,27 +2226,29 @@ namespace rab1
             zComplex[1] = Model_object.Model_2(sdvg, noise, Lambda);
             Complex_pictureBox(0); Complex_pictureBox(1);            
         }
-/*
-        private void FormInterfPSI(double sdvg0, double sdvg1, double noise, double Lambda, double dx, double[] fz)  // Модель объекта (пластинки) Двойная экспозиция Расшифровка PSI
+        /*
+                private void FormInterfPSI(double sdvg0, double sdvg1, double noise, double Lambda, double dx, double[] fz)  // Модель объекта (пластинки) Двойная экспозиция Расшифровка PSI
+                {
+
+                    zArrayPicture = Model_object.Glgr_Interf_PSI(zComplex, zArrayDescriptor, sdvg0, sdvg1, noise, Lambda, dx, fz);
+                    Complex_pictureBox(0);
+                    Complex_pictureBox(1);
+                    //Complex_pictureBox(2);
+                    zArrayDescriptor[8].Double_Picture(pictureBox9);
+                    zArrayDescriptor[9].Double_Picture(pictureBox10);
+                    zArrayDescriptor[10].Double_Picture(pictureBox11);
+                    zArrayDescriptor[11].Double_Picture(pictureBox12);
+
+                    //Complex_pictureBox(regComplex);
+                    zArrayPicture.Double_Picture(pictureBox01);
+                }
+         */
+        // Модель объекта (пластинки) Двойная экспозиция Расшифровка PSI
+        private void FormInterfPSI_Fr(double sdvg0, double sdvg1, double noise, double Lambda, double dx, double d, 
+                                      double[] fz, double Ax, double Ay)  
         {
 
-            zArrayPicture = Model_object.Glgr_Interf_PSI(zComplex, zArrayDescriptor, sdvg0, sdvg1, noise, Lambda, dx, fz);
-            Complex_pictureBox(0);
-            Complex_pictureBox(1);
-            //Complex_pictureBox(2);
-            zArrayDescriptor[8].Double_Picture(pictureBox9);
-            zArrayDescriptor[9].Double_Picture(pictureBox10);
-            zArrayDescriptor[10].Double_Picture(pictureBox11);
-            zArrayDescriptor[11].Double_Picture(pictureBox12);
-            
-            //Complex_pictureBox(regComplex);
-            zArrayPicture.Double_Picture(pictureBox01);
-        }
- */
-        private void FormInterfPSI_Fr(double sdvg0, double sdvg1, double noise, double Lambda, double dx, double d, double[] fz)  // Модель объекта (пластинки) Двойная экспозиция Расшифровка PSI
-        {
-
-            Model_object.Glgr_Interf_PSI_Fr(zComplex, zArrayDescriptor, progressBar1, sdvg0, sdvg1, noise, Lambda, dx, d, fz);
+            Model_object.Glgr_Interf_PSI_Fr(zComplex, zArrayDescriptor, progressBar1, sdvg0, sdvg1, noise, Lambda, dx, d, fz, Ax, Ay);
             Complex_pictureBox(0);
             Complex_pictureBox(1);
             //Complex_pictureBox(2);

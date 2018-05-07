@@ -331,15 +331,15 @@ namespace rab1
 
 
         // Формирование 4 голографических интерферограмм. Затем расшифровка их методом PSI
-        public static void Glgr_Interf_PSI_Fr(ZComplexDescriptor[] zComplex, ZArrayDescriptor[] zArrayDescriptor, ProgressBar progressBar1, double sdvg0, double sdvg1, double noise, double Lambda, double dx, double d, double[] fz)
+        public static void Glgr_Interf_PSI_Fr(ZComplexDescriptor[] zComplex, ZArrayDescriptor[] zArrayDescriptor, ProgressBar progressBar1, double sdvg0, double sdvg1, double noise, double Lambda, double dx, double d, double[] fz, double Ax, double Ay)
         {
             int NX = 1024;
             int NY = 1024;
             int m = Furie.PowerOfTwo(NX);
             double am = 255;                                                     // Амплитуда опорной волны
 
-            double AngleX = 0;
-            double AngleY = 0.5;
+            double AngleX = Ax;
+            double AngleY = Ay;
             double noise_add = 0;
 
             zComplex[0] = new ZComplexDescriptor(NX, NY);
@@ -353,7 +353,8 @@ namespace rab1
 
             ZArrayDescriptor[] zArray = new ZArrayDescriptor[4];                                // Рабочие массивы
                                                                                                
-            for (int i = 0; i < 4; i++)  { zArray[i] = Model_interf.Model_pl_PSI(am, zComplex[1], AngleX, AngleY, Lambda, dx, noise_add, fz[i]); }  // Сложение с опорной волной + fz[i]
+            for (int i = 0; i < 4; i++)
+                { zArray[i] = Model_interf.Model_pl_PSI(am, zComplex[1], AngleX, AngleY, Lambda, dx, noise_add, fz[i]); }  // Сложение с опорной волной + fz[i]
             zComplex[1]= ATAN_PSI.ATAN_ar(zArray, fz, am);   
                                       
             // ----------------------------------------------------------------------------------------------------------------------------- 2 голограмма
@@ -362,15 +363,19 @@ namespace rab1
             zComplex[0] = Furie.Invers(zComplex[0]);                                           // Циклический сдвиг
             zComplex[2] = Furie.FrenelTransform(zComplex[0], m, Lambda, d, dx);                // Преобразование Френеля
 
-            zArray[0] = PSI(am, zComplex[1], zComplex[2], AngleX, AngleY, noise, Lambda, dx, d, fz, 0, 1, 2, 3);
-            zArray[1] = PSI(am, zComplex[1], zComplex[2], AngleX, AngleY, noise, Lambda, dx, d, fz, 1, 2, 3, 0);
-            zArray[2] = PSI(am, zComplex[1], zComplex[2], AngleX, AngleY, noise, Lambda, dx, d, fz, 2, 3, 0, 1);
-            zArray[3] = PSI(am, zComplex[1], zComplex[2], AngleX, AngleY, noise, Lambda, dx, d, fz, 3, 0, 1, 2);
+        //    for (int i = 0; i < 4; i++)
+        //    { zArray[i] = Model_interf.Model_pl_PSI(am, zComplex[2], AngleX, AngleY, Lambda, dx, noise_add, fz[i]); }  // Сложение с опорной волной + fz[i]
+        //    zComplex[2] = ATAN_PSI.ATAN_ar(zArray, fz, am);
 
-            zArrayDescriptor[8]  = zArray[0];
-            zArrayDescriptor[9]  = zArray[1];
-            zArrayDescriptor[10] = zArray[2];
-            zArrayDescriptor[11] = zArray[3];
+            zArrayDescriptor[8]  = PSI(am, zComplex[1], zComplex[2], AngleX, AngleY, noise, Lambda, dx, d, fz, 0, 1, 2, 3);
+            zArrayDescriptor[9]  = PSI(am, zComplex[1], zComplex[2], AngleX, AngleY, noise, Lambda, dx, d, fz, 1, 2, 3, 0);
+            zArrayDescriptor[10] = PSI(am, zComplex[1], zComplex[2], AngleX, AngleY, noise, Lambda, dx, d, fz, 2, 3, 0, 1);
+            zArrayDescriptor[11] = PSI(am, zComplex[1], zComplex[2], AngleX, AngleY, noise, Lambda, dx, d, fz, 3, 0, 1, 2);
+
+            //zArrayDescriptor[8]  = zArray[0];
+            //zArrayDescriptor[9]  = zArray[1];
+            //zArrayDescriptor[10] = zArray[2];
+            //zArrayDescriptor[11] = zArray[3];
 
             zComplex[1] = ATAN_PSI.ATAN_891011(zArrayDescriptor, progressBar1, fz, am);
            
