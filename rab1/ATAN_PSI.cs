@@ -148,7 +148,7 @@ namespace rab1.Forms
                     double[] cos_orto = Vector_orto(k_cos);              // ------  Формула расшифровки амплитуды                   
                     double znmt = Vector_Mul(cos_orto, k_sin);
                     double am = Math.Sqrt(fz1 * fz1 + fz2 * fz2) / Math.Abs(znmt);
-                    am = am / (2 * amplit);
+                    //am = am / (2 * amplit);
 
                     //a= ampf.array[i, j];
                     // am = amp.array[i, j];
