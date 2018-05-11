@@ -150,6 +150,8 @@ namespace rab1
             return cmpl;
         }
 
+
+
         public static ZComplexDescriptor Model_ADD_Cmplx(ZComplexDescriptor[] zComplex, int k1, int k2)   //  Сложение комплекных массивов
         {
             if (zComplex[k1] == null) { MessageBox.Show("Model_object ZComplex[k1] == NULL"); return null; }
@@ -161,6 +163,22 @@ namespace rab1
             for (int i = 0; i < NX; i++)
                 for (int j = 0; j < NY; j++)
                    { cmpl.array[i, j] = zComplex[k1].array[i, j] + zComplex[k2].array[i, j];  }
+
+            return cmpl;
+        }
+
+
+        public static ZComplexDescriptor Model_SUB_Cmplx(ZComplexDescriptor[] zComplex, int k1, int k2)   //  Вычитание комплекных массивов
+        {
+            if (zComplex[k1] == null) { MessageBox.Show("Model_object ZComplex[k1] == NULL"); return null; }
+            if (zComplex[k2] == null) { MessageBox.Show("Model_object ZComplex[k2] == NULL"); return null; }
+            int NX = zComplex[k1].width;
+            int NY = zComplex[k1].height;
+            ZComplexDescriptor cmpl = new ZComplexDescriptor(NX, NY);       // Выходной массив
+
+            for (int i = 0; i < NX; i++)
+                for (int j = 0; j < NY; j++)
+                { cmpl.array[i, j] = zComplex[k1].array[i, j] - zComplex[k2].array[i, j]; }
 
             return cmpl;
         }
@@ -191,6 +209,21 @@ namespace rab1
             for (int i = 0; i < NX; i++)
                 for (int j = 0; j < NY; j++)
                 { cmpl.array[i, j] = zComplex1.array[i, j] - zComplex2.array[i, j]; }
+
+            return cmpl;
+        }
+
+        public static ZComplexDescriptor MUL_Cmplx(ZComplexDescriptor zComplex1, ZComplexDescriptor zComplex2)   //  Сложение комплекных массивов
+        {
+            if (zComplex1 == null) { MessageBox.Show("Model_object ZComplex1 == NULL"); return null; }
+            if (zComplex2 == null) { MessageBox.Show("Model_object ZComplex2 == NULL"); return null; }
+            int NX = zComplex1.width;
+            int NY = zComplex1.height;
+            ZComplexDescriptor cmpl = new ZComplexDescriptor(NX, NY);       // Выходной массив
+
+            for (int i = 0; i < NX; i++)
+                for (int j = 0; j < NY; j++)
+                { cmpl.array[i, j] = zComplex1.array[i, j] * zComplex2.array[i, j]; }
 
             return cmpl;
         }
@@ -351,12 +384,16 @@ namespace rab1
 
             ZComplexDescriptor zComplex_tmp = new ZComplexDescriptor(NX, NY);
             zComplex_tmp = ATAN_PSI.ATAN_ar(zArray, fz, am);      
-            zComplex_tmp = Model_ADD_zComplex(zComplex1, zComplex_tmp);
+            
+            zComplex_tmp = ADD_Cmplx(zComplex1, zComplex_tmp);
+            //zComplex_tmp = SUB_Cmplx(zComplex1, zComplex_tmp);
+            //zComplex_tmp = MUL_Cmplx(zComplex1, zComplex_tmp);
             zComplex_tmp = Model_interf.Model_pl_MUL(am, zComplex_tmp, AngleX, AngleY, Lambda, dx);
             zComplex_tmp = Furie.FrenelTransform(zComplex_tmp, m, Lambda, d, dx);  // Выходной массив
 
             ZArrayDescriptor zArray_inter = Furie.zAmplituda(zComplex_tmp);
-
+            //ZArrayDescriptor zArray_inter = Furie.Re(zComplex_tmp);
+            //ZArrayDescriptor zArray_inter = Furie.Im(zComplex_tmp);
             return zArray_inter;
         }
 
@@ -377,8 +414,8 @@ namespace rab1
             //MessageBox.Show(" sdvg0 = " + sdvg0 + " sdvg1 = " + sdvg1);
 
             // ----------------------------------------------------------------------------------------------------------------------------- 1 голограмма
-            zComplex[0] = Model_0(sdvg0, noise, Lambda);                           // Модель объекта с нулевым сдвигом
-            //zComplex[0] = Model_2(sdvg0, noise, Lambda);                           // Модель объекта с нулевым сдвигом
+            //zComplex[0] = Model_0(sdvg0, noise, Lambda);                           // Модель объекта с нулевым сдвигом
+            zComplex[0] = Model_2(sdvg0, noise, Lambda);                           // Модель объекта с нулевым сдвигом
             zComplex[0] = Furie.Invers(zComplex[0]);                                            // Циклический сдвиг
             zComplex[1] = Furie.FrenelTransform(zComplex[0], m, Lambda, d, dx);                 // Преобразование Френеля
 
@@ -389,8 +426,8 @@ namespace rab1
             zComplex[1]= ATAN_PSI.ATAN_ar(zArray, fz, am);   // Амплитуда не учитывется
                                       
             // ----------------------------------------------------------------------------------------------------------------------------- 2 голограмма
-            zComplex[0] = Model_0(sdvg1, noise, Lambda);                          // Модель объекта со сдвигом  
-            //zComplex[0] = Model_2(sdvg1, noise, Lambda);                          // Модель объекта со сдвигом    
+            //zComplex[0] = Model_0(sdvg1, noise, Lambda);                          // Модель объекта со сдвигом  
+            zComplex[0] = Model_2(sdvg1, noise, Lambda);                          // Модель объекта со сдвигом    
             zComplex[0] = Furie.Invers(zComplex[0]);                                           // Циклический сдвиг
             zComplex[2] = Furie.FrenelTransform(zComplex[0], m, Lambda, d, dx);                // Преобразование Френеля
 

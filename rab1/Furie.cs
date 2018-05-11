@@ -69,6 +69,19 @@ namespace rab1
             return resultArray;
         }
 
+        public static ZArrayDescriptor Re(ZComplexDescriptor zComplex)
+        {
+            int nx = zComplex.width;
+            int ny = zComplex.height;
+            ZArrayDescriptor amp1 = new ZArrayDescriptor(nx, ny); 
+
+            for (int i = 0; i < nx; i++)
+                for (int j = 0; j < ny; j++)
+                    amp1.array[i, j] = zComplex.array[i, j].Real;
+
+            return amp1;
+        }
+
         public static double[,] Im(Complex[,] array)
         {
             int nx = array.GetLength(0);
@@ -81,7 +94,17 @@ namespace rab1
             return resultArray;
         }
 
+        public static ZArrayDescriptor Im(ZComplexDescriptor zComplex)
+        {
+            int nx = zComplex.width;
+            int ny = zComplex.height;
+            ZArrayDescriptor amp1 = new ZArrayDescriptor(nx, ny); 
+            for (int i = 0; i < nx; i++)
+                for (int j = 0; j < ny; j++)
+                    amp1.array[i, j] = zComplex.array[i, j].Imaginary;
 
+            return amp1;
+        }
 
         //----------------------------------------------------------------------------------------------
         //----------------------------------------------------------------------------------------------
