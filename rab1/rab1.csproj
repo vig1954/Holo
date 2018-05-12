@@ -340,6 +340,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ClassLibrary.dll" />
     <Content Include="CudaCalculationFFT.dll" />
   </ItemGroup>
   <ItemGroup>
