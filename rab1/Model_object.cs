@@ -97,6 +97,8 @@ namespace rab1
 
             return cmpl;
         }
+
+       
         // Голограмма двух экспозиций
         public static ZComplexDescriptor Model_ADD(ZComplexDescriptor cmpl0, ZArrayDescriptor cmpl1)
         {
@@ -427,7 +429,7 @@ namespace rab1
                                       
             // ----------------------------------------------------------------------------------------------------------------------------- 2 голограмма
             //zComplex[0] = Model_0(sdvg1, noise, Lambda);                          // Модель объекта со сдвигом  
-            zComplex[0] = Model_2(sdvg1, noise, Lambda);                          // Модель объекта со сдвигом    
+            zComplex[0] = Model_0(sdvg1, noise, Lambda);                          // Модель объекта со сдвигом    
             zComplex[0] = Furie.Invers(zComplex[0]);                                           // Циклический сдвиг
             zComplex[2] = Furie.FrenelTransform(zComplex[0], m, Lambda, d, dx);                // Преобразование Френеля
 
