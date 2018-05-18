@@ -108,7 +108,7 @@ namespace rab1.Forms
         }
         // Отличается от предыдущего тем, что массивы 0,1,2,3 (а не 8,9,10,11)
   
-        public static ZComplexDescriptor ATAN_ar(ZArrayDescriptor[] zArrayPicture, double[] fzz, double amplit)
+        public static ZComplexDescriptor ATAN_ar(ZArrayDescriptor[] zArrayPicture, double[] fzz, double amplit=255)
         {
             
             int w1 = zArrayPicture[0].width;
@@ -148,7 +148,7 @@ namespace rab1.Forms
                     double[] cos_orto = Vector_orto(k_cos);              // ------  Формула расшифровки амплитуды                   
                     double znmt = Vector_Mul(cos_orto, k_sin);
                     double am = Math.Sqrt(fz1 * fz1 + fz2 * fz2) / Math.Abs(znmt);
-                    //am = am / (2 * amplit);
+                    am = am / (2 * amplit);
 
                     //a= ampf.array[i, j];
                     // am = amp.array[i, j];

@@ -709,7 +709,39 @@ namespace rab1
             }
         }
 
+        private void загрузить4912ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var dialog1 = new OpenFileDialog();
+            dialog1.InitialDirectory = string_dialog;
 
+            if (dialog1.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    dialog1.InitialDirectory = dialog1.FileName;
+                    string_dialog = dialog1.FileName;
+                    string str = string_dialog;
+
+                    progressBar1.Visible = true;
+                    progressBar1.Minimum = 1;
+                    progressBar1.Maximum = 5;
+                    progressBar1.Value = 1;
+                    progressBar1.Step = 1;
+
+                    for (int i = 4; i < 8; i++)
+                    {
+                        ZGR_File(str, i);
+                        str = SaveString(str, i); //if (str == null) break;  // Неправильное имя файла
+                        GC.Collect();
+                        GC.WaitForPendingFinalizers();
+                        progressBar1.PerformStep();
+                    }
+
+                    progressBar1.Value = 1;
+                }
+                catch (Exception ex) { MessageBox.Show("загрузить418ToolStripMenuItem_Click Ошибка " + ex.Message); }
+            }
+        }
 
 
         private void Save8ToolStripMenuItem_Click(object sender, EventArgs e)   // Загрузить 8 файлов в 0,1,2,3
@@ -2252,6 +2284,8 @@ namespace rab1
             Complex_pictureBox(0);
             Complex_pictureBox(1);
             //Complex_pictureBox(2);
+
+           
             zArrayDescriptor[8].Double_Picture(pictureBox9);
             zArrayDescriptor[9].Double_Picture(pictureBox10);
             zArrayDescriptor[10].Double_Picture(pictureBox11);
@@ -2809,6 +2843,8 @@ namespace rab1
 
             }
         }
+
+        
 
 
 

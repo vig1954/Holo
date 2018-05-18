@@ -63,7 +63,7 @@ namespace rab1
         //            Complex[,] array_exp2 - экспонента для 2 этапа БПФ с произвольным количеством точек
         //
         //
-         public static Complex[] BPF_N(Complex[] array, int n, int m, int l, int t, Complex[] array_exp, Complex[,] array_exp2, int[] array_inv)   // Одномерное преобразование БПФ с произвольным числом точек
+        public static Complex[] BPF_N(Complex[] array, int n, int m, int l, int t, Complex[] array_exp, Complex[,] array_exp2, int[] array_inv)   // Одномерное преобразование БПФ с произвольным числом точек
         {
             
             // ----------------------------------------------------------1 - этап
@@ -153,6 +153,7 @@ namespace rab1
             }
             return resultArray;
         }
+         //----------------------------------------------------------------------------------------------------------------------------------------
 
             public static ZComplexDescriptor BPF2(ZComplexDescriptor zarray)
          {
@@ -385,9 +386,11 @@ namespace rab1
 
             return Array;
         }
+  
         //----------------------------------------------------------------------------------------------
         //     Двухмерное быстрое преобразование Френеля
         //----------------------------------------------------------------------------------------------
+
         public static ZComplexDescriptor FrenelTransformN(ZComplexDescriptor zarray, double lambda, double d, double dx)
         {
             int nx = zarray.width;
@@ -415,8 +418,7 @@ namespace rab1
 
             double[] phase_y = fexp1(lambda, d, ny, dx);
             double[] phase_x = fexp1(lambda, d, nx, dx);
-
-          
+   
 
             for (int i = 0; i < nx; i++)
             { 

@@ -197,6 +197,7 @@
             this.button9 = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
+            this.загрузить4912ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox01)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -566,6 +567,7 @@
             this.загрузитьИзФайлаdoubleToolStripMenuItem,
             this.загрузитьComplexToolStripMenuItem,
             this.загрузить418ToolStripMenuItem,
+            this.загрузить4912ToolStripMenuItem,
             this.Save8ToolStripMenuItem,
             this.SAVEToolStripMenuItem,
             this.сохранитьZaarayВФайлToolStripMenuItem,
@@ -601,7 +603,7 @@
             // 
             this.загрузить418ToolStripMenuItem.Name = "загрузить418ToolStripMenuItem";
             this.загрузить418ToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
-            this.загрузить418ToolStripMenuItem.Text = "Загрузить 4 (9...12)";
+            this.загрузить418ToolStripMenuItem.Text = "Загрузить 4 (9,10,11,12)";
             this.загрузить418ToolStripMenuItem.Click += new System.EventHandler(this.загрузить418ToolStripMenuItem_Click);
             // 
             // Save8ToolStripMenuItem
@@ -1827,6 +1829,13 @@
             this.vScrollBar2.TabIndex = 115;
             this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar2_Scroll);
             // 
+            // загрузить4912ToolStripMenuItem
+            // 
+            this.загрузить4912ToolStripMenuItem.Name = "загрузить4912ToolStripMenuItem";
+            this.загрузить4912ToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
+            this.загрузить4912ToolStripMenuItem.Text = "Загрузить 4 (5,6,7,8)";
+            this.загрузить4912ToolStripMenuItem.Click += new System.EventHandler(this.загрузить4912ToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2100,6 +2109,7 @@
         private System.Windows.Forms.ToolStripMenuItem manageToolStripMenuItem;
         private System.Windows.Forms.VScrollBar vScrollBar1;
         private System.Windows.Forms.VScrollBar vScrollBar2;
+        private System.Windows.Forms.ToolStripMenuItem загрузить4912ToolStripMenuItem;
     }
 }
 
