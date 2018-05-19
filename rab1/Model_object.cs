@@ -397,7 +397,7 @@ namespace rab1
             return zArray_inter;
         }
 
-        public static ZComplexDescriptor Model_9101112(int k1, int k2, int k3, int k4, ZArrayDescriptor[] zArrayDescriptor, double[] fz)
+        public static ZComplexDescriptor Model_9101112(double am, int k1, int k2, int k3, int k4, ZArrayDescriptor[] zArrayDescriptor, double[] fz)
         {
             int NX = zArrayDescriptor[k1].width;
             int NY = zArrayDescriptor[k1].height;
@@ -408,7 +408,7 @@ namespace rab1
             zArray[1] = zArrayDescriptor[k2];
             zArray[2] = zArrayDescriptor[k3];
             zArray[3] = zArrayDescriptor[k4];
-            cmpl = ATAN_PSI.ATAN_ar(zArray, fz); 
+            cmpl = ATAN_PSI.ATAN_ar(zArray, fz, am); 
             return cmpl;
         }
 
@@ -435,7 +435,7 @@ namespace rab1
             // ----------------------------------------------------------------------------------------------------------------------------- 1 голограмма
             //zComplex[0] = Model_0(sdvg0, noise, Lambda);                                      // Модель объекта с нулевым сдвигом
             //zComplex[0] = Model_2(sdvg0, noise, Lambda);                                        // Модель объекта с нулевым сдвигом
-            zComplex[0] = Model_9101112(8, 9, 10, 11, zArrayDescriptor, fz);                  // Реальные голограммы
+            zComplex[0] = Model_9101112(am, 8, 9, 10, 11, zArrayDescriptor, fz);                  // Реальные голограммы
             zComplex[0] = Furie.Invers(zComplex[0]);                                            // Циклический сдвиг
             //zComplex[0] = Furie.FrenelTransform(zComplex[0], m, Lambda, d, dx);                 // Преобразование Френеля
             zComplex[0] = FurieN.FrenelTransformN(zComplex[0], Lambda, d, dx);                  // Преобразование Френеля с четным количеством точек
@@ -448,13 +448,12 @@ namespace rab1
             MessageBox.Show(" 1 математическая голограмма -> 1");                         
             // ----------------------------------------------------------------------------------------------------------------------------- 2 голограмма
             //zComplex[0] = Model_0(sdvg1, noise, Lambda);                                     // Модель объекта со сдвигом  
-            //zComplex[1] = Model_2(sdvg1, noise, Lambda);                                       // Модель объекта со сдвигом    
-            zComplex[1] = Model_9101112(4, 5, 6, 7, zArrayDescriptor, fz);                   // Реальные голограммы
+            //zComplex[1] = Model_2(sdvg1, noise, Lambda);                                     // Модель объекта со сдвигом    
+            zComplex[1] = Model_9101112(am, 4, 5, 6, 7, zArrayDescriptor, fz);                 // Реальные голограммы
             zComplex[1] = Furie.Invers(zComplex[1]);                                           // Циклический сдвиг
             //zComplex[1] = Furie.FrenelTransform(zComplex[1], m, Lambda, d, dx);              // Преобразование Френеля
             zComplex[1] = FurieN.FrenelTransformN(zComplex[1], Lambda, d, dx);                 // Преобразование Френеля с четным количеством точек
             
-
 
             MessageBox.Show(" 1 математическая голограмма -> 2"); 
            
@@ -466,7 +465,7 @@ namespace rab1
           
             MessageBox.Show(" ATAN_891011 -> 3"); 
 
-            zComplex[1] = ATAN_PSI.ATAN_891011(zArrayDescriptor, progressBar1, fz, am);
+           // zComplex[1] = ATAN_PSI.ATAN_891011(zArrayDescriptor, progressBar1, fz, am);
 
         }
         // Непосредственное сравнение двух волновых фронтов до и после деформации
