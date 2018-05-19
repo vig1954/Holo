@@ -676,7 +676,7 @@ namespace rab1
             if (phaseShiftDeviceController != null)
             {
                 phaseShiftDeviceController.SetShift(currentPhaseShiftValue);
-                currentPhaseShiftLabel.Text = currentPhaseShiftValue.ToString();
+                //currentPhaseShiftLabel.Text = currentPhaseShiftValue.ToString();
             }
 
             MakeDelay();
