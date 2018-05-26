@@ -87,9 +87,9 @@ namespace rab1
         
         private void InitializeDefaultValues()
         {
-            phaseShiftCountTextBox.Text = "5";
+            phaseShiftCountTextBox.Text = "4";
             phaseShiftStepTextBox.Text = "100";
-            DelayPhaseShiftTextBox.Text = "0";
+            DelayPhaseShiftTextBox.Text = "500";
         }
         
         private void InitColorModes()
@@ -655,6 +655,7 @@ namespace rab1
             if (phaseShiftDeviceController != null)
             {
                 phaseShiftDeviceController.Dispose();
+                phaseShiftDeviceController = null;
             }
         }
         
