@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 
 public delegate void FrenelF(double xmax, double lambda, double d, int k1, int k2);
+public delegate void FrenelNXY(int k1, int k2, int X, int Y, int N, double xmax, double lambda, double d);
 public delegate void FrenelF1(int k1, int k2);
 public delegate void FrenelF2(int k1, int k2);
 public delegate void FrenelF3(int k1, int k2);
@@ -33,6 +34,7 @@ namespace rab1.Forms
         public event FrenelF1 OnFurie_2Line;       // Фурье с четным количеством точек по строкам из k1 в k2
         public event FrenelF4 OnFurie_CUDA;
         public event FrenelF5 OnFurie_NXY;
+        public event FrenelNXY OnFrenel_NXY;        // Френель с четным количеством точек с фиксированным размером из k1 в k2
        
         public event FrenelF6 OnPSI_fast;
         public event FrenelF17 OnADD_PHASE;
@@ -148,11 +150,24 @@ namespace rab1.Forms
         }
 
 
-        private void button5_Click(object sender, EventArgs e)
+        private void button5_Click(object sender, EventArgs e)  // Преобразование Фурье с фиксированным количеством точек 
         {
             k1 = Convert.ToInt32(textBox4.Text); k2 = Convert.ToInt32(textBox5.Text);
             X = Convert.ToInt32(textBox6.Text); Y = Convert.ToInt32(textBox7.Text); N = Convert.ToInt32(textBox8.Text);
             OnFurie_NXY(k1, k2, X, Y, N);
+            Close();
+        }
+
+        private void button13_Click(object sender, EventArgs e) // Преобразование Френеля с фиксированным количеством точек 
+        {
+            k1 = Convert.ToInt32(textBox4.Text); k2 = Convert.ToInt32(textBox5.Text);
+            xm = Convert.ToDouble(textBox1.Text);
+            lm = Convert.ToDouble(textBox2.Text);
+            dm = Convert.ToDouble(textBox3.Text);
+
+
+            X = Convert.ToInt32(textBox6.Text);  Y = Convert.ToInt32(textBox7.Text); N = Convert.ToInt32(textBox8.Text);
+            OnFrenel_NXY(k1, k2, X, Y, N, xm * 1000, lm, dm * 1000);  //  OnFrenelN(xm * 1000, lm, dm * 1000, k1, k2);  
             Close();
         }
 
@@ -228,5 +243,7 @@ namespace rab1.Forms
             OnADD_PHASE(step);
             Close();
         }
+
+     
     }
 }

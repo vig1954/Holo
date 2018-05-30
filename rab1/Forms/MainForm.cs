@@ -1667,7 +1667,8 @@ namespace rab1
             FrForm.OnFurie_2Line         += FurComplex_2Line;
             FrForm.OnFurie_CUDA          += FurComplex_CUDA;
             FrForm.OnFurie_CUDA_CMPLX    += FurComplex_CUDA1;   // Фурье CUDA из к1 в k2
-            FrForm.OnFurie_NXY           += FurComplex_NXY;     // Фурье с задаваемым количеством точек из
+            FrForm.OnFurie_NXY           += FurComplex_NXY;     // Фурье   с задаваемым количеством точек из k1 => k2
+            FrForm.OnFrenel_NXY          += FrenelComplex_NXY;  // Френель с задаваемым количеством точек из k1 => k2
 
             FrForm.OnPSI_fast += FrPSI;                         // PSI + Фурье => Complex(k2) ------------------------
             FrForm.OnADD_PHASE += FrADD_PHASE;  // Фаза по пиле
@@ -1794,6 +1795,22 @@ namespace rab1
             Complex_pictureBox(k2);
         }
 
+        private void FrenelComplex_NXY(int k1, int k2, int X, int Y, int N, double xmax, double lambda, double d)     // Прямое BPF с задаваемым количеством точек
+        {
+            if (zComplex[k1] == null) { MessageBox.Show("zComplex[" + k1 + "] == NULL (FrenelComplex_NXY)"); return; }
+            if (zComplex[k1].width < N) { MessageBox.Show(" zComplex.width[" + k1 + "] < " + N + "] (FrenelComplex_NXY)"); return; }
+            if (zComplex[k1].height < N) { MessageBox.Show(" zComplex.height[" + k1 + "] < " + N + "] (FrenelComplex_NXY)"); return; }
+
+            zComplex[k2] = new ZComplexDescriptor(N, N);
+            for (int i = 0; i < N; i++)
+                for (int j = 0; j < N; j++)
+                    zComplex[k2].array[i, j] = zComplex[k1].array[i + X, j + Y];
+
+            //zComplex[k2] = FurieN.BPF2(zComplex[k2]);                    // Фурье преобразование для произвольного количества точек
+            zComplex[k2] = FurieN.FrenelTransformN(zComplex[k2], lambda, d, xmax);
+
+            Complex_pictureBox(k2);
+        }
 
         private void FurComplex_2Line(int k1, int k2)                  // Прямое Фурье преобразование для произвольного количества точек по строкам
         {
