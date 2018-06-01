@@ -55,6 +55,7 @@
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.textBox12 = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -123,7 +124,7 @@
             // 
             this.button3.Location = new System.Drawing.Point(253, 179);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(360, 109);
+            this.button3.Size = new System.Drawing.Size(473, 96);
             this.button3.TabIndex = 8;
             this.button3.Text = resources.GetString("button3.Text");
             this.button3.UseVisualStyleBackColor = true;
@@ -180,9 +181,9 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(661, 175);
+            this.button6.Location = new System.Drawing.Point(749, 179);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(271, 68);
+            this.button6.Size = new System.Drawing.Size(390, 89);
             this.button6.TabIndex = 17;
             this.button6.Text = "Формирование 4 интерферограмм (PSI)-> 8,9,10,11\r\nОбласть Френеля -> результат  в " +
     "zComplex[1]\r\n";
@@ -225,9 +226,10 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(253, 294);
+            this.button7.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button7.Location = new System.Drawing.Point(253, 281);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(473, 126);
+            this.button7.Size = new System.Drawing.Size(473, 139);
             this.button7.TabIndex = 22;
             this.button7.Text = resources.GetString("button7.Text");
             this.button7.UseVisualStyleBackColor = true;
@@ -287,11 +289,22 @@
             this.textBox12.TabIndex = 28;
             this.textBox12.Text = "0,7";
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(749, 281);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(390, 171);
+            this.button2.TabIndex = 29;
+            this.button2.Text = resources.GetString("button2.Text");
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // Model
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(934, 464);
+            this.ClientSize = new System.Drawing.Size(1286, 464);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.textBox12);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.textBox11);
@@ -319,6 +332,7 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
             this.Name = "Model";
+            this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.Text = "Моделирование объекта";
             this.Load += new System.EventHandler(this.Model_Load);
             this.ResumeLayout(false);
@@ -354,5 +368,6 @@
         private System.Windows.Forms.TextBox textBox11;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.Button button2;
     }
 }

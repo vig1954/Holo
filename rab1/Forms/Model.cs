@@ -140,6 +140,7 @@ namespace rab1.Forms
             OnInterfPSI_Fr(sdvg0, sdvg, noise, Lambda, dx*1000, d*1000, fzrad, Ax, Ay);
             Close();
         }
+
              //  Прямое сравнение волновых фронтов (PSI)
              //  
         private void button7_Click(object sender, EventArgs e)
@@ -185,6 +186,13 @@ namespace rab1.Forms
         }
 
         private void Model_Load(object sender, EventArgs e)
+        {
+
+        }
+        //
+        //              Сдвиг голограмм
+        //
+        private void button2_Click(object sender, EventArgs e)
         {
 
         }
