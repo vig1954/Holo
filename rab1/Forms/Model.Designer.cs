@@ -55,7 +55,6 @@
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.textBox12 = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -289,22 +288,11 @@
             this.textBox12.TabIndex = 28;
             this.textBox12.Text = "0,7";
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(749, 281);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(390, 171);
-            this.button2.TabIndex = 29;
-            this.button2.Text = resources.GetString("button2.Text");
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // Model
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1286, 464);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.textBox12);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.textBox11);
@@ -368,6 +356,5 @@
         private System.Windows.Forms.TextBox textBox11;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox textBox12;
-        private System.Windows.Forms.Button button2;
     }
 }

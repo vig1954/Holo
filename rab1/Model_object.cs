@@ -535,7 +535,54 @@ namespace rab1
 
 
         }
+        // -------------------------------------------------------------------------------------------------------------------------------
+        // Сдвиг голограмм
+        //Исходное значение: 4 интерферограммы (PSI) -> 8,9,10,11
+        //Задаем X,Y для 1 состояния и X1,Y1 для второго
+
+        //Первое состояние PSI => Область Френеля ->  в zComplex[0]
+        //Второе состояние
+                //PSI (0,1,2,3) => Область Френеля -> разность фаз ->  zArray(0)
+                //PSI (1,2,3,0) => Область Френеля -> разность фаз ->  zArray(1)
+                //PSI (2,3,0,1) => Область Френеля -> разность фаз ->  zArray(2)
+        public static void Interf_XY(ZComplexDescriptor[] zComplex, ZArrayDescriptor[] zArrayDescriptor, 
+                                     double[] fz, 
+                                     double dx, double lambda, double d,
+                                     int X, int Y, int X1, int Y1, int N)
+        {
+            for (int i = 8; i < 12; i++) { if (zArrayDescriptor[8] == null) { MessageBox.Show("zArrayDescriptor[" + i + "] == NULL (Model_object.Interf_XY)"); return; } }
+            int w1 = zArrayDescriptor[8].width;
+            int h1 = zArrayDescriptor[8].height;
+
+            ZArrayDescriptor[] zArray = new ZArrayDescriptor[4];
+            for (int k = 0; k < 4; k++) zArray[k] = new ZArrayDescriptor(w1, h1);
+
+            if ( X1 + N > w1 ) { MessageBox.Show(" Размер zArrayDescriptor меньше X(Model_object.Interf_XY)"); return; }
+            if ( Y1 + N > h1 ) { MessageBox.Show(" Размер zArrayDescriptor меньше Y(Model_object.Interf_XY)"); return; }
+
+            MessageBox.Show(" X,Y = " + X+" , "  + Y + " X, Y = " + X1+ " , "  + Y1);
+            
+            
+            
+            ZComplexDescriptor zComplex_tmpN = new ZComplexDescriptor(N, N);
+            ZComplexDescriptor zComplex_tmp = new ZComplexDescriptor(w1, h1);
 
 
+
+
+            zComplex_tmp = ATAN_PSI.ATAN_8_11(zArrayDescriptor, fz);                             // PSI
+            
+            for (int i = 0; i < N; i++)
+              for (int j = 0; j < N; j++)
+                  zComplex_tmpN.array[i, j] = zComplex_tmp.array[i + X, j + Y];
+            zComplex[0] = FurieN.FrenelTransformN(zComplex_tmpN, lambda, d, dx);                  // Преобразование Френеля с четным количеством точек
+
+            for (int i = 0; i < N; i++)
+              for (int j = 0; j < N; j++)
+                   zComplex_tmpN.array[i, j] = zComplex_tmp.array[i + X1, j + Y1];
+            zComplex[1] = FurieN.FrenelTransformN(zComplex_tmpN, lambda, d, dx);                  // Преобразование Френеля с четным количеством точек
+
+
+        }
     }
 }

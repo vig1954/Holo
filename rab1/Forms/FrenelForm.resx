@@ -117,4 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="button14.Text" xml:space="preserve">
+    <value>Сдвиг голограмм
+-----------------------------------------------------------------------------
+
+Исходное значение: 4 интерферограммы (PSI) -&gt; 8,9,10,11
+Задаем X,Y для 1 состояния и X1,Y1 для второго
+
+Первое состояние PSI =&gt; Область Френеля -&gt;  в zComplex[2]
+Второе состояние
+ PSI (0,1,2,3) =&gt; Область Френеля -&gt; разность фаз -&gt;  zArray(0)
+ PSI (1,2,3,0) =&gt; Область Френеля -&gt; разность фаз -&gt;  zArray(1)
+ PSI (2,3,0,1) =&gt; Область Френеля -&gt; разность фаз -&gt;  zArray(2)</value>
+  </data>
 </root>

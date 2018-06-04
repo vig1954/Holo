@@ -1669,6 +1669,7 @@ namespace rab1
             FrForm.OnFurie_CUDA_CMPLX    += FurComplex_CUDA1;   // Фурье CUDA из к1 в k2
             FrForm.OnFurie_NXY           += FurComplex_NXY;     // Фурье   с задаваемым количеством точек из k1 => k2
             FrForm.OnFrenel_NXY          += FrenelComplex_NXY;  // Френель с задаваемым количеством точек из k1 => k2
+            FrForm.OnInterf_XY           += Frenel_XY;         // Интерферометрия двух сдвинутых фронтов
 
             FrForm.OnPSI_fast += FrPSI;                         // PSI + Фурье => Complex(k2) ------------------------
             FrForm.OnADD_PHASE += FrADD_PHASE;  // Фаза по пиле
@@ -1795,7 +1796,7 @@ namespace rab1
             Complex_pictureBox(k2);
         }
 
-        private void FrenelComplex_NXY(int k1, int k2, int X, int Y, int N, double xmax, double lambda, double d)     // Прямое BPF с задаваемым количеством точек
+        private void FrenelComplex_NXY(int k1, int k2, int X, int Y, int N, double xmax, double lambda, double d)     // Френель с задаваемым количеством точек
         {
             if (zComplex[k1] == null) { MessageBox.Show("zComplex[" + k1 + "] == NULL (FrenelComplex_NXY)"); return; }
             if (zComplex[k1].width < N) { MessageBox.Show(" zComplex.width[" + k1 + "] < " + N + "] (FrenelComplex_NXY)"); return; }
@@ -1811,6 +1812,16 @@ namespace rab1
 
             Complex_pictureBox(k2);
         }
+
+
+
+        private void Frenel_XY(double[] fz, double xmax, double lambda, double d, int X, int Y, int X1, int Y1, int N)     // Интерферометрия сдвинутых фронтов
+        {
+            Model_object.Interf_XY(zComplex, zArrayDescriptor, fz,  xmax,  lambda,  d, X,  Y,  X1,  Y1, N);
+            Complex_pictureBox(0); Complex_pictureBox(1); Complex_pictureBox(2);
+        }
+
+
 
         private void FurComplex_2Line(int k1, int k2)                  // Прямое Фурье преобразование для произвольного количества точек по строкам
         {

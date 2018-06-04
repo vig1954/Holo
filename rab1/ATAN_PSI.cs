@@ -37,7 +37,7 @@ namespace rab1.Forms
             return s;
         }
         // Определение амплитуды и фазы по 4 картинам (PSI), записанным в 9, 10, 11, и 12 окнах
-        public static ZComplexDescriptor ATAN_891011(ZArrayDescriptor[] zArrayPicture, ProgressBar progressBar1, double[] fzz, double amplit)
+        public static ZComplexDescriptor ATAN_891011(ZArrayDescriptor[] zArrayPicture, ProgressBar progressBar1, double[] fzz, double amplit=255)
         {
             // 8, 9, 10, 11   ->    Complex[1] 
 
@@ -106,6 +106,74 @@ namespace rab1.Forms
             progressBar1.Value = 1;
             return faza;
         }
+
+        // Без ProgressBar
+        public static ZComplexDescriptor ATAN_8_11(ZArrayDescriptor[] zArrayPicture,  double[] fzz, double amplit = 255)
+        {
+            // 8, 9, 10, 11   ->    Complex[1] 
+
+            int w1 = zArrayPicture[8].width;
+            int h1 = zArrayPicture[8].height;
+            // MessageBox.Show("width= " + w1 + "height= " + h1);
+
+            ZComplexDescriptor faza = new ZComplexDescriptor(w1, h1);
+
+            int n_sdv = 4;                                                       // Число фазовых сдвигов
+
+            double[] i_sdv = new double[4];
+            double[] k_sin = new double[4];
+            double[] k_cos = new double[4];
+
+
+            for (int i = 0; i < n_sdv; i++)
+            {
+                k_sin[i] = Math.Sin(fzz[i]);
+                k_cos[i] = Math.Cos(fzz[i]);
+            }
+
+            double[] sin_orto = Vector_orto(k_sin);                              // Ортогональные вектора
+            double[] cos_orto = Vector_orto(k_cos);
+            double znmt = Math.Abs(Vector_Mul(sin_orto, k_cos));
+
+            //ZArrayDescriptor amp = new ZArrayDescriptor(zArrayPicture[1 * 4 + 2]);
+            //ZArrayDescriptor ampf = new ZArrayDescriptor(zArrayPicture[1 * 4 + 3]);
+
+           
+            for (int i = 0; i < w1; i++)
+            {
+                for (int j = 0; j < h1; j++)
+                {
+
+                    i_sdv[0] = zArrayPicture[8].array[i, j];
+                    i_sdv[1] = zArrayPicture[9].array[i, j];
+                    i_sdv[2] = zArrayPicture[10].array[i, j];
+                    i_sdv[3] = zArrayPicture[11].array[i, j];
+
+                    //double[] v_sdv = Vector_orto(i_sdv);                 // ------  Формула расшифровки фазы
+                    //double fz1 = Vector_Mul(v_sdv, k_sin);
+                    //double fz2 = Vector_Mul(v_sdv, k_cos);
+                    double fz1 = Vector_Mul(i_sdv, sin_orto);
+                    double fz2 = Vector_Mul(i_sdv, cos_orto);
+                    double a = Math.Atan2(fz2, fz1);
+
+                    //double[] cos_orto = Vector_orto(k_cos);              // ------  Формула расшифровки амплитуды                   
+                    //double znmt = Vector_Mul(sin_orto, k_cos);
+                    double am = Math.Sqrt(fz1 * fz1 + fz2 * fz2) / znmt;
+                    //am = am / (2 * amplit);
+
+                    //a= ampf.array[i, j];
+                    // am = amp.array[i, j];
+                    //am = 255;
+
+                    faza.array[i, j] = Complex.FromPolarCoordinates(am, a);
+
+                }
+                
+            }
+          
+            return faza;
+        }
+
         // Отличается от предыдущего тем, что массивы 0,1,2,3 (а не 8,9,10,11)
   
         public static ZComplexDescriptor ATAN_ar(ZArrayDescriptor[] zArrayPicture, double[] fzz, double amplit=255)
@@ -148,7 +216,7 @@ namespace rab1.Forms
                     double[] cos_orto = Vector_orto(k_cos);              // ------  Формула расшифровки амплитуды                   
                     double znmt = Vector_Mul(cos_orto, k_sin);
                     double am = Math.Sqrt(fz1 * fz1 + fz2 * fz2) / Math.Abs(znmt);
-                    am = am / (2 * amplit);
+                    //am = am / (2 * amplit);
 
                     //a= ampf.array[i, j];
                     // am = amp.array[i, j];

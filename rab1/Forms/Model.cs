@@ -160,7 +160,7 @@ namespace rab1.Forms
             fz[2] = Convert.ToDouble(textBox7.Text); fzrad[2] = Math.PI * fz[2] / 180.0;
             fz[3] = Convert.ToDouble(textBox8.Text); fzrad[3] = Math.PI * fz[3] / 180.0;
 
-        
+
 
             OnInterf8PSI_Fr(sdvg0, sdvg, noise, Lambda, dx * 1000, d * 1000, fzrad, Ax, Ay);
             Close();
@@ -192,9 +192,5 @@ namespace rab1.Forms
         //
         //              Сдвиг голограмм
         //
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

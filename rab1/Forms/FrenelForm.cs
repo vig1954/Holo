@@ -16,6 +16,7 @@ public delegate void FrenelF4();
 public delegate void FrenelF5(int k1, int k2, int X, int Y, int N );
 public delegate void FrenelF6(double[] fz, double xmax, double lambda, double d, int k2);
 public delegate void FrenelF17(double step_fz);
+public delegate void FrenelF18(double[] fz, double xmax, double lambda, double d, int X, int Y, int X1, int Y1, int N);
 
 namespace rab1.Forms
 {
@@ -39,6 +40,8 @@ namespace rab1.Forms
         public event FrenelF6 OnPSI_fast;
         public event FrenelF17 OnADD_PHASE;
 
+        public event FrenelF18 OnInterf_XY;
+
         //public event FrenelF2 InversComplex;
 
         private  static double xm = 7;
@@ -48,6 +51,8 @@ namespace rab1.Forms
         private static int k2 = 0;
         private static int X = 0;
         private static int Y = 0;
+        private static int X1 = 0;
+        private static int Y1 = 0;
         private static int N = 2048;
        
         private static double[] fz = { 0.0, 90.0, 180.0, 270.0 };
@@ -63,6 +68,8 @@ namespace rab1.Forms
             textBox6.Text = Convert.ToString(X);
             textBox7.Text = Convert.ToString(Y);
             textBox8.Text = Convert.ToString(N);
+            textBox9.Text = Convert.ToString(X1);
+            textBox10.Text = Convert.ToString(Y1);
 
             textBox13.Text = Convert.ToString(fz[0]);
             textBox14.Text = Convert.ToString(fz[1]);
@@ -241,6 +248,35 @@ namespace rab1.Forms
         {
             double step = Convert.ToDouble(textBox17.Text);
             OnADD_PHASE(step);
+            Close();
+        }
+
+        private void button14_Click(object sender, EventArgs e)  // Интерферометрия сдвинутых полей
+        {
+            fz[0] = Convert.ToDouble(textBox13.Text);
+            fz[1] = Convert.ToDouble(textBox14.Text);
+            fz[2] = Convert.ToDouble(textBox15.Text);
+            fz[3] = Convert.ToDouble(textBox16.Text);
+
+            double[] fzrad = new double[4];                 // Фаза в радианах
+            fzrad[0] = Math.PI * fz[0] / 180.0;
+            fzrad[1] = Math.PI * fz[1] / 180.0;
+            fzrad[2] = Math.PI * fz[2] / 180.0;
+            fzrad[3] = Math.PI * fz[3] / 180.0;
+
+            X  = Convert.ToInt32(textBox6.Text); Y = Convert.ToInt32(textBox7.Text);
+            X1 = Convert.ToInt32(textBox9.Text); Y1 = Convert.ToInt32(textBox10.Text); 
+            N  = Convert.ToInt32(textBox8.Text);
+
+            xm = Convert.ToDouble(textBox1.Text);
+            lm = Convert.ToDouble(textBox2.Text);
+            dm = Convert.ToDouble(textBox3.Text);
+            //k1 = Convert.ToInt32(textBox4.Text);
+            k2 = Convert.ToInt32(textBox5.Text);                  // Номер Complex
+
+            //OnFrenelN(xm * 1000, lm, dm * 1000, k1, k2);        // в микрометрах
+
+            OnInterf_XY(fzrad, xm * 1000, lm, dm * 1000, X, Y, X1, Y1, N);
             Close();
         }
 
