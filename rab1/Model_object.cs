@@ -560,29 +560,67 @@ namespace rab1
             if ( X1 + N > w1 ) { MessageBox.Show(" Размер zArrayDescriptor меньше X(Model_object.Interf_XY)"); return; }
             if ( Y1 + N > h1 ) { MessageBox.Show(" Размер zArrayDescriptor меньше Y(Model_object.Interf_XY)"); return; }
 
-            MessageBox.Show(" X,Y = " + X+" , "  + Y + " X, Y = " + X1+ " , "  + Y1);
+            //MessageBox.Show(" X,Y = " + X+" , "  + Y + " X, Y = " + X1+ " , "  + Y1);
             
             
             
             ZComplexDescriptor zComplex_tmpN = new ZComplexDescriptor(N, N);
             ZComplexDescriptor zComplex_tmp = new ZComplexDescriptor(w1, h1);
+            for (int i = 4; i < 8; i++) zArrayDescriptor[i] = new ZArrayDescriptor(N, N);
 
-
-
-
-            zComplex_tmp = ATAN_PSI.ATAN_8_11(zArrayDescriptor, fz);                             // PSI
+            zComplex_tmp = ATAN_PSI.ATAN_8_11(8, 9, 10, 11, zArrayDescriptor, fz);                // PSI  0123
             
             for (int i = 0; i < N; i++)
               for (int j = 0; j < N; j++)
                   zComplex_tmpN.array[i, j] = zComplex_tmp.array[i + X, j + Y];
-            zComplex[0] = FurieN.FrenelTransformN(zComplex_tmpN, lambda, d, dx);                  // Преобразование Френеля с четным количеством точек
+            zComplex[0] = FurieN.FrenelTransformN(zComplex_tmpN, lambda, d, dx);                  // Преобразование Френеля с четным количеством точек 1 состояние => zComplex[0]
 
             for (int i = 0; i < N; i++)
               for (int j = 0; j < N; j++)
                    zComplex_tmpN.array[i, j] = zComplex_tmp.array[i + X1, j + Y1];
-            zComplex[1] = FurieN.FrenelTransformN(zComplex_tmpN, lambda, d, dx);                  // Преобразование Френеля с четным количеством точек
+            zComplex_tmp = FurieN.FrenelTransformN(zComplex_tmpN, lambda, d, dx);                  // Преобразование Френеля с четным количеством точек 0123 => zComplex_tmp
 
+            zComplex_tmp = ADD_Math.Div_CMPLX(zComplex[0], zComplex_tmp);                         // Разделить два комплексных массива
+            
+            for (int i = 0; i < N; i++)
+                for (int j = 0; j < N; j++)
+                    zArrayDescriptor[4].array[i, j] = zComplex_tmp.array[i, j].Phase;
 
+            zComplex_tmp = ATAN_PSI.ATAN_8_11(9, 10, 11, 8, zArrayDescriptor, fz);                // Второе состояние 1,2,3,0 => zComplex_tmp
+            for (int i = 0; i < N; i++)
+                for (int j = 0; j < N; j++)
+                    zComplex_tmpN.array[i, j] = zComplex_tmp.array[i + X1, j + Y1];
+            zComplex_tmp = FurieN.FrenelTransformN(zComplex_tmpN, lambda, d, dx);
+            zComplex_tmp = ADD_Math.Div_CMPLX(zComplex[0], zComplex_tmp);
+
+            for (int i = 0; i < N; i++)
+                for (int j = 0; j < N; j++)
+                    zArrayDescriptor[5].array[i, j] = zComplex_tmp.array[i, j].Phase;
+
+            zComplex_tmp = ATAN_PSI.ATAN_8_11(10, 11, 8, 9, zArrayDescriptor, fz);                // Второе состояние 2,3,0,1 => zComplex_tmp
+            for (int i = 0; i < N; i++)
+                for (int j = 0; j < N; j++)
+                    zComplex_tmpN.array[i, j] = zComplex_tmp.array[i + X1, j + Y1];
+            zComplex_tmp = FurieN.FrenelTransformN(zComplex_tmpN, lambda, d, dx);
+            zComplex_tmp = ADD_Math.Div_CMPLX(zComplex[0], zComplex_tmp);
+
+            for (int i = 0; i < N; i++)
+                for (int j = 0; j < N; j++)
+                    zArrayDescriptor[6].array[i, j] = zComplex_tmp.array[i, j].Phase;
+
+            zComplex_tmp = ATAN_PSI.ATAN_8_11(11, 8, 9, 10, zArrayDescriptor, fz);                // Второе состояние 3,0,1,2 => zComplex_tmp
+            for (int i = 0; i < N; i++)
+                for (int j = 0; j < N; j++)
+                    zComplex_tmpN.array[i, j] = zComplex_tmp.array[i + X1, j + Y1];
+            zComplex_tmp = FurieN.FrenelTransformN(zComplex_tmpN, lambda, d, dx);
+            zComplex_tmp = ADD_Math.Div_CMPLX(zComplex[0], zComplex_tmp);
+
+            for (int i = 0; i < N; i++)
+                for (int j = 0; j < N; j++)
+                    zArrayDescriptor[7].array[i, j] = zComplex_tmp.array[i, j].Phase;
+
+            zComplex[0] = ATAN_PSI.ATAN_8_11(4, 5, 6, 7, zArrayDescriptor, fz);
+          
         }
     }
 }

@@ -1808,9 +1808,9 @@ namespace rab1
                     zComplex[k2].array[i, j] = zComplex[k1].array[i + X, j + Y];
 
             //zComplex[k2] = FurieN.BPF2(zComplex[k2]);                    // Фурье преобразование для произвольного количества точек
-            zComplex[k2] = FurieN.FrenelTransformN(zComplex[k2], lambda, d, xmax);
+           // zComplex[k2] = FurieN.FrenelTransformN(zComplex[k2], lambda, d, xmax);
 
-            Complex_pictureBox(k2);
+           // Complex_pictureBox(k2);
         }
 
 
@@ -1818,7 +1818,10 @@ namespace rab1
         private void Frenel_XY(double[] fz, double xmax, double lambda, double d, int X, int Y, int X1, int Y1, int N)     // Интерферометрия сдвинутых фронтов
         {
             Model_object.Interf_XY(zComplex, zArrayDescriptor, fz,  xmax,  lambda,  d, X,  Y,  X1,  Y1, N);
-            Complex_pictureBox(0); Complex_pictureBox(1); Complex_pictureBox(2);
+            Complex_pictureBox(0); 
+            //Complex_pictureBox(1); Complex_pictureBox(2);
+            Vizual_regImage(4); Vizual_regImage(5); Vizual_regImage(6); Vizual_regImage(7);
+            Complex_pictureBox(0);
         }
 
 

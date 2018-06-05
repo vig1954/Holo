@@ -49,10 +49,10 @@ namespace rab1.Forms
         private  static double dm = 135;
         private static int k1 = 1;
         private static int k2 = 0;
-        private static int X = 0;
-        private static int Y = 0;
-        private static int X1 = 0;
-        private static int Y1 = 0;
+        private static int X = 600;
+        private static int Y = 600;
+        private static int X1 = 602;
+        private static int Y1 = 600;
         private static int N = 2048;
        
         private static double[] fz = { 0.0, 90.0, 180.0, 270.0 };

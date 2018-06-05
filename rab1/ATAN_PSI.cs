@@ -108,12 +108,12 @@ namespace rab1.Forms
         }
 
         // Без ProgressBar
-        public static ZComplexDescriptor ATAN_8_11(ZArrayDescriptor[] zArrayPicture,  double[] fzz, double amplit = 255)
+        public static ZComplexDescriptor ATAN_8_11(int k1, int k2, int k3, int k4, ZArrayDescriptor[] zArrayPicture,  double[] fzz, double amplit = 255)
         {
             // 8, 9, 10, 11   ->    Complex[1] 
 
-            int w1 = zArrayPicture[8].width;
-            int h1 = zArrayPicture[8].height;
+            int w1 = zArrayPicture[k1].width;
+            int h1 = zArrayPicture[k1].height;
             // MessageBox.Show("width= " + w1 + "height= " + h1);
 
             ZComplexDescriptor faza = new ZComplexDescriptor(w1, h1);
@@ -144,10 +144,10 @@ namespace rab1.Forms
                 for (int j = 0; j < h1; j++)
                 {
 
-                    i_sdv[0] = zArrayPicture[8].array[i, j];
-                    i_sdv[1] = zArrayPicture[9].array[i, j];
-                    i_sdv[2] = zArrayPicture[10].array[i, j];
-                    i_sdv[3] = zArrayPicture[11].array[i, j];
+                    i_sdv[0] = zArrayPicture[k1].array[i, j];
+                    i_sdv[1] = zArrayPicture[k2].array[i, j];
+                    i_sdv[2] = zArrayPicture[k3].array[i, j];
+                    i_sdv[3] = zArrayPicture[k4].array[i, j];
 
                     //double[] v_sdv = Vector_orto(i_sdv);                 // ------  Формула расшифровки фазы
                     //double fz1 = Vector_Mul(v_sdv, k_sin);

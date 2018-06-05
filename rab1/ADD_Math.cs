@@ -486,7 +486,7 @@ namespace rab1
            // Vizual_regImage(k3);
         }
 
-        public static void Div_C(int k3, int k4, int k5)             // Разделить два комплексных массива
+        public static void Div_C(int k3, int k4, int k5)             // Разделить два комплексных массива поэлементно Form1.zComplex[k]
         {
             k3--; k4--; k5--;                                  // Массив 1 ->  0
 
@@ -512,6 +512,31 @@ namespace rab1
             //zComplex[k5] = new ZComplexDescriptor(nx, ny);
             Form1.zComplex[k5] = a;
            // Complex_pictureBox(k5);
+        }
+
+        public static ZComplexDescriptor Div_CMPLX(ZComplexDescriptor a1, ZComplexDescriptor a2)             // Разделить два комплексных массива поэлементно 
+        {
+            
+
+            //MessageBox.Show("k3= " + k3 + " - k4= " + k4 + " = k5= " + k5);
+
+            if (a1 == null) { MessageBox.Show("Div_CMPLX a1 == NULL"); return null; }
+            if (a2 == null) { MessageBox.Show("Div_CMPLX a2 == NULL"); return null; }
+            
+            int nx = a1.width;
+            int ny = a1.height;
+
+            int nx1 = a2.width;
+            int ny1 = a2.height;
+
+            if ((nx != nx1) || (ny != ny1)) { MessageBox.Show("Div_CMPLX Размеры массивов не равны"); return null; }
+
+            ZComplexDescriptor a = new ZComplexDescriptor(nx, ny);
+
+            for (int i = 0; i < nx; i++)
+                for (int j = 0; j < ny; j++)
+                    a.array[i, j] = Div(a1.array[i, j], a2.array[i, j]); 
+            return a; 
         }
 
         private static Complex Div(Complex a, Complex b)  // Деление комплексных чисел 
