@@ -1469,6 +1469,11 @@ namespace EDSDKLib
             Error = EDSDK.EdsGetDeviceInfo(Reference, out dinfo);
             this.Info = dinfo;
         }
+
+        public override string ToString()
+        {
+            return Info.szDeviceDescription;
+        }
     }
 
     /// <summary>
