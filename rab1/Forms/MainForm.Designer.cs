@@ -64,6 +64,7 @@
             this.загрузитьИзФайлаdoubleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.загрузитьComplexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.загрузить418ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.загрузить4912ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Save8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SAVEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сохранитьZaarayВФайлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -197,7 +198,7 @@
             this.button9 = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
-            this.загрузить4912ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.неВГраницах0ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox01)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -606,6 +607,13 @@
             this.загрузить418ToolStripMenuItem.Text = "Загрузить 4 (9,10,11,12)";
             this.загрузить418ToolStripMenuItem.Click += new System.EventHandler(this.загрузить418ToolStripMenuItem_Click);
             // 
+            // загрузить4912ToolStripMenuItem
+            // 
+            this.загрузить4912ToolStripMenuItem.Name = "загрузить4912ToolStripMenuItem";
+            this.загрузить4912ToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
+            this.загрузить4912ToolStripMenuItem.Text = "Загрузить 4 (5,6,7,8)";
+            this.загрузить4912ToolStripMenuItem.Click += new System.EventHandler(this.загрузить4912ToolStripMenuItem_Click);
+            // 
             // Save8ToolStripMenuItem
             // 
             this.Save8ToolStripMenuItem.Name = "Save8ToolStripMenuItem";
@@ -704,7 +712,8 @@
             this.усреднение2х2ТочекToolStripMenuItem,
             this.уменьшениеМассиваВ2РазаToolStripMenuItem,
             this.генерацияМассиваСоСдвигомНаПловинуПикселяToolStripMenuItem,
-            this.увеличениеМассиваВ2РазаПростымПовторениемToolStripMenuItem1});
+            this.увеличениеМассиваВ2РазаПростымПовторениемToolStripMenuItem1,
+            this.неВГраницах0ToolStripMenuItem});
             this.Фильтр.Name = "Фильтр";
             this.Фильтр.Size = new System.Drawing.Size(57, 20);
             this.Фильтр.Text = "Фильтр";
@@ -1587,6 +1596,7 @@
             this.textBox2.Size = new System.Drawing.Size(178, 20);
             this.textBox2.TabIndex = 86;
             this.textBox2.Text = "0";
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // button6
             // 
@@ -1829,12 +1839,12 @@
             this.vScrollBar2.TabIndex = 115;
             this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar2_Scroll);
             // 
-            // загрузить4912ToolStripMenuItem
+            // неВГраницах0ToolStripMenuItem
             // 
-            this.загрузить4912ToolStripMenuItem.Name = "загрузить4912ToolStripMenuItem";
-            this.загрузить4912ToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
-            this.загрузить4912ToolStripMenuItem.Text = "Загрузить 4 (5,6,7,8)";
-            this.загрузить4912ToolStripMenuItem.Click += new System.EventHandler(this.загрузить4912ToolStripMenuItem_Click);
+            this.неВГраницах0ToolStripMenuItem.Name = "неВГраницах0ToolStripMenuItem";
+            this.неВГраницах0ToolStripMenuItem.Size = new System.Drawing.Size(390, 22);
+            this.неВГраницах0ToolStripMenuItem.Text = "Не в границах => 0";
+            this.неВГраницах0ToolStripMenuItem.Click += new System.EventHandler(this.неВГраницах0ToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -2110,6 +2120,7 @@
         private System.Windows.Forms.VScrollBar vScrollBar1;
         private System.Windows.Forms.VScrollBar vScrollBar2;
         private System.Windows.Forms.ToolStripMenuItem загрузить4912ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem неВГраницах0ToolStripMenuItem;
     }
 }
 

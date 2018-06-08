@@ -1158,8 +1158,22 @@ namespace rab1
             zArrayPicture = FiltrClass.Sum_Line(amp);
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
         }
+        // -------------------------------  Если выше или ниже границы => ноль
+        private void неВГраницах0ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            double s1 = Convert.ToDouble(textBox1.Text);
+            double s2 = Convert.ToDouble(textBox2.Text);
+            int w1 = zArrayPicture.width;
+            int h1 = zArrayPicture.height; 
 
+            for (int i = 0; i < w1; i++)
+                for (int j = 0; j < h1; j++)
+                {
+                    if (zArrayPicture.array[i, j] >= s1 || zArrayPicture.array[i, j] <= s2) zArrayPicture.array[i, j]=0;
+                }
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);        
 
+        }
 
         // -------------------------------  
         // -------------------------------  Сверхразрешение
@@ -1820,8 +1834,9 @@ namespace rab1
             Model_object.Interf_XY(zComplex, zArrayDescriptor, fz,  xmax,  lambda,  d, X,  Y,  X1,  Y1, N);
             Complex_pictureBox(0); 
             //Complex_pictureBox(1); Complex_pictureBox(2);
-            Vizual_regImage(4); Vizual_regImage(5); Vizual_regImage(6); Vizual_regImage(7);
+            //Vizual_regImage(4); Vizual_regImage(5); Vizual_regImage(6); Vizual_regImage(7);
             Complex_pictureBox(0);
+            Complex_pictureBox(1);
         }
 
 
@@ -2874,6 +2889,13 @@ namespace rab1
 
             }
         }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+      
 
         
 

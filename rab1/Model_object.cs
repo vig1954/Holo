@@ -578,49 +578,50 @@ namespace rab1
             for (int i = 0; i < N; i++)
               for (int j = 0; j < N; j++)
                    zComplex_tmpN.array[i, j] = zComplex_tmp.array[i + X1, j + Y1];
-            zComplex_tmp = FurieN.FrenelTransformN(zComplex_tmpN, lambda, d, dx);                  // Преобразование Френеля с четным количеством точек 0123 => zComplex_tmp
+            zComplex[1] = FurieN.FrenelTransformN(zComplex_tmpN, lambda, d, dx);                  // Преобразование Френеля с четным количеством точек 0123 => zComplex_tmp
+            /* 
+                        zComplex_tmp = ADD_Math.Div_CMPLX(zComplex[0], zComplex[1]);                         // Разделить два комплексных массива
+                       
+                                  for (int i = 0; i < N; i++)
+                                      for (int j = 0; j < N; j++)
+                                          zArrayDescriptor[4].array[i, j] = zComplex_tmp.array[i, j].Phase;
 
-            zComplex_tmp = ADD_Math.Div_CMPLX(zComplex[0], zComplex_tmp);                         // Разделить два комплексных массива
-            
-            for (int i = 0; i < N; i++)
-                for (int j = 0; j < N; j++)
-                    zArrayDescriptor[4].array[i, j] = zComplex_tmp.array[i, j].Phase;
+                                zComplex_tmp = ATAN_PSI.ATAN_8_11(9, 10, 11, 8, zArrayDescriptor, fz);                // Второе состояние 1,2,3,0 => zComplex_tmp
+                                  for (int i = 0; i < N; i++)
+                                      for (int j = 0; j < N; j++)
+                                          zComplex_tmpN.array[i, j] = zComplex_tmp.array[i + X1, j + Y1];
+                                  zComplex_tmp = FurieN.FrenelTransformN(zComplex_tmpN, lambda, d, dx);
+                                  zComplex_tmp = ADD_Math.Div_CMPLX(zComplex[0], zComplex_tmp);
 
-            zComplex_tmp = ATAN_PSI.ATAN_8_11(9, 10, 11, 8, zArrayDescriptor, fz);                // Второе состояние 1,2,3,0 => zComplex_tmp
-            for (int i = 0; i < N; i++)
-                for (int j = 0; j < N; j++)
-                    zComplex_tmpN.array[i, j] = zComplex_tmp.array[i + X1, j + Y1];
-            zComplex_tmp = FurieN.FrenelTransformN(zComplex_tmpN, lambda, d, dx);
-            zComplex_tmp = ADD_Math.Div_CMPLX(zComplex[0], zComplex_tmp);
+                                  for (int i = 0; i < N; i++)
+                                      for (int j = 0; j < N; j++)
+                                          zArrayDescriptor[5].array[i, j] = zComplex_tmp.array[i, j].Phase;
 
-            for (int i = 0; i < N; i++)
-                for (int j = 0; j < N; j++)
-                    zArrayDescriptor[5].array[i, j] = zComplex_tmp.array[i, j].Phase;
+                                  zComplex_tmp = ATAN_PSI.ATAN_8_11(10, 11, 8, 9, zArrayDescriptor, fz);                // Второе состояние 2,3,0,1 => zComplex_tmp
+                                  for (int i = 0; i < N; i++)
+                                      for (int j = 0; j < N; j++)
+                                          zComplex_tmpN.array[i, j] = zComplex_tmp.array[i + X1, j + Y1];
+                                  zComplex_tmp = FurieN.FrenelTransformN(zComplex_tmpN, lambda, d, dx);
+                                  zComplex_tmp = ADD_Math.Div_CMPLX(zComplex[0], zComplex_tmp);
 
-            zComplex_tmp = ATAN_PSI.ATAN_8_11(10, 11, 8, 9, zArrayDescriptor, fz);                // Второе состояние 2,3,0,1 => zComplex_tmp
-            for (int i = 0; i < N; i++)
-                for (int j = 0; j < N; j++)
-                    zComplex_tmpN.array[i, j] = zComplex_tmp.array[i + X1, j + Y1];
-            zComplex_tmp = FurieN.FrenelTransformN(zComplex_tmpN, lambda, d, dx);
-            zComplex_tmp = ADD_Math.Div_CMPLX(zComplex[0], zComplex_tmp);
+                                  for (int i = 0; i < N; i++)
+                                      for (int j = 0; j < N; j++)
+                                          zArrayDescriptor[6].array[i, j] = zComplex_tmp.array[i, j].Phase;
 
-            for (int i = 0; i < N; i++)
-                for (int j = 0; j < N; j++)
-                    zArrayDescriptor[6].array[i, j] = zComplex_tmp.array[i, j].Phase;
+                                  zComplex_tmp = ATAN_PSI.ATAN_8_11(11, 8, 9, 10, zArrayDescriptor, fz);                // Второе состояние 3,0,1,2 => zComplex_tmp
+                                  for (int i = 0; i < N; i++)
+                                      for (int j = 0; j < N; j++)
+                                          zComplex_tmpN.array[i, j] = zComplex_tmp.array[i + X1, j + Y1];
+                                  zComplex_tmp = FurieN.FrenelTransformN(zComplex_tmpN, lambda, d, dx);
+                                  zComplex_tmp = ADD_Math.Div_CMPLX(zComplex[0], zComplex_tmp);
 
-            zComplex_tmp = ATAN_PSI.ATAN_8_11(11, 8, 9, 10, zArrayDescriptor, fz);                // Второе состояние 3,0,1,2 => zComplex_tmp
-            for (int i = 0; i < N; i++)
-                for (int j = 0; j < N; j++)
-                    zComplex_tmpN.array[i, j] = zComplex_tmp.array[i + X1, j + Y1];
-            zComplex_tmp = FurieN.FrenelTransformN(zComplex_tmpN, lambda, d, dx);
-            zComplex_tmp = ADD_Math.Div_CMPLX(zComplex[0], zComplex_tmp);
+                                  for (int i = 0; i < N; i++)
+                                      for (int j = 0; j < N; j++)
+                                          zArrayDescriptor[7].array[i, j] = zComplex_tmp.array[i, j].Phase;
 
-            for (int i = 0; i < N; i++)
-                for (int j = 0; j < N; j++)
-                    zArrayDescriptor[7].array[i, j] = zComplex_tmp.array[i, j].Phase;
-
-            zComplex[0] = ATAN_PSI.ATAN_8_11(4, 5, 6, 7, zArrayDescriptor, fz);
-          
+                                  zComplex[0] = ATAN_PSI.ATAN_8_11(4, 5, 6, 7, zArrayDescriptor, fz);
+                          */
+      
         }
     }
 }

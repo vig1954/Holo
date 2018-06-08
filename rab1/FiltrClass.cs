@@ -643,6 +643,8 @@ namespace rab1
         {
            int w1 = amp.width;
            int h1 = amp.height;
+
+           double h = w1;
            ZArrayDescriptor res_array = new ZArrayDescriptor(w1, h1);             
 
             double[] array_line = new double[w1];
@@ -650,6 +652,8 @@ namespace rab1
             for (int i = 0; i < w1; i++)
                 for (int j = 0; j < h1; j++)
                    array_line[i] += amp.array[i, j];
+
+            for (int i = 0; i < w1; i++) { array_line[i] = array_line[i] / h; }
 
             for (int i = 0; i < w1; i++)
                 for (int j = 0; j < h1; j++)
