@@ -682,7 +682,7 @@ namespace EDSDKLib
                 {
                     Bitmap bmp = null;
                     IntPtr streamRef, jpgPointer = IntPtr.Zero;
-                    uint length = 0;
+                    ulong length = 0;
 
                     //create memory stream
                     Error = EDSDK.EdsCreateMemoryStream(dirInfo.Size, out streamRef);
@@ -695,7 +695,7 @@ namespace EDSDKLib
                      unsafe
                      {
                          //create a System.IO.Stream from the pointer
-                         using (UnmanagedMemoryStream ums = new UnmanagedMemoryStream((byte*)jpgPointer.ToPointer(), length, length, FileAccess.Read))
+                         using (UnmanagedMemoryStream ums = new UnmanagedMemoryStream((byte*)jpgPointer.ToPointer(), (long)length, (long)length, FileAccess.Read))
                          {
                              //create bitmap from stream (it's a normal jpeg image)
                              bmp = new Bitmap(ums);
@@ -763,7 +763,7 @@ namespace EDSDKLib
             IntPtr imagePtr;
             Error = EDSDK.EdsGetPointer(imageStream, out imagePtr);
 
-            uint imageLen;
+            ulong imageLen;
             Error = EDSDK.EdsGetLength(imageStream, out imageLen);
 
             var bytes = new byte[imageLen];
@@ -777,11 +777,12 @@ namespace EDSDKLib
         /// <param name="img_stream">Image stream</param>
         /// <param name="imageSource">Type of image</param>
         /// <returns>The bitmap from the stream</returns>
-        private Bitmap GetImage(IntPtr img_stream, EDSDK.EdsImageSource imageSource)
+        unsafe private Bitmap GetImage(IntPtr img_stream, EDSDK.EdsImageSource imageSource)
         {
             IntPtr stream = IntPtr.Zero;
             IntPtr img_ref = IntPtr.Zero;
             IntPtr streamPointer = IntPtr.Zero;
+            IntPtr bufferPointer = IntPtr.Zero;
             EDSDK.EdsImageInfo imageInfo;
 
             try
@@ -794,11 +795,17 @@ namespace EDSDKLib
                 outputSize.width = imageInfo.EffectiveRect.width;
                 outputSize.height = imageInfo.EffectiveRect.height;
                 //calculate amount of data
-                int datalength = outputSize.height * outputSize.width * 3;
+                ulong datalength = Convert.ToUInt64(outputSize.height * outputSize.width * 3);
                 //create buffer that stores the image
                 byte[] buffer = new byte[datalength];
+                fixed (byte* p = buffer)
+                {
+                    bufferPointer = (IntPtr)p;
+                    // do you stuff here
+                }
+                
                 //create a stream to the buffer
-                Error = EDSDK.EdsCreateMemoryStreamFromPointer(buffer, (uint)datalength, out stream);
+                Error = EDSDK.EdsCreateMemoryStreamFromPointer(bufferPointer, datalength, out stream);
                 //load image into the buffer
                 Error = EDSDK.EdsGetImage(img_ref, imageSource, EDSDK.EdsTargetImageType.RGB, imageInfo.EffectiveRect, outputSize, stream);
 
@@ -813,7 +820,7 @@ namespace EDSDKLib
                     byte* outPix = (byte*)data.Scan0;
                     fixed (byte* inPix = buffer)
                     {
-                        for (int i = 0; i < datalength; i += 3)
+                        for (ulong i = 0; i < datalength; i += 3)
                         {
                             outPix[i] = inPix[i + 2];//Set B value with R value
                             outPix[i + 1] = inPix[i + 1];//Set G value
@@ -1036,7 +1043,7 @@ namespace EDSDKLib
                     UnmanagedMemoryStream ums;
 
                     uint err;
-                    uint length;
+                    ulong length;
                     //create stream
                     Error = EDSDK.EdsCreateMemoryStream(0, out stream);
 
@@ -1066,7 +1073,7 @@ namespace EDSDKLib
                         if (EvfImageRef != IntPtr.Zero) { Error = EDSDK.EdsRelease(EvfImageRef); }
 
                         //create stream to image
-                        unsafe { ums = new UnmanagedMemoryStream((byte*)jpgPointer.ToPointer(), length, length, FileAccess.Read); }
+                        unsafe { ums = new UnmanagedMemoryStream((byte*)jpgPointer.ToPointer(), (long)length, (long)length, FileAccess.Read); }
 
                         //fire the LiveViewUpdated event with the live view image stream
                         if (LiveViewUpdated != null) LiveViewUpdated(ums);
@@ -1205,7 +1212,7 @@ namespace EDSDKLib
             SendSDKCommand(delegate
             {
                 //send command to camera
-                lock (STAThread.ExecLock) { Error = EDSDK.EdsSendCommand(MainCamera.Ref, EDSDK.CameraCommand_PressShutterButton, (uint)state); };
+                lock (STAThread.ExecLock) { Error = EDSDK.EdsSendCommand(MainCamera.Ref, EDSDK.CameraCommand_PressShutterButton, (int)state); };
             }, true);
         }
 
@@ -1299,7 +1306,7 @@ namespace EDSDKLib
         /// <param name="Speed">Speed and direction of focus movement</param>
         public void SetFocus(uint Speed)
         {
-            if (IsLiveViewOn) SendSDKCommand(delegate { Error = EDSDK.EdsSendCommand(MainCamera.Ref, EDSDK.CameraCommand_DriveLensEvf, Speed); });
+            if (IsLiveViewOn) SendSDKCommand(delegate { Error = EDSDK.EdsSendCommand(MainCamera.Ref, EDSDK.CameraCommand_DriveLensEvf, Convert.ToInt32(Speed)); });
         }
 
         /// <summary>
@@ -1314,7 +1321,7 @@ namespace EDSDKLib
                 //converts the coordinates to a form the camera accepts
                 byte[] xa = BitConverter.GetBytes(x);
                 byte[] ya = BitConverter.GetBytes(y);
-                uint coord = BitConverter.ToUInt32(new byte[] { xa[0], xa[1], ya[0], ya[1] }, 0);
+                int coord = BitConverter.ToInt32(new byte[] { xa[0], xa[1], ya[0], ya[1] }, 0);
                 //send command to camera
                 SendSDKCommand(delegate { Error = EDSDK.EdsSendCommand(MainCamera.Ref, EDSDK.CameraCommand_DoClickWBEvf, coord); });
             }
