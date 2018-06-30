@@ -633,8 +633,7 @@ namespace EDSDKLib
                 //download file
                 lock (STAThread.ExecLock) { DownloadData(ObjectPointer, memoryStreamRef); }
                 byte[] imageBytes = ConvertImageStreamToBytes(memoryStreamRef);
-                //byte[] imageTIFFBytes = ConvertToTIFF(memoryStreamRef, dirInfo.Size);
-
+                
                 Error = EDSDK.EdsRelease(memoryStreamRef);
 
                 resBytesArray = imageBytes;
@@ -643,27 +642,7 @@ namespace EDSDKLib
 
             return resBytesArray;
         }
-        
-        private byte[] ConvertToTIFF(IntPtr streamRef, uint size)
-        {
-            uint error;
-
-            IntPtr imgRef;
-            EDSDK.EdsCreateImageRef(streamRef, out imgRef);
                         
-            IntPtr outStream;
-            var settings = new EDSDK.EdsSaveImageSetting();
-            EDSDK.EdsCreateMemoryStream(size, out outStream);
-            error = EDSDK.EdsSaveImage(imgRef, EDSDK.EdsTargetImageType.TIFF16, settings, outStream);
-
-            byte[] resBytesArray = ConvertImageStreamToBytes(outStream);
-                                    
-            EDSDK.EdsRelease(outStream);
-
-            return resBytesArray;
-
-        }
-        
         /// <summary>
         /// Downloads a jpg image from the camera into a Bitmap. Fires the ImageDownloaded event when done.
         /// </summary>
