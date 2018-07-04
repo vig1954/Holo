@@ -37,7 +37,7 @@ namespace rab1.Forms
             return s;
         }
         // Определение амплитуды и фазы по 4 картинам (PSI), записанным в 9, 10, 11, и 12 окнах
-        public static ZComplexDescriptor ATAN_891011(ZArrayDescriptor[] zArrayPicture, ProgressBar progressBar1, double[] fzz, double amplit=255)
+        public static ZComplexDescriptor ATAN_891011(ZArrayDescriptor[] zArrayPicture, ProgressBar progressBar1, double[] fzz, double amplit=0.5)
         {
             // 8, 9, 10, 11   ->    Complex[1] 
 
@@ -92,7 +92,7 @@ namespace rab1.Forms
                     //double[] cos_orto = Vector_orto(k_cos);              // ------  Формула расшифровки амплитуды                   
                     //double znmt = Vector_Mul(sin_orto, k_cos);
                     double am = Math.Sqrt(fz1 * fz1 + fz2 * fz2) / znmt;
-                    //am = am / (2 * amplit);
+                   // am = am / (2 * amplit);
 
                     //a= ampf.array[i, j];
                     // am = amp.array[i, j];

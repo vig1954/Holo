@@ -197,13 +197,16 @@ namespace rab1
 
 
         //
-        //                     Добавление фазового сдвига  fz
+        //                     Добавление фазового сдвига  fz и получение голограммы
         //
-        public static ZArrayDescriptor Model_pl_PSI(double am, ZComplexDescriptor cmpl0, double AngleX, double AngleY, double Lambda, double dx, double noise, double fz)
+        public static ZArrayDescriptor Model_pl_PSI(double am, ZComplexDescriptor cmpl0,
+                                double AngleX, double AngleY, double Lambda, double dx, double noise, double fz)
         {
 
             int NX = cmpl0.width;
             int NY = cmpl0.height;
+
+            //MessageBox.Show("am = " + am);
 
             ZArrayDescriptor cmpl = new ZArrayDescriptor(NX, NY);      // Результирующий фронт
 
@@ -218,8 +221,7 @@ namespace rab1
                 {
                     double fz1 = 2 * Math.PI * (Math.Sin(AngleX) * kx * i + Math.Sin(AngleY) * ky * j) / Lambda;
                     double fa = rnd.NextDouble() * 2.0 * Math.PI - Math.PI;
-                    Complex a = Complex.FromPolarCoordinates(am, fz1 + fa * noise + fz);
-                    //Complex a = Complex.FromPolarCoordinates(am, 2 * Math.PI * (Math.Sin(AngleX) * kx * i + Math.Sin(AngleY) * ky * j) / Lambda + fz);
+                    Complex a = Complex.FromPolarCoordinates(am, fz1 + fa * noise + fz);      
                     Complex b = cmpl0.array[i, j] + a;
                     cmpl.array[i, j] = Math.Sqrt(b.Real * b.Real + b.Imaginary * b.Imaginary);   //b.Magnitude;
                     //cmpl.array[i, j] = b.Real;
@@ -230,7 +232,8 @@ namespace rab1
         //
         //                     Умножение на фазовый фронт
         //
-        public static ZComplexDescriptor Model_pl_MUL(double am, ZComplexDescriptor cmpl0, double AngleX, double AngleY, double Lambda, double dx, double fz=0)
+        public static ZComplexDescriptor Model_pl_MUL(double am, ZComplexDescriptor cmpl0, 
+                                                      double AngleX, double AngleY, double Lambda, double dx, double fz=0)
         {
 
             int NX = cmpl0.width;

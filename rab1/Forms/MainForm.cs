@@ -1980,7 +1980,7 @@ namespace rab1
             BoxForm.OnBoxSUB    += FormOnSUB;
            // BoxForm.OnBoxADD_Random += FormOnADD_Random;
             BoxForm.OnBoxMUL    += FormOnMUL;
-            BoxForm.OnBoxPSI    += FormOnPSI;
+            BoxForm.OnBoxPSI    += FormOnPSI;      // Сложение с фазовым сдвигом
             BoxForm.OnBoxSUB1   += FormOnSUB1;
             BoxForm.OnBoxNoise  += FormOnNoise;
             BoxForm.Show();
