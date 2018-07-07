@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using System.Text;
-using System.Threading.Tasks;
 using OpenTK;
 
 namespace Processing
@@ -11,23 +10,48 @@ namespace Processing
     /// <summary>
     /// Прямоугольная область выделения на изображении
     /// </summary>
-    public struct ImageSelection
+    public class ImageSelection
     {
-        public Vector2 Start;
-        public Vector2 End;
+        public string Name;
+        public int X0;
+        public int X1;
+        public int Y0;
+        public int Y1;
 
-        public float Width
+        public int Width
         {
-            get => End.X - Start.X;
-            set => End.X = Start.X + value;
+            get => X1 - X0;
+            set => X1 = X0 + value;
         }
 
-        public float Height
+        public int Height
         {
-            get => End.Y - Start.Y;
-            set => End.Y = Start.Y + value;
+            get => Y1 - Y0;
+            set => Y1 = Y0 + value;
         }
 
-        public static ImageSelection Empty => new ImageSelection {Start = Vector2.Zero, End = Vector2.Zero};
+        public override string ToString()
+        {
+            return Name;
+        }
+
+        public Rectangle GetRectangle()
+        {
+            return new Rectangle(X0, Y0, Width, Height);
+        }
+
+        /// <summary>
+        /// Перемещает выделение в новое место, сохраняя размеры
+        /// </summary>
+        /// <param name="pos"></param>
+        public void MoveTo(Vector2 pos)
+        {
+            var w = Width;
+            var h = Height;
+            X0 = (int)pos.X;
+            Y0 = (int)pos.Y;
+            Width = w;
+            Height = h;
+        }
     }
 }

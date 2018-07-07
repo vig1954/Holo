@@ -17,6 +17,8 @@ namespace UserInterface.WorkspacePanel
         {
             DataProcessor = dataProcessor;
             DataProcessorInfo = new DataProcessorInfo(dataProcessor);
+
+            dataProcessor.Updated += UpdateView;
         }
 
         public void UpdateView()

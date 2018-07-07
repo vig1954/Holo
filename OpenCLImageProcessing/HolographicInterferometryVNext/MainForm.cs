@@ -11,6 +11,8 @@ using Infrastructure;
 using Processing;
 using Processing.DataProcessors;
 using UserInterface.Utility;
+using UserInterface.WorkspacePanel;
+using ImageFormat = System.Drawing.Imaging.ImageFormat;
 
 namespace HolographicInterferometryVNext
 {
@@ -51,6 +53,40 @@ namespace HolographicInterferometryVNext
             };
 
             FillMenus();
+
+            workspacePanel1.ContextMenuActions.Add(new WorkspacePanel.ContextMenuAction
+            {
+                DisplayCondition = item => item.Data is ImageHandler,
+                Text = "Сохранить",
+                Action = item =>
+                {
+                    var imageHandler = item.Data as ImageHandler;
+                    imageHandler.DownloadFromComputingDevice();
+                    var bitmap = imageHandler.ToBitmap();
+
+                    saveFileDialog1.AddExtension = true;
+                    saveFileDialog1.DefaultExt = ".png";
+
+                    var result = saveFileDialog1.ShowDialog();
+                    if (result == DialogResult.OK)
+                    {
+                        var fileName = saveFileDialog1.FileName;
+                        bitmap.Save(fileName, ImageFormat.Png);
+                    }
+                }
+            });
+
+            workspacePanel1.ContextMenuActions.Add(new WorkspacePanel.ContextMenuAction
+            {
+                Text = "Удалить",
+                Action = item =>
+                {
+                    Singleton.Get<ImageHandlerRepository>().Remove(item.Data as IImageHandler);
+                    workspacePanel1.Remove(item.Data);
+                }
+            });
+
+            timer1.Start();
         }
 
         private void FillMenus()
@@ -133,6 +169,12 @@ namespace HolographicInterferometryVNext
             {
                 handler.FreeComputingDevice();
             }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            // нужно перерисовывать без перерасчетов
+            //dataEditor1.EditorView.Redraw();
         }
     }
 }

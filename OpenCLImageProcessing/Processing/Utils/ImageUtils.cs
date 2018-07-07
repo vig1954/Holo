@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using Cloo;
@@ -53,7 +55,7 @@ namespace Processing.Utils
                 float val;
                 int j;
 
-                for (var i = 0; i < bufferHeight * bufferWidth * 2; i+=2)
+                for (var i = 0; i < bufferHeight * bufferWidth * 2; i += 2)
                 {
                     for (j = 0; j < channelsCount; j++)
                     {
@@ -108,6 +110,56 @@ namespace Processing.Utils
                 app.ExecuteKernel("cyclicShift_img", w, h, image, image);
                 app.Release(image);
             }
+        }
+        
+        public static Bitmap BitmapFromArray(float[] array, int width, int height)
+        {
+            var min = array[0];
+            var max = array[0];
+            float cur;
+
+            for (var i = 0; i < array.Length; i++)
+            {
+                cur = array[i];
+                if (min > cur)
+                    min = cur;
+                if (max < cur)
+                    max = cur;
+            }
+
+            var k = 255 / (max - min);
+
+            var bitmap = new Bitmap(width, height);
+            var bdata = bitmap.LockBits(Rectangle.FromLTRB(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format24bppRgb);
+
+            unsafe
+            {
+                byte* p0 = (byte*) bdata.Scan0;
+                byte val;
+
+                for (var i = 0; i < array.Length; i++)
+                {
+                    val = (byte)((array[i] + min) * k);
+                    p0[0] = val;
+                    p0[1] = val;
+                    p0[2] = val;
+                    p0 += 3;
+                }
+            }
+
+            bitmap.UnlockBits(bdata);
+
+            return bitmap;
+        }
+
+        public static Bitmap ExtractSelection(Bitmap bmp, ImageSelection selection)
+        {
+            var extraction = new Bitmap(selection.Width, selection.Height);
+            var g = Graphics.FromImage(bmp);
+            g.DrawImage(bmp, Rectangle.FromLTRB(0, 0, selection.Width, selection.Height), selection.GetRectangle(), GraphicsUnit.Pixel);
+            g.Dispose();
+
+            return extraction;
         }
     }
 }

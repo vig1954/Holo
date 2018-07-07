@@ -23,9 +23,9 @@ namespace Processing.DataBinding
     public class PropertyWithAvailableValuesList<T>: IPropertyWithAvailableValuesList
     {
         private T _value;
-        private readonly ListWithEvents<T> _availableValues;
+        private readonly IListWithEvents<T> _availableValues;
 
-        public ListWithEvents<T> AvailableValues => _availableValues;
+        public IListWithEvents<T> AvailableValues => _availableValues;
 
         public event Action OnAvailableValuesUpdated;
         public event Action<object, object> OnValueSelected;
@@ -43,7 +43,7 @@ namespace Processing.DataBinding
         {
         }
 
-        public PropertyWithAvailableValuesList(ListWithEvents<T> availableValues)
+        public PropertyWithAvailableValuesList(IListWithEvents<T> availableValues)
         {
             _availableValues = availableValues;
             _availableValues.ItemsCleared += AvailableValuesOnItemsCleared;

@@ -6,28 +6,23 @@ using System.Text;
 
 namespace Processing
 {
+    // TODO: rename to repository?
     public class ImageSelectionManager
     {
-        private Dictionary<IImageHandler, ImageSelectionWrapper> _imageSelections = new Dictionary<IImageHandler, ImageSelectionWrapper>();
+        // TODO: может дикшенари и не нужен тут
+        private Dictionary<IImageHandler, ImageSelection> _imageSelections = new Dictionary<IImageHandler, ImageSelection>();
 
         public void SetSelection(IImageHandler imageHandler, ImageSelection selection)
         {
             if (_imageSelections.ContainsKey(imageHandler))
-                _imageSelections[imageHandler].Selection = selection;
+                _imageSelections[imageHandler] = selection;
             else
-                _imageSelections.Add(imageHandler, new ImageSelectionWrapper(selection));
+                _imageSelections.Add(imageHandler, selection);
         }
 
         public bool TryGetSelection(IImageHandler imageHandler, out ImageSelection selection)
         {
-            if (_imageSelections.TryGetValue(imageHandler, out ImageSelectionWrapper selectionWrapper))
-            {
-                selection = selectionWrapper.Selection;
-                return true;
-            }
-
-            selection = ImageSelection.Empty;
-            return false;
+            return _imageSelections.TryGetValue(imageHandler, out selection);
         }
 
         public bool HasSelection(IImageHandler imageHandler)
@@ -37,28 +32,15 @@ namespace Processing
 
         public ImageSelection GetSelection(IImageHandler imageHandler)
         {
-            if (!_imageSelections.TryGetValue(imageHandler, out ImageSelectionWrapper selectionWrapper))
+            if (!_imageSelections.TryGetValue(imageHandler, out ImageSelection selection))
                 throw new InvalidOperationException("Отсутствует область выделения для заданного изображения.");
 
-            return selectionWrapper.Selection;
+            return selection;
         }
 
-        public ref ImageSelection GetSelectionByRef(IImageHandler imageHandler)
+        public IReadOnlyCollection<ImageSelection> GetAllSelections()
         {
-            if (!_imageSelections.TryGetValue(imageHandler, out ImageSelectionWrapper selectionWrapper))
-                throw new InvalidOperationException("Отсутствует область выделения для заданного изображения.");
-
-            return ref selectionWrapper.Selection;
-        }
-
-        private class ImageSelectionWrapper
-        {
-            public ImageSelection Selection;
-
-            public ImageSelectionWrapper(ImageSelection selection)
-            {
-                Selection = selection;
-            }
+            return _imageSelections.Values.Distinct().ToArray();
         }
     }
 }

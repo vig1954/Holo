@@ -6,9 +6,18 @@ using System.Text;
 
 namespace Processing.DataBinding
 {
-    public class ListWithEvents<T> : IList<T>
+    public interface IListWithEvents<T> : IList<T>
     {
-        private List<T> _inner = new List<T>();
+        event Action<T> ItemAdded;
+        event Action ItemsCleared;
+        event Action<T> ItemRemoved;
+        event Action ItemsAdded;
+        void AddRange(IEnumerable<T> values);
+    }
+
+    public class ListWithEvents<T> : IListWithEvents<T>
+    {
+        private List<T> _inner;
 
         public event Action<T> ItemAdded;
         public event Action ItemsCleared;

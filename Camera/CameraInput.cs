@@ -8,16 +8,21 @@ using Infrastructure;
 using Processing;
 using Processing.DataBinding;
 using Processing.DataProcessors;
+using Processing.Utils;
 
 namespace Camera
 {
-    [DataProcessor(MenuItem = "Input", Group = "ImageInput", Name="Camera", Tooltip = "Получение изображний с фотоаппарата, с возможностью управления зеркалом на пьезокерамике")]
+    [DataProcessor(MenuItem = "Input", Group = "ImageInput", Name = "Camera", Tooltip = "Получение изображний с фотоаппарата, с возможностью управления зеркалом на пьезокерамике")]
     public class CameraInput : SingleImageOutputDataProcessorBase
     {
+        private const string DontApplySelectionName = "Не обрезать";
         private readonly ImageHandler[] _images = new ImageHandler[4];
         private readonly OnShotParameters _onShotParameters = new OnShotParameters();
         private CameraConnector CameraConnector => Singleton.Get<CameraConnector>();
+        private PhaseShiftDeviceControllerAdapter PhaseShiftController => Singleton.Get<PhaseShiftDeviceControllerAdapter>();
 
+        private ImageSelectionManager ImageSelectionManager => Singleton.Get<ImageSelectionManager>();
+        private ListWithEvents<ImageSelection> _availableSelectionList;
 
         // TODO: добавить StringInputAttribute
         public string ImageNamePrefix { get; set; } = "camera_";
@@ -26,22 +31,66 @@ namespace Camera
 
         [DropdownSelector("Камера")]
         public PropertyWithAvailableValuesList<EDSDKLib.Camera> Camera { get; set; }
+
         [DropdownSelector("Av")]
         public PropertyWithAvailableValuesList<CameraUIntSetting> AvMode { get; set; }
+
         [DropdownSelector("Tv")]
         public PropertyWithAvailableValuesList<CameraUIntSetting> TvMode { get; set; }
+
         [DropdownSelector("ISO")]
         public PropertyWithAvailableValuesList<CameraUIntSetting> ISOMode { get; set; }
-        
+
         // TODO: добавить аттрибут для работы со списками
+        // TODO: заменить всю эту байду с проперти-аттрибутами на что-то более гибкое, возможно тип проперти PropertyBinder<T>
         [ImageSlot("Слот 1", "Default", OnlyImages = true, PropertyChangedEventName = nameof(ImageSlotsUpdated))]
-        public IImageHandler ImageSlot1 { get => _images[0]; set => _images[0] = (ImageHandler)value; }
+        public IImageHandler ImageSlot1
+        {
+            get => _images[0];
+            set => _images[0] = (ImageHandler) value;
+        }
+
         [ImageSlot("Слот 2", "Default", OnlyImages = true, PropertyChangedEventName = nameof(ImageSlotsUpdated))]
-        public IImageHandler ImageSlot2 { get => _images[1]; set => _images[1] = (ImageHandler)value; }
+        public IImageHandler ImageSlot2
+        {
+            get => _images[1];
+            set => _images[1] = (ImageHandler) value;
+        }
+
         [ImageSlot("Слот 3", "Default", OnlyImages = true, PropertyChangedEventName = nameof(ImageSlotsUpdated))]
-        public IImageHandler ImageSlot3 { get => _images[2]; set => _images[2] = (ImageHandler)value; }
+        public IImageHandler ImageSlot3
+        {
+            get => _images[2];
+            set => _images[2] = (ImageHandler) value;
+        }
+
         [ImageSlot("Слот 4", "Default", OnlyImages = true, PropertyChangedEventName = nameof(ImageSlotsUpdated))]
-        public IImageHandler ImageSlot4 { get => _images[3]; set => _images[3] = (ImageHandler)value; }
+        public IImageHandler ImageSlot4
+        {
+            get => _images[3];
+            set => _images[3] = (ImageHandler) value;
+        }
+
+        [DropdownSelector("Обрезать по выделению")]
+        public PropertyWithAvailableValuesList<ImageSelection> SelectionToApply { get; set; }
+
+        [DropdownSelector("COM-порт")]
+        public PropertyWithAvailableValuesList<string> ComPort { get; set; }
+
+        [Action("Подключить")]
+        public void ConnectPhaseShiftDevice()
+        {
+            if (ComPort.ValueSelected && ComPort.Value != null)
+            {
+                PhaseShiftController.Connect(ComPort.Value);
+            }
+        }
+
+        [Number("Пауза между сдвигами, мс", 0, 1000, 1)]
+        public float ShiftDelay { get; set; }
+
+        [Number("Шаг фазового сдвига", 0, 1000, 1)]
+        public float ShiftStep { get; set; }
 
         public CameraInput()
         {
@@ -59,7 +108,7 @@ namespace Camera
                     CameraConnector.TvMode = (CameraUIntSetting) setting;
             };
 
-            ISOMode = new PropertyWithAvailableValuesList<CameraUIntSetting>( CameraConnector.AvailableISOModes);
+            ISOMode = new PropertyWithAvailableValuesList<CameraUIntSetting>(CameraConnector.AvailableISOModes);
             ISOMode.OnValueSelected += (setting, sender) =>
             {
                 if (sender != this)
@@ -74,25 +123,33 @@ namespace Camera
                 AvMode.SetValue(CameraConnector.AvMode, this);
                 TvMode.SetValue(CameraConnector.TvMode, this);
                 ISOMode.SetValue(CameraConnector.ISOMode, this);
-                
             };
             Camera.OnValueSelected += (camera, sender) =>
             {
                 if (sender != this)
-                    CameraConnector.SetActiveCamera((EDSDKLib.Camera)camera);
+                    CameraConnector.SetActiveCamera((EDSDKLib.Camera) camera);
             };
 
             CameraConnector.LiveViewUpdated += CameraConnectorOnLiveViewUpdated;
             CameraConnector.ImageDownloaded += CameraConnectorOnImageDownloaded;
 
+            _availableSelectionList = new ListWithEvents<ImageSelection>();
+            
+            UpdateAvailableSelectionList();
+            SelectionToApply = new PropertyWithAvailableValuesList<ImageSelection>(_availableSelectionList);
+
+            ComPort = new PropertyWithAvailableValuesList<string>(PhaseShiftController.PortNames);
+
             Output = ImageHandler.Create("preview", 928, 616, ImageFormat.RGB, ImagePixelFormat.Byte);
         }
-        
+
         [Action(TooltipText = "Серия снимков")]
         public void MakeSeries()
         {
             _onShotParameters.Reset();
             _onShotParameters.TakeSeries = true;
+            PhaseShiftController.SetShift(ShiftStep, _onShotParameters.CurrentImageIndex, ShiftDelay);
+
             CameraConnector.TakePhoto();
         }
 
@@ -106,6 +163,8 @@ namespace Camera
 
         public override void Awake()
         {
+            UpdateAvailableSelectionList();
+            PhaseShiftController.UpdatePortNames();
             Output?.Update();
         }
 
@@ -118,7 +177,7 @@ namespace Camera
             CameraConnector.Dispose();
             base.Dispose();
         }
-        
+
         private void CameraConnectorOnLiveViewUpdated(Bitmap bitmap)
         {
             using (new DebugLogger.MinimalImportanceScope(DebugLogger.ImportanceLevel.Warning))
@@ -132,9 +191,19 @@ namespace Camera
                 Output.Update();
             }
         }
-        
+
+        private void UpdateAvailableSelectionList()
+        {
+            // TODO: это ужасно, нужен другой способ указать что значение не выбрано 
+            _availableSelectionList.Clear();
+            _availableSelectionList.AddRange(new ImageSelection[] {new ImageSelection {Name = DontApplySelectionName}}.Concat(ImageSelectionManager.GetAllSelections()));
+        }
+
         private void CameraConnectorOnImageDownloaded(Bitmap bitmap)
         {
+            if (SelectionToApply.ValueSelected && SelectionToApply.Value != null && SelectionToApply.Value.Name != DontApplySelectionName)
+                bitmap = ImageUtils.ExtractSelection(bitmap, SelectionToApply.Value);
+
             if (_images[_onShotParameters.CurrentImageIndex] == null)
             {
                 _images[_onShotParameters.CurrentImageIndex] = ImageHandler.FromBitmap(bitmap);
@@ -147,7 +216,10 @@ namespace Camera
 
             _onShotParameters.Update();
             if (_onShotParameters.TakeSeries && !_onShotParameters.SeriesComplete)
+            {
+                PhaseShiftController.SetShift(ShiftStep, _onShotParameters.CurrentImageIndex, ShiftDelay);
                 CameraConnector.TakePhoto();
+            }
         }
 
         private class OnShotParameters

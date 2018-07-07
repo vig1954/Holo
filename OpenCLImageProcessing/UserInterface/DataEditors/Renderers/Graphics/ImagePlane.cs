@@ -8,7 +8,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace UserInterface.DataEditors.Renderers.Graphics
 {
-    public class ImagePlane: RenderableObjectBase
+    public class ImagePlane: DrawableBase
     {
         private readonly float[] _vertices = {
             0.5f,  0.5f, 0.0f,   1.0f, 0.0f,   // Top Right
@@ -22,7 +22,6 @@ namespace UserInterface.DataEditors.Renderers.Graphics
             1, 2, 3    // Second Triangle
         };
 
-        private IImageHandler _imageHandler;
         private int _vao;
         private int _vbo;
         private int _ebo;
@@ -54,29 +53,25 @@ namespace UserInterface.DataEditors.Renderers.Graphics
 
         public Matrix4 GetModelMatrix(ViewParametres viewParams)
         {
-            var rel = _imageHandler.Height / viewParams.ViewportSize.Height;
-            return Matrix4.CreateScale(viewParams.Zoom * rel * _imageHandler.GetRatio(), viewParams.Zoom * rel, 1);
+            var rel = ImageHandler.Height / viewParams.ViewportSize.Height;
+            return Matrix4.CreateScale(viewParams.Zoom * rel * ImageHandler.GetRatio(), viewParams.Zoom * rel, 1);
         }
 
-        public override void Draw()
+        public override void Draw(ViewParametres viewParametres)
         {
 //            var rel = _texture.Size.Height / viewParams.ViewportSize.Height;
 //            _model = Matrix4.CreateScale(viewParams.Zoom * rel * _texture.Ratio, viewParams.Zoom * rel, 1);
 //            shader.SetModelMatrix(_model);
 
-            if (_imageHandler?.OpenGlTextureId == null) // Try upload to videocard?
+            if (ImageHandler?.OpenGlTextureId == null) // Try upload to videocard?
                 return;
             
-            GL.BindTexture(TextureTarget.Texture2D, _imageHandler.OpenGlTextureId.Value);
+            GL.BindTexture(TextureTarget.Texture2D, ImageHandler.OpenGlTextureId.Value);
             GL.BindVertexArray(_vao);
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
             GL.BindVertexArray(0);
             GL.BindTexture(TextureTarget.Texture2D, 0);
-        }
-
-        public void SetImage(IImageHandler imageHandler)
-        {
-            _imageHandler = imageHandler;
+            OpenGlErrorThrower.ThrowIfAny();
         }
     }
 }

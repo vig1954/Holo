@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -58,6 +59,21 @@ namespace Processing.DataProcessors
         public void Update()
         {
             Output?.Update();
+        }
+
+        public void DownloadFromComputingDevice()
+        {
+            Output?.DownloadFromComputingDevice();
+        }
+
+        public Bitmap ToBitmap(int channel = 0)
+        {
+            return Output?.ToBitmap(channel);
+        }
+
+        public IImageHandler ExtractSelection(ImageSelection selection)
+        {
+            return Output?.ExtractSelection(selection);
         }
 
         public virtual void Initialize()

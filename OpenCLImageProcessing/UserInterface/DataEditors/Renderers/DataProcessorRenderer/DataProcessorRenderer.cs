@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using Processing.DataBinding;
 using Processing.DataProcessors;
+using UserInterface.DataEditors.Tools;
 
 namespace UserInterface.DataEditors.Renderers.DataProcessorRenderer
 {
@@ -31,6 +32,11 @@ namespace UserInterface.DataEditors.Renderers.DataProcessorRenderer
         public object GetData()
         {
             return _dataProcessor;
+        }
+
+        public IReadOnlyCollection<ITool> GetTools()
+        {
+            return _outputDataRenderer.GetTools();
         }
 
         public void SetData(object data)

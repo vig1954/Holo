@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using Cloo;
@@ -52,6 +53,9 @@ namespace Processing
         void UploadToComputingDevice(bool forceUpdate = false);
         void FreeComputingDevice();
         void Update();
+        void DownloadFromComputingDevice();
+        Bitmap ToBitmap(int channel = 0);
+        IImageHandler ExtractSelection(ImageSelection selection);
     }
 
     public class ImageHandler : IImageHandler, IDisposable
@@ -107,24 +111,20 @@ namespace Processing
                     switch ((uint) Format)
                     {
                         case (uint) ImageFormat.Greyscale:
-                            if (PixelFormat == ImagePixelFormat.Byte)
-                                pixelInternalFormat = PixelInternalFormat.R8;
-                            else
-                                pixelInternalFormat = PixelInternalFormat.R32f; // ?? R8?
-
+                            pixelInternalFormat = PixelFormat == ImagePixelFormat.Byte ? PixelInternalFormat.R8 : PixelInternalFormat.R32f;
                             pixelFormat = OpenTK.Graphics.OpenGL.PixelFormat.Red;
                             break;
                         case (uint) ImageFormat.AmplitudePhase:
                         case (uint) ImageFormat.RealImaginative:
-                            pixelInternalFormat = PixelInternalFormat.Rg8;
+                            pixelInternalFormat = PixelFormat == ImagePixelFormat.Byte ? PixelInternalFormat.Rg8 : PixelInternalFormat.Rg32f;
                             pixelFormat = OpenTK.Graphics.OpenGL.PixelFormat.Rg;
                             break;
                         case (uint) ImageFormat.RGB:
-                            pixelInternalFormat = PixelInternalFormat.Rgb8;
+                            pixelInternalFormat = PixelFormat == ImagePixelFormat.Byte ? PixelInternalFormat.Rgb8 : PixelInternalFormat.Rgb32f;
                             pixelFormat = OpenTK.Graphics.OpenGL.PixelFormat.Rgb;
                             break;
                         case (uint) ImageFormat.RGBA:
-                            pixelInternalFormat = PixelInternalFormat.Rgba8;
+                            pixelInternalFormat = PixelFormat == ImagePixelFormat.Byte ? PixelInternalFormat.Rgba8 : PixelInternalFormat.Rgba32f;
                             pixelFormat = OpenTK.Graphics.OpenGL.PixelFormat.Rgba;
                             break;
                         default:
@@ -154,6 +154,42 @@ namespace Processing
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
+        public void DownloadFromComputingDevice()
+        {
+            if (PixelFormat == ImagePixelFormat.Byte)
+                throw new NotImplementedException();
+
+            var app = Singleton.Get<OpenClApplication>();
+            var channelCount = this.GetChannelsCount();
+            Data = new byte[sizeof(float) * Width * Height * channelCount];
+
+            var kernelName = "copyImageToBuffer";
+            if (channelCount > 1)
+                kernelName = kernelName + "2";
+
+            app.Acquire(this);
+
+            unsafe
+            {
+                fixed (byte* dp = Data)
+                {
+                    int bufferSize = Width * Height * channelCount;
+                    var computeBuffer = new ComputeBuffer<float>(app.ComputeContext, ComputeMemoryFlags.None, bufferSize);
+                    
+                    app.ExecuteKernel(kernelName, Width, Height, this, computeBuffer);
+
+                    app.Queue.Read(computeBuffer, true, 0, bufferSize, (IntPtr) dp, null);
+                }
+            }
+
+            app.Release(this);
+        }
+
+        public IImageHandler ExtractSelection(ImageSelection selection)
+        {
+            throw new NotImplementedException();
+        }
+
         public void FreeComputingDevice()
         {
             try
@@ -172,6 +208,7 @@ namespace Processing
         public void Update()
         {
             ImageUtils.PopulateMinMax(this);
+            _tags[ImageHandlerTagKeys.Thumbnail] = ThumbnailGenerator.Generate(this);
             ImageUpdated?.Invoke(new ImageUpdatedEventData(false));
         }
 
@@ -201,6 +238,69 @@ namespace Processing
                 UploadToComputingDevice(true);
 
             Update();
+        }
+
+        public Bitmap ToBitmap(int channel = 0)
+        {
+            if (PixelFormat == ImagePixelFormat.Byte)
+                throw new NotImplementedException();
+
+            var imageHandlerChannelsCount = this.GetChannelsCount();
+            if (channel >= imageHandlerChannelsCount)
+                throw new InvalidOperationException();
+
+            var bitmap = new Bitmap(Width, Height);
+            const int bytesPerPixel = 3;
+            var bdata = bitmap.LockBits(Rectangle.FromLTRB(0, 0, Width, Height), ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+
+            // TODO: дубликация с ImageUtils.BitmapFromArray
+            unsafe
+            {
+                fixed (byte* dp = Data)
+                {
+                    var fp = (float*) dp;
+                    var ip = (byte*) bdata.Scan0;
+                    int length = Data.Length / (sizeof(float) * imageHandlerChannelsCount);
+
+                    var min = fp[0];
+                    var max = fp[0];
+                    float cur;
+
+                    for (var i = 0; i < length; i++)
+                    {
+                        cur = fp[channel];
+
+                        if (min > cur)
+                            min = cur;
+                        if (max < cur)
+                            max = cur;
+
+                        fp += imageHandlerChannelsCount;
+                    }
+
+                    var k = 255 / (max - min);
+                    byte val = 0;
+                    fp = (float*)dp;
+
+                    for (var i = 0; i < length; i++)
+                    {
+                        cur = fp[channel];
+
+                        if (cur > 0)
+                            val = 0;
+
+                        val = (byte)((cur - min) * k);
+                        ip[0] = val;
+                        ip[1] = val;
+                        ip[2] = val;
+                        ip += bytesPerPixel;
+                        fp += imageHandlerChannelsCount;
+                    }
+                }
+            }
+
+            bitmap.UnlockBits(bdata);
+            return bitmap;
         }
         
         public static ImageHandler FromBitmap(Bitmap bmp, string title = null)
@@ -300,7 +400,7 @@ namespace Processing
             imageHandler._tags.Add(ImageHandlerTagKeys.MaximumValueF, max);
             imageHandler._tags.Add(ImageHandlerTagKeys.MinimumValueF, min);
             imageHandler._tags.Add(ImageHandlerTagKeys.Title, title);
-            imageHandler._tags.Add(ImageHandlerTagKeys.Thumbnail, Utils.ThumbnailGenerator.Generate(bmp));
+            imageHandler._tags.Add(ImageHandlerTagKeys.Thumbnail, ThumbnailGenerator.Generate(bmp));
             imageHandler.Update();
 
             return imageHandler;

@@ -195,6 +195,64 @@ __kernel void minMax2(__read_only image2d_t img, __global float2* minBuffer, __g
     maxBuffer[coord.x + coord.y * bufferWidth] = maxV;
 }
 
+__kernel void reduce(__read_only image2d_t img, __global float* buffer, int workSize, int width, int height, int bufferWidth)
+{
+    const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates
+         CLK_ADDRESS_CLAMP | //Clamp to zeros
+         CLK_FILTER_NEAREST; //Don't interpolate
+    
+	int2 coord = (int2)(get_global_id(0), get_global_id(1));
+    
+    int2 iCoord = coord * workSize;
+    int xSize = workSize;
+    if (iCoord.x + workSize > width)
+        xSize = width - iCoord.x;
+
+    int ySize = workSize;
+    if (iCoord.x + workSize > width)
+        ySize = height - iCoord.x;
+
+    float av = 0;  
+	int cnt = 0;
+    
+    for (int dx = 1; dx < xSize; dx++)
+    {
+        for (int dy = 1; dy < ySize; dy++)
+        {
+            float v = read_imagef(img, smp, (int2)(iCoord.x + dx, iCoord.y + dy)).x;
+			
+			av += v;
+			cnt++;
+        }
+    }
+
+    buffer[coord.x + coord.y * bufferWidth] = av / cnt;
+}
+
+__kernel void copyImageToBuffer(__read_only image2d_t img, __global float* buffer)
+{
+	const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates
+         CLK_ADDRESS_CLAMP | //Clamp to zeros
+         CLK_FILTER_NEAREST; //Don't interpolate
+    
+	int2 coord = (int2)(get_global_id(0), get_global_id(1));
+	int w = get_global_size(0);
+
+	buffer[coord.x + coord.y * w] = read_imagef(img, smp, coord).x;
+}
+
+__kernel void copyImageToBuffer2(__read_only image2d_t img, __global float2* buffer)
+{
+	const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates
+         CLK_ADDRESS_CLAMP | //Clamp to zeros
+         CLK_FILTER_NEAREST; //Don't interpolate
+    
+	int2 coord = (int2)(get_global_id(0), get_global_id(1));
+	int w = get_global_size(0);
+
+	buffer[coord.x + coord.y * w] = read_imagef(img, smp, coord).xy;
+}
+
 __kernel void transpose_img(__read_only image2d_t input, __write_only image2d_t output)
 {
 	const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates

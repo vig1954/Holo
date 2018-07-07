@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="CameraConnector.cs" />
     <Compile Include="CameraInput.cs" />
+    <Compile Include="PhaseShiftDeviceControllerAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -63,6 +64,10 @@
     <ProjectReference Include="..\OpenCLImageProcessing\Processing\Processing.csproj">
       <Project>{39221112-49e4-49b9-a8ed-d63243fb0bdc}</Project>
       <Name>Processing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\rab1\rab1.csproj">
+      <Project>{34cec1d9-4dda-430d-b04c-aeb13036d6c2}</Project>
+      <Name>rab1</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

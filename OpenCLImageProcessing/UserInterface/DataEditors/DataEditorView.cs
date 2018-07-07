@@ -10,6 +10,7 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Processing.Computing;
 using UserInterface.DataEditors.Renderers;
+using UserInterface.DataEditors.Tools;
 using Binder = UserInterface.DataEditors.InterfaceBinding.Binder;
 // ReSharper disable All
 
@@ -21,6 +22,7 @@ namespace UserInterface.DataEditors
         private bool IsInDesignMode = false;
         private IDataRenderer _renderer;
         private GLControl _glControl;
+        private ITool _tool;
 
         public object Data => _renderer?.GetData();
         public bool HasData => Data != null;
@@ -52,6 +54,49 @@ namespace UserInterface.DataEditors
             rightPanel_Resize(null, null);
         }
 
+        public void UpdateRendererTools()
+        {
+            tsTools.Items.Clear();
+
+            var tools = _renderer.GetTools();
+
+            foreach (var tool in tools)
+            {
+                var button = new ToolStripButton(tool.ButtonInfo.Text, tool.ButtonInfo.Icon);
+                tsTools.Items.Add(button);
+
+                button.Click += (sender, args) =>
+                {
+                    if (_tool != null)
+                    {
+                        _tool.Deactivate();
+                        ClearToolPanel();
+                        foreach (var toolStripButton in tsTools.Items.OfType<ToolStripButton>())
+                        {
+                            toolStripButton.Checked = false;
+                        }
+                    }
+
+                    _tool = tool;
+                    FillToolPanel(_tool);
+                    button.Checked = true;
+                    _tool.Activate();
+                };
+            }
+
+            tsTools.Items.Add(new ToolStripSeparator());
+        }
+
+        private void ClearToolPanel()
+        {
+            tsToolPanel.Items.Clear();   
+        }
+
+        private void FillToolPanel(ITool tool)
+        {
+            tool.PopulateToolstrip(tsToolPanel);
+        }
+
         public void SetFirstEmptyDataPropertyIfExist(object value)
         {
             var propertyBinding = _dataBinder.GetPropertyBindingWithEmptyValueForType(value.GetType());
@@ -68,6 +113,7 @@ namespace UserInterface.DataEditors
             renderer.Resize(_glControl.ClientSize);
       
             UpdateRendererControls();
+            UpdateRendererTools();
 
             _renderer.OnUpdateRequest += RendererOnUpdateRequest;
             _renderer.UpdateControlsRequest += UpdateRendererControls;
@@ -107,9 +153,12 @@ namespace UserInterface.DataEditors
 
         private void Clear()
         {
+            _tool?.Deactivate();
+            _tool = null;
             _renderer?.Dispose();
             _renderer = null;
 
+            ClearToolPanel();
             rightPanel.Controls.Clear();
         }
         private void DataEditorView_Load(object sender, EventArgs e)
@@ -132,7 +181,7 @@ namespace UserInterface.DataEditors
 
             _glControl = new GLControl
             {
-                Parent = splitContainer1.Panel1,
+                Parent = openTkControlContainer,
                 Dock = DockStyle.Fill
             };
 
@@ -141,6 +190,8 @@ namespace UserInterface.DataEditors
 
             GL.Viewport(Point.Empty, _glControl.Size);
             GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
             OpenGlApplication.EnableDebugMessages();
 
@@ -149,12 +200,12 @@ namespace UserInterface.DataEditors
 
             _glControl.Paint += GlControlOnPaint;
 
-            /*_glControl.MouseClick += (sender, args) => _renderer?.CurrentTool?.MouseEvent(MouseEventData.FromMouseClickEvent(args));
-            _glControl.MouseDoubleClick += (sender, args) => _renderer?.CurrentTool?.MouseEvent(MouseEventData.FromMouseDoubleClickEvent(args));
-            _glControl.MouseDown += (sender, args) => _renderer?.CurrentTool?.MouseEvent(MouseEventData.FromMouseDownEvent(args));
-            _glControl.MouseUp += (sender, args) => _renderer?.CurrentTool?.MouseEvent(MouseEventData.FromMouseUpEvent(args));
-            _glControl.MouseMove += (sender, args) => _renderer?.CurrentTool?.MouseEvent(MouseEventData.FromMouseMoveEvent(args));
-            _glControl.MouseWheel += (sender, args) => _renderer?.CurrentTool?.MouseEvent(MouseEventData.FromMouseWheelEvent(args));*/
+            _glControl.MouseClick += (sender, args) => _tool?.MouseEvent(MouseEventData.FromMouseClickEvent(args));
+            _glControl.MouseDoubleClick += (sender, args) => _tool?.MouseEvent(MouseEventData.FromMouseDoubleClickEvent(args));
+            _glControl.MouseDown += (sender, args) => _tool?.MouseEvent(MouseEventData.FromMouseDownEvent(args));
+            _glControl.MouseUp += (sender, args) => _tool?.MouseEvent(MouseEventData.FromMouseUpEvent(args));
+            _glControl.MouseMove += (sender, args) => _tool?.MouseEvent(MouseEventData.FromMouseMoveEvent(args));
+            _glControl.MouseWheel += (sender, args) => _tool?.MouseEvent(MouseEventData.FromMouseWheelEvent(args));
         }
 
         private void GlControlOnPaint(object sender, PaintEventArgs paintEventArgs)
@@ -168,7 +219,7 @@ namespace UserInterface.DataEditors
             _renderer?.Resize(_glControl.ClientSize);
         }
 
-        private void Redraw()
+        public void Redraw()
         {
             _glControl.MakeCurrent();
             _renderer?.Update();

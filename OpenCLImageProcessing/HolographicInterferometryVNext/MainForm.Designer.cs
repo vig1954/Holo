@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataEditor1 = new UserInterface.DataEditors.DataEditor();
             this.workspacePanel1 = new UserInterface.WorkspacePanel.WorkspacePanel();
@@ -38,6 +39,8 @@
             this.editOpenClProgramCode = new System.Windows.Forms.ToolStripMenuItem();
             this.helpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -136,6 +139,11 @@
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // timer1
+            // 
+            this.timer1.Interval = 500;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -170,6 +178,8 @@
         private System.Windows.Forms.ToolStripMenuItem processingMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editOpenClProgramCode;
         private System.Windows.Forms.ToolStripMenuItem inputMenuItem;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 

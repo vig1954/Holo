@@ -30,6 +30,8 @@ namespace UserInterface.WorkspacePanel
         public event Action<Item, MouseEventArgs> OnItemClick;
         public event Action<Item> OnItemAdded;
 
+        public List<ContextMenuAction> ContextMenuActions { get; }= new List<ContextMenuAction>();
+
         public bool SelectItemOnClick { get; set; }
         public Item SelectedItem => items.SingleOrDefault(i => i.View.Selected);
 
@@ -50,7 +52,7 @@ namespace UserInterface.WorkspacePanel
         {
             InitializeComponent();
         }
-
+        
         public void MarkItemSelected(WorkspacePanelItem item)
         {
             items.ForEach(i => i.View.SetSelectionState(false));
@@ -81,6 +83,9 @@ namespace UserInterface.WorkspacePanel
                         MarkItemSelected(item);
 
                     OnItemClick?.Invoke(itemData, me);
+
+                    if (me.Button == MouseButtons.Right)
+                        ShowMenu(itemData, me.Location);
                 }
             };
 
@@ -116,6 +121,9 @@ namespace UserInterface.WorkspacePanel
                         MarkItemSelected(item);
 
                     OnItemClick?.Invoke(itemData, me);
+
+                    if (me.Button == MouseButtons.Right)
+                        ShowMenu(itemData, me.Location);
                 }
             };
 
@@ -172,6 +180,31 @@ namespace UserInterface.WorkspacePanel
             imageHandler.Tags[ImageHandlerTagKeys.FileSystemPath] = fileName;
 
             AddImageHandler(imageHandler);
+        }
+
+        public void ShowMenu(Item item, Point point)
+        {
+            var menuItems = ContextMenuActions
+                .Where(a => a.DisplayCondition?.Invoke(item) ?? true)
+                .Select(a =>
+                {
+                    var menuItem = new MenuItem(a.Text);
+                    menuItem.Click += (sender, args) => a.Action(item);
+                    return menuItem;
+                })
+                .ToArray();
+
+            var contextMenu = new ContextMenu(menuItems);
+            contextMenu.Show(item.View, point);
+        }
+
+        public class ContextMenuAction
+        {
+            public Bitmap Image { get; set; }
+            public string Text { get; set; }
+            public Func<Item, bool> DisplayCondition { get; set; }
+            public Action<Item> Action { get; set; }
+            public Shortcut Shortcut { get; set; }
         }
     }
 }

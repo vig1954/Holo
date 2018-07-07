@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Cloo;
+using Common;
+using Infrastructure;
+using Processing.Computing;
 
 namespace Processing.Utils
 {
@@ -50,6 +52,35 @@ namespace Processing.Utils
             graphics.FillRectangle(Brushes.Black, 0, 0, ThumbnailWidth, ThumbnailHeight);
             graphics.Dispose();
             return thumbnail;
+        }
+
+        public static Bitmap Generate(IImageHandler imageHandler)
+        {
+            if (imageHandler.OpenGlTextureId.HasValue)
+            {
+                using (new Timer("Get Reduced Image"))
+                {
+                    var app = Singleton.Get<OpenClApplication>();
+
+                    int workSize = (int)Math.Floor(Math.Min((float)imageHandler.Width / ThumbnailWidth, (float)imageHandler.Height / ThumbnailHeight));
+                    var bufferWidth = imageHandler.Width / workSize;
+                    var bufferHeight = imageHandler.Height / workSize;
+                    var buffer = new float[bufferHeight * bufferWidth];
+
+                    var computeBuffer = new ComputeBuffer<float>(app.ComputeContext, ComputeMemoryFlags.WriteOnly, buffer);
+
+                    app.Acquire(imageHandler);
+                    app.ExecuteKernel("reduce", bufferWidth, bufferHeight, imageHandler, computeBuffer, workSize, imageHandler.Width, imageHandler.Height, bufferWidth);
+
+                    app.Queue.ReadFromBuffer(computeBuffer, ref buffer, true, null);
+
+                    app.Release(imageHandler);
+
+                    return Generate(ImageUtils.BitmapFromArray(buffer, bufferWidth, bufferHeight));
+                }
+            }
+
+            return Generate(imageHandler.ToBitmap());
         }
     }
 }

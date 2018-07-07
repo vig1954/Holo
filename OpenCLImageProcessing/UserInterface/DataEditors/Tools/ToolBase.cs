@@ -8,11 +8,21 @@ namespace UserInterface.DataEditors.Tools
 {
     public interface ITool
     {
+        ToolboxButtonInfo ButtonInfo { get; }
         void MouseEvent(MouseEventData eventData);
+        void Activate();
+        void Deactivate();
+        void PopulateToolstrip(ToolStrip toolstrip);
     }
     public abstract class ToolBase : ITool
     {
+        public abstract ToolboxButtonInfo ButtonInfo {  get;  }
+
         public abstract void MouseEvent(MouseEventData eventData);
+        public abstract void Activate();
+        public abstract void Deactivate();
+
+        public abstract void PopulateToolstrip(ToolStrip toolStrip);
     }
 
     public class MouseEventData

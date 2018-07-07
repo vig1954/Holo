@@ -8,7 +8,6 @@ namespace UserInterface.DataEditors.Renderers
 {
     public interface IDataRenderer : IDisposable
     {
-        //ITool CurrentTool { get; set; }
         Type DataType { get; }
         void Resize(Size size);
 
@@ -16,6 +15,7 @@ namespace UserInterface.DataEditors.Renderers
         void SetData(object data);
         void Update();
         string GetTitle();  // TODO: заменить на OnTitleUpdate?
+        IReadOnlyCollection<ITool> GetTools();
 
         event Action OnUpdateRequest;
         event Action UpdateControlsRequest;

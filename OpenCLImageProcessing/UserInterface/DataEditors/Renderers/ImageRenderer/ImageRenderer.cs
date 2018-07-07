@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using Common;
 using Infrastructure;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Processing;
 using Processing.DataBinding;
 using UserInterface.DataEditors.Renderers.Graphics;
 using UserInterface.DataEditors.Renderers.Shaders;
+using UserInterface.DataEditors.Tools;
 
 namespace UserInterface.DataEditors.Renderers.ImageRenderer
 {
@@ -22,9 +23,12 @@ namespace UserInterface.DataEditors.Renderers.ImageRenderer
         private ImagePlane imagePlane;
         private IImageShader _shader;
         private ViewParametres _viewParametres;
+        private ITool[] _tools;
 
         private IDataRendererControlMode _controlMode;
         private IDataRendererViewMode _viewMode;
+
+        private readonly List<IDrawable> _drawables = new List<IDrawable>();
 
         [MergeSubfields]
         public IImageHandler ImageHandler => _imageHandler;
@@ -38,10 +42,27 @@ namespace UserInterface.DataEditors.Renderers.ImageRenderer
         public event Action OnUpdateRequest;
         public event Action UpdateControlsRequest;
 
+        public void AddDrawable(IDrawable drawable)
+        {
+            _drawables.Add(drawable);
+            drawable.OnRedrawRequest += RequestUpdate;
+        }
+
+        public void RemoveDrawable(IDrawable drawable)
+        {
+            drawable.OnRedrawRequest -= RequestUpdate;
+            _drawables.Remove(drawable);
+        }
+
         public ImageRenderer()
         {
             imagePlane = new ImagePlane();
             _viewParametres = new ViewParametres();
+
+            _tools = new ITool[]
+            {
+                new SelectionTool(this)
+            };
         }
 
         public void Resize(Size size)
@@ -88,19 +109,30 @@ namespace UserInterface.DataEditors.Renderers.ImageRenderer
             return _imageHandler;
         }
 
+        public IReadOnlyCollection<ITool> GetTools()
+        {
+            return _tools;
+        }
+        
         public void Update()
         {
             if (!_imageHandler.IsReady())
                 return;
 
-            _shader.Use();
-            _viewMode.SetViewParametres(_viewParametres);
-            _shader.SetModelMatrix(imagePlane.GetModelMatrix(_viewParametres));
-            
             GL.ClearColor(Color.AntiqueWhite);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            imagePlane.Draw();
+            _shader.Use();
+            _viewMode.SetViewParametres(_viewParametres);
+            _shader.SetModelMatrix(imagePlane.GetModelMatrix(_viewParametres));
+
+            imagePlane.Draw(_viewParametres);
+            
+            foreach (var drawable in _drawables)
+            {
+                drawable.SetImage(_imageHandler);
+                drawable.Draw(_viewParametres);
+            }
         }
 
         public string GetTitle()
@@ -114,6 +146,19 @@ namespace UserInterface.DataEditors.Renderers.ImageRenderer
         public void RequestUpdate()
         {
             OnUpdateRequest?.Invoke();
+        }
+
+        public Vector2 GetImageCoordinate(Vector2 viewCoordinate)
+        {
+            var vcx = _viewParametres.ViewportSize.Width / 2;
+            var vcy = _viewParametres.ViewportSize.Height / 2;
+            viewCoordinate = new Vector2(viewCoordinate.X - vcx, viewCoordinate.Y - vcy);
+
+            var imageSpaceCoord = viewCoordinate / _viewParametres.Zoom;
+            var icx = _imageHandler.Width / 2;
+            var icy = _imageHandler.Height / 2;
+
+            return new Vector2(icx + imageSpaceCoord.X, icy + imageSpaceCoord.Y);
         }
 
         private void UpdateControls()
