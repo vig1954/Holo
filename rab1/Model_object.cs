@@ -397,20 +397,7 @@ namespace rab1
             return zArray_inter;
         }
 
-        public static ZComplexDescriptor Model_9101112(double am, int k1, int k2, int k3, int k4, ZArrayDescriptor[] zArrayDescriptor, double[] fz)
-        {
-            int NX = zArrayDescriptor[k1].width;
-            int NY = zArrayDescriptor[k1].height;
-           
-            ZComplexDescriptor cmpl = new ZComplexDescriptor(NX, NY);       // Выходной массив
-            ZArrayDescriptor[] zArray = new ZArrayDescriptor[4];
-            zArray[0] = zArrayDescriptor[k1];
-            zArray[1] = zArrayDescriptor[k2];
-            zArray[2] = zArrayDescriptor[k3];
-            zArray[3] = zArrayDescriptor[k4];
-            cmpl = ATAN_PSI.ATAN_ar(zArray, fz, am); 
-            return cmpl;
-        }
+      
 
         // ----------------------------------------------------------------------------------------------------------------------------------
         //                  Формирование 4 голографических интерферограмм. Затем расшифровка их методом PSI
@@ -434,8 +421,8 @@ namespace rab1
 
             // ----------------------------------------------------------------------------------------------------------------------------- 1 голограмма
             //zComplex[0] = Model_0(sdvg0, noise, Lambda);                                      // Модель объекта с нулевым сдвигом
-            //zComplex[0] = Model_2(sdvg0, noise, Lambda);                                        // Модель объекта с нулевым сдвигом
-            zComplex[0] = Model_9101112(am, 8, 9, 10, 11, zArrayDescriptor, fz);                  // Реальные голограммы
+            //zComplex[0] = Model_2(sdvg0, noise, Lambda);                                      // Модель объекта с нулевым сдвигом
+            zComplex[0] = ATAN_PSI.ATAN_8_11(8, 9, 10, 11, zArrayDescriptor, fz, am);                 // atan из zArrayDescriptor 8,9,10,11
             zComplex[0] = Furie.Invers(zComplex[0]);                                            // Циклический сдвиг
             //zComplex[0] = Furie.FrenelTransform(zComplex[0], m, Lambda, d, dx);                 // Преобразование Френеля
             zComplex[0] = FurieN.FrenelTransformN(zComplex[0], Lambda, d, dx);                  // Преобразование Френеля с четным количеством точек
@@ -449,7 +436,7 @@ namespace rab1
             // ----------------------------------------------------------------------------------------------------------------------------- 2 голограмма
             //zComplex[0] = Model_0(sdvg1, noise, Lambda);                                     // Модель объекта со сдвигом  
             //zComplex[1] = Model_2(sdvg1, noise, Lambda);                                     // Модель объекта со сдвигом    
-            zComplex[1] = Model_9101112(am, 4, 5, 6, 7, zArrayDescriptor, fz);                 // Реальные голограммы
+            zComplex[1] = ATAN_PSI.ATAN_8_11(4, 5, 6, 7, zArrayDescriptor, fz, am);                 // atan из zArrayDescriptor 8,9,10,11
             zComplex[1] = Furie.Invers(zComplex[1]);                                           // Циклический сдвиг
             //zComplex[1] = Furie.FrenelTransform(zComplex[1], m, Lambda, d, dx);              // Преобразование Френеля
             zComplex[1] = FurieN.FrenelTransformN(zComplex[1], Lambda, d, dx);                 // Преобразование Френеля с четным количеством точек
@@ -463,9 +450,9 @@ namespace rab1
             zArrayDescriptor[11] = PSI(am, zComplex[0], zComplex[1], AngleX, AngleY, noise, Lambda, dx, d, fz, 3, 0, 1, 2);
 
           
-            MessageBox.Show(" ATAN_891011 -> 3"); 
+            MessageBox.Show(" ATAN_891011 ->  zComplex[1]"); 
 
-           // zComplex[1] = ATAN_PSI.ATAN_891011(zArrayDescriptor, progressBar1, fz, am);
+            zComplex[1] = ATAN_PSI.ATAN_891011(zArrayDescriptor, progressBar1, fz, am);
 
         }
         // Непосредственное сравнение двух волновых фронтов до и после деформации

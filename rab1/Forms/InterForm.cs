@@ -210,12 +210,13 @@ namespace rab1.Forms
             AngY = Math.PI * AngleY / 180.0;
 
 
-            NX = Convert.ToInt32(textBox3.Text);
+            //NX = Convert.ToInt32(textBox3.Text);
             Lambda = Convert.ToDouble(textBox5.Text);
-            NY = Convert.ToInt32(textBox4.Text);
+            //NY = Convert.ToInt32(textBox4.Text);
             dx = Convert.ToDouble(textBox6.Text);
             //k1 = Convert.ToInt32(textBox7.Text);
             am = Convert.ToDouble(textBox8.Text);
+
             double[] fzrad = new double[4];
             fz[0] = Convert.ToDouble(textBox9.Text);  fzrad[0] = Math.PI * fz[0] / 180.0;   // Фаза в радианах  
             fz[1] = Convert.ToDouble(textBox10.Text); fzrad[1] = Math.PI * fz[1] / 180.0;

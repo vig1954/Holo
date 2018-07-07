@@ -108,6 +108,22 @@ namespace rab1.Forms
         }
 
         // Без ProgressBar
+
+  /*      public static ZComplexDescriptor ATAN_9101112(double am, int k1, int k2, int k3, int k4, ZArrayDescriptor[] zArrayDescriptor, double[] fz)
+        {
+            int NX = zArrayDescriptor[k1].width;
+            int NY = zArrayDescriptor[k1].height;
+
+            ZComplexDescriptor cmpl = new ZComplexDescriptor(NX, NY);       // Выходной массив
+            ZArrayDescriptor[] zArray = new ZArrayDescriptor[4];
+            zArray[0] = zArrayDescriptor[k1];
+            zArray[1] = zArrayDescriptor[k2];
+            zArray[2] = zArrayDescriptor[k3];
+            zArray[3] = zArrayDescriptor[k4];
+            cmpl = ATAN_PSI.ATAN_ar(zArray, fz, am);
+            return cmpl;
+        }
+*/
         public static ZComplexDescriptor ATAN_8_11(int k1, int k2, int k3, int k4, ZArrayDescriptor[] zArrayPicture,  double[] fzz, double amplit = 255)
         {
             // 8, 9, 10, 11   ->    Complex[1] 

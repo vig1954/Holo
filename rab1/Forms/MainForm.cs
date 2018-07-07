@@ -1683,7 +1683,7 @@ namespace rab1
             FrForm.OnFurie_CUDA_CMPLX    += FurComplex_CUDA1;   // Фурье CUDA из к1 в k2
             FrForm.OnFurie_NXY           += FurComplex_NXY;     // Фурье   с задаваемым количеством точек из k1 => k2
             FrForm.OnFrenel_NXY          += FrenelComplex_NXY;  // Френель с задаваемым количеством точек из k1 => k2
-            FrForm.OnInterf_XY           += Frenel_XY;         // Интерферометрия двух сдвинутых фронтов
+            FrForm.OnInterf_XY           += Frenel_XY;          // Интерферометрия двух сдвинутых фронтов
 
             FrForm.OnPSI_fast += FrPSI;                         // PSI + Фурье => Complex(k2) ------------------------
             FrForm.OnADD_PHASE += FrADD_PHASE;  // Фаза по пиле
@@ -1708,22 +1708,20 @@ namespace rab1
 
         private void FrPSI(double[] fz, double xmax, double lambda, double d, int k2)    // быстрое PSI 8,9,10,11 -> zComplex[0]
         {
-             if ( zArrayDescriptor[8] == null)  { MessageBox.Show("FrPSI zComplex[8] == NULL");  return; }
-             if ( zArrayDescriptor[9] == null)  { MessageBox.Show("FrPSI zComplex[9] == NULL");  return; }
+             if ( zArrayDescriptor[8]  == null)  { MessageBox.Show("FrPSI zComplex[8] == NULL");  return; }
+             if ( zArrayDescriptor[9]  == null)  { MessageBox.Show("FrPSI zComplex[9] == NULL");  return; }
              if ( zArrayDescriptor[10] == null) { MessageBox.Show("FrPSI zComplex[10] == NULL"); return; }
              if ( zArrayDescriptor[11] == null) { MessageBox.Show("FrPSI zComplex[11] == NULL"); return; }
             
-            double amplit = 255;
+            double amplit = 160000;
             //zArrayPicture = ATAN_PSI.ATAN_quick(zArrayDescriptor,  progressBar1, fz, xmax, lambda, d, amplit);
             //zComplex[1] = ATAN_PSI.ATAN_891011(zArrayDescriptor, progressBar1, fz, amplit);     // Параметр amplit  не используется
             //FrComplexN(xmax, lambda, d, 1, 0);
            
-            System.Diagnostics.Stopwatch sw = new Stopwatch();
-            sw.Start();
-                        zComplex[k2] = FurieN.FrenelTransformN(ATAN_PSI.ATAN_891011(zArrayDescriptor, progressBar1, fz, amplit), lambda, d, xmax);
-            sw.Stop();
-            TimeSpan ts = sw.Elapsed;
-            MessageBox.Show("Время Минут: " + ts.Minutes + "   Время сек: " + ts.Seconds + "   Время миллисек: " + ts.Milliseconds);
+            
+            zComplex[k2] = FurieN.FrenelTransformN(ATAN_PSI.ATAN_8_11(8, 9, 10, 11, zArrayDescriptor,  fz, amplit), lambda, d, xmax);
+            
+            //MessageBox.Show("Время Минут: " + ts.Minutes + "   Время сек: " + ts.Seconds + "   Время миллисек: " + ts.Milliseconds);
             Complex_pictureBox(k2);
            
            
@@ -1980,10 +1978,36 @@ namespace rab1
             BoxForm.OnBoxSUB    += FormOnSUB;
            // BoxForm.OnBoxADD_Random += FormOnADD_Random;
             BoxForm.OnBoxMUL    += FormOnMUL;
-            BoxForm.OnBoxPSI    += FormOnPSI;      // Сложение с фазовым сдвигом
+            BoxForm.OnBoxPSI    += FormOnPSI;      // Сложение с фазовым сдвигом => 8,9,10,11
             BoxForm.OnBoxSUB1   += FormOnSUB1;
             BoxForm.OnBoxNoise  += FormOnNoise;
             BoxForm.Show();
+
+        }
+
+        private void FormOnPSI(double am, double AngleX, double AngleY, double Lambda, double dx, double noise, double[] fz)
+        {
+
+            if (zComplex[1] == null) { MessageBox.Show("Сложение с плоской волной zComplex[1] == NULL"); return; }
+            zArrayDescriptor[8]  = Model_interf.Model_pl_PSI(am, zComplex[1], AngleX, AngleY, Lambda, dx, noise, fz[0]);
+            zArrayDescriptor[9]  = Model_interf.Model_pl_PSI(am, zComplex[1], AngleX, AngleY, Lambda, dx, noise, fz[1]);
+            zArrayDescriptor[10] = Model_interf.Model_pl_PSI(am, zComplex[1], AngleX, AngleY, Lambda, dx, noise, fz[2]);
+            zArrayDescriptor[11] = Model_interf.Model_pl_PSI(am, zComplex[1], AngleX, AngleY, Lambda, dx, noise, fz[3]);
+
+         
+            Vizual_regImage(8); Vizual_regImage(9); Vizual_regImage(10); Vizual_regImage(11);
+
+
+            // PSI
+            //zComplex[1] = ATAN_PSI.ATAN_891011(zArrayDescriptor,  progressBar1, fz, am);
+
+
+            //int i_Complex = 1;
+            //ZArrayDescriptor amp = new ZArrayDescriptor(zArrayDescriptor[i_Complex * 4 + 2]);      // Амплитуда из regComplex = 1
+            //zComplex[1] = Furie.ATAN_891011(zArrayDescriptor, fz);
+            //zComplex[1] = Furie.ATAN_OLD4(zArrayDescriptor, fz);  // Формула из книги
+            //Complex_pictureBox(1);
+
 
         }
 
@@ -2041,30 +2065,7 @@ namespace rab1
             Complex_pictureBox(k1);
 
         }
-        private void FormOnPSI(double am, double AngleX, double AngleY, double Lambda, double dx,  double noise, double [] fz)
-        {
-
-            if (zComplex[1] == null) { MessageBox.Show("Сложение с плоской волной zComplex[1] == NULL"); return; }
-            zArrayDescriptor[8]  = Model_interf.Model_pl_PSI(am, zComplex[1], AngleX, AngleY, Lambda, dx, noise,  fz[0]); 
-            zArrayDescriptor[9]  = Model_interf.Model_pl_PSI(am, zComplex[1], AngleX, AngleY, Lambda, dx,  noise, fz[1]);  
-            zArrayDescriptor[10] = Model_interf.Model_pl_PSI(am, zComplex[1], AngleX, AngleY, Lambda, dx, noise,  fz[2]); 
-            zArrayDescriptor[11] = Model_interf.Model_pl_PSI(am, zComplex[1], AngleX, AngleY, Lambda, dx, noise,  fz[3]);  
-
-            Vizual_regImage(8); Vizual_regImage(9); Vizual_regImage(10); Vizual_regImage(11);
-
-
-            // PSI
-            //zComplex[1] = ATAN_PSI.ATAN_891011(zArrayDescriptor,  progressBar1, fz, am);
-           
-
-            //int i_Complex = 1;
-            //ZArrayDescriptor amp = new ZArrayDescriptor(zArrayDescriptor[i_Complex * 4 + 2]);      // Амплитуда из regComplex = 1
-            //zComplex[1] = Furie.ATAN_891011(zArrayDescriptor, fz);
-            //zComplex[1] = Furie.ATAN_OLD4(zArrayDescriptor, fz);  // Формула из книги
-            //Complex_pictureBox(1);
-        
-
-        }
+       
         //   Устранение наклона
         private void FormOnSUB1(double AngleX, double AngleY)
         {

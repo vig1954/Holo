@@ -92,7 +92,8 @@ namespace rab1
         
         // Сложение с плоской волной
 
-        public static ZComplexDescriptor Model_pl_ADD_PSI(double am, ZComplexDescriptor cmpl0, double AngleX, double AngleY, double Lambda, double dx, double noise, double fzr)
+        public static ZComplexDescriptor Model_pl_ADD_PSI(double am, ZComplexDescriptor cmpl0, 
+                       double AngleX, double AngleY, double Lambda, double dx, double noise, double fzr)
         {
 
             int NX = cmpl0.width;
@@ -223,8 +224,14 @@ namespace rab1
                     double fa = rnd.NextDouble() * 2.0 * Math.PI - Math.PI;
                     Complex a = Complex.FromPolarCoordinates(am, fz1 + fa * noise + fz);      
                     Complex b = cmpl0.array[i, j] + a;
+                    //Complex b = Complex.FromPolarCoordinates(am, fz1 + fa * noise + fz);
+
                     cmpl.array[i, j] = Math.Sqrt(b.Real * b.Real + b.Imaginary * b.Imaginary);   //b.Magnitude;
                     //cmpl.array[i, j] = b.Real;
+
+
+
+
                 }
 
             return cmpl;

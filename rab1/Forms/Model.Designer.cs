@@ -184,8 +184,8 @@
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(390, 89);
             this.button6.TabIndex = 17;
-            this.button6.Text = "Формирование 4 интерферограмм (PSI)-> 8,9,10,11\r\nОбласть Френеля -> результат  в " +
-    "zComplex[1]\r\n";
+            this.button6.Text = "Формирование 4 интерферограмм (PSI)-> \r\n1 состояние 8,9,10,11\r\n2 состояние 5,6,7," +
+    "8\r\nОбласть Френеля -> результат  в zComplex[1]\r\n";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
