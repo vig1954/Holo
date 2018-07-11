@@ -223,11 +223,15 @@ namespace rab1
                     double fz1 = 2 * Math.PI * (Math.Sin(AngleX) * kx * i + Math.Sin(AngleY) * ky * j) / Lambda;
                     double fa = rnd.NextDouble() * 2.0 * Math.PI - Math.PI;
                     Complex a = Complex.FromPolarCoordinates(am, fz1 + fa * noise + fz);      
-                    Complex b = cmpl0.array[i, j] + a;
-                    //Complex b = Complex.FromPolarCoordinates(am, fz1 + fa * noise + fz);
+                    Complex b = cmpl0.array[i, j] * a;
+                    //double f1 = fz1 + fa * noise + fz;
+                    //double f2 = cmpl0.array[i, j].Phase;
+                    //double am0 = cmpl0.array[i, j].Magnitude;
+                    //Complex b = Complex.FromPolarCoordinates(am0*am, f1+f2);
 
-                    cmpl.array[i, j] = Math.Sqrt(b.Real * b.Real + b.Imaginary * b.Imaginary);   //b.Magnitude;
-                    //cmpl.array[i, j] = b.Real;
+                    //cmpl.array[i, j] = Math.Sqrt(b.Real * b.Real + b.Imaginary * b.Imaginary);   //b.Magnitude;
+                    //cmpl.array[i, j] = b.Magnitude;
+                    cmpl.array[i, j] = b.Real;
 
 
 
