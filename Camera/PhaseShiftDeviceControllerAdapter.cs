@@ -35,6 +35,7 @@ namespace Camera
             {
                 _inner = new PhaseShiftDeviceController(port);
                 _inner.Initialize();
+                _phaseShiftDeviceConnected = true;
             }
         }
 

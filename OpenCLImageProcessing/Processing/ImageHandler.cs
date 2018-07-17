@@ -121,11 +121,11 @@ namespace Processing
                             break;
                         case (uint) ImageFormat.RGB:
                             pixelInternalFormat = PixelFormat == ImagePixelFormat.Byte ? PixelInternalFormat.Rgb8 : PixelInternalFormat.Rgb32f;
-                            pixelFormat = OpenTK.Graphics.OpenGL.PixelFormat.Rgb;
+                            pixelFormat = OpenTK.Graphics.OpenGL.PixelFormat.Bgr;
                             break;
                         case (uint) ImageFormat.RGBA:
                             pixelInternalFormat = PixelFormat == ImagePixelFormat.Byte ? PixelInternalFormat.Rgba8 : PixelInternalFormat.Rgba32f;
-                            pixelFormat = OpenTK.Graphics.OpenGL.PixelFormat.Rgba;
+                            pixelFormat = OpenTK.Graphics.OpenGL.PixelFormat.Bgra;
                             break;
                         default:
                             throw new NotSupportedException($"Неподдерживаемая комбинация {nameof(PixelFormat)} = {PixelFormat}, {nameof(Format)} = {Format}.");

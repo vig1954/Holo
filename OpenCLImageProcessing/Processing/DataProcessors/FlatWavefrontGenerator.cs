@@ -20,11 +20,11 @@ namespace Processing.DataProcessors
 
         [Input]
         [Number("Ширина изображения", 256, 10000, 2)]
-        public float ImageWidth { get; set; } = 1024;
+        public float ImageWidth { get; set; } = 768;
 
         [Input]
         [Number("Высота изображения", 256, 10000, 2)]
-        public float ImageHeight { get; set; } = 1024;
+        public float ImageHeight { get; set; } = 768;
 
         [Action(TooltipText = "Обновить")]
         public void UpdateImage()

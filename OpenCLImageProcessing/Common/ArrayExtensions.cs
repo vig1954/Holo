@@ -68,5 +68,22 @@ namespace Common
             System.Buffer.BlockCopy(self, 0, flatten, 0, size);
             return flatten;
         }
+
+        public static void GetMinMax(this float[] self, out float min, out float max)
+        {
+            min = self[0];
+            max = self[0];
+            var cur = 0f;
+
+            for (var i = 0; i < self.Length; i++)
+            {
+                cur = self[i];
+
+                if (min > cur)
+                    min = cur;
+                if (max < cur)
+                    max = cur;
+            }
+        }
     }
 }

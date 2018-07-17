@@ -22,6 +22,7 @@ namespace Processing.Computing
         private ComputeKernel _mergeFftKernel;
         private ComputeKernel _bitReverseKernel;
         private ComputeBuffer<Vector2> _tmpBuffer;
+        private ComputeBuffer<Vector2> _tmpBuffer2;
         private ComputeBuffer<Vector2> _spinFactBuffer;
         private int _width;
         private int _height;
@@ -55,6 +56,7 @@ namespace Processing.Computing
             _bitReverseKernel = _app.Program.CreateKernel("bitReverseKernel");
 
             _tmpBuffer = new ComputeBuffer<Vector2>(_app.ComputeContext, ComputeMemoryFlags.None, width * height);
+            _tmpBuffer2 = new ComputeBuffer<Vector2>(_app.ComputeContext, ComputeMemoryFlags.None, width * height);
             _spinFactBuffer = new ComputeBuffer<Vector2>(_app.ComputeContext, ComputeMemoryFlags.None, _n / 2);
             GenerateSpinFactor();
         }
@@ -92,7 +94,7 @@ namespace Processing.Computing
         {
             SplitFft(input, _tmpBuffer);    // input => Buffer
             Fft(_tmpBuffer, inverse);   // Buffer
-            MergeFft(_tmpBuffer, output ?? input); // Buffer => output ?? input
+            MergeFft(_tmpBuffer, _tmpBuffer2, output ?? input); // Buffer => output ?? input
         }
 
         /// <summary>
@@ -146,17 +148,21 @@ namespace Processing.Computing
             }
         }
 
-        private void MergeFft(ComputeBuffer<Vector2> input, IImageHandler output)
+        private void MergeFft(ComputeBuffer<Vector2> input, ComputeBuffer<Vector2> tmp, IImageHandler output)
         {
             using (new Timer("Merge"))
             {
-                _mergeFftKernel.SetMemoryArgument(0, input);
-                _mergeFftKernel.SetMemoryArgument(1, output.ComputeBuffer);
-                _mergeFftKernel.SetValueArgument(2, _n);
-                _mergeFftKernel.SetValueArgument(3, _m);
-                _mergeFftKernel.SetValueArgument(4, _l);
+                _app.ExecuteKernel("mergeFftStep1A", _width, _height, input, tmp, _n, _m, _l);
 
-                _app.ExecuteInQueue(_mergeFftKernel, _width, _height);
+                _app.ExecuteKernel("mergeFftStep2", _width, _height, tmp, output.ComputeBuffer, _n, _m, _l);
+
+//                _mergeFftKernel.SetMemoryArgument(0, input);
+//                _mergeFftKernel.SetMemoryArgument(1, output.ComputeBuffer);
+//                _mergeFftKernel.SetValueArgument(2, _n);
+//                _mergeFftKernel.SetValueArgument(3, _m);
+//                _mergeFftKernel.SetValueArgument(4, _l);
+
+//                _app.ExecuteInQueue(_mergeFftKernel, _width, _height);
             }
         }
 
@@ -175,7 +181,7 @@ namespace Processing.Computing
         /// </summary>
         /// <param name="num"></param>
         /// <returns></returns>
-        private static int OddDenominator(int num)
+        public static int OddDenominator(int num)
         {
             // делим число на 2 пока оно не перестанет быть четным
             while(true)
@@ -195,7 +201,7 @@ namespace Processing.Computing
         /// </summary>
         /// <param name="l"></param>
         /// <returns></returns>
-        private static int PowerOfTwo(int l)
+        public static int PowerOfTwo(int l)
         {
             return (int) Math.Log(l, 2);
         }
@@ -205,7 +211,7 @@ namespace Processing.Computing
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        private static int TwoInPower(int t)
+        public static int TwoInPower(int t)
         {
             return 2 << t;
         }
