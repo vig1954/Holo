@@ -1984,7 +1984,17 @@ namespace rab1
             BoxForm.Show();
 
         }
+        // Сложить с плоской волной
 
+        private void FormOnADD(double am, double AngleX, double AngleY, double Lambda, double dx, double noise, double fz) // Сложить с плоской волной + fz[0]
+        {
+            //int k1 = regComplex;
+            if (zComplex[1] == null) { MessageBox.Show("Сложение с плоской волной zComplex[k1] == NULL   FormOnADD"); return; }
+
+            zComplex[2] = Model_interf.Model_pl_ADD_PSI(am, zComplex[1], AngleX, AngleY, Lambda, dx, noise, fz);
+            Complex_pictureBox(2);
+
+        }
         private void FormOnPSI(double am, double AngleX, double AngleY, double Lambda, double dx, double noise, double[] fz)
         {
 
@@ -2029,17 +2039,7 @@ namespace rab1
 
         }
 
-        // Сложить с плоской волной
-
-        private void FormOnADD(double am, double AngleX, double AngleY, double Lambda, double dx, double noise, double fz) // Сложить с плоской волной + fz[0]
-        {
-            //int k1 = regComplex;
-            if (zComplex[1] == null) { MessageBox.Show("Сложение с плоской волной zComplex[k1] == NULL   FormOnADD"); return; }
-
-            zComplex[2] = Model_interf.Model_pl_ADD_PSI(am, zComplex[1], AngleX, AngleY, Lambda, dx, noise, fz);
-            Complex_pictureBox(2);
-
-        }
+      
  /*       private void FormOnADD_Random(double am, double AngleX, double AngleY, double Lambda, double dx, int k1)
         {
 
@@ -2707,7 +2707,7 @@ namespace rab1
         private void pSI4ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PSI PSIForm = new PSI();
-            PSIForm.OnPSI   += FormPSI;              // PSI амплитуда и фазы (8,9,10,11)
+            PSIForm.OnPSI   += FormPSI;              // PSI амплитуда и фаза =>  (8,9,10,11)
             PSIForm.OnPSI1  += FormPSI1;             // PSI  фазы (1,2,3,4) -> 5
             PSIForm.OnIMAX  += FormIMAX;             // Квантование (8,9,10,11)
             PSIForm.OnIMAX1 += FormIMAX1;            // Квантование одного кадра

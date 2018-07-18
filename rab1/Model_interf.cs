@@ -90,36 +90,7 @@ namespace rab1
             return cmpl;
         }
         
-        // Сложение с плоской волной
-
-        public static ZComplexDescriptor Model_pl_ADD_PSI(double am, ZComplexDescriptor cmpl0, 
-                       double AngleX, double AngleY, double Lambda, double dx, double noise, double fzr)
-        {
-
-            int NX = cmpl0.width;
-            int NY = cmpl0.height;
-
-            //ZComplexDescriptor cmpl1 = new ZComplexDescriptor(NX, NY);      // Фронт под углом AngleX,  AngleY
-            ZComplexDescriptor cmpl = new ZComplexDescriptor(NX, NY);       // Результирующий фронт
-            double kx = dx / NX;
-            double ky = dx / NY;
-
-            // a = (a - min) * 2.0 * Math.PI / (max - min);   -pi +pi
-
-            Random rnd = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
-            for (int i = 0; i < NX; i++)
-                for (int j = 0; j < NY; j++)
-                {
-                    double fz = 2 * Math.PI * (Math.Sin(AngleX) * kx * i + Math.Sin(AngleY) * ky * j) / Lambda;
-                    double fa = rnd.NextDouble() * 2.0 * Math.PI - Math.PI;
-                    double f0 =  fz + fa * noise + fzr;
-                    Complex Pl = Complex.FromPolarCoordinates(am, f0);  
-
-                    cmpl.array[i, j] = cmpl0.array[i, j] + Pl;
-                }
-
-            return cmpl;
-        }
+       
 
         /*
                 public static ZComplexDescriptor Model_pl_ADD_Random(double am, ZComplexDescriptor cmpl0, double AngleX, double AngleY, double Lambda, double dx)
@@ -195,18 +166,44 @@ namespace rab1
         }
 
 
+        // Сложение с плоской волной --------------------------------------------------------------------
 
+        public static ZComplexDescriptor Model_pl_ADD_PSI(double am, ZComplexDescriptor cmpl0,
+                       double AngleX, double AngleY, double Lambda, double dx, double noise, double fzr)
+        {
 
+            int NX = cmpl0.width;
+            int NY = cmpl0.height;
+
+            //ZComplexDescriptor cmpl1 = new ZComplexDescriptor(NX, NY);      // Фронт под углом AngleX,  AngleY
+            ZComplexDescriptor cmpl = new ZComplexDescriptor(NX, NY);       // Результирующий фронт
+            double kx = dx / NX;
+            double ky = dx / NY;
+
+            // a = (a - min) * 2.0 * Math.PI / (max - min);   -pi +pi
+
+            Random rnd = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
+            for (int i = 0; i < NX; i++)
+                for (int j = 0; j < NY; j++)
+                {
+                    double fz = 2 * Math.PI * (Math.Sin(AngleX) * kx * i + Math.Sin(AngleY) * ky * j) / Lambda;
+                    double fa = rnd.NextDouble() * 2.0 * Math.PI - Math.PI;
+                    double f0 = fz + fa * noise + fzr;
+                    Complex Pl = Complex.FromPolarCoordinates(am, f0);
+
+                    cmpl.array[i, j] = cmpl0.array[i, j] + Pl;
+                }
+
+            return cmpl;
+        }
         //
         //                     Добавление фазового сдвига  fz и получение голограммы
         //
         public static ZArrayDescriptor Model_pl_PSI(double am, ZComplexDescriptor cmpl0,
                                 double AngleX, double AngleY, double Lambda, double dx, double noise, double fz)
         {
-
             int NX = cmpl0.width;
             int NY = cmpl0.height;
-
             //MessageBox.Show("am = " + am);
 
             ZArrayDescriptor cmpl = new ZArrayDescriptor(NX, NY);      // Результирующий фронт
@@ -221,20 +218,23 @@ namespace rab1
                 for (int j = 0; j < NY; j++)
                 {
                     double fz1 = 2 * Math.PI * (Math.Sin(AngleX) * kx * i + Math.Sin(AngleY) * ky * j) / Lambda;
-                    double fa = rnd.NextDouble() * 2.0 * Math.PI - Math.PI;
-                    Complex a = Complex.FromPolarCoordinates(am, fz1 + fa * noise + fz);      
-                    Complex b = cmpl0.array[i, j] * a;
+                    double fa = rnd.NextDouble() * 2.0 * Math.PI - Math.PI;                 
+                    //Complex b = cmpl0.array[i, j] * a;
+                    double f0 = fz1 + fa * noise + fz;
+                    Complex Pl = Complex.FromPolarCoordinates(am, f0);
+                    //Complex Pl = Complex.FromPolarCoordinates(1, f0);
                     //double f1 = fz1 + fa * noise + fz;
                     //double f2 = cmpl0.array[i, j].Phase;
                     //double am0 = cmpl0.array[i, j].Magnitude;
                     //Complex b = Complex.FromPolarCoordinates(am0*am, f1+f2);
-
-                    //cmpl.array[i, j] = Math.Sqrt(b.Real * b.Real + b.Imaginary * b.Imaginary);   //b.Magnitude;
                     //cmpl.array[i, j] = b.Magnitude;
-                    cmpl.array[i, j] = b.Real;
-
-
-
+                  
+                    Complex a = cmpl0.array[i, j] + Pl;
+                    //Complex a = cmpl0.array[i, j] * Pl;
+                    //cmpl.array[i, j] = Math.Sqrt(a.Real * a.Real + a.Imaginary * a.Imaginary);   //a.Magnitude;
+                    cmpl.array[i, j] = a.Magnitude;
+                    //cmpl.array[i, j] = a.Real;
+                    //cmpl.array[i, j] = Math.Sqrt(a.Real * a.Real);
 
                 }
 

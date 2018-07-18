@@ -43,7 +43,8 @@ namespace rab1.Forms
 
             int w1 = zArrayPicture[8].width;
             int h1 = zArrayPicture[8].height;
-           // MessageBox.Show("width= " + w1 + "height= " + h1);
+            // MessageBox.Show("width= " + w1 + "height= " + h1);
+            MessageBox.Show("fzz[i]= " + fzz[0] + "  " + fzz[1] + "  " + fzz[2] + "  " + fzz[3]);
 
             ZComplexDescriptor faza = new ZComplexDescriptor(w1, h1);
 
@@ -62,7 +63,7 @@ namespace rab1.Forms
 
             double[] sin_orto = Vector_orto(k_sin);                              // Ортогональные вектора
             double[] cos_orto = Vector_orto(k_cos);
-            double znmt = Math.Abs(Vector_Mul(sin_orto, k_cos));
+            double znmt = Math.Abs(Vector_Mul(k_cos, sin_orto));
 
             //ZArrayDescriptor amp = new ZArrayDescriptor(zArrayPicture[1 * 4 + 2]);
             //ZArrayDescriptor ampf = new ZArrayDescriptor(zArrayPicture[1 * 4 + 3]);
@@ -82,21 +83,25 @@ namespace rab1.Forms
                     i_sdv[2] = zArrayPicture[10].array[i, j];
                     i_sdv[3] = zArrayPicture[11].array[i, j];
 
-                    //double[] v_sdv = Vector_orto(i_sdv);                 // ------  Формула расшифровки фазы
-                    //double fz1 = Vector_Mul(v_sdv, k_sin);
-                    //double fz2 = Vector_Mul(v_sdv, k_cos);
-                    double fz1 = Vector_Mul(i_sdv, sin_orto);
-                    double fz2 = Vector_Mul(i_sdv, cos_orto);
+                    double[] i_sdv_orto = Vector_orto(i_sdv);                              // Ортогональные вектора
+                   
+                    double[] v_sdv = Vector_orto(i_sdv);                 // ------  Формула расшифровки фазы
+                    double fz1 = Vector_Mul(v_sdv, k_sin);
+                    double fz2 = Vector_Mul(v_sdv, k_cos);
+                    
+                    //double fz1 = Vector_Mul(i_sdv, sin_orto);
+                    //double fz2 = Vector_Mul(i_sdv, cos_orto);]
+
                     double a = Math.Atan2(fz2, fz1);
-                             
+
                     //double[] cos_orto = Vector_orto(k_cos);              // ------  Формула расшифровки амплитуды                   
                     //double znmt = Vector_Mul(sin_orto, k_cos);
                     double am = Math.Sqrt(fz1 * fz1 + fz2 * fz2) / znmt;
-                   // am = am / (2 * amplit);
+                    am = am / (2 * amplit);
 
                     //a= ampf.array[i, j];
                     // am = amp.array[i, j];
-                    //am = 255;
+                    //double am = 255;
                   
                     faza.array[i, j] = Complex.FromPolarCoordinates(am, a);
                     

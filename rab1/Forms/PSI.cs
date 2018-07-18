@@ -74,7 +74,7 @@ namespace rab1.Forms
             fzrad[2] = Math.PI * fz[2] / 180.0;
             fzrad[3] = Math.PI * fz[3] / 180.0;
             
-            OnPSI( fzrad,am);
+            OnPSI( fzrad, am);
             Close();
         }
 

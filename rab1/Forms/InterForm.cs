@@ -88,7 +88,11 @@ namespace rab1.Forms
             textBox7.Text = Convert.ToString(k1);
             textBox8.Text = Convert.ToString(am);
 
-            textBox9.Text = Convert.ToString(fz[0]); textBox10.Text = Convert.ToString(fz[1]); textBox11.Text = Convert.ToString(fz[2]); textBox12.Text = Convert.ToString(fz[3]);
+            textBox9.Text = Convert.ToString(fz[0]);
+            textBox10.Text = Convert.ToString(fz[1]);
+            textBox11.Text = Convert.ToString(fz[2]);
+            textBox12.Text = Convert.ToString(fz[3]);
+
             textBox13.Text = Convert.ToString(noise);
         }
 
@@ -222,7 +226,7 @@ namespace rab1.Forms
             fz[1] = Convert.ToDouble(textBox10.Text); fzrad[1] = Math.PI * fz[1] / 180.0;
             fz[2] = Convert.ToDouble(textBox11.Text); fzrad[2] = Math.PI * fz[2] / 180.0;
             fz[3] = Convert.ToDouble(textBox12.Text); fzrad[3] = Math.PI * fz[3] / 180.0;        
-            fz[0] = Convert.ToDouble(textBox9.Text); fz[1] = Convert.ToDouble(textBox10.Text); fz[2] = Convert.ToDouble(textBox11.Text); fz[3] = Convert.ToDouble(textBox12.Text);
+           
                              
             noise = Convert.ToDouble(textBox13.Text);   // Шум в процентах
 
