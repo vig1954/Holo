@@ -78,23 +78,15 @@ __kernel void fftRadix2(__global const float2 * x,__global float2 * y, int p, in
 #define HG_FROM_IM(i,m,h,g) {h=i%m; g=(i-h)/m;}
 
 #define X_FROM_HGL(h,g,l) h*l+g;
+#define X_FROM_HGM(h,g,m) g*m+h;
 
 // t <=> 2^t = l
 // делим изображение шириной M * L на M областей шириной L
 // [0 1 2 3 4 5 6 7 8 9 10 11] => [0 3 6 9] [1 4 7 10] [2 5 8 11]
 // в кажой подобласти производится операция перестановки бит
-__kernel void splitFft(__read_only image2d_t input, __global float2 * output, int n, int m, int l, int t)
+int getSplitFftCoord(int2 coord, int n, int m, int l, int t)
 {
-	const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates
-         CLK_ADDRESS_CLAMP | //Clamp to zeros
-         CLK_FILTER_NEAREST; //Don't interpolate
-
-    int2 coord = (int2)(get_global_id(0), get_global_id(1));
-	
-	float2 val = read_imagef(input, smp, coord).xy;
-	int x;
-	int y = coord.y;
-
+	int x = 0;
 	if (m > 1)
 	{
 		x = coord.x;
@@ -108,9 +100,74 @@ __kernel void splitFft(__read_only image2d_t input, __global float2 * output, in
 	else
 	{
 		x = bitReverse(coord.x, t);
-	}		 
+	}	
+
+	return x;
+}
+
+
+__kernel void splitFft(__read_only image2d_t input, __global float2 * output, int n, int m, int l, int t)
+{
+	const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates
+         CLK_ADDRESS_CLAMP | //Clamp to zeros
+         CLK_FILTER_NEAREST; //Don't interpolate
+
+    int2 coord = (int2)(get_global_id(0), get_global_id(1));
+	
+	float2 val = read_imagef(input, smp, coord).xy;
+	int x = getSplitFftCoord(coord, n, m, l, t);
+	int y = coord.y;		 
 
 	output[x + y * n] = val;
+}
+
+__kernel void splitFftA(__global const float2 * input, __global float2 * output, int n, int m, int l, int t)
+{	
+    int2 coord = (int2)(get_global_id(0), get_global_id(1));
+	
+	float2 val = input[coord.x + coord.y * n];	
+	int x = getSplitFftCoord(coord, n, m, l, t);
+	int y = coord.y;		 
+
+	output[x + y * n] = val;
+}
+
+float2 mergeFftInner(__global const float2 * input, int n, int m, int l, int2 coord)
+{
+	if (m > 1)
+	{
+		int i = coord.x;
+
+		// какое-то преобразование, нужно как следует подумать
+		int h = i / l; 
+		int g = i % l; 			
+
+		i = X_FROM_HGM(h, g, m);
+
+		int r = i % l;
+		r = h;
+		//int s = (i - r) / l;
+
+		float2 result = (float2)(0,0);
+		float2 val;
+		int x;
+
+		float k = 2 * PI / n * i;
+	
+		for (int mi = 0; mi < m; mi ++ )
+		{
+			//x = X_FROM_HGL(mi, r, l)
+			x = mi + r * m;
+			val = input[x + coord.y * n];
+			result += exp_alpha(val, k * mi);
+		}
+
+		return result;
+	}
+	else
+	{
+		return input[coord.x + coord.y * n];
+	}
 }
 
 __kernel void mergeFft(__global const float2 * input, __write_only image2d_t output, int n, int m, int l)
@@ -119,31 +176,91 @@ __kernel void mergeFft(__global const float2 * input, __write_only image2d_t out
          CLK_ADDRESS_CLAMP | //Clamp to zeros
          CLK_FILTER_NEAREST; //Don't interpolate
 
-    int2 coord = (int2)(get_global_id(0), get_global_id(1));
+    int2 coord = (int2)(get_global_id(0), get_global_id(1));	
+	float2 result = mergeFftInner(input, n, m, l, coord);
+	write_imagef(output, coord, (float4)(result.x, result.y, 0, 0));
+}
+
+__kernel void mergeFftA(__global const float2 * input, __global float2 * output, int n, int m, int l)
+{
+	int2 coord = (int2)(get_global_id(0), get_global_id(1));	
+	float2 result = mergeFftInner(input, n, m, l, coord);
+	output[coord.x + coord.y * n] = result;
+}
+
+__kernel void mergeFftStep1A(__global const float2 * input, __global float2 * output, int n, int m, int l)
+{
+	int2 coord = (int2)(get_global_id(0), get_global_id(1));
+
+	int x = 0;
 	if (m > 1)
 	{
-		int i = coord.x;
-		int r = i % l;
-		int s = (i - r) / l;
-
-		float2 result = (float2)(0,0);
-		float2 val;
-		int x;
-
-		float k = 2 * PI / n * (r + s * l);
-	
-		for (int mi = 0; mi < m; mi ++ )
+		x = coord.x;
+		int h = x / l; 
+		int g = x % l; 	
+		
+		// WTF??!! Так работает TODO: понять почему и пофиксать FFT
+		if (g > 0)
 		{
-			x = X_FROM_HGL(mi, r, l)
-			val = input[x + coord.y * n];
-			result += exp_alpha(val, k * mi);
+			g = l - g;
 		}
 
-		write_imagef(output, coord, (float4)(result.x, result.y, 0, 0));
+		float fl  = l;
+		int t = log2(fl);
+
+		x = X_FROM_HGM(h, g, m);
 	}
 	else
 	{
-		float2 result = input[coord.x + coord.y * n];
-		write_imagef(output, coord, (float4)(result.x, result.y, 0, 0));
+		x = coord.x;
 	}
+
+	output[x + coord.y * n] = input[coord.x + coord.y * n];
+}
+
+float2 mergeFftStep2Inner(__global const float2 * input, int n, int m, int l, int2 coord)
+{
+	float2 result;
+
+	if (m > 1)
+	{
+		int r = coord.x % l;
+		int s = coord.x / l;
+
+		result = (float2)(0, 0);
+
+		float k = 2 * PI * (r + s * l) / n;
+		float2 val;
+
+		for (int mi = 0; mi < m; mi++)
+		{
+			val = input[mi + r * m + coord.y * n];
+			result += exp_alpha(val, k * mi);
+		}
+	}
+	else
+	{
+		result = input[coord.x + coord.y * n];
+	}
+
+	return result;
+}
+
+__kernel void mergeFftStep2(__global const float2 * input, __write_only image2d_t output, int n, int m, int l)
+{
+	const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates
+         CLK_ADDRESS_CLAMP | //Clamp to zeros
+         CLK_FILTER_NEAREST; //Don't interpolate
+	int2 coord = (int2)(get_global_id(0), get_global_id(1));	
+	
+	float2 result = mergeFftStep2Inner(input, n, m, l, coord);
+	
+	write_imagef(output, coord, (float4)(result.x, result.y, 0, 0));
+}
+
+__kernel void mergeFftStep2A(__global const float2 * input, __global float2 * output, int n, int m, int l)
+{
+	int2 coord = (int2)(get_global_id(0), get_global_id(1));	
+	float2 result = mergeFftStep2Inner(input, n, m, l, coord);
+	output[coord.x + coord.y * n] = result;
 }

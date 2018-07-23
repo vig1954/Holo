@@ -140,7 +140,7 @@ namespace Camera
 
             ComPort = new PropertyWithAvailableValuesList<string>(PhaseShiftController.PortNames);
 
-            Output = ImageHandler.Create("preview", 928, 616, ImageFormat.RGB, ImagePixelFormat.Byte);
+            Output = ImageHandler.Create("preview", 960, 640, ImageFormat.RGB, ImagePixelFormat.Byte);
         }
 
         [Action(TooltipText = "Серия снимков")]

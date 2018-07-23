@@ -8,6 +8,7 @@ using System.Text;
 using Cloo;
 using Common;
 using Infrastructure;
+using OpenTK;
 using Processing.Computing;
 
 namespace Processing.Utils
@@ -154,10 +155,41 @@ namespace Processing.Utils
 
         public static Bitmap ExtractSelection(Bitmap bmp, ImageSelection selection)
         {
-            var extraction = new Bitmap(selection.Width, selection.Height);
-            var g = Graphics.FromImage(bmp);
-            g.DrawImage(bmp, Rectangle.FromLTRB(0, 0, selection.Width, selection.Height), selection.GetRectangle(), GraphicsUnit.Pixel);
-            g.Dispose();
+            // TODO: use bmp pixel format
+            var extraction = new Bitmap(selection.Width, selection.Height, PixelFormat.Format24bppRgb);
+
+            var srcBitmapData = bmp.LockBits(Rectangle.FromLTRB(0,0,bmp.Width,bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+            var dstBitmapData = extraction.LockBits(Rectangle.FromLTRB(0, 0, selection.Width, selection.Height),
+                ImageLockMode.WriteOnly, PixelFormat.Format24bppRgb);
+            var length = selection.Width * selection.Height * 3;
+
+            unsafe
+            {
+                var srcPointer = (byte*) srcBitmapData.Scan0;
+                var dstPointer = (byte*) dstBitmapData.Scan0;
+                int x;
+                int srcCoord, dstCoord;
+                for (int y = 0; y < selection.Height; y++)
+                {
+                    for (x = 0; x < selection.Width; x++)
+                    {
+                        dstCoord = x + y * selection.Width;
+                        srcCoord = x + selection.X0 + (y + selection.Y0) * bmp.Width;
+                        dstPointer[dstCoord * 3] = srcPointer[srcCoord * 3];
+                        dstPointer[dstCoord * 3 + 1] = srcPointer[srcCoord * 3 + 1];
+                        dstPointer[dstCoord * 3 + 2] = srcPointer[srcCoord * 3 + 2];
+                    }
+                }
+//                for (int i = 0; i < length; i++)
+//                {
+//                    dstPointer[0] = srcPointer[0];
+//                    dstPointer++;
+//                    srcPointer++;
+//                }
+            }
+
+            bmp.UnlockBits(srcBitmapData);
+            extraction.UnlockBits(dstBitmapData);
 
             return extraction;
         }

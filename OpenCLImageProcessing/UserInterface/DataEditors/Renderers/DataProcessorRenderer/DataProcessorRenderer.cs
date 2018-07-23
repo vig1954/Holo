@@ -69,6 +69,8 @@ namespace UserInterface.DataEditors.Renderers.DataProcessorRenderer
             if (newOutput != _outputDataRenderer.GetData())
             {
                 _outputDataRenderer.SetData(newOutput);
+                _outputDataRenderer.Update();
+                RequestUpdate();
             }
         }
 

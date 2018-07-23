@@ -49,13 +49,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Cloo.clSharp, Version=0.9.2.7, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Cloo.clSharp.0.9.2.7\lib\net20\Cloo.clSharp.dll</HintPath>
+      <HintPath>..\..\packages\Cloo.clSharp.0.9.2.7\lib\net20\Cloo.clSharp.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTK, Version=3.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <HintPath>..\packages\OpenTK.3.0.0\lib\net20\OpenTK.dll</HintPath>
+    <Reference Include="OpenTK, Version=3.0.1.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\OpenTK.3.0.1\lib\net20\OpenTK.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTK.GLControl, Version=3.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <HintPath>..\..\Holo\packages\OpenTK.GLControl.3.0.0\lib\net20\OpenTK.GLControl.dll</HintPath>
+    <Reference Include="OpenTK.GLControl, Version=3.0.1.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\OpenTK.GLControl.3.0.1\lib\net20\OpenTK.GLControl.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -151,6 +151,8 @@
     <Compile Include="DataEditors\Renderers\Shaders\CustomizableShader.cs" />
     <Compile Include="DataEditors\Renderers\Shaders\AmplitudePhaseImageShader.cs" />
     <Compile Include="DataEditors\Renderers\Shaders\RealImaginativeImageShader.cs" />
+    <Compile Include="DataEditors\Renderers\Shaders\RGBAImageShader.cs" />
+    <Compile Include="DataEditors\Renderers\Shaders\RGBImageShader.cs" />
     <Compile Include="DataEditors\Renderers\Shaders\ShaderProvider.cs" />
     <Compile Include="DataEditors\Renderers\Shaders\SimpleShader.cs" />
     <Compile Include="DataEditors\Renderers\Shaders\IShader.cs" />
@@ -197,8 +199,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="OpenTK.dll.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
@@ -215,6 +215,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="OpenTK.dll.config" />
+    <None Include="packages.config" />
     <None Include="Resources\icons8-close-window-40.png" />
   </ItemGroup>
   <ItemGroup>

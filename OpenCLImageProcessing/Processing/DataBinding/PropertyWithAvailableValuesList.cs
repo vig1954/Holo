@@ -72,6 +72,7 @@ namespace Processing.DataBinding
             if (AvailableValues.Contains((T)value))
             {
                 _value = (T)value;
+                ValueSelected = true;
                 OnValueSelected?.Invoke(value, sender);
             }
         }

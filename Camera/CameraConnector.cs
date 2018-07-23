@@ -82,8 +82,8 @@ namespace Camera
 
         public CameraConnector()
         {
-            try
-            {
+//            try
+//            {
                 _mainThreadContext = SynchronizationContext.Current;
 
                 _sdkHandler = new SDKHandler();
@@ -93,12 +93,12 @@ namespace Camera
                 _sdkHandler.LiveViewUpdated += CameraLiveViewUpdated;
 
                 RefreshAvailableCameras();
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Warning("Camera connector initialization exception!");
-                DebugLogger.Warning(ex);
-            }
+//            }
+//            catch (Exception ex)
+//            {
+//                DebugLogger.Warning("Camera connector initialization exception!");
+//                DebugLogger.Warning(ex);
+//            }
         }
 
         public void TakePhoto()

@@ -52,15 +52,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Cloo.clSharp, Version=0.9.2.7, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Cloo.clSharp.0.9.2.7\lib\net20\Cloo.clSharp.dll</HintPath>
+      <HintPath>..\..\packages\Cloo.clSharp.0.9.2.7\lib\net20\Cloo.clSharp.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTK, Version=3.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <HintPath>..\packages\OpenTK.3.0.0\lib\net20\OpenTK.dll</HintPath>
+    <Reference Include="OpenTK, Version=3.0.1.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\OpenTK.3.0.1\lib\net20\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -99,6 +100,8 @@
     <Compile Include="DataProcessors\SingleImageOutputDataProcessorBase.cs" />
     <Compile Include="DataProcessors\FlatWavefrontGenerator.cs" />
     <Compile Include="DataProcessors\SphericWavefrontGenerator.cs" />
+    <Compile Include="DataProcessors\Test\TestCpuFourier.cs" />
+    <Compile Include="DataProcessors\Test\TestFourierProcessor.cs" />
     <Compile Include="DataProcessors\TransposeProcessor.cs" />
     <Compile Include="ImageHandler.cs" />
     <Compile Include="IDataProvider.cs" />
@@ -115,6 +118,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Utils\ArrayDrawer.cs" />
     <Compile Include="Utils\ImageUtils.cs" />
     <Compile Include="Utils\ThumbnailGenerator.cs" />
   </ItemGroup>
