@@ -121,6 +121,7 @@
     <Compile Include="Utils\ArrayDrawer.cs" />
     <Compile Include="Utils\ImageUtils.cs" />
     <Compile Include="Utils\ThumbnailGenerator.cs" />
+    <Compile Include="Vector2Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

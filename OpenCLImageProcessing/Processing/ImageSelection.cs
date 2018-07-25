@@ -53,5 +53,18 @@ namespace Processing
             Width = w;
             Height = h;
         }
+
+        public void MoveBy(Vector2 delta)
+        {
+            X0 += (int)delta.X;
+            Y0 += (int)delta.Y;
+            X1 += (int)delta.X;
+            Y1 += (int)delta.Y;
+        }
+
+        public string CoordsToString()
+        {
+            return $"{X0}, {Y0}: {Width} x {Height}";
+        }
     }
 }

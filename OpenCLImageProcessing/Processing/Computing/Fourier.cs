@@ -152,17 +152,17 @@ namespace Processing.Computing
         {
             using (new Timer("Merge"))
             {
-                _app.ExecuteKernel("mergeFftStep1A", _width, _height, input, tmp, _n, _m, _l);
+//                _app.ExecuteKernel("mergeFftStep1A", _width, _height, input, tmp, _n, _m, _l);
+//
+//                _app.ExecuteKernel("mergeFftStep2", _width, _height, tmp, output.ComputeBuffer, _n, _m, _l);
 
-                _app.ExecuteKernel("mergeFftStep2", _width, _height, tmp, output.ComputeBuffer, _n, _m, _l);
+                _mergeFftKernel.SetMemoryArgument(0, input);
+                _mergeFftKernel.SetMemoryArgument(1, output.ComputeBuffer);
+                _mergeFftKernel.SetValueArgument(2, _n);
+                _mergeFftKernel.SetValueArgument(3, _m);
+                _mergeFftKernel.SetValueArgument(4, _l);
 
-//                _mergeFftKernel.SetMemoryArgument(0, input);
-//                _mergeFftKernel.SetMemoryArgument(1, output.ComputeBuffer);
-//                _mergeFftKernel.SetValueArgument(2, _n);
-//                _mergeFftKernel.SetValueArgument(3, _m);
-//                _mergeFftKernel.SetValueArgument(4, _l);
-
-//                _app.ExecuteInQueue(_mergeFftKernel, _width, _height);
+                _app.ExecuteInQueue(_mergeFftKernel, _width, _height);
             }
         }
 

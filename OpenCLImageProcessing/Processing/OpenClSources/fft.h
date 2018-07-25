@@ -139,13 +139,14 @@ float2 mergeFftInner(__global const float2 * input, int n, int m, int l, int2 co
 		int i = coord.x;
 
 		// какое-то преобразование, нужно как следует подумать
-		int h = i / l; 
-		int g = i % l; 			
-
-		i = X_FROM_HGM(h, g, m);
-
 		int r = i % l;
-		r = h;
+
+		// Temp FIX, TODO: внести исправления непосредственно в преобразование Фурье
+		if (r > 0)
+		{
+			r = l - r;
+		}
+
 		//int s = (i - r) / l;
 
 		float2 result = (float2)(0,0);
@@ -156,8 +157,7 @@ float2 mergeFftInner(__global const float2 * input, int n, int m, int l, int2 co
 	
 		for (int mi = 0; mi < m; mi ++ )
 		{
-			//x = X_FROM_HGL(mi, r, l)
-			x = mi + r * m;
+			x = X_FROM_HGL(mi, r, l)			
 			val = input[x + coord.y * n];
 			result += exp_alpha(val, k * mi);
 		}
