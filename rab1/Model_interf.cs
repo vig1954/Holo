@@ -196,6 +196,9 @@ namespace rab1
 
             return cmpl;
         }
+
+       
+
         //
         //                     Добавление фазового сдвига  fz и получение голограммы
         //
@@ -211,6 +214,8 @@ namespace rab1
             double kx = dx / NX;
             double ky = dx / NY;
 
+            //double Ar = getMax(cmpl0);                            // Амплитуда опорного пучка равна макс амлитуды объектного
+            double Ar = SumClass.getAverage(cmpl0);                        // Амплитуда опорного пучка равна среднее амлитуды объектного
             // a = (a - min) * 2.0 * Math.PI / (max - min);   -pi +pi
 
             Random rnd = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
@@ -221,7 +226,7 @@ namespace rab1
                     double fa = rnd.NextDouble() * 2.0 * Math.PI - Math.PI;                 
                     //Complex b = cmpl0.array[i, j] * a;
                     double f0 = fz1 + fa * noise + fz;
-                    Complex Pl = Complex.FromPolarCoordinates(am, f0);
+                    //Complex Pl = Complex.FromPolarCoordinates(am, f0);
                     //Complex Pl = Complex.FromPolarCoordinates(1, f0);
                     //double f1 = fz1 + fa * noise + fz;
                     //double f2 = cmpl0.array[i, j].Phase;
@@ -229,16 +234,29 @@ namespace rab1
                     //Complex b = Complex.FromPolarCoordinates(am0*am, f1+f2);
                     //cmpl.array[i, j] = b.Magnitude;
                   
-                    Complex a = cmpl0.array[i, j] + Pl;
+                    //Complex a = cmpl0.array[i, j] + Pl;
                     //Complex a = cmpl0.array[i, j] * Pl;
                     //cmpl.array[i, j] = Math.Sqrt(a.Real * a.Real + a.Imaginary * a.Imaginary);   //a.Magnitude;
-                    cmpl.array[i, j] = a.Magnitude;
+                    //cmpl.array[i, j] = a.Magnitude;
                     //cmpl.array[i, j] = a.Real;
                     //cmpl.array[i, j] = Math.Sqrt(a.Real * a.Real);
-
+                   
+                    double Ap = cmpl0.array[i, j].Magnitude;                             // амплитуда объектного пучка
+                    double Fp = cmpl0.array[i, j].Phase;                                 // Фаза объектного пучка
+                    double F = Fp + f0;                                                  // Фаза равна фазе объектного минус фаза опорного
+                    cmpl.array[i, j] = Ap * Ap + Ar * Ar + 2 * Ap * Ar * Math.Cos(F);    // Интенсивность
                 }
+            /*
+            double max = SumClass.getMax(cmpl);
+            double min = SumClass.getMin(cmpl);
 
-            return cmpl;
+            for (int i = 0; i < NX; i++)
+                for (int j = 0; j < NY; j++)
+                {
+                    cmpl.array[i, j] = (cmpl.array[i, j] - min) * 255 / (max - min);
+                }
+                */
+                    return cmpl;
         }
         //
         //                     Умножение на фазовый фронт

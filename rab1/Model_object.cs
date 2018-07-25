@@ -72,7 +72,7 @@ namespace rab1
 
         public static ZComplexDescriptor Model_2(double sdvg, double noise, double Lambda)
         {
-            int NX = 1024, NY = 1024;
+            int NX = 2048, NY = 2048;
            
             ZComplexDescriptor cmpl = new ZComplexDescriptor(NX, NY);       // Выходной массив
 

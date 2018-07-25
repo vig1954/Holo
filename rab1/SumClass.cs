@@ -38,6 +38,60 @@ namespace rab1
 
             return max;
         }
+        public static double getMax(ZComplexDescriptor newDescriptor)
+        {
+            if (newDescriptor == null) { return 0; }
+
+            double max = double.MinValue;
+
+            for (int i = 0; i < newDescriptor.width; i++)
+            {
+                for (int j = 0; j < newDescriptor.height; j++)
+                {
+                    // max = Math.Max(max, newDescriptor.array[i, j]);
+                    double a = newDescriptor.array[i, j].Magnitude;
+                    if (max < a) max = a;
+                }
+            }
+
+            return max;
+        }
+        public static double getAverage(ZArrayDescriptor newDescriptor)
+        {
+            if (newDescriptor == null) { return 0; }
+
+
+            double a = 0;
+
+            for (int i = 0; i < newDescriptor.width; i++)
+            {
+                for (int j = 0; j < newDescriptor.height; j++)
+                {
+
+                    a = a + newDescriptor.array[i, j];
+                }
+            }
+            a = a / (newDescriptor.width * newDescriptor.height);
+            return a;
+        }
+        public static double getAverage(ZComplexDescriptor newDescriptor)
+        {
+            if (newDescriptor == null) { return 0; }
+
+
+            double a = 0;
+
+            for (int i = 0; i < newDescriptor.width; i++)
+            {
+                for (int j = 0; j < newDescriptor.height; j++)
+                {
+
+                    a = a + newDescriptor.array[i, j].Magnitude;
+                }
+            }
+            a = a / (newDescriptor.width * newDescriptor.height);
+            return a;
+        }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
         ///  Метод для получения минимума из массива
@@ -60,7 +114,24 @@ namespace rab1
             return min;
         }
 
+        public static double getMin(ZComplexDescriptor newDescriptor)
+        {
+            if (newDescriptor == null) { return 0; }
 
+            double min = double.MaxValue;
+
+            for (int i = 0; i < newDescriptor.width; i++)
+            {
+                for (int j = 0; j < newDescriptor.height; j++)
+                {
+                    //min = Math.Min(min, newDescriptor.array[i, j]);
+                    double a = newDescriptor.array[i, j].Magnitude;
+                    if (min > a) min = a;
+                }
+            }
+
+            return min;
+        }
         public static ZArrayDescriptor Inversia(ZArrayDescriptor amp)
         {
             int w1 = amp.width;

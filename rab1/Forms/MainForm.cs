@@ -1810,19 +1810,19 @@ namespace rab1
 
         private void FrenelComplex_NXY(int k1, int k2, int X, int Y, int N, double xmax, double lambda, double d)     // Френель с задаваемым количеством точек
         {
-            if (zComplex[k1] == null) { MessageBox.Show("zComplex[" + k1 + "] == NULL (FrenelComplex_NXY)"); return; }
-            if (zComplex[k1].width < N) { MessageBox.Show(" zComplex.width[" + k1 + "] < " + N + "] (FrenelComplex_NXY)"); return; }
+            if (zComplex[k1] == null)    { MessageBox.Show("zComplex[" + k1 + "] == NULL (FrenelComplex_NXY)"); return; }
+            if (zComplex[k1].width < N)  { MessageBox.Show(" zComplex.width[" + k1 + "] < " + N + "] (FrenelComplex_NXY)"); return; }
             if (zComplex[k1].height < N) { MessageBox.Show(" zComplex.height[" + k1 + "] < " + N + "] (FrenelComplex_NXY)"); return; }
 
-            zComplex[k2] = new ZComplexDescriptor(N, N);
+            ZComplexDescriptor z = new ZComplexDescriptor(N, N);
             for (int i = 0; i < N; i++)
                 for (int j = 0; j < N; j++)
-                    zComplex[k2].array[i, j] = zComplex[k1].array[i + X, j + Y];
+                    z.array[i, j] = zComplex[k1].array[i + X, j + Y];
 
             //zComplex[k2] = FurieN.BPF2(zComplex[k2]);                    // Фурье преобразование для произвольного количества точек
-           // zComplex[k2] = FurieN.FrenelTransformN(zComplex[k2], lambda, d, xmax);
+            zComplex[k2] = FurieN.FrenelTransformN(z, lambda, d, xmax);
 
-           // Complex_pictureBox(k2);
+            Complex_pictureBox(k2);
         }
 
 
@@ -1963,11 +1963,11 @@ namespace rab1
             //currentScaleRatio = 1;
             applyScaleModeToPicturebox();
         }
-       
+
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //            Интерференция плоских волн     (Сложение с опорной волной)
+        //            Интерференция плоских волн     (Сложение с опорной волной)     InterForm.cs
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////      
         private void интерференцияПлоскихВолнToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2049,14 +2049,7 @@ namespace rab1
 
         }
   * */
-        private void FormOnSUB(double am, double AngleX, double AngleY, double Lambda, double dx, int k1)
-        {
-
-            if (zComplex[k1] == null) { MessageBox.Show("Вычитание плоской волны zComplex[k1] == NULL"); return; }
-            zComplex[k1] = Model_interf.Model_pl_SUB(am, zComplex[k1], AngleX, AngleY, Lambda, dx);
-            Complex_pictureBox(k1);
-
-        }
+      
         private void FormOnMUL(double am, double AngleX, double AngleY, double Lambda, double dx, int k1)
         {
 
@@ -2076,7 +2069,15 @@ namespace rab1
             //Complex_pictureBox(k1);
             zArrayPicture.Double_Picture(pictureBox01);
         }
+        // Вычитание фазы
+        private void FormOnSUB(double am, double AngleX, double AngleY, double Lambda, double dx, int k1)
+        {
 
+            if (zComplex[k1] == null) { MessageBox.Show("Вычитание плоской волны zComplex[k1] == NULL"); return; }
+            zComplex[k1] = Model_interf.Model_pl_SUB(am, zComplex[k1], AngleX, AngleY, Lambda, dx);
+            Complex_pictureBox(k1);
+
+        }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //            Интерференция сферических волн  
@@ -2896,9 +2897,14 @@ namespace rab1
 
         }
 
-      
+        private void фурьеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
 
-        
+        }
+
+
+
+
 
 
 

@@ -92,6 +92,7 @@
             this.уменьшениеМассиваВ2РазаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.генерацияМассиваСоСдвигомНаПловинуПикселяToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.увеличениеМассиваВ2РазаПростымПовторениемToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.неВГраницах0ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.фазаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.моделированиеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.моделированиеФазыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -198,7 +199,6 @@
             this.button9 = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
-            this.неВГраницах0ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox01)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -824,6 +824,13 @@
             this.увеличениеМассиваВ2РазаПростымПовторениемToolStripMenuItem1.Text = "Увеличение массива в 2 раза со сдвигом на половину пикселя";
             this.увеличениеМассиваВ2РазаПростымПовторениемToolStripMenuItem1.Click += new System.EventHandler(this.увеличениеМассиваВ2РазаПростымПовторениемToolStripMenuItem1_Click);
             // 
+            // неВГраницах0ToolStripMenuItem
+            // 
+            this.неВГраницах0ToolStripMenuItem.Name = "неВГраницах0ToolStripMenuItem";
+            this.неВГраницах0ToolStripMenuItem.Size = new System.Drawing.Size(390, 22);
+            this.неВГраницах0ToolStripMenuItem.Text = "Не в границах => 0";
+            this.неВГраницах0ToolStripMenuItem.Click += new System.EventHandler(this.неВГраницах0ToolStripMenuItem_Click);
+            // 
             // фазаToolStripMenuItem
             // 
             this.фазаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -856,6 +863,7 @@
             this.фурьеToolStripMenuItem.Name = "фурьеToolStripMenuItem";
             this.фурьеToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
             this.фурьеToolStripMenuItem.Text = "Голография";
+            this.фурьеToolStripMenuItem.Click += new System.EventHandler(this.фурьеToolStripMenuItem_Click);
             // 
             // фурьеToolStripMenuItem1
             // 
@@ -1838,13 +1846,6 @@
             this.vScrollBar2.Size = new System.Drawing.Size(16, 279);
             this.vScrollBar2.TabIndex = 115;
             this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar2_Scroll);
-            // 
-            // неВГраницах0ToolStripMenuItem
-            // 
-            this.неВГраницах0ToolStripMenuItem.Name = "неВГраницах0ToolStripMenuItem";
-            this.неВГраницах0ToolStripMenuItem.Size = new System.Drawing.Size(390, 22);
-            this.неВГраницах0ToolStripMenuItem.Text = "Не в границах => 0";
-            this.неВГраницах0ToolStripMenuItem.Click += new System.EventHandler(this.неВГраницах0ToolStripMenuItem_Click);
             // 
             // Form1
             // 

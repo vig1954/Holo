@@ -46,6 +46,8 @@ namespace rab1.Forms
             // MessageBox.Show("width= " + w1 + "height= " + h1);
             MessageBox.Show("fzz[i]= " + fzz[0] + "  " + fzz[1] + "  " + fzz[2] + "  " + fzz[3]);
 
+            double Ar = SumClass.getAverage(zArrayPicture[8]);
+
             ZComplexDescriptor faza = new ZComplexDescriptor(w1, h1);
 
             int n_sdv = 4;                                                       // Число фазовых сдвигов
@@ -97,12 +99,12 @@ namespace rab1.Forms
                     //double[] cos_orto = Vector_orto(k_cos);              // ------  Формула расшифровки амплитуды                   
                     //double znmt = Vector_Mul(sin_orto, k_cos);
                     double am = Math.Sqrt(fz1 * fz1 + fz2 * fz2) / znmt;
-                    am = am / (2 * amplit);
-
+                    //am = am / (2 * amplit);
+                    am = am / (2 * Ar);
                     //a= ampf.array[i, j];
                     // am = amp.array[i, j];
                     //double am = 255;
-                  
+
                     faza.array[i, j] = Complex.FromPolarCoordinates(am, a);
                     
                 }
