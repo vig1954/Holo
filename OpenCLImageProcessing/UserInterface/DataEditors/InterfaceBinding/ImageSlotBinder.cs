@@ -41,7 +41,9 @@ namespace UserInterface.DataEditors.InterfaceBinding
                     _imageSlotValue.ImageUpdated -= ImageUpdated;
 
                 _imageSlotValue = _imageSlot.Value;
-                _imageSlotValue.ImageUpdated += ImageUpdated;
+
+                if (_imageSlotValue != null)
+                    _imageSlotValue.ImageUpdated += ImageUpdated;
                     
                 _propertyInfo.SetValue(Target, _imageSlot.Value);
                 OnPropertyChanged();

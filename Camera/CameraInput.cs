@@ -206,7 +206,7 @@ namespace Camera
 
             if (_images[_onShotParameters.CurrentImageIndex] == null)
             {
-                _images[_onShotParameters.CurrentImageIndex] = ImageHandler.FromBitmap(bitmap);
+                _images[_onShotParameters.CurrentImageIndex] = ImageHandler.FromBitmapAsGreyscale(bitmap);
                 CreateImage(_images[_onShotParameters.CurrentImageIndex]);
             }
             else
