@@ -4,38 +4,31 @@ using System.Linq;
 using System.Text;
 using Cloo;
 using Common;
-using Infrastructure;
-using OpenTK;
 using Processing.Computing;
 using Processing.DataBinding;
 using Processing.Utils;
 
 namespace Processing.DataProcessors
 {
-    [DataProcessor(Group = "Interferometry", Name="Freshnel", Tooltip = "Преобразование Френеля")]
+    [DataProcessor(Group = "Interferometry", Name="Преобразование Френеля", Tooltip = "Преобразование Френеля")]
     public class FrehnelTransformProcessor : SingleImageOutputDataProcessorBase
     {
-        private Fourier _fourier;
-        private IImageHandler _oldInput;
-        private ComputeBuffer<Vector2> _freshnelInnerMultipliersX;
-        private ComputeBuffer<Vector2> _freshnelInnerMultipliersY;
-
-        private OpenClApplication App => Singleton.Get<OpenClApplication>();
-
+        private string _title = NamingUtil.IndexedTitle("Freshnel transform result ");
+        
         [Input]
-        [ImageSlotWithSubfields("Голограмма", "Default", OnPropertyChanged = "InputImageChanged")]
+        [ImageSlotWithSubfields("Голограмма", "Default", OnPropertyChanged = nameof(Process), OnImageUpdated = nameof(Process))]
         public IImageHandler Input { get; set; }
 
         [Input]
-        [Number("Размер объекта, мм", 0, 50, 0.01f, OnPropertyChanged = "Process")]
+        [Number("Размер объекта, мм", 0, 50, 0.01f, OnPropertyChanged = nameof(Process))]
         public float ObjectSize { get; set; } = 7;
 
         [Input]
-        [Number("Расстояние, мм", 1, 5000, 1, OnPropertyChanged = "Process")]
+        [Number("Расстояние, мм", 1, 5000, 1, OnPropertyChanged = nameof(Process))]
         public float Distance { get; set; } = 135;
 
         [Input]
-        [Number("Длина волны, нм", 380, 760, 1, OnPropertyChanged = "Process")]
+        [Number("Длина волны, нм", 380, 760, 1, OnPropertyChanged = nameof(Process))]
         public float Wavelength { get; set; } = 500f;
 
         public override void Awake()
@@ -44,71 +37,20 @@ namespace Processing.DataProcessors
 
         public override void FreeResources()
         {
-            _freshnelInnerMultipliersX?.Dispose();
-            _freshnelInnerMultipliersY?.Dispose();
         }
         
-        public void InputImageChanged()
-        {
-            // TODO: Code duplication (FourierTransformProcessor)
-            if (Input == null)
-            {
-                Output?.FreeComputingDevice();
-                Output = null;
-                OnImageUpdated(new ImageUpdatedEventData(true));
-                return;
-            }
-
-            if (Input != _oldInput)
-            {
-                if (_oldInput != null)
-                    _oldInput.ImageUpdated -= InputOnImageUpdated;
-
-                Input.ImageUpdated += InputOnImageUpdated;
-                _oldInput = Input;
-            }
-
-            if (Output != null && Output.SizeEquals(Input))
-                return;
-            
-            _freshnelInnerMultipliersX = new ComputeBuffer<Vector2>(App.ComputeContext, ComputeMemoryFlags.None, Input.Width);
-            _freshnelInnerMultipliersY = new ComputeBuffer<Vector2>(App.ComputeContext, ComputeMemoryFlags.None, Input.Height);
-
-            Output = ImageHandler.Create("fft result", Input.Width, Input.Height, ImageFormat.RealImaginative, ImagePixelFormat.Float);
-            Output.UploadToComputingDevice();
-            OnImageUpdated(new ImageUpdatedEventData(true));
-
-            Process();
-        }
-
-        private void InputOnImageUpdated(ImageUpdatedEventData imageUpdatedEventData)
-        {
-            Process();
-        }
-
         public void Process()
         {
+            CreateOrUpdateOutputWithSameParametres(Input, _title, ImagePixelFormat.Float, ImageFormat.RealImaginative);
             if (Input != null && Output != null && Input.Ready && Output.Ready)
             {
                 using (new Timer("Freshnel"))
                 {
-                    using (new OpenClApplication.SingleOperationContext(Input, Output))
+                    using (StartOperationScope(Input, Output))
                     {
-                        // TODO пересчитывать нужно только при смене настроек (не при обновлении изображения)
-                        App.ExecuteKernel("freshnelGenerateInnerMultipliers", Input.Width, 1, _freshnelInnerMultipliersX, Wavelength / 1000f, Distance * 1000f, (float) Input.Width, ObjectSize * 1000f);
-                        App.ExecuteKernel("freshnelGenerateInnerMultipliers", Input.Height, 1, _freshnelInnerMultipliersY, Wavelength / 1000f, Distance * 1000f, (float) Input.Height, ObjectSize * 1000f);
-
-                        App.ExecuteKernel("freshnelMultiplyInner", Input.Width, Input.Height, Input, Output, _freshnelInnerMultipliersX, _freshnelInnerMultipliersY);
-
-                        Fourier.Transform(Output);
-
-                        App.ExecuteKernel("freshnelMultiplyInner", Input.Width, Input.Height, Output, Output, _freshnelInnerMultipliersX, _freshnelInnerMultipliersY);
-
-                        ImageUtils.CyclicShift(Output);
+                        Freshnel.Transform(Input, Output, Wavelength, Distance, ObjectSize, true);
                     }
                 }
-                OnUpdated();
-                Output.Update();
             }
         }
     }

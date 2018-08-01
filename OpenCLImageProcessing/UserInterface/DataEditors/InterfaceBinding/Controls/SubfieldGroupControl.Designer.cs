@@ -28,20 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnExpand = new System.Windows.Forms.Button();
             this.lblTitle = new System.Windows.Forms.Label();
             this.subfieldsPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnExpand = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // btnExpand
-            // 
-            this.btnExpand.Location = new System.Drawing.Point(3, 3);
-            this.btnExpand.Name = "btnExpand";
-            this.btnExpand.Size = new System.Drawing.Size(20, 20);
-            this.btnExpand.TabIndex = 0;
-            this.btnExpand.Text = "+";
-            this.btnExpand.UseVisualStyleBackColor = true;
-            this.btnExpand.Click += new System.EventHandler(this.btnExpand_Click);
             // 
             // lblTitle
             // 
@@ -62,6 +52,18 @@
             this.subfieldsPanel.Name = "subfieldsPanel";
             this.subfieldsPanel.Size = new System.Drawing.Size(274, 120);
             this.subfieldsPanel.TabIndex = 2;
+            // 
+            // btnExpand
+            // 
+            this.btnExpand.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnExpand.Image = global::UserInterface.Properties.Resources.arrow_state_blue_collapsed_8599;
+            this.btnExpand.Location = new System.Drawing.Point(3, 3);
+            this.btnExpand.Name = "btnExpand";
+            this.btnExpand.Size = new System.Drawing.Size(20, 20);
+            this.btnExpand.TabIndex = 0;
+            this.btnExpand.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnExpand.UseVisualStyleBackColor = true;
+            this.btnExpand.Click += new System.EventHandler(this.btnExpand_Click);
             // 
             // SubfieldGroupControl
             // 

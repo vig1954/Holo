@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using Cloo;
 using Infrastructure;
+using Processing.Computing;
 using Processing.DataBinding;
 
 namespace Processing.DataProcessors
@@ -119,6 +120,52 @@ namespace Processing.DataProcessors
         protected void CreateImage(IImageHandler image)
         {
             OnImageCreate?.Invoke(image);
+        }
+
+        protected void CreateOrUpdateOutputWithSameParametres(IImageHandler image, string title, ImagePixelFormat? pixelFormat = null, ImageFormat? format = null)
+        {
+            CreateOrUpdateImageWithSameParametres(image, title, ref _output);
+        }
+
+        protected void CreateOrUpdateImageWithSameParametres(IImageHandler image, string title, ref ImageHandler imageToCheck, ImagePixelFormat? pixelFormat = null, ImageFormat? format = null)
+        {
+            if (imageToCheck == null || !image.SizeEquals(imageToCheck))
+            {
+                imageToCheck?.FreeComputingDevice();
+
+                imageToCheck = ImageHandler.Create(title, image.Width, image.Height, format ?? image.Format, pixelFormat ?? image.PixelFormat);
+            }
+        }
+
+        protected ImageOperationScope StartOperationScope(params IImageHandler[] affectedImages)
+        {
+            return new ImageOperationScope(this, affectedImages);
+        }
+
+        protected class ImageOperationScope : IDisposable
+        {
+            private SingleImageOutputDataProcessorBase _processor;
+            private OpenClApplication.SingleOperationContext _singleOperationContext;
+            public ImageOperationScope(SingleImageOutputDataProcessorBase processor, params IImageHandler[] affectedImages)
+            {
+                foreach (var affectedImage in affectedImages)
+                {
+                    if (!affectedImage.OpenGlTextureId.HasValue)
+                        affectedImage.UploadToComputingDevice();
+                }
+
+                _processor = processor;
+                _singleOperationContext = new OpenClApplication.SingleOperationContext(affectedImages);
+            }
+
+            public void Dispose()
+            {
+                _singleOperationContext.Dispose();
+
+                _processor.OnUpdated();
+                _processor.OnImageUpdated(new ImageUpdatedEventData(false));
+                _processor.Output.Update();
+            }
         }
     }
 }

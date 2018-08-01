@@ -11,6 +11,7 @@ namespace Processing.DataBinding
         public ImagePixelFormat? AllowedPixelFormat;
         public int? RequiredChannelCount;
         public bool OnlyImages;
+        public string OnImageUpdated;
 
         public ImageSlotAttribute(string tooltipText, string group, params ImageFormat[] allowedImageFormats) : this(tooltipText, group, null, null, allowedImageFormats)
         {

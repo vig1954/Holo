@@ -10,7 +10,9 @@ namespace UserInterface.DataEditors.InterfaceBinding
 {
     public class ImageSlotBinder : PropertyBindingBase
     {
+        private MethodInfo _onImageUpdated;
         private readonly ImageSlotControl _imageSlot;
+        private IImageHandler _imageSlotValue;
 
         public override Control Control => _imageSlot;
 
@@ -18,6 +20,9 @@ namespace UserInterface.DataEditors.InterfaceBinding
             object target) : base(imageSlotAttribute, memberInfo, target)
         {
             Group = imageSlotAttribute.Group;
+
+            if (imageSlotAttribute.OnImageUpdated != null)
+                _onImageUpdated = target.GetType().GetMethod(imageSlotAttribute.OnImageUpdated);
 
             _imageSlot = new ImageSlotControl
             {
@@ -32,6 +37,12 @@ namespace UserInterface.DataEditors.InterfaceBinding
 
             _imageSlot.OnValueChanged += () =>
             {
+                if (_imageSlotValue != _imageSlot.Value && _imageSlotValue != null)
+                    _imageSlotValue.ImageUpdated -= ImageUpdated;
+
+                _imageSlotValue = _imageSlot.Value;
+                _imageSlotValue.ImageUpdated += ImageUpdated;
+                    
                 _propertyInfo.SetValue(Target, _imageSlot.Value);
                 OnPropertyChanged();
             };
@@ -45,6 +56,11 @@ namespace UserInterface.DataEditors.InterfaceBinding
         protected override void OnPropertyChangedByTarget()
         {
             _imageSlot.Value = (IImageHandler) _propertyInfo.GetValue(Target);
+        }
+
+        public void ImageUpdated(ImageUpdatedEventData e)
+        {
+            _onImageUpdated?.Invoke(Target, new object [] {});
         }
     }
 }

@@ -285,5 +285,17 @@
   <ItemGroup>
     <None Include="Resources\layer_select.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chevron_5834.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chevron-collapse_9378.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow_state_blue_collapsed_8599.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow_state_blue_expanded_4097.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

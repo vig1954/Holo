@@ -9,6 +9,7 @@ using Processing.Utils;
 
 namespace Processing.DataProcessors
 {
+    [DataProcessor(Group = "Image Transform", Name = "Транспонирование")]
     public class TransposeProcessor : SingleImageOutputDataProcessorBase
     {
         [Input]

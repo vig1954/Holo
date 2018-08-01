@@ -63,6 +63,46 @@ namespace UserInterface.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap arrow_state_blue_collapsed_8599 {
+            get {
+                object obj = ResourceManager.GetObject("arrow_state_blue_collapsed_8599", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap arrow_state_blue_expanded_4097 {
+            get {
+                object obj = ResourceManager.GetObject("arrow_state_blue_expanded_4097", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap chevron_5834 {
+            get {
+                object obj = ResourceManager.GetObject("chevron_5834", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap chevron_collapse_9378 {
+            get {
+                object obj = ResourceManager.GetObject("chevron_collapse_9378", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_Add_Image_2 {
             get {
                 object obj = ResourceManager.GetObject("icons8_Add_Image_2", resourceCulture);

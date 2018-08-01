@@ -25,7 +25,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
             InitializeComponent();
         }
 
-        public void FillControls(Binder subfieldBinder)
+        public void FillControls(Binder subfieldBinder, bool rootLevel = false)
         {
             subfieldsPanel.Controls.Clear();
             subfieldBinder.FillControls(subfieldsPanel);
@@ -40,7 +40,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
             Visible = visible;
             Resize += (sender, args) => RecalculateControlsSize();
 
-            Toggle(true);
+            Toggle(rootLevel);
         }
 
         public void Toggle(bool? show)
@@ -55,14 +55,14 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
 
         private void ShowContent()
         {
-            btnExpand.Text = "-";
+            btnExpand.Image = Properties.Resources.arrow_state_blue_collapsed_8599;
             subfieldsPanel.Show();
             OnResize(new EventArgs());
         }
 
         private void HideContent()
         {
-            btnExpand.Text = "+";
+            btnExpand.Image = Properties.Resources.arrow_state_blue_expanded_4097;
             subfieldsPanel.Hide();
             OnResize(new EventArgs());
         }

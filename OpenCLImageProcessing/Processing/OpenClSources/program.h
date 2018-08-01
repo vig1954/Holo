@@ -349,3 +349,99 @@ __kernel void freshnelMultiplyInner(__read_only image2d_t input, __write_only im
 	val = mul(val, fxyv);
 	write_imagef(output, coord, (float4)(val.x, val.y, 0, 0));
 }
+
+__kernel void shift(__read_only image2d_t input, __write_only image2d_t output, int dx, int dy, int cyclic)
+{
+	int x = get_global_id(0);
+	int y = get_global_id(1);
+	int w = get_global_size(0);
+	int h = get_global_size(1);
+
+	int x0 = x - dx;
+	int y0 = y - dy;
+
+	if (x0 < 0 && cyclic)
+	{
+		x0 = w + x0;
+	}
+
+	if (y0 < 0 && cyclic)
+	{
+		y0 = h + y0;
+	}
+
+	float2 val;
+
+	if (y0 >= 0 && x0 >= 0)
+	{
+		const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates
+			 CLK_ADDRESS_CLAMP | //Clamp to zeros
+			 CLK_FILTER_NEAREST; //Don't interpolate
+
+		val = read_imagef(input, smp, (int2)(x0, y0)).xy;
+	}
+	else
+	{
+		val = (float2)(0,0);
+	}
+
+	write_imagef(output, (int2)(x, y), (float4)(val.x, val.y, 0, 0));
+}
+
+// https://www.fxyz.ru/%D1%84%D0%BE%D1%80%D0%BC%D1%83%D0%BB%D1%8B_%D0%BF%D0%BE_%D0%BC%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B5/%D0%BA%D0%BE%D0%BC%D0%BF%D0%BB%D0%B5%D0%BA%D1%81%D0%BD%D1%8B%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B0/%D0%B4%D0%B5%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BA%D0%BE%D0%BC%D0%BF%D0%BB%D0%B5%D0%BA%D1%81%D0%BD%D1%8B%D1%85_%D1%87%D0%B8%D1%81%D0%B5%D0%BB/
+__kernel void divide(__read_only image2d_t num, __read_only image2d_t den, __write_only image2d_t output)
+{
+	int x = get_global_id(0);
+	int y = get_global_id(1);
+	int2 coord = (int2)(x, y);
+
+	const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates
+         CLK_ADDRESS_CLAMP | //Clamp to zeros
+         CLK_FILTER_NEAREST; //Don't interpolate
+
+	float2 val1 = read_imagef(num, smp, coord).xy;
+	float2 val2 = read_imagef(den, smp, coord).xy;
+
+	float a = val1.x;
+	float b = val1.y;
+	float ah = val2.x;
+	float bh = val2.y;
+	float d = ah * ah + bh * bh;
+
+	float2 result = (float2)((a*ah+b*bh)/d,(ah*b-bh*a)/d);
+
+	write_imagef(output, coord, (float4)(result.x, result.y, 0, 0));
+}
+
+__kernel void divideByNum(__read_only image2d_t input, __write_only image2d_t output, float num)
+{
+	int x = get_global_id(0);
+	int y = get_global_id(1);
+	int2 coord = (int2)(x, y);
+
+	const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates
+         CLK_ADDRESS_CLAMP | //Clamp to zeros
+         CLK_FILTER_NEAREST; //Don't interpolate
+
+	float2 val = read_imagef(input, smp, coord).xy;
+
+	write_imagef(output, coord, (float4)(val.x / num, val.y / num, 0, 0));
+}
+
+__kernel void sum(__read_only image2d_t input1, __read_only image2d_t input2, __write_only image2d_t output)
+{
+	int x = get_global_id(0);
+	int y = get_global_id(1);
+	int2 coord = (int2)(x, y);
+
+	const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates
+         CLK_ADDRESS_CLAMP | //Clamp to zeros
+         CLK_FILTER_NEAREST; //Don't interpolate
+
+	float2 val1 = read_imagef(input1, smp, coord).xy;
+	float2 val2 = read_imagef(input2, smp, coord).xy;	
+
+	float2 result = val1 + val2;
+
+	write_imagef(output, coord, (float4)(result.x, result.y, 0, 0));
+}

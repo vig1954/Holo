@@ -29,7 +29,7 @@ namespace UserInterface.DataEditors.InterfaceBinding
             {
                 Title = !attribute.TooltipText.IsNullOrEmpty() ? attribute.TooltipText : _propertyInfo.Name
             };
-            _control.FillControls(ComplexFieldBinder);
+            _control.FillControls(ComplexFieldBinder, true);
         }
     }
 }

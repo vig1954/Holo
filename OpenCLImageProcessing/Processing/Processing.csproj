@@ -71,6 +71,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Computing\Fourier.cs" />
+    <Compile Include="Computing\Freshnel.cs" />
+    <Compile Include="Computing\ImageProcessing.cs" />
     <Compile Include="Computing\IOpenClSourcesProvider.cs" />
     <Compile Include="Computing\OpenGlApplication.cs" />
     <Compile Include="Computing\OpenClApplication.cs" />
@@ -92,14 +94,18 @@
     <Compile Include="DataProcessors\DataProcessorPropertyInfo.cs" />
     <Compile Include="DataProcessors\DataProcessorRepository.cs" />
     <Compile Include="DataProcessors\DataProcessorsProvider.cs" />
+    <Compile Include="DataProcessors\DivideProcessor.cs" />
     <Compile Include="DataProcessors\FourierTransformProcessor.cs" />
     <Compile Include="DataProcessors\FrehnelTransformProcessor.cs" />
     <Compile Include="DataProcessors\IDataProcessor.cs" />
+    <Compile Include="DataProcessors\PhaseRecoveryProcessor.cs" />
     <Compile Include="DataProcessors\PsiProcessor.cs" />
     <Compile Include="DataProcessors\RgbToGreyscaleConverter.cs" />
+    <Compile Include="DataProcessors\ShiftProcessor.cs" />
     <Compile Include="DataProcessors\SingleImageOutputDataProcessorBase.cs" />
     <Compile Include="DataProcessors\FlatWavefrontGenerator.cs" />
     <Compile Include="DataProcessors\SphericWavefrontGenerator.cs" />
+    <Compile Include="DataProcessors\SummProcessor.cs" />
     <Compile Include="DataProcessors\Test\TestCpuFourier.cs" />
     <Compile Include="DataProcessors\Test\TestFourierProcessor.cs" />
     <Compile Include="DataProcessors\TransposeProcessor.cs" />
@@ -120,6 +126,7 @@
     </Compile>
     <Compile Include="Utils\ArrayDrawer.cs" />
     <Compile Include="Utils\ImageUtils.cs" />
+    <Compile Include="Utils\NamingUtil.cs" />
     <Compile Include="Utils\ThumbnailGenerator.cs" />
     <Compile Include="Vector2Extensions.cs" />
   </ItemGroup>
