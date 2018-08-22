@@ -77,7 +77,7 @@ namespace Camera
         [DropdownSelector("COM-порт")]
         public PropertyWithAvailableValuesList<string> ComPort { get; set; }
 
-        [Action("Подключить")]
+        [Action("Подключить пьезокерамику")]
         public void ConnectPhaseShiftDevice()
         {
             if (ComPort.ValueSelected && ComPort.Value != null)

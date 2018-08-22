@@ -214,7 +214,7 @@ namespace Processing
 
         public void UpdateFromBitmap(Bitmap bmp)
         {
-            if (PixelFormat != ImagePixelFormat.Byte)
+            if (Format != ImageFormat.Greyscale && PixelFormat != ImagePixelFormat.Byte)
                 throw new InvalidOperationException($"{nameof(ImageHandler)} имеет недопустимый формат пикселей: {PixelFormat}");
 
             if (bmp.PixelFormat != System.Drawing.Imaging.PixelFormat.Format24bppRgb && bmp.PixelFormat != System.Drawing.Imaging.PixelFormat.Format32bppArgb)
