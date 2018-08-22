@@ -45,7 +45,7 @@ namespace UserInterface.DataEditors.Tools
         private SelectionEditAction _currentSelectionEditAction = SelectionEditAction.None;
         private ImageSelection _newSelection; // TODO: можно избавиться от этого
         private ImageSelection _currentSelection;
-        private SelectionMode _currentSelectionMode = SelectionMode.Square2048X2048;
+        private SelectionMode _currentSelectionMode = SelectionMode.Arbitrary2Nx2M;
 
         private ToolStripComboBox _selectionDropdown;
         private ToolStripComboBox _selectionModeDropdown;
@@ -78,8 +78,8 @@ namespace UserInterface.DataEditors.Tools
                 {
                     Name = NewSelectionName
                 };
-                _newSelection.Width = 2048;
-                _newSelection.Height = 2048;
+                _newSelection.Width = 2816;
+                _newSelection.Height = 2816;
             }
 
             _currentSelection = _newSelection;

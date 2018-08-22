@@ -47,6 +47,27 @@ namespace Processing.DataProcessors
         public ImageFormat Format => Output?.Format ?? throw new NullReferenceException();
         public int? OpenGlTextureId => Output?.OpenGlTextureId;
         public ComputeImage2D ComputeBuffer => Output?.ComputeBuffer;
+
+        // Для отладки
+        public bool Removed
+        {
+            get => Output?.Removed ?? true;
+            set
+            {
+                if (Output != null)
+                    Output.Removed = value;
+            }
+        }
+
+        public bool InOperationScope
+        {
+            get => Output?.InOperationScope ?? false;
+            set
+            {
+                if (Output != null)
+                    Output.InOperationScope = value;
+            }}
+
         public void UploadToComputingDevice(bool forceUpdate = false)
         {
             Output?.UploadToComputingDevice(forceUpdate);

@@ -51,7 +51,14 @@ namespace Processing.DataProcessors
                 {
                     using (StartOperationScope(Input, Output))
                     {
-                        Freshnel.Transform(Input, Output, Wavelength, Distance, ObjectSize, true);
+                        try
+                        {
+                            Freshnel.Transform(Input, Output, Wavelength, Distance, ObjectSize, true);
+                        }
+                        catch (Exception ex)
+                        {
+                            DebugLogger.Log(ex, DebugLogger.ImportanceLevel.Exception);
+                        }
                     }
                 }
             }

@@ -109,8 +109,15 @@ namespace Processing.Computing
 
         public void ExecuteInQueue(ComputeKernel kernel, long width, long height)
         {
-            Queue.Execute(kernel, null, new[] {width, height}, new[] {1L, 1L}, null);
-            Queue.Finish();
+            try
+            {
+                Queue.Execute(kernel, null, new[] {width, height}, new[] {1L, 1L}, null);
+                Queue.Finish();
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Exception(ex);
+            }
         }
 
         public void ExecuteKernel(ComputeKernel kernel, long width, long height, params object[] args)
@@ -153,6 +160,12 @@ namespace Processing.Computing
         {
             var notAcquiredImages = images.Except(_acquiredImages);
             Queue.AcquireGLObjects(notAcquiredImages.Select(i => i.ComputeBuffer).ToArray(), null);
+
+            foreach (var notAcquiredImage in notAcquiredImages)
+            {
+                notAcquiredImage.InOperationScope = true;
+            }
+
             _acquiredImages.AddRange(notAcquiredImages);
         }
 
@@ -164,6 +177,7 @@ namespace Processing.Computing
 
             foreach (var image in imagesToRelease)
             {
+                image.InOperationScope = false;
                 _acquiredImages.Remove(image);
             }
         }

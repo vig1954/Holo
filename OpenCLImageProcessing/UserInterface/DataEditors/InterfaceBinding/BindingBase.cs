@@ -31,7 +31,17 @@ namespace UserInterface.DataEditors.InterfaceBinding
             {
                 var methodInfo = targetType.GetMethod(bindingAttributeBase.OnPropertyChanged);
                 if (methodInfo != null)
-                    _onPropertyChanged = () => methodInfo.Invoke(target, null);
+                    _onPropertyChanged = () =>
+                    {
+                        try
+                        {
+                            methodInfo.Invoke(target, null);
+                        }
+                        catch (Exception ex)
+                        {
+                            DebugLogger.Exception(ex);
+                        }
+                    };
             }
 
             if (!bindingAttributeBase.PropertyChangedEventName.IsNullOrEmpty())

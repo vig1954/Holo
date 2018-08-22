@@ -86,11 +86,11 @@ namespace Camera
             }
         }
 
-        [Number("Пауза между сдвигами, мс", 0, 1000, 1)]
-        public float ShiftDelay { get; set; }
+        [Number("Пауза между сдвигами, мс", 0, 10000, 1)]
+        public float ShiftDelay { get; set; } = 1000;
 
-        [Number("Шаг фазового сдвига", 0, 1000, 1)]
-        public float ShiftStep { get; set; }
+        [Number("Шаг фазового сдвига", 0, 10000, 1)]
+        public float ShiftStep { get; set; } = 1280;
 
         public CameraInput()
         {

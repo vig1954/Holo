@@ -56,6 +56,10 @@ namespace Processing
         void DownloadFromComputingDevice();
         Bitmap ToBitmap(int channel = 0);
         IImageHandler ExtractSelection(ImageSelection selection);
+
+        // Для отладки
+        bool Removed { get; set; }
+        bool InOperationScope { get; set; }
     }
 
     public class ImageHandler : IImageHandler, IDisposable
@@ -75,6 +79,10 @@ namespace Processing
         public int? OpenGlTextureId { get; private set; }
         public int PixelSizeInBytes => PixelFormat.GetAttribute<SizeInBytesAttribute>().Value * Format.GetAttribute<ChannelsCountAttribute>().Value;
         public ComputeImage2D ComputeBuffer { get; private set; }
+
+        // Для отладки
+        public bool Removed { get; set; }
+        public bool InOperationScope { get; set; }
 
         protected ImageHandler()
         {
