@@ -129,6 +129,9 @@ namespace Processing.DataProcessors
 
         protected void CreateOrUpdateImageWithSameParametres(IImageHandler image, string title, ref ImageHandler imageToCheck, ImagePixelFormat? pixelFormat = null, ImageFormat? format = null)
         {
+            if (image == null)
+                throw new ArgumentNullException(nameof(image));
+
             if (imageToCheck == null || !image.SizeEquals(imageToCheck))
             {
                 imageToCheck?.FreeComputingDevice();

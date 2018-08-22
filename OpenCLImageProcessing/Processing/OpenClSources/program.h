@@ -445,3 +445,25 @@ __kernel void sum(__read_only image2d_t input1, __read_only image2d_t input2, __
 
 	write_imagef(output, coord, (float4)(result.x, result.y, 0, 0));
 }
+
+__kernel void combineAmplitudeAndPhase(__read_only image2d_t ampImg, __read_only image2d_t phImg, __write_only image2d_t output)
+{
+	int x = get_global_id(0);
+	int y = get_global_id(1);
+	int2 coord = (int2)(x, y);
+
+	const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates
+         CLK_ADDRESS_CLAMP | //Clamp to zeros
+         CLK_FILTER_NEAREST; //Don't interpolate
+
+	float2 ampCpx = read_imagef(ampImg, smp, coord).xy;
+	float2 phCpx = read_imagef(phImg, smp, coord).xy;	
+
+	float amp = sqrt(ampCpx.x*ampCpx.x + ampCpx.y*ampCpx.y);
+	float ph = atan2(phCpx.y, phCpx.x);
+
+	float re = amp * cos(ph);
+	float im = amp * sin(ph);
+
+	write_imagef(output, coord, (float4)(re, im, 0, 0));
+}

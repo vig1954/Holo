@@ -64,11 +64,11 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
 
             txtCurrent.KeyPress += (sender, e) =>
             {
-                if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != ',')
+                if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
                     e.Handled = true;
 
                 // only allow one decimal point
-                if (e.KeyChar == ',' && txtCurrent.Text.IndexOf(',') > -1)
+                if (e.KeyChar == '.' && txtCurrent.Text.IndexOf('.') > -1)
                     e.Handled = true;
             };
 

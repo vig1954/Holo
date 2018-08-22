@@ -219,15 +219,17 @@ namespace Processing
 
             if (bmp.PixelFormat != System.Drawing.Imaging.PixelFormat.Format24bppRgb && bmp.PixelFormat != System.Drawing.Imaging.PixelFormat.Format32bppArgb)
                 throw new InvalidOperationException($"Неподдерживаемый формат изображения [{bmp.PixelFormat}]. Поддерживаются только форматы {nameof(System.Drawing.Imaging.PixelFormat.Format24bppRgb)} и {nameof(System.Drawing.Imaging.PixelFormat.Format32bppArgb)}.");
-            
-            var bitmapData = bmp.LockBits(new Rectangle(Point.Empty, bmp.Size), System.Drawing.Imaging.ImageLockMode.ReadOnly, bmp.PixelFormat);
-            Data = new byte[bmp.Width * bmp.Height * (bmp.PixelFormat == System.Drawing.Imaging.PixelFormat.Format24bppRgb ? 3 : 4)];
-            System.Runtime.InteropServices.Marshal.Copy(bitmapData.Scan0, Data, 0, Data.Length);
-            bmp.UnlockBits(bitmapData);
-            
-            Format = bmp.PixelFormat == System.Drawing.Imaging.PixelFormat.Format24bppRgb
-                ? ImageFormat.RGB
-                : ImageFormat.RGBA;
+
+            if (Format == ImageFormat.Greyscale)
+                Data = ImageUtils.BitmapAsGreyscaleToByteArray(bmp, out _, out _);
+            else
+            {
+                Data = ImageUtils.BitmapToByteArray(bmp);
+
+                Format = bmp.PixelFormat == System.Drawing.Imaging.PixelFormat.Format24bppRgb
+                    ? ImageFormat.RGB
+                    : ImageFormat.RGBA;
+            }
 
             Width = bmp.Width;
             Height = bmp.Height;
@@ -308,19 +310,16 @@ namespace Processing
             if (bmp.PixelFormat != System.Drawing.Imaging.PixelFormat.Format24bppRgb && bmp.PixelFormat != System.Drawing.Imaging.PixelFormat.Format32bppArgb)
                 throw new InvalidOperationException($"Неподдерживаемый формат изображения [{bmp.PixelFormat}]. Поддерживаются только форматы {nameof(System.Drawing.Imaging.PixelFormat.Format24bppRgb)} и {nameof(System.Drawing.Imaging.PixelFormat.Format32bppArgb)}.");
 
-            var imageHandler = new ImageHandler();
-
-            var bitmapData = bmp.LockBits(new Rectangle(Point.Empty, bmp.Size), System.Drawing.Imaging.ImageLockMode.ReadOnly, bmp.PixelFormat);
-            imageHandler.Data = new byte[bmp.Width * bmp.Height * (bmp.PixelFormat == System.Drawing.Imaging.PixelFormat.Format24bppRgb ? 3 : 4)];
-            System.Runtime.InteropServices.Marshal.Copy(bitmapData.Scan0, imageHandler.Data, 0, imageHandler.Data.Length);
-            bmp.UnlockBits(bitmapData);
-
-            imageHandler.PixelFormat = ImagePixelFormat.Byte;
-            imageHandler.Format = bmp.PixelFormat == System.Drawing.Imaging.PixelFormat.Format24bppRgb
-                ? ImageFormat.RGB
-                : ImageFormat.RGBA;
-            imageHandler.Width = bmp.Width;
-            imageHandler.Height = bmp.Height;
+            var imageHandler = new ImageHandler
+            {
+                Data = ImageUtils.BitmapToByteArray(bmp),
+                PixelFormat = ImagePixelFormat.Byte,
+                Format = bmp.PixelFormat == System.Drawing.Imaging.PixelFormat.Format24bppRgb
+                    ? ImageFormat.RGB
+                    : ImageFormat.RGBA,
+                Width = bmp.Width,
+                Height = bmp.Height
+            };
 
             Singleton.Get<ImageHandlerRepository>().Add(imageHandler);
 
@@ -354,44 +353,15 @@ namespace Processing
             if (bmp.PixelFormat != System.Drawing.Imaging.PixelFormat.Format24bppRgb && bmp.PixelFormat != System.Drawing.Imaging.PixelFormat.Format32bppArgb && bmp.PixelFormat != System.Drawing.Imaging.PixelFormat.Format32bppRgb)
                 throw new InvalidOperationException($"Неподдерживаемый формат изображения [{bmp.PixelFormat}]. Поддерживаются только форматы {nameof(System.Drawing.Imaging.PixelFormat.Format24bppRgb)},{nameof(System.Drawing.Imaging.PixelFormat.Format32bppRgb)} и {nameof(System.Drawing.Imaging.PixelFormat.Format32bppArgb)}.");
 
-            var imageHandler = new ImageHandler();
-
-            var bitmapData = bmp.LockBits(new Rectangle(Point.Empty, bmp.Size), System.Drawing.Imaging.ImageLockMode.ReadOnly, bmp.PixelFormat);
-            imageHandler.Data = new byte[bmp.Width * bmp.Height * sizeof(float)];
-            imageHandler.PixelFormat = ImagePixelFormat.Float;
-            imageHandler.Format = ImageFormat.Greyscale;
-            imageHandler.Width = bmp.Width;
-            imageHandler.Height = bmp.Height;
-
-            float? min = null, max = null;
-            unsafe
+            var imageHandler = new ImageHandler
             {
-                fixed (byte* pd = imageHandler.Data)
-                {
-                    var p0 = (byte*) bitmapData.Scan0;
-                    var fpd = (float*) pd;
-                    float v;
-                    var dataStep = bmp.PixelFormat == System.Drawing.Imaging.PixelFormat.Format24bppRgb ? 3 : 4;
-                    var dataLength = bmp.Width * bmp.Height * dataStep;
-                   
-
-                    for (var i = 0; i < dataLength; i += dataStep)
-                    {
-                        v = (p0[i] * 0.33f + p0[i + 1] * 0.33f + p0[i + 2] * 0.33f) / 255f;
-
-                        if (!min.HasValue || min > v)
-                            min = v;
-
-                        if (!max.HasValue || max < v)
-                            max = v;
-
-                        *fpd++ = v;
-                    }
-                }
-            }
-
-            bmp.UnlockBits(bitmapData);
-
+                Data = ImageUtils.BitmapAsGreyscaleToByteArray(bmp, out float min, out float max),
+                PixelFormat = ImagePixelFormat.Float,
+                Format = ImageFormat.Greyscale,
+                Width = bmp.Width,
+                Height = bmp.Height
+            };
+            
             Singleton.Get<ImageHandlerRepository>().Add(imageHandler);
 
             if (title == null)

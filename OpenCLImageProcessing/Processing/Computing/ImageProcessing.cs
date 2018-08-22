@@ -46,5 +46,13 @@ namespace Processing.Computing
 
             Singleton.Get<OpenClApplication>().ExecuteKernel("divideByNum", output.Width, output.Height, image.ComputeBuffer, output.ComputeBuffer, num);
         }
+
+        public static void Combine(IImageHandler amplitudeImage, IImageHandler phaseImage, IImageHandler output)
+        {
+            if (!amplitudeImage.SizeEquals(phaseImage) || !amplitudeImage.SizeEquals(output))
+                throw new InvalidOperationException("Изображения должны быть одинакового размера.");
+
+            Singleton.Get<OpenClApplication>().ExecuteKernel("combineAmplitudeAndPhase", output.Width, output.Height, amplitudeImage.ComputeBuffer, phaseImage.ComputeBuffer, output.ComputeBuffer);
+        }
     }
 }

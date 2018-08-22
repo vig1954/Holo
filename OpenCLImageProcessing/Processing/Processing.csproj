@@ -90,12 +90,14 @@
     <Compile Include="DataBinding\MemberBindingAttributeBase.cs" />
     <Compile Include="DataBinding\NumberAttribute.cs" />
     <Compile Include="DataBinding\ListWithEvents.cs" />
+    <Compile Include="DataProcessors\CombineChannelsProcessor.cs" />
     <Compile Include="DataProcessors\DataProcessorExtensions.cs" />
     <Compile Include="DataProcessors\DataProcessorPropertyInfo.cs" />
     <Compile Include="DataProcessors\DataProcessorRepository.cs" />
     <Compile Include="DataProcessors\DataProcessorsProvider.cs" />
     <Compile Include="DataProcessors\DivideProcessor.cs" />
     <Compile Include="DataProcessors\FourierTransformProcessor.cs" />
+    <Compile Include="DataProcessors\FourShiftsAndAverageProcessor.cs" />
     <Compile Include="DataProcessors\FrehnelTransformProcessor.cs" />
     <Compile Include="DataProcessors\IDataProcessor.cs" />
     <Compile Include="DataProcessors\PhaseRecoveryProcessor.cs" />

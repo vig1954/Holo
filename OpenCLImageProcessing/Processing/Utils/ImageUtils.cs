@@ -193,5 +193,53 @@ namespace Processing.Utils
 
             return extraction;
         }
+
+        public static byte[] BitmapToByteArray(Bitmap bmp)
+        {
+            var bitmapData = bmp.LockBits(new Rectangle(Point.Empty, bmp.Size), System.Drawing.Imaging.ImageLockMode.ReadOnly, bmp.PixelFormat);
+            var data = new byte[bmp.Width * bmp.Height * (bmp.PixelFormat == System.Drawing.Imaging.PixelFormat.Format24bppRgb ? 3 : 4)];
+            System.Runtime.InteropServices.Marshal.Copy(bitmapData.Scan0, data, 0, data.Length);
+            bmp.UnlockBits(bitmapData);
+
+            return data;
+        }
+
+        public static byte[] BitmapAsGreyscaleToByteArray(Bitmap bmp, out float min, out float max)
+        {
+            var bitmapData = bmp.LockBits(new Rectangle(Point.Empty, bmp.Size), System.Drawing.Imaging.ImageLockMode.ReadOnly, bmp.PixelFormat);
+            var data = new byte[bmp.Width * bmp.Height * sizeof(float)];
+           
+            min = float.MaxValue;
+            max = float.MinValue;
+            unsafe
+            {
+                fixed (byte* pd = data)
+                {
+                    var p0 = (byte*)bitmapData.Scan0;
+                    var fpd = (float*)pd;
+                    float v;
+                    var dataStep = bmp.PixelFormat == System.Drawing.Imaging.PixelFormat.Format24bppRgb ? 3 : 4;
+                    var dataLength = bmp.Width * bmp.Height * dataStep;
+
+
+                    for (var i = 0; i < dataLength; i += dataStep)
+                    {
+                        v = (p0[i] * 0.33f + p0[i + 1] * 0.33f + p0[i + 2] * 0.33f) / 255f;
+
+                        if (min > v)
+                            min = v;
+
+                        if (max < v)
+                            max = v;
+
+                        *fpd++ = v;
+                    }
+                }
+            }
+
+            bmp.UnlockBits(bitmapData);
+
+            return data;
+        }
     }
 }

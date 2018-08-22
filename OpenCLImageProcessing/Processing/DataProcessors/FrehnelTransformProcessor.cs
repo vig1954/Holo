@@ -41,6 +41,9 @@ namespace Processing.DataProcessors
         
         public void Process()
         {
+            if (Input == null)
+                return;
+
             CreateOrUpdateOutputWithSameParametres(Input, _title, ImagePixelFormat.Float, ImageFormat.RealImaginative);
             if (Input != null && Output != null && Input.Ready && Output.Ready)
             {
