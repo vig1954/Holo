@@ -68,5 +68,13 @@ namespace Processing.Computing
 
             Singleton.Get<OpenClApplication>().ExecuteKernel("combineAmplitudeAndPhase", output.Width, output.Height, amplitudeImage.ComputeBuffer, phaseImage.ComputeBuffer, output.ComputeBuffer);
         }
+
+        public static void Interference(IImageHandler image1, IImageHandler image2, IImageHandler output)
+        {
+            if (!image1.SizeEquals(image1) || !output.SizeEquals(image1))
+                throw new InvalidOperationException("Изображения должны быть одинакового размера.");
+
+            Singleton.Get<OpenClApplication>().ExecuteKernel("interference", output.Width, output.Height, image1.ComputeBuffer, image2.ComputeBuffer, output.ComputeBuffer);
+        }
     }
 }

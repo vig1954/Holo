@@ -97,6 +97,7 @@
     <Compile Include="DataProcessors\FourShiftsAndAverageProcessor.cs" />
     <Compile Include="DataProcessors\FrehnelTransformProcessor.cs" />
     <Compile Include="DataProcessors\IDataProcessor.cs" />
+    <Compile Include="DataProcessors\InterferenceDataProcessor.cs" />
     <Compile Include="DataProcessors\PhaseRecoveryProcessor.cs" />
     <Compile Include="DataProcessors\PsiProcessor.cs" />
     <Compile Include="DataProcessors\RgbToGreyscaleConverter.cs" />

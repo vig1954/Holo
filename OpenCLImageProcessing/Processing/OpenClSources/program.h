@@ -112,6 +112,16 @@ float vectorMul(float4 v1, float4 v2)
    return v1.x*v2.x + v1.y*v2.y + v1.z*v2.z + v1.w * v2.w;
 }
 
+float amplitude(float2 v)
+{
+	return sqrt(v.x*v.x + v.y*v.y);
+}
+
+float phase(float2 v)
+{
+	return atan2(v.y, v.x);
+}
+
 // умножение двух комплексных чисел
 float2 mul(float2 a,float2 b)
 {
@@ -489,4 +499,27 @@ __kernel void combineAmplitudeAndPhase(__read_only image2d_t ampImg, __read_only
 	float im = amp * sin(ph);
 
 	write_imagef(output, coord, (float4)(re, im, 0, 0));
+}
+
+__kernel void interference(__read_only image2d_t img1, __read_only image2d_t img2, __write_only image2d_t output)
+{
+	int x = get_global_id(0);
+	int y = get_global_id(1);
+	int2 coord = (int2)(x, y);
+
+	const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates
+         CLK_ADDRESS_CLAMP | //Clamp to zeros
+         CLK_FILTER_NEAREST; //Don't interpolate
+
+	float2 val1 = read_imagef(img1, smp, coord).xy;
+	float2 val2 = read_imagef(img2, smp, coord).xy;
+	
+	float a1 = amplitude(val1);
+	float a2 = amplitude(val2);
+	float p1 = phase(val1);
+	float p2 = phase(val2);
+
+	float i = a1*a1+a2*a2+2*a1*a2*cos(p1-p2);
+
+	write_imagef(output, coord, (float4)(i, 0, 0, 0));
 }
