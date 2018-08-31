@@ -81,6 +81,7 @@
     <Compile Include="DataBinding\ActionAttribute.cs" />
     <Compile Include="DataBinding\CheckboxAttribute.cs" />
     <Compile Include="DataBinding\DropdownSelectorAttribute.cs" />
+    <Compile Include="DataBinding\ImageParametersAttribute.cs" />
     <Compile Include="DataBinding\MergeSubfieldsAttribute.cs" />
     <Compile Include="DataBinding\PropertyWithAvailableValuesList.cs" />
     <Compile Include="DataBinding\SubfieldGroupAttribute.cs" />
@@ -91,10 +92,13 @@
     <Compile Include="DataBinding\NumberAttribute.cs" />
     <Compile Include="DataBinding\ListWithEvents.cs" />
     <Compile Include="DataProcessors\CombineChannelsProcessor.cs" />
+    <Compile Include="DataProcessors\DataProcessorDescriptor.cs" />
     <Compile Include="DataProcessors\DataProcessorExtensions.cs" />
+    <Compile Include="DataProcessors\DataProcessorParameterAttributes\OutputAttribute.cs" />
     <Compile Include="DataProcessors\DataProcessorPropertyInfo.cs" />
     <Compile Include="DataProcessors\DataProcessorRepository.cs" />
     <Compile Include="DataProcessors\DataProcessorsProvider.cs" />
+    <Compile Include="DataProcessors\DataProcessorParameter.cs" />
     <Compile Include="DataProcessors\DivideProcessor.cs" />
     <Compile Include="DataProcessors\FourierTransformProcessor.cs" />
     <Compile Include="DataProcessors\FourShiftsAndAverageProcessor.cs" />

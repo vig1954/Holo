@@ -34,6 +34,7 @@ namespace Processing.Computing
         public ComputeContext ComputeContext { get; private set; }
         public ComputeProgram Program { get; private set; }
         public ComputeCommandQueue Queue { get; private set; }
+
         public void Setup()
         {
             if (ComputeContext != null)
@@ -93,7 +94,7 @@ namespace Processing.Computing
 
         public ComputeProgram TryBuild(string code)
         {
-            var program  = new ComputeProgram(ComputeContext, code);
+            var program = new ComputeProgram(ComputeContext, code);
             try
             {
                 program.Build(ComputeContext.Devices, "", null, IntPtr.Zero);
@@ -111,7 +112,7 @@ namespace Processing.Computing
         {
             try
             {
-                Queue.Execute(kernel, null, new[] {width, height}, new[] {1L, 1L}, null);
+                Queue.Execute(kernel, null, new[] { width, height }, new[] { 1L, 1L }, null);
                 Queue.Finish();
             }
             catch (Exception ex)
@@ -148,7 +149,7 @@ namespace Processing.Computing
             }
 
             //var computeImage2Ds = args.OfType<IImageHandler>().Select(h => h.ComputeBuffer).ToArray();
-           // Queue.AcquireGLObjects(computeImage2Ds, null);
+            // Queue.AcquireGLObjects(computeImage2Ds, null);
 
             ExecuteInQueue(kernel, width, height);
             Queue.Finish();
@@ -161,11 +162,6 @@ namespace Processing.Computing
             var notAcquiredImages = images.Except(_acquiredImages);
             Queue.AcquireGLObjects(notAcquiredImages.Select(i => i.ComputeBuffer).ToArray(), null);
 
-            foreach (var notAcquiredImage in notAcquiredImages)
-            {
-                notAcquiredImage.InOperationScope = true;
-            }
-
             _acquiredImages.AddRange(notAcquiredImages);
         }
 
@@ -177,7 +173,6 @@ namespace Processing.Computing
 
             foreach (var image in imagesToRelease)
             {
-                image.InOperationScope = false;
                 _acquiredImages.Remove(image);
             }
         }

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
+﻿using System.Reflection;
 using System.Windows.Forms;
 using Processing.DataBinding;
 
-namespace UserInterface.DataEditors.InterfaceBinding
+namespace UserInterface.DataEditors.InterfaceBinding.Deprecated
 {
     public class MergeSubfieldsBinding : PropertyBindingBase
     {
@@ -14,7 +10,8 @@ namespace UserInterface.DataEditors.InterfaceBinding
         public override Control Control => null;
         public MergeSubfieldsBinding(MergeSubfieldsAttribute mergeSubfieldsAttribute, MemberInfo memberInfo, object target) : base(mergeSubfieldsAttribute, memberInfo, target)
         {
-            ComplexFieldBinder = new Binder(_propertyInfo.GetValue(Target));
+            ComplexFieldBinder = new Binder();
+            ComplexFieldBinder.ProcessObject(_propertyInfo.GetValue(Target));
             foreach (var binding in ComplexFieldBinder.Bindings)
             {
                 binding.PropertyChanged += OnPropertyChanged;

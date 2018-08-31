@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Common
 {
@@ -31,6 +32,12 @@ namespace Common
             }
 
             return result;
+        }
+
+        public static string SeparateUpperCase(this string self, string separator = " ")
+        {
+            var entries = Regex.Split(self, "(?<!^)(?=[A-Z])");
+            return entries.Join(separator);
         }
     }
 }

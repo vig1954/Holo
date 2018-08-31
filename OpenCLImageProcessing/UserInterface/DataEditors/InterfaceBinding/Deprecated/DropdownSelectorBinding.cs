@@ -1,26 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Windows.Forms;
 using Processing.DataBinding;
 using UserInterface.DataEditors.InterfaceBinding.Controls;
 
-namespace UserInterface.DataEditors.InterfaceBinding
+namespace UserInterface.DataEditors.InterfaceBinding.Deprecated
 {
     public class DropdownSelectorBinding : PropertyBindingBase
     {
         private readonly DropdownWithLabel _dropdown;
         private readonly IPropertyWithAvailableValuesList _property;
-        public override Control Control => _dropdown;
+        public override IBindableControl Control => _dropdown;
 
         public DropdownSelectorBinding(DropdownSelectorAttribute dropdownSelectorAttribute, MemberInfo memberInfo, object target) : base(dropdownSelectorAttribute, memberInfo, target)
         {
             if (!typeof(IPropertyWithAvailableValuesList).IsAssignableFrom(_propertyInfo.PropertyType))
                 throw new NotSupportedException($"На данный момент для {nameof(DropdownSelectorBinding)} поддерживается только свойства типов реализующих интерфейс {typeof(IPropertyWithAvailableValuesList).Name}.");
 
-            Group = dropdownSelectorAttribute.Group;
+            DisplayGroup = dropdownSelectorAttribute.Group;
 
             _dropdown = new DropdownWithLabel
             {
@@ -39,12 +36,12 @@ namespace UserInterface.DataEditors.InterfaceBinding
         private void PropertyOnOnValueSelected(object value, object sender)
         {
             if (sender != this)
-                _dropdown.SelectedItem = value;
+                _dropdown.SetValue(value, sender);
         }
 
         private void DropdownOnSelectedIndexChanged(object sender, EventArgs eventArgs)
         {
-            var value = _dropdown.SelectedItem;
+            var value = _dropdown.Value;
             _property.SetValue(value, this);
         }
 
@@ -69,7 +66,7 @@ namespace UserInterface.DataEditors.InterfaceBinding
                 _dropdown.Items.Add(value);
             }
 
-            _dropdown.SelectedItem = _property.GetValue();
+            _dropdown.SetValue(_property.GetValue(), this);
         }
     }
 }

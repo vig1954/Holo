@@ -1,16 +1,16 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Windows.Forms;
 using Processing.DataBinding;
+using UserInterface.DataEditors.InterfaceBinding.Controls;
 
-namespace UserInterface.DataEditors.InterfaceBinding
+namespace UserInterface.DataEditors.InterfaceBinding.Deprecated
 {
     public class ActionBinding : BindingBase
     {
         private readonly MethodInfo _methodInfo;
-        private readonly Button _button;
+        private readonly ButtonControl _button;
 
-        public override Control Control => _button;
+        public override IBindableControl Control => _button;
 
         public ActionBinding(ActionAttribute actionAttribute, MemberInfo memberInfo, object target) : base(actionAttribute, memberInfo, target)
         {
@@ -19,9 +19,9 @@ namespace UserInterface.DataEditors.InterfaceBinding
 
             _methodInfo = memberInfo.DeclaringType.GetMethod(memberInfo.Name);
 
-            Group = actionAttribute.Group;
+            DisplayGroup = actionAttribute.Group;
 
-            _button = new Button {Text = actionAttribute.TooltipText};
+            _button = new ButtonControl {Text = actionAttribute.TooltipText};
             _button.Click += (sender, args) => Invoke();
         }
 

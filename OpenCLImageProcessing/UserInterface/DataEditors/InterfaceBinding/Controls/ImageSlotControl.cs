@@ -12,7 +12,7 @@ using UserInterface.Utility;
 
 namespace UserInterface.DataEditors.InterfaceBinding.Controls
 {
-    public partial class ImageSlotControl : UserControl
+    public partial class ImageSlotControl : UserControl, IBindableControl
     {
         private IImageHandler _imageHandler;
 
@@ -20,8 +20,8 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
         public List<ImagePixelFormat> AllowedPixelFormats = new List<ImagePixelFormat>();
         public int? RequiredChannelCount;
         public bool OnlyImages;
-
-        public event Action OnValueChanged;
+        
+        public event Action<BindableControlValueUpdatedEventArgs> ValueUpdated;
 
         public string Title
         {
@@ -29,10 +29,9 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
             set => TitleLabel.Text = value;
         }
 
-        public IImageHandler Value
+        public object Value
         {
             get => _imageHandler;
-            set => UpdateValue(value);
         }
 
         public ImageSlotControl()
@@ -72,8 +71,6 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
                     IconPictureBox.Refresh();
                 }
             }
-
-            OnValueChanged?.Invoke();
         }
         
         private bool ImageHandlerPredicate(IImageHandler imageHandler)
@@ -117,12 +114,12 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
             selectImageHandlerForm.Show();
             selectImageHandlerForm.Location = Cursor.Position;
 
-            selectImageHandlerForm.OnImageHandlerSelected += handler => Value = handler;
+            selectImageHandlerForm.OnImageHandlerSelected += handler => SetValue(handler, this);
         }
 
-        private void miRemoveImage_Click(object sender, EventArgs e)
+        private void RemoveImage_Click(object sender, EventArgs e)
         {
-            Value = null;
+            SetValue(null, this);
         }
 
         private void IconPictureBox_MouseClick(object sender, MouseEventArgs e)
@@ -132,7 +129,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
             else if (e.Button == MouseButtons.Right)
                 contextMenuStrip1.Show(PointToScreen(e.Location));
             else if (e.Button == MouseButtons.Middle)
-                Value = null;
+                SetValue(null, this);
         }
 
         private void ImageSlotControl_Paint(object sender, PaintEventArgs e)
@@ -140,6 +137,13 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
             var pen = new Pen(Color.LightGray, 1.0f);
             pen.DashStyle = DashStyle.Dash;
             e.Graphics.DrawLine(pen, 0, 1, Width, 1);
+        }
+
+        public void SetValue(object value, object sender)
+        {
+            UpdateValue((IImageHandler) value);
+
+            ValueUpdated?.Invoke(new BindableControlValueUpdatedEventArgs(sender));
         }
     }
 }

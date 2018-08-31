@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace UserInterface.DataEditors.InterfaceBinding.Controls
 {
-    public partial class DropdownWithLabel : UserControl
+    public partial class DropdownWithLabel : UserControl, IBindableControl
     {
         public string Title
         {
@@ -17,10 +17,9 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
             set => TitleLabel.Text = value;
         }
 
-        public object SelectedItem
+        public object Value
         {
             get => DropDown.SelectedItem;
-            set => DropDown.SelectedItem = value;
         }
 
         public ComboBox.ObjectCollection Items => DropDown.Items;
@@ -30,8 +29,22 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
         public DropdownWithLabel()
         {
             InitializeComponent();
-            DropDown.SelectedIndexChanged += (sender, args) => SelectedIndexChanged?.Invoke(sender, args);
+            DropDown.SelectedIndexChanged += (sender, args) =>
+            {
+                SelectedIndexChanged?.Invoke(sender, args);
+                ValueUpdated?.Invoke(new BindableControlValueUpdatedEventArgs(sender));
+            };
+        }
 
+        public event Action<BindableControlValueUpdatedEventArgs> ValueUpdated;
+        public void SetValue(object value, object sender)
+        {
+            if (DropDown.Items.Contains(value))
+                throw new InvalidOperationException();
+
+            DropDown.SelectedValue = value;
+
+            ValueUpdated?.Invoke(new BindableControlValueUpdatedEventArgs(sender));
         }
     }
 }

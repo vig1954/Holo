@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace UserInterface.DataEditors.InterfaceBinding.Controls
 {
-    public partial class NumberControl : UserControl
+    public partial class NumberControl : UserControl, IBindableControl
     {
         private float _max;
         private float _min;
@@ -45,18 +45,9 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
             }
         }
 
-        public float Value
-        {
-            get => _value; 
-            set
-            {
-                _value = value;
-                UpdateLabels();
-                ValueChanged?.Invoke();
-            }
-        }
+        public object Value => _value;
 
-        public event Action ValueChanged;
+        public event Action<BindableControlValueUpdatedEventArgs> ValueUpdated;
 
         public NumberControl()
         {
@@ -76,11 +67,19 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
             {
                 if (txtCurrent.Focused && float.TryParse(txtCurrent.Text, out float value))
                 {
-                    Value = value;
+                    SetValue(value, this);
                 }
             };
         }
-        
+
+        public void SetValue(object value, object sender)
+        {
+            _value = (float)value;
+            UpdateLabels();
+
+            ValueUpdated?.Invoke(new BindableControlValueUpdatedEventArgs(this));
+        }
+
         private void UpdateLabels()
         {
             if (!txtCurrent.Focused)
@@ -103,8 +102,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
 
         private void AddStep(float multiplier)
         {
-            Value += _step * multiplier;
-            UpdateLabels();
+            SetValue(_value + _step * multiplier, this);
         }
 
         private void btnAdd_Click(object sender, EventArgs e)

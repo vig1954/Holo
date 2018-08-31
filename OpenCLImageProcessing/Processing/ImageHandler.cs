@@ -30,7 +30,7 @@ namespace Processing
 
     public class ImageUpdatedEventData
     {
-        public bool ReloadControls { get; private set; }
+        public bool ReloadControls { get; private set; }    // TODO: убрать отсюда
 
         public ImageUpdatedEventData(bool reloadControls)
         {
@@ -52,14 +52,10 @@ namespace Processing
         ComputeImage2D ComputeBuffer { get; }
         void UploadToComputingDevice(bool forceUpdate = false);
         void FreeComputingDevice();
-        void Update();
+        void Update(); // TODO: удалить из интерфейса?
         void DownloadFromComputingDevice();
         Bitmap ToBitmap(int channel = 0);
         IImageHandler ExtractSelection(ImageSelection selection);
-
-        // Для отладки
-        bool Removed { get; set; }
-        bool InOperationScope { get; set; }
     }
 
     public class ImageHandler : IImageHandler, IDisposable

@@ -11,7 +11,7 @@ using OpenTK.Graphics.OpenGL;
 using Processing.Computing;
 using UserInterface.DataEditors.Renderers;
 using UserInterface.DataEditors.Tools;
-using Binder = UserInterface.DataEditors.InterfaceBinding.Binder;
+using Binder = UserInterface.DataEditors.InterfaceBinding.Deprecated.Binder;
 // ReSharper disable All
 
 namespace UserInterface.DataEditors
@@ -49,8 +49,9 @@ namespace UserInterface.DataEditors
         public void UpdateRendererControls()
         {
             rightPanel.Controls.Clear();
-            _dataBinder = new Binder(_renderer);
-            _dataBinder.FillControls(rightPanel);
+            _dataBinder = new Binder();
+            _dataBinder.ProcessObject(_renderer);
+            _dataBinder.PopulateControl(rightPanel);
             rightPanel_Resize(null, null);
         }
 
@@ -138,7 +139,7 @@ namespace UserInterface.DataEditors
 
             foreach (var binding in binder.Bindings)
             {
-                var control = binding.Control;
+                var control = binding.Control as Control;
                 control.Width = panel.Width - panel.Padding.Left - panel.Padding.Right;
                 control.Left = 0;
                 control.Top = y;

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UserInterface.DataEditors.InterfaceBinding.Deprecated;
 
 namespace UserInterface.DataEditors.InterfaceBinding.Controls
 {
@@ -28,7 +29,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
         public void FillControls(Binder subfieldBinder, bool rootLevel = false)
         {
             subfieldsPanel.Controls.Clear();
-            subfieldBinder.FillControls(subfieldsPanel);
+            subfieldBinder.PopulateControl(subfieldsPanel);
             var visible = false;
             foreach (Control subfieldsPanelControl in subfieldsPanel.Controls)
             {

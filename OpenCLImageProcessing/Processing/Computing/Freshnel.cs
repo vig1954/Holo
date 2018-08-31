@@ -5,6 +5,7 @@ using System.Text;
 using Cloo;
 using Infrastructure;
 using OpenTK;
+using Processing.DataProcessors.DataProcessorParameterAttributes;
 using Processing.Utils;
 
 namespace Processing.Computing
@@ -69,7 +70,7 @@ namespace Processing.Computing
         /// <param name="distance">Расстояние, мм</param>
         /// <param name="objectSize">Размер объекта, мм</param>
         /// <param name="cyclicShift"></param>
-        public static void Transform(IImageHandler input, IImageHandler output, float wavelength, float distance, float objectSize, bool cyclicShift)
+        public static void Transform(IImageHandler input, [Output] IImageHandler output, float wavelength, float distance, float objectSize, bool cyclicShift)
         {
             var key = $"{input.Width}_{input.Height}";
 

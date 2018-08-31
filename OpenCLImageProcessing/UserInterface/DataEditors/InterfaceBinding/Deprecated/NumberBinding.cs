@@ -1,23 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
+﻿using System.Reflection;
 using System.Windows.Forms;
-using Common;
 using Processing.DataBinding;
 using UserInterface.DataEditors.InterfaceBinding.Controls;
 
-namespace UserInterface.DataEditors.InterfaceBinding
+namespace UserInterface.DataEditors.InterfaceBinding.Deprecated
 {
     public class NumberBinding : PropertyBindingBase
     {
         private readonly NumberControl _control;
-        public override Control Control => _control;
+        public override IBindableControl Control => _control;
 
         public NumberBinding(NumberAttribute numberAttribute, MemberInfo memberInfo, object target) : base(numberAttribute, memberInfo, target)
         {
-            Group = numberAttribute.Group;
+            DisplayGroup = numberAttribute.Group;
 
             _control = new NumberControl
             {
@@ -25,11 +20,11 @@ namespace UserInterface.DataEditors.InterfaceBinding
                 Title = numberAttribute.TooltipText,
                 Minimum = numberAttribute.Min,
                 Maximum = numberAttribute.Max,
-                Step = numberAttribute.Step,
-                Value = (float) _propertyInfo.GetValue(Target)
+                Step = numberAttribute.Step
             };
+            _control.SetValue(_propertyInfo.GetValue(Target), this);
 
-            _control.ValueChanged += () =>
+            _control.ValueUpdated += e =>
             {
                 _propertyInfo.SetValue(Target, _control.Value);
                 OnPropertyChanged();

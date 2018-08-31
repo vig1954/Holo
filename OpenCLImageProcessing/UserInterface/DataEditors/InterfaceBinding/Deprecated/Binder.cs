@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Windows.Forms;
 
-namespace UserInterface.DataEditors.InterfaceBinding
+namespace UserInterface.DataEditors.InterfaceBinding.Deprecated
 {
-    public class Binder
+    public class Binder: IInterfaceBinder
     {
         private object _target;
 
@@ -15,7 +13,16 @@ namespace UserInterface.DataEditors.InterfaceBinding
         public IEnumerable<BindingBase> AllBindings => Bindings.SelectMany(b => b is SubfieldGroupBinding subfieldGroupBinding ? subfieldGroupBinding.ComplexFieldBinder.Bindings : new[] {b});
 
 
+        public Binder()
+        {
+        }
+
         public Binder(object target)
+        {
+            ProcessObject(target);
+        }
+
+        public void ProcessObject(object target)
         {
             _target = target;
             if (_target == null)
@@ -33,18 +40,23 @@ namespace UserInterface.DataEditors.InterfaceBinding
                 .ToArray();
         }
 
-        public void FillControls(Panel container)
+        public void PopulateControl(Control container)
         {
             foreach (var binding in Bindings)
             {
-                binding.Control.Width = container.ClientRectangle.Width;
-                container.Controls.Add(binding.Control);
+                var bindingControl = (Control)binding.Control;
+                bindingControl.Width = container.ClientRectangle.Width;
+                container.Controls.Add(bindingControl);
             }
         }
 
         public PropertyBindingBase GetPropertyBindingWithEmptyValueForType(Type type)
         {
             return AllBindings.OfType<PropertyBindingBase>().FirstOrDefault(b => b.PropertyType.IsAssignableFrom(type) && b.Get() == null);
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

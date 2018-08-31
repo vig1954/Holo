@@ -8,11 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Processing;
+using UserInterface.DataEditors.InterfaceBinding.Deprecated;
 
 namespace UserInterface.DataEditors.InterfaceBinding.Controls
 {
-    public partial class ImageSlotWithSubfieldsControl : UserControl
+    public partial class ImageSlotWithSubfieldsControl : UserControl, IBindableControl
     {
+        public event Action<BindableControlValueUpdatedEventArgs> ValueUpdated;
+        
         public List<ImageFormat> AllowedImageFormats
         {
             get => imageSlotControl1.AllowedImageFormats;
@@ -31,17 +34,15 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
             set => imageSlotControl1.RequiredChannelCount = value;
         }
 
-        public event Action OnValueChanged;
         public string Title
         {
             get => imageSlotControl1.Title;
             set => imageSlotControl1.Title = value;
         }
 
-        public IImageHandler Value
+        public object Value
         {
             get => imageSlotControl1.Value;
-            set => imageSlotControl1.Value = value;
         }
 
         public ImageSlotWithSubfieldsControl()
@@ -50,21 +51,30 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
             RecalculateControlsSize();
             subfieldGroupControl1.Resize += (sender, args) => RecalculateControlsSize();
 
-            imageSlotControl1.OnValueChanged += () =>
+            imageSlotControl1.ValueUpdated += (e) =>
             {
-                if (imageSlotControl1.Value == null)
+                if (e.Sender != this)
                 {
-                    subfieldGroupControl1.Hide();
-                    RecalculateControlsSize();
+                    if (imageSlotControl1.Value == null)
+                    {
+                        subfieldGroupControl1.Hide();
+                        RecalculateControlsSize();
+                    }
+                    else
+                    {
+                        subfieldGroupControl1.Show();
+                        subfieldGroupControl1.Title = ((IImageHandler) imageSlotControl1.Value).GetTitle();
+                        subfieldGroupControl1.FillControls(new Binder(imageSlotControl1.Value));
+                    }
                 }
-                else
-                {
-                    subfieldGroupControl1.Show();
-                    subfieldGroupControl1.Title = imageSlotControl1.Value.GetTitle();
-                    subfieldGroupControl1.FillControls(new Binder(imageSlotControl1.Value));
-                }
-                OnValueChanged?.Invoke();
+
+                ValueUpdated?.Invoke(e);
             };
+        }
+
+        public void SetValue(object value, object sender)
+        {
+            imageSlotControl1.SetValue(value, sender);
         }
 
         private void subfieldGroupControl1_Resize(object sender, EventArgs e)

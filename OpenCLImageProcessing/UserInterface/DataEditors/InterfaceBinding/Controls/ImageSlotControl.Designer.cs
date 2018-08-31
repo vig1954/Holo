@@ -69,7 +69,7 @@
             this.miRemoveImage.Name = "miRemoveImage";
             this.miRemoveImage.Size = new System.Drawing.Size(112, 22);
             this.miRemoveImage.Text = "Убрать";
-            this.miRemoveImage.Click += new System.EventHandler(this.miRemoveImage_Click);
+            this.miRemoveImage.Click += new System.EventHandler(this.RemoveImage_Click);
             // 
             // IconPictureBox
             // 

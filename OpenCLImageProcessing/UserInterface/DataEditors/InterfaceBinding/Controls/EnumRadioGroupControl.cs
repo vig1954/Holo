@@ -5,15 +5,14 @@ using System.Drawing;
 using System.Data;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Common;
 
 namespace UserInterface.DataEditors.InterfaceBinding.Controls
 {
-    public partial class EnumRadioGroupControl : UserControl
+    public partial class EnumRadioGroupControl : UserControl, IBindableControl
     {
-        public event Action OnValueChanged;
+        public event Action<BindableControlValueUpdatedEventArgs> ValueUpdated;
 
         public string Title
         {
@@ -21,11 +20,15 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
             set => groupBox1.Text = value;
         }
 
-        public Enum Value
+        public object Value => (Enum)groupBox1.Controls.OfType<RadioButton>().Single(r => r.Checked).Tag;
+        
+        public void SetValue(object value, object sender)
         {
-            get => (Enum)groupBox1.Controls.OfType<RadioButton>().Single(r => r.Checked).Tag;
-            set => groupBox1.Controls.OfType<RadioButton>().Single(r => r.Tag.Equals(value)).Checked = true;
+            groupBox1.Controls.OfType<RadioButton>().Single(r => r.Tag.Equals(value)).Checked = true;
+
+            ValueUpdated?.Invoke(new BindableControlValueUpdatedEventArgs(sender));
         }
+
         public EnumRadioGroupControl(Type enumType)
         {
             if (!enumType.IsEnum)
@@ -48,7 +51,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
                 radioButton.CheckedChanged += (sender, args) =>
                 {
                     if (radioButton.Checked)
-                        OnValueChanged?.Invoke();
+                        ValueUpdated?.Invoke(new BindableControlValueUpdatedEventArgs(this));
                 };
                 
                 groupBox1.Controls.Add(radioButton);

@@ -88,11 +88,22 @@
     <Compile Include="DataEditors\DataEditorView.Designer.cs">
       <DependentUpon>DataEditorView.cs</DependentUpon>
     </Compile>
-    <Compile Include="DataEditors\InterfaceBinding\Binder.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\Attributes\BindMembersToUIAttribute.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\Attributes\BindToUIAttribute.cs" />
     <Compile Include="DataEditors\InterfaceBinding\BindingBase.cs" />
-    <Compile Include="DataEditors\InterfaceBinding\ActionBinding.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\BindingFactory.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\Controls\BindableControlFactory.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\Controls\ButtonControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataEditors\InterfaceBinding\Controls\CheckboxControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataEditors\InterfaceBinding\Deprecated\Binder.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\Deprecated\BindingBase.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\Deprecated\ActionBinding.cs" />
     <Compile Include="DataEditors\IDataEditor.cs" />
-    <Compile Include="DataEditors\InterfaceBinding\CheckboxBinding.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\Deprecated\CheckboxBinding.cs" />
     <Compile Include="DataEditors\InterfaceBinding\Controls\DropdownWithLabel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -111,18 +122,18 @@
     <Compile Include="DataEditors\InterfaceBinding\Controls\SubfieldGroupControl.Designer.cs">
       <DependentUpon>SubfieldGroupControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="DataEditors\InterfaceBinding\DropdownSelectorBinding.cs" />
-    <Compile Include="DataEditors\InterfaceBinding\ImageSlotWithSubfieldsBinder.cs" />
-    <Compile Include="DataEditors\InterfaceBinding\MergeSubfieldsBinding.cs" />
-    <Compile Include="DataEditors\InterfaceBinding\SubfieldGroupBinding.cs" />
     <Compile Include="DataEditors\InterfaceBinding\Controls\EnumRadioGroupControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="DataEditors\InterfaceBinding\Controls\EnumRadioGroupControl.Designer.cs">
       <DependentUpon>EnumRadioGroupControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="DataEditors\InterfaceBinding\EnumRadioGroupBinding.cs" />
-    <Compile Include="DataEditors\InterfaceBinding\ImageSlotBinder.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\Deprecated\DropdownSelectorBinding.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\Deprecated\ImageSlotWithSubfieldsBinder.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\Deprecated\MergeSubfieldsBinding.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\Deprecated\SubfieldGroupBinding.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\Deprecated\EnumRadioGroupBinding.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\Deprecated\ImageSlotBinder.cs" />
     <Compile Include="DataEditors\InterfaceBinding\Controls\ImageSlotControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -135,7 +146,12 @@
     <Compile Include="DataEditors\InterfaceBinding\Controls\NumberControl.Designer.cs">
       <DependentUpon>NumberControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="DataEditors\InterfaceBinding\NumberBinding.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\Deprecated\NumberBinding.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\IBindableControl.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\IBindingProvider.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\InterfaceBinder.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\MethodBinding.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\PropertyBinding.cs" />
     <Compile Include="DataEditors\Renderers\DataRendererForAttribute.cs" />
     <Compile Include="DataEditors\Renderers\Graphics\ImagePlane.cs" />
     <Compile Include="DataEditors\Renderers\Graphics\IDrawable.cs" />
@@ -161,6 +177,8 @@
     <Compile Include="DataEditors\Tools\SelectionTool.cs" />
     <Compile Include="DataEditors\Tools\ToolBase.cs" />
     <Compile Include="DataEditors\Tools\ToolstripButtonInfo.cs" />
+    <Compile Include="DataProcessorViews\IDataProcessorView.cs" />
+    <Compile Include="DataProcessorViews\SingleImageOutputDataProcessorView.cs" />
     <Compile Include="PointExtensions.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -231,9 +249,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DataEditors\InterfaceBinding\Controls\DropdownWithLabel.resx">
       <DependentUpon>DropdownWithLabel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DataEditors\InterfaceBinding\Controls\EnumRadioGroupControl.resx">
-      <DependentUpon>EnumRadioGroupControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DataEditors\InterfaceBinding\Controls\ImageSlotControl.resx">
       <DependentUpon>ImageSlotControl.cs</DependentUpon>

@@ -56,7 +56,6 @@
             this.imageSlotControl1.Size = new System.Drawing.Size(267, 43);
             this.imageSlotControl1.TabIndex = 0;
             this.imageSlotControl1.Title = "[Name]";
-            this.imageSlotControl1.Value = null;
             // 
             // ImageSlotWithSubfieldsControl
             // 
