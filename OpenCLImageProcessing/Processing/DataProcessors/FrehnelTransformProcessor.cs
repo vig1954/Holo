@@ -21,7 +21,7 @@ namespace Processing.DataProcessors
 
         [Input]
         [Number("Размер объекта, мм", 0, 50, 0.01f, OnPropertyChanged = nameof(Process))]
-        public float ObjectSize { get; set; } = 7;
+        public float ObjectSize { get; set; } = 6.35f;
 
         [Input]
         [Number("Расстояние, мм", 1, 5000, 1, OnPropertyChanged = nameof(Process))]
@@ -29,7 +29,7 @@ namespace Processing.DataProcessors
 
         [Input]
         [Number("Длина волны, нм", 380, 760, 1, OnPropertyChanged = nameof(Process))]
-        public float Wavelength { get; set; } = 500f;
+        public float Wavelength { get; set; } = 532f;
 
         public override void Awake()
         {
