@@ -12,18 +12,20 @@ namespace UserInterface.DataEditors.InterfaceBinding
     {
         string DisplayName { get; }
         string DisplayGroup { get; }
-
-        IBindableControl Control { get; }
     }
 
     public abstract class BindingBase : IBinding
     {
+        protected IBindingTargetProvider _targetProvider;
+
         public string Name { get; set; }
         public string DisplayName { get; set; }
         public string DisplayGroup { get; set; } = "";
-        
-        protected BindingBase(MemberInfo member)
+
+        protected BindingBase(MemberInfo member, IBindingTargetProvider targetProvider)
         {
+            _targetProvider = targetProvider;
+
             Name = member.Name;
 
             var bindToUiAttribute = member.GetCustomAttribute<BindToUIAttribute>();
@@ -37,7 +39,5 @@ namespace UserInterface.DataEditors.InterfaceBinding
                 DisplayName = Name;
             }
         }
-
-        public abstract IBindableControl Control { get; }
     }
 }

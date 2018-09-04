@@ -8,6 +8,5 @@ namespace UserInterface.DataProcessorViews
 {
     public interface IDataProcessorView
     {
-        void PopulateControl(Control container);
     }
 }

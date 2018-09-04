@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionExtensions.cs" />
     <Compile Include="ArrayExtensions.cs" />
     <Compile Include="Controls\Slider.cs">
       <SubType>UserControl</SubType>

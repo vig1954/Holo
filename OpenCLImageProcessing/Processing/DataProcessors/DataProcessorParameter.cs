@@ -47,11 +47,7 @@ namespace Processing.DataProcessors
             if (ValueUpdated == null)
                 return;
 
-            foreach (var d in ValueUpdated.GetInvocationList())
-            {
-                if (d.Target != sender)
-                    d.DynamicInvoke(e);
-            }
+            ValueUpdated?.InvokeExcludingTarget(e, sender);
         }
 
         public override string ToString()

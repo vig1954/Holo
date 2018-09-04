@@ -50,7 +50,7 @@ namespace UserInterface.DataEditors
         {
             rightPanel.Controls.Clear();
             _dataBinder = new Binder();
-            _dataBinder.ProcessObject(_renderer);
+            _dataBinder.SetObject(_renderer);
             _dataBinder.PopulateControl(rightPanel);
             rightPanel_Resize(null, null);
         }

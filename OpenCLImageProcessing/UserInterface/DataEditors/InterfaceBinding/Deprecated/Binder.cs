@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace UserInterface.DataEditors.InterfaceBinding.Deprecated
 {
-    public class Binder: IInterfaceBinder
+    public class Binder: IObjectBindingProvider
     {
         private object _target;
 
@@ -19,10 +19,10 @@ namespace UserInterface.DataEditors.InterfaceBinding.Deprecated
 
         public Binder(object target)
         {
-            ProcessObject(target);
+            SetObject(target);
         }
 
-        public void ProcessObject(object target)
+        public void SetObject(object target)
         {
             _target = target;
             if (_target == null)

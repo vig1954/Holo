@@ -8,13 +8,17 @@ namespace UserInterface.DataEditors.InterfaceBinding
 {
     public class MethodBinding : BindingBase
     {
-        public MethodBinding(MethodInfo member) : base(member)
+        private MethodInfo _methodInfo;
+
+        public MethodBinding(MethodInfo member, IBindingTargetProvider targetProvider) : base(member, targetProvider)
         {
+            _methodInfo = member;
         }
 
-        public override IBindableControl GetControl()
+        public void Invoke()
         {
-            throw new NotImplementedException();
+            var target = _targetProvider.Target;
+            _methodInfo.Invoke(target, new object[] { null });
         }
     }
 }

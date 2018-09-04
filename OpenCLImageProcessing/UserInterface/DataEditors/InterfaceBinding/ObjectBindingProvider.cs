@@ -2,34 +2,35 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace UserInterface.DataEditors.InterfaceBinding
 {
-    public interface IInterfaceBinder : IBindingProvider, IDisposable
+    public interface IBindingTargetProvider
     {
-        void ProcessObject(object obj);
+        object Target { get; }
     }
 
-    public class InterfaceBinder : IInterfaceBinder
+    public interface IObjectBindingProvider : IBindingProvider, IDisposable, IBindingTargetProvider
     {
+        void SetObject(object obj);
+    }
+
+    public class ObjectBindingProvider : IObjectBindingProvider
+    {
+        public object Target { get; }
+
         public IEnumerable<BindingBase> GetBindings()
         {
             throw new NotImplementedException();
         }
 
-        public void ProcessObject(object obj)
+        public void SetObject(object obj)
         {
             throw new NotImplementedException();
         }
 
         public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void PopulateControl(Control container)
         {
             throw new NotImplementedException();
         }

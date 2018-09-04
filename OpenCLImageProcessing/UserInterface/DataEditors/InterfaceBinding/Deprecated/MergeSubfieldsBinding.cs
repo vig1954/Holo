@@ -11,7 +11,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Deprecated
         public MergeSubfieldsBinding(MergeSubfieldsAttribute mergeSubfieldsAttribute, MemberInfo memberInfo, object target) : base(mergeSubfieldsAttribute, memberInfo, target)
         {
             ComplexFieldBinder = new Binder();
-            ComplexFieldBinder.ProcessObject(_propertyInfo.GetValue(Target));
+            ComplexFieldBinder.SetObject(_propertyInfo.GetValue(Target));
             foreach (var binding in ComplexFieldBinder.Bindings)
             {
                 binding.PropertyChanged += OnPropertyChanged;

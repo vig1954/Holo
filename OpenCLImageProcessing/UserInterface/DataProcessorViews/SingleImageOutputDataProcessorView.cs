@@ -27,7 +27,7 @@ namespace UserInterface.DataProcessorViews
             ProcessorDescriptor = processorDescriptor;
         }
 
-        public void PopulateControl(Control container)
+        public IEnumerable<BindingBase> GetBindings()
         {
             throw new NotImplementedException();
         }
@@ -89,5 +89,6 @@ namespace UserInterface.DataProcessorViews
         }
 
         #endregion
+        
     }
 }

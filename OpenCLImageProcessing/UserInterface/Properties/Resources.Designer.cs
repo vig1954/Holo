@@ -83,6 +83,16 @@ namespace UserInterface.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap arrow_state_blue_expanded_4097___rotated {
+            get {
+                object obj = ResourceManager.GetObject("arrow_state_blue_expanded_4097___rotated", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap chevron_5834 {
             get {
                 object obj = ResourceManager.GetObject("chevron_5834", resourceCulture);
