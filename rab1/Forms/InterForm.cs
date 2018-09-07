@@ -21,7 +21,8 @@ namespace rab1.Forms
         
         public event ImageBox    OnBox ;
         public event ImageBoxADD OnBoxADD;
-      
+        public event ImageBoxADD OnBoxADD_I;
+
         public event ImageBoxSUB OnBoxSUB;
         public event ImageBoxMUL OnBoxMUL;
         public event ImageBoxPSI OnBoxPSI;
@@ -72,6 +73,7 @@ namespace rab1.Forms
         private TextBox textBox11;     
         private TextBox textBox13;
         private Label label11;
+        private Button button8;
         private TextBox textBox12;
 
         public InterForm()
@@ -150,9 +152,35 @@ namespace rab1.Forms
             Close();
 
         }
- 
-      
 
+
+        private void button8_Click(object sender, EventArgs e)   // ADD + fz[0] => в центральное окно
+        {
+            double AngX, AngY;
+
+            AngleX = Convert.ToDouble(textBox1.Text);
+            AngleY = Convert.ToDouble(textBox2.Text);
+
+            AngX = Math.PI * AngleX / 180.0;
+            AngY = Math.PI * AngleY / 180.0;
+
+
+            NX = Convert.ToInt32(textBox3.Text);
+            Lambda = Convert.ToDouble(textBox5.Text);
+            NY = Convert.ToInt32(textBox4.Text);
+            dx = Convert.ToDouble(textBox6.Text);
+            k1 = Convert.ToInt32(textBox7.Text);
+            am = Convert.ToDouble(textBox8.Text);
+            noise = Convert.ToDouble(textBox13.Text);
+
+            fz[0] = Convert.ToDouble(textBox9.Text);
+            double fzr = Math.PI * fz[0] / 180.0;   // Фаза в радианах  
+
+            //MessageBox.Show("Введите порядок фильтрации");
+            OnBoxADD_I(am, AngX, AngY, Lambda, dx * 1000.0, noise / 100, fzr);
+            Close();
+
+        }
         private void button5_Click(object sender, EventArgs e) // SUB
         {
             double AngX, AngY;
@@ -297,6 +325,7 @@ namespace rab1.Forms
             this.label10 = new System.Windows.Forms.Label();
             this.button7 = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
+            this.button8 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -449,9 +478,9 @@ namespace rab1.Forms
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(15, 279);
+            this.button2.Location = new System.Drawing.Point(15, 365);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(257, 23);
+            this.button2.Size = new System.Drawing.Size(260, 23);
             this.button2.TabIndex = 18;
             this.button2.Text = "Умножить ";
             this.button2.UseVisualStyleBackColor = true;
@@ -501,7 +530,7 @@ namespace rab1.Forms
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(12, 240);
+            this.button5.Location = new System.Drawing.Point(15, 333);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(260, 23);
             this.button5.TabIndex = 24;
@@ -511,7 +540,7 @@ namespace rab1.Forms
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(12, 319);
+            this.button6.Location = new System.Drawing.Point(15, 394);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(260, 23);
             this.button6.TabIndex = 25;
@@ -563,11 +592,23 @@ namespace rab1.Forms
             this.label11.TabIndex = 30;
             this.label11.Text = "fz[i]";
             // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(15, 229);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(257, 62);
+            this.button8.TabIndex = 31;
+            this.button8.Text = "Сложить zComplex[1] с плоской волной\r\n +  шум + fz[0]\r\nи поместить в интенсивност" +
+    "ь в центральное окно";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
             // InterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(556, 429);
+            this.Controls.Add(this.button8);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.label10);
@@ -606,9 +647,6 @@ namespace rab1.Forms
 
         }
 
-        
-
-      
-       
+     
     }
 }

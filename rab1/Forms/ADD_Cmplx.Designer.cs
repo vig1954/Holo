@@ -74,6 +74,11 @@
             this.button17 = new System.Windows.Forms.Button();
             this.button18 = new System.Windows.Forms.Button();
             this.button19 = new System.Windows.Forms.Button();
+            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.textBox12 = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.button20 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -499,11 +504,60 @@
             this.button19.UseVisualStyleBackColor = true;
             this.button19.Click += new System.EventHandler(this.button19_Click);
             // 
+            // textBox11
+            // 
+            this.textBox11.Location = new System.Drawing.Point(31, 322);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(29, 20);
+            this.textBox11.TabIndex = 59;
+            this.textBox11.Text = "1";
+            // 
+            // textBox12
+            // 
+            this.textBox12.Location = new System.Drawing.Point(93, 322);
+            this.textBox12.Name = "textBox12";
+            this.textBox12.Size = new System.Drawing.Size(30, 20);
+            this.textBox12.TabIndex = 60;
+            this.textBox12.Text = "2";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(73, 325);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(13, 13);
+            this.label18.TabIndex = 61;
+            this.label18.Text = "+";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(142, 325);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(16, 13);
+            this.label19.TabIndex = 62;
+            this.label19.Text = "->";
+            // 
+            // button20
+            // 
+            this.button20.Location = new System.Drawing.Point(195, 311);
+            this.button20.Name = "button20";
+            this.button20.Size = new System.Drawing.Size(142, 40);
+            this.button20.TabIndex = 63;
+            this.button20.Text = "А*A +B*B +2AB cos(f1-f2)\r\nв основное окно";
+            this.button20.UseVisualStyleBackColor = true;
+            this.button20.Click += new System.EventHandler(this.button20_Click);
+            // 
             // ADD_Cmplx
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(688, 374);
+            this.Controls.Add(this.button20);
+            this.Controls.Add(this.label19);
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.textBox12);
+            this.Controls.Add(this.textBox11);
             this.Controls.Add(this.button19);
             this.Controls.Add(this.button18);
             this.Controls.Add(this.button17);
@@ -605,5 +659,10 @@
         private System.Windows.Forms.Button button17;
         private System.Windows.Forms.Button button18;
         private System.Windows.Forms.Button button19;
+        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Button button20;
     }
 }

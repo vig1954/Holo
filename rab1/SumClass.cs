@@ -322,6 +322,34 @@ namespace rab1
             return rezult;
         }
 
+        public static ZArrayDescriptor Range_Array1(ZArrayDescriptor zArrayPicture, double fmax)
+        {
+            if (zArrayPicture == null) { MessageBox.Show("SumClass ZArrayPicture == null"); return null; }
+            int width = zArrayPicture.width;
+            int height = zArrayPicture.height;
+            ZArrayDescriptor rezult = new ZArrayDescriptor(width, height);
+
+            double min = getMin(zArrayPicture);
+            double max = getMax(zArrayPicture);
+
+            if (max == min) return rezult;
+
+            double max1 = max - min;
+
+            //MessageBox.Show("max1 = " + max1);
+
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    double fc = zArrayPicture.array[i, j];
+                    
+                    rezult.array[i, j] = fmax * (fc - min) / (max - min);
+                }
+            }
+            return rezult;
+        }
+
         //
         //                         Устранение фазовой неоднозначности
         //

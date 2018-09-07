@@ -553,6 +553,38 @@ namespace rab1
             return res;
         }
 
+        public static void Ampl_C(int k11, int k12)             // Амплитуда суммы двух комплексных массивов
+        {
+            k11--; k12--;                                       // Массив 11 +12 -> zArrayPicture
+
+            MessageBox.Show("k11= " + k11 + " + k12= " + k12 );
+
+            if (Form1.zComplex[k11] == null) { MessageBox.Show("zComplex[" + k11 + "] == NULL"); return; }
+            if (Form1.zComplex[k12] == null) { MessageBox.Show("zComplex[" + k12 + "] == NULL"); return; }
+            int nx = Form1.zComplex[k11].width;
+            int ny = Form1.zComplex[k11].height;
+
+            int nx1 = Form1.zComplex[k12].width;
+            int ny1 = Form1.zComplex[k12].height;
+
+            if ((nx != nx1) || (ny != ny1)) { MessageBox.Show("Размеры массивов не равны"); return; }
+
+            ZArrayDescriptor a = new ZArrayDescriptor(nx, ny);
+
+            for (int i = 0; i < nx; i++)
+                for (int j = 0; j < ny; j++)
+                {
+                    double a1 = Form1.zComplex[k11].array[i, j].Magnitude;
+                    double a2 = Form1.zComplex[k12].array[i, j].Magnitude;
+                    double f1 = Form1.zComplex[k11].array[i, j].Phase;
+                    double f2 = Form1.zComplex[k12].array[i, j].Phase;
+                    a.array[i, j] =  a1 * a1 + a2 * a2 + 2 * a1 * a2 * Math.Cos(f1 - f2);
+                }
+
+            //zComplex[k5] = new ZComplexDescriptor(nx, ny);
+            Form1.zArrayPicture = a;
+
+        }
 
         //-------------------------------------------------------------------------------------------------------------------------------
     }

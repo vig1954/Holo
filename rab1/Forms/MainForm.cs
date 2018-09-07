@@ -1617,7 +1617,7 @@ namespace rab1
             ADDPLUS.On_Add += Add_C;        // Сложить
             ADDPLUS.On_Div += Div_C;        // Разделить
             ADDPLUS.On_Mul += Mul_C;        // Умножить
-
+            ADDPLUS.On_Ampl += Ampl_C;      // Амплитуда суммы двух волновых полей
 
 
             ADDPLUS.On_ROR_CMPLX += ROR_C;      // Cдвиг вправо  (циклический)
@@ -1637,6 +1637,8 @@ namespace rab1
             ADDPLUS.On_Pirs += ADD_Math.Pirs_D;          // Линейный коэффициент корреляции r-Пирсона
             ADDPLUS.On_ABS  += ABS_D;           // Абсолютное значение
 
+           
+
             ADDPLUS.Show();
         }
         // Сами программы формы ADD_Cmplx находятся в  ADD_Math.cs - Арифметические операции над массивами
@@ -1655,6 +1657,7 @@ namespace rab1
         private void Add_C(int k3, int k4, int k5) { ADD_Math.Add_C(k3, k4, k5); Complex_pictureBox(k5-1); }   // Сложить два комплексных массива
         private void Sub_C(int k3, int k4, int k5) { ADD_Math.Sub_C(k3, k4, k5); Complex_pictureBox(k5-1); }   // Вычесть два комплексных массива
 
+        private void Ampl_C(int k11, int k12)      { ADD_Math.Ampl_C(k11, k12); Vizual.Vizual_Picture(zArrayPicture, pictureBox01); ; }   // Амплитуда суммы двух комплексных массивов
         private void Mul_C(int k3, int k4, int k5) { ADD_Math.Mul_C(k3, k4, k5, progressBar1); Complex_pictureBox(k5 - 1); } // Умножить два комплексных массива
         private void Mul_D(int k3, int k4, int k5) { ADD_Math.Mul_D(k3, k4, k5, progressBar1); Vizual_regImage(k5 - 1); } // Умножить два вещественных массивов
         private void Conv_D(int k3, int k4, int k5) { ADD_Math.Conv_D(k3, k4, k5, progressBar1); Vizual_regImage(k5 - 1); } // Корреляция двух вещественных массивов
@@ -1975,6 +1978,7 @@ namespace rab1
             InterForm BoxForm = new InterForm();
             BoxForm.OnBox       += FormOn;
             BoxForm.OnBoxADD    += FormOnADD;      // Сложить с плоской волной
+            BoxForm.OnBoxADD_I    += FormOnADD_I;    // Сложить с плоской волной и поместить интенсивность в центральное окно
             BoxForm.OnBoxSUB    += FormOnSUB;
            // BoxForm.OnBoxADD_Random += FormOnADD_Random;
             BoxForm.OnBoxMUL    += FormOnMUL;
@@ -1984,8 +1988,16 @@ namespace rab1
             BoxForm.Show();
 
         }
-        // Сложить с плоской волной
+        // Сложить с плоской волной => интенсивность в центральное окно
 
+        private void FormOnADD_I(double am, double AngleX, double AngleY, double Lambda, double dx, double noise, double fz) // Сложить с плоской волной + fz[0]
+        {
+            //int k1 = regComplex;
+            if (zComplex[1] == null) { MessageBox.Show("Сложение с плоской волной zComplex[k1] == NULL   FormOnADD_I"); return; }
+
+            zArrayPicture = Model_interf.Model_pl_ADD_I(am, zComplex[1], AngleX, AngleY, Lambda, dx, noise, fz);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        }
         private void FormOnADD(double am, double AngleX, double AngleY, double Lambda, double dx, double noise, double fz) // Сложить с плоской волной + fz[0]
         {
             //int k1 = regComplex;
@@ -2279,10 +2291,10 @@ namespace rab1
             Model_object.Glgr_Interf2(zComplex, zArrayDescriptor, sdvg0, sdvg, noise, Lambda, lm, dx, AngleX, AngleY);
 
             //Complex_pictureBox(0);
-            Complex_pictureBox(1);
+            Complex_pictureBox(1);   // Отображение комплекного массива
             Complex_pictureBox(2);
 
-            Vizual_regImage(0);
+            Vizual_regImage(0);      // Отображение реального массива
             Vizual_regImage(1);
             Vizual_regImage(2);
 

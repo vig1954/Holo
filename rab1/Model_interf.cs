@@ -197,7 +197,41 @@ namespace rab1
             return cmpl;
         }
 
-       
+        // Сложение с плоской волной => интенсивность в центральное окно
+
+        public static ZArrayDescriptor Model_pl_ADD_I(double am, ZComplexDescriptor cmpl0,
+                       double AngleX, double AngleY, double Lambda, double dx, double noise, double fzr)
+        {
+
+            int NX = cmpl0.width;
+            int NY = cmpl0.height;
+
+            //ZComplexDescriptor cmpl1 = new ZComplexDescriptor(NX, NY);      // Фронт под углом AngleX,  AngleY
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(NX, NY);             // Результирующая интенсивность
+            double kx = dx / NX;
+            double ky = dx / NY;
+
+            // a = (a - min) * 2.0 * Math.PI / (max - min);   -pi +pi
+            am = SumClass.getAverage(cmpl0);  // Средняя интенсивность комплексного массива
+
+            Random rnd = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
+
+            for (int i = 0; i < NX; i++)
+                for (int j = 0; j < NY; j++)
+                {
+                    double fz = 2 * Math.PI * (Math.Sin(AngleX) * kx * i + Math.Sin(AngleY) * ky * j) / Lambda;
+                    double fa = rnd.NextDouble() * 2.0 * Math.PI - Math.PI;
+                    double f0 = fz + fa * noise + fzr;
+                    //Complex Pl = Complex.FromPolarCoordinates(am, f0);
+
+                    //cmpl.array[i, j] = cmpl0.array[i, j] + Pl;
+                    double a = cmpl0.array[i, j].Magnitude;
+                    double f = cmpl0.array[i, j].Phase;
+                    cmpl.array[i, j] =a*a + am*am + Math.Cos(f-f0);
+                }
+            cmpl = SumClass.Range_Array1(cmpl, 255);      // Прведение к диапазону от 0 до 255
+            return cmpl;
+        }
 
         //
         //                     Добавление фазового сдвига  fz и получение голограммы

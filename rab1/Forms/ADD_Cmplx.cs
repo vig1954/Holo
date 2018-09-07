@@ -50,6 +50,7 @@ namespace rab1.Forms
         public event ABS_Double On_ABS;
 
         public event ADD_Complex On_Pirs;
+        public event ADD_Complex On_Ampl;
 
         private static int k1 = 2;
         private static int k2 = 3;
@@ -63,7 +64,8 @@ namespace rab1.Forms
         private static int k9 = 2;
         private static int k10 = 2;
 
-
+        private static int k11 = 1;
+        private static int k12 = 2;
 
 
         public ADD_Cmplx()
@@ -79,6 +81,9 @@ namespace rab1.Forms
             textBox8.Text = Convert.ToString(k8);
             textBox9.Text = Convert.ToString(k9);
             textBox10.Text = Convert.ToString(k10);
+
+            textBox11.Text = Convert.ToString(k11);
+            textBox12.Text = Convert.ToString(k12);
         }
 
 
@@ -262,6 +267,15 @@ namespace rab1.Forms
         private void button19_Click(object sender, EventArgs e)
         {
             On_ABS();
+            Close();
+        }
+        // Амплитуда в главное окно А*A +B*B +2AB cos(f1-f2)
+        private void button20_Click(object sender, EventArgs e)
+        {
+            k11 = Convert.ToInt32(textBox11.Text);
+            k12 = Convert.ToInt32(textBox12.Text); 
+
+            On_Ampl(k11, k12);     // Амплитуда суммы двух волновых полей
             Close();
         }
 
