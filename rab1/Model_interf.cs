@@ -227,7 +227,7 @@ namespace rab1
                     //cmpl.array[i, j] = cmpl0.array[i, j] + Pl;
                     double a = cmpl0.array[i, j].Magnitude;
                     double f = cmpl0.array[i, j].Phase;
-                    cmpl.array[i, j] =a*a + am*am + Math.Cos(f-f0);
+                    cmpl.array[i, j] =a*a + am*am + 2*a*am*Math.Cos(f-f0);
                 }
             cmpl = SumClass.Range_Array1(cmpl, 255);      // Прведение к диапазону от 0 до 255
             return cmpl;
