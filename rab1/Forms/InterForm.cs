@@ -28,6 +28,7 @@ namespace rab1.Forms
         public event ImageBoxPSI OnBoxPSI;
         public event ImageBoxSUB1   OnBoxSUB1;
         public event ImageBoxNoise OnBoxNoise;
+        public event ImageBoxNoise OnBoxMove;
 
         private static double AngleX = 0.7;
         private static double AngleY = 0.7;
@@ -74,6 +75,7 @@ namespace rab1.Forms
         private TextBox textBox13;
         private Label label11;
         private Button button8;
+        private Button button9;
         private TextBox textBox12;
 
         public InterForm()
@@ -263,10 +265,18 @@ namespace rab1.Forms
             Close();
 
         }
+
+        // Из текущего окна в главное с масштабированием
+        private void button9_Click(object sender, EventArgs e) 
+        {
+            am = Convert.ToDouble(textBox8.Text);
+            OnBoxMove(am);
+            Close();
+        }
         //---------------------------------------------------------------------
         //               Вычесть отрицательный наклон
         //--------------------------------------------------------------------
-       
+
         private void button6_Click(object sender, EventArgs e)
         {
             double AngX, AngY;
@@ -326,6 +336,7 @@ namespace rab1.Forms
             this.button7 = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.button8 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -596,18 +607,29 @@ namespace rab1.Forms
             // 
             this.button8.Location = new System.Drawing.Point(15, 229);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(257, 62);
+            this.button8.Size = new System.Drawing.Size(257, 88);
             this.button8.TabIndex = 31;
             this.button8.Text = "Сложить zComplex[1] с плоской волной\r\n +  шум + fz[0]\r\nи поместить в интенсивност" +
-    "ь в центральное окно";
+    "ь в центральное окно\r\nПомасштабировать от 0 до Амплитуда";
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(297, 366);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(232, 51);
+            this.button9.TabIndex = 32;
+            this.button9.Text = "Из текущего окна в главное\r\nс масштабированием от 0 до Амплитуда";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // InterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(556, 429);
+            this.Controls.Add(this.button9);
             this.Controls.Add(this.button8);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.button7);
@@ -647,6 +669,6 @@ namespace rab1.Forms
 
         }
 
-     
+      
     }
 }

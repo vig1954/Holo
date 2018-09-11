@@ -1977,17 +1977,35 @@ namespace rab1
             
             InterForm BoxForm = new InterForm();
             BoxForm.OnBox       += FormOn;
-            BoxForm.OnBoxADD    += FormOnADD;      // Сложить с плоской волной
-            BoxForm.OnBoxADD_I    += FormOnADD_I;    // Сложить с плоской волной и поместить интенсивность в центральное окно
+            BoxForm.OnBoxADD    += FormOnADD;        // Сложить с плоской волной
+            BoxForm.OnBoxADD_I  += FormOnADD_I;      // Сложить с плоской волной и поместить интенсивность в центральное окно
             BoxForm.OnBoxSUB    += FormOnSUB;
-           // BoxForm.OnBoxADD_Random += FormOnADD_Random;
+            // BoxForm.OnBoxADD_Random += FormOnADD_Random;
             BoxForm.OnBoxMUL    += FormOnMUL;
             BoxForm.OnBoxPSI    += FormOnPSI;      // Сложение с фазовым сдвигом => 8,9,10,11
             BoxForm.OnBoxSUB1   += FormOnSUB1;
             BoxForm.OnBoxNoise  += FormOnNoise;
+            BoxForm.OnBoxMove   += FormOnMove;    // <=  Из текущего окна в главное с мастабированием
             BoxForm.Show();
 
         }
+
+        private void FormOnMove(double am)
+        {
+            if (zArrayDescriptor[regImage] == null) return;
+            applyScaleModeToPicturebox();
+
+            int nx = zArrayDescriptor[regImage].width;
+            int ny = zArrayDescriptor[regImage].height;
+            zArrayPicture = new ZArrayDescriptor(nx, ny);
+
+            for (int i = 0; i < nx; i++)
+                for (int j = 0; j < ny; j++)
+                    zArrayPicture.array[i, j] = zArrayDescriptor[regImage].array[i, j];
+            zArrayPicture = SumClass.Range_Array1(zArrayPicture, am);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        }
+
         // Сложить с плоской волной => интенсивность в центральное окно
 
         private void FormOnADD_I(double am, double AngleX, double AngleY, double Lambda, double dx, double noise, double fz) // Сложить с плоской волной + fz[0]
@@ -2183,9 +2201,27 @@ namespace rab1
             //MessageBox.Show("min = " + Convert.ToString(min) + "max = " + Convert.ToString(max));
 
             //int BarMax = Convert.ToInt32(max - min);
+            try
+            {
+                vScrollBar1.Maximum = Convert.ToInt32(max);
+            }
+            catch (System.OverflowException)
+            {
+                System.Console.WriteLine("Overflow in double to int conversion."); return;
+            }
 
-            vScrollBar1.Maximum = Convert.ToInt32(max);
-            vScrollBar1.Minimum = Convert.ToInt32(min);
+
+            try
+            {
+                vScrollBar1.Minimum = Convert.ToInt32(min);
+            }
+            catch (System.OverflowException)
+            {
+                System.Console.WriteLine("Overflow in double to int conversion."); return;
+            }
+
+
+           
             vScrollBar1.Value = Convert.ToInt32(min);
             vScrollBar1.Update();
             vScrollBar1.Show();

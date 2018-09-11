@@ -175,11 +175,12 @@ namespace rab1
             int NX = cmpl0.width;
             int NY = cmpl0.height;
 
-            //ZComplexDescriptor cmpl1 = new ZComplexDescriptor(NX, NY);      // Фронт под углом AngleX,  AngleY
-            ZComplexDescriptor cmpl = new ZComplexDescriptor(NX, NY);       // Результирующий фронт
+            //ZComplexDescriptor cmpl1 = new ZComplexDescriptor(NX, NY);     // Фронт под углом AngleX,  AngleY
+            ZComplexDescriptor cmpl = new ZComplexDescriptor(NX, NY);        // Результирующий фронт
             double kx = dx / NX;
             double ky = dx / NY;
 
+            am = SumClass.getAverage(cmpl0);                                 // Среднее значение
             // a = (a - min) * 2.0 * Math.PI / (max - min);   -pi +pi
 
             Random rnd = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
@@ -202,7 +203,7 @@ namespace rab1
         public static ZArrayDescriptor Model_pl_ADD_I(double am, ZComplexDescriptor cmpl0,
                        double AngleX, double AngleY, double Lambda, double dx, double noise, double fzr)
         {
-
+            MessageBox.Show("am = " + am);
             int NX = cmpl0.width;
             int NY = cmpl0.height;
 
@@ -212,7 +213,7 @@ namespace rab1
             double ky = dx / NY;
 
             // a = (a - min) * 2.0 * Math.PI / (max - min);   -pi +pi
-            am = SumClass.getAverage(cmpl0);  // Средняя интенсивность комплексного массива
+            //am = SumClass.getAverage(cmpl0);  // Средняя интенсивность комплексного массива
 
             Random rnd = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
 
@@ -229,7 +230,7 @@ namespace rab1
                     double f = cmpl0.array[i, j].Phase;
                     cmpl.array[i, j] =a*a + am*am + 2*a*am*Math.Cos(f-f0);
                 }
-            cmpl = SumClass.Range_Array1(cmpl, 255);      // Прведение к диапазону от 0 до 255
+            cmpl = SumClass.Range_Array1(cmpl, am);      // Прведение к диапазону от 0 до am
             return cmpl;
         }
 
@@ -301,6 +302,8 @@ namespace rab1
 
             int NX = cmpl0.width;
             int NY = cmpl0.height;
+
+            am = 1;
 
             //ZComplexDescriptor cmpl1 = new ZComplexDescriptor(NX, NY);      // Фронт под углом AngleX,  AngleY
             ZComplexDescriptor cmpl = new ZComplexDescriptor(NX, NY);         // Результирующий фронт

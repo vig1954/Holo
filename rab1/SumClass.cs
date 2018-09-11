@@ -336,7 +336,7 @@ namespace rab1
 
             double max1 = max - min;
 
-            //MessageBox.Show("max1 = " + max1);
+            //MessageBox.Show("fmax1 = " + fmax);
 
             for (int i = 0; i < width; i++)
             {
@@ -344,7 +344,7 @@ namespace rab1
                 {
                     double fc = zArrayPicture.array[i, j];
                     
-                    rezult.array[i, j] = fmax * (fc - min) / (max - min);
+                    rezult.array[i, j] = fmax * (fc - min) / max1;
                 }
             }
             return rezult;
