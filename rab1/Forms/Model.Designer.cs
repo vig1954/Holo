@@ -228,7 +228,7 @@
             this.button7.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button7.Location = new System.Drawing.Point(253, 281);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(473, 139);
+            this.button7.Size = new System.Drawing.Size(473, 124);
             this.button7.TabIndex = 22;
             this.button7.Text = resources.GetString("button7.Text");
             this.button7.UseVisualStyleBackColor = true;

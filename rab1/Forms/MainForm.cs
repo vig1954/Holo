@@ -2399,9 +2399,13 @@ namespace rab1
         {
 
             Model_object.Glgr_Interf8_PSI_Fr(zComplex, zArrayDescriptor, sdvg0, sdvg1, noise, Lambda, dx, d, fz, Ax, Ay);
-            Complex_pictureBox(0);
+            //Complex_pictureBox(0);
             Complex_pictureBox(1);
             Complex_pictureBox(2);
+            Vizual_regImage(0);
+            Vizual_regImage(1);
+            Vizual_regImage(2);
+            Vizual_regImage(3);
         }
         // -------------------------------------------------------------------------------------------------------------------------
  /*       private void aDDToolStripMenuItem_Click(object sender, EventArgs e)  // zArrayPicture + zComplex[1] => zComplex[1]

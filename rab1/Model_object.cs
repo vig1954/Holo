@@ -483,66 +483,67 @@ namespace rab1
 
         public static void Glgr_Interf8_PSI_Fr(ZComplexDescriptor[] zComplex, ZArrayDescriptor[] zArrayDescriptor, double sdvg0, double sdvg1, double noise, double Lambda, double dx, double d, double[] fz, double AngleX, double AngleY)
         {
-            int NX = 1024;
-            int NY = 1024;
-            zComplex[0] = new ZComplexDescriptor(NX, NY);
-            //zComplex[1] = new ZComplexDescriptor(NX, NY);
-            //zComplex[2] = new ZComplexDescriptor(NX, NY);
-
-            int m = Furie.PowerOfTwo(NX);
-            double am = 255;                                                     // Амплитуда опорной волны
-
+            
             double noise_add = 0;
 
             //zComplex[0] = new ZComplexDescriptor(NX, NY);
-            ZComplexDescriptor zComplex_tmp  = new ZComplexDescriptor(NX, NY);
-            ZComplexDescriptor zComplex_tmp1 = new ZComplexDescriptor(NX, NY);
-            ZComplexDescriptor zComplex_tmp2 = new ZComplexDescriptor(NX, NY);
-            // ----------------------------------------------------------------------------------------------------------------------------- 1 голограмма
+            //ZComplexDescriptor zComplex_tmp  = new ZComplexDescriptor(NX, NY);
+            //ZComplexDescriptor zComplex_tmp1 = new ZComplexDescriptor(NX, NY);
+            //ZComplexDescriptor zComplex_tmp2 = new ZComplexDescriptor(NX, NY);
+            // ---------------------------------------------------------------------------------- 1 голограмма
 
-            zComplex_tmp = Model_2(sdvg0, noise, Lambda);                           // Модель объекта с нулевым сдвигом
+            ZComplexDescriptor zComplex_tmp = Model_2(sdvg0, noise, Lambda);                      // Модель объекта первое состояние
             zComplex_tmp = Furie.Invers(zComplex_tmp);                                            // Циклический сдвиг
-            // zComplex[1] = Furie.FourierTransform(zComplex[0], m);                             // Преобразование Фурье
-            zComplex_tmp = Furie.FrenelTransform(zComplex_tmp, m, Lambda, d, dx);                 // Преобразование Френеля
-            //zComplex[1] = FurieN.FrenelTransformN(zComplex[0], Lambda, d, dx);
-           
-            ZArrayDescriptor[] zArray = new ZArrayDescriptor[4];                                // Рабочие массивы для 4 голограмм
+            // zComplex[1] = Furie.FourierTransform(zComplex[0], m);                              // Преобразование Фурье
+            //zComplex_tmp = Furie.FrenelTransform(zComplex_tmp, m, Lambda, d, dx);               // Преобразование Френеля
+            zComplex_tmp = FurieN.FrenelTransformN(zComplex_tmp, Lambda, d, dx);
+            double am = SumClass.getAverage(zComplex_tmp);                                        // Амплитуда опорной волны (среднее от амплитуды zComplex[1])
 
-            for (int i = 0; i < 4; i++)                                                         // Сложение с опорной волной + fz[i]
-            {
-                zArray[i] = Model_interf.Model_pl_PSI(am, zComplex_tmp, AngleX, AngleY, Lambda, dx, noise_add, fz[i]);   
+            ZComplexDescriptor zComplex_tmp1 =  Model_interf.Model_pl_ADD(am, zComplex_tmp, AngleY, AngleY, Lambda, dx, 0);
+            // ZArrayDescriptor[] zArray = new ZArrayDescriptor[4];                                  // Вещественные рабочие массивы для 4 голограмм
+
+             for (int i = 0; i < 4; i++)                                                           // Сложение с опорной волной + fz[i]
+             {
+                zArrayDescriptor[i] = Model_interf.Model_pl_PSI(am, zComplex_tmp, AngleX, AngleY, Lambda, dx, noise_add, fz[i]);
             }
-           
-            zComplex_tmp = ATAN_PSI.ATAN_ar(zArray, fz, am);
-                
-            // ----------------------------------------------------------------------------------------------------------------------------- 2 голограмма
+            zComplex_tmp = ATAN_PSI.ATAN_ar(zArrayDescriptor, fz, am);
+            // zComplex_tmp = ATAN_PSI.ATAN_ar(zArray, fz, am);                                      // 1 комплексная голограмма =>  zComplex_tmp
+
+            //zComplex_tmp = Model_interf.Model_pl_MUL(am, zComplex_tmp, AngleX, AngleY, Lambda, dx); // Умножение для устранения разности фаз
+            zComplex[1] = FurieN.FrenelTransformN(zComplex_tmp, Lambda, d, dx);                     // Восстановленное комплекcное поле для 1 состояния
 
 
-            zComplex_tmp1 = Model_2(sdvg1, noise, Lambda);                                        // Модель объекта со сдвигом         
-            zComplex_tmp1 = Furie.Invers(zComplex_tmp1);                                           // Циклический сдвиг
-            zComplex_tmp1 = Furie.FrenelTransform(zComplex_tmp1, m, Lambda, d, dx);                // Преобразование Френеля
-            //zComplex[1] = FurieN.FrenelTransformN(zComplex[0], Lambda, d, dx);
-           // MessageBox.Show(" m= "+m+ " Lambda= " + Lambda + " d= " + d + " dx= " + dx);
-            
-            for (int i = 0; i < 4; i++)                                                         // Сложение с опорной волной + fz[i]
-              {
-                  zArray[i] = Model_interf.Model_pl_PSI(am, zComplex_tmp1, AngleX, AngleY, Lambda, dx, noise_add, fz[i]);
-              }          
+            //zComplex[2] = Model_interf.Model_pl_MUL(am, zComplex_tmp1, AngleX, AngleY, Lambda, dx); // Умножение для устранения разности фаз
+            zComplex[2] = FurieN.FrenelTransformN(zComplex_tmp1, Lambda, d, dx);
+            // ------------------------------------------------------------------------------------ 2 голограмма
+            /*
 
-            zComplex_tmp1 = ATAN_PSI.ATAN_ar(zArray, fz, am);
-           
-            // ----------------------------------------------------------------------------------------------------------------------------- Сложение волновых фронтов 
-          
-           zComplex[0] = Model_interf.Model_pl_MUL(am, zComplex_tmp, AngleX, AngleY, Lambda, dx);
-           zComplex[0] = Furie.FrenelTransform(zComplex[0], m, Lambda, d, dx);
-            
-           zComplex_tmp2 = ADD_Cmplx(zComplex_tmp1, zComplex_tmp);
-           zComplex_tmp2 = Model_interf.Model_pl_MUL(am, zComplex_tmp2, AngleX, AngleY, Lambda, dx);
-           zComplex[2] = Furie.FrenelTransform(zComplex_tmp2, m, Lambda, d, dx);
+                        ZComplexDescriptor zComplex_tmp1 = Model_2(sdvg1, noise, Lambda);                      // Модель объекта со сдвигом         
+                        zComplex_tmp1 = Furie.Invers(zComplex_tmp1);                                           // Циклический сдвиг
 
-           zComplex_tmp2 = SUB_Cmplx(zComplex_tmp1, zComplex_tmp);
-           zComplex_tmp2 = Model_interf.Model_pl_MUL(am, zComplex_tmp2, AngleX, AngleY, Lambda, dx);
-           zComplex[1] = Furie.FrenelTransform(zComplex_tmp2, m, Lambda, d, dx);
+                        zComplex_tmp1 = FurieN.FrenelTransformN(zComplex_tmp1, Lambda, d, dx);
+                       // MessageBox.Show(" m= "+m+ " Lambda= " + Lambda + " d= " + d + " dx= " + dx);
+
+                        for (int i = 0; i < 4; i++)                                                            // Сложение с опорной волной + fz[i]
+                          {
+                              zArray[i] = Model_interf.Model_pl_PSI(am, zComplex_tmp1, AngleX, AngleY, Lambda, dx, noise_add, fz[i]);
+                          }          
+
+                        zComplex_tmp1 = ATAN_PSI.ATAN_ar(zArray, fz, am);                                      // 1 голограмма =>  zComplex_tmp1
+                        zComplex[1] = Model_interf.Model_pl_MUL(am, zComplex_tmp1, AngleX, AngleY, Lambda, dx); // Умножение для устранения разности фаз
+                        zComplex[1] = FurieN.FrenelTransformN(zComplex[1], Lambda, d, dx);                     // Восстановленное комплекcное поле для 2 состояния
+            */
+
+            // ------------------------------------------------------------------------------- Сложение волновых фронтов 
+
+            // ZComplexDescriptor zComplex_tmp2 = ADD_Cmplx(zComplex_tmp1, zComplex_tmp);
+            //zComplex_tmp2 = Model_interf.Model_pl_MUL(am, zComplex_tmp2, AngleX, AngleY, Lambda, dx);
+            //zComplex[2] = Furie.FrenelTransform(zComplex_tmp2, m, Lambda, d, dx);
+            //zComplex[2] = FurieN.FrenelTransformN(zComplex_tmp2, Lambda, d, dx);
+
+            //zComplex_tmp2 = SUB_Cmplx(zComplex_tmp1, zComplex_tmp);
+            //zComplex_tmp2 = Model_interf.Model_pl_MUL(am, zComplex_tmp2, AngleX, AngleY, Lambda, dx);
+            //zComplex[1] = FurieN.FrenelTransformN(zComplex_tmp2, Lambda, d, dx);
 
 
         }
