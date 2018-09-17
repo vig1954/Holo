@@ -2371,7 +2371,7 @@ namespace rab1
                     zArrayPicture.Double_Picture(pictureBox01);
                 }
          */
-        // Модель объекта (пластинки) Двойная экспозиция Расшифровка PSI
+        // Модель объекта (пластинки) Расшифровка PSI
         private void FormInterfPSI_Fr(double sdvg0, double sdvg1, double noise, double Lambda, double dx, double d, 
                                       double[] fz, double Ax, double Ay)  
         {
@@ -2381,16 +2381,8 @@ namespace rab1
             Complex_pictureBox(1);
             //Complex_pictureBox(2);
 
-           
-            zArrayDescriptor[8].Double_Picture(pictureBox9);
-            zArrayDescriptor[9].Double_Picture(pictureBox10);
-            zArrayDescriptor[10].Double_Picture(pictureBox11);
-            zArrayDescriptor[11].Double_Picture(pictureBox12);
-
-
-            //Complex_pictureBox(regComplex);
-            //zArrayPicture.Double_Picture(pictureBox01);
-           // Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+            Vizual_regImage(8); Vizual_regImage(9); Vizual_regImage(10); Vizual_regImage(11);
+            
         }
 
         // Расшифровка PSI по новому алгоритму
@@ -2399,13 +2391,10 @@ namespace rab1
         {
 
             Model_object.Glgr_Interf8_PSI_Fr(zComplex, zArrayDescriptor, sdvg0, sdvg1, noise, Lambda, dx, d, fz, Ax, Ay);
-            //Complex_pictureBox(0);
+            Complex_pictureBox(0);
             Complex_pictureBox(1);
             Complex_pictureBox(2);
-            Vizual_regImage(0);
-            Vizual_regImage(1);
-            Vizual_regImage(2);
-            Vizual_regImage(3);
+           // Vizual_regImage(8);            Vizual_regImage(9);            Vizual_regImage(10);            Vizual_regImage(11);
         }
         // -------------------------------------------------------------------------------------------------------------------------
  /*       private void aDDToolStripMenuItem_Click(object sender, EventArgs e)  // zArrayPicture + zComplex[1] => zComplex[1]
