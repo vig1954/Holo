@@ -436,7 +436,7 @@ namespace rab1
            
             double AngleX = Ax;
             double AngleY = Ay;
-            double noise_add = 0;
+            double noise_add = noise;
 
             //zComplex[0] = new ZComplexDescriptor(NX, NY);
             //MessageBox.Show(" sdvg0 = " + sdvg0 + " sdvg1 = " + sdvg1);
