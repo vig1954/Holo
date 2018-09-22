@@ -185,7 +185,7 @@ namespace Camera
             }
         }
 
-        private void CameraImageDownloaded(Bitmap bmp)
+        private void CameraImageDownloaded(Bitmap bmp, ImageType imageType)
         {
             if (_mainThreadContext != SynchronizationContext.Current)
                 _mainThreadContext.Post(state => ImageDownloaded?.Invoke((Bitmap) state), bmp);

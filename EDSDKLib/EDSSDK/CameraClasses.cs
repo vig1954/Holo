@@ -103,7 +103,7 @@ namespace EDSDKLib
         public delegate void CameraAddedHandler();
         public delegate void ProgressHandler(int Progress);
         public delegate void StreamUpdate(Stream img);
-        public delegate void BitmapUpdate(Bitmap bmp);
+        public delegate void BitmapUpdate(Bitmap bmp, ImageType imageType);
 
         /// <summary>
         /// Fires if a camera is added
@@ -685,7 +685,7 @@ namespace EDSDKLib
                      Error = EDSDK.EdsRelease(streamRef);
 
                     //Fire the event with the image
-                     if (ImageDownloaded != null) ImageDownloaded(bmp);
+                     if (ImageDownloaded != null) ImageDownloaded(bmp, ImageType.JPG);
                  }, true);
             }
             else

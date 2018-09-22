@@ -168,7 +168,7 @@ namespace rab1
             catch (Exception ex) { ReportError(ex.Message, false); }
         }
 
-        private void SDK_ImageDownloaded(Bitmap bitmap)
+        private void SDK_ImageDownloaded(Bitmap bitmap, ImageType imageType)
         {
             if (PictureTaken != null)
             {
