@@ -267,8 +267,8 @@ namespace rab1
                    
                     double f0 = fz1 + fa * noise + fz;
                   
-                    double Ap = cmpl0.array[i, j].Magnitude;                             // амплитуда объектного пучка
-                    double Fp = cmpl0.array[i, j].Phase;                                 // Фаза объектного пучка
+                    double Ap = cmpl0.array[i, j].Magnitude;                                   // амплитуда объектного пучка
+                    double Fp = cmpl0.array[i, j].Phase;                                       // Фаза объектного пучка
                     cmpl.array[i, j] = Ap * Ap + am * am + 2 * Ap * am * Math.Cos(Fp - f0);    // Интенсивность
                 }
           

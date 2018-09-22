@@ -83,8 +83,8 @@ namespace rab1
             int j1 = NY / 2 - by / 2;
 
             double max = 2 * Math.PI * sdvg / ax;
-            //Random rnd = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
-            Random rnd = new Random();
+            Random rnd = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
+            //Random rnd = new Random();
             int ii = 0;
             for (int i = i1; i < ax + i1; i++)
                 for (int j = j1; j < by + j1; j++)
@@ -412,11 +412,11 @@ namespace rab1
             for (int i = 0; i < zComplex1.width; i++)
                 for (int j = 0; j < zComplex1.height; j++)
                 {
-                    double Ar = zComplex_tmp.array[i, j].Magnitude;                             // амплитуда объектного пучка
+                    double Ar = zComplex_tmp.array[i, j].Magnitude;                                 // амплитуда объектного пучка
                     double Fr = zComplex_tmp.array[i, j].Phase;
 
-                    double Ap = zComplex2.array[i, j].Magnitude;                             // амплитуда объектного пучка
-                    double Fp = zComplex2.array[i, j].Phase;                                 // Фаза объектного пучка
+                    double Ap = zComplex2.array[i, j].Magnitude;                                     // амплитуда объектного пучка
+                    double Fp = zComplex2.array[i, j].Phase;                                         // Фаза объектного пучка
                     zArray_tmp.array[i, j] = Ap * Ap + Ar * Ar + 2 * Ap * Ar * Math.Cos(Fp - Fr);    // Интенсивность
                 }
            
@@ -439,7 +439,7 @@ namespace rab1
             double noise_add = noise;
 
             //zComplex[0] = new ZComplexDescriptor(NX, NY);
-            //MessageBox.Show(" sdvg0 = " + sdvg0 + " sdvg1 = " + sdvg1);
+            //MessageBox.Show(" noise = " + noise );
 
             // ----------------------------------------------------------------------------------------------------------------------------- 1 голограмма
             ZComplexDescriptor zComplex_tmp = Model_2(sdvg0, noise, Lambda);                    // Модель объекта с нулевым сдвиго                                                                                                                                                 // Модель объекта с нулевым сдвигом
