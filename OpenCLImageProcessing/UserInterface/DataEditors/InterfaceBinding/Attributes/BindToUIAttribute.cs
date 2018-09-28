@@ -1,20 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace UserInterface.DataEditors.InterfaceBinding.Attributes
 {
+    /// <summary>
+    /// Если необходимо задать значение свойства так, чтобы это отразилось в интерфейсе, это необходимо делать через <see cref="IBindingManager{TTarget}"/>.
+    /// Для этого заводится свойство с типом значения <see cref="IBindingManager{TTarget}"/>, которому будет автоматически назначено значение при привязке свойств к интерфейсу.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property)]
     public class BindToUIAttribute : Attribute
     {
-        public string DisplayName { get; set; }
-        public string DisplayGroup { get; set; }
+        public string DisplayName { get; }
+        public string DisplayGroup { get; }
+        public int Order { get; }
 
-        public BindToUIAttribute(string displayName = "", string displayGroup = "")
+        public bool HideLabel { get; } // TODO: replace with label position? None / Row / Title
+
+        public BindToUIAttribute(string displayName = "", string displayGroup = "", bool hideLabel = false, [CallerLineNumber]int order = 0)
         {
             DisplayName = displayName;
             DisplayGroup = displayGroup;
+            HideLabel = hideLabel;
+            Order = order;
         }
     }
 }

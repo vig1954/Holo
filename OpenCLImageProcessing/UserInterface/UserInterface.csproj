@@ -90,18 +90,45 @@
     </Compile>
     <Compile Include="DataEditors\InterfaceBinding\Attributes\BindMembersToUIAttribute.cs" />
     <Compile Include="DataEditors\InterfaceBinding\Attributes\BindToUIAttribute.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\Attributes\ImageHandlerFilterAttribute.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\Attributes\ValueCollectionAttribute.cs" />
     <Compile Include="DataEditors\InterfaceBinding\BindingBase.cs" />
     <Compile Include="DataEditors\InterfaceBinding\BindingFactory.cs" />
     <Compile Include="DataEditors\InterfaceBinding\BindingProviderFactory.cs" />
     <Compile Include="DataEditors\InterfaceBinding\ControlsV2\BindableControlFactory.cs" />
-    <Compile Include="DataEditors\InterfaceBinding\ControlsV2\GroupControl.cs">
+    <Compile Include="DataEditors\InterfaceBinding\ControlsV2\BindingUtil.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\ControlsV2\ButtonControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataEditors\InterfaceBinding\ControlsV2\CheckboxControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataEditors\InterfaceBinding\ControlsV2\DropdownControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataEditors\InterfaceBinding\ControlsV2\EnumRadioGroupControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="DataEditors\InterfaceBinding\ControlsV2\GroupControl.Designer.cs">
-      <DependentUpon>GroupControl.cs</DependentUpon>
+    <Compile Include="DataEditors\InterfaceBinding\ControlsV2\EnumRadioGroupControl.Designer.cs">
+      <DependentUpon>EnumRadioGroupControl.cs</DependentUpon>
     </Compile>
     <Compile Include="DataEditors\InterfaceBinding\ControlsV2\IBindableControl.cs" />
-    <Compile Include="DataEditors\InterfaceBinding\ControlsV2\IGroupControl.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\ControlsV2\IBindableControlProvider.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\ControlsV2\ImageHandlerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataEditors\InterfaceBinding\ControlsV2\ImageHandlerControl.Designer.cs">
+      <DependentUpon>ImageHandlerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataEditors\InterfaceBinding\ControlsV2\LabelControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataEditors\InterfaceBinding\ControlsV2\NumberControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataEditors\InterfaceBinding\ControlsV2\NumberControl.Designer.cs">
+      <DependentUpon>NumberControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataEditors\InterfaceBinding\Controls\BindableControlFactory.cs" />
     <Compile Include="DataEditors\InterfaceBinding\Controls\ButtonControl.cs">
       <SubType>Component</SubType>
@@ -160,10 +187,11 @@
     <Compile Include="DataEditors\InterfaceBinding\Controls\IBindableControl.cs" />
     <Compile Include="DataEditors\InterfaceBinding\IBindingProvider.cs" />
     <Compile Include="DataEditors\InterfaceBinding\InterfaceController.cs" />
-    <Compile Include="DataEditors\InterfaceBinding\ObjectBindingProvider.cs" />
     <Compile Include="DataEditors\InterfaceBinding\IValueBinding.cs" />
     <Compile Include="DataEditors\InterfaceBinding\MethodBinding.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\ObservableCollectionBinding.cs" />
     <Compile Include="DataEditors\InterfaceBinding\PropertyBinding.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\PropertyTableManager.cs" />
     <Compile Include="DataEditors\Renderers\DataRendererForAttribute.cs" />
     <Compile Include="DataEditors\Renderers\Graphics\ImagePlane.cs" />
     <Compile Include="DataEditors\Renderers\Graphics\IDrawable.cs" />
@@ -259,8 +287,14 @@
     <EmbeddedResource Include="DataEditors\DataEditorView.resx">
       <DependentUpon>DataEditorView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DataEditors\InterfaceBinding\ControlsV2\GroupControl.resx">
-      <DependentUpon>GroupControl.cs</DependentUpon>
+    <EmbeddedResource Include="DataEditors\InterfaceBinding\ControlsV2\EnumRadioGroupControl.resx">
+      <DependentUpon>EnumRadioGroupControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataEditors\InterfaceBinding\ControlsV2\ImageHandlerControl.resx">
+      <DependentUpon>ImageHandlerControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataEditors\InterfaceBinding\ControlsV2\NumberControl.resx">
+      <DependentUpon>NumberControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DataEditors\InterfaceBinding\Controls\DropdownWithLabel.resx">
       <DependentUpon>DropdownWithLabel.cs</DependentUpon>
@@ -327,9 +361,14 @@
   <ItemGroup>
     <None Include="Resources\arrow_state_blue_expanded_4097.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\lock_6522.png" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Resources\arrow_state_blue_expanded_4097 - rotated.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lock_unlock_9536.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

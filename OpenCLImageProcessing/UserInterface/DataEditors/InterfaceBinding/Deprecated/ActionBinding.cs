@@ -10,7 +10,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Deprecated
         private readonly MethodInfo _methodInfo;
         private readonly ButtonControl _button;
 
-        public override IBindableControl Control => _button;
+        public override Control Control => _button;
 
         public ActionBinding(ActionAttribute actionAttribute, MemberInfo memberInfo, object target) : base(actionAttribute, memberInfo, target)
         {

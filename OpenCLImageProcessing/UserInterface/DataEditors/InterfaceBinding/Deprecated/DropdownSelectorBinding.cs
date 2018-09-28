@@ -10,7 +10,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Deprecated
     {
         private readonly DropdownWithLabel _dropdown;
         private readonly IPropertyWithAvailableValuesList _property;
-        public override IBindableControl Control => _dropdown;
+        public override Control Control => _dropdown;
 
         public DropdownSelectorBinding(DropdownSelectorAttribute dropdownSelectorAttribute, MemberInfo memberInfo, object target) : base(dropdownSelectorAttribute, memberInfo, target)
         {

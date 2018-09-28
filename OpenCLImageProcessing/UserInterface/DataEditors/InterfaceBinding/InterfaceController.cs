@@ -12,35 +12,34 @@ namespace UserInterface.DataEditors.InterfaceBinding
         void BindObjectToInterface(object target);
     }
 
-    public class InterfaceController: IInterfaceController
+    public class InterfaceController : IInterfaceController
     {
         private Control _container;
-        public IBindingProviderFactory BindingProviderFactory { get; set; }
-        public IBindableControlFactory BindableControlFactory { get; set; }
+        private PropertyTableManager _propertyTableManager;
+        private IBindingProviderFactory BindingProviderFactory { get; set; } = new BindingProviderFactory();
+        private IBindableControlFactory BindableControlFactory { get; set; } = new BindableControlFactory();
+
+        public IBindingProvider BindingProvider { get; private set; }
 
         public InterfaceController(Control container)
         {
-            BindingProviderFactory = new BindingProviderFactory();
-            BindableControlFactory = new BindableControlFactory();
             _container = container;
+            _propertyTableManager = new PropertyTableManager();
         }
 
         public void BindObjectToInterface(object target)
         {
-            var bindingProvider = BindingProviderFactory.Get(target);
+            BindingProvider = BindingProviderFactory.Get(target);
 
-            var bindings = bindingProvider.GetBindings();
+            var bindings = BindingProvider.GetBindings();
 
             // TODO: можно оптимизировать процесс так, чтобы контролы переиспользовались
             _container.Controls.Clear();
-            foreach (var binding in bindings)
-            {
-                var bindableControl = BindableControlFactory.Get(binding);
-                if (bindableControl is Control control)
-                    _container.Controls.Add(control);
-                else
-                    throw new InvalidOperationException();
-            }
+            var controls = bindings.Select(BindableControlFactory.Get);
+
+            var propertyTable = _propertyTableManager.Render(controls.ToArray());
+            _container.Controls.Add(propertyTable);
+            propertyTable.Dock = DockStyle.Fill;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Deprecated
     public class EnumRadioGroupBinding : PropertyBindingBase
     {
         private readonly EnumRadioGroupControl _enumRadioGroupControl;
-        public override IBindableControl Control => _enumRadioGroupControl;
+        public override Control Control => _enumRadioGroupControl;
 
         public EnumRadioGroupBinding(EnumRadioGroupAttribute enumRadioGroupAttribute, MemberInfo memberInfo, object target) : base(enumRadioGroupAttribute, memberInfo, target)
         {

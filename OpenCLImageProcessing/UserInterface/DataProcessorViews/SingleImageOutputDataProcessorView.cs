@@ -27,7 +27,7 @@ namespace UserInterface.DataProcessorViews
             ProcessorDescriptor = processorDescriptor;
         }
 
-        public IEnumerable<BindingBase> GetBindings()
+        public IEnumerable<IBinding> GetBindings()
         {
             throw new NotImplementedException();
         }

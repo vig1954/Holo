@@ -10,7 +10,6 @@ namespace UserInterface.DataEditors.InterfaceBinding
     {
         string Title { get; set; }
         object Value { get; }
-        event Action<BindableControlValueUpdatedEventArgs> ValueUpdated;
         void SetValue(object value, object sender);
     }
 

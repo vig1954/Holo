@@ -8,7 +8,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Deprecated
     public class NumberBinding : PropertyBindingBase
     {
         private readonly NumberControl _control;
-        public override IBindableControl Control => _control;
+        public override Control Control => _control;
 
         public NumberBinding(NumberAttribute numberAttribute, MemberInfo memberInfo, object target) : base(numberAttribute, memberInfo, target)
         {

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Common;
 using UserInterface.DataEditors.InterfaceBinding.Attributes;
 
 namespace UserInterface.DataEditors.InterfaceBinding
@@ -12,19 +13,32 @@ namespace UserInterface.DataEditors.InterfaceBinding
     {
         string DisplayName { get; }
         string DisplayGroup { get; }
+
+        TAttribute GetAttribute<TAttribute>() where TAttribute : Attribute;
+    }
+    public interface IBindingTargetProvider
+    {
+        object Target { get; }
     }
 
     public abstract class BindingBase : IBinding
     {
+        protected MemberInfo _memberInfo;
         protected IBindingTargetProvider _targetProvider;
 
         public string Name { get; set; }
         public string DisplayName { get; set; }
         public string DisplayGroup { get; set; } = "";
+        
+        public TAttribute GetAttribute<TAttribute>() where TAttribute : Attribute
+        {
+            return _memberInfo.GetCustomAttribute<TAttribute>();
+        }
 
         protected BindingBase(MemberInfo member, IBindingTargetProvider targetProvider)
         {
             _targetProvider = targetProvider;
+            _memberInfo = member;
 
             Name = member.Name;
 
@@ -34,10 +48,9 @@ namespace UserInterface.DataEditors.InterfaceBinding
                 DisplayName = bindToUiAttribute.DisplayName;
                 DisplayGroup = bindToUiAttribute.DisplayGroup;
             }
-            else
-            {
-                DisplayName = Name;
-            }
+
+            if (DisplayName.IsNullOrEmpty())
+                DisplayName = Name.SeparateUpperCase();
         }
     }
 }

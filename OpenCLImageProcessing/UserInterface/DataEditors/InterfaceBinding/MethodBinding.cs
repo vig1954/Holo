@@ -18,7 +18,7 @@ namespace UserInterface.DataEditors.InterfaceBinding
         public void Invoke()
         {
             var target = _targetProvider.Target;
-            _methodInfo.Invoke(target, new object[] { null });
+            _methodInfo.Invoke(target, new object[] { });
         }
     }
 }

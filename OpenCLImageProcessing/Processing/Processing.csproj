@@ -78,6 +78,7 @@
     <Compile Include="Computing\OpenClApplication.cs" />
     <Compile Include="Computing\OpenClContextSettings.cs" />
     <Compile Include="Computing\OpenClDataManager.cs" />
+    <Compile Include="DataAttributes\PrecisionAttribute.cs" />
     <Compile Include="DataBinding\ActionAttribute.cs" />
     <Compile Include="DataBinding\CheckboxAttribute.cs" />
     <Compile Include="DataBinding\DropdownSelectorAttribute.cs" />

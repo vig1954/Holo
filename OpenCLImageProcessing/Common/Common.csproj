@@ -74,9 +74,11 @@
     <Compile Include="Controls\SliderElements\SliderPin.cs" />
     <Compile Include="DebugLogger.cs" />
     <Compile Include="DictionaryExtensions.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="EnumExtensions.cs" />
     <Compile Include="Float4.cs" />
-    <Compile Include="FloatExtensions.cs" />
+    <Compile Include="MemberInfoExtensions.cs" />
+    <Compile Include="NumberExtensions.cs" />
     <Compile Include="FloatRange.cs" />
     <Compile Include="IntRange.cs" />
     <Compile Include="ObjectExtensions.cs" />

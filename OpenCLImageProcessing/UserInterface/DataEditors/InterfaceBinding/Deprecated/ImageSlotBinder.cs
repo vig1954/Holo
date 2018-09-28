@@ -14,7 +14,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Deprecated
         private readonly ImageSlotControl _imageSlot;
         private IImageHandler _imageSlotValue;
 
-        public override IBindableControl Control => _imageSlot;
+        public override Control Control => _imageSlot;
 
         public ImageSlotBinder(ImageSlotAttribute imageSlotAttribute, MemberInfo memberInfo,
             object target) : base(imageSlotAttribute, memberInfo, target)

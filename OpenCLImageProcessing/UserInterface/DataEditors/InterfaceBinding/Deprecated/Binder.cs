@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace UserInterface.DataEditors.InterfaceBinding.Deprecated
 {
-    public class Binder: IObjectBindingProvider
+    public class Binder
     {
         private object _target;
 

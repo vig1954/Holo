@@ -9,6 +9,12 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
 {
     public class CheckboxControl : CheckBox, IBindableControl
     {
+        public string Title
+        {
+            get => this.Text;
+            set => this.Text = value;
+        }
+
         public object Value => Checked;
 
         public event Action<BindableControlValueUpdatedEventArgs> ValueUpdated;

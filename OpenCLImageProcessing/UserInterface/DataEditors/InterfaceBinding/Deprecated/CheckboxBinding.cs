@@ -8,7 +8,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Deprecated
     public class CheckboxBinding : PropertyBindingBase
     {
         private readonly CheckboxControl _control;
-        public override IBindableControl Control => _control;
+        public override Control Control => _control;
         public CheckboxBinding(CheckboxAttribute checkboxAttribute, MemberInfo memberInfo, object target) : base(checkboxAttribute, memberInfo, target)
         {
             DisplayGroup = checkboxAttribute.Group;

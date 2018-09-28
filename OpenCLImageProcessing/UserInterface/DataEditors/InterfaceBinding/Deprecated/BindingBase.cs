@@ -6,12 +6,12 @@ using Processing.DataBinding;
 
 namespace UserInterface.DataEditors.InterfaceBinding.Deprecated
 {
-    public abstract class BindingBase : IBinding
+    public abstract class BindingBase
     {
         private Action _onPropertyChanged;
         protected MemberInfo MemberInfo;
         protected object Target;
-        public abstract IBindableControl Control { get; }
+        public abstract Control Control { get; }
         public string DisplayGroup { get; protected set; }
         public string DisplayName => MemberInfo.Name;
         public event Action PropertyChanged;

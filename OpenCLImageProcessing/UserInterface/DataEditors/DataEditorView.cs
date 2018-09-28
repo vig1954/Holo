@@ -9,6 +9,7 @@ using Infrastructure;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Processing.Computing;
+using UserInterface.DataEditors.InterfaceBinding;
 using UserInterface.DataEditors.Renderers;
 using UserInterface.DataEditors.Tools;
 using Binder = UserInterface.DataEditors.InterfaceBinding.Deprecated.Binder;
@@ -18,7 +19,7 @@ namespace UserInterface.DataEditors
 {
     public partial class DataEditorView : UserControl
     {
-        private Binder _dataBinder;
+        private InterfaceController _rightPanelInterfaceController;
         private bool IsInDesignMode = false;
         private IDataRenderer _renderer;
         private GLControl _glControl;
@@ -31,6 +32,7 @@ namespace UserInterface.DataEditors
         {
             InitializeComponent();
             IsInDesignMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime;
+            _rightPanelInterfaceController = new InterfaceController(rightPanel);
         }
 
         public void SetData(object data)
@@ -48,10 +50,8 @@ namespace UserInterface.DataEditors
         }
         public void UpdateRendererControls()
         {
-            rightPanel.Controls.Clear();
-            _dataBinder = new Binder();
-            _dataBinder.SetObject(_renderer);
-            _dataBinder.PopulateControl(rightPanel);
+            _rightPanelInterfaceController.BindObjectToInterface(_renderer);
+
             rightPanel_Resize(null, null);
         }
 
@@ -100,8 +100,7 @@ namespace UserInterface.DataEditors
 
         public void SetFirstEmptyDataPropertyIfExist(object value)
         {
-            var propertyBinding = _dataBinder.GetPropertyBindingWithEmptyValueForType(value.GetType());
-            propertyBinding?.Set(value);
+            _rightPanelInterfaceController.BindingProvider.SetFirstEmptyValue(value, this);
         }
 
         private void SetRenderer(IDataRenderer renderer)
