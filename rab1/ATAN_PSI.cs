@@ -44,7 +44,7 @@ namespace rab1.Forms
             int w1 = zArrayPicture[8].width;
             int h1 = zArrayPicture[8].height;
             // MessageBox.Show("width= " + w1 + "height= " + h1);
-            MessageBox.Show("fzz[i]= " + fzz[0] + "  " + fzz[1] + "  " + fzz[2] + "  " + fzz[3]);
+            //MessageBox.Show("fzz[i]= " + fzz[0] + "  " + fzz[1] + "  " + fzz[2] + "  " + fzz[3]);
 
             //double Ar = SumClass.getAverage(zArrayPicture[8]);
             double Ar = amplit;

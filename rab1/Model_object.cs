@@ -397,14 +397,16 @@ namespace rab1
         {
 
             ZArrayDescriptor[] zArray = new ZArrayDescriptor[4];
-            zArray[0] = Model_interf.Model_pl_PSI(am, zComplex1, AngleX, AngleY, Lambda, dx, noise, fz[k1]);   // Сложение с опорой добавление фазового сдвига zComplex2 (второе состояние)
-            zArray[1] = Model_interf.Model_pl_PSI(am, zComplex1, AngleX, AngleY, Lambda, dx, noise, fz[k2]);
-            zArray[2] = Model_interf.Model_pl_PSI(am, zComplex1, AngleX, AngleY, Lambda, dx, noise, fz[k3]);
-            zArray[3] = Model_interf.Model_pl_PSI(am, zComplex1, AngleX, AngleY, Lambda, dx, noise, fz[k4]);
+            double[] fz1 = new double[4];
+            fz1 = SDVIG(90, 20, 30, 180);                        // Случайные градусы
+            zArray[0] = Model_interf.Model_pl_PSI(am, zComplex1, AngleX, AngleY, Lambda, dx, noise, fz1[k1]);   // Сложение с опорой добавление фазового сдвига zComplex2 (второе состояние)
+            zArray[1] = Model_interf.Model_pl_PSI(am, zComplex1, AngleX, AngleY, Lambda, dx, noise, fz1[k2]);
+            zArray[2] = Model_interf.Model_pl_PSI(am, zComplex1, AngleX, AngleY, Lambda, dx, noise, fz1[k3]);
+            zArray[3] = Model_interf.Model_pl_PSI(am, zComplex1, AngleX, AngleY, Lambda, dx, noise, fz1[k4]);
 
             ZComplexDescriptor zComplex_tmp = ATAN_PSI.ATAN_ar(zArray, fz, am);
 
-            zComplex_tmp = Model_interf.Model_pl_MUL(1, zComplex_tmp, AngleX, AngleY, Lambda, dx); // Умножение для устранения разности фаз
+           // zComplex_tmp = Model_interf.Model_pl_MUL(1, zComplex_tmp, AngleX, AngleY, Lambda, dx); // Умножение для устранения разности фаз
             zComplex_tmp = FurieN.FrenelTransformN(zComplex_tmp, Lambda, d, dx);                   // Преобразование Френеля с четным количеством точек     
 
             ZArrayDescriptor zArray_tmp = new ZArrayDescriptor(zComplex1.width, zComplex1.height);
@@ -422,13 +424,19 @@ namespace rab1
            
             return zArray_tmp;
         }
-
-      
-
+        public static double[] SDVIG(double f1, double f2, double f3, double f4)
+            { 
+                 double[] fzrad = new double[4];
+                 fzrad[0] = Math.PI* f1 / 180.0;   // Фаза в радианах  
+                 fzrad[1] = Math.PI* f2 / 180.0;
+                 fzrad[2] = Math.PI* f3 / 180.0;
+                 fzrad[3] = Math.PI* f4 / 180.0;
+            return fzrad;
+        }
         // ----------------------------------------------------------------------------------------------------------------------------------
         //                  Формирование 4 голографических интерферограмм. Затем расшифровка их методом PSI
         // ----------------------------------------------------------------------------------------------------------------------------------
-        
+
         public static void Glgr_Interf_PSI_Fr(ZComplexDescriptor[] zComplex, ZArrayDescriptor[] zArrayDescriptor, ProgressBar progressBar1, 
                                               double sdvg0, double sdvg1, double noise, double Lambda, double dx, double d, 
                                               double[] fz, double Ax, double Ay)
@@ -442,23 +450,27 @@ namespace rab1
             //MessageBox.Show(" noise = " + noise );
 
             // ----------------------------------------------------------------------------------------------------------------------------- 1 голограмма
-            ZComplexDescriptor zComplex_tmp = Model_2(sdvg0, noise, Lambda);                    // Модель объекта с нулевым сдвиго                                                                                                                                                 // Модель объекта с нулевым сдвигом
-            zComplex_tmp = Furie.Invers(zComplex_tmp);                                          // Циклический сдвиг
-            zComplex_tmp = FurieN.FrenelTransformN(zComplex_tmp, Lambda, d, dx);                  // Преобразование Френеля с четным количеством точек
+            ZComplexDescriptor zComplex_tmp = Model_2(sdvg0, noise, Lambda);                       // Модель объекта с нулевым сдвиго                                                                                                                                                 // Модель объекта с нулевым сдвигом
+            zComplex_tmp = Furie.Invers(zComplex_tmp);                                             // Циклический сдвиг
+            zComplex_tmp = FurieN.FrenelTransformN(zComplex_tmp, Lambda, d, dx);                   // Преобразование Френеля с четным количеством точек
             double am = SumClass.getAverage(zComplex_tmp);
 
-            ZArrayDescriptor[] zArray = new ZArrayDescriptor[4];                                // Рабочие массивы                                                                               
-            for (int i = 0; i < 4; i++) { zArray[i] = Model_interf.Model_pl_PSI(am, zComplex_tmp, AngleX, AngleY, Lambda, dx, noise_add, fz[i]); }       // Сложение с опорной волной + fz[i]
+            ZArrayDescriptor[] zArray = new ZArrayDescriptor[4]; // Рабочие массивы    
+            double[] fz1 = new double[4];
+            fz1 = SDVIG(10, 20, 30, 40);                        // Случайные градусы
+            for (int i = 0; i < 4; i++) { zArray[i] = Model_interf.Model_pl_PSI(am, zComplex_tmp, AngleX, AngleY, Lambda, dx, noise_add, fz1[i]); }       // Сложение с опорной волной + fz[i]
             zComplex_tmp = ATAN_PSI.ATAN_ar(zArray, fz, am);
-            zComplex_tmp = Model_interf.Model_pl_MUL(1, zComplex_tmp, AngleX, AngleY, Lambda, dx); // Умножение для устранения разности фаз
-            zComplex[0] = FurieN.FrenelTransformN(zComplex_tmp, Lambda, d, dx);                 // Преобразование Френеля с четным количеством точек
+
+
+            //zComplex_tmp = Model_interf.Model_pl_MUL(1, zComplex_tmp, AngleX, AngleY, Lambda, dx); // Умножение для устранения разности фаз
+            zComplex[0] = FurieN.FrenelTransformN(zComplex_tmp, Lambda, d, dx);                      // Преобразование Френеля с четным количеством точек
 
             MessageBox.Show(" 1  состояние -> 0");
             // ----------------------------------------------------------------------------------------------------------------------------- 2 голограмма
 
-            zComplex[1] = Model_2(sdvg1, noise, Lambda);                                     // Модель объекта со сдвигом    
-            zComplex_tmp = Furie.Invers(zComplex[1]);                                          // Циклический сдвиг
-            zComplex[1] = FurieN.FrenelTransformN(zComplex_tmp, Lambda, d, dx);                  // Преобразование Френеля с четным количеством точек
+            zComplex[1] = Model_2(sdvg1, noise, Lambda);                                             // Модель объекта со сдвигом    
+            zComplex_tmp = Furie.Invers(zComplex[1]);                                                // Циклический сдвиг
+            zComplex[1] = FurieN.FrenelTransformN(zComplex_tmp, Lambda, d, dx);                      // Преобразование Френеля с четным количеством точек
             MessageBox.Show(" 2  голограмма -> 1");
 
             zArrayDescriptor[8]  = PSI(am, zComplex[1], zComplex[0], AngleX, AngleY, noise, Lambda, dx, d, fz, 0, 1, 2, 3);
