@@ -450,7 +450,7 @@ namespace rab1
             //MessageBox.Show(" noise = " + noise );
 
             // ----------------------------------------------------------------------------------------------------------------------------- 1 голограмма
-            ZComplexDescriptor zComplex_tmp = Model_2(sdvg0, noise, Lambda);                       // Модель объекта с нулевым сдвиго                                                                                                                                                 // Модель объекта с нулевым сдвигом
+            ZComplexDescriptor zComplex_tmp = Model_2(sdvg0, noise, Lambda);                       // Модель объекта с нулевым сдвигом                                                                                                                                                 // Модель объекта с нулевым сдвигом
             zComplex_tmp = Furie.Invers(zComplex_tmp);                                             // Циклический сдвиг
             zComplex_tmp = FurieN.FrenelTransformN(zComplex_tmp, Lambda, d, dx);                   // Преобразование Френеля с четным количеством точек
             double am = SumClass.getAverage(zComplex_tmp);
