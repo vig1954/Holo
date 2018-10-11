@@ -1,23 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Common;
 using Processing;
+using Processing.DataAttributes;
 using UserInterface.DataEditors.InterfaceBinding.Attributes;
 using UserInterface.Utility;
 
-namespace UserInterface.DataEditors.InterfaceBinding.ControlsV2
+namespace UserInterface.DataEditors.InterfaceBinding.Controls
 {
     public partial class ImageHandlerControl : UserControl, IBindableControl
     {
         private IValueBinding _binding;
         private IImageHandler _imageHandler;
 
-        public List<ImageFormat> AllowedImageFormats = new List<ImageFormat>();
-        public List<ImagePixelFormat> AllowedPixelFormats = new List<ImagePixelFormat>();
+        public IEnumerable<ImageFormat> AllowedImageFormats = new List<ImageFormat>();
+        public IEnumerable<ImagePixelFormat> AllowedPixelFormats = new List<ImagePixelFormat>();
         public int? RequiredChannelCount;
         public bool OnlyImages;
 
@@ -38,8 +37,8 @@ namespace UserInterface.DataEditors.InterfaceBinding.ControlsV2
             var imageHandlerFilter = _binding.GetAttribute<ImageHandlerFilterAttribute>();
             if (imageHandlerFilter != null)
             {
-                AllowedImageFormats = imageHandlerFilter.AllowedImageFormats;
-                AllowedPixelFormats = imageHandlerFilter.AllowedPixelFormats;
+                AllowedImageFormats = imageHandlerFilter.GetAllowedImageFormats();
+                AllowedPixelFormats = imageHandlerFilter.GetAllowedPixelFormats();
                 RequiredChannelCount = imageHandlerFilter.RequiredChannelCount;
                 OnlyImages = imageHandlerFilter.OnlyImages;
             }

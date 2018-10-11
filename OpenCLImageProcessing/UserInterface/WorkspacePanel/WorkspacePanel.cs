@@ -11,6 +11,7 @@ using Processing.ImageReaders;
 using Common;
 using Processing;
 using Processing.DataProcessors;
+using UserInterface.DataProcessorViews;
 
 namespace UserInterface.WorkspacePanel
 {
@@ -59,6 +60,7 @@ namespace UserInterface.WorkspacePanel
             item.SetSelectionState(true);
         }
 
+        // TODO: remove
         public void AddDataProcessor(IDataProcessor dataProcessor)
         {
             var item = new WorkspacePanelItem();
@@ -70,6 +72,44 @@ namespace UserInterface.WorkspacePanel
             var itemData = new Item
             {
                 Data = dataProcessor,
+                Controller = itemController,
+                View = item
+            };
+            items.Add(itemData);
+
+            item.Click += (sender, args) =>
+            {
+                if (args is MouseEventArgs me)
+                {
+                    if (SelectItemOnClick && me.Button == MouseButtons.Left)
+                        MarkItemSelected(item);
+
+                    OnItemClick?.Invoke(itemData, me);
+
+                    if (me.Button == MouseButtons.Right)
+                        ShowMenu(itemData, me.Location);
+                }
+            };
+
+            item.DoubleClick += (o, args) =>
+            {
+                OnItemDoubleClick?.Invoke(itemData, args as MouseEventArgs);
+            };
+
+            OnItemAdded?.Invoke(itemData);
+        }
+
+        public void AddDataProcessorView(IDataProcessorView dataProcessorView)
+        {
+            var item = new WorkspacePanelItem();
+            MainLayoutPanel.Controls.Add(item);
+
+            var itemController = new DataProcessorViewWorkspacePanelItemController(dataProcessorView, item);
+            itemController.UpdateView();
+
+            var itemData = new Item
+            {
+                Data = dataProcessorView,
                 Controller = itemController,
                 View = item
             };

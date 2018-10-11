@@ -1,25 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-
-namespace UserInterface.DataEditors.InterfaceBinding
+﻿namespace UserInterface.DataEditors.InterfaceBinding.Controls
 {
     public interface IBindableControl
     {
-        string Title { get; set; }
-        object Value { get; }
-        void SetValue(object value, object sender);
-    }
-
-    public class BindableControlValueUpdatedEventArgs
-    {
-        public object Sender { get; }
-
-        public BindableControlValueUpdatedEventArgs(object sender)
-        {
-            Sender = sender;
-        }
+        bool HideLabel { get; } // TODO: change to label mode, see BindToUI attribute
+        IBinding Binding { get; }
+        void SetBinding(IBinding binding);
     }
 }

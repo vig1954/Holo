@@ -1,71 +1,90 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Text;
+using System.Runtime.Remoting.Messaging;
 using Common;
+using UserInterface.DataEditors.InterfaceBinding;
+using UserInterface.DataEditors.InterfaceBinding.Attributes;
 
-namespace Processing.DataProcessors
+namespace UserInterface.DataProcessorViews
 {
-    public abstract class DataProcessorParameterBase
+    public abstract class DataProcessorParameterBase : IValueBinding
     {
+        protected ParameterInfo _parameterInfo;
         protected object Value;
-        public Type Type { get; }
+
+        public string DisplayName { get; }
+        public string DisplayGroup { get; }
+
+        public Type ValueType { get; }
         public string Name { get; } = "";
         public bool IsOutput { get; }
         public bool HasValue => Value != null;
-        public event Action<DataProcessorParameterUpdatedEventArgs> ValueUpdated;
+
+        public event Action<ValueUpdatedEventArgs> ValueUpdated;
 
         protected DataProcessorParameterBase(Type type)
         {
-            Type = type;
+            ValueType = type;
         }
 
         protected DataProcessorParameterBase(ParameterInfo parameterInfo)
         {
             Name = parameterInfo.Name;
 
-            var customAttributes = parameterInfo.GetCustomAttributes();
-            IsOutput = customAttributes.OfType<Processing.DataProcessors.DataProcessorParameterAttributes.OutputAttribute>().Any();
+            IsOutput = parameterInfo.HastAttribute<Processing.DataProcessors.DataProcessorParameterAttributes.OutputAttribute>() || parameterInfo.Name.ToLower() == "output";
 
-            Type = parameterInfo.ParameterType;
+            ValueType = parameterInfo.ParameterType;
+
+            _parameterInfo = parameterInfo;
+
+            DisplayName = GetAttribute<DisplayNameAttribute>()?.DisplayName ?? Name;
+            DisplayGroup = ""; // TODO
         }
 
-        public object Get()
+        public object GetValue()
         {
             return Value;
         }
 
-        public void Set(object value, object sender)
+        public void SetValue(object value, object sender)
         {
             var oldValue = Value;
             Value = value;
 
             var e = new DataProcessorParameterUpdatedEventArgs(this, sender, oldValue);
 
-            if (ValueUpdated == null)
-                return;
-
             ValueUpdated?.InvokeExcludingTarget(e, sender);
         }
 
         public override string ToString()
         {
-            return $"[{Type.Name}]{(Name.IsNullOrEmpty() ? "Parameter" : Name)}";
+            return $"[{ValueType.Name}]{(Name.IsNullOrEmpty() ? "Parameter" : Name)}";
+        }
+
+        
+        public TAttribute GetAttribute<TAttribute>() where TAttribute : Attribute
+        {
+            var attribute = _parameterInfo?.GetCustomAttribute<TAttribute>();
+
+            if (attribute == null && typeof(TAttribute).IsAssignableFrom(typeof(BindToUIAttribute)))
+                attribute = (TAttribute) (Attribute) new BindToUIAttribute(_parameterInfo.Name);
+
+            return attribute;
+
         }
     }
 
-    public class DataProcessorParameterUpdatedEventArgs
+    public class DataProcessorParameterUpdatedEventArgs : ValueUpdatedEventArgs
     {
         public DataProcessorParameterBase Parameter { get; }
-        public object Sender { get; }
         public object OldValue { get; }
 
-        public DataProcessorParameterUpdatedEventArgs(DataProcessorParameterBase parameter, object sender, object oldValue)
+        public DataProcessorParameterUpdatedEventArgs(DataProcessorParameterBase parameter, object sender, object oldValue) : base(sender)
         {
             Parameter = parameter;
-            Sender = sender;
             OldValue = oldValue;
         }
     }
@@ -80,9 +99,9 @@ namespace Processing.DataProcessors
         {
         }
 
-        public new T Get() => (T) base.Get();
+        public new T GetValue() => (T) base.GetValue();
 
-        public void Set(T value, object sender) => base.Set(value, sender);
+        public void SetValue(T value, object sender) => base.SetValue(value, sender);
     }
 
     public static class DataProcessorParameterFactory
@@ -106,7 +125,7 @@ namespace Processing.DataProcessors
         public static IEnumerable<DataProcessorParameter<T>> ParametersOfType<T>(this IEnumerable<DataProcessorParameterBase> self)
         {
             var type = typeof(T);
-            return self.Where(v => type.IsAssignableFrom(v.Type)).Select(v => (DataProcessorParameter<T>) v);
+            return self.Where(v => type.IsAssignableFrom(v.ValueType)).Select(v => (DataProcessorParameter<T>) v);
         }
 
         public static DataProcessorParameter<T> As<T>(this DataProcessorParameterBase self)

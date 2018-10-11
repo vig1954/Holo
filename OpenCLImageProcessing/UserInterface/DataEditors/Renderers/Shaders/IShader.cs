@@ -14,6 +14,7 @@ namespace UserInterface.DataEditors.Renderers.Shaders
 
     public interface IImageShader: IShader
     {
+        event Action PropertiesChanged;
         void SetViewMatrix(Matrix4 view);
         void SetProjectionMatrix(Matrix4 projection);
         void SetModelMatrix(Matrix4 model);

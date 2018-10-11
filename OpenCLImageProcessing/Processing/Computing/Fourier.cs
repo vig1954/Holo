@@ -8,6 +8,8 @@ using Cloo;
 using Common;
 using Infrastructure;
 using OpenTK;
+using Processing.DataAttributes;
+using Processing.DataProcessors;
 using Processing.Utils;
 
 namespace Processing.Computing
@@ -296,7 +298,8 @@ namespace Processing.Computing
 
         private static Dictionary<string, Fourier> _cachedProcessors = new Dictionary<string, Fourier>();
 
-        public static void Transform(IImageHandler input, IImageHandler output = null)
+        [DataProcessor("Преобразование Фурье", ProcessorGroups.Transforms)]
+        public static void Transform(IImageHandler input, [ImageHandlerFilter(AllowedImageFormat.AmplitudePhase, AllowedImagePixelFormat.Float)] IImageHandler output = null)
         {
             var key = $"{input.Width}_{input.Height}";
             

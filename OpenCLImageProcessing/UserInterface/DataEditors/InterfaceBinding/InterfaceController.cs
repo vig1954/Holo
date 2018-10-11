@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using UserInterface.DataEditors.InterfaceBinding.ControlsV2;
+using UserInterface.DataEditors.InterfaceBinding.Controls;
 
 namespace UserInterface.DataEditors.InterfaceBinding
 {
@@ -31,14 +31,10 @@ namespace UserInterface.DataEditors.InterfaceBinding
         {
             BindingProvider = BindingProviderFactory.Get(target);
 
-            var bindings = BindingProvider.GetBindings();
-
-            // TODO: можно оптимизировать процесс так, чтобы контролы переиспользовались
             _container.Controls.Clear();
-            var controls = bindings.Select(BindableControlFactory.Get);
-
-            var propertyTable = _propertyTableManager.Render(controls.ToArray());
+            var propertyTable = _propertyTableManager.Render(BindingProvider);
             _container.Controls.Add(propertyTable);
+
             propertyTable.Dock = DockStyle.Fill;
         }
     }

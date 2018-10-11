@@ -26,7 +26,6 @@ namespace UserInterface.DataEditors.InterfaceBinding
         }
         private class ObjectBindingProvider<TTarget> : IBindingProvider, IDisposable, IBindingTargetProvider, IBindingManager<TTarget> where TTarget : class
         {
-            private IEnumerable<IBinding> _bindings => _memberBindings.Select(g => g.Value);
             private IDictionary<MemberInfo, IBinding> _memberBindings;
 
             public IBindingFactory BindingFactory { get; set; } = new BindingFactory();
@@ -38,21 +37,59 @@ namespace UserInterface.DataEditors.InterfaceBinding
 
                 var properties = target.GetType().GetProperties();
                 var bindingManagerProperty = properties.FirstOrDefault(p => p.PropertyType.IsAssignableFrom(typeof(IBindingManager<TTarget>)));
-                if (bindingManagerProperty == null)
-                    return;
+                if (bindingManagerProperty != null)
+                    bindingManagerProperty.SetValue(target, this);
 
-                bindingManagerProperty.SetValue(target, this);
+                var targetMembers = Target.GetType().GetMembers().Where(m => m.HastAttribute<BindToUIAttribute>()).OrderBy(m => m.GetCustomAttribute<BindToUIAttribute>().Order);
+                _memberBindings = targetMembers.ToDictionary(m => m, m => BindingFactory.GetBinding(m, this));
+
+                var methodInfos = target.GetType().GetMethods();
+                var onPropertyChangedMethods = methodInfos.Where(m => m.HastAttribute<OnBindedPropertyChangedAttribute>()).ToArray();
+                var bindings = GetBindings().ToArray();
+                if (onPropertyChangedMethods.Any())
+                {
+                    foreach (var methodInfo in onPropertyChangedMethods)
+                    {
+                        var propertyName = methodInfo.GetCustomAttribute<OnBindedPropertyChangedAttribute>().PropertyName;
+                        var propertyBinding = bindings.OfType<PropertyBinding>().SingleOrDefault(pb => pb.Name == propertyName);
+
+                        if (propertyBinding == null)
+                            throw new InvalidOperationException($"Метод {target.GetType().Name}.{methodInfo.Name} имеет аттрибут {nameof(OnBindedPropertyChangedAttribute)}, связаный со свойством {propertyName}, однако это свойство не имеет привязок и поэтому не может быть прослушано с использованием указанного атрибута.");
+
+                        propertyBinding.ValueUpdated += e => InvokeOnPropertyChangedMethod(methodInfo, e);
+                    }
+                }
+
+                var onAnyPropertyChangedMethods = methodInfos.Where(m => m.HastAttribute<OnAnyBindedPropertyChangedAttribute>()).ToArray();
+                if (onAnyPropertyChangedMethods.Any())
+                {
+                    foreach (var propertyBinding in bindings.OfType<PropertyBinding>())
+                    {
+                        propertyBinding.ValueUpdated += InvokeOnAnyPropertyChangedMethods;
+                    }
+                }
+
+                void InvokeOnPropertyChangedMethod(MethodInfo methodInfo, ValueUpdatedEventArgs e)
+                {
+                    var methodParameterInfos = methodInfo.GetParameters();
+                    if (methodParameterInfos.Length == 1 && methodParameterInfos.Single().ParameterType == typeof(ValueUpdatedEventArgs))
+                        methodInfo.Invoke(target, new object[] { e });
+                    else
+                        methodInfo.Invoke(target, new object[] {});
+                }
+
+                void InvokeOnAnyPropertyChangedMethods(ValueUpdatedEventArgs e)
+                {
+                    foreach (var methodInfo in onAnyPropertyChangedMethods)
+                    {
+                        InvokeOnPropertyChangedMethod(methodInfo, e);
+                    }
+                }
             }
 
             public IEnumerable<IBinding> GetBindings()
             {
-                if (_memberBindings.IsNullOrEmpty())
-                {
-                    var targetMembers = Target.GetType().GetMembers().Where(m => m.HastAttribute<BindToUIAttribute>()).OrderBy(m => m.GetCustomAttribute<BindToUIAttribute>().Order);
-                    _memberBindings = targetMembers.ToDictionary(m => m, m => BindingFactory.GetBinding(m, this));
-                }
-
-                return _bindings;
+                return _memberBindings.Select(g => g.Value);
             }
             
             public void Dispose()

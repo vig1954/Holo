@@ -7,7 +7,7 @@ using Infrastructure;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Processing;
-using Processing.DataBinding;
+using UserInterface.DataEditors.InterfaceBinding.Attributes;
 using UserInterface.DataEditors.Renderers.Graphics;
 using UserInterface.DataEditors.Renderers.Shaders;
 using UserInterface.DataEditors.Tools;
@@ -30,11 +30,13 @@ namespace UserInterface.DataEditors.Renderers.ImageRenderer
 
         private readonly List<IDrawable> _drawables = new List<IDrawable>();
 
-        [MergeSubfields]
+        [BindToUI, BindMembersToUI(HideProperty = true, MergeMembers = true)]
         public IImageHandler ImageHandler => _imageHandler;
-        [MergeSubfields]
+        
+        [BindToUI(displayGroup: "View"), BindMembersToUI(HideProperty = true, MergeMembers = true)]
         public IDataRendererControlMode ControlMode => _controlMode;
-        [MergeSubfields]
+        
+        [BindToUI(displayGroup: "View"), BindMembersToUI(HideProperty = true, MergeMembers = true)]
         public IDataRendererViewMode ViewMode => _viewMode;
 
         public Type DataType => typeof(IImageHandler);
@@ -137,7 +139,7 @@ namespace UserInterface.DataEditors.Renderers.ImageRenderer
 
         public string GetTitle()
         {
-            if (_imageHandler.Tags.TryGetValue(ImageHandlerTagKeys.Title, out object title))
+            if (_imageHandler.IsReady() && _imageHandler.Tags.TryGetValue(ImageHandlerTagKeys.Title, out var title))
                 return (string) title;
 
             return "Image Editor";

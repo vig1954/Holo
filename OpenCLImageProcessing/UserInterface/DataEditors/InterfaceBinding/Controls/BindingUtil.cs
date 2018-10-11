@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace UserInterface.DataEditors.InterfaceBinding.ControlsV2
+namespace UserInterface.DataEditors.InterfaceBinding.Controls
 {
     public static class BindingUtil
     {

@@ -1,40 +1,49 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Processing;
-using Processing.DataBinding;
+using UserInterface.DataEditors.InterfaceBinding.Attributes;
 
 namespace UserInterface.DataEditors.InterfaceBinding.Controls
 {
     public interface IBindableControlFactory
     {
-        IBindableControl Get(Type forType, IEnumerable<Attribute> customAttributes);
+        IBindableControl Get(IBinding binding);
     }
-    public class BindableControlFactory : IBindableControlFactory
+
+    public class BindableControlFactory: IBindableControlFactory
     {
-        public IBindableControl Get(Type forType, IEnumerable<Attribute> customAttributes)
+        public IBindableControl Get(IBinding binding)
         {
-            if (forType == typeof(bool))
-                return new CheckboxControl();
+            if (binding is IBindableControlProvider bindableControlProvider)
+                return bindableControlProvider.GetControl();
 
-            if (forType == typeof(float) || forType == typeof(int))
-                return new NumberControl();
+            IBindableControl control = null;
+            if (binding is IValueBinding valueBinding)
+            {
+                var bindMembersToUiAttribute = valueBinding.GetAttribute<BindMembersToUIAttribute>();
+                if (bindMembersToUiAttribute != null && bindMembersToUiAttribute.HideProperty)
+                    control = new LabelControl();
+                else if (valueBinding.ValueType.IsEnum)
+                    control = new EnumRadioGroupControl();
+                else if (new [] {typeof(int), typeof(float), typeof(double)}.Contains(valueBinding.ValueType))
+                    control = new NumberControl();
+                else if (valueBinding.ValueType == typeof(bool))
+                    control = new CheckboxControl();
+                else if (typeof(IImageHandler).IsAssignableFrom(valueBinding.ValueType))
+                    control = new ImageHandlerControl();
+                else
+                    control = new LabelControl();
+            }
+            else if (binding is MethodBinding methodBinding)
+            {
+                control = new ButtonControl();
+            }
 
-            if (typeof(Enum).IsAssignableFrom(forType))
-                return new EnumRadioGroupControl(forType);
+            if (control == null)
+                throw new NotImplementedException();
 
-            if (typeof(IImageHandler).IsAssignableFrom(forType))
-                return GetImageHandlerControl(customAttributes);
-
-            throw new NotImplementedException();
-        }
-
-        private IBindableControl GetImageHandlerControl(IEnumerable<Attribute> customAttributes)
-        {
-            var imageParametersAttribute = customAttributes.OfType<ImageParametersAttribute>().SingleOrDefault();
-
-            return null;    // proceed
+            control.SetBinding(binding);
+            return control;
         }
     }
 }

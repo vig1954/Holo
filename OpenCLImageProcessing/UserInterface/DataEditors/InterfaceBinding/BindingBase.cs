@@ -16,6 +16,7 @@ namespace UserInterface.DataEditors.InterfaceBinding
 
         TAttribute GetAttribute<TAttribute>() where TAttribute : Attribute;
     }
+
     public interface IBindingTargetProvider
     {
         object Target { get; }
@@ -26,10 +27,10 @@ namespace UserInterface.DataEditors.InterfaceBinding
         protected MemberInfo _memberInfo;
         protected IBindingTargetProvider _targetProvider;
 
-        public string Name { get; set; }
-        public string DisplayName { get; set; }
-        public string DisplayGroup { get; set; } = "";
-        
+        public string Name { get; }
+        public string DisplayName { get; }
+        public string DisplayGroup { get; } = "";
+
         public TAttribute GetAttribute<TAttribute>() where TAttribute : Attribute
         {
             return _memberInfo.GetCustomAttribute<TAttribute>();

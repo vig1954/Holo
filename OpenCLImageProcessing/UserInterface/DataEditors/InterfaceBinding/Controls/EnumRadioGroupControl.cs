@@ -1,65 +1,98 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Common;
+using UserInterface.DataEditors.InterfaceBinding.Attributes;
 
 namespace UserInterface.DataEditors.InterfaceBinding.Controls
 {
     public partial class EnumRadioGroupControl : UserControl, IBindableControl
     {
-        public event Action<BindableControlValueUpdatedEventArgs> ValueUpdated;
+        private bool _suppressRadioCheckedChangedEventHandlerExecution = false;
+        private IValueBinding _binding;
 
-        public string Title
+        public Enum _value;
+        public bool HideLabel { get; private set; }
+        public IBinding Binding => _binding;
+
+        public void SetBinding(IBinding binding)
         {
-            get => groupBox1.Text;
-            set => groupBox1.Text = value;
+            _binding = BindingUtil.PrepareValueBinding(binding, _binding, BindingValueUpdated, t => t.IsEnum);
+
+            UpdateRadioButtons(_binding.ValueType);
+            HideLabel = _binding.GetAttribute<BindToUIAttribute>().HideLabel;
+            SetValue((Enum)_binding.GetValue());
         }
 
-        public object Value => (Enum)groupBox1.Controls.OfType<RadioButton>().Single(r => r.Checked).Tag;
-        
-        public void SetValue(object value, object sender)
+        public EnumRadioGroupControl()
         {
-            groupBox1.Controls.OfType<RadioButton>().Single(r => r.Tag.Equals(value)).Checked = true;
-
-            ValueUpdated?.Invoke(new BindableControlValueUpdatedEventArgs(sender));
-        }
-
-        public EnumRadioGroupControl(Type enumType)
-        {
-            if (!enumType.IsEnum)
-                throw new InvalidOperationException("Type should be enum.");
-
             InitializeComponent();
+        }
 
+        private void BindingValueUpdated(ValueUpdatedEventArgs e)
+        {
+            if (e.Sender == this)
+                return;
+
+            SetValue((Enum)_binding.GetValue());
+        }
+
+        private void UpdateRadioButtons(Type enumType)
+        {
             var values = EnumExtensions.GetValues(enumType);
-            int x = 6, y = 19;
-            foreach (var value in values)
+
+            foreach (var radio in groupBox1.Controls.OfType<RadioButton>())
             {
-                var radioButton = new RadioButton
-                {
-                    Text = value.ToString(),
-                    Location = new Point(x, y),
-                    Tag = value,
-                    Anchor = AnchorStyles.Left | AnchorStyles.Top
-                };
-
-                radioButton.CheckedChanged += (sender, args) =>
-                {
-                    if (radioButton.Checked)
-                        ValueUpdated?.Invoke(new BindableControlValueUpdatedEventArgs(this));
-                };
-                
-                groupBox1.Controls.Add(radioButton);
-
-                y += 23;
+                groupBox1.Controls.Remove(radio);
             }
 
-            Height = y + 5;
+            var ry = 15;
+            foreach (var value in values)
+            {
+                var radio = new RadioButton
+                {
+                    Left = 3,
+                    Top = ry,
+                    Text = value.ToString(),
+                    Tag = value
+                };
+
+                radio.CheckedChanged += (o, e) =>
+                {
+                    if (_suppressRadioCheckedChangedEventHandlerExecution)
+                        return;
+
+                    if (radio.Checked)
+                        UpdateValueInternal((Enum) radio.Tag);
+                };
+
+                groupBox1.Controls.Add(radio);
+
+                ry += radio.Height + 3;
+            }
+
+            this.Height = ry;
+        }
+
+        private void SetValue(Enum value)
+        {
+            _suppressRadioCheckedChangedEventHandlerExecution = true;
+
+            foreach (var radio in groupBox1.Controls.OfType<RadioButton>())
+            {
+                if (Equals((Enum) radio.Tag, value))
+                    radio.Checked = true;
+            }
+
+            _suppressRadioCheckedChangedEventHandlerExecution = false;
+        }
+
+        private void UpdateValueInternal(Enum value, bool updateBindingValue = true)
+        {
+            _value = value;
+
+            if (updateBindingValue)
+                _binding.SetValue(_value, this);
         }
     }
 }

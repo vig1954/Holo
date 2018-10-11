@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using Common;
 using Processing;
-using Processing.DataBinding;
+using Processing.DataAttributes;
+using UserInterface.DataEditors.InterfaceBinding.Attributes;
 
 namespace UserInterface.DataEditors.Renderers.Shaders
 {
@@ -74,22 +75,22 @@ void main()
             Imaginative = 3
         }
 
-        [EnumRadioGroup("Mode")]
-        public AmplitudePhaseImageShader.ViewMode Mode { get; set; }
+        [BindToUI("Mode")]
+        public ViewMode Mode { get; set; }
 
-        [Number("Offset", -1, 1, 0.01f)]
+        [BindToUI("Multiplier"), Range(-1, 1), Precision(2)]
         public float Offset { get; set; } = 0;
 
-        [Number("Multiplier", -1000, 1000, 0.0001f)]
+        [BindToUI("Multiplier"), Range(-10, 10), Precision(4)]
         public float Multiplier { get; set; } = 1;
 
-        [Checkbox("Отразить по вертикали")]
+        [BindToUI("Отразить по вертикали")]
         public bool MirrorVertical { get; set; }
 
-        [Checkbox("Отразить по горизонтали")]
+        [BindToUI("Отразить по горизонтали")]
         public bool MirrorHorizontal { get; set; }
 
-        [Checkbox("Циклический сдвиг")]
+        [BindToUI("Циклический сдвиг")]
         public bool CyclicShift { get; set; }
 
         public override void Use()

@@ -12,5 +12,10 @@ namespace Common
         {
             return self.GetCustomAttributes<TAttribute>().Any();
         }
+
+        public static bool HastAttribute<TAttribute>(this ParameterInfo self) where TAttribute : Attribute
+        {
+            return self.GetCustomAttributes<TAttribute>().Any();
+        }
     }
 }

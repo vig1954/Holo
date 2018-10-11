@@ -1,26 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace UserInterface.DataEditors.InterfaceBinding.Controls
 {
     public class ButtonControl : Button, IBindableControl
     {
-        public string Title
+        private MethodBinding _binding;
+
+        public bool HideLabel { get; } = true;
+        public IBinding Binding => _binding;
+
+        public ButtonControl()
         {
-            get => Text;
-            set => Text = value;
+            this.Height = 20;
         }
 
-        public object Value => null;
-        public event Action<BindableControlValueUpdatedEventArgs> ValueUpdated;
-
-        public void SetValue(object value, object sender)
+        public void SetBinding(IBinding binding)
         {
-            throw new NotImplementedException();
+            if (!(binding is MethodBinding methodBinding))
+                throw new NotSupportedException();
+
+            _binding = methodBinding;
+            Text = _binding.DisplayName;
+        }
+
+        protected override void OnClick(EventArgs e)
+        {
+            base.OnClick(e);
+
+            _binding.Invoke();
         }
     }
 }

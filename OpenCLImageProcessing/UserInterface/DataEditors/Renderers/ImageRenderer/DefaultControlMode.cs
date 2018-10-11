@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using Processing.DataBinding;
+using UserInterface.DataEditors.InterfaceBinding.Attributes;
 
 namespace UserInterface.DataEditors.Renderers.ImageRenderer
 {
@@ -15,14 +15,14 @@ namespace UserInterface.DataEditors.Renderers.ImageRenderer
             _renderer = renderer;
         }
 
-        [Action(Group = "Zoom", TooltipText = "По размеру окна")]
+        [BindToUI("По размеру окна", "Zoom")]
         public void ZoomFit()
         {
             _renderer.ZoomFit();
             _renderer.RequestUpdate();
         }
 
-        [Action(Group = "Zoom", TooltipText = "По размеру изображения")]
+        [BindToUI("По размеру изображения", "Zoom")]
         public void ZoomEqual()
         {
             _renderer.ZoomEquals();

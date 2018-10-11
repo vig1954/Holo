@@ -1,34 +1,48 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using UserInterface.DataEditors.InterfaceBinding.Attributes;
 
 namespace UserInterface.DataEditors.InterfaceBinding.Controls
 {
     public class CheckboxControl : CheckBox, IBindableControl
     {
-        public string Title
+        private bool _suppressBindingStateChangedEventHandlerExecution = false;
+        private IValueBinding _binding;
+        public bool HideLabel { get; private set; }
+        public IBinding Binding => _binding;
+
+        public void SetBinding(IBinding binding)
         {
-            get => this.Text;
-            set => this.Text = value;
+            _binding = BindingUtil.PrepareValueBinding(binding, _binding, BindingOnValueUpdated, new[] { typeof(bool) });
+
+            SetCheckedState((bool)_binding.GetValue());
+
+            HideLabel = _binding.GetAttribute<BindToUIAttribute>().HideLabel;
         }
 
-        public object Value => Checked;
-
-        public event Action<BindableControlValueUpdatedEventArgs> ValueUpdated;
-
-        public CheckboxControl()
+        private void BindingOnValueUpdated(ValueUpdatedEventArgs e)
         {
-            CheckedChanged += (s, e) => ValueUpdated?.Invoke(new BindableControlValueUpdatedEventArgs(this));
+            if (e.Sender == this)
+                return;
+
+            SetCheckedState((bool)_binding.GetValue());
         }
 
-        public void SetValue(object value, object sender)
+        protected override void OnCheckStateChanged(EventArgs e)
         {
-            Checked = (bool) value;
+            base.OnCheckStateChanged(e);
 
-            ValueUpdated?.Invoke(new BindableControlValueUpdatedEventArgs(sender));
+            if (_suppressBindingStateChangedEventHandlerExecution)
+                return;
+
+            _binding.SetValue(Checked, this);
+        }
+
+        private void SetCheckedState(bool state)
+        {
+            _suppressBindingStateChangedEventHandlerExecution = true;
+            Checked = state;
+            _suppressBindingStateChangedEventHandlerExecution = false;
         }
     }
 }

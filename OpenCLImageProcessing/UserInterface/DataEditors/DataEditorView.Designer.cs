@@ -29,14 +29,12 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.openTkControlContainer = new System.Windows.Forms.Panel();
             this.tsToolPanel = new System.Windows.Forms.ToolStrip();
             this.tsTools = new System.Windows.Forms.ToolStrip();
-            this.rightPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.containerHeader1 = new UserInterface.DataEditors.ContainerHeader();
-            this.openTkControlContainer = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -52,13 +50,17 @@
             this.splitContainer1.Panel1.Controls.Add(this.openTkControlContainer);
             this.splitContainer1.Panel1.Controls.Add(this.tsToolPanel);
             this.splitContainer1.Panel1.Controls.Add(this.tsTools);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.rightPanel);
             this.splitContainer1.Size = new System.Drawing.Size(751, 474);
             this.splitContainer1.SplitterDistance = 514;
             this.splitContainer1.TabIndex = 1;
+            // 
+            // openTkControlContainer
+            // 
+            this.openTkControlContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.openTkControlContainer.Location = new System.Drawing.Point(1, 25);
+            this.openTkControlContainer.Name = "openTkControlContainer";
+            this.openTkControlContainer.Size = new System.Drawing.Size(513, 449);
+            this.openTkControlContainer.TabIndex = 2;
             // 
             // tsToolPanel
             // 
@@ -78,16 +80,6 @@
             this.tsTools.TabIndex = 0;
             this.tsTools.Text = "toolStrip1";
             // 
-            // rightPanel
-            // 
-            this.rightPanel.AutoScroll = true;
-            this.rightPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rightPanel.Location = new System.Drawing.Point(0, 0);
-            this.rightPanel.Name = "rightPanel";
-            this.rightPanel.Size = new System.Drawing.Size(233, 474);
-            this.rightPanel.TabIndex = 0;
-            this.rightPanel.Resize += new System.EventHandler(this.rightPanel_Resize);
-            // 
             // containerHeader1
             // 
             this.containerHeader1.Active = true;
@@ -97,14 +89,6 @@
             this.containerHeader1.Name = "containerHeader1";
             this.containerHeader1.Size = new System.Drawing.Size(751, 20);
             this.containerHeader1.TabIndex = 0;
-            // 
-            // openTkControlContainer
-            // 
-            this.openTkControlContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.openTkControlContainer.Location = new System.Drawing.Point(1, 25);
-            this.openTkControlContainer.Name = "openTkControlContainer";
-            this.openTkControlContainer.Size = new System.Drawing.Size(513, 449);
-            this.openTkControlContainer.TabIndex = 2;
             // 
             // DataEditorView
             // 
@@ -117,7 +101,6 @@
             this.Load += new System.EventHandler(this.DataEditorView_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
-            this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -169,8 +152,6 @@
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
         }
-
-        private System.Windows.Forms.FlowLayoutPanel rightPanel;
         private System.Windows.Forms.ToolStrip tsTools;
         private System.Windows.Forms.ToolStrip tsToolPanel;
         private System.Windows.Forms.Panel openTkControlContainer;

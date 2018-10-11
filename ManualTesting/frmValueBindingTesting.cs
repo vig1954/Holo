@@ -29,7 +29,7 @@ namespace ManualTesting
 
         private void Test()
         {
-            var testSubject = new TestSubject();
+            var testSubject = new TestSubject3();
 
             var interfaceController = new InterfaceController(testHostPanel);
             interfaceController.BindObjectToInterface(testSubject);
@@ -102,6 +102,12 @@ namespace ManualTesting
 
             [BindToUI]
             public int Count { get; set; }
+        }
+
+        private class TestSubject3
+        {
+            [BindToUI, BindMembersToUI]
+            public TestSubject2 Member { get; set; } = new TestSubject2 { Title = "Title", Count = 2 };
         }
     }
 }

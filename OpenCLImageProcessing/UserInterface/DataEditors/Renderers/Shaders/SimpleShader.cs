@@ -9,7 +9,7 @@ using Processing;
 
 namespace UserInterface.DataEditors.Renderers.Shaders
 {
-    public class SimpleShader : SimpleShaderWithProjectionViewModelMatricesBase, IImageShader
+    public class SimpleShader : SimpleShaderWithProjectionViewModelMatricesBase
     {
         #region fragment shader
         protected override string FragmentShaderCode => @"

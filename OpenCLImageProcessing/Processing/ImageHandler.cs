@@ -18,7 +18,7 @@ namespace Processing
         [SizeInBytes(sizeof(byte))] Byte = 32,
         [SizeInBytes(sizeof(float))] Float = 64
     }
-
+    
     public enum ImageFormat
     {
         [ChannelsCount(1)] Greyscale = 1,

@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Common;
 using Processing;
-using Processing.DataBinding;
 
 namespace UserInterface.DataEditors.Renderers.Shaders
 {

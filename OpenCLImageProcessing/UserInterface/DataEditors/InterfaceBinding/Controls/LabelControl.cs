@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using System.Drawing;
 using System.Windows.Forms;
 using UserInterface.DataEditors.InterfaceBinding.Attributes;
 
-namespace UserInterface.DataEditors.InterfaceBinding.ControlsV2
+namespace UserInterface.DataEditors.InterfaceBinding.Controls
 {
     public class LabelControl: Label, IBindableControl
     {

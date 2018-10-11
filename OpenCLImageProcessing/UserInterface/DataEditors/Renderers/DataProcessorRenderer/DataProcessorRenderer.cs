@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using Processing.DataBinding;
 using Processing.DataProcessors;
+using UserInterface.DataEditors.InterfaceBinding.Attributes;
 using UserInterface.DataEditors.Tools;
 
 namespace UserInterface.DataEditors.Renderers.DataProcessorRenderer
@@ -19,9 +19,10 @@ namespace UserInterface.DataEditors.Renderers.DataProcessorRenderer
         public event Action UpdateControlsRequest;
         public Type DataType => typeof(IDataProcessor);
 
-        [SubfieldGroup]
+        [BindToUI, BindMembersToUI]
         public IDataRenderer OutputDataRenderer => _outputDataRenderer;
-        [SubfieldGroup]
+
+        [BindToUI, BindMembersToUI]
         public IDataProcessor DataProcessor => _dataProcessor;
 
         public void Resize(Size size)

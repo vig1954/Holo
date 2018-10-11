@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
 using Common;
 
-namespace Processing.DataProcessors
+namespace UserInterface.DataProcessorViews
 {
     public class DataProcessorDescriptor
     {
@@ -25,7 +24,7 @@ namespace Processing.DataProcessors
         {
             if (!processorMethod.IsStatic)
                 throw new NotSupportedException("Non-static methods are not supported.");
-            
+
             _processorMethod = processorMethod;
 
             ProcessorName = processorMethod.Name.SeparateUpperCase();
@@ -40,6 +39,21 @@ namespace Processing.DataProcessors
                 throw new InvalidOperationException("Processor method should have return value or parameter marked with 'Output' attribute.");
 
             Parameters = allVariables.Where(v => !v.IsOutput).ToArray();
+
+            foreach (var parameter in Parameters)
+            {
+                parameter.SetValue(parameter.ValueType.GetDefaultValue(), this);
+            }
+        }
+
+        public void Invoke()
+        {
+            _processorMethod.Invoke(null, Parameters.Select(p => p.GetValue()).Concat(new[] { Output.GetValue() }).ToArray());
+        }
+
+        protected bool AreAllParametersSet()
+        {
+            return Parameters.All(p => p.HasValue);
         }
     }
 }

@@ -12,7 +12,6 @@ using Processing.Computing;
 using UserInterface.DataEditors.InterfaceBinding;
 using UserInterface.DataEditors.Renderers;
 using UserInterface.DataEditors.Tools;
-using Binder = UserInterface.DataEditors.InterfaceBinding.Deprecated.Binder;
 // ReSharper disable All
 
 namespace UserInterface.DataEditors
@@ -24,6 +23,8 @@ namespace UserInterface.DataEditors
         private IDataRenderer _renderer;
         private GLControl _glControl;
         private ITool _tool;
+
+        private Control rightPanel => splitContainer1.Panel2;
 
         public object Data => _renderer?.GetData();
         public bool HasData => Data != null;
@@ -43,7 +44,7 @@ namespace UserInterface.DataEditors
 
             renderer.SetData(data);
             SetRenderer(renderer);
-
+            
             containerHeader1.Text = $"[{renderer.GetType().Name} - {renderer.GetData().GetType().Name}] {renderer.GetTitle()}";
 
             Redraw();
@@ -123,34 +124,7 @@ namespace UserInterface.DataEditors
         {
             Redraw();
         }
-
-        private void FillPanel(Binder binder, Panel panel)
-        {
-            if (!binder.Bindings.Any())
-            {
-                panel.Hide();
-                return;
-            }
-
-            panel.Show();
-            int y = panel.Controls.Count > 0 ? panel.Controls[panel.Controls.Count - 1].Bottom : 0;
-            const int yDist = 3;
-
-            foreach (var binding in binder.Bindings)
-            {
-                var control = binding.Control as Control;
-                control.Width = panel.Width - panel.Padding.Left - panel.Padding.Right;
-                control.Left = 0;
-                control.Top = y;
-                control.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
-
-                y += control.Height + yDist;
-                panel.Controls.Add(control);
-            }
-
-            panel.Height = y;
-        }
-
+        
         private void Clear()
         {
             _tool?.Deactivate();
@@ -228,10 +202,12 @@ namespace UserInterface.DataEditors
 
         private void rightPanel_Resize(object sender, EventArgs e)
         {
-            foreach (var childControl in rightPanel.Controls.Cast<Control>())
-            {
-                childControl.Width = rightPanel.ClientSize.Width - rightPanel.Padding.Left - rightPanel.Padding.Right - 10;
-            }
+//            foreach (var childControl in rightPanel.Controls.Cast<Control>())
+//            {
+//                childControl.Dock = DockStyle.None;
+//                childControl.Width = rightPanel.ClientSize.Width - rightPanel.Padding.Left - rightPanel.Padding.Right - 10;
+//                childControl.Height = childControl.PreferredSize.Height;
+//            }
         }
     }
 }

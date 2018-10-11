@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UserInterface.DataEditors.InterfaceBinding.Attributes;
-using UserInterface.DataEditors.InterfaceBinding.ControlsV2;
+using UserInterface.DataEditors.InterfaceBinding.Controls;
 
 namespace UserInterface.DataEditors.InterfaceBinding
 {
@@ -22,7 +22,7 @@ namespace UserInterface.DataEditors.InterfaceBinding
             //if (member.PropertyType)
         }
 
-        public ControlsV2.IBindableControl GetControl()
+        public IBindableControl GetControl()
         {
             var dropdownControl = new DropdownControl();
             dropdownControl.SetBinding(this);

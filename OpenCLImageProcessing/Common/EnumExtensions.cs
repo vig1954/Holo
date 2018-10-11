@@ -35,5 +35,25 @@ namespace Common
                 yield return enumValue;
             }
         }
+
+        public static IEnumerable<TEnum> DecomposeFlags<TEnum>(int flags) where TEnum : struct 
+        {
+            if (!typeof(TEnum).IsEnum)
+                throw new InvalidOperationException();
+
+            var values = GetValues<TEnum>();
+
+            var containedValues = new List<TEnum>();
+
+            foreach (var value in values)
+            {
+                var intValue = (int) (object) value;
+                
+                if ((flags & intValue) == intValue)
+                    containedValues.Add(value);
+            }
+
+            return containedValues;
+        }
     }
 }

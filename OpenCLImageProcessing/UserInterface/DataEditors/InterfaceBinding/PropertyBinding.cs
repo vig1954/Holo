@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Common;
+using UserInterface.DataEditors.InterfaceBinding.Attributes;
 
 namespace UserInterface.DataEditors.InterfaceBinding
 {
@@ -13,6 +14,8 @@ namespace UserInterface.DataEditors.InterfaceBinding
         private PropertyInfo _propertyInfo;
 
         public Type ValueType => _propertyInfo.PropertyType;
+
+        public bool ReadOnly => _propertyInfo.CanWrite;
 
         public event Action<ValueUpdatedEventArgs> ValueUpdated;
 

@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using Common;
 using Processing;
-using Processing.DataBinding;
+using Processing.DataAttributes;
+using UserInterface.DataEditors.InterfaceBinding.Attributes;
 
 namespace UserInterface.DataEditors.Renderers.Shaders
 {
@@ -47,6 +48,7 @@ void main()
     color = vec4(val, val, val, 1);
 }
 ";
+
         public enum ViewMode
         {
             Amplitude = 0,
@@ -55,13 +57,13 @@ void main()
             Imaginative = 3
         }
 
-        [EnumRadioGroup("Mode")]
+        [BindToUI]
         public ViewMode Mode { get; set; }
 
-        [Number("Offset", -1, 1, 0.01f)]
+        [BindToUI("Offset"), Range(-1, 1), Precision(2)]
         public float Offset { get; set; } = 0;
 
-        [Number("Multiplier", -10, 10, 0.0001f)]
+        [BindToUI("Multiplier"), Range(-10, 10), Precision(4)]
         public float Multiplier { get; set; } = 1;
 
         public override void Use()
@@ -70,11 +72,11 @@ void main()
 
             SetUniform1("offset", Offset);
             SetUniform1("multiplier", Multiplier);
-            SetUniform1("mode", (int)Mode);
+            SetUniform1("mode", (int) Mode);
         }
+
         public override void SetValueRange(FloatRange channel1Range, FloatRange channel2Range)
         {
-            
         }
     }
 }

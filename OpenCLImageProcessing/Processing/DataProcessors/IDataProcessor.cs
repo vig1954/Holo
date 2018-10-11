@@ -43,13 +43,4 @@ namespace Processing.DataProcessors
         {
         }
     }
-
-    [AttributeUsage(AttributeTargets.Class)]
-    public class DataProcessorAttribute : Attribute
-    {
-        public string MenuItem { get; set; } = "Processors";
-        public string Name { get; set; }
-        public string Group { get; set; }
-        public string Tooltip { get; set; }
-    }
 }

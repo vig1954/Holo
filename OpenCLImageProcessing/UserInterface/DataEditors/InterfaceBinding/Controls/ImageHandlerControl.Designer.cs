@@ -1,4 +1,4 @@
-﻿namespace UserInterface.DataEditors.InterfaceBinding.ControlsV2
+﻿namespace UserInterface.DataEditors.InterfaceBinding.Controls
 {
     partial class ImageHandlerControl
     {
@@ -46,10 +46,12 @@
             // 
             // lblImageTitle
             // 
-            this.lblImageTitle.AutoSize = true;
+            this.lblImageTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblImageTitle.Location = new System.Drawing.Point(22, 3);
             this.lblImageTitle.Name = "lblImageTitle";
-            this.lblImageTitle.Size = new System.Drawing.Size(36, 13);
+            this.lblImageTitle.Size = new System.Drawing.Size(125, 16);
             this.lblImageTitle.TabIndex = 1;
             this.lblImageTitle.Text = "Image";
             // 
@@ -63,7 +65,6 @@
             this.Size = new System.Drawing.Size(150, 20);
             ((System.ComponentModel.ISupportInitialize)(this.picAddImage)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

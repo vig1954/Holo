@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using Common;
 using OpenTK;
+using UserInterface.DataEditors.InterfaceBinding.Attributes;
 
 namespace UserInterface.DataEditors.Renderers.Shaders
 {
     public abstract class SimpleShaderWithProjectionViewModelMatricesBase: CustomizableShader, IImageShader
     {
         protected abstract string FragmentShaderCode { get; }
+
+        public event Action PropertiesChanged;
 
         #region vertex shader
 
@@ -53,6 +56,7 @@ void main()
         {
             Compile(_vertexShaderCode, FragmentShaderCode);
         }
+        
         public void SetViewMatrix(Matrix4 view)
         {
             SetMatrix(view, "view");
@@ -67,5 +71,11 @@ void main()
         }
 
         public abstract void SetValueRange(FloatRange channel1Range, FloatRange channel2Range);
+
+        [OnAnyBindedPropertyChanged]
+        public void RaisePropertiesChangedEvent()
+        {
+            PropertiesChanged?.Invoke();
+        }
     }
 }

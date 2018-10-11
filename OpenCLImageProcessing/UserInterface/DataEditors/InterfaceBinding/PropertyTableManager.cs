@@ -7,32 +7,47 @@ using System.Text;
 using System.Windows.Forms;
 using Common;
 using UserInterface.DataEditors.InterfaceBinding.Attributes;
-using UserInterface.DataEditors.InterfaceBinding.ControlsV2;
+using UserInterface.DataEditors.InterfaceBinding.Controls;
 
 namespace UserInterface.DataEditors.InterfaceBinding
 {
     public class PropertyTableManager
     {
+        private IBindingProvider _bindingProvider;
         private TableLayoutPanel _table;
         private TreeNode _rootNode;
 
-        public TableLayoutPanel Render(IReadOnlyCollection<ControlsV2.IBindableControl> bindableControls)
+        public TableLayoutPanel Render(IBindingProvider bindingProvider)
         {
-            _rootNode = BuildTree(bindableControls);
+            _bindingProvider = bindingProvider;
+
+            ReRender();
+
+            return _table;
+        }
+
+        public void ReRender()
+        {
+            _rootNode = BuildTree(GetBindableControls(_bindingProvider));
 
             _table = new TableLayoutPanel
             {
                 ColumnCount = 2,
-                CellBorderStyle = TableLayoutPanelCellBorderStyle.None
+                CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset
             };
 
             _table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 0));
-            _table.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-            _table.AutoScroll = true;
+            _table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute));
+            //_table.AutoScroll = true;
 
             RenderTable();
 
-            return _table;
+            _table.Resize += TableOnResize;
+        }
+
+        private void TableOnResize(object sender, EventArgs e)
+        {
+            _table.ColumnStyles[1].Width = _table.Width - _table.ColumnStyles[0].Width;
         }
 
         private void RenderTable()
@@ -53,14 +68,17 @@ namespace UserInterface.DataEditors.InterfaceBinding
                 Dock = DockStyle.Fill
             }, 0, row);
 
-            _table.ColumnStyles[0].Width = _rootNode.GetPreferredLabelWidth();
+            var preferredLabelWidth = _rootNode.GetPreferredLabelWidth();
+            _table.ColumnStyles[0].Width = preferredLabelWidth;
+            _table.ColumnStyles[1].Width = _table.Width - _table.ColumnStyles[0].Width;
         }
 
         private void RenderNodes(IReadOnlyCollection<TreeNode> nodes, ref int row)
         {
             foreach (var node in nodes)
             {
-                if (node.IsGroupTitle)
+                var showAsGroupTitle = node.BindableControl?.Binding.GetAttribute<BindMembersToUIAttribute>()?.HideProperty ?? false;
+                if (node.IsGroupTitle || showAsGroupTitle)
                 {
                     _table.Controls.Add(node.Label, 0, row);
                     node.Label.Dock = DockStyle.Fill;
@@ -89,7 +107,7 @@ namespace UserInterface.DataEditors.InterfaceBinding
             }
         }
 
-        private void InsertBindableControl(ControlsV2.IBindableControl bindableControl, Label label, int row)
+        private void InsertBindableControl(IBindableControl bindableControl, Label label, int row)
         {
             if (!(bindableControl is Control control))
                 throw new InvalidOperationException();
@@ -109,13 +127,65 @@ namespace UserInterface.DataEditors.InterfaceBinding
             control.Dock = DockStyle.Fill;
         }
 
-        private TreeNode BuildTree(IReadOnlyCollection<ControlsV2.IBindableControl> bindableControls)
+        private TreeNode BuildTree(IReadOnlyCollection<IBindableControl> bindableControls)
         {
             var nodeList = new List<TreeNode>();
 
             foreach (var bindableControl in bindableControls)
             {
-                var group = bindableControl.Binding.DisplayGroup;
+                AddTreeNodeAndCreateGroupTreeNodeIfNeeded(bindableControl, nodeList);
+            }
+
+            return new TreeNode
+            {
+                IsGroupTitle = true,
+                Title = "root",
+                Children = nodeList,
+                Expanded = true
+            };
+        }
+
+        private void AddTreeNodeAndCreateGroupTreeNodeIfNeeded(IBindableControl bindableControl, List<TreeNode> nodeList)
+        {
+            var group = bindableControl.Binding.DisplayGroup;
+            if (!group.IsNullOrEmpty())
+            {
+                var groupNode = nodeList.SingleOrDefault(n => n.IsGroupTitle && n.Title == group);
+                if (groupNode == null)
+                {
+                    groupNode = new TreeNode
+                    {
+                        IsGroupTitle = true,
+                        Title = group,
+                        Label = new Label { TextAlign = ContentAlignment.MiddleLeft }
+                    };
+
+                    groupNode.Label.Font = new Font(groupNode.Label.Font, FontStyle.Bold);
+
+                    nodeList.Add(groupNode);
+                }
+
+                nodeList = groupNode.Children;
+            }
+            
+            var bindMembersToUiAttribute = bindableControl.Binding.GetAttribute<BindMembersToUIAttribute>();
+            if (bindMembersToUiAttribute != null && bindMembersToUiAttribute.HideProperty && bindMembersToUiAttribute.MergeMembers)
+            {
+                var valueBinding = (IValueBinding) bindableControl.Binding;
+                var controls = GetBindableControls(valueBinding.GetValue());
+
+                valueBinding.ValueUpdated += sender =>
+                {
+                    ReRender();
+                };
+
+                foreach (var control in controls)
+                {
+                    AddTreeNodeAndCreateGroupTreeNodeIfNeeded(control, nodeList);
+                }
+            }
+            else
+            {
                 var treeNode = new TreeNode
                 {
                     Label = new Label { TextAlign = ContentAlignment.MiddleRight },
@@ -123,13 +193,14 @@ namespace UserInterface.DataEditors.InterfaceBinding
                     Title = bindableControl.Binding.DisplayName
                 };
 
-                if (bindableControl.Binding.GetAttribute<BindMembersToUIAttribute>() != null)
+                if (bindMembersToUiAttribute != null)
                 {
-                    var propertyBinding = (PropertyBinding) bindableControl.Binding;
-
+                    treeNode.Label.TextAlign = ContentAlignment.MiddleLeft;
+                    
+                    var valueBinding = (IValueBinding) bindableControl.Binding;
                     bindMembersToUi();
 
-                    propertyBinding.ValueUpdated += sender =>
+                    valueBinding.ValueUpdated += sender =>
                     {
                         bindMembersToUi();
                         RenderTable();
@@ -139,7 +210,7 @@ namespace UserInterface.DataEditors.InterfaceBinding
                     {
                         // TODO: дублирование с InterfaceController
 
-                        var value = propertyBinding.GetValue();
+                        var value = valueBinding.GetValue();
 
                         if (value == null)
                         {
@@ -147,11 +218,7 @@ namespace UserInterface.DataEditors.InterfaceBinding
                             return;
                         }
 
-                        var bindingProvider = new BindingProviderFactory().Get(value);
-                        var bindings = bindingProvider.GetBindings();
-
-                        var bindableControlFactory = new BindableControlFactory();
-                        var controls = bindings.Select(bindableControlFactory.Get).ToArray();
+                        var controls = GetBindableControls(value);
 
                         var valueRootNode = BuildTree(controls);
                         treeNode.Children = valueRootNode.Children;
@@ -159,35 +226,25 @@ namespace UserInterface.DataEditors.InterfaceBinding
                     }
                 }
 
-                if (group == "")
-                    nodeList.Add(treeNode);
-                else
-                {
-                    var groupNode = nodeList.SingleOrDefault(n => n.IsGroupTitle && n.Title == group);
-                    if (groupNode == null)
-                    {
-                        groupNode = new TreeNode
-                        {
-                            IsGroupTitle = true,
-                            Title = group,
-                            Label = new Label { TextAlign = ContentAlignment.BottomLeft }
-                        };
-
-                        groupNode.Label.Font = new Font(groupNode.Label.Font, FontStyle.Bold);
-
-                        nodeList.Add(groupNode);
-                    }
-
-                    groupNode.Children.Add(treeNode);
-                }
+                nodeList.Add(treeNode);
             }
+        }
 
-            return new TreeNode
-            {
-                IsGroupTitle = true,
-                Title = "root",
-                Children = nodeList
-            };
+        private IReadOnlyCollection<IBindableControl> GetBindableControls(object value)
+        {
+            if (value == null)
+                return new IBindableControl[] { };
+
+            var bindingProvider = new BindingProviderFactory().Get(value);
+            return GetBindableControls(bindingProvider);
+        }
+
+        private IReadOnlyCollection<IBindableControl> GetBindableControls(IBindingProvider bindingProvider)
+        {
+            var bindings = bindingProvider.GetBindings();
+
+            var bindableControlFactory = new BindableControlFactory();
+            return bindings.Select(bindableControlFactory.Get).ToArray();
         }
 
         private class TreeNode
@@ -198,7 +255,7 @@ namespace UserInterface.DataEditors.InterfaceBinding
             private int? level;
 
             public Label Label { get; set; }
-            public ControlsV2.IBindableControl BindableControl { get; set; }
+            public IBindableControl BindableControl { get; set; }
             public bool IsGroupTitle { get; set; }
             public string Title { get; set; }
             public bool Expanded { get; set; }
@@ -234,7 +291,7 @@ namespace UserInterface.DataEditors.InterfaceBinding
                     return;
 
                 var padding = " ".Repeat(level.Value);
-                var marker = IsGroupTitle
+                var marker = IsGroupTitle || Children.Any()
                     ? Expanded ? ExpandedMarker : CollapsedMarker
                     : "";
 
@@ -245,9 +302,12 @@ namespace UserInterface.DataEditors.InterfaceBinding
             {
                 var maxLabelWidth = IsGroupTitle ? 0 : Label.PreferredWidth + Label.Margin.Left + Label.Margin.Right + 3;
 
-                foreach (var child in Children)
+                if (Expanded)
                 {
-                    maxLabelWidth = Math.Max(maxLabelWidth, child.GetPreferredLabelWidth());
+                    foreach (var child in Children)
+                    {
+                        maxLabelWidth = Math.Max(maxLabelWidth, child.GetPreferredLabelWidth());
+                    }
                 }
 
                 return maxLabelWidth;

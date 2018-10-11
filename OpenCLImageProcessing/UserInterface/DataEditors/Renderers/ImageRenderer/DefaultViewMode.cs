@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Common;
-using Processing.DataBinding;
 using Processing.ImageReaders;
+using UserInterface.DataEditors.InterfaceBinding;
+using UserInterface.DataEditors.InterfaceBinding.Attributes;
 using UserInterface.DataEditors.Renderers.Shaders;
 
 namespace UserInterface.DataEditors.Renderers.ImageRenderer
@@ -13,8 +14,8 @@ namespace UserInterface.DataEditors.Renderers.ImageRenderer
     public class DefaultViewMode : IDataRendererViewMode
     {
         private ImageRenderer _imageRenderer;
-
-        [MergeSubfields(OnPropertyChanged = "ShaderPropertiesChanged")]
+        
+        [BindToUI, BindMembersToUI(HideProperty = true, MergeMembers = true)]
         public IImageShader Shader { get; }
         
         public void SetViewParametres(IViewParametres viewParams)
@@ -23,15 +24,14 @@ namespace UserInterface.DataEditors.Renderers.ImageRenderer
             Shader.SetViewMatrix(viewParams.ViewMatrix);
         }
 
-        public DefaultViewMode(ImageRenderer renderer)
+        public DefaultViewMode(ImageRenderer renderer) : this(renderer, new SimpleShader())
         {
-            Shader = new SimpleShader();
-            _imageRenderer = renderer;
         }
 
         public DefaultViewMode(ImageRenderer renderer, IImageShader shader)
         {
             Shader = shader;
+            Shader.PropertiesChanged += ShaderPropertiesChanged;
             _imageRenderer = renderer;
         }
 
