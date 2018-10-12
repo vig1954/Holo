@@ -45,6 +45,11 @@ namespace UserInterface.DataProcessorViews
             }
         }
 
+        public IEnumerable<object> GetOutputValues()
+        {
+            yield return Output.GetValue();
+        }
+
         public IEnumerable<IBinding> GetBindings()
         {
             return Parameters;
@@ -126,8 +131,8 @@ namespace UserInterface.DataProcessorViews
                 _singleOperationContext.Dispose();
 
                 _processor.OnUpdated();
-                _processor.ImageUpdated?.Invoke(new ImageUpdatedEventData(_redrawControls));
                 _processor.OutputParameter.GetValue().Update();
+                _processor.ImageUpdated?.Invoke(new ImageUpdatedEventData(_redrawControls));
             }
         }
 

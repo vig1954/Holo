@@ -71,8 +71,8 @@ namespace Processing.Computing
         /// <param name="distance">Расстояние, мм</param>
         /// <param name="objectSize">Размер объекта, мм</param>
         /// <param name="cyclicShift"></param>
-        [DataProcessor]
-        public static void Transform(IImageHandler input, [Output] IImageHandler output, float wavelength, float distance, float objectSize, bool cyclicShift)
+        [DataProcessor("Преобразование Френеля", ProcessorGroups.Transforms)]
+        public static void Transform(IImageHandler input, float wavelength = 532, float distance = 135, float objectSize = 6.35f, bool cyclicShift = true, IImageHandler output = null)
         {
             var key = $"{input.Width}_{input.Height}";
 

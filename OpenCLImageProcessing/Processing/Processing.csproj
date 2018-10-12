@@ -78,6 +78,7 @@
     <Compile Include="Computing\OpenClApplication.cs" />
     <Compile Include="Computing\OpenClContextSettings.cs" />
     <Compile Include="Computing\OpenClDataManager.cs" />
+    <Compile Include="Computing\PSI.cs" />
     <Compile Include="DataAttributes\DataProcessorAttribute.cs" />
     <Compile Include="DataAttributes\ImageHandlerFilterAttribute.cs" />
     <Compile Include="DataAttributes\PrecisionAttribute.cs" />

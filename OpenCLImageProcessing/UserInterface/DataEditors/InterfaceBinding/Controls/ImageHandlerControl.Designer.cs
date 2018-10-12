@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.picAddImage = new System.Windows.Forms.PictureBox();
             this.lblImageTitle = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.picAddImage)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,7 +51,7 @@
             this.lblImageTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblImageTitle.Location = new System.Drawing.Point(22, 3);
+            this.lblImageTitle.Location = new System.Drawing.Point(22, 4);
             this.lblImageTitle.Name = "lblImageTitle";
             this.lblImageTitle.Size = new System.Drawing.Size(125, 16);
             this.lblImageTitle.TabIndex = 1;
@@ -72,5 +74,6 @@
 
         private System.Windows.Forms.PictureBox picAddImage;
         private System.Windows.Forms.Label lblImageTitle;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

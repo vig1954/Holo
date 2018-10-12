@@ -78,7 +78,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
                 _value = _maxValue;
 
             _value = _precision > 0 ? Math.Round(_value, Math.Min(_precision, 15)) : Math.Round(_value);
-            var format = _precision > 0 ? "0." + "0".Repeat(_precision) : "#";
+            var format = _precision > 0 ? "0." + "0".Repeat(_precision) : "0";
 
             SetTextValue(_value.ToString(format));
 

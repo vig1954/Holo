@@ -29,7 +29,8 @@ namespace UserInterface.DataProcessorViews
 
             ProcessorName = processorMethod.Name.SeparateUpperCase();
 
-            var allVariables = processorMethod.GetParameters().Select(DataProcessorParameterFactory.CreateFor).ToArray();
+            var parameterInfos = processorMethod.GetParameters();
+            var allVariables = parameterInfos.Select(DataProcessorParameterFactory.CreateFor).ToArray();
 
             Output = allVariables.SingleOrDefault(v => v.IsOutput);
 
@@ -40,7 +41,7 @@ namespace UserInterface.DataProcessorViews
 
             Parameters = allVariables.Where(v => !v.IsOutput).ToArray();
 
-            foreach (var parameter in Parameters)
+            foreach (var parameter in Parameters.Where(p => !p.HasValue))
             {
                 parameter.SetValue(parameter.ValueType.GetDefaultValue(), this);
             }

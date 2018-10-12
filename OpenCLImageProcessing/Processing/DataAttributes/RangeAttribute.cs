@@ -2,7 +2,7 @@
 
 namespace Processing.DataAttributes
 {
-    [AttributeUsage(AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Parameter)]
     public class RangeAttribute : Attribute
     {
         public double? Min { get; set; }

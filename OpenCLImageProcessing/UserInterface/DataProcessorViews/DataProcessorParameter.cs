@@ -40,8 +40,15 @@ namespace UserInterface.DataProcessorViews
 
             _parameterInfo = parameterInfo;
 
-            DisplayName = GetAttribute<DisplayNameAttribute>()?.DisplayName ?? Name;
+            DisplayName = (GetAttribute<DisplayNameAttribute>()?.DisplayName ?? Name)?.SeparateUpperCase().FirstLetterToUpperCase();
             DisplayGroup = ""; // TODO
+
+            if (parameterInfo.HasDefaultValue)
+                Value = parameterInfo.DefaultValue;
+
+            var defaultValueAttribute = parameterInfo.GetCustomAttribute<DefaultValueAttribute>();
+            if (defaultValueAttribute != null)
+                Value = defaultValueAttribute.Value;
         }
 
         public object GetValue()

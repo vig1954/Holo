@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Processing.DataAttributes
 {
+    [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property)]
     public class PrecisionAttribute : Attribute
     {
         public int FractionalDigits { get; }

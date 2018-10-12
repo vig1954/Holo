@@ -23,7 +23,7 @@ namespace UserInterface.WorkspacePanel
             View.SetTitle(DataProcessorView.Info.Name);
             View.SetInfo(DataProcessorView.Info.Tooltip);
 
-            var imageHandler = (IImageHandler)null; // TODO
+            var imageHandler = DataProcessorView.GetOutputValues().OfType<IImageHandler>().SingleOrDefault();
 
             if (imageHandler == null)
                 return;

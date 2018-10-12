@@ -14,5 +14,7 @@ namespace UserInterface.DataProcessorViews
         event Action<IImageHandler> OnImageCreate;
         event Action OnUpdated;
         void Initialize();
+
+        IEnumerable<object> GetOutputValues();
     }
 }

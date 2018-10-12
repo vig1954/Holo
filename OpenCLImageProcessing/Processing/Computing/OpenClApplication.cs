@@ -8,6 +8,7 @@ using System.Text;
 using Cloo;
 using Common;
 using Infrastructure;
+using OpenTK;
 using OpenTK.Input;
 
 namespace Processing.Computing
@@ -144,6 +145,8 @@ namespace Processing.Computing
                     kernel.SetValueArgument(i++, iArg);
                 else if (arg is float fArg)
                     kernel.SetValueArgument(i++, fArg);
+                else if (arg is Vector4 vec4Arg)
+                    kernel.SetValueArgument(i++, vec4Arg);
                 else
                     throw new NotImplementedException($"Тип {arg.GetType().Name} не поддерживается как аргумент ядра.");
             }

@@ -80,6 +80,8 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
                     picAddImage.Refresh();
                 }
             }
+
+            toolTip1.SetToolTip(lblImageTitle, lblImageTitle.Text);
         }
 
         private bool ImageHandlerPredicate(IImageHandler imageHandler)

@@ -33,7 +33,7 @@ namespace UserInterface.DataEditors.InterfaceBinding
             _table = new TableLayoutPanel
             {
                 ColumnCount = 2,
-                CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset
+                CellBorderStyle = TableLayoutPanelCellBorderStyle.None
             };
 
             _table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 0));

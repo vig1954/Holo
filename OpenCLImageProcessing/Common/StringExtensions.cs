@@ -36,8 +36,13 @@ namespace Common
 
         public static string SeparateUpperCase(this string self, string separator = " ")
         {
-            var entries = Regex.Split(self, "(?<!^)(?=[A-Z])");
+            var entries = Regex.Split(self, "(?<!^)(?=[A-Z0-9])");
             return entries.Join(separator);
+        }
+
+        public static string FirstLetterToUpperCase(this string self)
+        {
+            return self.Substring(0, 1).ToUpper() + self.Substring(1);
         }
     }
 }
