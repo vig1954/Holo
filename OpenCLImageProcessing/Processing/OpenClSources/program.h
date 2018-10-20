@@ -324,16 +324,21 @@ __kernel void flatWavefront(float alpha, float amplitude, __read_write image2d_t
     write_imagef(output, coord, (float4)(amplitude * cos(phase), amplitude * sin(phase), 0, 0));
 }
 
-__kernel void sphericWavefront(__write_only image2d_t output, float lambda, float d, float dx, float dy, float amplitude)
+__kernel void sphericWavefront(__write_only image2d_t output, float lambda, float d, float dx, float dy, float alphaX, float alphaY, float amplitude)
 {
 	int2 coord = (int2)(get_global_id(0), get_global_id(1));
 	int2 size = (int2)(get_global_size(0), get_global_size(1));
 	float deltax = dx / size.x;
 	float deltay = dy / size.y;
+	//float k = PI / lambda;
 	float k = PI / (lambda * d);
-	float kx = deltax * (size.x / 2 - (float)coord.x);
-	float ky = deltay * (size.y / 2 - (float)coord.y);
-	k = k * (kx*kx + ky*ky);
+	float adx = tan(alphaX)*d;
+	float ady = tan(alphaY)*d;
+	float kx = deltax * (size.x / 2 + adx - (float)coord.x);
+	float ky = deltay * (size.y / 2 + ady - (float)coord.y);
+	float dxy = kx*kx+ky*ky;	
+
+	k = k*dxy;
 	write_imagef(output, coord, (float4)(cos(k), sin(k), 0, 0));
 }
 
