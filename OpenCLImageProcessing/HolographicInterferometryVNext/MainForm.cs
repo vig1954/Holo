@@ -99,7 +99,7 @@ namespace HolographicInterferometryVNext
 
         private void FillMenus()
         {
-            var dataProcessorViewCreators = GetDataProcessorViewCreators(typeof(Fourier), typeof(Freshnel), typeof(Psi));
+            var dataProcessorViewCreators = GetDataProcessorViewCreators(typeof(Fourier), typeof(Freshnel), typeof(Psi), typeof(Wavefront), typeof(ImageProcessing));
 
             if (!dataProcessorViewCreators.Any())
                 return;

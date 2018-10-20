@@ -324,7 +324,7 @@ __kernel void sphericWavefront(__write_only image2d_t output, float lambda, floa
 	float kx = deltax * (size.x / 2 - (float)coord.x);
 	float ky = deltay * (size.y / 2 - (float)coord.y);
 	k = k * (kx*kx + ky*ky);
-	write_imagef(output, coord, (float4)(cos(k), sin(k), 0, 0));
+	write_imagef(output, coord, (float4)(amplitude * cos(k), amplitude * sin(k), 0, 0));
 }
 
 // умножение изображения на внутренний множитель (внутри преобразования Фурье) - см. Глава 4
@@ -442,6 +442,24 @@ __kernel void sum(__read_only image2d_t input1, __read_only image2d_t input2, __
 	float2 val2 = read_imagef(input2, smp, coord).xy;	
 
 	float2 result = val1 + val2;
+
+	write_imagef(output, coord, (float4)(result.x, result.y, 0, 0));
+}
+
+__kernel void multiply(__read_only image2d_t input1, __read_only image2d_t input2, __write_only image2d_t output)
+{
+	int x = get_global_id(0);
+	int y = get_global_id(1);
+	int2 coord = (int2)(x, y);
+
+	const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates
+         CLK_ADDRESS_CLAMP | //Clamp to zeros
+         CLK_FILTER_NEAREST; //Don't interpolate
+
+	float2 val1 = read_imagef(input1, smp, coord).xy;
+	float2 val2 = read_imagef(input2, smp, coord).xy;	
+
+	float2 result = mul(val1, val2);
 
 	write_imagef(output, coord, (float4)(result.x, result.y, 0, 0));
 }

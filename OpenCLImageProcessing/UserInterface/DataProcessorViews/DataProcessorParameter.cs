@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Remoting.Messaging;
 using Common;
+using Processing;
 using UserInterface.DataEditors.InterfaceBinding;
 using UserInterface.DataEditors.InterfaceBinding.Attributes;
 
@@ -34,7 +35,7 @@ namespace UserInterface.DataProcessorViews
         {
             Name = parameterInfo.Name;
 
-            IsOutput = parameterInfo.HastAttribute<Processing.DataProcessors.DataProcessorParameterAttributes.OutputAttribute>() || parameterInfo.Name.ToLower() == "output";
+            IsOutput = parameterInfo.HastAttribute<Processing.DataProcessors.DataProcessorParameterAttributes.OutputAttribute>() || parameterInfo.Name.ToLower() == "output" || parameterInfo.IsOut;
 
             ValueType = parameterInfo.ParameterType;
 
@@ -79,8 +80,16 @@ namespace UserInterface.DataProcessorViews
             if (attribute == null && typeof(TAttribute).IsAssignableFrom(typeof(BindToUIAttribute)))
                 attribute = (TAttribute) (Attribute) new BindToUIAttribute(_parameterInfo.Name);
 
+            if (attribute == null && typeof(TAttribute).IsAssignableFrom(typeof(BindMembersToUIAttribute)) && typeof(IImageHandler).IsAssignableFrom(ValueType))
+                attribute = (TAttribute) (Attribute) new BindMembersToUIAttribute();
+
             return attribute;
 
+        }
+
+        public bool HasAttribute<TAttribute>() where TAttribute : Attribute
+        {
+            return _parameterInfo?.GetCustomAttribute<TAttribute>() != null;
         }
     }
 

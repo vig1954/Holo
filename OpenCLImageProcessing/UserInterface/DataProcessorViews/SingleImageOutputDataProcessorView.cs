@@ -19,11 +19,12 @@ namespace UserInterface.DataProcessorViews
 {
     public class SingleImageOutputDataProcessorView : DataProcessorDescriptor, IDataProcessorView, IImageHandler, IBindingProvider
     {
+        private bool _outputImageParametersUpdated;
+        protected DataProcessorParameter<IImageHandler> OutputParameter => Output.As<IImageHandler>();
         public DataProcessorInfo Info { get; }
 
         public event Action<IImageHandler> OnImageCreate;
         public event Action OnUpdated;
-        protected DataProcessorParameter<IImageHandler> OutputParameter => Output.As<IImageHandler>();
 
         public SingleImageOutputDataProcessorView(MethodInfo processorMethod) : base(processorMethod)
         {
@@ -39,10 +40,28 @@ namespace UserInterface.DataProcessorViews
             {
                 parameter.ValueUpdated += e =>
                 {
+                    if (e is DataProcessorParameterUpdatedEventArgs pe)
+                    {
+                        if (typeof(IImageHandler).IsAssignableFrom(parameter.ValueType) && parameter.HasValue)
+                        {
+                            if (pe.OldValue != null)
+                            {
+                                ((IImageHandler) pe.OldValue).ImageUpdated -= OnParameterImageUpdated;
+                            }
+
+                            ((IImageHandler) parameter.GetValue()).ImageUpdated += OnParameterImageUpdated;
+                        }
+                    }
+
                     if (e.Sender != this)
                         Compute();
                 };
             }
+        }
+
+        private void OnParameterImageUpdated(ImageUpdatedEventData obj)
+        {
+            Compute();
         }
 
         public IEnumerable<object> GetOutputValues()
@@ -60,20 +79,37 @@ namespace UserInterface.DataProcessorViews
             if (!AreAllParametersSet())
                 return;
 
+            _outputImageParametersUpdated = false;
+
             var imageHandlerParameters = Parameters.OfType<DataProcessorParameter<IImageHandler>>();
             var imageHandlerInput = imageHandlerParameters.FirstOrDefault();
-
-            bool redrawControls = false;
+            
             if (imageHandlerInput != null)
             {
-                if (!OutputParameter.HasValue)
-                    redrawControls = true;
 
                 var outputImageFilterAttribute = OutputParameter.GetAttribute<ImageHandlerFilterAttribute>();
                 CreateOrUpdateOutputWithSameParametres(imageHandlerInput.GetValue(), Info.Name + " result", outputImageFilterAttribute?.GetAllowedPixelFormats().FirstOrDefault(), outputImageFilterAttribute?.GetAllowedImageFormats().FirstOrDefault());
             }
+            else
+            {
+                var outputImageWidth = (int)(Parameters.FirstOrDefault(p => p.HasAttribute<OutputImageWidthAttribute>())?.GetValue() ?? throw new InvalidOperationException());
+                var outputImageHeight = (int)(Parameters.FirstOrDefault(p => p.HasAttribute<OutputImageHeightAttribute>())?.GetValue() ?? throw new InvalidOperationException());
+                var outputImageFormatAttribute = OutputParameter.GetAttribute<ImageHandlerFilterAttribute>() ?? throw new InvalidOperationException();
+                var imageFormat = outputImageFormatAttribute.GetAllowedImageFormats().First();
+                var imagePixelFormat = outputImageFormatAttribute.GetAllowedPixelFormats().First();
 
-            using (StartOperationScope(redrawControls, imageHandlerParameters.Select(p => p.GetValue()).Concat(new[] { OutputParameter.GetValue() }).ToArray()))
+                var outputValue = OutputParameter.GetValue();
+                if (outputValue == null || outputValue.Width != outputImageWidth || outputValue.Height != outputImageHeight || outputValue.PixelFormat != imagePixelFormat || outputValue.Format != imageFormat)
+                {
+                    var output = ImageHandler.Create(Info.Name + "result", outputImageWidth, outputImageHeight, imageFormat, imagePixelFormat);
+                    OutputParameter.SetValue(output, this);
+                    _outputImageParametersUpdated = true;
+                }
+            }
+
+            // Output может быть единственным ImageHangler-ом. Нужно добавить механизм для указания параметров, представляющих размеры изображения
+
+            using (StartOperationScope(_outputImageParametersUpdated, imageHandlerParameters.Select(p => p.GetValue()).Concat(new[] { OutputParameter.GetValue() }).ToArray()))
             {
                 Invoke();
             }
@@ -95,6 +131,8 @@ namespace UserInterface.DataProcessorViews
                 imageToCheck?.FreeComputingDevice();
 
                 parameterToCheck.SetValue(ImageHandler.Create(title, image.Width, image.Height, format ?? image.Format, pixelFormat ?? image.PixelFormat), this);
+
+                _outputImageParametersUpdated = true;
             }
         }
 
@@ -130,8 +168,8 @@ namespace UserInterface.DataProcessorViews
             {
                 _singleOperationContext.Dispose();
 
-                _processor.OnUpdated();
-                _processor.OutputParameter.GetValue().Update();
+                _processor.OnUpdated?.Invoke();
+                _processor.OutputParameter.GetValue()?.Update();
                 _processor.ImageUpdated?.Invoke(new ImageUpdatedEventData(_redrawControls));
             }
         }

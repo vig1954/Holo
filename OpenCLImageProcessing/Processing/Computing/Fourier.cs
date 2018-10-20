@@ -299,7 +299,7 @@ namespace Processing.Computing
         private static Dictionary<string, Fourier> _cachedProcessors = new Dictionary<string, Fourier>();
 
         [DataProcessor("Преобразование Фурье", ProcessorGroups.Transforms)]
-        public static void Transform(IImageHandler input, [ImageHandlerFilter(AllowedImageFormat.AmplitudePhase, AllowedImagePixelFormat.Float)] IImageHandler output = null)
+        public static void Transform(IImageHandler input, bool cyclicShift = true, [ImageHandlerFilter(AllowedImageFormat.RealImaginative, AllowedImagePixelFormat.Float)] IImageHandler output = null)
         {
             var key = $"{input.Width}_{input.Height}";
             
@@ -307,6 +307,9 @@ namespace Processing.Computing
                 _cachedProcessors[key] = processor = new Fourier(input.Width, input.Height);
 
             processor.FastTransform(input, output);
+
+            if (cyclicShift)
+                ImageUtils.CyclicShift(output);
         }
 
         #endregion

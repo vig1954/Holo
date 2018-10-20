@@ -40,9 +40,22 @@ namespace UserInterface.DataEditors.InterfaceBinding
             _table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute));
             //_table.AutoScroll = true;
 
+            _rootNode.ExpandAll();
             RenderTable();
 
             _table.Resize += TableOnResize;
+        }
+
+        public void ExpandAll()
+        {
+            _rootNode.ExpandAll();
+            RenderTable();
+        }
+
+        public void CollapseAll()
+        {
+            _rootNode.CollapseAll();
+            RenderTable();
         }
 
         private void TableOnResize(object sender, EventArgs e)
@@ -311,6 +324,26 @@ namespace UserInterface.DataEditors.InterfaceBinding
                 }
 
                 return maxLabelWidth;
+            }
+
+            public void ExpandAll()
+            {
+                Expanded = true;
+
+                foreach (var child in Children)
+                {
+                    child.ExpandAll();
+                }
+            }
+
+            public void CollapseAll()
+            {
+                Expanded = false;
+
+                foreach (var child in Children)
+                {
+                    child.CollapseAll();
+                }
             }
 
             private void UpdateLevels(int myLevel)

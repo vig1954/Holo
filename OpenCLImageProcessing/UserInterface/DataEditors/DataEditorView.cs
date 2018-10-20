@@ -12,6 +12,8 @@ using Processing.Computing;
 using UserInterface.DataEditors.InterfaceBinding;
 using UserInterface.DataEditors.Renderers;
 using UserInterface.DataEditors.Tools;
+using UserInterface.DataProcessorViews;
+
 // ReSharper disable All
 
 namespace UserInterface.DataEditors
@@ -46,6 +48,10 @@ namespace UserInterface.DataEditors
             SetRenderer(renderer);
             
             containerHeader1.Text = $"[{renderer.GetType().Name} - {renderer.GetData().GetType().Name}] {renderer.GetTitle()}";
+
+            // TODO: hack - переместить логику в надлежащее место
+//            if (data is IDataProcessorView dataProcessorView)
+//                dataProcessorView.Compute();
 
             Redraw();
         }

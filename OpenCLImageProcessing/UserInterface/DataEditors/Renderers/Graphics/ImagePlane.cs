@@ -59,10 +59,6 @@ namespace UserInterface.DataEditors.Renderers.Graphics
 
         public override void Draw(ViewParametres viewParametres)
         {
-//            var rel = _texture.Size.Height / viewParams.ViewportSize.Height;
-//            _model = Matrix4.CreateScale(viewParams.Zoom * rel * _texture.Ratio, viewParams.Zoom * rel, 1);
-//            shader.SetModelMatrix(_model);
-
             if (ImageHandler?.OpenGlTextureId == null) // Try upload to videocard?
                 return;
             

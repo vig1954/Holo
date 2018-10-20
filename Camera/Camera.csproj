@@ -105,7 +105,6 @@
     <Content Include="EDSDK.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="EDSDKLib.csproj" />
     <Content Include="EdsImage.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

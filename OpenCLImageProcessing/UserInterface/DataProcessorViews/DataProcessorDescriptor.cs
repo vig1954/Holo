@@ -11,6 +11,7 @@ namespace UserInterface.DataProcessorViews
     {
         private MethodInfo _processorMethod;
 
+        protected IReadOnlyCollection<DataProcessorParameterBase> AllParameters { get; }
         public IReadOnlyCollection<DataProcessorParameterBase> Parameters { get; }
         public DataProcessorParameterBase Output { get; }
 
@@ -30,16 +31,20 @@ namespace UserInterface.DataProcessorViews
             ProcessorName = processorMethod.Name.SeparateUpperCase();
 
             var parameterInfos = processorMethod.GetParameters();
-            var allVariables = parameterInfos.Select(DataProcessorParameterFactory.CreateFor).ToArray();
+            AllParameters = parameterInfos.Select(DataProcessorParameterFactory.CreateFor).ToArray();
 
-            Output = allVariables.SingleOrDefault(v => v.IsOutput);
+            Output = AllParameters.SingleOrDefault(v => v.IsOutput);
 
             if (Output == null && _processorMethod.ReturnType != typeof(void))
-                Output = DataProcessorParameterFactory.CreateFor(processorMethod.ReturnType);
+            {
+                throw new NotSupportedException();
+//                Output = DataProcessorParameterFactory.CreateFor(processorMethod.ReturnType);
+//                Output.IsMethodResult = true;
+            }
             else if (Output == null)
                 throw new InvalidOperationException("Processor method should have return value or parameter marked with 'Output' attribute.");
 
-            Parameters = allVariables.Where(v => !v.IsOutput).ToArray();
+            Parameters = AllParameters.Where(v => !v.IsOutput).ToArray();
 
             foreach (var parameter in Parameters.Where(p => !p.HasValue))
             {
@@ -49,7 +54,7 @@ namespace UserInterface.DataProcessorViews
 
         public void Invoke()
         {
-            _processorMethod.Invoke(null, Parameters.Select(p => p.GetValue()).Concat(new[] { Output.GetValue() }).ToArray());
+            _processorMethod.Invoke(null, AllParameters.Select(p => p.GetValue()).ToArray());
         }
 
         protected bool AreAllParametersSet()
