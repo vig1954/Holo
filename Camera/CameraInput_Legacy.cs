@@ -6,19 +6,20 @@
 //using Common;
 //using Infrastructure;
 //using Processing;
-//using Processing.DataAttributes;
+//using Processing.DataBinding;
+//using Processing.DataProcessors;
 //using Processing.Utils;
 //
 //namespace Camera
 //{
 //    [DataProcessor(MenuItem = "Input", Group = "ImageInput", Name = "Camera", Tooltip = "Получение изображний с фотоаппарата, с возможностью управления зеркалом на пьезокерамике")]
-//    public class CameraInput //: SingleImageOutputDataProcessorBase
+//    public class CameraInput : SingleImageOutputDataProcessorBase
 //    {
 //        private const string DontApplySelectionName = "Не обрезать";
 //        private readonly ImageHandler[] _images = new ImageHandler[4];
 //        private readonly OnShotParameters _onShotParameters = new OnShotParameters();
 //        private CameraConnector CameraConnector => Singleton.Get<CameraConnector>();
-//        //private PhaseShiftDeviceControllerAdapter PhaseShiftController => Singleton.Get<PhaseShiftDeviceControllerAdapter>();
+//        private PhaseShiftDeviceControllerAdapter PhaseShiftController => Singleton.Get<PhaseShiftDeviceControllerAdapter>();
 //
 //        private ImageSelectionManager ImageSelectionManager => Singleton.Get<ImageSelectionManager>();
 //        private ListWithEvents<ImageSelection> _availableSelectionList;

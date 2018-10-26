@@ -309,7 +309,7 @@ namespace Processing.Computing
             processor.FastTransform(input, output);
 
             if (cyclicShift)
-                ImageUtils.CyclicShift(output);
+                ImageUtils.CyclicShift(output ?? input);
         }
 
         #endregion

@@ -82,6 +82,7 @@
     <Compile Include="FloatRange.cs" />
     <Compile Include="IntRange.cs" />
     <Compile Include="ObjectExtensions.cs" />
+    <Compile Include="ObservableCollectionExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RectangleExtensions.cs" />
     <Compile Include="StringExtensions.cs" />

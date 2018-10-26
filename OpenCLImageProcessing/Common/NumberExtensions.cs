@@ -35,5 +35,10 @@ namespace Common
             
             return eDigits;
         }
+
+        public static float ToRadians(this float self)
+        {
+            return self / 180f * (float) Math.PI;
+        }
     }
 }

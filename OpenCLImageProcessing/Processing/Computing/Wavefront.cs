@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Common;
 using Infrastructure;
 using Processing.DataAttributes;
 
@@ -16,13 +17,15 @@ namespace Processing.Computing
             [DefaultValue(2816), OutputImageWidth] int imageWidth,
             [DefaultValue(2816), OutputImageHeight] int imageHeight,
             [DefaultValue(532), Precision(2)] float lambda,
-            [DefaultValue(200), Precision(2)] float distance,
+            [DefaultValue(200), Precision(0)] float distance,
             [DefaultValue(5), Precision(2)] float sizeX,
             [DefaultValue(5), Precision(2)] float sizeY,
+            [DefaultValue(0), Precision(2)] float angleX,
+            [DefaultValue(0), Precision(2)] float angleY,
             [DefaultValue(1), Precision(2)] float amplitude,
             [ImageHandlerFilter(AllowedImageFormat.RealImaginative, AllowedImagePixelFormat.Float)]IImageHandler output)
         {
-            Singleton.Get<OpenClApplication>().ExecuteKernel("sphericWavefront", imageWidth, imageHeight, output, lambda / 1000f, distance * 1000f, sizeX * 1000f, sizeY * 1000f, amplitude);
+            Singleton.Get<OpenClApplication>().ExecuteKernel("sphericWavefront", imageWidth, imageHeight, output, lambda / 1000f, distance * 1000f, sizeX * 1000f, sizeY * 1000f, angleX.ToRadians(), angleY.ToRadians(), amplitude);
         }
 
         [DataProcessor("Плоский волновой фронт", ProcessorGroups.Generation)]
