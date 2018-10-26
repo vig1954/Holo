@@ -535,6 +535,9 @@ namespace rab1
             zComplex[2] = zComplex_tmp;
 
         }
+
+       
+
         // -------------------------------------------------------------------------------------------------------------------------------
         // Сдвиг голограмм
         //Исходное значение: 4 интерферограммы (PSI) -> 8,9,10,11
@@ -623,5 +626,52 @@ namespace rab1
                           */
       
         }
+
+
+
+        // Разница двух фазовых значений
+
+
+        public static ZArrayDescriptor Model_Subr(ZComplexDescriptor zComplex_tmp1, ZComplexDescriptor zComplex_tmp2)
+        {
+            int w1 = zComplex_tmp1.width;
+            int h1 = zComplex_tmp1.height;
+            ZArrayDescriptor zArray = new ZArrayDescriptor(w1, h1);
+            for(int i = 0; i < w1; i++) for (int j = 0; j < h1; j++)
+                   { zArray.array[i, j] = Math.Cos(zComplex_tmp1.array[i, j].Phase - zComplex_tmp2.array[i, j].Phase); }
+           
+            return zArray;
+        }
+
+
+        public static void Model_Cos(ZArrayDescriptor[] zArrayDescriptor)
+        {
+
+            double[] fz =  { 0.0, 90.0, 180.0, 270.0 };
+            for (int i = 0; i < 4; i++) { fz[i] = fz[i] = Math.PI * fz[i] / 180.0; }  // Фаза в радианах  
+          
+            int w1 = zArrayDescriptor[0].width;
+            int h1 = zArrayDescriptor[0].height;
+   
+            ZComplexDescriptor zComplex_tmp1 = new ZComplexDescriptor(w1, h1);
+            ZComplexDescriptor zComplex_tmp2 = new ZComplexDescriptor(w1, h1);
+            ZArrayDescriptor zArray = new ZArrayDescriptor(w1, h1);
+
+            zComplex_tmp2 = ATAN_PSI.ATAN_8_11(4, 5, 6, 7, zArrayDescriptor, fz);
+            zComplex_tmp1 = ATAN_PSI.ATAN_8_11(0, 1, 2, 3, zArrayDescriptor, fz);                // PSI  0123
+            zArrayDescriptor[8] = Model_Subr(zComplex_tmp1, zComplex_tmp2);
+
+            zComplex_tmp1 = ATAN_PSI.ATAN_8_11(1, 2, 3, 0, zArrayDescriptor, fz);                // PSI  0123
+            zArrayDescriptor[9] = Model_Subr(zComplex_tmp1, zComplex_tmp2);
+
+            zComplex_tmp1 = ATAN_PSI.ATAN_8_11(2, 3, 0, 1, zArrayDescriptor, fz);                // PSI  0123
+            zArrayDescriptor[10] = Model_Subr(zComplex_tmp1, zComplex_tmp2);
+
+            zComplex_tmp1 = ATAN_PSI.ATAN_8_11(3, 0, 1, 2, zArrayDescriptor, fz);                // PSI  0123
+            zArrayDescriptor[11] = Model_Subr(zComplex_tmp1, zComplex_tmp2);
+
+
+        }
+
     }
 }

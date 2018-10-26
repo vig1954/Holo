@@ -16,18 +16,21 @@ public delegate void ModelBoxPSI_Fr(double sdvg0, double sdvg1, double noise, do
 public delegate void ModelBoxPSI_Fr8(double sdvg0, double sdvg1, double noise, double Lambda, double d, double dx, double[] fz, double ax, double dy);
 //public delegate void ModelBoxPSI8_Fr(double sdvg0, double sdvg1, double noise, double Lambda, double d, double dx, double[] fz);
 public delegate void ModelBox_Fr(double sdvg0, double sdvg, double noise, double Lambda, double dx, double dy, double Ax, double Ay);
+public delegate void ModelBox_Cos();
 namespace rab1.Forms
 {
     public partial class Model : Form
     {
-        public event ModelBox1 OnModel;
+        public event ModelBox1                    OnModel;
         //public event ModelBox OnInterf;
-        public event ModelBox2 OnInterf2;           // Двойная экспозиция
+        public event ModelBox2                    OnInterf2;           // Двойная экспозиция
         //public event ModelBox OnInterf3;
         //public event ModelBoxPSI OnInterfPSI;
-        public event ModelBoxPSI_Fr  OnInterfPSI_Fr;
-        public event ModelBoxPSI_Fr8  OnInterf8PSI_Fr;
-        public event ModelBox_Fr     OnInterf_Fr;
+        public event ModelBoxPSI_Fr               OnInterfPSI_Fr;
+        public event ModelBoxPSI_Fr8              OnInterf8PSI_Fr;
+        public event ModelBox_Fr                  OnInterf_Fr;
+        public event ModelBox_Cos                 OnInterf_Cos;
+
 
         private static double sdvg = 3;
         private static double sdvg0 = 0;
@@ -38,8 +41,8 @@ namespace rab1.Forms
         private static double AngleX = 0;
         private static double AngleY = 0.7;
         private static double[] fz = { 0.0, 90.0, 180.0, 270.0 };
-        
-        
+        private static int k1 = 4, k2=7;
+
         public Model()
         {
             InitializeComponent();
@@ -52,6 +55,8 @@ namespace rab1.Forms
             textBox10.Text = Convert.ToString(d);
             textBox11.Text = Convert.ToString(AngleX);
             textBox12.Text = Convert.ToString(AngleY);
+            textBox13.Text = Convert.ToString(k1);
+            textBox14.Text = Convert.ToString(k2);
         }
 
         private void button1_Click(object sender, EventArgs e)  
@@ -188,6 +193,14 @@ namespace rab1.Forms
         private void Model_Load(object sender, EventArgs e)
         {
 
+        }
+
+        // Моделирование интерференционной картины
+        private void button2_Click(object sender, EventArgs e)
+        {
+            
+            OnInterf_Cos();
+            Close();
         }
         //
         //              Сдвиг голограмм

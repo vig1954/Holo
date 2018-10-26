@@ -55,11 +55,17 @@
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.textBox12 = new System.Windows.Forms.TextBox();
+            this.textBox13 = new System.Windows.Forms.TextBox();
+            this.textBox14 = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(30, 179);
+            this.button1.Location = new System.Drawing.Point(30, 137);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(207, 64);
             this.button1.TabIndex = 0;
@@ -121,9 +127,9 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(253, 179);
+            this.button3.Location = new System.Drawing.Point(253, 137);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(473, 96);
+            this.button3.Size = new System.Drawing.Size(367, 96);
             this.button3.TabIndex = 8;
             this.button3.Text = resources.GetString("button3.Text");
             this.button3.UseVisualStyleBackColor = true;
@@ -148,7 +154,7 @@
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(542, 132);
+            this.textBox5.Location = new System.Drawing.Point(735, 67);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(56, 20);
             this.textBox5.TabIndex = 12;
@@ -156,7 +162,7 @@
             // 
             // textBox6
             // 
-            this.textBox6.Location = new System.Drawing.Point(604, 132);
+            this.textBox6.Location = new System.Drawing.Point(797, 67);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(51, 20);
             this.textBox6.TabIndex = 13;
@@ -164,7 +170,7 @@
             // 
             // textBox7
             // 
-            this.textBox7.Location = new System.Drawing.Point(661, 132);
+            this.textBox7.Location = new System.Drawing.Point(854, 67);
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(46, 20);
             this.textBox7.TabIndex = 14;
@@ -172,7 +178,7 @@
             // 
             // textBox8
             // 
-            this.textBox8.Location = new System.Drawing.Point(713, 132);
+            this.textBox8.Location = new System.Drawing.Point(906, 67);
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(59, 20);
             this.textBox8.TabIndex = 15;
@@ -180,9 +186,9 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(749, 179);
+            this.button6.Location = new System.Drawing.Point(253, 369);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(390, 89);
+            this.button6.Size = new System.Drawing.Size(367, 89);
             this.button6.TabIndex = 17;
             this.button6.Text = "Формирование 4 интерферограмм (PSI)-> \r\n1 состояние 8,9,10,11\r\n2 состояние 5,6,7," +
     "8\r\nОбласть Френеля -> результат  в zComplex[1]\r\n";
@@ -226,9 +232,9 @@
             // button7
             // 
             this.button7.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button7.Location = new System.Drawing.Point(253, 281);
+            this.button7.Location = new System.Drawing.Point(253, 239);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(473, 124);
+            this.button7.Size = new System.Drawing.Size(367, 124);
             this.button7.TabIndex = 22;
             this.button7.Text = resources.GetString("button7.Text");
             this.button7.UseVisualStyleBackColor = true;
@@ -237,7 +243,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(383, 139);
+            this.label7.Location = new System.Drawing.Point(566, 67);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(151, 13);
             this.label7.TabIndex = 23;
@@ -245,7 +251,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(30, 260);
+            this.button5.Location = new System.Drawing.Point(30, 239);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(207, 77);
             this.button5.TabIndex = 24;
@@ -257,7 +263,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(31, 139);
+            this.label8.Location = new System.Drawing.Point(566, 36);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(57, 13);
             this.label8.TabIndex = 25;
@@ -265,7 +271,7 @@
             // 
             // textBox11
             // 
-            this.textBox11.Location = new System.Drawing.Point(106, 136);
+            this.textBox11.Location = new System.Drawing.Point(730, 29);
             this.textBox11.Name = "textBox11";
             this.textBox11.Size = new System.Drawing.Size(61, 20);
             this.textBox11.TabIndex = 26;
@@ -274,7 +280,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(203, 139);
+            this.label9.Location = new System.Drawing.Point(816, 29);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(57, 13);
             this.label9.TabIndex = 27;
@@ -282,17 +288,76 @@
             // 
             // textBox12
             // 
-            this.textBox12.Location = new System.Drawing.Point(282, 136);
+            this.textBox12.Location = new System.Drawing.Point(904, 29);
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(61, 20);
             this.textBox12.TabIndex = 28;
             this.textBox12.Text = "0,7";
             // 
+            // textBox13
+            // 
+            this.textBox13.Location = new System.Drawing.Point(730, 106);
+            this.textBox13.Name = "textBox13";
+            this.textBox13.Size = new System.Drawing.Size(61, 20);
+            this.textBox13.TabIndex = 29;
+            this.textBox13.Text = "4";
+            // 
+            // textBox14
+            // 
+            this.textBox14.Location = new System.Drawing.Point(854, 106);
+            this.textBox14.Name = "textBox14";
+            this.textBox14.Size = new System.Drawing.Size(46, 20);
+            this.textBox14.TabIndex = 30;
+            this.textBox14.Text = "7";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(566, 109);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(86, 13);
+            this.label10.TabIndex = 31;
+            this.label10.Text = "Поля от 0 до 11";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(684, 109);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(19, 13);
+            this.label11.TabIndex = 32;
+            this.label11.Text = "k1";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(816, 109);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(19, 13);
+            this.label12.TabIndex = 33;
+            this.label12.Text = "k2";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(730, 137);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(235, 64);
+            this.button2.TabIndex = 34;
+            this.button2.Text = "Разность фаз\r\ncos(faza(0)-faza(1)) =>8, 9,10,11";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // Model
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1286, 464);
+            this.ClientSize = new System.Drawing.Size(1286, 531);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.textBox14);
+            this.Controls.Add(this.textBox13);
             this.Controls.Add(this.textBox12);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.textBox11);
@@ -356,5 +421,11 @@
         private System.Windows.Forms.TextBox textBox11;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.TextBox textBox13;
+        private System.Windows.Forms.TextBox textBox14;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Button button2;
     }
 }

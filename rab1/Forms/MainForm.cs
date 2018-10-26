@@ -2289,15 +2289,23 @@ namespace rab1
                                                              // записать в zComplex[2] модель в области Френеля после деформации,
                                                              // сложить с плоским фронтом под углом ax,ay
            // ModelForm.OnInterf        += FormInterf;
-            ModelForm.OnInterf2       += FormInterf2;        // Двойная экспозиция
+            ModelForm.OnInterf2         += FormInterf2;        // Двойная экспозиция
            // ModelForm.OnInterf3       += FormInterf3;
-            ModelForm.OnInterfPSI_Fr  += FormInterfPSI_Fr;   // 4 интерферограммы в 8,9,10,11
-            ModelForm.OnInterf8PSI_Fr += FormInterf8PSI_Fr;
-
-            ModelForm.Show();
+            ModelForm.OnInterfPSI_Fr    += FormInterfPSI_Fr;   // 4 интерферограммы в 8,9,10,11
+            ModelForm.OnInterf8PSI_Fr   += FormInterf8PSI_Fr;
+            ModelForm.OnInterf_Cos      += FormInterf_Cos;     // Cos (k1-k2) => Главное окно
+            ModelForm.Show(); 
         }
 
-        private void FormModel_fr(double sdvg0, double sdvg, double noise, double lambda, double lm, double dx, double ax, double ay)
+        private void FormInterf_Cos() // Cos (k1-k2) => Главное окно
+        {
+            Model_object.Model_Cos(zArrayDescriptor);
+            Vizual_regImage(8);            Vizual_regImage(9);  Vizual_regImage(10);            Vizual_regImage(11);
+            //Complex_pictureBox(1); Complex_pictureBox(2);
+        }
+
+
+            private void FormModel_fr(double sdvg0, double sdvg, double noise, double lambda, double lm, double dx, double ax, double ay)
         {
             
            
