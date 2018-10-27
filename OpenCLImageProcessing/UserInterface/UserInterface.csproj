@@ -90,6 +90,7 @@
     </Compile>
     <Compile Include="DataEditors\InterfaceBinding\Attributes\BindMembersToUIAttribute.cs" />
     <Compile Include="DataEditors\InterfaceBinding\Attributes\BindToUIAttribute.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\Attributes\OnBindedPropertiesChangedAttribute.cs" />
     <Compile Include="DataEditors\InterfaceBinding\Attributes\OnBindedPropertyChangedAttribute.cs" />
     <Compile Include="DataEditors\InterfaceBinding\Attributes\ValueCollectionAttribute.cs" />
     <Compile Include="DataEditors\InterfaceBinding\BindingBase.cs" />

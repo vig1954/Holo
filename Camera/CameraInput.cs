@@ -1,5 +1,6 @@
 ﻿//using System;
 //using System.Collections.Generic;
+//using System.Collections.ObjectModel;
 //using System.Drawing;
 //using System.Linq;
 //using System.Text;
@@ -8,6 +9,8 @@
 //using Processing;
 //using Processing.DataAttributes;
 //using Processing.Utils;
+//using UserInterface.DataEditors.InterfaceBinding;
+//using UserInterface.DataEditors.InterfaceBinding.Attributes;
 //
 //namespace Camera
 //{
@@ -17,79 +20,84 @@
 //        private const string DontApplySelectionName = "Не обрезать";
 //        private readonly ImageHandler[] _images = new ImageHandler[4];
 //        private readonly OnShotParameters _onShotParameters = new OnShotParameters();
+//
 //        private CameraConnector CameraConnector => Singleton.Get<CameraConnector>();
 //        //private PhaseShiftDeviceControllerAdapter PhaseShiftController => Singleton.Get<PhaseShiftDeviceControllerAdapter>();
 //
 //        private ImageSelectionManager ImageSelectionManager => Singleton.Get<ImageSelectionManager>();
-//        private ListWithEvents<ImageSelection> _availableSelectionList;
+//        private ObservableCollection<ImageSelection> _availableSelectionList;
 //
 //        // TODO: добавить StringInputAttribute
 //        public string ImageNamePrefix { get; set; } = "camera_";
 //
 //        public event Action ImageSlotsUpdated;
 //
-//        [DropdownSelector("Камера")]
-//        public PropertyWithAvailableValuesList<EDSDKLib.Camera> Camera { get; set; }
+//        [BindToUI("Камера"), ValueCollection(ValueCollectionProviderPropertyName = nameof(AvailableCameras))]
+//        public EDSDKLib.Camera Camera { get; set; }
 //
-//        [DropdownSelector("Av")]
-//        public PropertyWithAvailableValuesList<CameraUIntSetting> AvMode { get; set; }
+//        public ObservableCollection<EDSDKLib.Camera> AvailableCameras => CameraConnector?.AvailableCameras;
 //
-//        [DropdownSelector("Tv")]
-//        public PropertyWithAvailableValuesList<CameraUIntSetting> TvMode { get; set; }
+//        [BindToUI("Av"), ValueCollection(ValueCollectionProviderPropertyName = nameof(AvailableAvModes))]
+//        public CameraUIntSetting AvMode
+//        {
+//            get => CameraConnector.AvMode;
+//            set => CameraConnector.AvMode = value;
+//        }
 //
-//        [DropdownSelector("ISO")]
-//        public PropertyWithAvailableValuesList<CameraUIntSetting> ISOMode { get; set; }
+//        public ObservableCollection<CameraUIntSetting> AvailableAvModes => CameraConnector?.AvailableAvModes;
+//
+//        [BindToUI("Tv"), ValueCollection(ValueCollectionProviderPropertyName = nameof(AvailableTvModes))]
+//        public CameraUIntSetting TvMode
+//        {
+//            get => CameraConnector.TvMode;
+//            set => CameraConnector.TvMode = value;
+//        }
+//
+//        public ObservableCollection<CameraUIntSetting> AvailableTvModes => CameraConnector?.AvailableTvModes;
+//
+//        [BindToUI("ISO"), ValueCollection(ValueCollectionProviderPropertyName = nameof(AvailableISOModes))]
+//        public CameraUIntSetting ISOMode
+//        {
+//            get => CameraConnector.ISOMode;
+//            set => CameraConnector.ISOMode = value;
+//        }
+//
+//        public ObservableCollection<CameraUIntSetting> AvailableISOModes => CameraConnector?.AvailableISOModes;
 //
 //        // TODO: добавить аттрибут для работы со списками
 //        // TODO: заменить всю эту байду с проперти-аттрибутами на что-то более гибкое, возможно тип проперти PropertyBinder<T>
-//        [ImageSlot("Слот 1", "Default", OnlyImages = true, PropertyChangedEventName = nameof(ImageSlotsUpdated))]
+//        [BindToUI("Слот 1", "Default"), ImageHandlerFilter(OnlyImages = true)]
 //        public IImageHandler ImageSlot1
 //        {
 //            get => _images[0];
 //            set => _images[0] = (ImageHandler) value;
 //        }
 //
-//        [ImageSlot("Слот 2", "Default", OnlyImages = true, PropertyChangedEventName = nameof(ImageSlotsUpdated))]
+//        [BindToUI("Слот 2", "Default"), ImageHandlerFilter(OnlyImages = true)]
 //        public IImageHandler ImageSlot2
 //        {
 //            get => _images[1];
 //            set => _images[1] = (ImageHandler) value;
 //        }
 //
-//        [ImageSlot("Слот 3", "Default", OnlyImages = true, PropertyChangedEventName = nameof(ImageSlotsUpdated))]
+//        [BindToUI("Слот 3", "Default"), ImageHandlerFilter(OnlyImages = true)]
 //        public IImageHandler ImageSlot3
 //        {
 //            get => _images[2];
 //            set => _images[2] = (ImageHandler) value;
 //        }
 //
-//        [ImageSlot("Слот 4", "Default", OnlyImages = true, PropertyChangedEventName = nameof(ImageSlotsUpdated))]
+//        [BindToUI("Слот 4", "Default"), ImageHandlerFilter(OnlyImages = true)]
 //        public IImageHandler ImageSlot4
 //        {
 //            get => _images[3];
 //            set => _images[3] = (ImageHandler) value;
 //        }
 //
-//        [DropdownSelector("Обрезать по выделению")]
-//        public PropertyWithAvailableValuesList<ImageSelection> SelectionToApply { get; set; }
+//        [BindToUI("Обрезать по выделению"), ValueCollection(ValueCollectionProviderPropertyName = nameof(AvailableSelectionsToApply))]
+//        public ImageSelection SelectionToApply { get; set; }
 //
-//        [DropdownSelector("COM-порт")]
-//        public PropertyWithAvailableValuesList<string> ComPort { get; set; }
-//
-//        [Action("Подключить пьезокерамику")]
-//        public void ConnectPhaseShiftDevice()
-//        {
-//            if (ComPort.ValueSelected && ComPort.Value != null)
-//            {
-//                PhaseShiftController.Connect(ComPort.Value);
-//            }
-//        }
-//
-//        [Number("Пауза между сдвигами, мс", 0, 10000, 1)]
-//        public float ShiftDelay { get; set; } = 1000;
-//
-//        [Number("Шаг фазового сдвига", 0, 10000, 1)]
-//        public float ShiftStep { get; set; } = 1280;
+//        public ObservableCollection<ImageSelection> AvailableSelectionsToApply { get; } = new ObservableCollection<ImageSelection>();
 //
 //        public CameraInput()
 //        {
@@ -133,11 +141,10 @@
 //            CameraConnector.ImageDownloaded += CameraConnectorOnImageDownloaded;
 //
 //            _availableSelectionList = new ListWithEvents<ImageSelection>();
-//            
+//
 //            UpdateAvailableSelectionList();
 //            SelectionToApply = new PropertyWithAvailableValuesList<ImageSelection>(_availableSelectionList);
 //
-//            ComPort = new PropertyWithAvailableValuesList<string>(PhaseShiftController.PortNames);
 //
 //            Output = ImageHandler.Create("preview", 960, 640, ImageFormat.RGB, ImagePixelFormat.Byte);
 //        }
@@ -177,6 +184,12 @@
 //            base.Dispose();
 //        }
 //
+//        [OnBindedPropertiesChanged(nameof(ImageSlot1), nameof(ImageSlot2), nameof(ImageSlot3), nameof(ImageSlot4))]
+//        public void OnImageSlotUpdated(ValueUpdatedEventArgs e)
+//        {
+//            ImageSlotsUpdated?.Invoke();
+//        }
+//
 //        private void CameraConnectorOnLiveViewUpdated(Bitmap bitmap)
 //        {
 //            using (new DebugLogger.MinimalImportanceScope(DebugLogger.ImportanceLevel.Warning))
@@ -195,7 +208,7 @@
 //        {
 //            // TODO: это ужасно, нужен другой способ указать что значение не выбрано 
 //            _availableSelectionList.Clear();
-//            _availableSelectionList.AddRange(new ImageSelection[] {new ImageSelection {Name = DontApplySelectionName}}.Concat(ImageSelectionManager.GetAllSelections()));
+//            _availableSelectionList.AddRange(new ImageSelection[] { new ImageSelection { Name = DontApplySelectionName } }.Concat(ImageSelectionManager.GetAllSelections()));
 //        }
 //
 //        private void CameraConnectorOnImageDownloaded(Bitmap bitmap)

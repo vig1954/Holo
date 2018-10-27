@@ -12,6 +12,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Attributes
     [AttributeUsage(AttributeTargets.Property)]
     public class ValueCollectionAttribute: Attribute
     {
+        public string ValueCollectionProviderPropertyName { get; set; }
         public object[] ValueCollection { get; }
 
         public ValueCollectionAttribute(params object[] values)

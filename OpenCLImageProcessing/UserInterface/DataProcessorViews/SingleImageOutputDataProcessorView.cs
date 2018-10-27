@@ -126,7 +126,7 @@ namespace UserInterface.DataProcessorViews
                 throw new ArgumentNullException(nameof(image));
 
             var imageToCheck = parameterToCheck.GetValue();
-            if (imageToCheck == null || !image.SizeEquals(imageToCheck) || image.Format != imageToCheck.Format || image.PixelFormat != imageToCheck.PixelFormat)
+            if (imageToCheck == null || !image.SizeEquals(imageToCheck) || (format ?? image.Format) != imageToCheck.Format || (pixelFormat ?? image.PixelFormat) != imageToCheck.PixelFormat)
             {
                 imageToCheck?.FreeComputingDevice();
 
