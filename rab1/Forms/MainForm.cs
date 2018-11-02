@@ -2297,9 +2297,9 @@ namespace rab1
             ModelForm.Show(); 
         }
 
-        private void FormInterf_Cos() // Cos (k1-k2) => Главное окно
+        private void FormInterf_Cos(double[] fz) // Cos (k1-k2) => Главное окно
         {
-            Model_object.Model_Cos(zArrayDescriptor);
+            Model_object.Model_Cos(zArrayDescriptor,  fz);
             Vizual_regImage(8);            Vizual_regImage(9);  Vizual_regImage(10);            Vizual_regImage(11);
             //Complex_pictureBox(1); Complex_pictureBox(2);
         }

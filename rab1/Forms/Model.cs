@@ -16,7 +16,7 @@ public delegate void ModelBoxPSI_Fr(double sdvg0, double sdvg1, double noise, do
 public delegate void ModelBoxPSI_Fr8(double sdvg0, double sdvg1, double noise, double Lambda, double d, double dx, double[] fz, double ax, double dy);
 //public delegate void ModelBoxPSI8_Fr(double sdvg0, double sdvg1, double noise, double Lambda, double d, double dx, double[] fz);
 public delegate void ModelBox_Fr(double sdvg0, double sdvg, double noise, double Lambda, double dx, double dy, double Ax, double Ay);
-public delegate void ModelBox_Cos();
+public delegate void ModelBox_Cos(double[] fz);
 namespace rab1.Forms
 {
     public partial class Model : Form
@@ -198,8 +198,12 @@ namespace rab1.Forms
         // Моделирование интерференционной картины
         private void button2_Click(object sender, EventArgs e)
         {
-            
-            OnInterf_Cos();
+            double[] fzrad = new double[4];
+            fz[0] = Convert.ToDouble(textBox5.Text); fzrad[0] = Math.PI * fz[0] / 180.0;   // Фаза в радианах  
+            fz[1] = Convert.ToDouble(textBox6.Text); fzrad[1] = Math.PI * fz[1] / 180.0;
+            fz[2] = Convert.ToDouble(textBox7.Text); fzrad[2] = Math.PI * fz[2] / 180.0;
+            fz[3] = Convert.ToDouble(textBox8.Text); fzrad[3] = Math.PI * fz[3] / 180.0;
+            OnInterf_Cos(fzrad);
             Close();
         }
         //
