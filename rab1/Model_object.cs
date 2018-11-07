@@ -645,6 +645,7 @@ namespace rab1
             zArrayDescriptor[2] = new ZArrayDescriptor(w1, h1);
             zArrayDescriptor[3] = new ZArrayDescriptor(w1, h1);
             zArrayDescriptor[4] = new ZArrayDescriptor(w1, h1);
+            zArrayDescriptor[5] = new ZArrayDescriptor(w1, h1);
 
             zArrayDescriptor[8] = new ZArrayDescriptor(w1, h1);
             zArrayDescriptor[9] = new ZArrayDescriptor(w1, h1);
@@ -670,14 +671,14 @@ namespace rab1
                 }
            
 
-            // ---------------------------------------------------------------    Фаза от 0 до max (LN) без деформаций
+            // ---------------------------------------------------------------    Фаза от 0 до max (L) без деформаций
             for (int i = 0; i < w1; i++)
                 for (int j = 0; j < h1; j++)
                 {
-                    zArrayDescriptor[1].array[i, j] = i;
+                    zArrayDescriptor[1].array[i, j] = i*L/w1;
                 }
 
-            // ---------------------------------------------------------------    Деформации
+            // ---------------------------------------------------------------    Деформация
 
 
             double k = Y/(L * L * L - 3 * L + 2) ;
@@ -692,6 +693,20 @@ namespace rab1
                     zArrayDescriptor[2].array[i, j] = k*fz1;
                 }
 
+            // ---------------------------------------------------------------    Деформация с наклоном
+
+
+           // double k = Y / (L * L * L - 3 * L + 2);
+
+            for (int i = 0; i < w1; i++)
+                for (int j = 0; j < h1; j++)
+                {
+                   
+
+                    zArrayDescriptor[3].array[i, j] = zArrayDescriptor[2].array[i, j] + zArrayDescriptor[1].array[i, j];
+                }
+
+
             // ---------------------------------------------------------------    Фаза от 0 до 2pi с деформациями
             double XP = N * L / LN;
             ZArrayDescriptor zArray_tmp3 = new ZArrayDescriptor(w1, h1);
@@ -699,18 +714,20 @@ namespace rab1
             for (int i = 0; i < w1; i++)                                    // Фаза от 0 до 2pi с деформациями
                 for (int j = 0; j < h1; j++)
                 {
-                    double tmp = zArrayDescriptor[2].array[i, j];
+                    double tmp = zArrayDescriptor[3].array[i, j];
                     int ip = Convert.ToInt32(XP * Convert.ToInt32(tmp/XP));
                     double tmp1 = 2 * Math.PI * (tmp - ip) / XP;
                     if (tmp1 < 0) tmp1 = tmp1 + Math.PI;
 
-                    zArrayDescriptor[3].array[i, j] = tmp1;
+                    zArrayDescriptor[4].array[i, j] = tmp1;
                 }
 
-            for (int i = 0; i < w1; i++)                                    // Фаза от 0 до 2pi с деформациями
+
+            // ---------------------------------------------------------------  Фаза от 0 до 2pi с деформациями
+            for (int i = 0; i < w1; i++)                                    // 
                 for (int j = 0; j < h1; j++)
                 {
-                    zArrayDescriptor[4].array[i, j] = zArrayDescriptor[1].array[i, j] - zArrayDescriptor[2].array[i, j];     
+                    zArrayDescriptor[5].array[i, j] = zArrayDescriptor[1].array[i, j] - zArrayDescriptor[3].array[i, j];     
                 }
 
 
@@ -726,10 +743,10 @@ namespace rab1
             for (int i = 0; i < w1; i++)
                 for (int j = 0; j < h1; j++)
                     {
-                        zArrayDescriptor[8].array[i, j]  = Math.Cos(zArrayDescriptor[0].array[i, j] - zArrayDescriptor[3].array[i, j] + fz[0]);
-                        zArrayDescriptor[9].array[i, j]  = Math.Cos(zArrayDescriptor[0].array[i, j] - zArrayDescriptor[3].array[i, j] + fz[1]);
-                        zArrayDescriptor[10].array[i, j] = Math.Cos(zArrayDescriptor[0].array[i, j] - zArrayDescriptor[3].array[i, j] + fz[2]);
-                        zArrayDescriptor[11].array[i, j] = Math.Cos(zArrayDescriptor[0].array[i, j] - zArrayDescriptor[3].array[i, j] + fz[3]);
+                        zArrayDescriptor[8].array[i, j]  = Math.Cos(zArrayDescriptor[4].array[i, j] - zArrayDescriptor[0].array[i, j] + fz[0]);
+                        zArrayDescriptor[9].array[i, j]  = Math.Cos(zArrayDescriptor[4].array[i, j] - zArrayDescriptor[0].array[i, j] + fz[1]);
+                        zArrayDescriptor[10].array[i, j] = Math.Cos(zArrayDescriptor[4].array[i, j] - zArrayDescriptor[0].array[i, j] + fz[2]);
+                        zArrayDescriptor[11].array[i, j] = Math.Cos(zArrayDescriptor[4].array[i, j] - zArrayDescriptor[0].array[i, j] + fz[3]);
                 }
 
 
