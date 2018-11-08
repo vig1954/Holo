@@ -716,10 +716,13 @@ namespace rab1
                 {
                     double tmp = zArrayDescriptor[3].array[i, j];
                     int ip = Convert.ToInt32(XP * Convert.ToInt32(tmp/XP));
-                    double tmp1 = 2 * Math.PI * (tmp - ip) / XP;
-                    if (tmp1 < 0) tmp1 = tmp1 + Math.PI;
+                    double tmp1 =2* Math.PI * (tmp - ip) / XP;
+                    if (tmp1 < 0) tmp1 = tmp1 + 2 * Math.PI;
 
                     zArrayDescriptor[4].array[i, j] = tmp1;
+                   
+                    
+
                 }
 
 
