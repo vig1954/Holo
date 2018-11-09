@@ -54,6 +54,14 @@ namespace Processing.DataProcessors
         public float SizeY { get; set; } = 5;
 
         [Input]
+        [Number("Угол X", 0, 360, 0.01f, OnPropertyChanged = "Compute")]
+        public float AlphaX { get; set; } = 5;
+
+        [Input]
+        [Number("Угол Y", 0, 360, 0.01f, OnPropertyChanged = "Compute")]
+        public float AlphaY { get; set; } = 5;
+
+        [Input]
         [Number("Амплитуда", -10000, 10000, 0.01f, OnPropertyChanged = "Compute")]
         public float Amplitude { get; set; } = 1f;
 
@@ -83,7 +91,9 @@ namespace Processing.DataProcessors
             _kernel.SetValueArgument(2, Distance * 1000f);
             _kernel.SetValueArgument(3, SizeX * 1000f);
             _kernel.SetValueArgument(4, SizeY * 1000f);
-            _kernel.SetValueArgument(5, Amplitude);
+            _kernel.SetValueArgument(5, AlphaX / 360f * (float)Math.PI);
+            _kernel.SetValueArgument(6, AlphaY / 360f * (float)Math.PI);
+            _kernel.SetValueArgument(7, Amplitude);
 
             OpenClApplication.ExecuteInQueue(_kernel, Output.Width, Output.Height);
 

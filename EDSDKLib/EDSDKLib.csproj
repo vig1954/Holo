@@ -66,6 +66,7 @@
     <Compile Include="EDSSDK\CameraClasses.cs" />
     <Compile Include="EDSSDK\CameraValuesISO.cs" />
     <Compile Include="EDSSDK\EDSDK.cs" />
+    <Compile Include="EDSSDK\ImageType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
