@@ -2304,7 +2304,10 @@ namespace rab1
         private void FormInterf_Balka(double L, double Y, int N) // Cos (k1-k2) => Главное окно
         {
             Model_object.Model_Balka(zArrayDescriptor, L, Y, N);
-            Vizual_regImage(0); Vizual_regImage(1); Vizual_regImage(2); Vizual_regImage(3); Vizual_regImage(4); Vizual_regImage(5);
+            Vizual_regImage(0); Vizual_regImage(1); Vizual_regImage(2);
+            Vizual_regImage(3); Vizual_regImage(4); Vizual_regImage(5);
+            Vizual_regImage(6);
+
 
             Vizual_regImage(8); Vizual_regImage(9); Vizual_regImage(10); Vizual_regImage(11);
             //Complex_pictureBox(1); Complex_pictureBox(2);

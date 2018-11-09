@@ -646,6 +646,7 @@ namespace rab1
             zArrayDescriptor[3] = new ZArrayDescriptor(w1, h1);
             zArrayDescriptor[4] = new ZArrayDescriptor(w1, h1);
             zArrayDescriptor[5] = new ZArrayDescriptor(w1, h1);
+            zArrayDescriptor[6] = new ZArrayDescriptor(w1, h1);
 
             zArrayDescriptor[8] = new ZArrayDescriptor(w1, h1);
             zArrayDescriptor[9] = new ZArrayDescriptor(w1, h1);
@@ -733,9 +734,18 @@ namespace rab1
                     zArrayDescriptor[5].array[i, j] = zArrayDescriptor[1].array[i, j] - zArrayDescriptor[3].array[i, j];     
                 }
 
+            // ---------------------------------------------------------------  Производная  => 6
 
+            for (int j = 0; j < h1; j++)
+            {
+                zArrayDescriptor[6].array[0, j] = zArrayDescriptor[5].array[1, j] - zArrayDescriptor[5].array[0, j];
+                for (int i = 1; i < w1-1; i++)                                    // 
 
-
+                {
+                    zArrayDescriptor[6].array[i, j] = (zArrayDescriptor[5].array[i-1, j] - zArrayDescriptor[5].array[i+1, j])/2;
+                }
+                zArrayDescriptor[6].array[w1-1, j] = zArrayDescriptor[6].array[w1 - 2, j] ;
+            }
             // ---------------------------------------------------------------    COS  от разности => 8,9,10,11
 
             double[] fz =  { 0.0, 90.0, 180.0, 270.0 };
