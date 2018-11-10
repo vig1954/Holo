@@ -83,8 +83,8 @@ namespace rab1
             int j1 = NY / 2 - by / 2;
 
             double max = 2 * Math.PI * sdvg / ax;
-            //Random rnd = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
-            Random rnd = new Random();
+            Random rnd = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
+            //Random rnd = new Random();
             int ii = 0;
             for (int i = i1; i < ax + i1; i++)
                 for (int j = j1; j < by + j1; j++)
@@ -397,14 +397,16 @@ namespace rab1
         {
 
             ZArrayDescriptor[] zArray = new ZArrayDescriptor[4];
-            zArray[0] = Model_interf.Model_pl_PSI(am, zComplex1, AngleX, AngleY, Lambda, dx, noise, fz[k1]);   // Сложение с опорой добавление фазового сдвига zComplex2 (второе состояние)
-            zArray[1] = Model_interf.Model_pl_PSI(am, zComplex1, AngleX, AngleY, Lambda, dx, noise, fz[k2]);
-            zArray[2] = Model_interf.Model_pl_PSI(am, zComplex1, AngleX, AngleY, Lambda, dx, noise, fz[k3]);
-            zArray[3] = Model_interf.Model_pl_PSI(am, zComplex1, AngleX, AngleY, Lambda, dx, noise, fz[k4]);
+            double[] fz1 = new double[4];
+            fz1 = SDVIG(90, 20, 30, 180);                        // Случайные градусы
+            zArray[0] = Model_interf.Model_pl_PSI(am, zComplex1, AngleX, AngleY, Lambda, dx, noise, fz1[k1]);   // Сложение с опорой добавление фазового сдвига zComplex2 (второе состояние)
+            zArray[1] = Model_interf.Model_pl_PSI(am, zComplex1, AngleX, AngleY, Lambda, dx, noise, fz1[k2]);
+            zArray[2] = Model_interf.Model_pl_PSI(am, zComplex1, AngleX, AngleY, Lambda, dx, noise, fz1[k3]);
+            zArray[3] = Model_interf.Model_pl_PSI(am, zComplex1, AngleX, AngleY, Lambda, dx, noise, fz1[k4]);
 
             ZComplexDescriptor zComplex_tmp = ATAN_PSI.ATAN_ar(zArray, fz, am);
 
-            zComplex_tmp = Model_interf.Model_pl_MUL(1, zComplex_tmp, AngleX, AngleY, Lambda, dx); // Умножение для устранения разности фаз
+           // zComplex_tmp = Model_interf.Model_pl_MUL(1, zComplex_tmp, AngleX, AngleY, Lambda, dx); // Умножение для устранения разности фаз
             zComplex_tmp = FurieN.FrenelTransformN(zComplex_tmp, Lambda, d, dx);                   // Преобразование Френеля с четным количеством точек     
 
             ZArrayDescriptor zArray_tmp = new ZArrayDescriptor(zComplex1.width, zComplex1.height);
@@ -412,23 +414,29 @@ namespace rab1
             for (int i = 0; i < zComplex1.width; i++)
                 for (int j = 0; j < zComplex1.height; j++)
                 {
-                    double Ar = zComplex_tmp.array[i, j].Magnitude;                             // амплитуда объектного пучка
+                    double Ar = zComplex_tmp.array[i, j].Magnitude;                                 // амплитуда объектного пучка
                     double Fr = zComplex_tmp.array[i, j].Phase;
 
-                    double Ap = zComplex2.array[i, j].Magnitude;                             // амплитуда объектного пучка
-                    double Fp = zComplex2.array[i, j].Phase;                                 // Фаза объектного пучка
+                    double Ap = zComplex2.array[i, j].Magnitude;                                     // амплитуда объектного пучка
+                    double Fp = zComplex2.array[i, j].Phase;                                         // Фаза объектного пучка
                     zArray_tmp.array[i, j] = Ap * Ap + Ar * Ar + 2 * Ap * Ar * Math.Cos(Fp - Fr);    // Интенсивность
                 }
            
             return zArray_tmp;
         }
-
-      
-
+        public static double[] SDVIG(double f1, double f2, double f3, double f4)
+            { 
+                 double[] fzrad = new double[4];
+                 fzrad[0] = Math.PI* f1 / 180.0;   // Фаза в радианах  
+                 fzrad[1] = Math.PI* f2 / 180.0;
+                 fzrad[2] = Math.PI* f3 / 180.0;
+                 fzrad[3] = Math.PI* f4 / 180.0;
+            return fzrad;
+        }
         // ----------------------------------------------------------------------------------------------------------------------------------
         //                  Формирование 4 голографических интерферограмм. Затем расшифровка их методом PSI
         // ----------------------------------------------------------------------------------------------------------------------------------
-        
+
         public static void Glgr_Interf_PSI_Fr(ZComplexDescriptor[] zComplex, ZArrayDescriptor[] zArrayDescriptor, ProgressBar progressBar1, 
                                               double sdvg0, double sdvg1, double noise, double Lambda, double dx, double d, 
                                               double[] fz, double Ax, double Ay)
@@ -439,26 +447,30 @@ namespace rab1
             double noise_add = noise;
 
             //zComplex[0] = new ZComplexDescriptor(NX, NY);
-            //MessageBox.Show(" sdvg0 = " + sdvg0 + " sdvg1 = " + sdvg1);
+            //MessageBox.Show(" noise = " + noise );
 
             // ----------------------------------------------------------------------------------------------------------------------------- 1 голограмма
-            ZComplexDescriptor zComplex_tmp = Model_2(sdvg0, noise, Lambda);                    // Модель объекта с нулевым сдвиго                                                                                                                                                 // Модель объекта с нулевым сдвигом
-            zComplex_tmp = Furie.Invers(zComplex_tmp);                                          // Циклический сдвиг
-            zComplex_tmp = FurieN.FrenelTransformN(zComplex_tmp, Lambda, d, dx);                  // Преобразование Френеля с четным количеством точек
+            ZComplexDescriptor zComplex_tmp = Model_2(sdvg0, noise, Lambda);                       // Модель объекта с нулевым сдвигом                                                                                                                                                 // Модель объекта с нулевым сдвигом
+            zComplex_tmp = Furie.Invers(zComplex_tmp);                                             // Циклический сдвиг
+            zComplex_tmp = FurieN.FrenelTransformN(zComplex_tmp, Lambda, d, dx);                   // Преобразование Френеля с четным количеством точек
             double am = SumClass.getAverage(zComplex_tmp);
 
-            ZArrayDescriptor[] zArray = new ZArrayDescriptor[4];                                // Рабочие массивы                                                                               
-            for (int i = 0; i < 4; i++) { zArray[i] = Model_interf.Model_pl_PSI(am, zComplex_tmp, AngleX, AngleY, Lambda, dx, noise_add, fz[i]); }       // Сложение с опорной волной + fz[i]
+            ZArrayDescriptor[] zArray = new ZArrayDescriptor[4]; // Рабочие массивы    
+            double[] fz1 = new double[4];
+            fz1 = SDVIG(10, 20, 30, 40);                        // Случайные градусы
+            for (int i = 0; i < 4; i++) { zArray[i] = Model_interf.Model_pl_PSI(am, zComplex_tmp, AngleX, AngleY, Lambda, dx, noise_add, fz1[i]); }       // Сложение с опорной волной + fz[i]
             zComplex_tmp = ATAN_PSI.ATAN_ar(zArray, fz, am);
-            zComplex_tmp = Model_interf.Model_pl_MUL(1, zComplex_tmp, AngleX, AngleY, Lambda, dx); // Умножение для устранения разности фаз
-            zComplex[0] = FurieN.FrenelTransformN(zComplex_tmp, Lambda, d, dx);                 // Преобразование Френеля с четным количеством точек
+
+
+            //zComplex_tmp = Model_interf.Model_pl_MUL(1, zComplex_tmp, AngleX, AngleY, Lambda, dx); // Умножение для устранения разности фаз
+            zComplex[0] = FurieN.FrenelTransformN(zComplex_tmp, Lambda, d, dx);                      // Преобразование Френеля с четным количеством точек
 
             MessageBox.Show(" 1  состояние -> 0");
             // ----------------------------------------------------------------------------------------------------------------------------- 2 голограмма
 
-            zComplex[1] = Model_2(sdvg1, noise, Lambda);                                     // Модель объекта со сдвигом    
-            zComplex_tmp = Furie.Invers(zComplex[1]);                                          // Циклический сдвиг
-            zComplex[1] = FurieN.FrenelTransformN(zComplex_tmp, Lambda, d, dx);                  // Преобразование Френеля с четным количеством точек
+            zComplex[1] = Model_2(sdvg1, noise, Lambda);                                             // Модель объекта со сдвигом    
+            zComplex_tmp = Furie.Invers(zComplex[1]);                                                // Циклический сдвиг
+            zComplex[1] = FurieN.FrenelTransformN(zComplex_tmp, Lambda, d, dx);                      // Преобразование Френеля с четным количеством точек
             MessageBox.Show(" 2  голограмма -> 1");
 
             zArrayDescriptor[8]  = PSI(am, zComplex[1], zComplex[0], AngleX, AngleY, noise, Lambda, dx, d, fz, 0, 1, 2, 3);
@@ -523,6 +535,9 @@ namespace rab1
             zComplex[2] = zComplex_tmp;
 
         }
+
+       
+
         // -------------------------------------------------------------------------------------------------------------------------------
         // Сдвиг голограмм
         //Исходное значение: 4 интерферограммы (PSI) -> 8,9,10,11
@@ -611,5 +626,197 @@ namespace rab1
                           */
       
         }
+
+
+
+        // Разница двух фазовых значений
+        public static void Model_Balka(ZArrayDescriptor[] zArrayDescriptor, double L, double Y, int N)
+        {
+
+            int LN = 4000;
+            int w1 = LN;
+            int h1 = 1000;
+            double noise = 0;
+
+            ZArrayDescriptor zArray_tmp1 = new ZArrayDescriptor(w1, h1);
+
+            zArrayDescriptor[0] = new ZArrayDescriptor(w1, h1);
+            zArrayDescriptor[1] = new ZArrayDescriptor(w1, h1);
+            zArrayDescriptor[2] = new ZArrayDescriptor(w1, h1);
+            zArrayDescriptor[3] = new ZArrayDescriptor(w1, h1);
+            zArrayDescriptor[4] = new ZArrayDescriptor(w1, h1);
+            zArrayDescriptor[5] = new ZArrayDescriptor(w1, h1);
+            zArrayDescriptor[6] = new ZArrayDescriptor(w1, h1);
+
+            zArrayDescriptor[8] = new ZArrayDescriptor(w1, h1);
+            zArrayDescriptor[9] = new ZArrayDescriptor(w1, h1);
+            zArrayDescriptor[10] = new ZArrayDescriptor(w1, h1);
+            zArrayDescriptor[11] = new ZArrayDescriptor(w1, h1);
+
+            // MessageBox.Show(" N = " + N );
+
+            Random rnd = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
+            // Random rnd = new Random();
+            // ---------------------------------------------------------------    Фаза от 0 до 2pi без деформаций
+            for (int i = 0; i < w1; i++)                  
+                for (int j = 0; j < h1; j++)
+                {
+
+                    double fz1 = (i % N);
+                    fz1 = fz1 * 2 * Math.PI / (N);
+                    double fa = (0.5 - rnd.NextDouble()) * fz1 * noise;   //rnd.NextDouble() 0-1  
+                    fz1 = fz1 + fa;
+                    //if (fz1 > 2 * Math.PI) fz1 = 2 * Math.PI;  //fz1 - 2 * Math.PI;
+                    //if (fz1 < 0)           fz1 = 0;            // + 2 * Math.PI;
+                    zArrayDescriptor[0].array[i, j] = fz1;
+                }
+           
+
+            // ---------------------------------------------------------------    Фаза от 0 до max (L) без деформаций
+            for (int i = 0; i < w1; i++)
+                for (int j = 0; j < h1; j++)
+                {
+                    zArrayDescriptor[1].array[i, j] = i*L/w1;
+                }
+
+            // ---------------------------------------------------------------    Деформация
+
+
+            double k = Y/(L * L * L - 3 * L + 2) ;
+          
+            for (int i = 0; i < w1; i++)                    
+                for (int j = 0; j < h1; j++)
+                {
+                    double e = i*L / LN;                        // X/L
+
+                    double fz1 = e * e * e - 3 * e + 2;
+
+                    zArrayDescriptor[2].array[i, j] = k*fz1;
+                }
+
+            // ---------------------------------------------------------------    Деформация с наклоном
+
+
+           // double k = Y / (L * L * L - 3 * L + 2);
+
+            for (int i = 0; i < w1; i++)
+                for (int j = 0; j < h1; j++)
+                {
+                   
+
+                    zArrayDescriptor[3].array[i, j] = zArrayDescriptor[2].array[i, j] + zArrayDescriptor[1].array[i, j];
+                }
+
+
+            // ---------------------------------------------------------------    Фаза от 0 до 2pi с деформациями
+            double XP = N * L / LN;
+            ZArrayDescriptor zArray_tmp3 = new ZArrayDescriptor(w1, h1);
+
+            for (int i = 0; i < w1; i++)                                    // Фаза от 0 до 2pi с деформациями
+                for (int j = 0; j < h1; j++)
+                {
+                    double tmp = zArrayDescriptor[3].array[i, j];
+                    int ip = Convert.ToInt32(XP * Convert.ToInt32(tmp/XP));
+                    double tmp1 =2* Math.PI * (tmp - ip) / XP;
+                    if (tmp1 < 0) tmp1 = tmp1 + 2 * Math.PI;
+
+                    zArrayDescriptor[4].array[i, j] = tmp1;
+                   
+                    
+
+                }
+
+
+            // ---------------------------------------------------------------  Фаза от 0 до 2pi с деформациями
+            for (int i = 0; i < w1; i++)                                    // 
+                for (int j = 0; j < h1; j++)
+                {
+                    zArrayDescriptor[5].array[i, j] = zArrayDescriptor[1].array[i, j] - zArrayDescriptor[3].array[i, j];     
+                }
+
+            // ---------------------------------------------------------------  Производная  => 6
+
+            for (int j = 0; j < h1; j++)
+            {
+                zArrayDescriptor[6].array[0, j] = zArrayDescriptor[5].array[1, j] - zArrayDescriptor[5].array[0, j];
+                for (int i = 1; i < w1-1; i++)                                    // 
+
+                {
+                    zArrayDescriptor[6].array[i, j] = (zArrayDescriptor[5].array[i-1, j] - zArrayDescriptor[5].array[i+1, j])/2;
+                }
+                zArrayDescriptor[6].array[w1-1, j] = zArrayDescriptor[6].array[w1 - 2, j] ;
+            }
+            // ---------------------------------------------------------------    COS  от разности => 8,9,10,11
+
+            double[] fz =  { 0.0, 90.0, 180.0, 270.0 };
+            for (int i = 0; i < 4; i++) { fz[i] = fz[i] = Math.PI * fz[i] / 180.0; }  // Фаза в радианах  
+
+           
+
+            for (int i = 0; i < w1; i++)
+                for (int j = 0; j < h1; j++)
+                    {
+                        zArrayDescriptor[8].array[i, j]  = Math.Cos(zArrayDescriptor[4].array[i, j] - zArrayDescriptor[0].array[i, j] + fz[0]);
+                        zArrayDescriptor[9].array[i, j]  = Math.Cos(zArrayDescriptor[4].array[i, j] - zArrayDescriptor[0].array[i, j] + fz[1]);
+                        zArrayDescriptor[10].array[i, j] = Math.Cos(zArrayDescriptor[4].array[i, j] - zArrayDescriptor[0].array[i, j] + fz[2]);
+                        zArrayDescriptor[11].array[i, j] = Math.Cos(zArrayDescriptor[4].array[i, j] - zArrayDescriptor[0].array[i, j] + fz[3]);
+                }
+
+
+        }
+
+        public static ZArrayDescriptor Model_Subr(ZComplexDescriptor zComplex_tmp1, ZComplexDescriptor zComplex_tmp2, double fz )
+        {
+            int w1 = zComplex_tmp1.width;
+            int h1 = zComplex_tmp1.height;
+            ZArrayDescriptor zArray = new ZArrayDescriptor(w1, h1);
+            for(int i = 0; i < w1; i++) for (int j = 0; j < h1; j++)
+                   { zArray.array[i, j] = Math.Cos(zComplex_tmp1.array[i, j].Phase - zComplex_tmp2.array[i, j].Phase + fz); }
+           
+            return zArray;
+        }
+
+
+        public static void Model_Cos(ZArrayDescriptor[] zArrayDescriptor, double[] fz)
+        {
+
+            //double[] fz =  { 0.0, 90.0, 180.0, 270.0 };
+            //for (int i = 0; i < 4; i++) { fz[i] = fz[i] = Math.PI * fz[i] / 180.0; }  // Фаза в радианах  
+
+            //double a;
+            //double[] fz1 = new double[4];
+            //for (int i = 0; i < 4; i++) { fz1[i] = fz[i] ; }  // Фаза в радианах  
+
+            int w1 = zArrayDescriptor[0].width;
+            int h1 = zArrayDescriptor[0].height;
+   
+            ZComplexDescriptor zComplex_tmp1 = new ZComplexDescriptor(w1, h1);
+            ZComplexDescriptor zComplex_tmp2 = new ZComplexDescriptor(w1, h1);
+            ZArrayDescriptor zArray = new ZArrayDescriptor(w1, h1);
+
+            zComplex_tmp2 = ATAN_PSI.ATAN_8_11(4, 5, 6, 7, zArrayDescriptor, fz);
+            zComplex_tmp1 = ATAN_PSI.ATAN_8_11(0, 1, 2, 3, zArrayDescriptor, fz);                // PSI  0123
+            zArrayDescriptor[8] = Model_Subr(zComplex_tmp1, zComplex_tmp2, 0);
+
+            zArrayDescriptor[9] = Model_Subr(zComplex_tmp1,  zComplex_tmp2, Math.PI *  90 / 180.0);
+            zArrayDescriptor[10] = Model_Subr(zComplex_tmp1, zComplex_tmp2, Math.PI * 180 / 180.0);
+            zArrayDescriptor[11] = Model_Subr(zComplex_tmp1, zComplex_tmp2, Math.PI * 270 / 180.0);
+
+            /*
+
+                        zComplex_tmp1 = ATAN_PSI.ATAN_8_11(1, 2, 3, 0, zArrayDescriptor, fz1);                // PSI  0123
+                        zArrayDescriptor[9] = Model_Subr(zComplex_tmp1, zComplex_tmp2);
+
+
+                        zComplex_tmp1 = ATAN_PSI.ATAN_8_11(2, 3, 0, 1, zArrayDescriptor, fz1);                // PSI  0123
+                        zArrayDescriptor[10] = Model_Subr(zComplex_tmp1, zComplex_tmp2);
+
+
+                        zComplex_tmp1 = ATAN_PSI.ATAN_8_11(3, 0, 1, 2, zArrayDescriptor, fz1);                // PSI  0123
+                        zArrayDescriptor[11] = Model_Subr(zComplex_tmp1, zComplex_tmp2);
+            */
+
+        }
+
     }
 }

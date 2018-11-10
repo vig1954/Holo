@@ -248,16 +248,14 @@ namespace rab1
         {
             int NX = cmpl0.width;
             int NY = cmpl0.height;
-            //MessageBox.Show("am = " + am);
-
-            ZArrayDescriptor cmpl = new ZArrayDescriptor(NX, NY);      // Результирующий фронт
-
             double kx = dx / NX;
             double ky = dx / NY;
 
-         
-           // double Ar = SumClass.getAverage(cmpl0);                        // Амплитуда опорного пучка равна среднее амлитуды объектного
-         
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(NX, NY);      // Результирующий фронт
+
+            am = SumClass.getAverage(cmpl0);                          // Амплитуда опорного пучка равна средней амплитуды объектного
+            //MessageBox.Show("am = " + am + " fz= " + fz);
+
             Random rnd = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
             for (int i = 0; i < NX; i++)
                 for (int j = 0; j < NY; j++)
@@ -267,8 +265,8 @@ namespace rab1
                    
                     double f0 = fz1 + fa * noise + fz;
                   
-                    double Ap = cmpl0.array[i, j].Magnitude;                             // амплитуда объектного пучка
-                    double Fp = cmpl0.array[i, j].Phase;                                 // Фаза объектного пучка
+                    double Ap = cmpl0.array[i, j].Magnitude;                                   // амплитуда объектного пучка
+                    double Fp = cmpl0.array[i, j].Phase;                                       // Фаза объектного пучка
                     cmpl.array[i, j] = Ap * Ap + am * am + 2 * Ap * am * Math.Cos(Fp - f0);    // Интенсивность
                 }
           
