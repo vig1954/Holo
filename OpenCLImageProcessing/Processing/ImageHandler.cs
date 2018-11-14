@@ -369,7 +369,7 @@ namespace Processing
             Singleton.Get<ImageHandlerRepository>().Add(imageHandler);
 
             if (title == null)
-                title = "Bitmap " + Singleton.Get<ImageHandlerRepository>().GetAll().Count;
+                title = "Bitmap " + Singleton.Get<ImageHandlerRepository>().GetAll().OfType<ImageHandler>().Count();
 
             imageHandler._tags.Add(ImageHandlerTagKeys.MaximumValueF, max);
             imageHandler._tags.Add(ImageHandlerTagKeys.MinimumValueF, min);

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Common;
 using UserInterface.DataEditors.InterfaceBinding.Attributes;
 using UserInterface.DataEditors.InterfaceBinding.Controls;
 
@@ -48,7 +49,29 @@ namespace UserInterface.DataEditors.InterfaceBinding
         {
             var valueCollectionAttribute = member.GetCustomAttribute<ValueCollectionAttribute>();
 
-            AllowedValues = valueCollectionAttribute == null ? new T[] { } : valueCollectionAttribute.ValueCollection.Select(i => (T) i).ToArray();
+            if (valueCollectionAttribute == null)
+                throw new InvalidOperationException();
+
+            if (valueCollectionAttribute.ValueCollectionProviderPropertyName.IsNullOrEmpty())
+            {
+                AllowedValues = valueCollectionAttribute.ValueCollection.Select(i => (T) i).ToArray();
+                return;
+            }
+
+            var target = targetProvider.Target;
+            var valueCollectionProviderProperty = target.GetType().GetProperty(valueCollectionAttribute.ValueCollectionProviderPropertyName);
+            
+            if (valueCollectionProviderProperty == null || !valueCollectionProviderProperty.PropertyType.IsAssignableFrom(typeof(ObservableCollection<T>)))
+                throw new InvalidOperationException();
+
+            var collection = (ObservableCollection<T>) valueCollectionProviderProperty.GetValue(target);
+
+            collection.CollectionChanged += (s, e) =>
+            {
+                SetAllowedValues(collection);
+            };
+
+            AllowedValues = collection.ToArray();
         }
 
         public override IEnumerable<object> GetAllowedValues()

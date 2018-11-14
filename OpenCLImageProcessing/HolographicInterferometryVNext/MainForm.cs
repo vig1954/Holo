@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using Camera;
 using Infrastructure;
 using Processing;
 using Processing.Computing;
@@ -121,13 +122,7 @@ namespace HolographicInterferometryVNext
                         dataProcessorView.Initialize();
                         workspacePanel1.AddDataProcessorView(dataProcessorView);
 
-                        dataProcessorView.OnImageCreate += image =>
-                        {
-                            workspacePanel1.AddImageHandler(image);
-                            var imageHandlerRepository = Singleton.Get<ImageHandlerRepository>();
-
-                            imageHandlerRepository.Add(image);
-                        };
+                        dataProcessorView.OnImageCreate += OnImageCreate;
                     };
 
                     if (dataProcessorViewCreator.DataProcessorInfo.MenuItem == "Input")
@@ -141,6 +136,24 @@ namespace HolographicInterferometryVNext
 
             var lastSeparator = processingMenuItem.DropDownItems.OfType<ToolStripSeparator>().Last();
             processingMenuItem.DropDownItems.Remove(lastSeparator);
+
+            var cameraInputMenuItem = new ToolStripMenuItem("Camera");
+            cameraInputMenuItem.Click += (sender, args) =>
+            {
+                CameraInputViewForm cameraInputViewForm;
+                var cameraInputViewForms = Application.OpenForms.OfType<CameraInputViewForm>().ToArray();
+                cameraInputViewForm = cameraInputViewForms.Any() ? cameraInputViewForms.Single() : new CameraInputViewForm();
+
+                cameraInputViewForm.OnImageCreate+= OnImageCreate;
+                cameraInputViewForm.Show();
+            };
+
+            inputMenuItem.DropDownItems.Add(cameraInputMenuItem);
+        }
+
+        private void OnImageCreate(IImageHandler image)
+        {
+            workspacePanel1.AddImageHandler(image);
         }
 
         private IReadOnlyCollection<DataProcessorViewCreator> GetDataProcessorViewCreators(params Type[] dataProcessorContainerTypes)

@@ -6,7 +6,6 @@ using Cloo;
 using Infrastructure;
 using OpenTK;
 using Processing.DataAttributes;
-using Processing.DataProcessors.DataProcessorParameterAttributes;
 using Processing.Utils;
 
 namespace Processing.Computing
@@ -16,8 +15,8 @@ namespace Processing.Computing
         private OpenClApplication App => Singleton.Get<OpenClApplication>();
         private Fourier _fourier;
         private IImageHandler _oldInput;
-        private ComputeBuffer<Vector2> _freshnelInnerMultipliersX;
-        private ComputeBuffer<Vector2> _freshnelInnerMultipliersY;
+        private ComputeBuffer<Vector2> _freshnelMultipliersX;
+        private ComputeBuffer<Vector2> _freshnelMultipliersY;
         private int _width;
         private int _height;
         private float _wavelength;
@@ -29,8 +28,8 @@ namespace Processing.Computing
             _width = width;
             _height = height;
 
-            _freshnelInnerMultipliersX = new ComputeBuffer<Vector2>(App.ComputeContext, ComputeMemoryFlags.None, _width);
-            _freshnelInnerMultipliersY = new ComputeBuffer<Vector2>(App.ComputeContext, ComputeMemoryFlags.None, _height);
+            _freshnelMultipliersX = new ComputeBuffer<Vector2>(App.ComputeContext, ComputeMemoryFlags.None, _width);
+            _freshnelMultipliersY = new ComputeBuffer<Vector2>(App.ComputeContext, ComputeMemoryFlags.None, _height);
         }
 
         public void Compute(IImageHandler input, IImageHandler output, float wavelength, float distance, float objectSize, bool cyclicShift)
@@ -44,15 +43,15 @@ namespace Processing.Computing
                 _distance = distance;
                 _objectSize = objectSize;
 
-                App.ExecuteKernel("freshnelGenerateInnerMultipliers", _width, 1, _freshnelInnerMultipliersX, _wavelength / 1000f, _distance * 1000f, (float) _width, _objectSize * 1000f);
-                App.ExecuteKernel("freshnelGenerateInnerMultipliers", _height, 1, _freshnelInnerMultipliersY, _wavelength / 1000f, _distance * 1000f, (float)_height, _objectSize * 1000f);
+                App.ExecuteKernel("freshnelGenerateMultipliers", _width, 1, _freshnelMultipliersX, _wavelength / 1000f, _distance * 1000f, (float) _width, _objectSize * 1000f);
+                App.ExecuteKernel("freshnelGenerateMultipliers", _height, 1, _freshnelMultipliersY, _wavelength / 1000f, _distance * 1000f, (float)_height, _objectSize * 1000f);
             }
 
-            App.ExecuteKernel("freshnelMultiplyInner", _width, _height, input, output, _freshnelInnerMultipliersX, _freshnelInnerMultipliersY);
+            App.ExecuteKernel("freshnelMultiply", _width, _height, input, output, _freshnelMultipliersX, _freshnelMultipliersY);
 
             Fourier.Transform(output);
 
-            App.ExecuteKernel("freshnelMultiplyInner", _width, _height, output, output, _freshnelInnerMultipliersX, _freshnelInnerMultipliersY);
+            App.ExecuteKernel("freshnelMultiply", _width, _height, output, output, _freshnelMultipliersX, _freshnelMultipliersY);
 
             if (cyclicShift)
                 ImageUtils.CyclicShift(output);
@@ -66,13 +65,12 @@ namespace Processing.Computing
         /// Преобразование Френеля
         /// </summary>
         /// <param name="input"></param>
-        /// <param name="output"></param>
         /// <param name="wavelength">Длина волны, нм</param>
         /// <param name="distance">Расстояние, мм</param>
         /// <param name="objectSize">Размер объекта, мм</param>
         /// <param name="cyclicShift"></param>
         [DataProcessor("Преобразование Френеля", ProcessorGroups.Transforms)]
-        public static void Transform(IImageHandler input, float wavelength = 532, float distance = 135, float objectSize = 6.35f, bool cyclicShift = true, IImageHandler output = null)
+        public static void Transform(IImageHandler input, float wavelength = 532, float distance = 135, float objectSize = 6.35f, bool cyclicShift = true, [ImageHandlerFilter(AllowedImageFormat.RealImaginative, AllowedImagePixelFormat.Float)] IImageHandler output = null)
         {
             var key = $"{input.Width}_{input.Height}";
 

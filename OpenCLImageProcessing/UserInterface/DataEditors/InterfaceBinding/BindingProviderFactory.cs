@@ -103,6 +103,13 @@ namespace UserInterface.DataEditors.InterfaceBinding
                 GetPropertyBindingByPropertyAccessExpression(propertyAccess).SetValue(value, Target); // todo: возможно, нужно явно передавать sender
             }
 
+            public void SetPropertyValue<TPropertyType>(string propertyName, TPropertyType value)
+            {
+                var propertyInfo = Target.GetType().GetProperty(propertyName);
+                var propertyBinding = (PropertyBinding) _memberBindings[propertyInfo];
+                propertyBinding.SetValue(value, Target);
+            }
+
             public void SetAvailableValuesForProperty<TPropertyType>(Expression<Func<TTarget, TPropertyType>> propertyAccess, IEnumerable<TPropertyType> availableValues)
             {
                 var binding = GetPropertyBindingByPropertyAccessExpression(propertyAccess);

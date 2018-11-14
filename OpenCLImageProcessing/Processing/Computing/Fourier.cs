@@ -1,7 +1,5 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Cloo;
@@ -9,7 +7,6 @@ using Common;
 using Infrastructure;
 using OpenTK;
 using Processing.DataAttributes;
-using Processing.DataProcessors;
 using Processing.Utils;
 
 namespace Processing.Computing
@@ -22,7 +19,6 @@ namespace Processing.Computing
         private ComputeKernel _butterflyKernel;
         private ComputeKernel _splitFftKernel;
         private ComputeKernel _mergeFftKernel;
-        private ComputeKernel _bitReverseKernel;
         private ComputeBuffer<Vector2> _tmpBuffer;
         private ComputeBuffer<Vector2> _tmpBuffer2;
         private ComputeBuffer<Vector2> _spinFactBuffer;
@@ -55,7 +51,6 @@ namespace Processing.Computing
             _mergeFftKernel = _app.Program.CreateKernel("mergeFft");
             _spinFactKernel = _app.Program.CreateKernel("spinFact");
             _butterflyKernel = _app.Program.CreateKernel("butterfly");
-            _bitReverseKernel = _app.Program.CreateKernel("bitReverseKernel");
 
             _tmpBuffer = new ComputeBuffer<Vector2>(_app.ComputeContext, ComputeMemoryFlags.None, width * height);
             _tmpBuffer2 = new ComputeBuffer<Vector2>(_app.ComputeContext, ComputeMemoryFlags.None, width * height);
@@ -76,9 +71,7 @@ namespace Processing.Computing
                 ImageUtils.Transpose(output ?? input, _transposed);
                 Pass(_transposed);
                 ImageUtils.Transpose(_transposed, output ?? input);
-                
-               // ImageUtils.CyclicShift(output);
-
+            
                 if (output == null)
                     _app.Release(input, _transposed);
                 else
@@ -118,20 +111,7 @@ namespace Processing.Computing
                 _app.ExecuteInQueue(_splitFftKernel, _width, _height);
             }
         }
-
-        private void BitReverse(ComputeBuffer<Vector2> input, ComputeBuffer<Vector2> output)
-        {
-            using (new Timer("Bit Reverse"))
-            {
-                _bitReverseKernel.SetMemoryArgument(0, output);
-                _bitReverseKernel.SetMemoryArgument(1, input);
-                _bitReverseKernel.SetValueArgument(2, _t);
-                _bitReverseKernel.SetValueArgument(3, _l);
-
-                _app.ExecuteInQueue(_bitReverseKernel, _width, _height);
-            }
-        }
-
+        
         private void Fft(ComputeBuffer<Vector2> input, bool inverse)
         {
             using (new Timer("FFT"))
@@ -154,10 +134,6 @@ namespace Processing.Computing
         {
             using (new Timer("Merge"))
             {
-//                _app.ExecuteKernel("mergeFftStep1A", _width, _height, input, tmp, _n, _m, _l);
-//
-//                _app.ExecuteKernel("mergeFftStep2", _width, _height, tmp, output.ComputeBuffer, _n, _m, _l);
-
                 _mergeFftKernel.SetMemoryArgument(0, input);
                 _mergeFftKernel.SetMemoryArgument(1, output.ComputeBuffer);
                 _mergeFftKernel.SetValueArgument(2, _n);
@@ -206,91 +182,6 @@ namespace Processing.Computing
         public static int PowerOfTwo(int l)
         {
             return (int) Math.Log(l, 2);
-        }
-
-        /// <summary>
-        /// Возведение двойку в сепень
-        /// </summary>
-        /// <param name="t"></param>
-        /// <returns></returns>
-        public static int TwoInPower(int t)
-        {
-            return 2 << t;
-        }
-
-        /// <summary>
-        /// Массив экспонент для бабочки
-        /// </summary>
-        /// <param name="powerOfTwo"></param>
-        /// <returns></returns>
-        private static Vector2[] KExp(int powerOfTwo)
-        {
-            if (_exp == null)
-                KExp_GenArray(PowerOfTwo(8096));
-            return _exp;
-        }
-
-        private static Vector2[] _exp;
-
-        private static void KExp_GenArray(int powerOfTwo)
-        {
-            var _exp = new Vector2[powerOfTwo + 1];
-            for (var l = 1; l < powerOfTwo; l++)
-            {
-                var ll = TwoInPower(l) >> 1;
-                _exp[l] = new Vector2((float) Math.Cos(Math.PI / ll), (float) Math.Sin(Math.PI / ll));
-            }
-        }
-
-        /// <summary>
-        /// Массив новых индексов для бабочки
-        /// </summary>
-        /// <param name="t"></param>
-        /// <param name="n"></param>
-        /// <returns></returns>
-        private static int[] ButterflyIndices(int t, int n)
-        {
-            var butterflyIndices = new int[n];
-            for (var ii = 0; ii < n; ii++)
-            {
-                var k = 1;
-                var k1 = k << (t - 1);
-                var b1 = 0;
-                for (var i = 1; i <= t / 2 + 1; i++)
-                {
-                    if ((ii & k) != 0) b1 = b1 | k1;
-                    if ((ii & k1) != 0) b1 = b1 | k;
-                    k = k << 1;
-                    k1 = k1 >> 1;
-                }
-                butterflyIndices[ii] = b1;
-            }
-            return butterflyIndices;
-        }
-
-        /// <summary>
-        /// WTF (какая-то магия)
-        /// </summary>
-        /// <param name="n">Размер массива</param>
-        /// <param name="m">Нечетный делитель размера массива</param>
-        /// <param name="l">l = n / m; l = 2^t</param>
-        /// <returns></returns>
-        private static Vector2[,] P_Exp2(int n, int m, int l)
-        {
-            var k = (float) (2 * Math.PI / n);
-            var array_exp2 = new Vector2[n, m];
-            for (var s = 0; s < m; s++)
-            {
-                for (var r = 0; r < l; r++)
-                {
-                    for (var im = 0; im < m; im++)
-                    {
-                        double k1 = k * im * (r + s * l);
-                        array_exp2[r + s * l, im] = new Vector2((float) Math.Cos(k1), (float) Math.Sin(k1));
-                    }
-                }
-            }
-            return array_exp2;
         }
         #endregion
 

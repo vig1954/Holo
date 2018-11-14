@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -53,7 +54,7 @@ namespace Processing.Computing
             var properties = new ComputeContextPropertyList(platform);
             ComputeContext = new ComputeContext(ComputeDeviceTypes.Gpu, properties, null, IntPtr.Zero);
         }
-
+        
         public void SetupUsingOpenGLContext()
         {
             if (ComputeContext != null)
@@ -71,9 +72,8 @@ namespace Processing.Computing
                 ComputePlatform.Platforms[0];
 
             var p3 = new ComputeContextProperty(ComputeContextPropertyName.Platform, computePlatform.Handle.Value);
-            var props = new List<ComputeContextProperty> { p1, p2, p3 };
-            var properties = new ComputeContextPropertyList(props);
-            ComputeContext = new ComputeContext(ComputeDeviceTypes.Gpu, properties, null, IntPtr.Zero);
+            var propertyList = new ComputeContextPropertyList(new [] { p1, p2, p3 });
+            ComputeContext = new ComputeContext(ComputeDeviceTypes.Gpu, propertyList, null, IntPtr.Zero);
 
             BuildProgram();
 

@@ -17,6 +17,7 @@ namespace UserInterface.DataEditors.InterfaceBinding
     public interface IBindingManager<TTarget> where TTarget: class
     {
         void SetPropertyValue<TPropertyType>(Expression<Func<TTarget, TPropertyType>> propertyAccess, TPropertyType value);
+        void SetPropertyValue<TPropertyType>(string propertyName, TPropertyType value);
         void SetAvailableValuesForProperty<TPropertyType>(Expression<Func<TTarget, TPropertyType>> propertyAccess, IEnumerable<TPropertyType> availableValues);
     }
 

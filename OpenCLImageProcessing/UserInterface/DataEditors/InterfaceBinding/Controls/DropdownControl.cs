@@ -63,7 +63,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
             if (e.Sender == this)
                 return;
 
-            SetValue((bool) _binding.GetValue());
+            SetValue(_binding.GetValue());
         }
 
         protected override void OnSelectedIndexChanged(EventArgs e)

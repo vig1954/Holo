@@ -43,7 +43,7 @@ namespace Camera
                     return AvailableAvModes.First();
                 }
             }
-            set => _sdkHandler.SetSetting(EDSDK.PropID_Av, value.Value);
+            set => SetSdkSettingIfNotNull(EDSDK.PropID_Av, value);
         }
 
         public CameraUIntSetting TvMode
@@ -60,7 +60,7 @@ namespace Camera
                     return AvailableTvModes.First();
                 }
             }
-            set => _sdkHandler.SetSetting(EDSDK.PropID_Tv, value.Value);
+            set => SetSdkSettingIfNotNull(EDSDK.PropID_Tv, value);
         }
 
         public CameraUIntSetting ISOMode
@@ -77,7 +77,7 @@ namespace Camera
                     return AvailableISOModes.First();
                 }
             }
-            set => _sdkHandler.SetSetting(EDSDK.PropID_ISOSpeed, value.Value);
+            set => SetSdkSettingIfNotNull(EDSDK.PropID_ISOSpeed, value);
         }
 
         public CameraConnector()
@@ -172,8 +172,9 @@ namespace Camera
             AvailableAvModes.Clear();
             AvailableISOModes.Clear();
             AvailableTvModes.Clear();
-            RefreshAvailableCameras();
+
             _sessionOpened = false;
+            //RefreshAvailableCameras();
         }
 
         private void RefreshAvailableCameras()
@@ -226,6 +227,12 @@ namespace Camera
                     }
                 }
             }
+        }
+
+        private void SetSdkSettingIfNotNull(uint settingId, CameraUIntSetting value)
+        {
+            if (value != null)
+                _sdkHandler.SetSetting(settingId, value.Value);
         }
 
         public void Dispose()

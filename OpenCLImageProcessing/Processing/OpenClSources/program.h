@@ -140,11 +140,12 @@ float2 complexFromPolarCoordinates(float magnitude, float phase)
     return (float2)(magnitude * cos(phase), magnitude * sin(phase));
 }
 
-__kernel void psi4Kernel(__read_only image2d_t img0, __read_only image2d_t img1, __read_only image2d_t img2, __read_only image2d_t img3, float4 k_sin, float4 k_cos, float znmt_abs, float amplitude, __write_only image2d_t output)
+__kernel void psi4Kernel(__read_only image2d_t img0, __read_only image2d_t img1, __read_only image2d_t img2, __read_only image2d_t img3, float4 k_sin, float4 k_cos, float den_abs, float amplitude, __write_only image2d_t output)
 {
     const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates
          CLK_ADDRESS_CLAMP | //Clamp to zeros
          CLK_FILTER_NEAREST; //Don't interpolate
+
     int2 coord = (int2)(get_global_id(0), get_global_id(1));
     float4 val0 = read_imagef(img0, smp, coord);
     float4 val1 = read_imagef(img1, smp, coord);
@@ -152,12 +153,31 @@ __kernel void psi4Kernel(__read_only image2d_t img0, __read_only image2d_t img1,
     float4 val3 = read_imagef(img3, smp, coord);
     float4 i_sdv = (float4)(val0.x, val1.x, val2.x, val3.x);
 
-    float fz1 = vectorMul(i_sdv, k_sin);
-    float fz2 = vectorMul(i_sdv, k_cos);
-    float a = atan2(fz2, fz1);
+    float p1 = vectorMul(i_sdv, k_sin);
+    float p2 = vectorMul(i_sdv, k_cos);
+    float a = atan2(p2, p1);
 
-    float am = sqrt(fz1*fz1 + fz2*fz2) / znmt_abs;
-    //am = am / (2 * amplitude);
+    float am = sqrt(p1*p1 + p2*p2) / den_abs;
+
+    float2 result = complexFromPolarCoordinates(am, a);
+    write_imagef(output, coord, (float4)(result.x, result.y, 0, 0));
+}
+
+__kernel void pseudoPsi4Kernel(__read_only image2d_t img0, float4 k_sin, float4 k_cos, float den_abs, float amplitude, __write_only image2d_t output)
+{
+    const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates
+         CLK_ADDRESS_CLAMP | //Clamp to zeros
+         CLK_FILTER_NEAREST; //Don't interpolate
+
+    int2 coord = (int2)(get_global_id(0), get_global_id(1));
+    float val0 = read_imagef(img0, smp, coord).x;
+    float4 i_sdv = (float4)(val0, val0, val0, val0);
+
+    float p1 = vectorMul(i_sdv, k_sin);
+    float p2 = vectorMul(i_sdv, k_cos);
+    float a = atan2(p2, p1);
+
+    float am = sqrt(p1*p1 + p2*p2) / den_abs;
 
     float2 result = complexFromPolarCoordinates(am, a);
     write_imagef(output, coord, (float4)(result.x, result.y, 0, 0));
@@ -307,7 +327,7 @@ __kernel void cyclicShift_img(__read_only image2d_t input, __write_only image2d_
 // d - расстояние до объекта, в мм
 // nx - размер изображения в пикселях
 // dx - размер изображения в мм
-__kernel void freshnelGenerateInnerMultipliers(__global float2 *dst, float lambda, float d, float nx, float dx)
+__kernel void freshnelGenerateMultipliers(__global float2 *dst, float lambda, float d, float nx, float dx)
 {
 	int x = get_global_id(0);
 
@@ -345,12 +365,11 @@ __kernel void sphericWavefront(__write_only image2d_t output, float lambda, floa
 // умножение изображения на внутренний множитель (внутри преобразования Фурье) - см. Глава 4
 // fx - массив частей коэффициента (экспоненты) меняющихся по оси х (freshnelGenerateInnerMultipliers)
 // fy - массив частей коэффициента меняющихся по оси y
-__kernel void freshnelMultiplyInner(__read_only image2d_t input, __write_only image2d_t output, __global const float2 * fx, __global const float2 * fy)
+__kernel void freshnelMultiply(__read_only image2d_t input, __write_only image2d_t output, __global const float2 * fx, __global const float2 * fy)
 {
 	int x = get_global_id(0);
 	int y = get_global_id(1);
-
-	// TODO: убрать в define
+	
 	const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates
          CLK_ADDRESS_CLAMP | //Clamp to zeros
          CLK_FILTER_NEAREST; //Don't interpolate
@@ -360,7 +379,7 @@ __kernel void freshnelMultiplyInner(__read_only image2d_t input, __write_only im
 	float2 fxv = fx[x];
 	float2 fyv = fy[y];
 	float2 fxyv = mul(fxv, fyv);
-	//val = val * fx[x] * fy[y];
+
 	val = mul(val, fxyv);
 	write_imagef(output, coord, (float4)(val.x, val.y, 0, 0));
 }
@@ -519,7 +538,7 @@ __kernel void interference(__read_only image2d_t img1, __read_only image2d_t img
 	float p1 = phase(val1);
 	float p2 = phase(val2);
 
-	float i = a1*a1+a2*a2+2*a1*a2*cos(p1-p2);
+	float i =/* a1*a1+a2*a2+2*a1*a2**/cos(p1-p2);
 
 	write_imagef(output, coord, (float4)(i, 0, 0, 0));
 }

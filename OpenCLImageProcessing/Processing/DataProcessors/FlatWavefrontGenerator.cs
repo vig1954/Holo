@@ -10,7 +10,7 @@
 //
 //namespace Processing.DataProcessors
 //{
-//    [DataProcessor(Group = "Generators", Name = "Flat Wavefront")]
+////    [DataProcessor(Group = "Generators", Name = "Flat Wavefront")]
 //    public class FlatWavefrontGenerator : SingleImageOutputDataProcessorBase
 //    {
 //        private const string KernelName = "flatWavefront";

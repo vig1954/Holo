@@ -47,7 +47,7 @@
             // InfoLabel
             // 
             this.InfoLabel.AutoSize = true;
-            this.InfoLabel.Location = new System.Drawing.Point(73, 16);
+            this.InfoLabel.Location = new System.Drawing.Point(41, 16);
             this.InfoLabel.Name = "InfoLabel";
             this.InfoLabel.Size = new System.Drawing.Size(59, 39);
             this.InfoLabel.TabIndex = 2;
@@ -57,7 +57,7 @@
             // 
             this.IconPictureBox.Location = new System.Drawing.Point(3, 16);
             this.IconPictureBox.Name = "IconPictureBox";
-            this.IconPictureBox.Size = new System.Drawing.Size(64, 64);
+            this.IconPictureBox.Size = new System.Drawing.Size(32, 32);
             this.IconPictureBox.TabIndex = 0;
             this.IconPictureBox.TabStop = false;
             this.IconPictureBox.Click += new System.EventHandler(this.IconPictureBox_Click);
@@ -71,7 +71,7 @@
             this.Controls.Add(this.TitleLabel);
             this.Controls.Add(this.IconPictureBox);
             this.Name = "WorkspacePanelItem";
-            this.Size = new System.Drawing.Size(508, 85);
+            this.Size = new System.Drawing.Size(508, 54);
             ((System.ComponentModel.ISupportInitialize)(this.IconPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

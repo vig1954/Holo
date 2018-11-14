@@ -227,7 +227,7 @@ namespace UserInterface.DataEditors.Tools
         public override void PopulateToolstrip(ToolStrip toolStrip)
         {
             _selectionDropdown = new ToolStripComboBox("Selection");
-            _selectionDropdown.Items.AddRange(new[] {_newSelection}.Concat(AvailableSelections).Select(s => (object) s).ToArray());
+            _selectionDropdown.Items.AddRange(new[] { _newSelection }.Concat(AvailableSelections).Select(s => (object) s).ToArray());
             _selectionDropdown.DropDownStyle = ComboBoxStyle.DropDownList;
             _selectionDropdown.SelectedItem = _currentSelection;
             _selectionDropdown.SelectedIndexChanged += (sender, args) =>

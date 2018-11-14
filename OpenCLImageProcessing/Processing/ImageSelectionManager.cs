@@ -12,12 +12,17 @@ namespace Processing
         // TODO: может дикшенари и не нужен тут
         private Dictionary<IImageHandler, ImageSelection> _imageSelections = new Dictionary<IImageHandler, ImageSelection>();
 
+        public event Action<ImageSelection> OnSelectionAdded;
+
         public void SetSelection(IImageHandler imageHandler, ImageSelection selection)
         {
             if (_imageSelections.ContainsKey(imageHandler))
                 _imageSelections[imageHandler] = selection;
             else
+            {
                 _imageSelections.Add(imageHandler, selection);
+                OnSelectionAdded?.Invoke(selection);
+            }
         }
 
         public bool TryGetSelection(IImageHandler imageHandler, out ImageSelection selection)
