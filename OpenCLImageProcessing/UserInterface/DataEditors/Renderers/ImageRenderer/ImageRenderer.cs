@@ -121,6 +121,8 @@ namespace UserInterface.DataEditors.Renderers.ImageRenderer
             if (!_imageHandler.IsReady())
                 return;
 
+            DebugLogger.Log($"{nameof(ImageRenderer)}.{nameof(Update)}");
+
             GL.ClearColor(Color.AntiqueWhite);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 

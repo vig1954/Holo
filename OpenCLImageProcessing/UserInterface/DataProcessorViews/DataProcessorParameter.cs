@@ -11,7 +11,7 @@ using UserInterface.DataEditors.InterfaceBinding.Attributes;
 
 namespace UserInterface.DataProcessorViews
 {
-    public abstract class DataProcessorParameterBase : IValueBinding
+    public abstract class DataProcessorParameterBase : ISynchronizableBinding, IDisposable
     {
         protected ParameterInfo _parameterInfo;
         protected object Value;
@@ -23,12 +23,18 @@ namespace UserInterface.DataProcessorViews
         public string Name { get; } = "";
         public bool IsOutput { get; }
         public bool HasValue => Value != null;
+        public string SynchronizationKey { get; }
+        public IBindingSynchronizer Synchronizer { get; private set; }
+
 
         public event Action<ValueUpdatedEventArgs> ValueUpdated;
 
         protected DataProcessorParameterBase(Type type)
         {
             ValueType = type;
+
+            SynchronizationKey = null;
+            Synchronizer = null;
         }
 
         protected DataProcessorParameterBase(ParameterInfo parameterInfo)
@@ -50,6 +56,12 @@ namespace UserInterface.DataProcessorViews
             var defaultValueAttribute = parameterInfo.GetCustomAttribute<DefaultValueAttribute>();
             if (defaultValueAttribute != null)
                 Value = defaultValueAttribute.Value;
+            
+            if (!ValueType.IsPrimitive)
+                return;
+
+            SynchronizationKey = $"{_parameterInfo.Member.DeclaringType.Name}_{parameterInfo.Member.Name}_{parameterInfo.Name}";
+            Synchronizer = new ValueBindingSynchronizer(this);
         }
 
         public object GetValue()
@@ -90,6 +102,11 @@ namespace UserInterface.DataProcessorViews
         public bool HasAttribute<TAttribute>() where TAttribute : Attribute
         {
             return _parameterInfo?.GetCustomAttribute<TAttribute>() != null;
+        }
+        public void Dispose()
+        {
+            Synchronizer?.Dispose();
+            Synchronizer = null;
         }
     }
 

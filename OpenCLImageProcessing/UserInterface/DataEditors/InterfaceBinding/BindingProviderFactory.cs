@@ -95,6 +95,12 @@ namespace UserInterface.DataEditors.InterfaceBinding
             public void Dispose()
             {
                 // dispose bindings???
+
+                foreach (var binding in _memberBindings.Values.OfType<IDisposable>())
+                {
+                    binding.Dispose();
+                }
+
                 _memberBindings = null;
             }
 

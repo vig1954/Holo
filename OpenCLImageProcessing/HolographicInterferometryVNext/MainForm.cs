@@ -8,10 +8,13 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using Camera;
+using Common;
 using Infrastructure;
 using Processing;
 using Processing.Computing;
 using Processing.DataProcessors;
+using UserInterface.DataEditors.InterfaceBinding;
+using UserInterface.DataEditors.Renderers;
 using UserInterface.DataProcessorViews;
 using UserInterface.Utility;
 using UserInterface.WorkspacePanel;
@@ -95,7 +98,15 @@ namespace HolographicInterferometryVNext
                 }
             });
 
+            var lastSessionValuesJson = Properties.Settings.Default.SessionValues;
+
+            if (!lastSessionValuesJson.IsNullOrEmpty())
+                Singleton.Get<SessionValues>().FromJson(lastSessionValuesJson);
+
             timer1.Start();
+
+            ValueBindingSynchronizer.ValueUpdateStarted += () => RendererUpdateManager.Locked = true;
+            ValueBindingSynchronizer.ValueUpdateFinished += () => RendererUpdateManager.Locked = false;
         }
 
         private void FillMenus()
@@ -248,6 +259,9 @@ namespace HolographicInterferometryVNext
             {
                 handler.FreeComputingDevice();
             }
+
+            Properties.Settings.Default.SessionValues = Singleton.Get<SessionValues>().ToJson();
+            Properties.Settings.Default.Save();
         }
 
         private void timer1_Tick(object sender, EventArgs e)

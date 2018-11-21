@@ -13,7 +13,26 @@ namespace Common
         public static T UnboxAndCastTo<T>(this object self)
         {
             // TODO: cache
-            return BuildUnboxAndCastFunc<T>(self.GetType())(self);
+            var unboxAndCastFunc = BuildUnboxAndCastFunc<T>(self.GetType());
+            return unboxAndCastFunc(self);
+        }
+
+        public static object UnboxAndCastTo(this object self, Type castTo)
+        {
+            if (self is double doubleValue && castTo == typeof(float))
+                return (float) doubleValue;
+
+            if (self.GetType() == castTo)
+                return self;
+
+            // Не работает :)
+//            var type = typeof(ObjectExtensions);
+//            var method = type.GetMethod(nameof(BuildUnboxAndCastFunc), BindingFlags.NonPublic | BindingFlags.Static);
+//            var buildUnboxAndCastFuncMethodInfo = method.MakeGenericMethod(castTo);
+//            var unboxAndCastMethodFunc =  (Delegate)buildUnboxAndCastFuncMethodInfo.Invoke(null, new[] { castTo });
+//
+//            return unboxAndCastMethodFunc.DynamicInvoke(self);
+            throw new NotImplementedException();
         }
 
         private static Func<object, T> BuildUnboxAndCastFunc<T>(Type objectType)

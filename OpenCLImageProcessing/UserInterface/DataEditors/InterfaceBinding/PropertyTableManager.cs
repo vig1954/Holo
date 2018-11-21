@@ -13,6 +13,9 @@ namespace UserInterface.DataEditors.InterfaceBinding
 {
     public class PropertyTableManager
     {
+        private const int _iconWidth = 24;
+        private Bitmap _synchronizeIcon => Properties.Resources.chain;
+        private Bitmap _unsynchronizeIcon => Properties.Resources.chain_unchain;
         private IBindingProvider _bindingProvider;
         private TableLayoutPanel _table;
         private TreeNode _rootNode;
@@ -32,11 +35,12 @@ namespace UserInterface.DataEditors.InterfaceBinding
 
             _table = new TableLayoutPanel
             {
-                ColumnCount = 2,
+                ColumnCount = 3,
                 CellBorderStyle = TableLayoutPanelCellBorderStyle.None
             };
 
-            _table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 0));
+            _table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute));
+            _table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute));
             _table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute));
             //_table.AutoScroll = true;
 
@@ -60,7 +64,7 @@ namespace UserInterface.DataEditors.InterfaceBinding
 
         private void TableOnResize(object sender, EventArgs e)
         {
-            _table.ColumnStyles[1].Width = _table.Width - _table.ColumnStyles[0].Width;
+            _table.ColumnStyles[2].Width = _table.Width - _table.ColumnStyles[1].Width - _iconWidth;
         }
 
         private void RenderTable()
@@ -82,8 +86,9 @@ namespace UserInterface.DataEditors.InterfaceBinding
             }, 0, row);
 
             var preferredLabelWidth = _rootNode.GetPreferredLabelWidth();
-            _table.ColumnStyles[0].Width = preferredLabelWidth;
-            _table.ColumnStyles[1].Width = _table.Width - _table.ColumnStyles[0].Width;
+            _table.ColumnStyles[0].Width = _iconWidth;
+            _table.ColumnStyles[1].Width = preferredLabelWidth;
+            _table.ColumnStyles[2].Width = _table.Width - _table.ColumnStyles[1].Width - _iconWidth;
         }
 
         private void RenderNodes(IReadOnlyCollection<TreeNode> nodes, ref int row)
@@ -95,7 +100,7 @@ namespace UserInterface.DataEditors.InterfaceBinding
                 {
                     _table.Controls.Add(node.Label, 0, row);
                     node.Label.Dock = DockStyle.Fill;
-                    _table.SetColumnSpan(node.Label, 2);
+                    _table.SetColumnSpan(node.Label, 3);
                 }
                 else
                     InsertBindableControl(node.BindableControl, node.Label, row);
@@ -127,15 +132,33 @@ namespace UserInterface.DataEditors.InterfaceBinding
 
             var hideLabel = bindableControl.HideLabel;
 
-            _table.Controls.Add(control, hideLabel ? 0 : 1, row);
+            _table.Controls.Add(control, hideLabel ? 0 : 2, row);
 
             if (!hideLabel)
             {
-                _table.Controls.Add(label, 0, row);
+                _table.Controls.Add(label, 1, row);
                 label.Dock = DockStyle.Fill;
             }
             else
-                _table.SetColumnSpan(control, 2);
+                _table.SetColumnSpan(control, 3);
+
+            if (!hideLabel && bindableControl.Binding is ISynchronizableBinding synchronizableBinding && synchronizableBinding.ValueType.IsPrimitive && synchronizableBinding.Synchronizer != null)
+            {
+                var synchronizeIcon = new PictureBox
+                {
+                    Width = _iconWidth,
+                    Height = _iconWidth,
+                    Image = synchronizableBinding.Synchronizer.Enabled ? _synchronizeIcon : _unsynchronizeIcon 
+                };
+
+                synchronizeIcon.Click += (s, e) =>
+                {
+                    synchronizableBinding.Synchronizer.Enabled = !synchronizableBinding.Synchronizer.Enabled;
+                    synchronizeIcon.Image = synchronizableBinding.Synchronizer.Enabled ? _synchronizeIcon : _unsynchronizeIcon;
+                };
+
+                _table.Controls.Add(synchronizeIcon, 0, row);
+            }
 
             control.Dock = DockStyle.Fill;
         }
@@ -260,6 +283,8 @@ namespace UserInterface.DataEditors.InterfaceBinding
             return bindings.Select(bindableControlFactory.Get).ToArray();
         }
 
+        
+
         private class TreeNode
         {
             private const string CollapsedMarker = "▶"; // U+25B6
@@ -313,7 +338,7 @@ namespace UserInterface.DataEditors.InterfaceBinding
 
             public int GetPreferredLabelWidth()
             {
-                var maxLabelWidth = IsGroupTitle ? 0 : Label.PreferredWidth + Label.Margin.Left + Label.Margin.Right + 3;
+                var maxLabelWidth = IsGroupTitle || BindableControl.HideLabel ? 0 : Label.PreferredWidth + Label.Margin.Left + Label.Margin.Right + 3;
 
                 if (Expanded)
                 {
@@ -324,6 +349,14 @@ namespace UserInterface.DataEditors.InterfaceBinding
                 }
 
                 return maxLabelWidth;
+
+                int GetLabelPreferredWidth(System.Windows.Forms.Label lbl)
+                {
+                    var font = lbl.Font;
+                    var text = lbl.Text;
+                    var g = lbl.CreateGraphics();
+                    return (int)g.MeasureString(text, font).Width;
+                }
             }
 
             public void ExpandAll()

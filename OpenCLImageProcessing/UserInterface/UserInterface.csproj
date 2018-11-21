@@ -138,6 +138,7 @@
     <Compile Include="DataEditors\InterfaceBinding\ObservableCollectionBinding.cs" />
     <Compile Include="DataEditors\InterfaceBinding\PropertyBinding.cs" />
     <Compile Include="DataEditors\InterfaceBinding\PropertyTableManager.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\ValueBindingSynchronizer.cs" />
     <Compile Include="DataEditors\Renderers\DataRendererForAttribute.cs" />
     <Compile Include="DataEditors\Renderers\Graphics\ImagePlane.cs" />
     <Compile Include="DataEditors\Renderers\Graphics\IDrawable.cs" />
@@ -150,6 +151,7 @@
     <Compile Include="DataEditors\Renderers\ImageRenderer\DefaultViewMode.cs" />
     <Compile Include="DataEditors\Renderers\DataProcessorRenderer\DataProcessorRenderer.cs" />
     <Compile Include="DataEditors\Renderers\ImageRenderer\ImageRenderer.cs" />
+    <Compile Include="DataEditors\Renderers\RendererUpdateManager.cs" />
     <Compile Include="DataEditors\Renderers\Shaders\CustomizableShader.cs" />
     <Compile Include="DataEditors\Renderers\Shaders\AmplitudePhaseImageShader.cs" />
     <Compile Include="DataEditors\Renderers\Shaders\RealImaginativeImageShader.cs" />
@@ -306,6 +308,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\lock_unlock_9536.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chain.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chain-unchain.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

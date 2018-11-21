@@ -14,6 +14,7 @@ using Processing.Computing;
 using Processing.DataAttributes;
 using Processing.DataProcessors;
 using UserInterface.DataEditors.InterfaceBinding;
+using Timer = Common.Timer;
 
 namespace UserInterface.DataProcessorViews
 {
@@ -79,39 +80,43 @@ namespace UserInterface.DataProcessorViews
             if (!AreAllParametersSet())
                 return;
 
-            _outputImageParametersUpdated = false;
-
-            var imageHandlerParameters = Parameters.OfType<DataProcessorParameter<IImageHandler>>();
-            var imageHandlerInput = imageHandlerParameters.FirstOrDefault();
-            
-            if (imageHandlerInput != null)
+            using (new Timer($"{Info.Name}.{nameof(Compute)}"))
             {
 
-                var outputImageFilterAttribute = OutputParameter.GetAttribute<ImageHandlerFilterAttribute>();
-                CreateOrUpdateOutputWithSameParametres(imageHandlerInput.GetValue(), Info.Name + " result", outputImageFilterAttribute?.GetAllowedPixelFormats().FirstOrDefault(), outputImageFilterAttribute?.GetAllowedImageFormats().FirstOrDefault());
-            }
-            else
-            {
-                var outputImageWidth = (int)(Parameters.FirstOrDefault(p => p.HasAttribute<OutputImageWidthAttribute>())?.GetValue() ?? throw new InvalidOperationException());
-                var outputImageHeight = (int)(Parameters.FirstOrDefault(p => p.HasAttribute<OutputImageHeightAttribute>())?.GetValue() ?? throw new InvalidOperationException());
-                var outputImageFormatAttribute = OutputParameter.GetAttribute<ImageHandlerFilterAttribute>() ?? throw new InvalidOperationException();
-                var imageFormat = outputImageFormatAttribute.GetAllowedImageFormats().First();
-                var imagePixelFormat = outputImageFormatAttribute.GetAllowedPixelFormats().First();
+                _outputImageParametersUpdated = false;
 
-                var outputValue = OutputParameter.GetValue();
-                if (outputValue == null || outputValue.Width != outputImageWidth || outputValue.Height != outputImageHeight || outputValue.PixelFormat != imagePixelFormat || outputValue.Format != imageFormat)
+                var imageHandlerParameters = Parameters.OfType<DataProcessorParameter<IImageHandler>>();
+                var imageHandlerInput = imageHandlerParameters.FirstOrDefault();
+
+                if (imageHandlerInput != null)
                 {
-                    var output = ImageHandler.Create(Info.Name + "result", outputImageWidth, outputImageHeight, imageFormat, imagePixelFormat);
-                    OutputParameter.SetValue(output, this);
-                    _outputImageParametersUpdated = true;
+
+                    var outputImageFilterAttribute = OutputParameter.GetAttribute<ImageHandlerFilterAttribute>();
+                    CreateOrUpdateOutputWithSameParametres(imageHandlerInput.GetValue(), Info.Name + " result", outputImageFilterAttribute?.GetAllowedPixelFormats().FirstOrDefault(), outputImageFilterAttribute?.GetAllowedImageFormats().FirstOrDefault());
                 }
-            }
+                else
+                {
+                    var outputImageWidth = (int) (Parameters.FirstOrDefault(p => p.HasAttribute<OutputImageWidthAttribute>())?.GetValue() ?? throw new InvalidOperationException());
+                    var outputImageHeight = (int) (Parameters.FirstOrDefault(p => p.HasAttribute<OutputImageHeightAttribute>())?.GetValue() ?? throw new InvalidOperationException());
+                    var outputImageFormatAttribute = OutputParameter.GetAttribute<ImageHandlerFilterAttribute>() ?? throw new InvalidOperationException();
+                    var imageFormat = outputImageFormatAttribute.GetAllowedImageFormats().First();
+                    var imagePixelFormat = outputImageFormatAttribute.GetAllowedPixelFormats().First();
 
-            // Output может быть единственным ImageHangler-ом. Нужно добавить механизм для указания параметров, представляющих размеры изображения
+                    var outputValue = OutputParameter.GetValue();
+                    if (outputValue == null || outputValue.Width != outputImageWidth || outputValue.Height != outputImageHeight || outputValue.PixelFormat != imagePixelFormat || outputValue.Format != imageFormat)
+                    {
+                        var output = ImageHandler.Create(Info.Name + "result", outputImageWidth, outputImageHeight, imageFormat, imagePixelFormat);
+                        OutputParameter.SetValue(output, this);
+                        _outputImageParametersUpdated = true;
+                    }
+                }
 
-            using (StartOperationScope(_outputImageParametersUpdated, imageHandlerParameters.Select(p => p.GetValue()).Concat(new[] { OutputParameter.GetValue() }).ToArray()))
-            {
-                Invoke();
+                // Output может быть единственным ImageHangler-ом. Нужно добавить механизм для указания параметров, представляющих размеры изображения
+
+                using (StartOperationScope(_outputImageParametersUpdated, imageHandlerParameters.Select(p => p.GetValue()).Concat(new[] { OutputParameter.GetValue() }).ToArray()))
+                {
+                    Invoke();
+                }
             }
         }
 

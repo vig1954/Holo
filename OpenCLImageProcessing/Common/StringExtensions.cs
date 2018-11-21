@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 namespace Common
 {
@@ -43,6 +44,16 @@ namespace Common
         public static string FirstLetterToUpperCase(this string self)
         {
             return self.Substring(0, 1).ToUpper() + self.Substring(1);
+        }
+
+        public static string ToJson(this object self)
+        {
+            return JsonConvert.SerializeObject(self);
+        }
+
+        public static T FromJson<T>(this string self)
+        {
+            return JsonConvert.DeserializeObject<T>(self);
         }
     }
 }
