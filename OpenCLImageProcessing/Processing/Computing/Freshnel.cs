@@ -70,7 +70,7 @@ namespace Processing.Computing
         /// <param name="objectSize">Размер объекта, мм</param>
         /// <param name="cyclicShift"></param>
         [DataProcessor("Преобразование Френеля", ProcessorGroups.Transforms)]
-        public static void Transform(IImageHandler input, float wavelength = 532, float distance = 135, float objectSize = 6.35f, bool cyclicShift = false, [ImageHandlerFilter(AllowedImageFormat.RealImaginative, AllowedImagePixelFormat.Float)] IImageHandler output = null)
+        public static void Transform(IImageHandler input, float wavelength = 532, [Precision(2)] float distance = 135, [Precision(2)] float objectSize = 6.35f, bool cyclicShift = false, [ImageHandlerFilter(AllowedImageFormat.RealImaginative, AllowedImagePixelFormat.Float)] IImageHandler output = null)
         {
             var key = $"{input.Width}_{input.Height}";
 

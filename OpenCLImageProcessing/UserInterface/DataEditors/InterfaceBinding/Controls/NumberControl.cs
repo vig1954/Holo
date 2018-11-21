@@ -106,17 +106,31 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            SetValueInternal(_value + _addDelta);
+            SetValueInternal(_value + _addDelta * GetModifierKeyMultiplier());
         }
 
         private void btnSub_Click(object sender, EventArgs e)
         {
-            SetValueInternal(_value - _addDelta);
+            SetValueInternal(_value - _addDelta * GetModifierKeyMultiplier());
         }
 
         private void SetInputInvalidState(bool invalid)
         {
             txtValue.BackColor = invalid ? Color.DarkOrange : Color.White;
+        }
+
+        private float GetModifierKeyMultiplier()
+        {
+            var multiplier = 1.0f;
+
+            if (ModifierKeys.HasFlag(Keys.Control))
+                multiplier = 10;
+            if (ModifierKeys.HasFlag(Keys.Shift))
+                multiplier = 100f;
+            if (ModifierKeys.HasFlag(Keys.Alt))
+                multiplier = 1000f;
+
+            return multiplier;
         }
 
         private void SetTextValue(string value)
