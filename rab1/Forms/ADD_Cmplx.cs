@@ -52,6 +52,8 @@ namespace rab1.Forms
         public event ADD_Complex On_Pirs;
         public event ADD_Complex On_Ampl;
 
+        public event Send_Complex On_Send_double;
+
         private static int k1 = 2;
         private static int k2 = 3;
         private static int k3 = 3;
@@ -66,6 +68,9 @@ namespace rab1.Forms
 
         private static int k11 = 1;
         private static int k12 = 2;
+
+        private static int k13 = 1;   // Перенос по 4 вешественных файла
+        private static int k14 = 3;
 
 
         public ADD_Cmplx()
@@ -84,6 +89,9 @@ namespace rab1.Forms
 
             textBox11.Text = Convert.ToString(k11);
             textBox12.Text = Convert.ToString(k12);
+
+            textBox11.Text = Convert.ToString(k13);  // Перенос по 4 вещественных картинки
+            textBox12.Text = Convert.ToString(k14);
         }
 
 
@@ -276,6 +284,16 @@ namespace rab1.Forms
             k12 = Convert.ToInt32(textBox12.Text); 
 
             On_Ampl(k11, k12);     // Амплитуда суммы двух волновых полей
+            Close();
+        }
+
+        // Перенос по 4 кадра
+        private void button21_Click(object sender, EventArgs e)
+        {
+            k13 = Convert.ToInt32(textBox13.Text);
+            k14 = Convert.ToInt32(textBox14.Text);
+
+            On_Send_double(k13, k14);     // Переслать 4 вещественных файла
             Close();
         }
 
