@@ -271,7 +271,10 @@ namespace rab1
                 for (int i = 0; i < nx; i++)
                     for (int j = 0; j < ny; j++)
                         Form1.zArrayDescriptor[k2+k].array[i, j] = Form1.zArrayDescriptor[k1+k].array[i, j];
-            }           
+            }
+
+        
+
         }
 
         public static void Sub_C(int k3, int k4, int k5)             // Вычесть два комплексных массива

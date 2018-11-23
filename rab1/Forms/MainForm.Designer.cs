@@ -671,8 +671,9 @@
             this.сделатьСнимокToolStripMenuItem,
             this.Cadr8ToolStripMenuItem});
             this.canon500DToolStripMenuItem.Name = "canon500DToolStripMenuItem";
-            this.canon500DToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.canon500DToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.canon500DToolStripMenuItem.Text = "Canon 500D";
+            this.canon500DToolStripMenuItem.Click += new System.EventHandler(this.canon500DToolStripMenuItem_Click);
             // 
             // сделатьСнимокToolStripMenuItem
             // 
@@ -839,6 +840,7 @@
             this.фазаToolStripMenuItem.Name = "фазаToolStripMenuItem";
             this.фазаToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.фазаToolStripMenuItem.Text = "Фаза";
+            this.фазаToolStripMenuItem.Click += new System.EventHandler(this.фазаToolStripMenuItem_Click);
             // 
             // моделированиеToolStripMenuItem
             // 

@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 public delegate void ModelSin(double[] fz);
 public delegate void ModelSinG(double[] fz, double gamma, double N_pol);
-public delegate void ModelSinG_kr(double[] fz, double N_urovn, double gamma, double N_pol, int k, int N, double noise);
+public delegate void ModelSinG_kr(double[] fz, double N_urovn, double gamma, double N_pol, int k, int Nx, int Ny, double noise);
 public delegate void ModelSinD(double[] fz, double N_pol, int kvant, int N_urovn);
 public delegate void ModelExp(double g, int N);
 
@@ -35,7 +35,8 @@ namespace rab1.Forms
         private static int    N_kvant = 2;
         private static double    N_urovn = 255;         // Амплитуда
         private static int    kr = 0;                   // Разрядить нулями (0 - не разряжать, 1 - через 1)
-        private static int    N = 1024;                 // Размер массива
+        private static int    Nx = 4096;                 // Размер массива
+        private static int    Ny = 2160;                 // Размер массива
         private static double noise = 0.1;              // Шум от амплитуды
 
         public Model_Sin()
@@ -47,7 +48,8 @@ namespace rab1.Forms
             textBox7.Text = Convert.ToString(N_kvant);
             textBox8.Text = Convert.ToString(N_urovn);
             textBox9.Text = Convert.ToString(kr);
-            textBox10.Text = Convert.ToString(N);
+            textBox10.Text = Convert.ToString(Nx);
+            textBox12.Text = Convert.ToString(Ny);
             textBox11.Text = Convert.ToString(noise);
         }
 
@@ -62,10 +64,11 @@ namespace rab1.Forms
             N_pol = Convert.ToDouble(textBox6.Text);
             N_urovn = Convert.ToDouble(textBox8.Text);   // Амплитуда
             kr = Convert.ToInt32(textBox9.Text);
-            N = Convert.ToInt32(textBox10.Text);
+            Nx = Convert.ToInt32(textBox10.Text);
+            Ny = Convert.ToInt32(textBox12.Text);
             noise = Convert.ToDouble(textBox11.Text);
 
-            OnModelSin(fzrad, N_urovn, gamma, N_pol, kr, N, noise);
+            OnModelSin(fzrad, N_urovn, gamma, N_pol, kr, Nx, Ny, noise);
             Close();
         }
 
@@ -80,18 +83,19 @@ namespace rab1.Forms
             N_pol = Convert.ToDouble(textBox6.Text);
             N_urovn = Convert.ToDouble(textBox8.Text);   // Амплитуда
             kr = Convert.ToInt32(textBox9.Text);
-            N = Convert.ToInt32(textBox10.Text);
+            Nx = Convert.ToInt32(textBox10.Text);
+            Ny = Convert.ToInt32(textBox12.Text);
             noise = Convert.ToDouble(textBox11.Text);
 
-            OnModelSin1(fzrad, N_urovn, gamma, N_pol, kr, N, noise);
+            OnModelSin1(fzrad, N_urovn, gamma, N_pol, kr, Nx, Ny, noise);
             Close();
         }
 
         private void button7_Click(object sender, EventArgs e)     // В текущий комплексный массив exp(-iw)
         {
-            N = Convert.ToInt32(textBox10.Text);
+            Nx = Convert.ToInt32(textBox10.Text);
             gamma = Convert.ToDouble(textBox5.Text);
-            OnModelExp(gamma, N);
+            OnModelExp(gamma, Nx);
             Close();
         }
         private void button4_Click(object sender, EventArgs e)    // Смоделировать 4 черно-белые
