@@ -35,12 +35,12 @@ namespace rab1.Forms
 
         // 4 синусоиды с фазовым сдвигом
 
-        public static ZArrayDescriptor Sinus(double fz, double a, double n_polos,  double gamma, int kr, int N, double noise)
+        public static ZArrayDescriptor Sinus(double fz, double a, double n_polos,  double gamma, int kr, int Nx, int Ny, double noise)
         {
             int kr1=kr+1;
            
-            int NX = N*kr1;
-            int NY = N;
+            int NX = Nx * kr1;
+            int NY = Ny * kr1;
             //MessageBox.Show(" nx " + NX + " a " + a + " noise " + noise);
 
             ZArrayDescriptor cmpl = new ZArrayDescriptor(NX, NY);      // Результирующий фронт
@@ -69,12 +69,12 @@ namespace rab1.Forms
 
             return cmpl;
         }
-        public static ZArrayDescriptor Sinus1(double fz, double a, double n_polos, double gamma, int kr, int N, double noise)
+        public static ZArrayDescriptor Sinus1(double fz, double a, double n_polos, double gamma, int kr, int Nx, int Ny, double noise)
         {
             int kr1 = kr + 1;
 
-            int NX = N * kr1;
-            int NY = N;
+            int NX = Nx * kr1;
+            int NY = Ny * kr1;
             //MessageBox.Show(" nx " + NX + " a " + a + " noise " + noise);
 
             ZArrayDescriptor cmpl = new ZArrayDescriptor(NX, NY);      // Результирующий фронт

@@ -254,6 +254,29 @@ namespace rab1
                     Form1.zComplex[k2].array[i, j] = Form1.zComplex[k1].array[i, j];
         }
 
+        public static void Send_C4(int k1, int k2)   // Пересылка комплексных массивов
+        {
+            k1--;           k2--;                                   // Массив 1 ->  0
+            k1 = k1 * 4;    k2 = k2 * 4;
+
+            for (int k = 0; k < 4; k++)
+            {
+
+                if (Form1.zArrayDescriptor[k1 + k] == null) continue;
+
+                int nx = Form1.zArrayDescriptor[k1+k].width;
+                int ny = Form1.zArrayDescriptor[k1+k].height;
+                Form1.zArrayDescriptor[k2+k] = new ZArrayDescriptor(nx, ny);
+
+                for (int i = 0; i < nx; i++)
+                    for (int j = 0; j < ny; j++)
+                        Form1.zArrayDescriptor[k2+k].array[i, j] = Form1.zArrayDescriptor[k1+k].array[i, j];
+            }
+
+        
+
+        }
+
         public static void Sub_C(int k3, int k4, int k5)             // Вычесть два комплексных массива
         {
             k3--; k4--; k5--;                                  // Массив 1 ->  0

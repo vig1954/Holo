@@ -591,7 +591,7 @@ namespace rab1
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //               Отображение окна от 0 до 11
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        private void Vizual_regImage(int k)
+        public  void Vizual_regImage(int k)
         {
             switch (k)
             {
@@ -604,7 +604,7 @@ namespace rab1
                 case 6: Vizual.Vizual_Picture(zArrayDescriptor[6], pictureBox7); break;
                 case 7: Vizual.Vizual_Picture(zArrayDescriptor[7], pictureBox8); break;
                 case 8: Vizual.Vizual_Picture(zArrayDescriptor[8], pictureBox9); break;
-                case 9: Vizual.Vizual_Picture(zArrayDescriptor[9], pictureBox10); break;
+                case 9: Vizual.Vizual_Picture(zArrayDescriptor[9],   pictureBox10); break;
                 case 10: Vizual.Vizual_Picture(zArrayDescriptor[10], pictureBox11); break;
                 case 11: Vizual.Vizual_Picture(zArrayDescriptor[11], pictureBox12); break;
             }
@@ -1637,7 +1637,7 @@ namespace rab1
             ADDPLUS.On_Pirs += ADD_Math.Pirs_D;          // Линейный коэффициент корреляции r-Пирсона
             ADDPLUS.On_ABS  += ABS_D;           // Абсолютное значение
 
-           
+            ADDPLUS.On_Send_double += Send_C4;      // Переслать 4 файла
 
             ADDPLUS.Show();
         }
@@ -1665,7 +1665,9 @@ namespace rab1
         private void Div_C(int k3, int k4, int k5) { ADD_Math.Div_C(k3, k4, k5);  Complex_pictureBox(k5 - 1); } // Поэлементное деление комплексных чисел
         private void Div_D(int k3, int k4, int k5) { ADD_Math.Div_D(k3, k4, k5); Vizual_regImage(k5 - 1); }     // Поэлементное деление вещественных массивов
 
-
+        private void Send_C4(int k1, int k2) { ADD_Math.Send_C4(k1, k2);                                        //  Пересылка 4 массивов
+            
+        } 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //        Двухмерное преобразование Фурье и Френеля
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2462,20 +2464,20 @@ namespace rab1
             zComplex[regComplex] = Model_Sinus.Exponenta(g,N);
             Complex_pictureBox(regComplex);
         }
-        private void FormModel_Sin(double[] fz, double amp, double gamma, double n_pol, int kr, int N, double noise)       // Модель sin c фазовым сдвигом   kr - разреживание нулями
+        private void FormModel_Sin(double[] fz, double amp, double gamma, double n_pol, int kr, int Nx, int Ny, double noise)       // Модель sin c фазовым сдвигом   kr - разреживание нулями
         {
             for (int i = 0; i < 4; i++)
             {
-                zArrayDescriptor[i] = Model_Sinus.Sinus(fz[i], amp, n_pol, gamma, kr, N, noise);               
+                zArrayDescriptor[i] = Model_Sinus.Sinus(fz[i], amp, n_pol, gamma, kr, Nx, Ny, noise);               
                 Vizual_regImage(i);
             }         
         }
 
-        private void FormModel_Sin1(double[] fz, double amp, double gamma, double n_pol, int kr, int N, double noise)       // Модель sin c фазовым сдвигом
+        private void FormModel_Sin1(double[] fz, double amp, double gamma, double n_pol, int kr, int Nx, int Ny, double noise)       // Модель sin c фазовым сдвигом
         {
             for (int i = 0; i < 4; i++)
             {
-                zArrayDescriptor[i] = Model_Sinus.Sinus1(fz[i], amp, n_pol, gamma, kr, N, noise);
+                zArrayDescriptor[i] = Model_Sinus.Sinus1(fz[i], amp, n_pol, gamma, kr, Nx, Ny, noise);
                 Vizual_regImage(i);
             }
         }
@@ -2566,26 +2568,28 @@ namespace rab1
 
         private void Model_Sin_Fz3(double n1, double n2, double n3, double n12, double n23, double noise)      // 4 sin c фазовым сдвигом => atan
         {
-            int N = 1024;
+            int Nx = 1024;
+            int Ny = 1024;
+
             double[] fz = new double[4];
             fz[0] = Math.PI * 0 / 180.0; fz[1] = Math.PI * 90 / 180.0; fz[2] = Math.PI * 180 / 180.0; fz[3] = Math.PI * 270 / 180.0;  // Фазовый сдвиг в радианах  
                    
-            zArrayDescriptor[8] = Model_Sinus.Sinus1(fz[0], 255, n1, 1, 0, N, noise);   // 4 синусоиды с периодом n1
-            zArrayDescriptor[9] = Model_Sinus.Sinus1(fz[1], 255, n1, 1, 0, N, noise);
-            zArrayDescriptor[10] = Model_Sinus.Sinus1(fz[2], 255, n1, 1, 0, N, noise);
-            zArrayDescriptor[11] = Model_Sinus.Sinus1(fz[3], 255, n1, 1, 0, N, noise);
+            zArrayDescriptor[8] = Model_Sinus.Sinus1(fz[0], 255, n1, 1, 0, Nx,  Ny, noise);   // 4 синусоиды с периодом n1
+            zArrayDescriptor[9] = Model_Sinus.Sinus1(fz[1], 255, n1, 1, 0, Nx, Ny, noise);
+            zArrayDescriptor[10] = Model_Sinus.Sinus1(fz[2], 255, n1, 1, 0, Nx, Ny, noise);
+            zArrayDescriptor[11] = Model_Sinus.Sinus1(fz[3], 255, n1, 1, 0, Nx, Ny, noise);
             zArrayDescriptor[0] = ATAN_PSI.ATAN(zArrayDescriptor, 8, 9, 10, 11, fz);   // ATAN2 с периодом n1  => zArrayDescriptor[0]
 
-            zArrayDescriptor[8] = Model_Sinus.Sinus1(fz[0],  255, n2, 1, 0, N, noise);   // 4 синусоиды с периодом n2
-            zArrayDescriptor[9] = Model_Sinus.Sinus1(fz[1],  255, n2, 1, 0, N, noise);
-            zArrayDescriptor[10] = Model_Sinus.Sinus1(fz[2], 255, n2, 1, 0, N, noise);
-            zArrayDescriptor[11] = Model_Sinus.Sinus1(fz[3], 255, n2, 1, 0, N, noise);
+            zArrayDescriptor[8] = Model_Sinus.Sinus1(fz[0],  255, n2, 1, 0, Nx, Ny, noise);   // 4 синусоиды с периодом n2
+            zArrayDescriptor[9] = Model_Sinus.Sinus1(fz[1],  255, n2, 1, 0, Nx, Ny, noise);
+            zArrayDescriptor[10] = Model_Sinus.Sinus1(fz[2], 255, n2, 1, 0, Nx, Ny, noise);
+            zArrayDescriptor[11] = Model_Sinus.Sinus1(fz[3], 255, n2, 1, 0, Nx, Ny, noise);
             zArrayDescriptor[1] = ATAN_PSI.ATAN(zArrayDescriptor, 8, 9, 10, 11, fz);   // ATAN2 с периодом n2  => zArrayDescriptor[1]
 
-            zArrayDescriptor[8]  = Model_Sinus.Sinus1(fz[0], 255, n3, 1, 0, N, noise);   // 4 синусоиды с периодом n2
-            zArrayDescriptor[9]  = Model_Sinus.Sinus1(fz[1], 255, n3, 1, 0, N, noise);
-            zArrayDescriptor[10] = Model_Sinus.Sinus1(fz[2], 255, n3, 1, 0, N, noise);
-            zArrayDescriptor[11] = Model_Sinus.Sinus1(fz[3], 255, n3, 1, 0, N, noise);
+            zArrayDescriptor[8]  = Model_Sinus.Sinus1(fz[0], 255, n3, 1, 0, Nx, Ny, noise);   // 4 синусоиды с периодом n2
+            zArrayDescriptor[9]  = Model_Sinus.Sinus1(fz[1], 255, n3, 1, 0, Nx, Ny, noise);
+            zArrayDescriptor[10] = Model_Sinus.Sinus1(fz[2], 255, n3, 1, 0, Nx, Ny, noise);
+            zArrayDescriptor[11] = Model_Sinus.Sinus1(fz[3], 255, n3, 1, 0, Nx, Ny, noise);
             zArrayDescriptor[2]  = ATAN_PSI.ATAN(zArrayDescriptor, 8, 9, 10, 11, fz);   // ATAN2 с периодом n2  => zArrayDescriptor[2]
 
             zArrayDescriptor[3] = Model_Sinus.Model_FAZA_SUBN(zArrayDescriptor[0], zArrayDescriptor[1], noise);   // n12
@@ -2612,23 +2616,24 @@ namespace rab1
 
         private void Model_Sin_Fz(double n1, double n2, double noise)      // 4 sin c фазовым сдвигом => atan
         {
-            int N = 1024;
+            int Nx = 1024;
+            int Ny = 1024;
             double[] fz = new double[4];
             fz[0] = Math.PI *   0 / 180.0;                                // Фазовый сдвиг в радианах  
             fz[1] = Math.PI *  90 / 180.0;
             fz[2] = Math.PI * 180 / 180.0;
             fz[3] = Math.PI * 270 / 180.0;
-            zArrayDescriptor[4]  = Model_Sinus.Sinus1(fz[0], 255, n1, 1, 0, N, noise);   // 4 синусоиды с периодом n1
-            zArrayDescriptor[5]  = Model_Sinus.Sinus1(fz[1], 255, n1, 1, 0, N, noise);
-            zArrayDescriptor[6]  = Model_Sinus.Sinus1(fz[2], 255, n1, 1, 0, N, noise);
-            zArrayDescriptor[7]  = Model_Sinus.Sinus1(fz[3], 255, n1, 1, 0, N, noise);
+            zArrayDescriptor[4]  = Model_Sinus.Sinus1(fz[0], 255, n1, 1, 0, Nx, Ny, noise);   // 4 синусоиды с периодом n1
+            zArrayDescriptor[5]  = Model_Sinus.Sinus1(fz[1], 255, n1, 1, 0, Nx, Ny, noise);
+            zArrayDescriptor[6]  = Model_Sinus.Sinus1(fz[2], 255, n1, 1, 0, Nx, Ny, noise);
+            zArrayDescriptor[7]  = Model_Sinus.Sinus1(fz[3], 255, n1, 1, 0, Nx, Ny, noise);
 
            // for (int i = 0; i < 4; i++) fz[i] = fz[i] + Math.PI * 20 / 180.0;  // Сдвиг
 
-            zArrayDescriptor[8]  = Model_Sinus.Sinus1(fz[0], 255, n2, 1, 0, N, noise);   // 4 синусоиды с периодом n2
-            zArrayDescriptor[9]  = Model_Sinus.Sinus1(fz[1], 255, n2, 1, 0, N, noise);
-            zArrayDescriptor[10] = Model_Sinus.Sinus1(fz[2], 255, n2, 1, 0, N, noise);
-            zArrayDescriptor[11] = Model_Sinus.Sinus1(fz[3], 255, n2, 1, 0, N, noise);
+            zArrayDescriptor[8]  = Model_Sinus.Sinus1(fz[0], 255, n2, 1, 0, Nx, Ny, noise);   // 4 синусоиды с периодом n2
+            zArrayDescriptor[9]  = Model_Sinus.Sinus1(fz[1], 255, n2, 1, 0, Nx, Ny, noise);
+            zArrayDescriptor[10] = Model_Sinus.Sinus1(fz[2], 255, n2, 1, 0, Nx, Ny, noise);
+            zArrayDescriptor[11] = Model_Sinus.Sinus1(fz[3], 255, n2, 1, 0, Nx, Ny, noise);
     
 
             zArrayDescriptor[0] = ATAN_PSI.ATAN(zArrayDescriptor, 4, 5, 6, 7, fz);
@@ -2962,6 +2967,16 @@ namespace rab1
         }
 
         private void фурьеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void фазаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void canon500DToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
