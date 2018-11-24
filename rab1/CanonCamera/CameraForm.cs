@@ -41,6 +41,8 @@ namespace rab1
         int ErrCount;
         object ErrLock = new object();
 
+        ImageForm imageForm = null;
+        
         #endregion
 
 
@@ -333,12 +335,13 @@ namespace rab1
 
         #region Settings
 
+                
         private void TakePhotoButton_Click(object sender, EventArgs e)
         {
             try
             {
                 currentPhaseShiftNumber = 0;
-                
+
                 if ((string)TvCoBox.SelectedItem == "Bulb") CameraHandler.TakePhoto((uint)BulbUpDo.Value);
                 else CameraHandler.TakePhoto();
             }
@@ -688,7 +691,18 @@ namespace rab1
         {
             MakePhaseShifts();
         }
-    
+
+        private void backGroundWindowButton_Click(object sender, EventArgs e)
+        {
+            this.imageForm = new ImageForm();
+            this.imageForm.Show();
+        }
+
+        private void takeSeriesFromPictureBoxesButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void MakePhaseShifts()
         {
             isMakePhaseShiftsProcess = true;

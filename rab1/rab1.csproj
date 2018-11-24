@@ -103,6 +103,12 @@
       <DependentUpon>ADD_Cmplx.cs</DependentUpon>
     </Compile>
     <Compile Include="CUDA_FFT.cs" />
+    <Compile Include="Forms\ImageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ImageForm.Designer.cs">
+      <DependentUpon>ImageForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FurieN.cs" />
     <Compile Include="ImageSaveItem.cs" />
     <Compile Include="ImsgeSaveModeEnum.cs" />
@@ -258,6 +264,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Graphic.resx">
       <DependentUpon>Graphic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageForm.resx">
+      <DependentUpon>ImageForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\InterForm.resx" />
     <EmbeddedResource Include="Forms\InterFormSph.resx">
