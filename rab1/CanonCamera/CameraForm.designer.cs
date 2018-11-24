@@ -28,14 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.LiveViewPicBox = new System.Windows.Forms.PictureBox();
             this.LiveViewButton = new System.Windows.Forms.Button();
             this.CameraListBox = new System.Windows.Forms.ListBox();
             this.SessionButton = new System.Windows.Forms.Button();
             this.SessionLabel = new System.Windows.Forms.Label();
             this.InitGroupBox = new System.Windows.Forms.GroupBox();
             this.RefreshButton = new System.Windows.Forms.Button();
-            this.LiveViewGroupBox = new System.Windows.Forms.GroupBox();
             this.FocusFar3Button = new System.Windows.Forms.Button();
             this.FocusFar2Button = new System.Windows.Forms.Button();
             this.FocusFar1Button = new System.Windows.Forms.Button();
@@ -63,6 +61,7 @@
             this.SavePathTextBox = new System.Windows.Forms.TextBox();
             this.BrowseButton = new System.Windows.Forms.Button();
             this.SaveToGroupBox = new System.Windows.Forms.GroupBox();
+            this.imageSaveComboBox = new System.Windows.Forms.ComboBox();
             this.STBothButton = new System.Windows.Forms.RadioButton();
             this.STComputerButton = new System.Windows.Forms.RadioButton();
             this.STCameraButton = new System.Windows.Forms.RadioButton();
@@ -78,35 +77,21 @@
             this.TvCoBox = new System.Windows.Forms.ComboBox();
             this.AvCoBox = new System.Windows.Forms.ComboBox();
             this.SaveFolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
-            this.imageSaveComboBox = new System.Windows.Forms.ComboBox();
-            ((System.ComponentModel.ISupportInitialize)(this.LiveViewPicBox)).BeginInit();
+            this.LiveViewPicBox = new System.Windows.Forms.PictureBox();
+            this.LiveViewGroupBox = new System.Windows.Forms.GroupBox();
             this.InitGroupBox.SuspendLayout();
-            this.LiveViewGroupBox.SuspendLayout();
             this.SettingsGroupBox.SuspendLayout();
             this.SaveToGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BulbUpDo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LiveViewPicBox)).BeginInit();
+            this.LiveViewGroupBox.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // LiveViewPicBox
-            // 
-            this.LiveViewPicBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.LiveViewPicBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.LiveViewPicBox.Location = new System.Drawing.Point(10, 51);
-            this.LiveViewPicBox.Name = "LiveViewPicBox";
-            this.LiveViewPicBox.Size = new System.Drawing.Size(662, 430);
-            this.LiveViewPicBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.LiveViewPicBox.TabIndex = 1;
-            this.LiveViewPicBox.TabStop = false;
-            this.LiveViewPicBox.SizeChanged += new System.EventHandler(this.LiveViewPicBox_SizeChanged);
-            this.LiveViewPicBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LiveViewPicBox_MouseDown);
             // 
             // LiveViewButton
             // 
-            this.LiveViewButton.Location = new System.Drawing.Point(8, 20);
+            this.LiveViewButton.Location = new System.Drawing.Point(6, 19);
             this.LiveViewButton.Name = "LiveViewButton";
-            this.LiveViewButton.Size = new System.Drawing.Size(70, 22);
+            this.LiveViewButton.Size = new System.Drawing.Size(90, 22);
             this.LiveViewButton.TabIndex = 2;
             this.LiveViewButton.Text = "Start LV";
             this.LiveViewButton.UseVisualStyleBackColor = true;
@@ -168,31 +153,10 @@
             this.RefreshButton.UseVisualStyleBackColor = true;
             this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
             // 
-            // LiveViewGroupBox
-            // 
-            this.LiveViewGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.LiveViewGroupBox.Controls.Add(this.FocusFar3Button);
-            this.LiveViewGroupBox.Controls.Add(this.FocusFar2Button);
-            this.LiveViewGroupBox.Controls.Add(this.FocusFar1Button);
-            this.LiveViewGroupBox.Controls.Add(this.FocusNear1Button);
-            this.LiveViewGroupBox.Controls.Add(this.FocusNear2Button);
-            this.LiveViewGroupBox.Controls.Add(this.FocusNear3Button);
-            this.LiveViewGroupBox.Controls.Add(this.LiveViewPicBox);
-            this.LiveViewGroupBox.Controls.Add(this.LiveViewButton);
-            this.LiveViewGroupBox.Enabled = false;
-            this.LiveViewGroupBox.Location = new System.Drawing.Point(12, 176);
-            this.LiveViewGroupBox.Name = "LiveViewGroupBox";
-            this.LiveViewGroupBox.Size = new System.Drawing.Size(686, 492);
-            this.LiveViewGroupBox.TabIndex = 10;
-            this.LiveViewGroupBox.TabStop = false;
-            this.LiveViewGroupBox.Text = "LiveView";
-            // 
             // FocusFar3Button
             // 
             this.FocusFar3Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FocusFar3Button.Location = new System.Drawing.Point(345, 20);
+            this.FocusFar3Button.Location = new System.Drawing.Point(243, 18);
             this.FocusFar3Button.Name = "FocusFar3Button";
             this.FocusFar3Button.Size = new System.Drawing.Size(28, 23);
             this.FocusFar3Button.TabIndex = 6;
@@ -203,7 +167,7 @@
             // FocusFar2Button
             // 
             this.FocusFar2Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FocusFar2Button.Location = new System.Drawing.Point(311, 20);
+            this.FocusFar2Button.Location = new System.Drawing.Point(277, 18);
             this.FocusFar2Button.Name = "FocusFar2Button";
             this.FocusFar2Button.Size = new System.Drawing.Size(28, 23);
             this.FocusFar2Button.TabIndex = 6;
@@ -214,7 +178,7 @@
             // FocusFar1Button
             // 
             this.FocusFar1Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FocusFar1Button.Location = new System.Drawing.Point(277, 20);
+            this.FocusFar1Button.Location = new System.Drawing.Point(204, 18);
             this.FocusFar1Button.Name = "FocusFar1Button";
             this.FocusFar1Button.Size = new System.Drawing.Size(28, 23);
             this.FocusFar1Button.TabIndex = 6;
@@ -225,7 +189,7 @@
             // FocusNear1Button
             // 
             this.FocusNear1Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FocusNear1Button.Location = new System.Drawing.Point(243, 20);
+            this.FocusNear1Button.Location = new System.Drawing.Point(170, 18);
             this.FocusNear1Button.Name = "FocusNear1Button";
             this.FocusNear1Button.Size = new System.Drawing.Size(28, 23);
             this.FocusNear1Button.TabIndex = 6;
@@ -236,7 +200,7 @@
             // FocusNear2Button
             // 
             this.FocusNear2Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FocusNear2Button.Location = new System.Drawing.Point(209, 20);
+            this.FocusNear2Button.Location = new System.Drawing.Point(136, 19);
             this.FocusNear2Button.Name = "FocusNear2Button";
             this.FocusNear2Button.Size = new System.Drawing.Size(28, 23);
             this.FocusNear2Button.TabIndex = 6;
@@ -247,7 +211,7 @@
             // FocusNear3Button
             // 
             this.FocusNear3Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FocusNear3Button.Location = new System.Drawing.Point(175, 20);
+            this.FocusNear3Button.Location = new System.Drawing.Point(99, 19);
             this.FocusNear3Button.Name = "FocusNear3Button";
             this.FocusNear3Button.Size = new System.Drawing.Size(28, 23);
             this.FocusNear3Button.TabIndex = 6;
@@ -292,7 +256,7 @@
             this.SettingsGroupBox.Location = new System.Drawing.Point(153, 12);
             this.SettingsGroupBox.MinimumSize = new System.Drawing.Size(407, 158);
             this.SettingsGroupBox.Name = "SettingsGroupBox";
-            this.SettingsGroupBox.Size = new System.Drawing.Size(545, 158);
+            this.SettingsGroupBox.Size = new System.Drawing.Size(837, 158);
             this.SettingsGroupBox.TabIndex = 11;
             this.SettingsGroupBox.TabStop = false;
             this.SettingsGroupBox.Text = "Settings";
@@ -494,6 +458,15 @@
             this.SaveToGroupBox.TabStop = false;
             this.SaveToGroupBox.Text = "Save To";
             // 
+            // imageSaveComboBox
+            // 
+            this.imageSaveComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.imageSaveComboBox.FormattingEnabled = true;
+            this.imageSaveComboBox.Location = new System.Drawing.Point(214, 12);
+            this.imageSaveComboBox.Name = "imageSaveComboBox";
+            this.imageSaveComboBox.Size = new System.Drawing.Size(71, 21);
+            this.imageSaveComboBox.TabIndex = 23;
+            // 
             // STBothButton
             // 
             this.STBothButton.AutoSize = true;
@@ -660,22 +633,43 @@
             // 
             this.SaveFolderBrowser.Description = "Save Images To...";
             // 
-            // imageSaveComboBox
+            // LiveViewPicBox
             // 
-            this.imageSaveComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.imageSaveComboBox.FormattingEnabled = true;
-            this.imageSaveComboBox.Location = new System.Drawing.Point(214, 12);
-            this.imageSaveComboBox.Name = "imageSaveComboBox";
-            this.imageSaveComboBox.Size = new System.Drawing.Size(71, 21);
-            this.imageSaveComboBox.TabIndex = 23;
+            this.LiveViewPicBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.LiveViewPicBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.LiveViewPicBox.Location = new System.Drawing.Point(6, 47);
+            this.LiveViewPicBox.Name = "LiveViewPicBox";
+            this.LiveViewPicBox.Size = new System.Drawing.Size(960, 640);
+            this.LiveViewPicBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.LiveViewPicBox.TabIndex = 1;
+            this.LiveViewPicBox.TabStop = false;
+            this.LiveViewPicBox.SizeChanged += new System.EventHandler(this.LiveViewPicBox_SizeChanged);
+            this.LiveViewPicBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LiveViewPicBox_MouseDown);
+            // 
+            // LiveViewGroupBox
+            // 
+            this.LiveViewGroupBox.Controls.Add(this.LiveViewPicBox);
+            this.LiveViewGroupBox.Controls.Add(this.FocusFar2Button);
+            this.LiveViewGroupBox.Controls.Add(this.LiveViewButton);
+            this.LiveViewGroupBox.Controls.Add(this.FocusNear3Button);
+            this.LiveViewGroupBox.Controls.Add(this.FocusFar1Button);
+            this.LiveViewGroupBox.Controls.Add(this.FocusNear2Button);
+            this.LiveViewGroupBox.Controls.Add(this.FocusNear1Button);
+            this.LiveViewGroupBox.Controls.Add(this.FocusFar3Button);
+            this.LiveViewGroupBox.Location = new System.Drawing.Point(12, 175);
+            this.LiveViewGroupBox.Name = "LiveViewGroupBox";
+            this.LiveViewGroupBox.Size = new System.Drawing.Size(978, 697);
+            this.LiveViewGroupBox.TabIndex = 12;
+            this.LiveViewGroupBox.TabStop = false;
+            this.LiveViewGroupBox.Text = "Live view";
             // 
             // CameraForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(700, 681);
-            this.Controls.Add(this.SettingsGroupBox);
+            this.ClientSize = new System.Drawing.Size(1000, 882);
             this.Controls.Add(this.LiveViewGroupBox);
+            this.Controls.Add(this.SettingsGroupBox);
             this.Controls.Add(this.InitGroupBox);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -684,28 +678,25 @@
             this.Text = "Canon SDK Tutorial";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CameraForm_FormClosed);
-            ((System.ComponentModel.ISupportInitialize)(this.LiveViewPicBox)).EndInit();
             this.InitGroupBox.ResumeLayout(false);
             this.InitGroupBox.PerformLayout();
-            this.LiveViewGroupBox.ResumeLayout(false);
             this.SettingsGroupBox.ResumeLayout(false);
             this.SettingsGroupBox.PerformLayout();
             this.SaveToGroupBox.ResumeLayout(false);
             this.SaveToGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BulbUpDo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LiveViewPicBox)).EndInit();
+            this.LiveViewGroupBox.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.PictureBox LiveViewPicBox;
         private System.Windows.Forms.Button LiveViewButton;
         private System.Windows.Forms.ListBox CameraListBox;
         private System.Windows.Forms.Button SessionButton;
         private System.Windows.Forms.Label SessionLabel;
         private System.Windows.Forms.GroupBox InitGroupBox;
-        private System.Windows.Forms.GroupBox LiveViewGroupBox;
         private System.Windows.Forms.GroupBox SettingsGroupBox;
         private System.Windows.Forms.Button TakePhotoButton;
         private System.Windows.Forms.NumericUpDown BulbUpDo;
@@ -750,6 +741,8 @@
         private System.Windows.Forms.Label lblColor;
         private System.Windows.Forms.ComboBox colorComboBox;
         private System.Windows.Forms.ComboBox imageSaveComboBox;
+        private System.Windows.Forms.PictureBox LiveViewPicBox;
+        private System.Windows.Forms.GroupBox LiveViewGroupBox;
     }
 }
 

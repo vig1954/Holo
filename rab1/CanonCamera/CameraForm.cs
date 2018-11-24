@@ -83,6 +83,7 @@ namespace rab1
             InitColorModes();
             InitImageSaveModes();
             InitializeDefaultValues();
+   
         }
         
         private void InitializeDefaultValues()
@@ -228,27 +229,6 @@ namespace rab1
             try
             {
                 Evf_Bmp = new Bitmap(img);
-                
-                /*
-                using (Graphics g = LiveViewPicBox.CreateGraphics())
-                {
-                    LVBratio = LVBw / (float)LVBh;
-                    LVration = Evf_Bmp.Width / (float)Evf_Bmp.Height;
-                    if (LVBratio < LVration)
-                    {
-                        w = LVBw;
-                        h = (int)(LVBw / LVration);
-                    }
-                    else
-                    {
-                        w = (int)(LVBh * LVration);
-                        h = LVBh;
-                    }
-                    //g.DrawImage(Evf_Bmp, 0, 0, w, h);
-                }
-                
-                //Evf_Bmp.Dispose();
-                */
 
                 if (LiveViewUpdated != null && isMakePhaseShiftsProcess)
                 {
@@ -267,6 +247,7 @@ namespace rab1
                 {
                     using (Graphics g = LiveViewPicBox.CreateGraphics())
                     {
+                        /*
                         LVBratio = LVBw / (float)LVBh;
                         LVration = Evf_Bmp.Width / (float)Evf_Bmp.Height;
                         if (LVBratio < LVration)
@@ -280,6 +261,9 @@ namespace rab1
                             h = LVBh;
                         }
                         g.DrawImage(Evf_Bmp, 0, 0, w, h);
+                        */
+
+                        g.DrawImage(Evf_Bmp, 0, 0, Evf_Bmp.Width, Evf_Bmp.Height);
                     }
                 }
                 
