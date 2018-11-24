@@ -20,27 +20,14 @@ namespace rab1
 
     public partial class Form1 : Form
     {
-        /*
-                public class VerticalProgressBar : ProgressBar
-                {
-                    protected override CreateParams CreateParams
-                    {
-                        get
-                        {
-                            CreateParams cp = base.CreateParams;
-                            cp.Style |= 0x04;
-                            return cp;
-                        }
-                    }
-                }
-
-        */
+        
 // -----------------------------------------------------------------------------------------------------------
         Image[] img = new Image[12];
-        public static ZArrayDescriptor[] zArrayDescriptor = new ZArrayDescriptor[12];     // Иконки справа      
-        public static ZArrayDescriptor zArrayPicture = new ZArrayDescriptor();            // Массив для главного окна
+        public static ZArrayDescriptor[]   zArrayDescriptor = new ZArrayDescriptor[12];     // Иконки справа      
+        public static ZArrayDescriptor     zArrayPicture = new ZArrayDescriptor();            // Массив для главного окна
         public static ZComplexDescriptor[] zComplex = new ZComplexDescriptor[3];
-
+        public PictureBox[] pictureBoxArray = null;
+        
         public static int regImage = 0;                           // Номер изображения (0-11)
         public static int regComplex = 0;                         // Номер Complex (0-3)
 
@@ -87,6 +74,14 @@ namespace rab1
             InitializeComponent();
 
             //ShooterSingleton.init();
+
+            this.pictureBoxArray = new PictureBox[]
+            {
+                pictureBox1, pictureBox2, pictureBox3, pictureBox4, pictureBox5, pictureBox6, pictureBox7, pictureBox8, pictureBox9, pictureBox10, pictureBox11, pictureBox12
+            };
+
+            ADD_Math.VisualRegImage      = this.Vizual_regImage;
+            ADD_Math.ComplexPictureImage = this.Complex_pictureBox;
 
             relayout();
         }
@@ -591,26 +586,80 @@ namespace rab1
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //               Отображение окна от 0 до 11
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public  void Vizual_regImage(int k)
+        
+        public void Vizual_regImage(int k)
         {
-            switch (k)
-            {
-                case 0: Vizual.Vizual_Picture(zArrayDescriptor[0], pictureBox1); break;
-                case 1: Vizual.Vizual_Picture(zArrayDescriptor[1], pictureBox2); break;
-                case 2: Vizual.Vizual_Picture(zArrayDescriptor[2], pictureBox3); break;
-                case 3: Vizual.Vizual_Picture(zArrayDescriptor[3], pictureBox4); break;
-                case 4: Vizual.Vizual_Picture(zArrayDescriptor[4], pictureBox5); break;
-                case 5: Vizual.Vizual_Picture(zArrayDescriptor[5], pictureBox6); break;
-                case 6: Vizual.Vizual_Picture(zArrayDescriptor[6], pictureBox7); break;
-                case 7: Vizual.Vizual_Picture(zArrayDescriptor[7], pictureBox8); break;
-                case 8: Vizual.Vizual_Picture(zArrayDescriptor[8], pictureBox9); break;
-                case 9: Vizual.Vizual_Picture(zArrayDescriptor[9],   pictureBox10); break;
-                case 10: Vizual.Vizual_Picture(zArrayDescriptor[10], pictureBox11); break;
-                case 11: Vizual.Vizual_Picture(zArrayDescriptor[11], pictureBox12); break;
-            }
+            Vizual.Vizual_Picture(zArrayDescriptor[k], pictureBoxArray[k]);
         }
 
+  
+        /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //               Отображение комплексных чисел Complex(int regComplex)
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        private void Complex_pictureBox(int regComplex)
+        {
+            if (zComplex[regComplex] == null) { MessageBox.Show("Complex_pictureBox:  zComplex[regComplex] == NULL"); return; }
 
+            int width  = zComplex[regComplex].width;
+            int height = zComplex[regComplex].height;
+            double[,] Image_double = new double[width, height];
+
+            //MessageBox.Show("regComplex " + Convert.ToString(regComplex) + "width " + Convert.ToString(width) + "height " + Convert.ToString(height));
+
+            Image_double = Furie.Re(zComplex[regComplex].array);
+            zArrayDescriptor[regComplex*4] = new ZArrayDescriptor(Image_double);             Vizual_regImage(regComplex * 4);
+
+            Image_double = Furie.Im(zComplex[regComplex].array);
+            zArrayDescriptor[regComplex*4 + 1] = new ZArrayDescriptor(Image_double);         Vizual_regImage(regComplex * 4 + 1);
+
+            Image_double = Furie.Amplituda(zComplex[regComplex].array);
+            zArrayDescriptor[regComplex*4 + 2] = new ZArrayDescriptor(Image_double);         Vizual_regImage(regComplex * 4 + 2);
+
+            Image_double = Furie.Faza(zComplex[regComplex].array);
+            zArrayDescriptor[regComplex * 4 + 3] = new ZArrayDescriptor(Image_double);       Vizual_regImage(regComplex * 4 + 3);
+
+        }
+        /*
+        private void Complex_pictureBox(int regComplex)
+        {
+            if (zComplex[regComplex] == null) { MessageBox.Show("Complex_pictureBox:  zComplex[regComplex] == NULL"); return; }
+
+            PictureBox pictureB00, pictureB01, pictureB02, pictureB03;
+
+
+            int regCmplx = 0;
+            switch (regComplex)
+            {
+                case 0: regCmplx = 0; pictureB00 = pictureBox1; pictureB01 = pictureBox2; pictureB02 = pictureBox3; pictureB03 = pictureBox4; break;
+                case 1: regCmplx = 4; pictureB00 = pictureBox5; pictureB01 = pictureBox6; pictureB02 = pictureBox7; pictureB03 = pictureBox8; break;
+                case 2: regCmplx = 8; pictureB00 = pictureBox9; pictureB01 = pictureBox10; pictureB02 = pictureBox11; pictureB03 = pictureBox12; break;
+                default: regCmplx = 0; pictureB00 = pictureBox1; pictureB01 = pictureBox2; pictureB02 = pictureBox3; pictureB03 = pictureBox4; break;
+            }
+
+            int width = zComplex[regComplex].width;
+            int height = zComplex[regComplex].height;
+            double[,] Image_double = new double[width, height];
+
+            //MessageBox.Show("regComplex " + Convert.ToString(regComplex) + "width " + Convert.ToString(width) + "height " + Convert.ToString(height));
+
+            Image_double = Furie.Re(zComplex[regComplex].array);
+            zArrayDescriptor[regCmplx] = new ZArrayDescriptor(Image_double);
+            Vizual.Vizual_Picture(zArrayDescriptor[regCmplx], pictureB00);
+
+            Image_double = Furie.Im(zComplex[regComplex].array);
+            zArrayDescriptor[regCmplx + 1] = new ZArrayDescriptor(Image_double);
+            Vizual.Vizual_Picture(zArrayDescriptor[regCmplx + 1], pictureB01);
+
+            Image_double = Furie.Amplituda(zComplex[regComplex].array);
+            zArrayDescriptor[regCmplx + 2] = new ZArrayDescriptor(Image_double);
+            Vizual.Vizual_Picture(zArrayDescriptor[regCmplx + 2], pictureB02);
+
+            Image_double = Furie.Faza(zComplex[regComplex].array);
+            zArrayDescriptor[regCmplx + 3] = new ZArrayDescriptor(Image_double);
+            Vizual.Vizual_Picture(zArrayDescriptor[regCmplx + 3], pictureB03);
+
+        }
+        */
         //--------------------------------------------------------------------------------------------------------------------------------------
         //                                        Ввод-вывод
         //--------------------------------------------------------------------------------------------------------------------------------------
@@ -1372,53 +1421,7 @@ namespace rab1
 
 
 
-        /// <summary>
-        ///                       Отображение комплексных чисел Complex(int regComplex)
-        /// </summary>
-        /// <param name="regComplex"></param>
-        private void Complex_pictureBox(int regComplex)
-        {
-            if (zComplex[regComplex] == null) { MessageBox.Show("Complex_pictureBox:  zComplex[regComplex] == NULL"); return; }
-
-            PictureBox pictureB00, pictureB01, pictureB02, pictureB03;
-
-
-            int regCmplx = 0;
-            switch (regComplex)
-            {
-                case 0: regCmplx = 0; pictureB00 = pictureBox1; pictureB01 = pictureBox2; pictureB02 = pictureBox3; pictureB03 = pictureBox4; break;
-                case 1: regCmplx = 4; pictureB00 = pictureBox5; pictureB01 = pictureBox6; pictureB02 = pictureBox7; pictureB03 = pictureBox8; break;
-                case 2: regCmplx = 8; pictureB00 = pictureBox9; pictureB01 = pictureBox10; pictureB02 = pictureBox11; pictureB03 = pictureBox12; break;
-                default: regCmplx = 0; pictureB00 = pictureBox1; pictureB01 = pictureBox2; pictureB02 = pictureBox3; pictureB03 = pictureBox4; break;
-            }
-
-            int width = zComplex[regComplex].width;
-            int height = zComplex[regComplex].height;
-            double[,] Image_double = new double[width, height];
-
-            //MessageBox.Show("regComplex " + Convert.ToString(regComplex) + "width " + Convert.ToString(width) + "height " + Convert.ToString(height));
-
-            Image_double = Furie.Re(zComplex[regComplex].array);
-            zArrayDescriptor[regCmplx] = new ZArrayDescriptor(Image_double);
-            //zArrayDescriptor[regCmplx].Double_Picture(pictureB00);   // Double_Picture  в ZArrayDescriptor
-            Vizual.Vizual_Picture(zArrayDescriptor[regCmplx], pictureB00);
-
-            Image_double = Furie.Im(zComplex[regComplex].array);
-            zArrayDescriptor[regCmplx + 1] = new ZArrayDescriptor(Image_double);
-            //zArrayDescriptor[regCmplx + 1].Double_Picture(pictureB01);
-            Vizual.Vizual_Picture(zArrayDescriptor[regCmplx + 1], pictureB01);
-
-            Image_double = Furie.Amplituda(zComplex[regComplex].array);
-            zArrayDescriptor[regCmplx + 2] = new ZArrayDescriptor(Image_double);
-            //zArrayDescriptor[regCmplx + 2].Double_Picture(pictureB02);
-            Vizual.Vizual_Picture(zArrayDescriptor[regCmplx + 2], pictureB02);
-
-            Image_double = Furie.Faza(zComplex[regComplex].array);
-            zArrayDescriptor[regCmplx + 3] = new ZArrayDescriptor(Image_double);
-            //zArrayDescriptor[regCmplx + 3].Double_Picture(pictureB03);
-            Vizual.Vizual_Picture(zArrayDescriptor[regCmplx + 3], pictureB03);
-
-        }
+       
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1643,35 +1646,32 @@ namespace rab1
         }
         // Сами программы формы ADD_Cmplx находятся в  ADD_Math.cs - Арифметические операции над массивами
 
-        private void ABS_D() { ADD_Math.ABS_D(regImage); Vizual_regImage(regImage); }                   // Абсолютное значение
-        private void ROR_D(int k1) { ADD_Math.ROR_D(k1); Vizual_regImage(regImage); }                   // Циклический сдвиг вправо zArrayDescriptor[regImage]
-        private void ROL_D(int k1) { ADD_Math.ROL_D(k1); Vizual_regImage(regImage); }                   // Циклический сдвиг влево zArrayDescriptor[regImage]
-        private void ROL_C(int k1) { ADD_Math.ROL_C(k1); Complex_pictureBox(regComplex); }              // Циклический сдвиг влево комплексных чисел
-        private void ROR_C(int k1) { ADD_Math.ROR_C(k1); Complex_pictureBox(regComplex); }              // Циклический сдвиг вправо  комплексных чисел
-        private void TRNS_D() { ADD_Math.TRNS_D(); Vizual_regImage(regImage); }                         // Транспонирование zArrayDescriptor[regImage]
-        private void ROT180_D() { ADD_Math.ROT180_D(); Vizual_regImage(regImage); }                     // Поворот zArrayDescriptor[regImage] на 180 градусов
-        private void ADD_D(int k1, int k2, int k3) { ADD_Math.ADD_D(k1, k2, k3); Vizual_regImage(k3-1); } // Сложить два вещественных массива
-        private void Sub_D(int k1, int k2, int k3) { ADD_Math.Sub_D1(k1, k2, k3); Vizual_regImage(k3-1); } // Вычесть два вещественных массива (3 аргумента)
-        private void ADD_C(int k1, int k2) { ADD_Math.ADD_C(k1, k2); Complex_pictureBox(k2-1); }          // Накопление += комплексных массивов
-        private void Send_C(int k1, int k2) { ADD_Math.Send_C(k1, k2); Complex_pictureBox(k2-1); }        // Пересылка комплексных массивов
-        private void Add_C(int k3, int k4, int k5) { ADD_Math.Add_C(k3, k4, k5); Complex_pictureBox(k5-1); }   // Сложить два комплексных массива
-        private void Sub_C(int k3, int k4, int k5) { ADD_Math.Sub_C(k3, k4, k5); Complex_pictureBox(k5-1); }   // Вычесть два комплексных массива
+        private void ABS_D()        { ADD_Math.ABS_D(regImage); }                   // Абсолютное значение
+        private void ROR_D(int k1)  { ADD_Math.ROR_D(k1);       }                   // Циклический сдвиг вправо zArrayDescriptor[regImage]
+        private void ROL_D(int k1)  { ADD_Math.ROL_D(k1);       }                   // Циклический сдвиг влево zArrayDescriptor[regImage]
+        private void ROL_C(int k1)  { ADD_Math.ROL_C(k1);       }              // Циклический сдвиг влево комплексных чисел
+        private void ROR_C(int k1)  { ADD_Math.ROR_C(k1);       }              // Циклический сдвиг вправо  комплексных чисел
+        private void TRNS_D()       { ADD_Math.TRNS_D();        }                         // Транспонирование zArrayDescriptor[regImage]
+        private void ROT180_D()     { ADD_Math.ROT180_D();      }                     // Поворот zArrayDescriptor[regImage] на 180 градусов
+        private void ADD_D(int k1, int k2, int k3) { ADD_Math.ADD_D(k1, k2, k3);  } // Сложить два вещественных массива
+        private void Sub_D(int k1, int k2, int k3) { ADD_Math.Sub_D1(k1, k2, k3); } // Вычесть два вещественных массива (3 аргумента)
+        private void ADD_C(int k1, int k2)          { ADD_Math.ADD_C(k1, k2);   Complex_pictureBox(k2-1); }          // Накопление += комплексных массивов
+        private void Send_C(int k1, int k2)         { ADD_Math.Send_C(k1, k2); }        // Пересылка комплексных массивов
+        private void Add_C(int k3, int k4, int k5)  { ADD_Math.Add_C(k3, k4, k5); Complex_pictureBox(k5-1); }   // Сложить два комплексных массива
+        private void Sub_C(int k3, int k4, int k5)  { ADD_Math.Sub_C(k3, k4, k5); Complex_pictureBox(k5-1); }   // Вычесть два комплексных массива
 
-        private void Ampl_C(int k11, int k12)      { ADD_Math.Ampl_C(k11, k12); Vizual.Vizual_Picture(zArrayPicture, pictureBox01); ; }   // Амплитуда суммы двух комплексных массивов
-        private void Mul_C(int k3, int k4, int k5) { ADD_Math.Mul_C(k3, k4, k5, progressBar1); Complex_pictureBox(k5 - 1); } // Умножить два комплексных массива
-        private void Mul_D(int k3, int k4, int k5) { ADD_Math.Mul_D(k3, k4, k5, progressBar1); Vizual_regImage(k5 - 1); } // Умножить два вещественных массивов
-        private void Conv_D(int k3, int k4, int k5) { ADD_Math.Conv_D(k3, k4, k5, progressBar1); Vizual_regImage(k5 - 1); } // Корреляция двух вещественных массивов
+        private void Ampl_C(int k11, int k12)       { ADD_Math.Ampl_C(k11, k12); Vizual.Vizual_Picture(zArrayPicture, pictureBox01); ; }   // Амплитуда суммы двух комплексных массивов
+        private void Mul_C(int k3, int k4, int k5)  { ADD_Math.Mul_C(k3, k4, k5, progressBar1); Complex_pictureBox(k5 - 1); } // Умножить два комплексных массива
+        private void Mul_D(int k3, int k4, int k5)  { ADD_Math.Mul_D(k3, k4, k5, progressBar1);  } // Умножить два вещественных массивов
+        private void Conv_D(int k3, int k4, int k5) { ADD_Math.Conv_D(k3, k4, k5, progressBar1);  } // Корреляция двух вещественных массивов
 
-        private void Div_C(int k3, int k4, int k5) { ADD_Math.Div_C(k3, k4, k5);  Complex_pictureBox(k5 - 1); } // Поэлементное деление комплексных чисел
-        private void Div_D(int k3, int k4, int k5) { ADD_Math.Div_D(k3, k4, k5); Vizual_regImage(k5 - 1); }     // Поэлементное деление вещественных массивов
+        private void Div_C(int k3, int k4, int k5)  { ADD_Math.Div_C(k3, k4, k5);  Complex_pictureBox(k5 - 1); } // Поэлементное деление комплексных чисел
+        private void Div_D(int k3, int k4, int k5)  { ADD_Math.Div_D(k3, k4, k5);  }     // Поэлементное деление вещественных массивов
 
-        private void Send_C4(int k1, int k2) { ADD_Math.Send_C4(k1, k2);                                        //  Пересылка 4 массивов
-                                                                         Vizual_regImage((k2-1)*4);
-                                                                         Vizual_regImage((k2 - 1) * 4+1);
-                                                                         Vizual_regImage((k2 - 1) * 4+2);
-                                                                         Vizual_regImage((k2 - 1) * 4+3);
+        private void Send_C4(int k1, int k2)        { ADD_Math.Send_C4(k1, k2); }                                       //  Пересылка 4 массивов
+                                                                         
 
-        } 
+      
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //        Двухмерное преобразование Фурье и Френеля
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

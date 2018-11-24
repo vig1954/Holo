@@ -10,8 +10,12 @@ using System.Diagnostics;
 
 namespace rab1
 {
+    public delegate void VisualRegImageDelegate(int k);
+
     class ADD_Math
     {
+        public static VisualRegImageDelegate VisualRegImage      = null;
+        public static VisualRegImageDelegate ComplexPictureImage = null;
 
         public static void ABS_D(int k1)             // Абсолютное значение
         {
@@ -22,10 +26,9 @@ namespace rab1
             for (int i = 0; i < nx; i++)
                 for (int j = 0; j < ny; j++)
                 {
-                    Form1.zArrayDescriptor[k1].array[i, j] = Math.Abs(Form1.zArrayDescriptor[k1].array[i, j]);
-                   
+                    Form1.zArrayDescriptor[k1].array[i, j] = Math.Abs(Form1.zArrayDescriptor[k1].array[i, j]); 
                 }
-
+            VisualRegImage(k1); 
         }
 
         public static void Pirs_D(int k1, int k2)             // Линейный коэффициент корреляции r-Пирсона между двумя массивами
@@ -88,8 +91,8 @@ namespace rab1
             for (int i = 0; i < nx; i++)
                 for (int j = 0; j < ny; j++)
                     Form1.zArrayDescriptor[Form1.regImage].array[i, j] = zArray.array[i, j];
-  
-           
+           VisualRegImage(Form1.regImage); 
+
         }
 
         public static void ROL_D(int k1)             // Циклический сдвиг влево zArrayDescriptor[regImage]
@@ -111,6 +114,7 @@ namespace rab1
             for (int i = 0; i < nx; i++)
                 for (int j = 0; j < ny; j++)
                     Form1.zArrayDescriptor[Form1.regImage].array[i, j] = zArray.array[i, j];
+            VisualRegImage(Form1.regImage);
         }
 
 
@@ -136,6 +140,7 @@ namespace rab1
             for (int i = 0; i < nx; i++)
                 for (int j = 0; j < ny; j++)
                     Form1.zComplex[Form1.regComplex].array[i, j] = zArray.array[i, j];
+            VisualRegImage(Form1.regImage);
         }
 
 
@@ -159,6 +164,7 @@ namespace rab1
             for (int i = 0; i < nx; i++)
                 for (int j = 0; j < ny; j++)
                     Form1.zComplex[Form1.regComplex].array[i, j] = zArray.array[i, j];
+            VisualRegImage(Form1.regImage);
         }
 
         public static void TRNS_D()             // Транспонирование zArrayDescriptor[regImage]
@@ -175,7 +181,8 @@ namespace rab1
                     zArray.array[i, j] = Form1.zArrayDescriptor[Form1.regImage].array[j, i];
 
             Form1.zArrayDescriptor[Form1.regImage] = zArray;
-            
+            VisualRegImage(Form1.regImage);
+
         }
 
         public static void ROT180_D()             // Поворот zArrayDescriptor[regImage] на 180 градусов
@@ -194,6 +201,7 @@ namespace rab1
             
                         Form1.zArrayDescriptor[Form1.regImage] = zArray;
             //MessageBox.Show(" ROR_TRNS 2");
+            VisualRegImage(Form1.regImage);
         }
         public static void ADD_D(int k1, int k2, int k3)             // Сложить два вещественных массива
         {
@@ -207,7 +215,7 @@ namespace rab1
             for (int i = 0; i < nx; i++)
                 for (int j = 0; j < ny; j++)
                     Form1.zArrayDescriptor[k3].array[i, j] = Form1.zArrayDescriptor[k2].array[i, j] + Form1.zArrayDescriptor[k1].array[i, j];
-
+            VisualRegImage(k3);
         }
 
         public static void Sub_D1(int k1, int k2, int k3)             // Вычесть два вещественных массива (3 аргумента)
@@ -225,6 +233,7 @@ namespace rab1
             for (int i = 0; i < nx; i++)
                 for (int j = 0; j < ny; j++)
                     Form1.zArrayDescriptor[k3].array[i, j] = Form1.zArrayDescriptor[k1].array[i, j] - Form1.zArrayDescriptor[k2].array[i, j];
+            VisualRegImage(k3);
         }
         public static void ADD_C(int k1, int k2)             // Накопление += комплексных массивов
         {
@@ -252,6 +261,7 @@ namespace rab1
             for (int i = 0; i < nx; i++)
                 for (int j = 0; j < ny; j++)
                     Form1.zComplex[k2].array[i, j] = Form1.zComplex[k1].array[i, j];
+            ComplexPictureImage(k2);
         }
 
         public static void Send_C4(int k1, int k2)   // Пересылка комплексных массивов
@@ -271,6 +281,7 @@ namespace rab1
                 for (int i = 0; i < nx; i++)
                     for (int j = 0; j < ny; j++)
                         Form1.zArrayDescriptor[k2+k].array[i, j] = Form1.zArrayDescriptor[k1+k].array[i, j];
+                VisualRegImage(k2 + k);
             }
 
         
@@ -422,7 +433,7 @@ namespace rab1
             }
             progressBar1.Value = 1;
             Form1.zArrayDescriptor[k5] = a;
-
+            VisualRegImage(k5);
         }
 
         public static void Conv_D(int k3, int k4, int k5, ProgressBar progressBar1)             // Корреляция двух вещественных массивов
@@ -485,8 +496,8 @@ namespace rab1
             a = FurieN.BPF2(a);                                             // ------------------------------------ 5 шаг
             Form1.zArrayDescriptor[k5] = Furie.zAmplituda(a);
 
-            //Vizual_regImage(k5);
-            //Complex_pictureBox(k5);
+            
+            VisualRegImage(k5);
         }
         public static void Div_D(int k1, int k2, int k3)             // Разделить два вещественных массива (3 аргумента)
         {
@@ -506,7 +517,7 @@ namespace rab1
                     if (b != 0)
                         Form1.zArrayDescriptor[k3].array[i, j] = Form1.zArrayDescriptor[k1].array[i, j] / b;
                 }
-           // Vizual_regImage(k3);
+            VisualRegImage(k3);
         }
 
         public static void Div_C(int k3, int k4, int k5)             // Разделить два комплексных массива поэлементно Form1.zComplex[k]
