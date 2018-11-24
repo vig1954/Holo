@@ -1666,7 +1666,11 @@ namespace rab1
         private void Div_D(int k3, int k4, int k5) { ADD_Math.Div_D(k3, k4, k5); Vizual_regImage(k5 - 1); }     // Поэлементное деление вещественных массивов
 
         private void Send_C4(int k1, int k2) { ADD_Math.Send_C4(k1, k2);                                        //  Пересылка 4 массивов
-            
+                                                                         Vizual_regImage((k2-1)*4);
+                                                                         Vizual_regImage((k2 - 1) * 4+1);
+                                                                         Vizual_regImage((k2 - 1) * 4+2);
+                                                                         Vizual_regImage((k2 - 1) * 4+3);
+
         } 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //        Двухмерное преобразование Фурье и Френеля
