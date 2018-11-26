@@ -28,14 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.LiveViewPicBox = new System.Windows.Forms.PictureBox();
             this.LiveViewButton = new System.Windows.Forms.Button();
             this.CameraListBox = new System.Windows.Forms.ListBox();
             this.SessionButton = new System.Windows.Forms.Button();
             this.SessionLabel = new System.Windows.Forms.Label();
             this.InitGroupBox = new System.Windows.Forms.GroupBox();
             this.RefreshButton = new System.Windows.Forms.Button();
-            this.LiveViewGroupBox = new System.Windows.Forms.GroupBox();
             this.FocusFar3Button = new System.Windows.Forms.Button();
             this.FocusFar2Button = new System.Windows.Forms.Button();
             this.FocusFar1Button = new System.Windows.Forms.Button();
@@ -63,6 +61,7 @@
             this.SavePathTextBox = new System.Windows.Forms.TextBox();
             this.BrowseButton = new System.Windows.Forms.Button();
             this.SaveToGroupBox = new System.Windows.Forms.GroupBox();
+            this.imageSaveComboBox = new System.Windows.Forms.ComboBox();
             this.STBothButton = new System.Windows.Forms.RadioButton();
             this.STComputerButton = new System.Windows.Forms.RadioButton();
             this.STCameraButton = new System.Windows.Forms.RadioButton();
@@ -78,35 +77,25 @@
             this.TvCoBox = new System.Windows.Forms.ComboBox();
             this.AvCoBox = new System.Windows.Forms.ComboBox();
             this.SaveFolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
-            this.imageSaveComboBox = new System.Windows.Forms.ComboBox();
-            ((System.ComponentModel.ISupportInitialize)(this.LiveViewPicBox)).BeginInit();
+            this.LiveViewPicBox = new System.Windows.Forms.PictureBox();
+            this.LiveViewGroupBox = new System.Windows.Forms.GroupBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.takeSeriesFromPictureBoxesButton = new System.Windows.Forms.Button();
+            this.backGroundWindowButton = new System.Windows.Forms.Button();
             this.InitGroupBox.SuspendLayout();
-            this.LiveViewGroupBox.SuspendLayout();
             this.SettingsGroupBox.SuspendLayout();
             this.SaveToGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BulbUpDo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LiveViewPicBox)).BeginInit();
+            this.LiveViewGroupBox.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // LiveViewPicBox
-            // 
-            this.LiveViewPicBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.LiveViewPicBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.LiveViewPicBox.Location = new System.Drawing.Point(10, 51);
-            this.LiveViewPicBox.Name = "LiveViewPicBox";
-            this.LiveViewPicBox.Size = new System.Drawing.Size(662, 430);
-            this.LiveViewPicBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.LiveViewPicBox.TabIndex = 1;
-            this.LiveViewPicBox.TabStop = false;
-            this.LiveViewPicBox.SizeChanged += new System.EventHandler(this.LiveViewPicBox_SizeChanged);
-            this.LiveViewPicBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LiveViewPicBox_MouseDown);
             // 
             // LiveViewButton
             // 
-            this.LiveViewButton.Location = new System.Drawing.Point(8, 20);
+            this.LiveViewButton.Location = new System.Drawing.Point(6, 19);
             this.LiveViewButton.Name = "LiveViewButton";
-            this.LiveViewButton.Size = new System.Drawing.Size(70, 22);
+            this.LiveViewButton.Size = new System.Drawing.Size(90, 22);
             this.LiveViewButton.TabIndex = 2;
             this.LiveViewButton.Text = "Start LV";
             this.LiveViewButton.UseVisualStyleBackColor = true;
@@ -168,31 +157,10 @@
             this.RefreshButton.UseVisualStyleBackColor = true;
             this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
             // 
-            // LiveViewGroupBox
-            // 
-            this.LiveViewGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.LiveViewGroupBox.Controls.Add(this.FocusFar3Button);
-            this.LiveViewGroupBox.Controls.Add(this.FocusFar2Button);
-            this.LiveViewGroupBox.Controls.Add(this.FocusFar1Button);
-            this.LiveViewGroupBox.Controls.Add(this.FocusNear1Button);
-            this.LiveViewGroupBox.Controls.Add(this.FocusNear2Button);
-            this.LiveViewGroupBox.Controls.Add(this.FocusNear3Button);
-            this.LiveViewGroupBox.Controls.Add(this.LiveViewPicBox);
-            this.LiveViewGroupBox.Controls.Add(this.LiveViewButton);
-            this.LiveViewGroupBox.Enabled = false;
-            this.LiveViewGroupBox.Location = new System.Drawing.Point(12, 176);
-            this.LiveViewGroupBox.Name = "LiveViewGroupBox";
-            this.LiveViewGroupBox.Size = new System.Drawing.Size(686, 492);
-            this.LiveViewGroupBox.TabIndex = 10;
-            this.LiveViewGroupBox.TabStop = false;
-            this.LiveViewGroupBox.Text = "LiveView";
-            // 
             // FocusFar3Button
             // 
             this.FocusFar3Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FocusFar3Button.Location = new System.Drawing.Point(345, 20);
+            this.FocusFar3Button.Location = new System.Drawing.Point(243, 18);
             this.FocusFar3Button.Name = "FocusFar3Button";
             this.FocusFar3Button.Size = new System.Drawing.Size(28, 23);
             this.FocusFar3Button.TabIndex = 6;
@@ -203,7 +171,7 @@
             // FocusFar2Button
             // 
             this.FocusFar2Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FocusFar2Button.Location = new System.Drawing.Point(311, 20);
+            this.FocusFar2Button.Location = new System.Drawing.Point(277, 18);
             this.FocusFar2Button.Name = "FocusFar2Button";
             this.FocusFar2Button.Size = new System.Drawing.Size(28, 23);
             this.FocusFar2Button.TabIndex = 6;
@@ -214,7 +182,7 @@
             // FocusFar1Button
             // 
             this.FocusFar1Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FocusFar1Button.Location = new System.Drawing.Point(277, 20);
+            this.FocusFar1Button.Location = new System.Drawing.Point(204, 18);
             this.FocusFar1Button.Name = "FocusFar1Button";
             this.FocusFar1Button.Size = new System.Drawing.Size(28, 23);
             this.FocusFar1Button.TabIndex = 6;
@@ -225,7 +193,7 @@
             // FocusNear1Button
             // 
             this.FocusNear1Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FocusNear1Button.Location = new System.Drawing.Point(243, 20);
+            this.FocusNear1Button.Location = new System.Drawing.Point(170, 18);
             this.FocusNear1Button.Name = "FocusNear1Button";
             this.FocusNear1Button.Size = new System.Drawing.Size(28, 23);
             this.FocusNear1Button.TabIndex = 6;
@@ -236,7 +204,7 @@
             // FocusNear2Button
             // 
             this.FocusNear2Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FocusNear2Button.Location = new System.Drawing.Point(209, 20);
+            this.FocusNear2Button.Location = new System.Drawing.Point(136, 19);
             this.FocusNear2Button.Name = "FocusNear2Button";
             this.FocusNear2Button.Size = new System.Drawing.Size(28, 23);
             this.FocusNear2Button.TabIndex = 6;
@@ -247,7 +215,7 @@
             // FocusNear3Button
             // 
             this.FocusNear3Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FocusNear3Button.Location = new System.Drawing.Point(175, 20);
+            this.FocusNear3Button.Location = new System.Drawing.Point(99, 19);
             this.FocusNear3Button.Name = "FocusNear3Button";
             this.FocusNear3Button.Size = new System.Drawing.Size(28, 23);
             this.FocusNear3Button.TabIndex = 6;
@@ -257,21 +225,14 @@
             // 
             // SettingsGroupBox
             // 
+            this.SettingsGroupBox.Controls.Add(this.backGroundWindowButton);
+            this.SettingsGroupBox.Controls.Add(this.takeSeriesFromPictureBoxesButton);
+            this.SettingsGroupBox.Controls.Add(this.groupBox1);
             this.SettingsGroupBox.Controls.Add(this.lblColor);
             this.SettingsGroupBox.Controls.Add(this.colorComboBox);
             this.SettingsGroupBox.Controls.Add(this.DelayPhaseShiftLabel);
             this.SettingsGroupBox.Controls.Add(this.DelayPhaseShiftTextBox);
-            this.SettingsGroupBox.Controls.Add(this.MakePhaseShiftsButton);
-            this.SettingsGroupBox.Controls.Add(this.SerialPortLabel);
-            this.SettingsGroupBox.Controls.Add(this.currentPhaseShiftLabel);
-            this.SettingsGroupBox.Controls.Add(this.closephaseShiftSerialPortButton);
-            this.SettingsGroupBox.Controls.Add(this.phaseShiftCountLabel);
-            this.SettingsGroupBox.Controls.Add(this.phaseShiftCountTextBox);
-            this.SettingsGroupBox.Controls.Add(this.phaseShiftStepLabel);
-            this.SettingsGroupBox.Controls.Add(this.phaseShiftStepTextBox);
-            this.SettingsGroupBox.Controls.Add(this.initSerialPortButton);
             this.SettingsGroupBox.Controls.Add(this.takeSeriesPhotoButton);
-            this.SettingsGroupBox.Controls.Add(this.phaseShiftSerialPortComboBox);
             this.SettingsGroupBox.Controls.Add(this.MainProgressBar);
             this.SettingsGroupBox.Controls.Add(this.WBCoBox);
             this.SettingsGroupBox.Controls.Add(this.SavePathTextBox);
@@ -292,7 +253,7 @@
             this.SettingsGroupBox.Location = new System.Drawing.Point(153, 12);
             this.SettingsGroupBox.MinimumSize = new System.Drawing.Size(407, 158);
             this.SettingsGroupBox.Name = "SettingsGroupBox";
-            this.SettingsGroupBox.Size = new System.Drawing.Size(545, 158);
+            this.SettingsGroupBox.Size = new System.Drawing.Size(837, 158);
             this.SettingsGroupBox.TabIndex = 11;
             this.SettingsGroupBox.TabStop = false;
             this.SettingsGroupBox.Text = "Settings";
@@ -301,7 +262,7 @@
             // 
             this.lblColor.AutoSize = true;
             this.lblColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblColor.Location = new System.Drawing.Point(304, 52);
+            this.lblColor.Location = new System.Drawing.Point(613, 27);
             this.lblColor.Name = "lblColor";
             this.lblColor.Size = new System.Drawing.Size(43, 16);
             this.lblColor.TabIndex = 23;
@@ -311,9 +272,9 @@
             // 
             this.colorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.colorComboBox.FormattingEnabled = true;
-            this.colorComboBox.Location = new System.Drawing.Point(353, 50);
+            this.colorComboBox.Location = new System.Drawing.Point(663, 25);
             this.colorComboBox.Name = "colorComboBox";
-            this.colorComboBox.Size = new System.Drawing.Size(71, 21);
+            this.colorComboBox.Size = new System.Drawing.Size(65, 21);
             this.colorComboBox.TabIndex = 22;
             // 
             // DelayPhaseShiftLabel
@@ -335,9 +296,9 @@
             // MakePhaseShiftsButton
             // 
             this.MakePhaseShiftsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MakePhaseShiftsButton.Location = new System.Drawing.Point(430, 48);
+            this.MakePhaseShiftsButton.Location = new System.Drawing.Point(6, 58);
             this.MakePhaseShiftsButton.Name = "MakePhaseShiftsButton";
-            this.MakePhaseShiftsButton.Size = new System.Drawing.Size(109, 23);
+            this.MakePhaseShiftsButton.Size = new System.Drawing.Size(99, 23);
             this.MakePhaseShiftsButton.TabIndex = 19;
             this.MakePhaseShiftsButton.Text = "Execute shifts";
             this.MakePhaseShiftsButton.UseVisualStyleBackColor = true;
@@ -347,7 +308,7 @@
             // 
             this.SerialPortLabel.AutoSize = true;
             this.SerialPortLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SerialPortLabel.Location = new System.Drawing.Point(312, 130);
+            this.SerialPortLabel.Location = new System.Drawing.Point(111, 62);
             this.SerialPortLabel.Name = "SerialPortLabel";
             this.SerialPortLabel.Size = new System.Drawing.Size(65, 16);
             this.SerialPortLabel.TabIndex = 18;
@@ -356,7 +317,7 @@
             // currentPhaseShiftLabel
             // 
             this.currentPhaseShiftLabel.AutoSize = true;
-            this.currentPhaseShiftLabel.Location = new System.Drawing.Point(467, 78);
+            this.currentPhaseShiftLabel.Location = new System.Drawing.Point(357, 30);
             this.currentPhaseShiftLabel.Name = "currentPhaseShiftLabel";
             this.currentPhaseShiftLabel.Size = new System.Drawing.Size(61, 13);
             this.currentPhaseShiftLabel.TabIndex = 17;
@@ -364,7 +325,7 @@
             // 
             // closephaseShiftSerialPortButton
             // 
-            this.closephaseShiftSerialPortButton.Location = new System.Drawing.Point(462, 100);
+            this.closephaseShiftSerialPortButton.Location = new System.Drawing.Point(347, 59);
             this.closephaseShiftSerialPortButton.Name = "closephaseShiftSerialPortButton";
             this.closephaseShiftSerialPortButton.Size = new System.Drawing.Size(73, 23);
             this.closephaseShiftSerialPortButton.TabIndex = 16;
@@ -376,7 +337,7 @@
             // 
             this.phaseShiftCountLabel.AutoSize = true;
             this.phaseShiftCountLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.phaseShiftCountLabel.Location = new System.Drawing.Point(299, 76);
+            this.phaseShiftCountLabel.Location = new System.Drawing.Point(22, 27);
             this.phaseShiftCountLabel.Name = "phaseShiftCountLabel";
             this.phaseShiftCountLabel.Size = new System.Drawing.Size(78, 16);
             this.phaseShiftCountLabel.TabIndex = 15;
@@ -384,7 +345,7 @@
             // 
             // phaseShiftCountTextBox
             // 
-            this.phaseShiftCountTextBox.Location = new System.Drawing.Point(379, 74);
+            this.phaseShiftCountTextBox.Location = new System.Drawing.Point(106, 25);
             this.phaseShiftCountTextBox.Name = "phaseShiftCountTextBox";
             this.phaseShiftCountTextBox.Size = new System.Drawing.Size(77, 20);
             this.phaseShiftCountTextBox.TabIndex = 14;
@@ -393,7 +354,7 @@
             // 
             this.phaseShiftStepLabel.AutoSize = true;
             this.phaseShiftStepLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.phaseShiftStepLabel.Location = new System.Drawing.Point(305, 102);
+            this.phaseShiftStepLabel.Location = new System.Drawing.Point(189, 27);
             this.phaseShiftStepLabel.Name = "phaseShiftStepLabel";
             this.phaseShiftStepLabel.Size = new System.Drawing.Size(72, 16);
             this.phaseShiftStepLabel.TabIndex = 13;
@@ -401,14 +362,14 @@
             // 
             // phaseShiftStepTextBox
             // 
-            this.phaseShiftStepTextBox.Location = new System.Drawing.Point(380, 100);
+            this.phaseShiftStepTextBox.Location = new System.Drawing.Point(267, 26);
             this.phaseShiftStepTextBox.Name = "phaseShiftStepTextBox";
             this.phaseShiftStepTextBox.Size = new System.Drawing.Size(76, 20);
             this.phaseShiftStepTextBox.TabIndex = 12;
             // 
             // initSerialPortButton
             // 
-            this.initSerialPortButton.Location = new System.Drawing.Point(462, 127);
+            this.initSerialPortButton.Location = new System.Drawing.Point(267, 59);
             this.initSerialPortButton.Name = "initSerialPortButton";
             this.initSerialPortButton.Size = new System.Drawing.Size(74, 23);
             this.initSerialPortButton.TabIndex = 11;
@@ -431,7 +392,7 @@
             // 
             this.phaseShiftSerialPortComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.phaseShiftSerialPortComboBox.FormattingEnabled = true;
-            this.phaseShiftSerialPortComboBox.Location = new System.Drawing.Point(379, 128);
+            this.phaseShiftSerialPortComboBox.Location = new System.Drawing.Point(182, 61);
             this.phaseShiftSerialPortComboBox.Name = "phaseShiftSerialPortComboBox";
             this.phaseShiftSerialPortComboBox.Size = new System.Drawing.Size(76, 21);
             this.phaseShiftSerialPortComboBox.TabIndex = 9;
@@ -487,12 +448,21 @@
             this.SaveToGroupBox.Controls.Add(this.STBothButton);
             this.SaveToGroupBox.Controls.Add(this.STComputerButton);
             this.SaveToGroupBox.Controls.Add(this.STCameraButton);
-            this.SaveToGroupBox.Location = new System.Drawing.Point(248, 6);
+            this.SaveToGroupBox.Location = new System.Drawing.Point(303, 13);
             this.SaveToGroupBox.Name = "SaveToGroupBox";
-            this.SaveToGroupBox.Size = new System.Drawing.Size(291, 39);
+            this.SaveToGroupBox.Size = new System.Drawing.Size(304, 39);
             this.SaveToGroupBox.TabIndex = 4;
             this.SaveToGroupBox.TabStop = false;
             this.SaveToGroupBox.Text = "Save To";
+            // 
+            // imageSaveComboBox
+            // 
+            this.imageSaveComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.imageSaveComboBox.FormattingEnabled = true;
+            this.imageSaveComboBox.Location = new System.Drawing.Point(221, 12);
+            this.imageSaveComboBox.Name = "imageSaveComboBox";
+            this.imageSaveComboBox.Size = new System.Drawing.Size(71, 21);
+            this.imageSaveComboBox.TabIndex = 23;
             // 
             // STBothButton
             // 
@@ -660,22 +630,84 @@
             // 
             this.SaveFolderBrowser.Description = "Save Images To...";
             // 
-            // imageSaveComboBox
+            // LiveViewPicBox
             // 
-            this.imageSaveComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.imageSaveComboBox.FormattingEnabled = true;
-            this.imageSaveComboBox.Location = new System.Drawing.Point(214, 12);
-            this.imageSaveComboBox.Name = "imageSaveComboBox";
-            this.imageSaveComboBox.Size = new System.Drawing.Size(71, 21);
-            this.imageSaveComboBox.TabIndex = 23;
+            this.LiveViewPicBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.LiveViewPicBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.LiveViewPicBox.Location = new System.Drawing.Point(6, 47);
+            this.LiveViewPicBox.Name = "LiveViewPicBox";
+            this.LiveViewPicBox.Size = new System.Drawing.Size(960, 640);
+            this.LiveViewPicBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.LiveViewPicBox.TabIndex = 1;
+            this.LiveViewPicBox.TabStop = false;
+            this.LiveViewPicBox.SizeChanged += new System.EventHandler(this.LiveViewPicBox_SizeChanged);
+            this.LiveViewPicBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LiveViewPicBox_MouseDown);
+            // 
+            // LiveViewGroupBox
+            // 
+            this.LiveViewGroupBox.Controls.Add(this.LiveViewPicBox);
+            this.LiveViewGroupBox.Controls.Add(this.FocusFar2Button);
+            this.LiveViewGroupBox.Controls.Add(this.LiveViewButton);
+            this.LiveViewGroupBox.Controls.Add(this.FocusNear3Button);
+            this.LiveViewGroupBox.Controls.Add(this.FocusFar1Button);
+            this.LiveViewGroupBox.Controls.Add(this.FocusNear2Button);
+            this.LiveViewGroupBox.Controls.Add(this.FocusNear1Button);
+            this.LiveViewGroupBox.Controls.Add(this.FocusFar3Button);
+            this.LiveViewGroupBox.Location = new System.Drawing.Point(12, 175);
+            this.LiveViewGroupBox.Name = "LiveViewGroupBox";
+            this.LiveViewGroupBox.Size = new System.Drawing.Size(978, 697);
+            this.LiveViewGroupBox.TabIndex = 12;
+            this.LiveViewGroupBox.TabStop = false;
+            this.LiveViewGroupBox.Text = "Live view";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.currentPhaseShiftLabel);
+            this.groupBox1.Controls.Add(this.phaseShiftCountTextBox);
+            this.groupBox1.Controls.Add(this.phaseShiftCountLabel);
+            this.groupBox1.Controls.Add(this.closephaseShiftSerialPortButton);
+            this.groupBox1.Controls.Add(this.initSerialPortButton);
+            this.groupBox1.Controls.Add(this.MakePhaseShiftsButton);
+            this.groupBox1.Controls.Add(this.phaseShiftStepLabel);
+            this.groupBox1.Controls.Add(this.SerialPortLabel);
+            this.groupBox1.Controls.Add(this.phaseShiftStepTextBox);
+            this.groupBox1.Controls.Add(this.phaseShiftSerialPortComboBox);
+            this.groupBox1.Location = new System.Drawing.Point(303, 58);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(425, 92);
+            this.groupBox1.TabIndex = 24;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Phase shift";
+            // 
+            // takeSeriesFromPictureBoxesButton
+            // 
+            this.takeSeriesFromPictureBoxesButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.takeSeriesFromPictureBoxesButton.Location = new System.Drawing.Point(734, 25);
+            this.takeSeriesFromPictureBoxesButton.Name = "takeSeriesFromPictureBoxesButton";
+            this.takeSeriesFromPictureBoxesButton.Size = new System.Drawing.Size(91, 65);
+            this.takeSeriesFromPictureBoxesButton.TabIndex = 25;
+            this.takeSeriesFromPictureBoxesButton.Text = "Take Series From 1,2,3,4";
+            this.takeSeriesFromPictureBoxesButton.UseVisualStyleBackColor = true;
+            this.takeSeriesFromPictureBoxesButton.Click += new System.EventHandler(this.takeSeriesFromPictureBoxesButton_Click);
+            // 
+            // backGroundWindowButton
+            // 
+            this.backGroundWindowButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.backGroundWindowButton.Location = new System.Drawing.Point(734, 96);
+            this.backGroundWindowButton.Name = "backGroundWindowButton";
+            this.backGroundWindowButton.Size = new System.Drawing.Size(91, 54);
+            this.backGroundWindowButton.TabIndex = 26;
+            this.backGroundWindowButton.Text = "Background Window";
+            this.backGroundWindowButton.UseVisualStyleBackColor = true;
+            this.backGroundWindowButton.Click += new System.EventHandler(this.backGroundWindowButton_Click);
             // 
             // CameraForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(700, 681);
-            this.Controls.Add(this.SettingsGroupBox);
+            this.ClientSize = new System.Drawing.Size(1000, 882);
             this.Controls.Add(this.LiveViewGroupBox);
+            this.Controls.Add(this.SettingsGroupBox);
             this.Controls.Add(this.InitGroupBox);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -684,28 +716,27 @@
             this.Text = "Canon SDK Tutorial";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CameraForm_FormClosed);
-            ((System.ComponentModel.ISupportInitialize)(this.LiveViewPicBox)).EndInit();
             this.InitGroupBox.ResumeLayout(false);
             this.InitGroupBox.PerformLayout();
-            this.LiveViewGroupBox.ResumeLayout(false);
             this.SettingsGroupBox.ResumeLayout(false);
             this.SettingsGroupBox.PerformLayout();
             this.SaveToGroupBox.ResumeLayout(false);
             this.SaveToGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BulbUpDo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LiveViewPicBox)).EndInit();
+            this.LiveViewGroupBox.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.PictureBox LiveViewPicBox;
         private System.Windows.Forms.Button LiveViewButton;
         private System.Windows.Forms.ListBox CameraListBox;
         private System.Windows.Forms.Button SessionButton;
         private System.Windows.Forms.Label SessionLabel;
         private System.Windows.Forms.GroupBox InitGroupBox;
-        private System.Windows.Forms.GroupBox LiveViewGroupBox;
         private System.Windows.Forms.GroupBox SettingsGroupBox;
         private System.Windows.Forms.Button TakePhotoButton;
         private System.Windows.Forms.NumericUpDown BulbUpDo;
@@ -750,6 +781,11 @@
         private System.Windows.Forms.Label lblColor;
         private System.Windows.Forms.ComboBox colorComboBox;
         private System.Windows.Forms.ComboBox imageSaveComboBox;
+        private System.Windows.Forms.PictureBox LiveViewPicBox;
+        private System.Windows.Forms.GroupBox LiveViewGroupBox;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button backGroundWindowButton;
+        private System.Windows.Forms.Button takeSeriesFromPictureBoxesButton;
     }
 }
 
