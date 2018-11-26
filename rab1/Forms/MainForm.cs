@@ -290,6 +290,38 @@ namespace rab1
         //{
 
         // }
+        /// <summary>
+        /// //////////////////////////////////////////////////////////////////////////////////////////////
+        /// </summary>
+        /// <param name="sender"></param>   // Удаление трапеии
+        /// <param name="e"></param>
+        /// /////////////////////////////////////////////////////////////////////////////////////////
+        public struct Coords
+        {
+            public int x, y;
+
+            public Coords(int p1, int p2)
+            {
+                x = p1;
+                y = p2;
+            }
+        }
+        private void удалениеТрапеции4Массивов13ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+
+           Coords[] X = new Coords[4];
+           
+            X[0] = new Coords(Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text));
+            X[1] = new Coords(Convert.ToInt32(textBox5.Text), Convert.ToInt32(textBox6.Text));
+            X[2] = new Coords(Convert.ToInt32(textBox7.Text), Convert.ToInt32(textBox8.Text));
+            X[3] = new Coords(Convert.ToInt32(textBox9.Text), Convert.ToInt32(textBox10.Text));
+
+            File_Change_Size.Change_trapezium(zArrayDescriptor, regComplex, X);
+            for (int i=0; i<4; i++) Vizual_regImage(regComplex*4+1); 
+
+        }
+
         private void рисованиеПрямоугольникаToolStripMenuItem_Click(object sender, EventArgs e) // Рисование прямоугольника по 4 выделенным точкам в zArrayPicture
         {
 
@@ -2984,6 +3016,8 @@ namespace rab1
         {
 
         }
+
+      
 
 
 

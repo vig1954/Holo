@@ -32,6 +32,62 @@ namespace rab1
             if (X4 > max) max = X4;
             return max;
         }
+        /// <summary>
+        /// /////////////////////////////////////////// Удаление трапеции
+        /// </summary>
+        /// <param name=""></param>
+        /// <param name=""></param>
+        /// <param name=""></param>
+        /// <param name=""></param>
+        /// 
+       
+        private static void RVSR(ref Form1.Coords X, ref Form1.Coords Y)  // Перестановка местами 2 структур
+        {
+            Form1.Coords R;
+            R = X; X = Y; Y = R;
+        }
+        private static void Sort4( Form1.Coords[] X)
+        {
+            Form1.Coords[] R = new Form1.Coords[4];
+            //int min = int.MaxValue;
+            //int max = int.MaxValue;
+
+            for (int i = 0; i < 3; i++)                                 // Сортировка методом всплывающего пузырька (В порядке возрастания)
+                for (int j = 0; j < 3; j++)
+                {
+                    if (X[j].x > X[j + 1].x) RVSR(ref X[j], ref X[j + 1]);
+                }
+
+            if (X[0].y > X[1].y) RVSR(ref X[0], ref X[1]);                      // Сортировка по Y
+            if (X[2].y > X[3].y) RVSR(ref X[2], ref X[3]);
+        }
+       
+
+        public static void Change_trapezium(ZArrayDescriptor[] zArrayDescriptor, int regComplex, Form1.Coords[] X )
+        {
+            Sort4(X);
+            int k = regComplex * 4;
+
+            if (zArrayDescriptor[k] == null) { MessageBox.Show(" Change_trapezium: zArrayDescriptor[" + k + "] == null"); return; }
+            int w1 = zArrayDescriptor[k].width;
+            int h1 = zArrayDescriptor[k].height;
+
+            int x0 = X[0].x, x1 = X[3].x;
+            int y1 = X[0].y;
+
+            int w2 = x1 - x0;
+            int h2 = X[1].y- X[0].y;
+
+            ZArrayDescriptor zArray1 = new ZArrayDescriptor(w1, h1);
+
+            for (int i = 0; i < w2; i++)
+                for (int j = 0; j < h2; j++)
+                    zArray1.array[i, j ] = zArrayDescriptor[k].array[i+x0, j+y1];
+
+            zArrayDescriptor[k + 1] = zArray1;
+
+            // MessageBox.Show(" X1 " + X[0].x + " " + X[0].y + "\n" + " X2 " + X[1].x + " " + X[1].y + "\n" + " X3 " + X[2].x + " " + X[2].y + "\n" + " X4 " + X[3].x + " " + X[3].y);
+        }
 
         public static void Change_r(ZArrayDescriptor[] zArrayDescriptor,
                                     PictureBox pictureBox9, PictureBox pictureBox10, PictureBox pictureBox11, PictureBox pictureBox12,

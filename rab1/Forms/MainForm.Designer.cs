@@ -199,6 +199,7 @@
             this.button9 = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
+            this.удалениеТрапеции4Массивов13ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox01)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -971,7 +972,8 @@
             this.рисованиеПрямоугольникаToolStripMenuItem,
             this.выделениеКвадратаПо4ёмУжеЗаданнымТочкамТекущийКадрToolStripMenuItem,
             this.кругПо4ТочкамВZArrayPictureToolStripMenuItem,
-            this.выделениеПоОкружностиПо4ёмОпределяемымТочкам9101112ToolStripMenuItem});
+            this.выделениеПоОкружностиПо4ёмОпределяемымТочкам9101112ToolStripMenuItem,
+            this.удалениеТрапеции4Массивов13ToolStripMenuItem});
             this.изменитьРазмерToolStripMenuItem.Name = "изменитьРазмерToolStripMenuItem";
             this.изменитьРазмерToolStripMenuItem.Size = new System.Drawing.Size(105, 20);
             this.изменитьРазмерToolStripMenuItem.Text = "Изменить размер";
@@ -1849,6 +1851,13 @@
             this.vScrollBar2.TabIndex = 115;
             this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar2_Scroll);
             // 
+            // удалениеТрапеции4Массивов13ToolStripMenuItem
+            // 
+            this.удалениеТрапеции4Массивов13ToolStripMenuItem.Name = "удалениеТрапеции4Массивов13ToolStripMenuItem";
+            this.удалениеТрапеции4Массивов13ToolStripMenuItem.Size = new System.Drawing.Size(322, 22);
+            this.удалениеТрапеции4Массивов13ToolStripMenuItem.Text = "Удаление трапеции 4 массивов (1-3)";
+            this.удалениеТрапеции4Массивов13ToolStripMenuItem.Click += new System.EventHandler(this.удалениеТрапеции4Массивов13ToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2124,6 +2133,7 @@
         private System.Windows.Forms.VScrollBar vScrollBar2;
         private System.Windows.Forms.ToolStripMenuItem загрузить4912ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem неВГраницах0ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem удалениеТрапеции4Массивов13ToolStripMenuItem;
     }
 }
 
