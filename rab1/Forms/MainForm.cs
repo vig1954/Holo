@@ -298,9 +298,9 @@ namespace rab1
         /// /////////////////////////////////////////////////////////////////////////////////////////
         public struct Coords
         {
-            public int x, y;
+            public double x, y;
 
-            public Coords(int p1, int p2)
+            public Coords(double p1, double p2)
             {
                 x = p1;
                 y = p2;
@@ -312,13 +312,17 @@ namespace rab1
 
            Coords[] X = new Coords[4];
            
-            X[0] = new Coords(Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text));
-            X[1] = new Coords(Convert.ToInt32(textBox5.Text), Convert.ToInt32(textBox6.Text));
-            X[2] = new Coords(Convert.ToInt32(textBox7.Text), Convert.ToInt32(textBox8.Text));
-            X[3] = new Coords(Convert.ToInt32(textBox9.Text), Convert.ToInt32(textBox10.Text));
+            X[0] = new Coords(Convert.ToDouble(textBox3.Text), Convert.ToDouble(textBox4.Text));
+            X[1] = new Coords(Convert.ToDouble(textBox5.Text), Convert.ToDouble(textBox6.Text));
+            X[2] = new Coords(Convert.ToDouble(textBox7.Text), Convert.ToDouble(textBox8.Text));
+            X[3] = new Coords(Convert.ToDouble(textBox9.Text), Convert.ToDouble(textBox10.Text));
 
-            File_Change_Size.Change_trapezium(zArrayDescriptor, regComplex, X);
-            for (int i=0; i<4; i++) Vizual_regImage(regComplex*4+1); 
+            zArrayDescriptor[regComplex * 4+1]= File_Change_Size.Change_trapezium(zArrayDescriptor[regComplex*4], X);
+            Vizual_regImage(regComplex * 4 + 1);
+            //File_Change_Size.Change_trapezium(zArrayDescriptor[regComplex*4 + 1], X);
+            //File_Change_Size.Change_trapezium(zArrayDescriptor[regComplex*4 + 2], X);
+            //File_Change_Size.Change_trapezium(zArrayDescriptor[regComplex*4 + 3], X);
+            //for (int i=0; i<4; i++) Vizual_regImage(regComplex*4+i); 
 
         }
 

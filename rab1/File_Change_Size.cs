@@ -61,33 +61,115 @@ namespace rab1
             if (X[0].y > X[1].y) RVSR(ref X[0], ref X[1]);                      // Сортировка по Y
             if (X[2].y > X[3].y) RVSR(ref X[2], ref X[3]);
         }
+
+        // Биленейная интерполяция интенсивности в единичном квадрате 
+        private static double Intens(ZArrayDescriptor zArrayDescriptor, double x, double y ) 
+        {
+            int ix0 = (int)x;
+            int iy0 = (int)y;
+            int  ix1 = ix0 + 1,  iy1 = iy0 + 1;
+
+            double f00, f01=100, f10=100, f11=100;
+
+            //MessageBox.Show(" x " + ix0 + " y " + iy0);
+            f00 = zArrayDescriptor.array[ix0, iy0];
+            
+            f01 = zArrayDescriptor.array[ix0, iy1];
+            f10 = zArrayDescriptor.array[ix1, iy0];
+            f11 = zArrayDescriptor.array[ix1, iy1];
+
+            x = x - ix0; y = iy0 - y;
+            double i =(f00 * (1 - x) * (1 - y) + f10 * x * (1 - y) + f01 * (1 - x) * y + f11 * x * y);
+            return i;
+        }
+        // Нахождение Y по двум вершинам (max_x - максимальное число точек, ny  - номер точки)
+        private static Form1.Coords YYY(Form1.Coords X0, Form1.Coords X1, int max_y, int ny)  
+        {
+            Form1.Coords R;
+
+            double xk = X0.x + (X1.x - X0.x)*ny/max_y;
+            double y = (xk - X0.x) * ((X1.y - X0.y)) / (X1.x - X0.x) + X0.y;
+            R.x = xk;
+            R.y = y;
+            return R;
+        }
+        private static double Y(Form1.Coords X0, Form1.Coords X1,  int xk, int max_y)
+        {
+            double xx = (X1.x - X0.x);
+            double y;
+            if (xx == 0) { y = (X1.y - X0.y) * xk / max_y; }
+                else     {  y = (xk - X0.x) * ((X1.y - X0.y)) / xx + X0.y; }
+            
+            return y;
+        }
+        private static int Max_y(Form1.Coords[] X)  // Максимальное число точек по Y
+        {
+            double x = X[0].x - X[1].x;
+            double y = X[0].y - X[1].y;
+            int max1 = (int) Math.Sqrt(x*x+y*y);
+             x = X[2].x - X[3].x;
+             y = X[2].y - X[3].y;
+            int max2 = (int)Math.Sqrt(x * x + y * y);
+
+            if (max1 > max2) return max1; else return max2;
+        }
+
+        private static int Max_x(Form1.Coords[] X)  // Максимальное число точек по X
+        {
+            double x = X[0].x - X[2].x;
+            double y = X[0].y - X[2].y;
+            int max1 = (int)Math.Sqrt(x * x + y * y);
+            x = X[1].x - X[3].x;
+            y = X[1].y - X[3].y;
+            int max2 = (int)Math.Sqrt(x * x + y * y);
+
+            if (max1 > max2) return max1; else return max2;
+        }
+
+
        
 
-        public static void Change_trapezium(ZArrayDescriptor[] zArrayDescriptor, int regComplex, Form1.Coords[] X )
+        public static ZArrayDescriptor Change_trapezium(ZArrayDescriptor zArrayDescriptor,  Form1.Coords[] X )
         {
             Sort4(X);
-            int k = regComplex * 4;
+           // int k = regComplex * 4;
 
-            if (zArrayDescriptor[k] == null) { MessageBox.Show(" Change_trapezium: zArrayDescriptor[" + k + "] == null"); return; }
-            int w1 = zArrayDescriptor[k].width;
-            int h1 = zArrayDescriptor[k].height;
+            if (zArrayDescriptor == null) { MessageBox.Show(" Change_trapezium: zArrayDescriptor == null"); return null; }
+            int w1 = zArrayDescriptor.width;
+            int h1 = zArrayDescriptor.height;
 
-            int x0 = X[0].x, x1 = X[3].x;
-            int y1 = X[0].y;
+            int max_x = Max_x(X);
+            int max_y = Max_y(X);
+            
 
-            int w2 = x1 - x0;
-            int h2 = X[1].y- X[0].y;
+            ZArrayDescriptor zArray1 = new ZArrayDescriptor(max_x, max_y);
 
-            ZArrayDescriptor zArray1 = new ZArrayDescriptor(w1, h1);
+           
+            for (int j = 0; j < max_y; j++)
+                for (int i = 0; i < max_x; i++)
+                {
+                    Form1.Coords R1 = YYY(X[0], X[1], max_y, j);
+                    Form1.Coords R2 = YYY(X[2], X[3], max_y, j);
+                    double x = X[0].x + i;
+                    double y = Y(R1, R2, (int)y, max_y);
+                    int ix =(int) x;
+                    int iy =(int) y;
+                    //MessageBox.Show(" x " + x + " y " + y);
+                    if (iy < 0 || iy > h1) continue;
+                    if (ix < 0 || ix > w1) continue;
+                    zArray1.array[i, j] = zArrayDescriptor.array[ix, iy];
+                    //zArray1.array[i, j] = Intens(zArrayDescriptor[k], x, y);
+                }
 
-            for (int i = 0; i < w2; i++)
-                for (int j = 0; j < h2; j++)
-                    zArray1.array[i, j ] = zArrayDescriptor[k].array[i+x0, j+y1];
 
-            zArrayDescriptor[k + 1] = zArray1;
+            return zArray1;
 
-            // MessageBox.Show(" X1 " + X[0].x + " " + X[0].y + "\n" + " X2 " + X[1].x + " " + X[1].y + "\n" + " X3 " + X[2].x + " " + X[2].y + "\n" + " X4 " + X[3].x + " " + X[3].y);
+            //MessageBox.Show(" max_x " + max_x + "max_y " + max_y);
+            // if (iy < 0 || iy > h1)                       MessageBox.Show(" iy " + iy + " x= " + x + " y= " + y + " R1.y= " + R1.y + " R2.y= " + R2.y);
+            // if (ix<0 || ix > w1)  MessageBox.Show(" ix " + ix + " x= " + x + "y= " + y + " i= " + i + "j= " + j);
+            // 
         }
+
 
         public static void Change_r(ZArrayDescriptor[] zArrayDescriptor,
                                     PictureBox pictureBox9, PictureBox pictureBox10, PictureBox pictureBox11, PictureBox pictureBox12,
