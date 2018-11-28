@@ -82,23 +82,30 @@ namespace rab1
             double i =(f00 * (1 - x) * (1 - y) + f10 * x * (1 - y) + f01 * (1 - x) * y + f11 * x * y);
             return i;
         }
-        // Нахождение Y по двум вершинам (max_x - максимальное число точек, ny  - номер точки)
+        // Нахождение Y по двум вершинам (max_x - максимальное число точек, ny  - номер точки по Y)
         private static Form1.Coords YYY(Form1.Coords X0, Form1.Coords X1, int max_y, int ny)  
         {
             Form1.Coords R;
 
-            double xk = X0.x + (X1.x - X0.x)*ny/max_y;
-            double y = (xk - X0.x) * ((X1.y - X0.y)) / (X1.x - X0.x) + X0.y;
+            double xx = (X1.x - X0.x);
+            double y, xk;
+            if (xx == 0)
+                { xk = X0.x;  y = (X1.y - X0.y) * ny / max_y; }
+            else {
+                xk = X0.x + xx * ny / max_y;
+                y = (xk - X0.x) * ((X1.y - X0.y)) / xx + X0.y;
+                 }
+         
             R.x = xk;
             R.y = y;
             return R;
         }
         private static double Y(Form1.Coords X0, Form1.Coords X1,  int xk, int max_y)
         {
-            double xx = (X1.x - X0.x);
+            double yy = (X1.y - X0.y);
             double y;
-            if (xx == 0) { y = (X1.y - X0.y) * xk / max_y; }
-                else     {  y = (xk - X0.x) * ((X1.y - X0.y)) / xx + X0.y; }
+            if (yy == 0) { y = X0.y;  }
+                else    {  y = (xk - X0.x) * ((X1.y - X0.y)) / (X1.x - X0.x) + X0.y; }
             
             return y;
         }
@@ -151,7 +158,7 @@ namespace rab1
                     Form1.Coords R1 = YYY(X[0], X[1], max_y, j);
                     Form1.Coords R2 = YYY(X[2], X[3], max_y, j);
                     double x = X[0].x + i;
-                    double y = Y(R1, R2, (int)y, max_y);
+                    double y = Y(R1, R2, (int)x, max_y);
                     int ix =(int) x;
                     int iy =(int) y;
                     //MessageBox.Show(" x " + x + " y " + y);
