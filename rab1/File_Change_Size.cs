@@ -90,7 +90,7 @@ namespace rab1
             double xx = (X1.x - X0.x);
             double y, xk;
             if (xx == 0)
-                { xk = X0.x;  y = (X1.y - X0.y) * ny / max_y; }
+                { xk = X0.x;  y = X0.y + (X1.y - X0.y) * ny / max_y; }
             else {
                 xk = X0.x + xx * ny / max_y;
                 y = (xk - X0.x) * ((X1.y - X0.y)) / xx + X0.y;
