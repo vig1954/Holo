@@ -95,6 +95,7 @@
     <Compile Include="CanonCamera\PictureTakenHandler.cs" />
     <Compile Include="ColorItem.cs" />
     <Compile Include="ColorModeEnum.cs" />
+    <Compile Include="ControlExtensions.cs" />
     <Compile Include="File_Change_Size.cs" />
     <Compile Include="Forms\ADD_Cmplx.cs">
       <SubType>Form</SubType>

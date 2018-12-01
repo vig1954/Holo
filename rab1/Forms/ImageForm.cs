@@ -22,7 +22,13 @@ namespace rab1
         public void SetImage(Image image)
         {
             this.imageBox.Image = image;
-            this.imageBox.Invalidate();
+            this.imageBox.Invoke
+            (
+                (MethodInvoker)delegate 
+                {
+                    this.imageBox.Refresh();
+                }
+            );
         }
     }
 }
