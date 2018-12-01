@@ -44,7 +44,6 @@ namespace UserInterface.DataEditors.InterfaceBinding
             _table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute));
             //_table.AutoScroll = true;
 
-            _rootNode.ExpandAll();
             RenderTable();
 
             _table.Resize += TableOnResize;
@@ -88,7 +87,7 @@ namespace UserInterface.DataEditors.InterfaceBinding
             var preferredLabelWidth = _rootNode.GetPreferredLabelWidth();
             _table.ColumnStyles[0].Width = _iconWidth;
             _table.ColumnStyles[1].Width = preferredLabelWidth;
-            _table.ColumnStyles[2].Width = _table.Width - _table.ColumnStyles[1].Width - _iconWidth;
+            _table.ColumnStyles[2].Width = Math.Max(0, _table.Width - _table.ColumnStyles[1].Width - _iconWidth);
         }
 
         private void RenderNodes(IReadOnlyCollection<TreeNode> nodes, ref int row)

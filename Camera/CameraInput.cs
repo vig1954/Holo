@@ -70,6 +70,9 @@ namespace Camera
         public Bitmap LastPreviewImage { get; private set; }
         public event Action PreviewImageUpdated;
 
+        [BindToUI("Захват LV")]
+        public bool CaptureLiveView { get; set; }
+
         // TODO: добавить аттрибут для работы со списками
         // TODO: заменить всю эту байду с проперти-аттрибутами на что-то более гибкое, возможно тип проперти PropertyBinder<T>
         [BindToUI("Слот 1", "Default"), ImageHandlerFilter(OnlyImages = true)]
@@ -185,6 +188,9 @@ namespace Camera
 //                Output.Update();
                 LastPreviewImage = bitmap;
                 PreviewImageUpdated?.Invoke();
+
+                if (CaptureLiveView)
+                    ProcessBitmap(bitmap);
             }
         }
 
@@ -198,6 +204,11 @@ namespace Camera
         }
 
         private void CameraConnectorOnImageDownloaded(Bitmap bitmap)
+        {
+            ProcessBitmap(bitmap);
+        }
+
+        private void ProcessBitmap(Bitmap bitmap)
         {
             if (SelectionToApply != null && SelectionToApply.Name != DontApplySelectionName)
                 bitmap = ImageUtils.ExtractSelection(bitmap, SelectionToApply);
@@ -218,9 +229,15 @@ namespace Camera
             ImageSlotsUpdated?.Invoke();
 
             _onShotParameters.Update();
+            if (CaptureLiveView && _onShotParameters.SeriesComplete)
+            {
+                _onShotParameters.Reset();
+                return;
+            }
+
             if (_onShotParameters.TakeSeries && !_onShotParameters.SeriesComplete)
             {
-              //  PhaseShiftController.SetShift(ShiftStep, _onShotParameters.CurrentImageIndex, ShiftDelay);
+                //  PhaseShiftController.SetShift(ShiftStep, _onShotParameters.CurrentImageIndex, ShiftDelay);
                 CameraConnector.TakePhoto();
             }
         }

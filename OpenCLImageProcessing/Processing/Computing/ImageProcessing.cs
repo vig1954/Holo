@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -70,12 +71,12 @@ namespace Processing.Computing
         }
 
         [DataProcessor("Интерференция", ProcessorGroups.Computing)]
-        public static void Interference(IImageHandler image1, IImageHandler image2, IImageHandler output)
+        public static void Interference(IImageHandler image1, IImageHandler image2, [Range(0, 360), Precision(0), DefaultValue(0)] float delta, IImageHandler output)
         {
             if (!image1.SizeEquals(image1) || !output.SizeEquals(image1))
                 throw new InvalidOperationException("Изображения должны быть одинакового размера.");
 
-            Singleton.Get<OpenClApplication>().ExecuteKernel("interference", output.Width, output.Height, image1.ComputeBuffer, image2.ComputeBuffer, output.ComputeBuffer);
+            Singleton.Get<OpenClApplication>().ExecuteKernel("interference", output.Width, output.Height, image1.ComputeBuffer, image2.ComputeBuffer, delta, output.ComputeBuffer);
         }
     }
 }

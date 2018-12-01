@@ -36,9 +36,10 @@ namespace Processing.Computing
                 Math.Abs(denomenator), amplitude, output);
         }
 
-        [DataProcessor("Pseudo PSI", ProcessorGroups.Computing)]
-        public static void PseudoPsi4(
+        [DataProcessor("Вычисление фазы", ProcessorGroups.Computing)]
+        public static void PhaseRetrieval(
             [ImageHandlerFilter(AllowedImageFormat.Greyscale)] IImageHandler image1,
+            [ImageHandlerFilter(AllowedImageFormat.Greyscale)] IImageHandler image2,
             [Range(0, 100), Precision(1)] float amplitude, 
             [ImageHandlerFilter(AllowedImageFormat.RealImaginative, AllowedImagePixelFormat.Float)]IImageHandler output)
         {
@@ -51,7 +52,8 @@ namespace Processing.Computing
             var denomenator = sinOrto.VectorMul(kCos);
 
             var app = Singleton.Get<OpenClApplication>();
-            app.ExecuteKernel("pseudoPsi4Kernel", image1.Width, image1.Height, image1,
+            app.ExecuteKernel("phaseRetrieval", image1.Width, image1.Height, image1, image2, 
+                new Vector4(phaseShift[0], phaseShift[1], phaseShift[2], phaseShift[3]),
                 new Vector4(sinOrto[0], sinOrto[1], sinOrto[2], sinOrto[3]),
                 new Vector4(cosOrto[0], cosOrto[1], cosOrto[2], cosOrto[3]),
                 Math.Abs(denomenator), amplitude, output);

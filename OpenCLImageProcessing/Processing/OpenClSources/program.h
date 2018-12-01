@@ -163,26 +163,6 @@ __kernel void psi4Kernel(__read_only image2d_t img0, __read_only image2d_t img1,
     write_imagef(output, coord, (float4)(result.x, result.y, 0, 0));
 }
 
-__kernel void pseudoPsi4Kernel(__read_only image2d_t img0, float4 k_sin, float4 k_cos, float den_abs, float amplitude, __write_only image2d_t output)
-{
-    const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates
-         CLK_ADDRESS_CLAMP | //Clamp to zeros
-         CLK_FILTER_NEAREST; //Don't interpolate
-
-    int2 coord = (int2)(get_global_id(0), get_global_id(1));
-    float val0 = read_imagef(img0, smp, coord).x;
-    float4 i_sdv = (float4)(val0, val0, val0, val0);
-
-    float p1 = vectorMul(i_sdv, k_sin);
-    float p2 = vectorMul(i_sdv, k_cos);
-    float a = atan2(p2, p1);
-
-    float am = sqrt(p1*p1 + p2*p2) / den_abs;
-
-    float2 result = complexFromPolarCoordinates(am, a);
-    write_imagef(output, coord, (float4)(result.x, result.y, 0, 0));
-}
-
 // minmax for 2 channels
 __kernel void minMax2(__read_only image2d_t img, __global float2* minBuffer, __global float2* maxBuffer, int workSize, int width, int height, int bufferWidth)
 {
@@ -520,7 +500,7 @@ __kernel void combineAmplitudeAndPhase(__read_only image2d_t ampImg, __read_only
 	write_imagef(output, coord, (float4)(re, im, 0, 0));
 }
 
-__kernel void interference(__read_only image2d_t img1, __read_only image2d_t img2, __write_only image2d_t output)
+__kernel void interference(__read_only image2d_t img1, __read_only image2d_t img2, float delta, __write_only image2d_t output)
 {
 	int x = get_global_id(0);
 	int y = get_global_id(1);
@@ -538,7 +518,30 @@ __kernel void interference(__read_only image2d_t img1, __read_only image2d_t img
 	float p1 = phase(val1);
 	float p2 = phase(val2);
 
-	float i =/* a1*a1+a2*a2+2*a1*a2**/cos(p1-p2);
+	float i =/* a1*a1+a2*a2+2*a1*a2**/cos(p1-p2+delta);
 
 	write_imagef(output, coord, (float4)(i, 0, 0, 0));
+}
+
+__kernel void phaseRetrieval(__read_only image2d_t img1, __read_only image2d_t img2, float4 shifts, float4 k_sin, float4 k_cos, float den_abs, float amplitude, __write_only image2d_t output)
+{
+    const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates
+         CLK_ADDRESS_CLAMP | //Clamp to zeros
+         CLK_FILTER_NEAREST; //Don't interpolate
+
+    int2 coord = (int2)(get_global_id(0), get_global_id(1));
+    float2 val1 = read_imagef(img1, smp, coord).xy;
+	float2 val2 = read_imagef(img2, smp, coord).xy;
+	float dp = phase(val1) - phase(val2);
+
+    float4 i_sdv = (float4)(cos(dp+shifts.x), cos(dp+shifts.y), cos(dp+shifts.z), cos(dp+shifts.w));
+
+    float p1 = vectorMul(i_sdv, k_sin);
+    float p2 = vectorMul(i_sdv, k_cos);
+    float a = atan2(p2, p1);
+
+    float am = sqrt(p1*p1 + p2*p2) / den_abs;
+
+    float2 result = complexFromPolarCoordinates(am, a);
+    write_imagef(output, coord, (float4)(result.x, result.y, 0, 0));
 }
