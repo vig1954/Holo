@@ -2918,6 +2918,7 @@ namespace rab1
             CameraForm cameraForm = new CameraForm();
             cameraForm.PictureTaken += new PictureTakenHandler(HandleCameraPicture);
             cameraForm.LiveViewUpdated += new LiveViewUpdatedHandler(HandleLiveViewUpdate);
+            cameraForm.MainForm = this;
             cameraForm.Show();
         }
 
@@ -2925,7 +2926,7 @@ namespace rab1
         {
             if (eventArgs == null) return;
 
-            switch (eventArgs.PhaseShiftNumber)
+            switch (eventArgs.Number)
             {
                 
                 case 0:
@@ -2936,28 +2937,24 @@ namespace rab1
                 case 1:
                     {
                         zArrayDescriptor[8] = new ZArrayDescriptor(eventArgs.Image, eventArgs.ColorMode);
-                        //zArrayDescriptor[8] = Util_array.getArrayFromBitmap(eventArgs.Image);
                         pictureBox9.Image = eventArgs.Image;
                         break;
                     }
                 case 2:
                     {
                         zArrayDescriptor[9] = new ZArrayDescriptor(eventArgs.Image, eventArgs.ColorMode);
-                        //zArrayDescriptor[9] = Util_array.getArrayFromBitmap(eventArgs.Image);
                         pictureBox10.Image = eventArgs.Image;
                         break;
                     }
                 case 3:
                     {
                         zArrayDescriptor[10] = new ZArrayDescriptor(eventArgs.Image, eventArgs.ColorMode);
-                        //zArrayDescriptor[10] = Util_array.getArrayFromBitmap(eventArgs.Image);
                         pictureBox11.Image = eventArgs.Image;
                         break;
                     }
                 case 4:
                     {
                         zArrayDescriptor[11] = new ZArrayDescriptor(eventArgs.Image, eventArgs.ColorMode);
-                        //zArrayDescriptor[11] = Util_array.getArrayFromBitmap(eventArgs.Image);
                         pictureBox12.Image = eventArgs.Image;
                         break;
                     }
@@ -2972,28 +2969,24 @@ namespace rab1
                 case 1:
                     {
                         zArrayDescriptor[8] = new ZArrayDescriptor(eventArgs.Image, eventArgs.ColorMode);
-                        //zArrayDescriptor[8] = Util_array.getArrayFromBitmap(eventArgs.Image);
                         pictureBox9.Image = eventArgs.Image;
                         break;
                     }
                 case 2:
                     {
                         zArrayDescriptor[9] = new ZArrayDescriptor(eventArgs.Image, eventArgs.ColorMode);
-                        //zArrayDescriptor[9] = Util_array.getArrayFromBitmap(eventArgs.Image);
                         pictureBox10.Image = eventArgs.Image;
                         break;
                     }
                 case 3:
                     {
                         zArrayDescriptor[10] = new ZArrayDescriptor(eventArgs.Image, eventArgs.ColorMode);
-                        //zArrayDescriptor[10] = Util_array.getArrayFromBitmap(eventArgs.Image);
                         pictureBox11.Image = eventArgs.Image;
                         break;
                     }
                 case 4:
                     {
                         zArrayDescriptor[11] = new ZArrayDescriptor(eventArgs.Image, eventArgs.ColorMode);
-                        //zArrayDescriptor[11] = Util_array.getArrayFromBitmap(eventArgs.Image);
                         pictureBox12.Image = eventArgs.Image;
                         break;
                     }
@@ -3020,36 +3013,21 @@ namespace rab1
         {
 
         }
+        
+        public Image GetImageFromPoctureBox(int number)
+        {
+            Image image = null;
 
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            int index = number - 1;
+            PictureBox picBox = pictureBoxArray[index];
+            
+            if (picBox != null)
+            {
+                image = picBox.Image;
+            }
+            return image;
+        }
+                             
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }

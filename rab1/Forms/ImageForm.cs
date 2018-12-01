@@ -15,13 +15,14 @@ namespace rab1
         public ImageForm()
         {
             InitializeComponent();
+
+            this.imageBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
         }
 
-        public void SetImage(Bitmap bitmap)
+        public void SetImage(Image image)
         {
-            this.imageBox.Image = bitmap;
+            this.imageBox.Image = image;
             this.imageBox.Invalidate();
         }
-
     }
 }

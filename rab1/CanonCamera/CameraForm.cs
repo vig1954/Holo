@@ -15,6 +15,8 @@ namespace rab1
     {
         #region Variables
 
+        TakePhotoSeriesTypeEnum seriesType = TakePhotoSeriesTypeEnum.Uknown;
+
         PhaseShiftDeviceController phaseShiftDeviceController = null;
         short phaseShiftStep = 0;
         short phaseShiftCount = 0;
@@ -42,13 +44,19 @@ namespace rab1
         object ErrLock = new object();
 
         ImageForm imageForm = null;
+        short currentImageNumber = 0;
+
+        #endregion
+
+        #region
+        
+        public Form1 MainForm { get; set; }
         
         #endregion
 
+    #region Events
 
-        #region Events
-
-        public PictureTakenHandler PictureTaken;
+    public PictureTakenHandler PictureTaken;
         public LiveViewUpdatedHandler LiveViewUpdated;
 
         #endregion
@@ -175,10 +183,21 @@ namespace rab1
         {
             if (PictureTaken != null)
             {
+                short number = 0; 
+
+                if (seriesType == TakePhotoSeriesTypeEnum.ImageSeries)
+                {
+                    number = currentImageNumber;
+                }
+                if (seriesType == TakePhotoSeriesTypeEnum.PhaseShifts)
+                {
+                    number = currentPhaseShiftNumber;
+                }
+                
                 PictureTakenEventArgs eventArgs = new PictureTakenEventArgs()
                 {
                     Image = bitmap,
-                    PhaseShiftNumber = currentPhaseShiftNumber,
+                    Number = number,
                     PhaseShiftValue = currentPhaseShiftValue,
                     ColorMode = colorMode
                 };
@@ -203,23 +222,43 @@ namespace rab1
         {
             if (takeNextPhoto)
             {
-                currentPhaseShiftNumber++;
-                currentPhaseShiftValue += phaseShiftStep;
-                if (currentPhaseShiftNumber == phaseShiftCount)
+                if (seriesType == TakePhotoSeriesTypeEnum.PhaseShifts)
                 {
-                    takeNextPhoto = false;
-                }
-                else
-                {
-                    takeNextPhoto = true;
+                    currentPhaseShiftNumber++;
+                    currentPhaseShiftValue += phaseShiftStep;
+                    if (currentPhaseShiftNumber == phaseShiftCount)
+                    {
+                        takeNextPhoto = false;
+                    }
+                    else
+                    {
+                        takeNextPhoto = true;
+                    }
+
+                    if (currentPhaseShiftNumber <= phaseShiftCount)
+                    {
+                        ExecutePhaseShiftAndTakePhoto();
+                    }
                 }
 
-                if (currentPhaseShiftNumber <= phaseShiftCount)
+                if (seriesType == TakePhotoSeriesTypeEnum.ImageSeries)
                 {
-                    ExecutePhaseShiftAndTakePhoto();
+                    currentImageNumber++;
+                    if (currentImageNumber == 4)
+                    {
+                        takeNextPhoto = false;
+                    }
+                    else
+                    {
+                        takeNextPhoto = true;
+                    }
+
+                    if (currentImageNumber <= 4)
+                    {
+                        SetImageAndTakePhoto();
+                    }
                 }
             }
-
         }
         
         private void SDK_LiveViewUpdated(Stream img)
@@ -249,22 +288,6 @@ namespace rab1
                 {
                     using (Graphics g = LiveViewPicBox.CreateGraphics())
                     {
-                        /*
-                        LVBratio = LVBw / (float)LVBh;
-                        LVration = Evf_Bmp.Width / (float)Evf_Bmp.Height;
-                        if (LVBratio < LVration)
-                        {
-                            w = LVBw;
-                            h = (int)(LVBw / LVration);
-                        }
-                        else
-                        {
-                            w = (int)(LVBh * LVration);
-                            h = LVBh;
-                        }
-                        g.DrawImage(Evf_Bmp, 0, 0, w, h);
-                        */
-
                         g.DrawImage(Evf_Bmp, 0, 0, Evf_Bmp.Width, Evf_Bmp.Height);
                     }
                 }
@@ -616,7 +639,7 @@ namespace rab1
 
         private void takeSeriesPhotoButton_Click(object sender, EventArgs e)
         {
-            TakeSeriesPhoto();
+            TakePhaseShiftsSeriesPhoto();
         }
 
         private void initSerialPortButton_Click(object sender, EventArgs e)
@@ -646,17 +669,40 @@ namespace rab1
             }
         }
         
-        private void TakeSeriesPhoto()
+        private void TakePhaseShiftsSeriesPhoto()
         {
+            seriesType = TakePhotoSeriesTypeEnum.PhaseShifts;
+
             InitPhaseShiftParameters();
             takeNextPhoto = true;
             ExecutePhaseShiftAndTakePhoto();
+        }
+
+        private void TakeImagesSeriesPhoto()
+        {
+            seriesType = TakePhotoSeriesTypeEnum.ImageSeries;
+            currentImageNumber = 1;      
+
+            takeNextPhoto = true;
+            SetImageAndTakePhoto();
         }
 
         private void ExecutePhaseShiftAndTakePhoto()
         {
             ExecutePhaseShift();
             TakePhoto();
+        }
+        
+        private void SetImageAndTakePhoto()
+        {
+            SetImage();
+            Thread.Sleep(1500);
+            TakePhoto();
+        }
+
+        private void SetImage()
+        {
+            imageForm.SetImage(MainForm.GetImageFromPoctureBox(currentImageNumber)); 
         }
 
         private void ExecutePhaseShift()
@@ -700,7 +746,7 @@ namespace rab1
 
         private void takeSeriesFromPictureBoxesButton_Click(object sender, EventArgs e)
         {
-
+            TakeImagesSeriesPhoto();
         }
 
         private void MakePhaseShifts()

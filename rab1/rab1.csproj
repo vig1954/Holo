@@ -120,6 +120,7 @@
     <Compile Include="Forms\UnrupForm1.Designer.cs">
       <DependentUpon>UnrupForm1.cs</DependentUpon>
     </Compile>
+    <Compile Include="TakePhotoSeiesType.cs" />
     <Compile Include="ZArrayDescriptor.cs" />
     <Compile Include="ZIntDescriptor.cs" />
     <Compile Include="Unrup.cs" />
