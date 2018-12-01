@@ -3014,7 +3014,7 @@ namespace rab1
 
         }
         
-        public Image GetImageFromPoctureBox(int number)
+        public Image GetImageFromPictureBox(int number)
         {
             Image image = null;
 

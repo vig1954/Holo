@@ -41,21 +41,24 @@
             this.FocusNear2Button = new System.Windows.Forms.Button();
             this.FocusNear3Button = new System.Windows.Forms.Button();
             this.SettingsGroupBox = new System.Windows.Forms.GroupBox();
+            this.backGroundWindowButton = new System.Windows.Forms.Button();
+            this.takeSeriesFromPictureBoxesButton = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.currentPhaseShiftLabel = new System.Windows.Forms.Label();
+            this.phaseShiftCountTextBox = new System.Windows.Forms.TextBox();
+            this.phaseShiftCountLabel = new System.Windows.Forms.Label();
+            this.closephaseShiftSerialPortButton = new System.Windows.Forms.Button();
+            this.initSerialPortButton = new System.Windows.Forms.Button();
+            this.MakePhaseShiftsButton = new System.Windows.Forms.Button();
+            this.phaseShiftStepLabel = new System.Windows.Forms.Label();
+            this.SerialPortLabel = new System.Windows.Forms.Label();
+            this.phaseShiftStepTextBox = new System.Windows.Forms.TextBox();
+            this.phaseShiftSerialPortComboBox = new System.Windows.Forms.ComboBox();
             this.lblColor = new System.Windows.Forms.Label();
             this.colorComboBox = new System.Windows.Forms.ComboBox();
             this.DelayPhaseShiftLabel = new System.Windows.Forms.Label();
-            this.DelayPhaseShiftTextBox = new System.Windows.Forms.TextBox();
-            this.MakePhaseShiftsButton = new System.Windows.Forms.Button();
-            this.SerialPortLabel = new System.Windows.Forms.Label();
-            this.currentPhaseShiftLabel = new System.Windows.Forms.Label();
-            this.closephaseShiftSerialPortButton = new System.Windows.Forms.Button();
-            this.phaseShiftCountLabel = new System.Windows.Forms.Label();
-            this.phaseShiftCountTextBox = new System.Windows.Forms.TextBox();
-            this.phaseShiftStepLabel = new System.Windows.Forms.Label();
-            this.phaseShiftStepTextBox = new System.Windows.Forms.TextBox();
-            this.initSerialPortButton = new System.Windows.Forms.Button();
+            this.DelayTextBox = new System.Windows.Forms.TextBox();
             this.takeSeriesPhotoButton = new System.Windows.Forms.Button();
-            this.phaseShiftSerialPortComboBox = new System.Windows.Forms.ComboBox();
             this.MainProgressBar = new System.Windows.Forms.ProgressBar();
             this.WBCoBox = new System.Windows.Forms.ComboBox();
             this.SavePathTextBox = new System.Windows.Forms.TextBox();
@@ -79,16 +82,13 @@
             this.SaveFolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.LiveViewPicBox = new System.Windows.Forms.PictureBox();
             this.LiveViewGroupBox = new System.Windows.Forms.GroupBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.takeSeriesFromPictureBoxesButton = new System.Windows.Forms.Button();
-            this.backGroundWindowButton = new System.Windows.Forms.Button();
             this.InitGroupBox.SuspendLayout();
             this.SettingsGroupBox.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SaveToGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BulbUpDo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.LiveViewPicBox)).BeginInit();
             this.LiveViewGroupBox.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // LiveViewButton
@@ -228,16 +228,16 @@
             this.SettingsGroupBox.Controls.Add(this.backGroundWindowButton);
             this.SettingsGroupBox.Controls.Add(this.takeSeriesFromPictureBoxesButton);
             this.SettingsGroupBox.Controls.Add(this.groupBox1);
+            this.SettingsGroupBox.Controls.Add(this.SaveToGroupBox);
             this.SettingsGroupBox.Controls.Add(this.lblColor);
             this.SettingsGroupBox.Controls.Add(this.colorComboBox);
             this.SettingsGroupBox.Controls.Add(this.DelayPhaseShiftLabel);
-            this.SettingsGroupBox.Controls.Add(this.DelayPhaseShiftTextBox);
+            this.SettingsGroupBox.Controls.Add(this.DelayTextBox);
             this.SettingsGroupBox.Controls.Add(this.takeSeriesPhotoButton);
             this.SettingsGroupBox.Controls.Add(this.MainProgressBar);
             this.SettingsGroupBox.Controls.Add(this.WBCoBox);
             this.SettingsGroupBox.Controls.Add(this.SavePathTextBox);
             this.SettingsGroupBox.Controls.Add(this.BrowseButton);
-            this.SettingsGroupBox.Controls.Add(this.SaveToGroupBox);
             this.SettingsGroupBox.Controls.Add(this.label4);
             this.SettingsGroupBox.Controls.Add(this.label3);
             this.SettingsGroupBox.Controls.Add(this.label2);
@@ -258,40 +258,92 @@
             this.SettingsGroupBox.TabStop = false;
             this.SettingsGroupBox.Text = "Settings";
             // 
-            // lblColor
+            // backGroundWindowButton
             // 
-            this.lblColor.AutoSize = true;
-            this.lblColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblColor.Location = new System.Drawing.Point(613, 27);
-            this.lblColor.Name = "lblColor";
-            this.lblColor.Size = new System.Drawing.Size(43, 16);
-            this.lblColor.TabIndex = 23;
-            this.lblColor.Text = "Color:";
+            this.backGroundWindowButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.backGroundWindowButton.Location = new System.Drawing.Point(734, 96);
+            this.backGroundWindowButton.Name = "backGroundWindowButton";
+            this.backGroundWindowButton.Size = new System.Drawing.Size(91, 54);
+            this.backGroundWindowButton.TabIndex = 26;
+            this.backGroundWindowButton.Text = "Background Window";
+            this.backGroundWindowButton.UseVisualStyleBackColor = true;
+            this.backGroundWindowButton.Click += new System.EventHandler(this.backGroundWindowButton_Click);
             // 
-            // colorComboBox
+            // takeSeriesFromPictureBoxesButton
             // 
-            this.colorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.colorComboBox.FormattingEnabled = true;
-            this.colorComboBox.Location = new System.Drawing.Point(663, 25);
-            this.colorComboBox.Name = "colorComboBox";
-            this.colorComboBox.Size = new System.Drawing.Size(65, 21);
-            this.colorComboBox.TabIndex = 22;
+            this.takeSeriesFromPictureBoxesButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.takeSeriesFromPictureBoxesButton.Location = new System.Drawing.Point(734, 16);
+            this.takeSeriesFromPictureBoxesButton.Name = "takeSeriesFromPictureBoxesButton";
+            this.takeSeriesFromPictureBoxesButton.Size = new System.Drawing.Size(91, 74);
+            this.takeSeriesFromPictureBoxesButton.TabIndex = 25;
+            this.takeSeriesFromPictureBoxesButton.Text = "Take Series From 1,2,3,4";
+            this.takeSeriesFromPictureBoxesButton.UseVisualStyleBackColor = true;
+            this.takeSeriesFromPictureBoxesButton.Click += new System.EventHandler(this.takeSeriesFromPictureBoxesButton_Click);
             // 
-            // DelayPhaseShiftLabel
+            // groupBox1
             // 
-            this.DelayPhaseShiftLabel.AutoSize = true;
-            this.DelayPhaseShiftLabel.Location = new System.Drawing.Point(221, 130);
-            this.DelayPhaseShiftLabel.Name = "DelayPhaseShiftLabel";
-            this.DelayPhaseShiftLabel.Size = new System.Drawing.Size(37, 13);
-            this.DelayPhaseShiftLabel.TabIndex = 21;
-            this.DelayPhaseShiftLabel.Text = "Delay:";
+            this.groupBox1.Controls.Add(this.currentPhaseShiftLabel);
+            this.groupBox1.Controls.Add(this.phaseShiftCountTextBox);
+            this.groupBox1.Controls.Add(this.phaseShiftCountLabel);
+            this.groupBox1.Controls.Add(this.closephaseShiftSerialPortButton);
+            this.groupBox1.Controls.Add(this.initSerialPortButton);
+            this.groupBox1.Controls.Add(this.MakePhaseShiftsButton);
+            this.groupBox1.Controls.Add(this.phaseShiftStepLabel);
+            this.groupBox1.Controls.Add(this.SerialPortLabel);
+            this.groupBox1.Controls.Add(this.phaseShiftStepTextBox);
+            this.groupBox1.Controls.Add(this.phaseShiftSerialPortComboBox);
+            this.groupBox1.Location = new System.Drawing.Point(303, 58);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(425, 92);
+            this.groupBox1.TabIndex = 24;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Phase shift";
             // 
-            // DelayPhaseShiftTextBox
+            // currentPhaseShiftLabel
             // 
-            this.DelayPhaseShiftTextBox.Location = new System.Drawing.Point(261, 127);
-            this.DelayPhaseShiftTextBox.Name = "DelayPhaseShiftTextBox";
-            this.DelayPhaseShiftTextBox.Size = new System.Drawing.Size(34, 20);
-            this.DelayPhaseShiftTextBox.TabIndex = 20;
+            this.currentPhaseShiftLabel.AutoSize = true;
+            this.currentPhaseShiftLabel.Location = new System.Drawing.Point(357, 30);
+            this.currentPhaseShiftLabel.Name = "currentPhaseShiftLabel";
+            this.currentPhaseShiftLabel.Size = new System.Drawing.Size(61, 13);
+            this.currentPhaseShiftLabel.TabIndex = 17;
+            this.currentPhaseShiftLabel.Text = "Phase Shift";
+            // 
+            // phaseShiftCountTextBox
+            // 
+            this.phaseShiftCountTextBox.Location = new System.Drawing.Point(106, 25);
+            this.phaseShiftCountTextBox.Name = "phaseShiftCountTextBox";
+            this.phaseShiftCountTextBox.Size = new System.Drawing.Size(77, 20);
+            this.phaseShiftCountTextBox.TabIndex = 14;
+            // 
+            // phaseShiftCountLabel
+            // 
+            this.phaseShiftCountLabel.AutoSize = true;
+            this.phaseShiftCountLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.phaseShiftCountLabel.Location = new System.Drawing.Point(22, 27);
+            this.phaseShiftCountLabel.Name = "phaseShiftCountLabel";
+            this.phaseShiftCountLabel.Size = new System.Drawing.Size(78, 16);
+            this.phaseShiftCountLabel.TabIndex = 15;
+            this.phaseShiftCountLabel.Text = "Shifts count:";
+            // 
+            // closephaseShiftSerialPortButton
+            // 
+            this.closephaseShiftSerialPortButton.Location = new System.Drawing.Point(347, 59);
+            this.closephaseShiftSerialPortButton.Name = "closephaseShiftSerialPortButton";
+            this.closephaseShiftSerialPortButton.Size = new System.Drawing.Size(73, 23);
+            this.closephaseShiftSerialPortButton.TabIndex = 16;
+            this.closephaseShiftSerialPortButton.Text = "Close";
+            this.closephaseShiftSerialPortButton.UseVisualStyleBackColor = true;
+            this.closephaseShiftSerialPortButton.Click += new System.EventHandler(this.closephaseShiftSerialPortButton_Click);
+            // 
+            // initSerialPortButton
+            // 
+            this.initSerialPortButton.Location = new System.Drawing.Point(267, 59);
+            this.initSerialPortButton.Name = "initSerialPortButton";
+            this.initSerialPortButton.Size = new System.Drawing.Size(74, 23);
+            this.initSerialPortButton.TabIndex = 11;
+            this.initSerialPortButton.Text = "Init";
+            this.initSerialPortButton.UseVisualStyleBackColor = true;
+            this.initSerialPortButton.Click += new System.EventHandler(this.initSerialPortButton_Click);
             // 
             // MakePhaseShiftsButton
             // 
@@ -304,52 +356,6 @@
             this.MakePhaseShiftsButton.UseVisualStyleBackColor = true;
             this.MakePhaseShiftsButton.Click += new System.EventHandler(this.MakePhaseShiftsButton_Click);
             // 
-            // SerialPortLabel
-            // 
-            this.SerialPortLabel.AutoSize = true;
-            this.SerialPortLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SerialPortLabel.Location = new System.Drawing.Point(111, 62);
-            this.SerialPortLabel.Name = "SerialPortLabel";
-            this.SerialPortLabel.Size = new System.Drawing.Size(65, 16);
-            this.SerialPortLabel.TabIndex = 18;
-            this.SerialPortLabel.Text = "Com port:";
-            // 
-            // currentPhaseShiftLabel
-            // 
-            this.currentPhaseShiftLabel.AutoSize = true;
-            this.currentPhaseShiftLabel.Location = new System.Drawing.Point(357, 30);
-            this.currentPhaseShiftLabel.Name = "currentPhaseShiftLabel";
-            this.currentPhaseShiftLabel.Size = new System.Drawing.Size(61, 13);
-            this.currentPhaseShiftLabel.TabIndex = 17;
-            this.currentPhaseShiftLabel.Text = "Phase Shift";
-            // 
-            // closephaseShiftSerialPortButton
-            // 
-            this.closephaseShiftSerialPortButton.Location = new System.Drawing.Point(347, 59);
-            this.closephaseShiftSerialPortButton.Name = "closephaseShiftSerialPortButton";
-            this.closephaseShiftSerialPortButton.Size = new System.Drawing.Size(73, 23);
-            this.closephaseShiftSerialPortButton.TabIndex = 16;
-            this.closephaseShiftSerialPortButton.Text = "Close";
-            this.closephaseShiftSerialPortButton.UseVisualStyleBackColor = true;
-            this.closephaseShiftSerialPortButton.Click += new System.EventHandler(this.closephaseShiftSerialPortButton_Click);
-            // 
-            // phaseShiftCountLabel
-            // 
-            this.phaseShiftCountLabel.AutoSize = true;
-            this.phaseShiftCountLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.phaseShiftCountLabel.Location = new System.Drawing.Point(22, 27);
-            this.phaseShiftCountLabel.Name = "phaseShiftCountLabel";
-            this.phaseShiftCountLabel.Size = new System.Drawing.Size(78, 16);
-            this.phaseShiftCountLabel.TabIndex = 15;
-            this.phaseShiftCountLabel.Text = "Shifts count:";
-            // 
-            // phaseShiftCountTextBox
-            // 
-            this.phaseShiftCountTextBox.Location = new System.Drawing.Point(106, 25);
-            this.phaseShiftCountTextBox.Name = "phaseShiftCountTextBox";
-            this.phaseShiftCountTextBox.Size = new System.Drawing.Size(77, 20);
-            this.phaseShiftCountTextBox.TabIndex = 14;
-            // 
             // phaseShiftStepLabel
             // 
             this.phaseShiftStepLabel.AutoSize = true;
@@ -360,33 +366,22 @@
             this.phaseShiftStepLabel.TabIndex = 13;
             this.phaseShiftStepLabel.Text = "Shifts step:";
             // 
+            // SerialPortLabel
+            // 
+            this.SerialPortLabel.AutoSize = true;
+            this.SerialPortLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SerialPortLabel.Location = new System.Drawing.Point(111, 62);
+            this.SerialPortLabel.Name = "SerialPortLabel";
+            this.SerialPortLabel.Size = new System.Drawing.Size(65, 16);
+            this.SerialPortLabel.TabIndex = 18;
+            this.SerialPortLabel.Text = "Com port:";
+            // 
             // phaseShiftStepTextBox
             // 
             this.phaseShiftStepTextBox.Location = new System.Drawing.Point(267, 26);
             this.phaseShiftStepTextBox.Name = "phaseShiftStepTextBox";
             this.phaseShiftStepTextBox.Size = new System.Drawing.Size(76, 20);
             this.phaseShiftStepTextBox.TabIndex = 12;
-            // 
-            // initSerialPortButton
-            // 
-            this.initSerialPortButton.Location = new System.Drawing.Point(267, 59);
-            this.initSerialPortButton.Name = "initSerialPortButton";
-            this.initSerialPortButton.Size = new System.Drawing.Size(74, 23);
-            this.initSerialPortButton.TabIndex = 11;
-            this.initSerialPortButton.Text = "Init";
-            this.initSerialPortButton.UseVisualStyleBackColor = true;
-            this.initSerialPortButton.Click += new System.EventHandler(this.initSerialPortButton_Click);
-            // 
-            // takeSeriesPhotoButton
-            // 
-            this.takeSeriesPhotoButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.takeSeriesPhotoButton.Location = new System.Drawing.Point(240, 73);
-            this.takeSeriesPhotoButton.Name = "takeSeriesPhotoButton";
-            this.takeSeriesPhotoButton.Size = new System.Drawing.Size(55, 47);
-            this.takeSeriesPhotoButton.TabIndex = 10;
-            this.takeSeriesPhotoButton.Text = "Take Series";
-            this.takeSeriesPhotoButton.UseVisualStyleBackColor = true;
-            this.takeSeriesPhotoButton.Click += new System.EventHandler(this.takeSeriesPhotoButton_Click);
             // 
             // phaseShiftSerialPortComboBox
             // 
@@ -396,6 +391,52 @@
             this.phaseShiftSerialPortComboBox.Name = "phaseShiftSerialPortComboBox";
             this.phaseShiftSerialPortComboBox.Size = new System.Drawing.Size(76, 21);
             this.phaseShiftSerialPortComboBox.TabIndex = 9;
+            // 
+            // lblColor
+            // 
+            this.lblColor.AutoSize = true;
+            this.lblColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblColor.Location = new System.Drawing.Point(667, 15);
+            this.lblColor.Name = "lblColor";
+            this.lblColor.Size = new System.Drawing.Size(43, 16);
+            this.lblColor.TabIndex = 23;
+            this.lblColor.Text = "Color:";
+            // 
+            // colorComboBox
+            // 
+            this.colorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.colorComboBox.FormattingEnabled = true;
+            this.colorComboBox.Location = new System.Drawing.Point(670, 34);
+            this.colorComboBox.Name = "colorComboBox";
+            this.colorComboBox.Size = new System.Drawing.Size(58, 21);
+            this.colorComboBox.TabIndex = 22;
+            // 
+            // DelayPhaseShiftLabel
+            // 
+            this.DelayPhaseShiftLabel.AutoSize = true;
+            this.DelayPhaseShiftLabel.Location = new System.Drawing.Point(611, 15);
+            this.DelayPhaseShiftLabel.Name = "DelayPhaseShiftLabel";
+            this.DelayPhaseShiftLabel.Size = new System.Drawing.Size(37, 13);
+            this.DelayPhaseShiftLabel.TabIndex = 21;
+            this.DelayPhaseShiftLabel.Text = "Delay:";
+            // 
+            // DelayTextBox
+            // 
+            this.DelayTextBox.Location = new System.Drawing.Point(611, 34);
+            this.DelayTextBox.Name = "DelayTextBox";
+            this.DelayTextBox.Size = new System.Drawing.Size(53, 20);
+            this.DelayTextBox.TabIndex = 20;
+            // 
+            // takeSeriesPhotoButton
+            // 
+            this.takeSeriesPhotoButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.takeSeriesPhotoButton.Location = new System.Drawing.Point(242, 73);
+            this.takeSeriesPhotoButton.Name = "takeSeriesPhotoButton";
+            this.takeSeriesPhotoButton.Size = new System.Drawing.Size(55, 47);
+            this.takeSeriesPhotoButton.TabIndex = 10;
+            this.takeSeriesPhotoButton.Text = "Take Series";
+            this.takeSeriesPhotoButton.UseVisualStyleBackColor = true;
+            this.takeSeriesPhotoButton.Click += new System.EventHandler(this.takeSeriesPhotoButton_Click);
             // 
             // MainProgressBar
             // 
@@ -436,7 +477,7 @@
             this.BrowseButton.Enabled = false;
             this.BrowseButton.Location = new System.Drawing.Point(142, 125);
             this.BrowseButton.Name = "BrowseButton";
-            this.BrowseButton.Size = new System.Drawing.Size(76, 23);
+            this.BrowseButton.Size = new System.Drawing.Size(94, 23);
             this.BrowseButton.TabIndex = 5;
             this.BrowseButton.Text = "Browse";
             this.BrowseButton.UseVisualStyleBackColor = true;
@@ -448,7 +489,7 @@
             this.SaveToGroupBox.Controls.Add(this.STBothButton);
             this.SaveToGroupBox.Controls.Add(this.STComputerButton);
             this.SaveToGroupBox.Controls.Add(this.STCameraButton);
-            this.SaveToGroupBox.Location = new System.Drawing.Point(303, 13);
+            this.SaveToGroupBox.Location = new System.Drawing.Point(301, 16);
             this.SaveToGroupBox.Name = "SaveToGroupBox";
             this.SaveToGroupBox.Size = new System.Drawing.Size(304, 39);
             this.SaveToGroupBox.TabIndex = 4;
@@ -660,47 +701,6 @@
             this.LiveViewGroupBox.TabStop = false;
             this.LiveViewGroupBox.Text = "Live view";
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.currentPhaseShiftLabel);
-            this.groupBox1.Controls.Add(this.phaseShiftCountTextBox);
-            this.groupBox1.Controls.Add(this.phaseShiftCountLabel);
-            this.groupBox1.Controls.Add(this.closephaseShiftSerialPortButton);
-            this.groupBox1.Controls.Add(this.initSerialPortButton);
-            this.groupBox1.Controls.Add(this.MakePhaseShiftsButton);
-            this.groupBox1.Controls.Add(this.phaseShiftStepLabel);
-            this.groupBox1.Controls.Add(this.SerialPortLabel);
-            this.groupBox1.Controls.Add(this.phaseShiftStepTextBox);
-            this.groupBox1.Controls.Add(this.phaseShiftSerialPortComboBox);
-            this.groupBox1.Location = new System.Drawing.Point(303, 58);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(425, 92);
-            this.groupBox1.TabIndex = 24;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Phase shift";
-            // 
-            // takeSeriesFromPictureBoxesButton
-            // 
-            this.takeSeriesFromPictureBoxesButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.takeSeriesFromPictureBoxesButton.Location = new System.Drawing.Point(734, 25);
-            this.takeSeriesFromPictureBoxesButton.Name = "takeSeriesFromPictureBoxesButton";
-            this.takeSeriesFromPictureBoxesButton.Size = new System.Drawing.Size(91, 65);
-            this.takeSeriesFromPictureBoxesButton.TabIndex = 25;
-            this.takeSeriesFromPictureBoxesButton.Text = "Take Series From 1,2,3,4";
-            this.takeSeriesFromPictureBoxesButton.UseVisualStyleBackColor = true;
-            this.takeSeriesFromPictureBoxesButton.Click += new System.EventHandler(this.takeSeriesFromPictureBoxesButton_Click);
-            // 
-            // backGroundWindowButton
-            // 
-            this.backGroundWindowButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.backGroundWindowButton.Location = new System.Drawing.Point(734, 96);
-            this.backGroundWindowButton.Name = "backGroundWindowButton";
-            this.backGroundWindowButton.Size = new System.Drawing.Size(91, 54);
-            this.backGroundWindowButton.TabIndex = 26;
-            this.backGroundWindowButton.Text = "Background Window";
-            this.backGroundWindowButton.UseVisualStyleBackColor = true;
-            this.backGroundWindowButton.Click += new System.EventHandler(this.backGroundWindowButton_Click);
-            // 
             // CameraForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -720,13 +720,13 @@
             this.InitGroupBox.PerformLayout();
             this.SettingsGroupBox.ResumeLayout(false);
             this.SettingsGroupBox.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.SaveToGroupBox.ResumeLayout(false);
             this.SaveToGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BulbUpDo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.LiveViewPicBox)).EndInit();
             this.LiveViewGroupBox.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -777,7 +777,7 @@
         private System.Windows.Forms.Label SerialPortLabel;
         private System.Windows.Forms.Button MakePhaseShiftsButton;
         private System.Windows.Forms.Label DelayPhaseShiftLabel;
-        private System.Windows.Forms.TextBox DelayPhaseShiftTextBox;
+        private System.Windows.Forms.TextBox DelayTextBox;
         private System.Windows.Forms.Label lblColor;
         private System.Windows.Forms.ComboBox colorComboBox;
         private System.Windows.Forms.ComboBox imageSaveComboBox;

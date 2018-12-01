@@ -23,7 +23,7 @@ namespace rab1
         short currentPhaseShiftNumber = 0;
         short currentPhaseShiftValue = 0;
         short zeroPhaseShiftValue = 0x2000;
-        int delayPhaseShift = 0;
+        int delay = 0;
         bool takeNextPhoto = false;
         bool executeNextShift = false;
         bool isMakePhaseShiftsProcess = false;
@@ -100,7 +100,7 @@ namespace rab1
         {
             phaseShiftCountTextBox.Text = "4";
             phaseShiftStepTextBox.Text = "100";
-            DelayPhaseShiftTextBox.Text = "500";
+            DelayTextBox.Text = "1500";
         }
         
         private void InitColorModes()
@@ -681,7 +681,9 @@ namespace rab1
         private void TakeImagesSeriesPhoto()
         {
             seriesType = TakePhotoSeriesTypeEnum.ImageSeries;
-            currentImageNumber = 1;      
+
+            currentImageNumber = 1;
+            delay = int.Parse(DelayTextBox.Text);
 
             takeNextPhoto = true;
             SetImageAndTakePhoto();
@@ -696,13 +698,13 @@ namespace rab1
         private void SetImageAndTakePhoto()
         {
             SetImage();
-            Thread.Sleep(1500);
+            MakeDelay();
             TakePhoto();
         }
 
         private void SetImage()
         {
-            imageForm.SetImage(MainForm.GetImageFromPoctureBox(currentImageNumber)); 
+            imageForm.SetImage(MainForm.GetImageFromPictureBox(currentImageNumber)); 
         }
 
         private void ExecutePhaseShift()
@@ -759,9 +761,9 @@ namespace rab1
  
         private void MakeDelay()
         {
-            if (delayPhaseShift > 0)
+            if (delay > 0)
             {
-                Thread.Sleep(delayPhaseShift);
+                Thread.Sleep(delay);
             }
         }
         
@@ -772,7 +774,7 @@ namespace rab1
 
             phaseShiftStep = short.Parse(phaseShiftStepTextBox.Text, NumberStyles.HexNumber);
             phaseShiftCount = short.Parse(phaseShiftCountTextBox.Text);
-            delayPhaseShift = int.Parse(DelayPhaseShiftTextBox.Text);
+            delay = int.Parse(DelayTextBox.Text);
         }
 
         private void CameraForm_FormClosed(object sender, FormClosedEventArgs e)
