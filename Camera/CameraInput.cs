@@ -137,6 +137,8 @@ namespace Camera
         [BindToUI("Серия снимков")]
         public void MakeSeries()
         {
+            BindingManager.SetPropertyValue(c => c.CaptureLiveView, false);
+
             _onShotParameters.Reset();
             _onShotParameters.TakeSeries = true;
             //PhaseShiftController.SetShift(ShiftStep, _onShotParameters.CurrentImageIndex, ShiftDelay);
@@ -147,6 +149,8 @@ namespace Camera
         [BindToUI("Тестовый снимок")]
         public void MakeTestShot()
         {
+            BindingManager.SetPropertyValue(c => c.CaptureLiveView, false);
+
             _onShotParameters.Reset();
             _onShotParameters.TakeSeries = false;
             CameraConnector.TakePhoto();
@@ -186,6 +190,9 @@ namespace Camera
 //
 //                Output.UploadToComputingDevice(true);
 //                Output.Update();
+                if (CaptureLiveView)
+                    _onShotParameters.TakeSeries = CaptureLiveView;     // todo
+
                 LastPreviewImage = bitmap;
                 PreviewImageUpdated?.Invoke();
 
@@ -235,7 +242,7 @@ namespace Camera
                 return;
             }
 
-            if (_onShotParameters.TakeSeries && !_onShotParameters.SeriesComplete)
+            if (!CaptureLiveView && _onShotParameters.TakeSeries && !_onShotParameters.SeriesComplete)
             {
                 //  PhaseShiftController.SetShift(ShiftStep, _onShotParameters.CurrentImageIndex, ShiftDelay);
                 CameraConnector.TakePhoto();
