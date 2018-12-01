@@ -261,7 +261,7 @@
             // backGroundWindowButton
             // 
             this.backGroundWindowButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.backGroundWindowButton.Location = new System.Drawing.Point(734, 96);
+            this.backGroundWindowButton.Location = new System.Drawing.Point(737, 15);
             this.backGroundWindowButton.Name = "backGroundWindowButton";
             this.backGroundWindowButton.Size = new System.Drawing.Size(91, 54);
             this.backGroundWindowButton.TabIndex = 26;
@@ -272,9 +272,9 @@
             // takeSeriesFromPictureBoxesButton
             // 
             this.takeSeriesFromPictureBoxesButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.takeSeriesFromPictureBoxesButton.Location = new System.Drawing.Point(734, 16);
+            this.takeSeriesFromPictureBoxesButton.Location = new System.Drawing.Point(737, 72);
             this.takeSeriesFromPictureBoxesButton.Name = "takeSeriesFromPictureBoxesButton";
-            this.takeSeriesFromPictureBoxesButton.Size = new System.Drawing.Size(91, 74);
+            this.takeSeriesFromPictureBoxesButton.Size = new System.Drawing.Size(91, 78);
             this.takeSeriesFromPictureBoxesButton.TabIndex = 25;
             this.takeSeriesFromPictureBoxesButton.Text = "Take Series From 1,2,3,4";
             this.takeSeriesFromPictureBoxesButton.UseVisualStyleBackColor = true;
@@ -292,9 +292,9 @@
             this.groupBox1.Controls.Add(this.SerialPortLabel);
             this.groupBox1.Controls.Add(this.phaseShiftStepTextBox);
             this.groupBox1.Controls.Add(this.phaseShiftSerialPortComboBox);
-            this.groupBox1.Location = new System.Drawing.Point(303, 58);
+            this.groupBox1.Location = new System.Drawing.Point(434, 16);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(425, 92);
+            this.groupBox1.Size = new System.Drawing.Size(238, 138);
             this.groupBox1.TabIndex = 24;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Phase shift";
@@ -302,7 +302,7 @@
             // currentPhaseShiftLabel
             // 
             this.currentPhaseShiftLabel.AutoSize = true;
-            this.currentPhaseShiftLabel.Location = new System.Drawing.Point(357, 30);
+            this.currentPhaseShiftLabel.Location = new System.Drawing.Point(146, 18);
             this.currentPhaseShiftLabel.Name = "currentPhaseShiftLabel";
             this.currentPhaseShiftLabel.Size = new System.Drawing.Size(61, 13);
             this.currentPhaseShiftLabel.TabIndex = 17;
@@ -310,16 +310,16 @@
             // 
             // phaseShiftCountTextBox
             // 
-            this.phaseShiftCountTextBox.Location = new System.Drawing.Point(106, 25);
+            this.phaseShiftCountTextBox.Location = new System.Drawing.Point(82, 16);
             this.phaseShiftCountTextBox.Name = "phaseShiftCountTextBox";
-            this.phaseShiftCountTextBox.Size = new System.Drawing.Size(77, 20);
+            this.phaseShiftCountTextBox.Size = new System.Drawing.Size(58, 20);
             this.phaseShiftCountTextBox.TabIndex = 14;
             // 
             // phaseShiftCountLabel
             // 
             this.phaseShiftCountLabel.AutoSize = true;
             this.phaseShiftCountLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.phaseShiftCountLabel.Location = new System.Drawing.Point(22, 27);
+            this.phaseShiftCountLabel.Location = new System.Drawing.Point(7, 19);
             this.phaseShiftCountLabel.Name = "phaseShiftCountLabel";
             this.phaseShiftCountLabel.Size = new System.Drawing.Size(78, 16);
             this.phaseShiftCountLabel.TabIndex = 15;
@@ -327,7 +327,7 @@
             // 
             // closephaseShiftSerialPortButton
             // 
-            this.closephaseShiftSerialPortButton.Location = new System.Drawing.Point(347, 59);
+            this.closephaseShiftSerialPortButton.Location = new System.Drawing.Point(160, 70);
             this.closephaseShiftSerialPortButton.Name = "closephaseShiftSerialPortButton";
             this.closephaseShiftSerialPortButton.Size = new System.Drawing.Size(73, 23);
             this.closephaseShiftSerialPortButton.TabIndex = 16;
@@ -337,9 +337,9 @@
             // 
             // initSerialPortButton
             // 
-            this.initSerialPortButton.Location = new System.Drawing.Point(267, 59);
+            this.initSerialPortButton.Location = new System.Drawing.Point(78, 98);
             this.initSerialPortButton.Name = "initSerialPortButton";
-            this.initSerialPortButton.Size = new System.Drawing.Size(74, 23);
+            this.initSerialPortButton.Size = new System.Drawing.Size(76, 23);
             this.initSerialPortButton.TabIndex = 11;
             this.initSerialPortButton.Text = "Init";
             this.initSerialPortButton.UseVisualStyleBackColor = true;
@@ -348,9 +348,9 @@
             // MakePhaseShiftsButton
             // 
             this.MakePhaseShiftsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MakePhaseShiftsButton.Location = new System.Drawing.Point(6, 58);
+            this.MakePhaseShiftsButton.Location = new System.Drawing.Point(160, 98);
             this.MakePhaseShiftsButton.Name = "MakePhaseShiftsButton";
-            this.MakePhaseShiftsButton.Size = new System.Drawing.Size(99, 23);
+            this.MakePhaseShiftsButton.Size = new System.Drawing.Size(73, 23);
             this.MakePhaseShiftsButton.TabIndex = 19;
             this.MakePhaseShiftsButton.Text = "Execute shifts";
             this.MakePhaseShiftsButton.UseVisualStyleBackColor = true;
@@ -360,7 +360,7 @@
             // 
             this.phaseShiftStepLabel.AutoSize = true;
             this.phaseShiftStepLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.phaseShiftStepLabel.Location = new System.Drawing.Point(189, 27);
+            this.phaseShiftStepLabel.Location = new System.Drawing.Point(6, 43);
             this.phaseShiftStepLabel.Name = "phaseShiftStepLabel";
             this.phaseShiftStepLabel.Size = new System.Drawing.Size(72, 16);
             this.phaseShiftStepLabel.TabIndex = 13;
@@ -370,7 +370,7 @@
             // 
             this.SerialPortLabel.AutoSize = true;
             this.SerialPortLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SerialPortLabel.Location = new System.Drawing.Point(111, 62);
+            this.SerialPortLabel.Location = new System.Drawing.Point(7, 73);
             this.SerialPortLabel.Name = "SerialPortLabel";
             this.SerialPortLabel.Size = new System.Drawing.Size(65, 16);
             this.SerialPortLabel.TabIndex = 18;
@@ -378,16 +378,16 @@
             // 
             // phaseShiftStepTextBox
             // 
-            this.phaseShiftStepTextBox.Location = new System.Drawing.Point(267, 26);
+            this.phaseShiftStepTextBox.Location = new System.Drawing.Point(82, 43);
             this.phaseShiftStepTextBox.Name = "phaseShiftStepTextBox";
-            this.phaseShiftStepTextBox.Size = new System.Drawing.Size(76, 20);
+            this.phaseShiftStepTextBox.Size = new System.Drawing.Size(58, 20);
             this.phaseShiftStepTextBox.TabIndex = 12;
             // 
             // phaseShiftSerialPortComboBox
             // 
             this.phaseShiftSerialPortComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.phaseShiftSerialPortComboBox.FormattingEnabled = true;
-            this.phaseShiftSerialPortComboBox.Location = new System.Drawing.Point(182, 61);
+            this.phaseShiftSerialPortComboBox.Location = new System.Drawing.Point(78, 72);
             this.phaseShiftSerialPortComboBox.Name = "phaseShiftSerialPortComboBox";
             this.phaseShiftSerialPortComboBox.Size = new System.Drawing.Size(76, 21);
             this.phaseShiftSerialPortComboBox.TabIndex = 9;
@@ -396,7 +396,7 @@
             // 
             this.lblColor.AutoSize = true;
             this.lblColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblColor.Location = new System.Drawing.Point(667, 15);
+            this.lblColor.Location = new System.Drawing.Point(303, 134);
             this.lblColor.Name = "lblColor";
             this.lblColor.Size = new System.Drawing.Size(43, 16);
             this.lblColor.TabIndex = 23;
@@ -406,15 +406,15 @@
             // 
             this.colorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.colorComboBox.FormattingEnabled = true;
-            this.colorComboBox.Location = new System.Drawing.Point(670, 34);
+            this.colorComboBox.Location = new System.Drawing.Point(362, 132);
             this.colorComboBox.Name = "colorComboBox";
-            this.colorComboBox.Size = new System.Drawing.Size(58, 21);
+            this.colorComboBox.Size = new System.Drawing.Size(66, 21);
             this.colorComboBox.TabIndex = 22;
             // 
             // DelayPhaseShiftLabel
             // 
             this.DelayPhaseShiftLabel.AutoSize = true;
-            this.DelayPhaseShiftLabel.Location = new System.Drawing.Point(611, 15);
+            this.DelayPhaseShiftLabel.Location = new System.Drawing.Point(678, 26);
             this.DelayPhaseShiftLabel.Name = "DelayPhaseShiftLabel";
             this.DelayPhaseShiftLabel.Size = new System.Drawing.Size(37, 13);
             this.DelayPhaseShiftLabel.TabIndex = 21;
@@ -422,17 +422,18 @@
             // 
             // DelayTextBox
             // 
-            this.DelayTextBox.Location = new System.Drawing.Point(611, 34);
+            this.DelayTextBox.Location = new System.Drawing.Point(678, 46);
             this.DelayTextBox.Name = "DelayTextBox";
             this.DelayTextBox.Size = new System.Drawing.Size(53, 20);
             this.DelayTextBox.TabIndex = 20;
+            this.DelayTextBox.TextChanged += new System.EventHandler(this.DelayTextBox_TextChanged);
             // 
             // takeSeriesPhotoButton
             // 
             this.takeSeriesPhotoButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.takeSeriesPhotoButton.Location = new System.Drawing.Point(242, 73);
+            this.takeSeriesPhotoButton.Location = new System.Drawing.Point(676, 72);
             this.takeSeriesPhotoButton.Name = "takeSeriesPhotoButton";
-            this.takeSeriesPhotoButton.Size = new System.Drawing.Size(55, 47);
+            this.takeSeriesPhotoButton.Size = new System.Drawing.Size(55, 80);
             this.takeSeriesPhotoButton.TabIndex = 10;
             this.takeSeriesPhotoButton.Text = "Take Series";
             this.takeSeriesPhotoButton.UseVisualStyleBackColor = true;
@@ -458,7 +459,7 @@
             "Strobe",
             "White Paper",
             "Shade"});
-            this.WBCoBox.Location = new System.Drawing.Point(142, 19);
+            this.WBCoBox.Location = new System.Drawing.Point(142, 46);
             this.WBCoBox.Name = "WBCoBox";
             this.WBCoBox.Size = new System.Drawing.Size(76, 21);
             this.WBCoBox.TabIndex = 7;
@@ -477,7 +478,7 @@
             this.BrowseButton.Enabled = false;
             this.BrowseButton.Location = new System.Drawing.Point(142, 125);
             this.BrowseButton.Name = "BrowseButton";
-            this.BrowseButton.Size = new System.Drawing.Size(94, 23);
+            this.BrowseButton.Size = new System.Drawing.Size(76, 23);
             this.BrowseButton.TabIndex = 5;
             this.BrowseButton.Text = "Browse";
             this.BrowseButton.UseVisualStyleBackColor = true;
@@ -489,9 +490,9 @@
             this.SaveToGroupBox.Controls.Add(this.STBothButton);
             this.SaveToGroupBox.Controls.Add(this.STComputerButton);
             this.SaveToGroupBox.Controls.Add(this.STCameraButton);
-            this.SaveToGroupBox.Location = new System.Drawing.Point(301, 16);
+            this.SaveToGroupBox.Location = new System.Drawing.Point(300, 16);
             this.SaveToGroupBox.Name = "SaveToGroupBox";
-            this.SaveToGroupBox.Size = new System.Drawing.Size(304, 39);
+            this.SaveToGroupBox.Size = new System.Drawing.Size(128, 110);
             this.SaveToGroupBox.TabIndex = 4;
             this.SaveToGroupBox.TabStop = false;
             this.SaveToGroupBox.Text = "Save To";
@@ -500,16 +501,16 @@
             // 
             this.imageSaveComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.imageSaveComboBox.FormattingEnabled = true;
-            this.imageSaveComboBox.Location = new System.Drawing.Point(221, 12);
+            this.imageSaveComboBox.Location = new System.Drawing.Point(6, 77);
             this.imageSaveComboBox.Name = "imageSaveComboBox";
-            this.imageSaveComboBox.Size = new System.Drawing.Size(71, 21);
+            this.imageSaveComboBox.Size = new System.Drawing.Size(83, 21);
             this.imageSaveComboBox.TabIndex = 23;
             // 
             // STBothButton
             // 
             this.STBothButton.AutoSize = true;
             this.STBothButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.STBothButton.Location = new System.Drawing.Point(162, 14);
+            this.STBothButton.Location = new System.Drawing.Point(6, 57);
             this.STBothButton.Name = "STBothButton";
             this.STBothButton.Size = new System.Drawing.Size(53, 20);
             this.STBothButton.TabIndex = 0;
@@ -521,7 +522,7 @@
             // 
             this.STComputerButton.AutoSize = true;
             this.STComputerButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.STComputerButton.Location = new System.Drawing.Point(79, 14);
+            this.STComputerButton.Location = new System.Drawing.Point(6, 36);
             this.STComputerButton.Name = "STComputerButton";
             this.STComputerButton.Size = new System.Drawing.Size(84, 20);
             this.STComputerButton.TabIndex = 0;
@@ -547,7 +548,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(242, 46);
+            this.label4.Location = new System.Drawing.Point(241, 21);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(53, 16);
             this.label4.TabIndex = 3;
@@ -577,7 +578,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(220, 21);
+            this.label5.Location = new System.Drawing.Point(224, 47);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(30, 16);
             this.label5.TabIndex = 3;
@@ -596,9 +597,9 @@
             // RecordVideoButton
             // 
             this.RecordVideoButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RecordVideoButton.Location = new System.Drawing.Point(142, 98);
+            this.RecordVideoButton.Location = new System.Drawing.Point(224, 72);
             this.RecordVideoButton.Name = "RecordVideoButton";
-            this.RecordVideoButton.Size = new System.Drawing.Size(94, 22);
+            this.RecordVideoButton.Size = new System.Drawing.Size(70, 47);
             this.RecordVideoButton.TabIndex = 2;
             this.RecordVideoButton.Text = "Rec. Video";
             this.RecordVideoButton.UseVisualStyleBackColor = true;
@@ -609,7 +610,7 @@
             this.TakePhotoButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TakePhotoButton.Location = new System.Drawing.Point(142, 72);
             this.TakePhotoButton.Name = "TakePhotoButton";
-            this.TakePhotoButton.Size = new System.Drawing.Size(94, 22);
+            this.TakePhotoButton.Size = new System.Drawing.Size(76, 48);
             this.TakePhotoButton.TabIndex = 2;
             this.TakePhotoButton.Text = "Take Photo";
             this.TakePhotoButton.UseVisualStyleBackColor = true;
@@ -617,7 +618,7 @@
             // 
             // BulbUpDo
             // 
-            this.BulbUpDo.Location = new System.Drawing.Point(142, 46);
+            this.BulbUpDo.Location = new System.Drawing.Point(141, 19);
             this.BulbUpDo.Maximum = new decimal(new int[] {
             10000,
             0,

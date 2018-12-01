@@ -751,6 +751,11 @@ namespace rab1
             TakeImagesSeriesPhoto();
         }
 
+        private void DelayTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
         private void MakePhaseShifts()
         {
             isMakePhaseShiftsProcess = true;
