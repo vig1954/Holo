@@ -22,7 +22,6 @@ namespace Camera
         private readonly OnShotParameters _onShotParameters = new OnShotParameters();
 
         private CameraConnector CameraConnector => Singleton.Get<CameraConnector>();
-        //private PhaseShiftDeviceControllerAdapter PhaseShiftController => Singleton.Get<PhaseShiftDeviceControllerAdapter>();
 
         private ImageSelectionManager ImageSelectionManager => Singleton.Get<ImageSelectionManager>();
 
@@ -108,6 +107,38 @@ namespace Camera
 
         public ObservableCollection<ImageSelection> AvailableSelectionsToApply { get; } = new ObservableCollection<ImageSelection>();
 
+        [BindToUI("Серия снимков")]
+        public void MakeSeries()
+        {
+            BindingManager.SetPropertyValue(c => c.CaptureLiveView, false);
+
+            _onShotParameters.Reset();
+            _onShotParameters.TakeSeries = true;
+            PhaseShiftController.SetShift(ShiftStep, _onShotParameters.CurrentImageIndex, ShiftDelay);
+
+            CameraConnector.TakePhoto();
+        }
+
+        [BindToUI("Тестовый снимок")]
+        public void MakeTestShot()
+        {
+            BindingManager.SetPropertyValue(c => c.CaptureLiveView, false);
+
+            _onShotParameters.Reset();
+            _onShotParameters.TakeSeries = false;
+            CameraConnector.TakePhoto();
+        }
+
+        [BindToUI, BindMembersToUI(HideProperty = true, MergeMembers = true)]
+        public PhaseShiftDeviceControllerAdapter PhaseShiftController => Singleton.Get<PhaseShiftDeviceControllerAdapter>();
+
+        [BindToUI]
+        public int ShiftStep { get; set; } = 400;
+
+        [BindToUI]
+        public int ShiftDelay { get; set; } = 1000;
+
+
         public CameraInput()
         {
             // TODO: далее идут ужасные костыли. плохо, очень плохо
@@ -134,33 +165,10 @@ namespace Camera
                 CameraConnector.SetActiveCamera(Camera);
         }
 
-        [BindToUI("Серия снимков")]
-        public void MakeSeries()
-        {
-            BindingManager.SetPropertyValue(c => c.CaptureLiveView, false);
-
-            _onShotParameters.Reset();
-            _onShotParameters.TakeSeries = true;
-            //PhaseShiftController.SetShift(ShiftStep, _onShotParameters.CurrentImageIndex, ShiftDelay);
-
-            CameraConnector.TakePhoto();
-        }
-
-        [BindToUI("Тестовый снимок")]
-        public void MakeTestShot()
-        {
-            BindingManager.SetPropertyValue(c => c.CaptureLiveView, false);
-
-            _onShotParameters.Reset();
-            _onShotParameters.TakeSeries = false;
-            CameraConnector.TakePhoto();
-        }
-
         public void Awake()
         {
             UpdateAvailableSelectionList();
-//            PhaseShiftController.UpdatePortNames();
-//            Output?.Update();
+            PhaseShiftController.UpdatePortNames();
         }
 
         public void FreeResources()
@@ -170,7 +178,6 @@ namespace Camera
         public void Dispose()
         {
             CameraConnector.Dispose();
-           // base.Dispose();
         }
 
         [OnBindedPropertiesChanged(nameof(ImageSlot1), nameof(ImageSlot2), nameof(ImageSlot3), nameof(ImageSlot4))]
@@ -183,15 +190,8 @@ namespace Camera
         {
             using (new DebugLogger.MinimalImportanceScope(DebugLogger.ImportanceLevel.Warning))
             {
-//                if (Output == null)
-//                    Output = ImageHandler.FromBitmap(bitmap);
-//                else
-//                    Output.UpdateFromBitmap(bitmap);
-//
-//                Output.UploadToComputingDevice(true);
-//                Output.Update();
                 if (CaptureLiveView)
-                    _onShotParameters.TakeSeries = CaptureLiveView;     // todo
+                    _onShotParameters.TakeSeries = CaptureLiveView; // todo
 
                 LastPreviewImage = bitmap;
                 PreviewImageUpdated?.Invoke();
@@ -236,6 +236,7 @@ namespace Camera
             ImageSlotsUpdated?.Invoke();
 
             _onShotParameters.Update();
+            PhaseShiftController.SetShift(ShiftStep, _onShotParameters.CurrentImageIndex, ShiftDelay);
             if (CaptureLiveView && _onShotParameters.SeriesComplete)
             {
                 _onShotParameters.Reset();
@@ -243,10 +244,7 @@ namespace Camera
             }
 
             if (!CaptureLiveView && _onShotParameters.TakeSeries && !_onShotParameters.SeriesComplete)
-            {
-                //  PhaseShiftController.SetShift(ShiftStep, _onShotParameters.CurrentImageIndex, ShiftDelay);
                 CameraConnector.TakePhoto();
-            }
         }
 
         private class OnShotParameters
