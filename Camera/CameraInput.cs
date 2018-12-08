@@ -186,13 +186,19 @@ namespace Camera
             ImageSlotsUpdated?.Invoke();
         }
 
+        [OnBindedPropertyChanged(nameof(CaptureLiveView))]
+        public void OnCaptureLiveViewUpdated(ValueUpdatedEventArgs e)
+        {
+            if (CaptureLiveView)
+                _onShotParameters.Reset();
+
+            _onShotParameters.TakeSeries = CaptureLiveView;
+        }
+
         private void CameraConnectorOnLiveViewUpdated(Bitmap bitmap)
         {
             using (new DebugLogger.MinimalImportanceScope(DebugLogger.ImportanceLevel.Warning))
             {
-                if (CaptureLiveView)
-                    _onShotParameters.TakeSeries = CaptureLiveView; // todo
-
                 LastPreviewImage = bitmap;
                 PreviewImageUpdated?.Invoke();
 

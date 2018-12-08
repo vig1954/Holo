@@ -24,6 +24,9 @@ namespace Camera
         public string PortName { get; set; }
         public ObservableCollection<string> PortNames { get; }
 
+        [BindToUI]
+        public int Shift { get; set; }
+
         public PhaseShiftDeviceControllerAdapter()
         {
             PortNames = new ObservableCollection<string>();
@@ -47,22 +50,34 @@ namespace Camera
             }
         }
 
-        public void SetShift(float shift)
+        [OnBindedPropertyChanged(nameof(Shift))]
+        public void OnShiftUpdated(ValueUpdatedEventArgs e)
+        {
+            if (e.Sender == this)
+                return;
+
+            SetShift(Shift);
+        }
+
+        public void SetShift(int shift)
         {
             if (shift < 0 || shift > short.MaxValue - ZeroPhaseShiftValue)
                 throw new InvalidOperationException();
 
             if (_phaseShiftDeviceConnected)
-                _inner.SetShift((short)((short) shift + ZeroPhaseShiftValue));
+            {
+                BindingManager.SetPropertyValue(a => a.Shift, shift);
+                _inner.SetShift((short) ((short) shift + ZeroPhaseShiftValue));
+            }
         }
 
-        public void SetShift(float step, int stepNumber, float delay)
+        public void SetShift(int step, int stepNumber, float delay)
         {
             if (!_phaseShiftDeviceConnected)
                 return;
 
             SetShift(step * stepNumber);
-            Thread.Sleep((int) delay); // TODO: сделать ожидание не блокирующим!
+            //Thread.Sleep((int) delay); // TODO: сделать ожидание не блокирующим!
         }
 
         [BindToUI]

@@ -22,6 +22,9 @@ namespace Common
             if (self is double doubleValue && castTo == typeof(float))
                 return (float) doubleValue;
 
+            if (self is long longValue && castTo == typeof(int))
+                return (int)longValue;
+
             if (self.GetType() == castTo)
                 return self;
 
