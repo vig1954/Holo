@@ -744,6 +744,7 @@ namespace rab1
         {
             this.imageForm = new ImageForm();
             this.imageForm.Show();
+            this.imageForm.SetImage(this.MainForm.GetImageFromPictureBox(1));
         }
 
         private void takeSeriesFromPictureBoxesButton_Click(object sender, EventArgs e)
