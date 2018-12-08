@@ -54,6 +54,11 @@
             this.SerialPortLabel = new System.Windows.Forms.Label();
             this.phaseShiftStepTextBox = new System.Windows.Forms.TextBox();
             this.phaseShiftSerialPortComboBox = new System.Windows.Forms.ComboBox();
+            this.SaveToGroupBox = new System.Windows.Forms.GroupBox();
+            this.imageSaveComboBox = new System.Windows.Forms.ComboBox();
+            this.STBothButton = new System.Windows.Forms.RadioButton();
+            this.STComputerButton = new System.Windows.Forms.RadioButton();
+            this.STCameraButton = new System.Windows.Forms.RadioButton();
             this.lblColor = new System.Windows.Forms.Label();
             this.colorComboBox = new System.Windows.Forms.ComboBox();
             this.DelayPhaseShiftLabel = new System.Windows.Forms.Label();
@@ -63,11 +68,6 @@
             this.WBCoBox = new System.Windows.Forms.ComboBox();
             this.SavePathTextBox = new System.Windows.Forms.TextBox();
             this.BrowseButton = new System.Windows.Forms.Button();
-            this.SaveToGroupBox = new System.Windows.Forms.GroupBox();
-            this.imageSaveComboBox = new System.Windows.Forms.ComboBox();
-            this.STBothButton = new System.Windows.Forms.RadioButton();
-            this.STComputerButton = new System.Windows.Forms.RadioButton();
-            this.STCameraButton = new System.Windows.Forms.RadioButton();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -82,6 +82,8 @@
             this.SaveFolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.LiveViewPicBox = new System.Windows.Forms.PictureBox();
             this.LiveViewGroupBox = new System.Windows.Forms.GroupBox();
+            this.groupNumberComboBox = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.InitGroupBox.SuspendLayout();
             this.SettingsGroupBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -225,6 +227,8 @@
             // 
             // SettingsGroupBox
             // 
+            this.SettingsGroupBox.Controls.Add(this.label6);
+            this.SettingsGroupBox.Controls.Add(this.groupNumberComboBox);
             this.SettingsGroupBox.Controls.Add(this.backGroundWindowButton);
             this.SettingsGroupBox.Controls.Add(this.takeSeriesFromPictureBoxesButton);
             this.SettingsGroupBox.Controls.Add(this.groupBox1);
@@ -261,9 +265,9 @@
             // backGroundWindowButton
             // 
             this.backGroundWindowButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.backGroundWindowButton.Location = new System.Drawing.Point(737, 15);
+            this.backGroundWindowButton.Location = new System.Drawing.Point(678, 16);
             this.backGroundWindowButton.Name = "backGroundWindowButton";
-            this.backGroundWindowButton.Size = new System.Drawing.Size(91, 54);
+            this.backGroundWindowButton.Size = new System.Drawing.Size(147, 31);
             this.backGroundWindowButton.TabIndex = 26;
             this.backGroundWindowButton.Text = "Background Window";
             this.backGroundWindowButton.UseVisualStyleBackColor = true;
@@ -272,9 +276,9 @@
             // takeSeriesFromPictureBoxesButton
             // 
             this.takeSeriesFromPictureBoxesButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.takeSeriesFromPictureBoxesButton.Location = new System.Drawing.Point(737, 72);
+            this.takeSeriesFromPictureBoxesButton.Location = new System.Drawing.Point(737, 100);
             this.takeSeriesFromPictureBoxesButton.Name = "takeSeriesFromPictureBoxesButton";
-            this.takeSeriesFromPictureBoxesButton.Size = new System.Drawing.Size(91, 78);
+            this.takeSeriesFromPictureBoxesButton.Size = new System.Drawing.Size(91, 50);
             this.takeSeriesFromPictureBoxesButton.TabIndex = 25;
             this.takeSeriesFromPictureBoxesButton.Text = "Take Series From 1,2,3,4";
             this.takeSeriesFromPictureBoxesButton.UseVisualStyleBackColor = true;
@@ -392,98 +396,6 @@
             this.phaseShiftSerialPortComboBox.Size = new System.Drawing.Size(76, 21);
             this.phaseShiftSerialPortComboBox.TabIndex = 9;
             // 
-            // lblColor
-            // 
-            this.lblColor.AutoSize = true;
-            this.lblColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblColor.Location = new System.Drawing.Point(303, 134);
-            this.lblColor.Name = "lblColor";
-            this.lblColor.Size = new System.Drawing.Size(43, 16);
-            this.lblColor.TabIndex = 23;
-            this.lblColor.Text = "Color:";
-            // 
-            // colorComboBox
-            // 
-            this.colorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.colorComboBox.FormattingEnabled = true;
-            this.colorComboBox.Location = new System.Drawing.Point(362, 132);
-            this.colorComboBox.Name = "colorComboBox";
-            this.colorComboBox.Size = new System.Drawing.Size(66, 21);
-            this.colorComboBox.TabIndex = 22;
-            // 
-            // DelayPhaseShiftLabel
-            // 
-            this.DelayPhaseShiftLabel.AutoSize = true;
-            this.DelayPhaseShiftLabel.Location = new System.Drawing.Point(678, 26);
-            this.DelayPhaseShiftLabel.Name = "DelayPhaseShiftLabel";
-            this.DelayPhaseShiftLabel.Size = new System.Drawing.Size(37, 13);
-            this.DelayPhaseShiftLabel.TabIndex = 21;
-            this.DelayPhaseShiftLabel.Text = "Delay:";
-            // 
-            // DelayTextBox
-            // 
-            this.DelayTextBox.Location = new System.Drawing.Point(678, 46);
-            this.DelayTextBox.Name = "DelayTextBox";
-            this.DelayTextBox.Size = new System.Drawing.Size(53, 20);
-            this.DelayTextBox.TabIndex = 20;
-            this.DelayTextBox.TextChanged += new System.EventHandler(this.DelayTextBox_TextChanged);
-            // 
-            // takeSeriesPhotoButton
-            // 
-            this.takeSeriesPhotoButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.takeSeriesPhotoButton.Location = new System.Drawing.Point(676, 72);
-            this.takeSeriesPhotoButton.Name = "takeSeriesPhotoButton";
-            this.takeSeriesPhotoButton.Size = new System.Drawing.Size(55, 80);
-            this.takeSeriesPhotoButton.TabIndex = 10;
-            this.takeSeriesPhotoButton.Text = "Take Series";
-            this.takeSeriesPhotoButton.UseVisualStyleBackColor = true;
-            this.takeSeriesPhotoButton.Click += new System.EventHandler(this.takeSeriesPhotoButton_Click);
-            // 
-            // MainProgressBar
-            // 
-            this.MainProgressBar.Location = new System.Drawing.Point(6, 100);
-            this.MainProgressBar.Name = "MainProgressBar";
-            this.MainProgressBar.Size = new System.Drawing.Size(130, 20);
-            this.MainProgressBar.TabIndex = 8;
-            // 
-            // WBCoBox
-            // 
-            this.WBCoBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.WBCoBox.FormattingEnabled = true;
-            this.WBCoBox.Items.AddRange(new object[] {
-            "Auto",
-            "Daylight",
-            "Cloudy",
-            "Tungsten",
-            "Fluorescent",
-            "Strobe",
-            "White Paper",
-            "Shade"});
-            this.WBCoBox.Location = new System.Drawing.Point(142, 46);
-            this.WBCoBox.Name = "WBCoBox";
-            this.WBCoBox.Size = new System.Drawing.Size(76, 21);
-            this.WBCoBox.TabIndex = 7;
-            this.WBCoBox.SelectedIndexChanged += new System.EventHandler(this.WBCoBox_SelectedIndexChanged);
-            // 
-            // SavePathTextBox
-            // 
-            this.SavePathTextBox.Enabled = false;
-            this.SavePathTextBox.Location = new System.Drawing.Point(6, 126);
-            this.SavePathTextBox.Name = "SavePathTextBox";
-            this.SavePathTextBox.Size = new System.Drawing.Size(130, 20);
-            this.SavePathTextBox.TabIndex = 6;
-            // 
-            // BrowseButton
-            // 
-            this.BrowseButton.Enabled = false;
-            this.BrowseButton.Location = new System.Drawing.Point(142, 125);
-            this.BrowseButton.Name = "BrowseButton";
-            this.BrowseButton.Size = new System.Drawing.Size(76, 23);
-            this.BrowseButton.TabIndex = 5;
-            this.BrowseButton.Text = "Browse";
-            this.BrowseButton.UseVisualStyleBackColor = true;
-            this.BrowseButton.Click += new System.EventHandler(this.BrowseButton_Click);
-            // 
             // SaveToGroupBox
             // 
             this.SaveToGroupBox.Controls.Add(this.imageSaveComboBox);
@@ -543,6 +455,98 @@
             this.STCameraButton.Text = "Camera";
             this.STCameraButton.UseVisualStyleBackColor = true;
             this.STCameraButton.CheckedChanged += new System.EventHandler(this.SaveToButton_CheckedChanged);
+            // 
+            // lblColor
+            // 
+            this.lblColor.AutoSize = true;
+            this.lblColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblColor.Location = new System.Drawing.Point(303, 134);
+            this.lblColor.Name = "lblColor";
+            this.lblColor.Size = new System.Drawing.Size(43, 16);
+            this.lblColor.TabIndex = 23;
+            this.lblColor.Text = "Color:";
+            // 
+            // colorComboBox
+            // 
+            this.colorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.colorComboBox.FormattingEnabled = true;
+            this.colorComboBox.Location = new System.Drawing.Point(362, 132);
+            this.colorComboBox.Name = "colorComboBox";
+            this.colorComboBox.Size = new System.Drawing.Size(66, 21);
+            this.colorComboBox.TabIndex = 22;
+            // 
+            // DelayPhaseShiftLabel
+            // 
+            this.DelayPhaseShiftLabel.AutoSize = true;
+            this.DelayPhaseShiftLabel.Location = new System.Drawing.Point(694, 81);
+            this.DelayPhaseShiftLabel.Name = "DelayPhaseShiftLabel";
+            this.DelayPhaseShiftLabel.Size = new System.Drawing.Size(37, 13);
+            this.DelayPhaseShiftLabel.TabIndex = 21;
+            this.DelayPhaseShiftLabel.Text = "Delay:";
+            // 
+            // DelayTextBox
+            // 
+            this.DelayTextBox.Location = new System.Drawing.Point(737, 77);
+            this.DelayTextBox.Name = "DelayTextBox";
+            this.DelayTextBox.Size = new System.Drawing.Size(88, 20);
+            this.DelayTextBox.TabIndex = 20;
+            this.DelayTextBox.TextChanged += new System.EventHandler(this.DelayTextBox_TextChanged);
+            // 
+            // takeSeriesPhotoButton
+            // 
+            this.takeSeriesPhotoButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.takeSeriesPhotoButton.Location = new System.Drawing.Point(676, 100);
+            this.takeSeriesPhotoButton.Name = "takeSeriesPhotoButton";
+            this.takeSeriesPhotoButton.Size = new System.Drawing.Size(55, 52);
+            this.takeSeriesPhotoButton.TabIndex = 10;
+            this.takeSeriesPhotoButton.Text = "Take Series";
+            this.takeSeriesPhotoButton.UseVisualStyleBackColor = true;
+            this.takeSeriesPhotoButton.Click += new System.EventHandler(this.takeSeriesPhotoButton_Click);
+            // 
+            // MainProgressBar
+            // 
+            this.MainProgressBar.Location = new System.Drawing.Point(6, 100);
+            this.MainProgressBar.Name = "MainProgressBar";
+            this.MainProgressBar.Size = new System.Drawing.Size(130, 20);
+            this.MainProgressBar.TabIndex = 8;
+            // 
+            // WBCoBox
+            // 
+            this.WBCoBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.WBCoBox.FormattingEnabled = true;
+            this.WBCoBox.Items.AddRange(new object[] {
+            "Auto",
+            "Daylight",
+            "Cloudy",
+            "Tungsten",
+            "Fluorescent",
+            "Strobe",
+            "White Paper",
+            "Shade"});
+            this.WBCoBox.Location = new System.Drawing.Point(142, 46);
+            this.WBCoBox.Name = "WBCoBox";
+            this.WBCoBox.Size = new System.Drawing.Size(76, 21);
+            this.WBCoBox.TabIndex = 7;
+            this.WBCoBox.SelectedIndexChanged += new System.EventHandler(this.WBCoBox_SelectedIndexChanged);
+            // 
+            // SavePathTextBox
+            // 
+            this.SavePathTextBox.Enabled = false;
+            this.SavePathTextBox.Location = new System.Drawing.Point(6, 126);
+            this.SavePathTextBox.Name = "SavePathTextBox";
+            this.SavePathTextBox.Size = new System.Drawing.Size(130, 20);
+            this.SavePathTextBox.TabIndex = 6;
+            // 
+            // BrowseButton
+            // 
+            this.BrowseButton.Enabled = false;
+            this.BrowseButton.Location = new System.Drawing.Point(142, 125);
+            this.BrowseButton.Name = "BrowseButton";
+            this.BrowseButton.Size = new System.Drawing.Size(76, 23);
+            this.BrowseButton.TabIndex = 5;
+            this.BrowseButton.Text = "Browse";
+            this.BrowseButton.UseVisualStyleBackColor = true;
+            this.BrowseButton.Click += new System.EventHandler(this.BrowseButton_Click);
             // 
             // label4
             // 
@@ -702,6 +706,24 @@
             this.LiveViewGroupBox.TabStop = false;
             this.LiveViewGroupBox.Text = "Live view";
             // 
+            // groupNumberComboBox
+            // 
+            this.groupNumberComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.groupNumberComboBox.FormattingEnabled = true;
+            this.groupNumberComboBox.Location = new System.Drawing.Point(737, 50);
+            this.groupNumberComboBox.Name = "groupNumberComboBox";
+            this.groupNumberComboBox.Size = new System.Drawing.Size(88, 21);
+            this.groupNumberComboBox.TabIndex = 27;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(694, 54);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(39, 13);
+            this.label6.TabIndex = 28;
+            this.label6.Text = "Group:";
+            // 
             // CameraForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -787,6 +809,8 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button backGroundWindowButton;
         private System.Windows.Forms.Button takeSeriesFromPictureBoxesButton;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox groupNumberComboBox;
     }
 }
 
