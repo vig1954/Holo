@@ -317,12 +317,15 @@ namespace rab1
             X[2] = new Coords(Convert.ToDouble(textBox7.Text), Convert.ToDouble(textBox8.Text));
             X[3] = new Coords(Convert.ToDouble(textBox9.Text), Convert.ToDouble(textBox10.Text));
 
-            zArrayDescriptor[regComplex * 4+1]= File_Change_Size.Change_trapezium(zArrayDescriptor[regComplex*4], X);
+            zArrayDescriptor[regComplex * 4]= File_Change_Size.Change_trapezium(zArrayDescriptor[regComplex*4], X);
+            zArrayDescriptor[regComplex * 4+1] = File_Change_Size.Change_trapezium(zArrayDescriptor[regComplex * 4+1], X);
+            zArrayDescriptor[regComplex * 4+2] = File_Change_Size.Change_trapezium(zArrayDescriptor[regComplex * 4+2], X);
+            zArrayDescriptor[regComplex * 4+3] = File_Change_Size.Change_trapezium(zArrayDescriptor[regComplex * 4+3], X);
+
+            Vizual_regImage(regComplex * 4);
             Vizual_regImage(regComplex * 4 + 1);
-            //File_Change_Size.Change_trapezium(zArrayDescriptor[regComplex*4 + 1], X);
-            //File_Change_Size.Change_trapezium(zArrayDescriptor[regComplex*4 + 2], X);
-            //File_Change_Size.Change_trapezium(zArrayDescriptor[regComplex*4 + 3], X);
-            //for (int i=0; i<4; i++) Vizual_regImage(regComplex*4+i); 
+            Vizual_regImage(regComplex * 4 + 2);
+            Vizual_regImage(regComplex * 4 + 3);
 
         }
 
