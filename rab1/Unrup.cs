@@ -517,6 +517,58 @@ namespace rab1.Forms
             return zArray;
         }
         //------------------------------------------------------------------------------------
+       
+        public static ZArrayDescriptor Unrup_Line(ZArrayDescriptor zArray, double gr)        // Развертка по строкам
+        {
+
+            if (zArray == null) { MessageBox.Show("Unrup.cs    Unrup_Line  zArray == NULL"); return null; }
+
+
+            int nx = zArray.width;
+            int ny = zArray.height;
+
+            ZArrayDescriptor zArray_res = new ZArrayDescriptor(nx, ny);
+
+
+            for (int i = 0; i < nx; i++)                                          // Строка 
+                for (int j = 0; j < ny; j++)
+                {
+                    if (i < 4000) { zArray_res.array[i, j] = zArray.array[i, j]; continue; }
+                    double a = zArray.array[i, j];
+                    if (a > gr) a = a - 2*Math.PI;
+                    zArray_res.array[i, j] = a;
+                }
+
+
+            return zArray_res;
+        }
+
+        public static ZArrayDescriptor Unrup_LinePluss(ZArrayDescriptor zArray, double gr)        // Развертка по строкам 
+        {
+
+            if (zArray == null) { MessageBox.Show("Unrup.cs    Unrup_Line  zArray == NULL"); return null; }
+
+
+            int nx = zArray.width;
+            int ny = zArray.height;
+
+            ZArrayDescriptor zArray_res = new ZArrayDescriptor(nx, ny);
+
+
+            for (int i = 0; i < nx; i++)                                          // Строка 
+                for (int j = 0; j < ny; j++)
+                {
+                    if (i < 4000) { zArray_res.array[i, j] = zArray.array[i, j]; continue; }
+                    double a = zArray.array[i, j];
+                    if (a < gr)  { a = a + 2 * Math.PI; }
+                    zArray_res.array[i, j] = a;
+                }
+
+
+            return zArray_res;
+        }
+
+
 
     }
 }

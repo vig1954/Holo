@@ -653,13 +653,17 @@ namespace rab1
                 for (int j = 0; j < h1; j++)
                    array_line[i] += amp.array[i, j];
 
-            for (int i = 0; i < w1; i++) { array_line[i] = array_line[i] / h; }
+            //for (int i = 0; i < w1; i++) { array_line[i] = array_line[i] / h; }
 
             for (int i = 0; i < w1; i++)
-                for (int j = 0; j < h1; j++)
-                    res_array.array[i, j] = array_line[i];
+                for (int j = h1/2; j < h1; j++)
+                    res_array.array[i, j] = array_line[i]/h1;
 
-                    return res_array;
+            for (int i = 0; i < w1; i++)
+                for (int j = 0; j < h1/2; j++)
+                    res_array.array[i, j] = amp.array[i, j];
+
+            return res_array;
         }
 
 

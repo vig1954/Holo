@@ -317,7 +317,7 @@ namespace rab1
             X[2] = new Coords(Convert.ToDouble(textBox7.Text), Convert.ToDouble(textBox8.Text));
             X[3] = new Coords(Convert.ToDouble(textBox9.Text), Convert.ToDouble(textBox10.Text));
 
-            zArrayDescriptor[regComplex * 4]= File_Change_Size.Change_trapezium(zArrayDescriptor[regComplex*4], X);
+            zArrayDescriptor[regComplex * 4]   = File_Change_Size.Change_trapezium(zArrayDescriptor[regComplex*4], X);
             zArrayDescriptor[regComplex * 4+1] = File_Change_Size.Change_trapezium(zArrayDescriptor[regComplex * 4+1], X);
             zArrayDescriptor[regComplex * 4+2] = File_Change_Size.Change_trapezium(zArrayDescriptor[regComplex * 4+2], X);
             zArrayDescriptor[regComplex * 4+3] = File_Change_Size.Change_trapezium(zArrayDescriptor[regComplex * 4+3], X);
@@ -328,6 +328,28 @@ namespace rab1
             Vizual_regImage(regComplex * 4 + 3);
 
         }
+        // Простое вырезение прямоугольника (8,9,10,11)
+        private void выделениеПрямоугольникаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Coords[] X = new Coords[4];
+
+            X[0] = new Coords(Convert.ToDouble(textBox3.Text), Convert.ToDouble(textBox4.Text));
+            X[1] = new Coords(Convert.ToDouble(textBox5.Text), Convert.ToDouble(textBox6.Text));
+            X[2] = new Coords(Convert.ToDouble(textBox7.Text), Convert.ToDouble(textBox8.Text));
+            X[3] = new Coords(Convert.ToDouble(textBox9.Text), Convert.ToDouble(textBox10.Text));
+
+
+            zArrayDescriptor[regComplex * 4]     = File_Change_Size.Change_rectangle(zArrayDescriptor[regComplex * 4], X);
+            zArrayDescriptor[regComplex * 4 + 1] = File_Change_Size.Change_rectangle(zArrayDescriptor[regComplex * 4 + 1], X);
+            zArrayDescriptor[regComplex * 4 + 2] = File_Change_Size.Change_rectangle(zArrayDescriptor[regComplex * 4 + 2], X);
+            zArrayDescriptor[regComplex * 4 + 3] = File_Change_Size.Change_rectangle(zArrayDescriptor[regComplex * 4 + 3], X);
+
+            Vizual_regImage(regComplex * 4);
+            Vizual_regImage(regComplex * 4 + 1);
+            Vizual_regImage(regComplex * 4 + 2);
+            Vizual_regImage(regComplex * 4 + 3);
+        }
+
 
         private void рисованиеПрямоугольникаToolStripMenuItem_Click(object sender, EventArgs e) // Рисование прямоугольника по 4 выделенным точкам в zArrayPicture
         {
@@ -2731,11 +2753,33 @@ namespace rab1
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //                                       Фазовая развертка
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+
         private void разверткаToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             // MessageBox.Show("Фазовая развертка" );
         }
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)   // Развертка по строкам
+        {
+            UnRupLine UnrupLine = new UnRupLine();
+            UnrupLine.OnUnrupLine     += RupLine;
+            UnrupLine.OnUnrupLinePlus += RupLinePluss;
+            UnrupLine.Show();
+        }
 
+        private void RupLine(double gr)
+        {
+            // MessageBox.Show("Фазовая развертка по строкам " +gr);
+            zArrayPicture = Unrup.Unrup_Line(zArrayPicture, gr);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        }
+        private void RupLinePluss(double gr)
+        {
+            // MessageBox.Show("Фазовая развертка по строкам " +gr);
+            zArrayPicture = Unrup.Unrup_LinePluss(zArrayPicture, gr);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        }
+
+        //------------------------------------------------------------------------------------------
         private void разверткаToolStripMenuItem_Click(object sender, EventArgs e)     // Построение таблицы
         {
             UnrupForm UnrupForm = new UnrupForm();
@@ -3030,7 +3074,10 @@ namespace rab1
             }
             return image;
         }
-                             
+
+      
+
+
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }

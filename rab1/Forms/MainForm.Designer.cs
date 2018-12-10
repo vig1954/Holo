@@ -108,6 +108,7 @@
             this.таблицаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.разверткаToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.устраненияФонаПо3ТочкамToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.арифметикаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.арифметикаToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.изменитьРазмерToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -116,6 +117,8 @@
             this.выделениеКвадратаПо4ёмУжеЗаданнымТочкамТекущийКадрToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.кругПо4ТочкамВZArrayPictureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выделениеПоОкружностиПо4ёмОпределяемымТочкам9101112ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.удалениеТрапеции4Массивов13ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.выделениеПрямоугольникаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сверхразрешениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.разряжениеМассиваНулямиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.добвлениеМассиваПовторениемЗначенийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -199,7 +202,6 @@
             this.button9 = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
-            this.удалениеТрапеции4Массивов13ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox01)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -926,7 +928,8 @@
             this.разверткаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.таблицаToolStripMenuItem,
             this.разверткаToolStripMenuItem1,
-            this.устраненияФонаПо3ТочкамToolStripMenuItem});
+            this.устраненияФонаПо3ТочкамToolStripMenuItem,
+            this.toolStripMenuItem1});
             this.разверткаToolStripMenuItem.Name = "разверткаToolStripMenuItem";
             this.разверткаToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
             this.разверткаToolStripMenuItem.Text = "Развертка";
@@ -953,6 +956,13 @@
             this.устраненияФонаПо3ТочкамToolStripMenuItem.Text = "Устранения фона по 3 точкам";
             this.устраненияФонаПо3ТочкамToolStripMenuItem.Click += new System.EventHandler(this.устраненияФонаПо3ТочкамToolStripMenuItem_Click);
             // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(226, 22);
+            this.toolStripMenuItem1.Text = "Развертка по строкам";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
             // арифметикаToolStripMenuItem
             // 
             this.арифметикаToolStripMenuItem.Name = "арифметикаToolStripMenuItem";
@@ -973,7 +983,8 @@
             this.выделениеКвадратаПо4ёмУжеЗаданнымТочкамТекущийКадрToolStripMenuItem,
             this.кругПо4ТочкамВZArrayPictureToolStripMenuItem,
             this.выделениеПоОкружностиПо4ёмОпределяемымТочкам9101112ToolStripMenuItem,
-            this.удалениеТрапеции4Массивов13ToolStripMenuItem});
+            this.удалениеТрапеции4Массивов13ToolStripMenuItem,
+            this.выделениеПрямоугольникаToolStripMenuItem});
             this.изменитьРазмерToolStripMenuItem.Name = "изменитьРазмерToolStripMenuItem";
             this.изменитьРазмерToolStripMenuItem.Size = new System.Drawing.Size(105, 20);
             this.изменитьРазмерToolStripMenuItem.Text = "Изменить размер";
@@ -1012,6 +1023,20 @@
             this.выделениеПоОкружностиПо4ёмОпределяемымТочкам9101112ToolStripMenuItem.Size = new System.Drawing.Size(322, 22);
             this.выделениеПоОкружностиПо4ёмОпределяемымТочкам9101112ToolStripMenuItem.Text = "Выделение круга по 4 точкам (9,10,11,12)";
             this.выделениеПоОкружностиПо4ёмОпределяемымТочкам9101112ToolStripMenuItem.Click += new System.EventHandler(this.выделениеКвадратаПо4ВыделеннымТочкамToolStripMenuItem_Click);
+            // 
+            // удалениеТрапеции4Массивов13ToolStripMenuItem
+            // 
+            this.удалениеТрапеции4Массивов13ToolStripMenuItem.Name = "удалениеТрапеции4Массивов13ToolStripMenuItem";
+            this.удалениеТрапеции4Массивов13ToolStripMenuItem.Size = new System.Drawing.Size(322, 22);
+            this.удалениеТрапеции4Массивов13ToolStripMenuItem.Text = "Удаление трапеции 4 массивов (1-3)";
+            this.удалениеТрапеции4Массивов13ToolStripMenuItem.Click += new System.EventHandler(this.удалениеТрапеции4Массивов13ToolStripMenuItem_Click);
+            // 
+            // выделениеПрямоугольникаToolStripMenuItem
+            // 
+            this.выделениеПрямоугольникаToolStripMenuItem.Name = "выделениеПрямоугольникаToolStripMenuItem";
+            this.выделениеПрямоугольникаToolStripMenuItem.Size = new System.Drawing.Size(322, 22);
+            this.выделениеПрямоугольникаToolStripMenuItem.Text = "Выделение прямоугольника (4 текущих кадра)";
+            this.выделениеПрямоугольникаToolStripMenuItem.Click += new System.EventHandler(this.выделениеПрямоугольникаToolStripMenuItem_Click);
             // 
             // сверхразрешениеToolStripMenuItem
             // 
@@ -1851,13 +1876,6 @@
             this.vScrollBar2.TabIndex = 115;
             this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar2_Scroll);
             // 
-            // удалениеТрапеции4Массивов13ToolStripMenuItem
-            // 
-            this.удалениеТрапеции4Массивов13ToolStripMenuItem.Name = "удалениеТрапеции4Массивов13ToolStripMenuItem";
-            this.удалениеТрапеции4Массивов13ToolStripMenuItem.Size = new System.Drawing.Size(322, 22);
-            this.удалениеТрапеции4Массивов13ToolStripMenuItem.Text = "Удаление трапеции 4 массивов (1-3)";
-            this.удалениеТрапеции4Массивов13ToolStripMenuItem.Click += new System.EventHandler(this.удалениеТрапеции4Массивов13ToolStripMenuItem_Click);
-            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2134,6 +2152,8 @@
         private System.Windows.Forms.ToolStripMenuItem загрузить4912ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem неВГраницах0ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem удалениеТрапеции4Массивов13ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem выделениеПрямоугольникаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
     }
 }
 

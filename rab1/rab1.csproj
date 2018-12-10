@@ -104,6 +104,12 @@
       <DependentUpon>ADD_Cmplx.cs</DependentUpon>
     </Compile>
     <Compile Include="CUDA_FFT.cs" />
+    <Compile Include="Forms\UnRupLine.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UnRupLine.Designer.cs">
+      <DependentUpon>UnRupLine.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ImageForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -261,6 +267,9 @@
       <DependentUpon>CompareForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Complex_form.resx" />
+    <EmbeddedResource Include="Forms\UnRupLine.resx">
+      <DependentUpon>UnRupLine.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrenelForm.resx">
       <DependentUpon>FrenelForm.cs</DependentUpon>
     </EmbeddedResource>

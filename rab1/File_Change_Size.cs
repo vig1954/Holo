@@ -133,25 +133,82 @@ namespace rab1
             if (max1 > max2) return max1; else return max2;
         }
 
+        private static int MinX(Form1.Coords[] X)  // Максимальное число точек по X
+        {
+            int minX =(int) X[0].x;
+            for (int i = 0; i < 3; i++)
+            {
+                if (X[i].x < minX) minX =(int) X[i].x;
+            }
+            return minX;
+        }
+        private static int MaxX(Form1.Coords[] X)  // Максимальное число точек по X
+        {
+            int maxX = (int)X[0].x;
+            for (int i = 0; i < 3; i++)
+            {
+                if (X[i].x > maxX) maxX = (int)X[i].x;
+            }
+            return maxX;
+        }
+        private static int MinY(Form1.Coords[] X)  // Максимальное число точек по X
+        {
+            int minY = (int)X[0].y;
+            for (int i = 0; i < 3; i++)
+            {
+                if (X[i].y < minY) minY = (int)X[i].y;
+            }
+            return minY;
+        }
+        private static int MaxY(Form1.Coords[] X)  // Максимальное число точек по X
+        {
+            int maxY = (int)X[0].y;
+            for (int i = 0; i < 3; i++)
+            {
+                if (X[i].y > maxY) maxY = (int)X[i].y;
+            }
+            return maxY;
+        }
+        public static ZArrayDescriptor Change_rectangle(ZArrayDescriptor zArrayDescriptor,  Form1.Coords[] X )
+        {
+          
+            if (zArrayDescriptor == null) { MessageBox.Show(" Change_trapezium: zArrayDescriptor == null"); return null; }
+            int w1 = zArrayDescriptor.width;
+            int h1 = zArrayDescriptor.height;
 
-       
 
-        public static ZArrayDescriptor Change_trapezium(ZArrayDescriptor zArrayDescriptor,  Form1.Coords[] X )
+
+
+            ZArrayDescriptor zArray1 = new ZArrayDescriptor(MaxX(X) - MinX(X), MaxY(X) - MinY(X));
+
+
+            for (int j = MinY(X);   j < MaxY(X); j++)
+              for (int i = MinX(X); i < MaxX(X); i++)
+                {
+                    zArray1.array[i-MinX(X), j-MinY(X)] = zArrayDescriptor.array[i , j ];
+                }
+
+            return zArray1;
+
+        }
+
+        
+       public static ZArrayDescriptor Change_trapezium(ZArrayDescriptor zArrayDescriptor, Form1.Coords[] X)
         {
             Sort4(X);
-           // int k = regComplex * 4;
+            // int k = regComplex * 4;
 
-            if (zArrayDescriptor == null) { MessageBox.Show(" Change_trapezium: zArrayDescriptor == null"); return null; }
+            if (zArrayDescriptor == null) { MessageBox.Show(" Change_rectangle: zArrayDescriptor == null"); return null; }
             int w1 = zArrayDescriptor.width;
             int h1 = zArrayDescriptor.height;
 
             int max_x = Max_x(X);
             int max_y = Max_y(X);
-            
+
 
             ZArrayDescriptor zArray1 = new ZArrayDescriptor(max_x, max_y);
 
-           
+
             for (int j = 0; j < max_y; j++)
                 for (int i = 0; i < max_x; i++)
                 {
@@ -159,8 +216,8 @@ namespace rab1
                     Form1.Coords R2 = YYY(X[2], X[3], max_y, j);
                     double x = X[0].x + i;
                     double y = Y(R1, R2, (int)x, max_y);
-                    int ix =(int) x;
-                    int iy =(int) y;
+                    int ix = (int)x;
+                    int iy = (int)y;
                     //MessageBox.Show(" x " + x + " y " + y);
                     if (iy < 0 || iy > h1) continue;
                     if (ix < 0 || ix > w1) continue;
@@ -176,7 +233,6 @@ namespace rab1
             // if (ix<0 || ix > w1)  MessageBox.Show(" ix " + ix + " x= " + x + "y= " + y + " i= " + i + "j= " + j);
             // 
         }
-
 
         public static void Change_r(ZArrayDescriptor[] zArrayDescriptor,
                                     PictureBox pictureBox9, PictureBox pictureBox10, PictureBox pictureBox11, PictureBox pictureBox12,
