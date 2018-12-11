@@ -68,8 +68,7 @@ namespace rab1
         {
 
             int n_sdv = fz.Length;                                             // Число фазовых сдвигов
-            for (int i = 0; i < n_sdv; i++)
-                if (zArrayDescriptor[i] == null) { MessageBox.Show("FazaCalass  zArrayDescriptor == NULL"); return null; }
+            for (int i = 0; i < n_sdv; i++) if (zArrayDescriptor[i] == null) { MessageBox.Show("FazaCalass.ATAN_Gr zArrayDescriptor == NULL"); return null; }
 
 
             int w1 = zArrayDescriptor[0].width;
@@ -117,7 +116,7 @@ namespace rab1
             //MessageBox.Show("min  fz1= " + min_fz1 + " max fz1= " + max_fz1 + "min  fz2= " + min_fz2 + " max fz2= " + max_fz2);
             int nn = 1024;
             ZArrayDescriptor cmpl = new ZArrayDescriptor(nn, nn);        // Массив для фаз
-            nn = 255;
+            nn = 512;
             for (int i = 0; i < w1; i++)
             {
                 for (int j = 0; j < h1; j++)
@@ -134,7 +133,7 @@ namespace rab1
                     fz1 = -fz1;
                     int x = (int)  ((fz1 - min_fz1) * nn / (max_fz1 - min_fz1));
                     int y = (int)  ((fz2 - min_fz2) * nn / (max_fz2 - min_fz2));
-                    cmpl.array[x+20, y+20] = 250;
+                    cmpl.array[x+20, y+20] += 25;
                    
                    // cmpl.array[x+20, y+20] = 250;
                    

@@ -178,14 +178,18 @@ namespace rab1
 
 
 
-
             ZArrayDescriptor zArray1 = new ZArrayDescriptor(MaxX(X) - MinX(X), MaxY(X) - MinY(X));
 
+            int X0 = MinX(X); if (X0 < 0)  X0 = 0;
+            int X1 = MaxX(X); if (X1 > w1) X1 = w1;
 
-            for (int j = MinY(X);   j < MaxY(X); j++)
-              for (int i = MinX(X); i < MaxX(X); i++)
+            int Y0 = MinY(X); if (Y0 < 0) Y0 = 0;
+            int Y1 = MaxY(X); if (Y1 > h1) X1 = h1;
+
+            for (int j = Y0;   j < Y1; j++)
+              for (int i = X0; i < X1; i++)
                 {
-                    zArray1.array[i-MinX(X), j-MinY(X)] = zArrayDescriptor.array[i , j ];
+                    zArray1.array[i-X0, j-Y0] = zArrayDescriptor.array[i , j ];
                 }
 
             return zArray1;

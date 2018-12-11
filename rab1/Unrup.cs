@@ -518,7 +518,7 @@ namespace rab1.Forms
         }
         //------------------------------------------------------------------------------------
        
-        public static ZArrayDescriptor Unrup_Line(ZArrayDescriptor zArray, double gr)        // Развертка по строкам
+        public static ZArrayDescriptor Unrup_LineSub(ZArrayDescriptor zArray, int x0, double gr)        // Развертка по строкам
         {
 
             if (zArray == null) { MessageBox.Show("Unrup.cs    Unrup_Line  zArray == NULL"); return null; }
@@ -533,7 +533,7 @@ namespace rab1.Forms
             for (int i = 0; i < nx; i++)                                          // Строка 
                 for (int j = 0; j < ny; j++)
                 {
-                    if (i < 4000) { zArray_res.array[i, j] = zArray.array[i, j]; continue; }
+                    if (i < x0) { zArray_res.array[i, j] = zArray.array[i, j]; continue; }
                     double a = zArray.array[i, j];
                     if (a > gr) a = a - 2*Math.PI;
                     zArray_res.array[i, j] = a;
@@ -543,7 +543,7 @@ namespace rab1.Forms
             return zArray_res;
         }
 
-        public static ZArrayDescriptor Unrup_LinePluss(ZArrayDescriptor zArray, double gr)        // Развертка по строкам 
+        public static ZArrayDescriptor Unrup_LinePluss(ZArrayDescriptor zArray, int x0, double gr)        // Развертка по строкам 
         {
 
             if (zArray == null) { MessageBox.Show("Unrup.cs    Unrup_Line  zArray == NULL"); return null; }
@@ -558,7 +558,7 @@ namespace rab1.Forms
             for (int i = 0; i < nx; i++)                                          // Строка 
                 for (int j = 0; j < ny; j++)
                 {
-                    if (i < 4000) { zArray_res.array[i, j] = zArray.array[i, j]; continue; }
+                    if (i < x0) { zArray_res.array[i, j] = zArray.array[i, j]; continue; }
                     double a = zArray.array[i, j];
                     if (a < gr)  { a = a + 2 * Math.PI; }
                     zArray_res.array[i, j] = a;

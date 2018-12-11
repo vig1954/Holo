@@ -90,8 +90,8 @@ namespace rab1.Forms
             textBox11.Text = Convert.ToString(k11);
             textBox12.Text = Convert.ToString(k12);
 
-            textBox11.Text = Convert.ToString(k13);  // Перенос по 4 вещественных картинки
-            textBox12.Text = Convert.ToString(k14);
+            textBox13.Text = Convert.ToString(k13);  // Перенос по 4 вещественных картинки
+            textBox14.Text = Convert.ToString(k14);
         }
 
 

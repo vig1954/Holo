@@ -2766,16 +2766,16 @@ namespace rab1
             UnrupLine.Show();
         }
 
-        private void RupLine(double gr)
+        private void RupLine(int x0, double gr)
         {
             // MessageBox.Show("Фазовая развертка по строкам " +gr);
-            zArrayPicture = Unrup.Unrup_Line(zArrayPicture, gr);
+            zArrayPicture = Unrup.Unrup_LineSub(zArrayPicture, x0, gr);
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
         }
-        private void RupLinePluss(double gr)
+        private void RupLinePluss(int x0, double gr)
         {
             // MessageBox.Show("Фазовая развертка по строкам " +gr);
-            zArrayPicture = Unrup.Unrup_LinePluss(zArrayPicture, gr);
+            zArrayPicture = Unrup.Unrup_LinePluss(zArrayPicture,x0,  gr);
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
         }
 
