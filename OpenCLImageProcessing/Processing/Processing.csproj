@@ -80,6 +80,7 @@
     <Compile Include="Computing\OpenClDataManager.cs" />
     <Compile Include="Computing\PSI.cs" />
     <Compile Include="Computing\Wavefront.cs" />
+    <Compile Include="DataAttributes\CounterAttribute.cs" />
     <Compile Include="DataAttributes\DataProcessorAttribute.cs" />
     <Compile Include="DataAttributes\ImageHandlerFilterAttribute.cs" />
     <Compile Include="DataAttributes\OutputImageHeightAttribute.cs" />

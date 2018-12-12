@@ -78,5 +78,14 @@ namespace Processing.Computing
 
             Singleton.Get<OpenClApplication>().ExecuteKernel("interference", output.Width, output.Height, image1.ComputeBuffer, image2.ComputeBuffer, delta, output.ComputeBuffer);
         }
+
+        [DataProcessor("Бесконечное накопление", ProcessorGroups.Computing)]
+        public static void Accumulate(IImageHandler input, [Counter]float counter, IImageHandler output)
+        {
+            if (!input.SizeEquals(output))
+                throw new InvalidOperationException("Изображения должны быть одинакового размера.");
+
+            Singleton.Get<OpenClApplication>().ExecuteKernel("sumWithWeight", output.Width, output.Height, input.ComputeBuffer, output.ComputeBuffer, output.ComputeBuffer, 1f, counter);
+        }
     }
 }

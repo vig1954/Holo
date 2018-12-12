@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Runtime.Remoting.Messaging;
 using Common;
 using Processing;
+using Processing.DataAttributes;
 using UserInterface.DataEditors.InterfaceBinding;
 using UserInterface.DataEditors.InterfaceBinding.Attributes;
 
@@ -75,6 +76,9 @@ namespace UserInterface.DataProcessorViews
         {
             var oldValue = Value;
             Value = value;
+
+            if (HasAttribute<CounterAttribute>())
+                return;         // todo: возможно, тут для этого не самое подходящее место
 
             var e = new DataProcessorParameterUpdatedEventArgs(this, sender, oldValue);
 

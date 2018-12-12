@@ -72,7 +72,7 @@ namespace UserInterface.DataProcessorViews
 
         public IEnumerable<IBinding> GetBindings()
         {
-            return Parameters;
+            return Parameters.Where(p => !p.HasAttribute<CounterAttribute>());
         }
 
         public void Compute()
@@ -82,7 +82,6 @@ namespace UserInterface.DataProcessorViews
 
             using (new Timer($"{Info.Name}.{nameof(Compute)}"))
             {
-
                 _outputImageParametersUpdated = false;
 
                 var imageHandlerParameters = Parameters.OfType<DataProcessorParameter<IImageHandler>>();
@@ -90,7 +89,6 @@ namespace UserInterface.DataProcessorViews
 
                 if (imageHandlerInput != null)
                 {
-
                     var outputImageFilterAttribute = OutputParameter.GetAttribute<ImageHandlerFilterAttribute>();
                     CreateOrUpdateOutputWithSameParametres(imageHandlerInput.GetValue(), Info.Name + " result", outputImageFilterAttribute?.GetAllowedPixelFormats().FirstOrDefault(), outputImageFilterAttribute?.GetAllowedImageFormats().FirstOrDefault());
                 }
@@ -116,6 +114,17 @@ namespace UserInterface.DataProcessorViews
                 using (StartOperationScope(_outputImageParametersUpdated, imageHandlerParameters.Select(p => p.GetValue()).Concat(new[] { OutputParameter.GetValue() }).ToArray()))
                 {
                     Invoke();
+                }
+
+                foreach (var counterParameter in Parameters.Where(p => p.HasAttribute<CounterAttribute>()))
+                {
+                    var counterAttribute = counterParameter.GetAttribute<CounterAttribute>();
+
+                    if (counterParameter is DataProcessorParameter<int> intParameter)
+                        intParameter.SetValue(intParameter.GetValue() + (int)counterAttribute.Increment, this);
+
+                    if (counterParameter is DataProcessorParameter<float> floatParameter)
+                        floatParameter.SetValue(floatParameter.GetValue() + counterAttribute.Increment, this);
                 }
             }
         }
