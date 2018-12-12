@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Common;
 using Infrastructure;
 using Processing;
@@ -20,6 +21,8 @@ namespace Camera
         private const string DontApplySelectionName = "Не обрезать";
         private readonly ImageHandler[] _images = new ImageHandler[4];
         private readonly OnShotParameters _onShotParameters = new OnShotParameters();
+
+        private bool ignoreNewImages = false;
 
         private CameraConnector CameraConnector => Singleton.Get<CameraConnector>();
 
@@ -135,8 +138,8 @@ namespace Camera
         [BindToUI]
         public int ShiftStep { get; set; } = 400;
 
-        [BindToUI]
-        public int ShiftDelay { get; set; } = 1000;
+        [BindToUI("Время установления сдвига, мс")]
+        public int ShiftDelay { get; set; } = 100;
 
 
         public CameraInput()
@@ -202,6 +205,9 @@ namespace Camera
                 LastPreviewImage = bitmap;
                 PreviewImageUpdated?.Invoke();
 
+                if (ignoreNewImages)
+                    return;
+
                 if (CaptureLiveView)
                     ProcessBitmap(bitmap);
             }
@@ -221,8 +227,10 @@ namespace Camera
             ProcessBitmap(bitmap);
         }
 
-        private void ProcessBitmap(Bitmap bitmap)
+        private async void ProcessBitmap(Bitmap bitmap)
         {
+            ignoreNewImages = true;
+
             if (SelectionToApply != null && SelectionToApply.Name != DontApplySelectionName)
                 bitmap = ImageUtils.ExtractSelection(bitmap, SelectionToApply);
 
@@ -248,6 +256,10 @@ namespace Camera
                 _onShotParameters.Reset();
                 return;
             }
+
+            await Task.Delay(ShiftDelay);
+
+            ignoreNewImages = false;
 
             if (!CaptureLiveView && _onShotParameters.TakeSeries && !_onShotParameters.SeriesComplete)
                 CameraConnector.TakePhoto();
