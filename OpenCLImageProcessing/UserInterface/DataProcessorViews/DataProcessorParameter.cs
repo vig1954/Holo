@@ -15,6 +15,8 @@ namespace UserInterface.DataProcessorViews
     {
         protected ParameterInfo _parameterInfo;
         protected object Value;
+        
+        public event Action<BindingEvent> BindingEvent;
 
         public string DisplayName { get; }
         public string DisplayGroup { get; }
@@ -97,6 +99,11 @@ namespace UserInterface.DataProcessorViews
 
             return attribute;
 
+        }
+
+        public void RaiseBindingEvent(BindingEvent @event)
+        {
+            BindingEvent?.Invoke(@event);
         }
 
         public bool HasAttribute<TAttribute>() where TAttribute : Attribute

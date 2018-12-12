@@ -15,15 +15,16 @@ namespace UserInterface.DataEditors.InterfaceBinding
         IBindingProvider Get(object target);
     }
 
-    public class BindingProviderFactory: IBindingProviderFactory
+    public class BindingProviderFactory : IBindingProviderFactory
     {
         public IBindingProvider Get(object target)
         {
             if (target is IBindingProvider provider)
                 return provider;
 
-            return (IBindingProvider)typeof(ObjectBindingProvider<>).MakeGenericType(target.GetType()).InvokeConstructor(target);
+            return (IBindingProvider) typeof(ObjectBindingProvider<>).MakeGenericType(target.GetType()).InvokeConstructor(target);
         }
+
         private class ObjectBindingProvider<TTarget> : IBindingProvider, IDisposable, IBindingTargetProvider, IBindingManager<TTarget> where TTarget : class
         {
             private IDictionary<MemberInfo, IBinding> _memberBindings;
@@ -75,7 +76,7 @@ namespace UserInterface.DataEditors.InterfaceBinding
                     if (methodParameterInfos.Length == 1 && methodParameterInfos.Single().ParameterType == typeof(ValueUpdatedEventArgs))
                         methodInfo.Invoke(target, new object[] { e });
                     else
-                        methodInfo.Invoke(target, new object[] {});
+                        methodInfo.Invoke(target, new object[] { });
                 }
 
                 void InvokeOnAnyPropertyChangedMethods(ValueUpdatedEventArgs e)
@@ -91,7 +92,7 @@ namespace UserInterface.DataEditors.InterfaceBinding
             {
                 return _memberBindings.Select(g => g.Value);
             }
-            
+
             public void Dispose()
             {
                 // dispose bindings???
@@ -106,7 +107,10 @@ namespace UserInterface.DataEditors.InterfaceBinding
 
             public void SetPropertyValue<TPropertyType>(Expression<Func<TTarget, TPropertyType>> propertyAccess, TPropertyType value)
             {
-                GetPropertyBindingByPropertyAccessExpression(propertyAccess).SetValue(value, Target); // todo: возможно, нужно явно передавать sender
+                if (GetBindingByMemberAccessExpression(propertyAccess) is PropertyBinding propertyBinding)
+                    propertyBinding.SetValue(value, Target); // todo: возможно, нужно явно передавать sender
+                else
+                    throw new InvalidOperationException("Property not found.");
             }
 
             public void SetPropertyValue<TPropertyType>(string propertyName, TPropertyType value)
@@ -116,19 +120,34 @@ namespace UserInterface.DataEditors.InterfaceBinding
                 propertyBinding.SetValue(value, Target);
             }
 
+            public void RaiseMemberBindingEvent<TMemberType>(Expression<Func<TTarget, TMemberType>> memberAccess, BindingEvent @event)
+            {
+                var binding = GetBindingByMemberAccessExpression(memberAccess);
+                binding.RaiseBindingEvent(@event);
+            }
+
+            public void RaiseMethodBindingEvent(Expression<Action<TTarget>> methodCall, BindingEvent @event)
+            {
+                if (!(methodCall.Body is MethodCallExpression methodCallExpression))
+                    throw new InvalidOperationException($"{nameof(methodCall)} should be method call expression.");
+
+                var binding = _memberBindings[methodCallExpression.Method];
+                binding.RaiseBindingEvent(@event);
+            }
+
             public void SetAvailableValuesForProperty<TPropertyType>(Expression<Func<TTarget, TPropertyType>> propertyAccess, IEnumerable<TPropertyType> availableValues)
             {
-                var binding = GetPropertyBindingByPropertyAccessExpression(propertyAccess);
+                var binding = GetBindingByMemberAccessExpression(propertyAccess);
 
                 var observableCollectionBinding = (ObservableCollectionBinding<TPropertyType>) binding;
                 observableCollectionBinding.SetAllowedValues(availableValues);
             }
 
-            private PropertyBinding GetPropertyBindingByPropertyAccessExpression<TPropertyType>(Expression<Func<TTarget, TPropertyType>> propertyAccess)
+            private IBinding GetBindingByMemberAccessExpression<TPropertyType>(Expression<Func<TTarget, TPropertyType>> memberAccess)
             {
-                var propertyExpression = (MemberExpression) propertyAccess.Body;
-                var propertyInfo = (PropertyInfo) propertyExpression.Member;
-                var binding = (PropertyBinding)_memberBindings[propertyInfo];
+                var propertyExpression = (MemberExpression) memberAccess.Body;
+                var memberInfo = propertyExpression.Member;
+                var binding = _memberBindings[memberInfo];
 
                 return binding;
             }

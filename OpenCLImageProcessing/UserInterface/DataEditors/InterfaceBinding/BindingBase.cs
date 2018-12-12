@@ -15,6 +15,9 @@ namespace UserInterface.DataEditors.InterfaceBinding
         string DisplayGroup { get; }
 
         TAttribute GetAttribute<TAttribute>() where TAttribute : Attribute;
+
+        event Action<BindingEvent> BindingEvent;
+        void RaiseBindingEvent(BindingEvent @event);
     }
 
     public interface IBindingTargetProvider
@@ -26,6 +29,8 @@ namespace UserInterface.DataEditors.InterfaceBinding
     {
         protected MemberInfo _memberInfo;
         protected IBindingTargetProvider _targetProvider;
+
+        public event Action<BindingEvent> BindingEvent;
 
         public string Name { get; }
         public string DisplayName { get; }
@@ -52,6 +57,25 @@ namespace UserInterface.DataEditors.InterfaceBinding
 
             if (DisplayName.IsNullOrEmpty())
                 DisplayName = Name.SeparateUpperCase();
+        }
+
+        public void RaiseBindingEvent(BindingEvent @event)
+        {
+            BindingEvent?.Invoke(@event);
+        }
+    }
+
+    public class BindingEvent
+    {
+        public string Event { get; }
+        public object Param { get; }
+        public object Sender { get; }
+
+        public BindingEvent(string @event, object param, object sender)
+        {
+            Event = @event;
+            Param = param;
+            Sender = sender;
         }
     }
 }

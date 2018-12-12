@@ -2,6 +2,7 @@
 using System.Linq;
 using Processing;
 using UserInterface.DataEditors.InterfaceBinding.Attributes;
+using UserInterface.DataEditors.InterfaceBinding.BindingEvents;
 
 namespace UserInterface.DataEditors.InterfaceBinding.Controls
 {
@@ -43,6 +44,15 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
                 throw new NotImplementedException();
 
             control.SetBinding(binding);
+
+            binding.BindingEvent += e =>
+            {
+                if (e is PerformBindableControlActionEvent bindableControlAction)
+                {
+                    bindableControlAction.Perform(control);
+                }
+            };
+
             return control;
         }
     }

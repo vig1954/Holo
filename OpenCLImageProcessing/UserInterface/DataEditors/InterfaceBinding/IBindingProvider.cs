@@ -19,6 +19,8 @@ namespace UserInterface.DataEditors.InterfaceBinding
         void SetPropertyValue<TPropertyType>(Expression<Func<TTarget, TPropertyType>> propertyAccess, TPropertyType value);
         void SetPropertyValue<TPropertyType>(string propertyName, TPropertyType value);
         void SetAvailableValuesForProperty<TPropertyType>(Expression<Func<TTarget, TPropertyType>> propertyAccess, IEnumerable<TPropertyType> availableValues);
+        void RaiseMemberBindingEvent<TMemberType>(Expression<Func<TTarget, TMemberType>> memberAccess, BindingEvent @event);
+        void RaiseMethodBindingEvent(Expression<Action<TTarget>> methodCall, BindingEvent @event);
     }
 
     public static class BindingProviderExtensions

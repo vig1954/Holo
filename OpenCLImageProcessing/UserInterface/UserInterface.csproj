@@ -94,6 +94,7 @@
     <Compile Include="DataEditors\InterfaceBinding\Attributes\OnBindedPropertyChangedAttribute.cs" />
     <Compile Include="DataEditors\InterfaceBinding\Attributes\ValueCollectionAttribute.cs" />
     <Compile Include="DataEditors\InterfaceBinding\BindingBase.cs" />
+    <Compile Include="DataEditors\InterfaceBinding\BindingEvents\PerformBindableControlActionEvent.cs" />
     <Compile Include="DataEditors\InterfaceBinding\BindingFactory.cs" />
     <Compile Include="DataEditors\InterfaceBinding\BindingProviderFactory.cs" />
     <Compile Include="DataEditors\InterfaceBinding\Controls\BindableControlFactory.cs" />

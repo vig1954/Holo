@@ -5,10 +5,12 @@ using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Windows.Forms;
 using Common;
 using rab1;
 using UserInterface.DataEditors.InterfaceBinding;
 using UserInterface.DataEditors.InterfaceBinding.Attributes;
+using UserInterface.DataEditors.InterfaceBinding.BindingEvents;
 
 namespace Camera
 {
@@ -47,6 +49,8 @@ namespace Camera
                 _inner = new PhaseShiftDeviceController(PortName);
                 _inner.Initialize();
                 _phaseShiftDeviceConnected = true;
+
+                ToggleConnectAndDisconnectButtons(false);
             }
         }
 
@@ -87,12 +91,20 @@ namespace Camera
             _inner?.Dispose();
             _inner = null;
             _phaseShiftDeviceConnected = false;
+
+            ToggleConnectAndDisconnectButtons(true);
         }
 
         ~PhaseShiftDeviceControllerAdapter()
         {
             _inner?.Dispose();
             _inner = null;
+        }
+
+        private void ToggleConnectAndDisconnectButtons(bool connect)
+        {
+            BindingManager.RaiseMethodBindingEvent(a => a.Connect(), new PerformBindableControlActionEvent(c => (c as Control).Enabled = connect, this));
+            BindingManager.RaiseMethodBindingEvent(a => a.Disconnect(), new PerformBindableControlActionEvent(c => (c as Control).Enabled = !connect, this));
         }
     }
 }
