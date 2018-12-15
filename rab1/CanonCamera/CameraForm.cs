@@ -43,6 +43,8 @@ namespace rab1
         int ErrCount;
         object ErrLock = new object();
 
+        short groupNumber = 3;
+
         ImageForm imageForm = null;
         short currentImageNumber = 0;
 
@@ -90,6 +92,7 @@ namespace rab1
                 ReportError(ex.Message, true);
             }
 
+            InitGroupNumberCombobox();
             InitColorModes();
             InitImageSaveModes();
             InitializeDefaultValues();
@@ -117,7 +120,20 @@ namespace rab1
 
             colorComboBox.SelectedIndex = 0;
         }
-        
+
+        private void InitGroupNumberCombobox()
+        {
+            groupNumberComboBox.ValueMember = "GroupNumber";
+            groupNumberComboBox.DisplayMember = "GroupName";
+            groupNumberComboBox.SelectedIndexChanged += groupNumberComboBox_SelectedIndexChanged;
+
+            groupNumberComboBox.Items.Add(new GroupItem() { GroupNumber = 1, GroupName = "1" });
+            groupNumberComboBox.Items.Add(new GroupItem() { GroupNumber = 2, GroupName = "2" });
+            groupNumberComboBox.Items.Add(new GroupItem() { GroupNumber = 3, GroupName = "3" });
+
+            groupNumberComboBox.SelectedIndex = 0;
+        }
+
         private void InitImageSaveModes()
         {
             imageSaveComboBox.ValueMember = "ImageSaveModeValue";
@@ -135,6 +151,14 @@ namespace rab1
             if (colorComboBox.SelectedItem != null)
             {
                 colorMode = ((ColorItem)colorComboBox.SelectedItem).ColorModeValue;
+            }
+        }
+
+        private void groupNumberComboBox_SelectedIndexChanged(object sender, EventArgs args)
+        {
+            if (groupNumberComboBox.SelectedItem != null)
+            {
+                groupNumber = ((GroupItem)groupNumberComboBox.SelectedItem).GroupNumber;
             }
         }
 
@@ -198,6 +222,7 @@ namespace rab1
                 {
                     Image = bitmap,
                     Number = number,
+                    GroupNumber = groupNumber,
                     PhaseShiftValue = currentPhaseShiftValue,
                     ColorMode = colorMode
                 };
@@ -364,6 +389,7 @@ namespace rab1
             try
             {
                 currentPhaseShiftNumber = 0;
+                currentImageNumber = 0;
 
                 if ((string)TvCoBox.SelectedItem == "Bulb") CameraHandler.TakePhoto((uint)BulbUpDo.Value);
                 else CameraHandler.TakePhoto();
@@ -744,6 +770,7 @@ namespace rab1
         {
             this.imageForm = new ImageForm();
             this.imageForm.Show();
+            this.imageForm.SetImage(this.MainForm.GetImageFromPictureBox(1));
         }
 
         private void takeSeriesFromPictureBoxesButton_Click(object sender, EventArgs e)

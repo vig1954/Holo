@@ -2383,6 +2383,8 @@ namespace rab1
         {
             Model_object.Model_Cos(zArrayDescriptor,  fz);
             Vizual_regImage(8);            Vizual_regImage(9);  Vizual_regImage(10);            Vizual_regImage(11);
+
+            Vizual_regImage(0); Vizual_regImage(1);
             //Complex_pictureBox(1); Complex_pictureBox(2);
         }
 
@@ -2980,31 +2982,14 @@ namespace rab1
                     zArrayPicture = new ZArrayDescriptor(eventArgs.Image, eventArgs.ColorMode);
                     pictureBox01.Image = eventArgs.Image;
                     break;
-
-                case 1:
+                
+                default:
                     {
-                        zArrayDescriptor[8] = new ZArrayDescriptor(eventArgs.Image, eventArgs.ColorMode);
-                        pictureBox9.Image = eventArgs.Image;
+                        int index = (eventArgs.GroupNumber - 1) * 4 + (eventArgs.Number - 1);
+                        zArrayDescriptor[index] = new ZArrayDescriptor(eventArgs.Image, eventArgs.ColorMode);
+                        pictureBoxArray[index].Image = eventArgs.Image;
                         break;
-                    }
-                case 2:
-                    {
-                        zArrayDescriptor[9] = new ZArrayDescriptor(eventArgs.Image, eventArgs.ColorMode);
-                        pictureBox10.Image = eventArgs.Image;
-                        break;
-                    }
-                case 3:
-                    {
-                        zArrayDescriptor[10] = new ZArrayDescriptor(eventArgs.Image, eventArgs.ColorMode);
-                        pictureBox11.Image = eventArgs.Image;
-                        break;
-                    }
-                case 4:
-                    {
-                        zArrayDescriptor[11] = new ZArrayDescriptor(eventArgs.Image, eventArgs.ColorMode);
-                        pictureBox12.Image = eventArgs.Image;
-                        break;
-                    }
+                    } 
 
             }
         }

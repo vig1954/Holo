@@ -117,6 +117,7 @@
       <DependentUpon>ImageForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FurieN.cs" />
+    <Compile Include="GroupItem.cs" />
     <Compile Include="ImageSaveItem.cs" />
     <Compile Include="ImsgeSaveModeEnum.cs" />
     <Compile Include="PhaseShiftDeviceController.cs" />
