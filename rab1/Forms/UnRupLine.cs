@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 public delegate void DelegatUnrupLine(int x0, double gr);
-
+public delegate void DelegatUnrup2pi();
 
 namespace rab1.Forms
 {
@@ -21,16 +21,17 @@ namespace rab1.Forms
 
         public event DelegatUnrupLine OnUnrupLine;
         public event DelegatUnrupLine OnUnrupLinePlus;
+        public event DelegatUnrup2pi  OnUnrupLine2pi;
 
         public UnRupLine()
         {
             InitializeComponent();
             textBox4.Text = Convert.ToString(gr1);
-            textBox1.Text = Convert.ToString(gr2);
+            textBox1.Text = Convert.ToString(gr2);  
             textBox2.Text = Convert.ToString(x0);
         }
 
-        private void button1_Click(object sender, EventArgs e)  // Развертка по строкам
+        private void button1_Click(object sender, EventArgs e)  // Развертка по строкам (Возрастание)
         {
             x0  = Convert.ToInt32(textBox2.Text);
             gr1 = Convert.ToDouble(textBox4.Text);
@@ -38,11 +39,17 @@ namespace rab1.Forms
             Close();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)  // Если меньше (убывание)
         {
             x0 = Convert.ToInt32(textBox2.Text);
             gr2 = Convert.ToDouble(textBox1.Text);
             OnUnrupLinePlus(x0, gr2);
+            Close();
+        }
+
+        private void button3_Click(object sender, EventArgs e) // Обычная развертка
+        {
+            OnUnrupLine2pi();
             Close();
         }
     }

@@ -2765,6 +2765,7 @@ namespace rab1
             UnRupLine UnrupLine = new UnRupLine();
             UnrupLine.OnUnrupLine     += RupLine;
             UnrupLine.OnUnrupLinePlus += RupLinePluss;
+            UnrupLine.OnUnrupLine2pi  += RupLine2pi;
             UnrupLine.Show();
         }
 
@@ -2780,7 +2781,12 @@ namespace rab1
             zArrayPicture = Unrup.Unrup_LinePluss(zArrayPicture,x0,  gr);
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
         }
-
+        private void RupLine2pi()
+        {
+            // MessageBox.Show("Фазовая развертка по строкам " +gr);
+            zArrayPicture = Unrup.Unrup_Line2pi(zArrayPicture);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        }
         //------------------------------------------------------------------------------------------
         private void разверткаToolStripMenuItem_Click(object sender, EventArgs e)     // Построение таблицы
         {
