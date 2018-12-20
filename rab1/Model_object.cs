@@ -818,5 +818,51 @@ namespace rab1
 
         }
 
+        public static ZArrayDescriptor Correct(ZArrayDescriptor zArrayPicture, double L, double d, double d1)
+        {
+            int w1 = zArrayPicture.width;
+            int h1 = zArrayPicture.height;
+
+            ZArrayDescriptor zArray = new ZArrayDescriptor(w1, h1);
+           
+            for (int j = 0; j < h1; j++)
+             for (int i = 0; i < w1; i++)
+               {
+                    double ac = zArrayPicture.array[i, j];
+                    double x = i * d1/ w1;
+                    double f = Math.Atan(L / (d - x));
+                    double h = ac * Math.Sin(f);
+                    zArray.array[i, j] = h;
+                }
+
+           
+            return zArray;
+        }
+
+        public static ZArrayDescriptor CorrectX(ZArrayDescriptor zArrayPicture, double L, double d, double d1)
+        {
+            int w1 = zArrayPicture.width;
+            int h1 = zArrayPicture.height;
+
+            ZArrayDescriptor zArray = new ZArrayDescriptor(w1, h1);
+
+            for (int j = 0; j < h1; j++)
+                for (int i = 0; i < w1; i++)
+                {
+                    double ac = zArrayPicture.array[i, j];
+                    double x = i * d1 / w1;
+                    double f = Math.Atan(L / (d - x));
+                    double h = ac * Math.Cos(f);
+                    //double h = ac * Math.Sin(f);
+                    //int ih = (int)h;
+                    //zArray.array[i, j] = h-ih;
+                    zArray.array[i, j] = h-x;
+                }
+
+
+            return zArray;
+        }
+
+
     }
 }

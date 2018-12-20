@@ -3066,9 +3066,28 @@ namespace rab1
             return image;
         }
 
-      
+        private void моделированиеОстаткаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Structur STRUCTUR = new Structur();
+            STRUCTUR.On_Corr += Correct;
+            STRUCTUR.On_CorrX += CorrectX;
+            STRUCTUR.Show();
 
+        }
 
+        private void Correct(double L, double d, double d1)
+        {
+            zArrayPicture = Model_object.Correct(zArrayPicture, L,  d, d1);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+
+        }
+
+        private void CorrectX(double L, double d, double d1)
+        {
+            zArrayPicture = Model_object.CorrectX(zArrayPicture, L, d, d1);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+
+        }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }

@@ -202,6 +202,8 @@
             this.button9 = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
+            this.структурирОсвещениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.моделированиеОстаткаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox01)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -557,7 +559,8 @@
             this.арифметикаToolStripMenuItem,
             this.арифметикаToolStripMenuItem1,
             this.изменитьРазмерToolStripMenuItem,
-            this.сверхразрешениеToolStripMenuItem});
+            this.сверхразрешениеToolStripMenuItem,
+            this.структурирОсвещениеToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1135, 24);
@@ -1876,6 +1879,21 @@
             this.vScrollBar2.TabIndex = 115;
             this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar2_Scroll);
             // 
+            // структурирОсвещениеToolStripMenuItem
+            // 
+            this.структурирОсвещениеToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.моделированиеОстаткаToolStripMenuItem});
+            this.структурирОсвещениеToolStripMenuItem.Name = "структурирОсвещениеToolStripMenuItem";
+            this.структурирОсвещениеToolStripMenuItem.Size = new System.Drawing.Size(143, 20);
+            this.структурирОсвещениеToolStripMenuItem.Text = "Структурир. освещение";
+            // 
+            // моделированиеОстаткаToolStripMenuItem
+            // 
+            this.моделированиеОстаткаToolStripMenuItem.Name = "моделированиеОстаткаToolStripMenuItem";
+            this.моделированиеОстаткаToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.моделированиеОстаткаToolStripMenuItem.Text = "Коррекция высот";
+            this.моделированиеОстаткаToolStripMenuItem.Click += new System.EventHandler(this.моделированиеОстаткаToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2154,6 +2172,8 @@
         private System.Windows.Forms.ToolStripMenuItem удалениеТрапеции4Массивов13ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem выделениеПрямоугольникаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem структурирОсвещениеToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem моделированиеОстаткаToolStripMenuItem;
     }
 }
 
