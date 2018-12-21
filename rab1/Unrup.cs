@@ -535,7 +535,7 @@ namespace rab1.Forms
                 {
                     if (i < x0) { zArray_res.array[i, j] = zArray.array[i, j]; continue; }
                     double a = zArray.array[i, j];
-                    if (a > gr) a = a - 2*Math.PI;
+                    if (a > gr) { a = a - 2 * Math.PI; }
                     zArray_res.array[i, j] = a;
                 }
 

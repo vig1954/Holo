@@ -353,7 +353,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(220, 64);
             this.button2.TabIndex = 34;
-            this.button2.Text = "Разность фаз\r\ncos(faza(0)-faza(1)) =>8, 9,10,11";
+            this.button2.Text = "Разность фаз\r\ncos(faza(0,1,2,3)-faza(4,5,6,7)) =>8, 9,10,11";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 

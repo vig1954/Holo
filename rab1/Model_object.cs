@@ -796,11 +796,10 @@ namespace rab1
 
             zComplex_tmp2 = ATAN_PSI.ATAN_8_11(4, 5, 6, 7, zArrayDescriptor, fz);
             zComplex_tmp1 = ATAN_PSI.ATAN_8_11(0, 1, 2, 3, zArrayDescriptor, fz);                // PSI  0123
-            zArrayDescriptor[8] = Model_Subr(zComplex_tmp1, zComplex_tmp2, 0);
-
-            zArrayDescriptor[9] = Model_Subr(zComplex_tmp1,  zComplex_tmp2, Math.PI *  90 / 180.0);
-            zArrayDescriptor[10] = Model_Subr(zComplex_tmp1, zComplex_tmp2, Math.PI * 180 / 180.0);
-            zArrayDescriptor[11] = Model_Subr(zComplex_tmp1, zComplex_tmp2, Math.PI * 270 / 180.0);
+            zArrayDescriptor[8]  = Model_Subr(zComplex_tmp1,  zComplex_tmp2, 45);
+            zArrayDescriptor[9]  = Model_Subr(zComplex_tmp1,  zComplex_tmp2, Math.PI *  135 / 180.0);
+            zArrayDescriptor[10] = Model_Subr(zComplex_tmp1,  zComplex_tmp2, Math.PI * 225 / 180.0);
+            zArrayDescriptor[11] = Model_Subr(zComplex_tmp1,  zComplex_tmp2, Math.PI * 315 / 180.0);
 
             /*
 

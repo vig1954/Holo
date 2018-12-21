@@ -64,7 +64,6 @@
             this.загрузитьИзФайлаdoubleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.загрузитьComplexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.загрузить418ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.загрузить4912ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Save8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SAVEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сохранитьZaarayВФайлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -122,6 +121,8 @@
             this.сверхразрешениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.разряжениеМассиваНулямиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.добвлениеМассиваПовторениемЗначенийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.структурирОсвещениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.моделированиеОстаткаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox8 = new System.Windows.Forms.PictureBox();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
@@ -202,8 +203,6 @@
             this.button9 = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
-            this.структурирОсвещениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.моделированиеОстаткаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox01)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -574,7 +573,6 @@
             this.загрузитьИзФайлаdoubleToolStripMenuItem,
             this.загрузитьComplexToolStripMenuItem,
             this.загрузить418ToolStripMenuItem,
-            this.загрузить4912ToolStripMenuItem,
             this.Save8ToolStripMenuItem,
             this.SAVEToolStripMenuItem,
             this.сохранитьZaarayВФайлToolStripMenuItem,
@@ -610,15 +608,8 @@
             // 
             this.загрузить418ToolStripMenuItem.Name = "загрузить418ToolStripMenuItem";
             this.загрузить418ToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
-            this.загрузить418ToolStripMenuItem.Text = "Загрузить 4 (9,10,11,12)";
+            this.загрузить418ToolStripMenuItem.Text = "Загрузить 4 => regComplex";
             this.загрузить418ToolStripMenuItem.Click += new System.EventHandler(this.загрузить418ToolStripMenuItem_Click);
-            // 
-            // загрузить4912ToolStripMenuItem
-            // 
-            this.загрузить4912ToolStripMenuItem.Name = "загрузить4912ToolStripMenuItem";
-            this.загрузить4912ToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
-            this.загрузить4912ToolStripMenuItem.Text = "Загрузить 4 (5,6,7,8)";
-            this.загрузить4912ToolStripMenuItem.Click += new System.EventHandler(this.загрузить4912ToolStripMenuItem_Click);
             // 
             // Save8ToolStripMenuItem
             // 
@@ -1063,6 +1054,21 @@
             this.добвлениеМассиваПовторениемЗначенийToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
             this.добвлениеМассиваПовторениемЗначенийToolStripMenuItem.Text = "Добвление массива повторением значений";
             this.добвлениеМассиваПовторениемЗначенийToolStripMenuItem.Click += new System.EventHandler(this.добвлениеМассиваПовторениемЗначенийToolStripMenuItem_Click);
+            // 
+            // структурирОсвещениеToolStripMenuItem
+            // 
+            this.структурирОсвещениеToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.моделированиеОстаткаToolStripMenuItem});
+            this.структурирОсвещениеToolStripMenuItem.Name = "структурирОсвещениеToolStripMenuItem";
+            this.структурирОсвещениеToolStripMenuItem.Size = new System.Drawing.Size(143, 20);
+            this.структурирОсвещениеToolStripMenuItem.Text = "Структурир. освещение";
+            // 
+            // моделированиеОстаткаToolStripMenuItem
+            // 
+            this.моделированиеОстаткаToolStripMenuItem.Name = "моделированиеОстаткаToolStripMenuItem";
+            this.моделированиеОстаткаToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.моделированиеОстаткаToolStripMenuItem.Text = "Коррекция высот";
+            this.моделированиеОстаткаToolStripMenuItem.Click += new System.EventHandler(this.моделированиеОстаткаToolStripMenuItem_Click);
             // 
             // pictureBox8
             // 
@@ -1879,21 +1885,6 @@
             this.vScrollBar2.TabIndex = 115;
             this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar2_Scroll);
             // 
-            // структурирОсвещениеToolStripMenuItem
-            // 
-            this.структурирОсвещениеToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.моделированиеОстаткаToolStripMenuItem});
-            this.структурирОсвещениеToolStripMenuItem.Name = "структурирОсвещениеToolStripMenuItem";
-            this.структурирОсвещениеToolStripMenuItem.Size = new System.Drawing.Size(143, 20);
-            this.структурирОсвещениеToolStripMenuItem.Text = "Структурир. освещение";
-            // 
-            // моделированиеОстаткаToolStripMenuItem
-            // 
-            this.моделированиеОстаткаToolStripMenuItem.Name = "моделированиеОстаткаToolStripMenuItem";
-            this.моделированиеОстаткаToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.моделированиеОстаткаToolStripMenuItem.Text = "Коррекция высот";
-            this.моделированиеОстаткаToolStripMenuItem.Click += new System.EventHandler(this.моделированиеОстаткаToolStripMenuItem_Click);
-            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2167,7 +2158,6 @@
         private System.Windows.Forms.ToolStripMenuItem manageToolStripMenuItem;
         private System.Windows.Forms.VScrollBar vScrollBar1;
         private System.Windows.Forms.VScrollBar vScrollBar2;
-        private System.Windows.Forms.ToolStripMenuItem загрузить4912ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem неВГраницах0ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem удалениеТрапеции4Массивов13ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem выделениеПрямоугольникаToolStripMenuItem;

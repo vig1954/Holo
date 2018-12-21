@@ -259,14 +259,14 @@ namespace rab1
                 {
                     double[] buf = new double[zArrayPicture.width];
                     buf = Graphic_util.Graph_x(zArrayPicture, yy);
-                    Graphic graphic_x = new Graphic(zArrayPicture.width, buf);
+                    Graphic graphic_x = new Graphic(zArrayPicture.width, yy, buf);
                     graphic_x.Show();
                 }
                 else                                                                     // по Y
                 {
                     double[] buf1 = new double[zArrayPicture.height];
                     buf1 = Graphic_util.Graph_y(zArrayPicture, xx);
-                    Graphic graphic_y = new Graphic(zArrayPicture.height, buf1);
+                    Graphic graphic_y = new Graphic(zArrayPicture.height, xx, buf1);
                     graphic_y.Show();
                 }
                 pictureBox01.Invalidate();
@@ -618,31 +618,7 @@ namespace rab1
         private void pictureBox11_MouseClick(object sender, MouseEventArgs e) { ZGR_File(10); }
         private void pictureBox12_MouseClick(object sender, MouseEventArgs e) { ZGR_File(11); }
 
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /* private void ZGRToolStripMenuItem_Click(object sender, EventArgs e)
-         {
-             var dialog1 = new OpenFileDialog();
-             dialog1.InitialDirectory = string_dialog;
-
-             if (dialog1.ShowDialog() == DialogResult.OK)
-             {
-                 try
-                 {                    
-                     dialog1.InitialDirectory = dialog1.FileName;
-                     string_dialog = dialog1.FileName;
-
-                     pictureBox01.Image = Image.FromFile(dialog1.FileName);
-
-                     int w1 = pictureBox01.Image.Width;
-                     int h1 = pictureBox01.Image.Height;
-                     pictureBox01.Size = new Size(w1, h1);
-                     pictureBox01.Show();
-                                                                         // Вывод размера
-                 }
-                 catch (Exception ex) { MessageBox.Show("Ошибка " + ex.Message); }
-             }
-         }
-         * */
+       
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //               Отображение окна от 0 до 11
@@ -680,47 +656,7 @@ namespace rab1
             zArrayDescriptor[regComplex * 4 + 3] = new ZArrayDescriptor(Image_double);       Vizual_regImage(regComplex * 4 + 3);
 
         }
-        /*
-        private void Complex_pictureBox(int regComplex)
-        {
-            if (zComplex[regComplex] == null) { MessageBox.Show("Complex_pictureBox:  zComplex[regComplex] == NULL"); return; }
-
-            PictureBox pictureB00, pictureB01, pictureB02, pictureB03;
-
-
-            int regCmplx = 0;
-            switch (regComplex)
-            {
-                case 0: regCmplx = 0; pictureB00 = pictureBox1; pictureB01 = pictureBox2; pictureB02 = pictureBox3; pictureB03 = pictureBox4; break;
-                case 1: regCmplx = 4; pictureB00 = pictureBox5; pictureB01 = pictureBox6; pictureB02 = pictureBox7; pictureB03 = pictureBox8; break;
-                case 2: regCmplx = 8; pictureB00 = pictureBox9; pictureB01 = pictureBox10; pictureB02 = pictureBox11; pictureB03 = pictureBox12; break;
-                default: regCmplx = 0; pictureB00 = pictureBox1; pictureB01 = pictureBox2; pictureB02 = pictureBox3; pictureB03 = pictureBox4; break;
-            }
-
-            int width = zComplex[regComplex].width;
-            int height = zComplex[regComplex].height;
-            double[,] Image_double = new double[width, height];
-
-            //MessageBox.Show("regComplex " + Convert.ToString(regComplex) + "width " + Convert.ToString(width) + "height " + Convert.ToString(height));
-
-            Image_double = Furie.Re(zComplex[regComplex].array);
-            zArrayDescriptor[regCmplx] = new ZArrayDescriptor(Image_double);
-            Vizual.Vizual_Picture(zArrayDescriptor[regCmplx], pictureB00);
-
-            Image_double = Furie.Im(zComplex[regComplex].array);
-            zArrayDescriptor[regCmplx + 1] = new ZArrayDescriptor(Image_double);
-            Vizual.Vizual_Picture(zArrayDescriptor[regCmplx + 1], pictureB01);
-
-            Image_double = Furie.Amplituda(zComplex[regComplex].array);
-            zArrayDescriptor[regCmplx + 2] = new ZArrayDescriptor(Image_double);
-            Vizual.Vizual_Picture(zArrayDescriptor[regCmplx + 2], pictureB02);
-
-            Image_double = Furie.Faza(zComplex[regComplex].array);
-            zArrayDescriptor[regCmplx + 3] = new ZArrayDescriptor(Image_double);
-            Vizual.Vizual_Picture(zArrayDescriptor[regCmplx + 3], pictureB03);
-
-        }
-        */
+      
         //--------------------------------------------------------------------------------------------------------------------------------------
         //                                        Ввод-вывод
         //--------------------------------------------------------------------------------------------------------------------------------------
@@ -804,43 +740,9 @@ namespace rab1
                     progressBar1.Value = 1;
                     progressBar1.Step = 1;
 
-                    for (int i = 8; i < 12; i++)
+                    for (int i = 0; i < 4; i++)
                     {
-                        ZGR_File(str, i);
-                        str = SaveString(str, i); //if (str == null) break;  // Неправильное имя файла
-                        GC.Collect();
-                        GC.WaitForPendingFinalizers();
-                        progressBar1.PerformStep();
-                    }
-
-                    progressBar1.Value = 1;
-                }
-                catch (Exception ex) { MessageBox.Show("загрузить418ToolStripMenuItem_Click Ошибка " + ex.Message); }
-            }
-        }
-
-        private void загрузить4912ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var dialog1 = new OpenFileDialog();
-            dialog1.InitialDirectory = string_dialog;
-
-            if (dialog1.ShowDialog() == DialogResult.OK)
-            {
-                try
-                {
-                    dialog1.InitialDirectory = dialog1.FileName;
-                    string_dialog = dialog1.FileName;
-                    string str = string_dialog;
-
-                    progressBar1.Visible = true;
-                    progressBar1.Minimum = 1;
-                    progressBar1.Maximum = 5;
-                    progressBar1.Value = 1;
-                    progressBar1.Step = 1;
-
-                    for (int i = 4; i < 8; i++)
-                    {
-                        ZGR_File(str, i);
+                        ZGR_File(str, regComplex*4+i);
                         str = SaveString(str, i); //if (str == null) break;  // Неправильное имя файла
                         GC.Collect();
                         GC.WaitForPendingFinalizers();
@@ -2382,9 +2284,9 @@ namespace rab1
         private void FormInterf_Cos(double[] fz) // Cos (k1-k2) => Главное окно
         {
             Model_object.Model_Cos(zArrayDescriptor,  fz);
-            Vizual_regImage(8);            Vizual_regImage(9);  Vizual_regImage(10);            Vizual_regImage(11);
+            Vizual_regImage(8);   Vizual_regImage(9);  Vizual_regImage(10);   Vizual_regImage(11);
 
-            Vizual_regImage(0); Vizual_regImage(1);
+            //Vizual_regImage(0); Vizual_regImage(1);
             //Complex_pictureBox(1); Complex_pictureBox(2);
         }
 

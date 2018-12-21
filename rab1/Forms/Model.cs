@@ -217,7 +217,7 @@ namespace rab1.Forms
             Close();
         }
 
-        // Моделирование интерференционной картины
+        // Моделирование интерференционной картины  разность фаз
         private void button2_Click(object sender, EventArgs e)
         {
             double[] fzrad = new double[4];
