@@ -41,11 +41,6 @@
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.textBox8 = new System.Windows.Forms.TextBox();
-            this.textBox9 = new System.Windows.Forms.TextBox();
-            this.textBox10 = new System.Windows.Forms.TextBox();
-            this.textBox11 = new System.Windows.Forms.TextBox();
-            this.textBox12 = new System.Windows.Forms.TextBox();
             this.button5 = new System.Windows.Forms.Button();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.textBox13 = new System.Windows.Forms.TextBox();
@@ -156,53 +151,13 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(264, 284);
+            this.button4.Location = new System.Drawing.Point(24, 284);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(94, 23);
+            this.button4.Size = new System.Drawing.Size(392, 23);
             this.button4.TabIndex = 13;
-            this.button4.Text = "PSI ->";
+            this.button4.Text = "PSI (regComplex) Фаза -> Главное окно";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // textBox8
-            // 
-            this.textBox8.Location = new System.Drawing.Point(24, 284);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(40, 20);
-            this.textBox8.TabIndex = 14;
-            this.textBox8.Text = "1";
-            // 
-            // textBox9
-            // 
-            this.textBox9.Location = new System.Drawing.Point(81, 284);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(40, 20);
-            this.textBox9.TabIndex = 15;
-            this.textBox9.Text = "2";
-            // 
-            // textBox10
-            // 
-            this.textBox10.Location = new System.Drawing.Point(139, 284);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(40, 20);
-            this.textBox10.TabIndex = 16;
-            this.textBox10.Text = "3";
-            // 
-            // textBox11
-            // 
-            this.textBox11.Location = new System.Drawing.Point(202, 284);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(40, 20);
-            this.textBox11.TabIndex = 17;
-            this.textBox11.Text = "4";
-            // 
-            // textBox12
-            // 
-            this.textBox12.Location = new System.Drawing.Point(376, 286);
-            this.textBox12.Name = "textBox12";
-            this.textBox12.Size = new System.Drawing.Size(40, 20);
-            this.textBox12.TabIndex = 18;
-            this.textBox12.Text = "5";
             // 
             // button5
             // 
@@ -258,11 +213,6 @@
             this.Controls.Add(this.textBox13);
             this.Controls.Add(this.textBox7);
             this.Controls.Add(this.button5);
-            this.Controls.Add(this.textBox12);
-            this.Controls.Add(this.textBox11);
-            this.Controls.Add(this.textBox10);
-            this.Controls.Add(this.textBox9);
-            this.Controls.Add(this.textBox8);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.textBox6);
@@ -298,11 +248,6 @@
         private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.TextBox textBox8;
-        private System.Windows.Forms.TextBox textBox9;
-        private System.Windows.Forms.TextBox textBox10;
-        private System.Windows.Forms.TextBox textBox11;
-        private System.Windows.Forms.TextBox textBox12;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.TextBox textBox13;

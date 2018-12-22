@@ -113,23 +113,50 @@ namespace rab1.Forms
             return faza;
         }
 
-        // Без ProgressBar
+        // Определение фазы от 0 до 2pi
 
-  /*      public static ZComplexDescriptor ATAN_9101112(double am, int k1, int k2, int k3, int k4, ZArrayDescriptor[] zArrayDescriptor, double[] fz)
+        public static ZArrayDescriptor ATAN(ZArrayDescriptor[] zArrayPicture, int regComplex, double[] fz)
         {
-            int NX = zArrayDescriptor[k1].width;
-            int NY = zArrayDescriptor[k1].height;
+            // regComplex   ->    Главное окно
 
-            ZComplexDescriptor cmpl = new ZComplexDescriptor(NX, NY);       // Выходной массив
-            ZArrayDescriptor[] zArray = new ZArrayDescriptor[4];
-            zArray[0] = zArrayDescriptor[k1];
-            zArray[1] = zArrayDescriptor[k2];
-            zArray[2] = zArrayDescriptor[k3];
-            zArray[3] = zArrayDescriptor[k4];
-            cmpl = ATAN_PSI.ATAN_ar(zArray, fz, am);
-            return cmpl;
+            int w1 = zArrayPicture[regComplex * 4].width;
+            int h1 = zArrayPicture[regComplex * 4].height;
+
+            ZArrayDescriptor faza = new ZArrayDescriptor(w1, h1);
+
+            int n_sdv = 4;                                                       // Число фазовых сдвигов
+
+            double[] i_sdv = new double[4];
+            double[] k_sin = new double[4];
+            double[] k_cos = new double[4];
+
+
+            for (int i = 0; i < n_sdv; i++)
+            {
+                k_sin[i] = Math.Sin(fz[i]);
+                k_cos[i] = Math.Cos(fz[i]);
+            }
+
+            for (int i = 0; i < w1; i++)
+            {
+                for (int j = 0; j < h1; j++)
+                {
+
+                    i_sdv[0] = zArrayPicture[regComplex * 4].array[i, j];
+                    i_sdv[1] = zArrayPicture[regComplex * 4 + 1].array[i, j];
+                    i_sdv[2] = zArrayPicture[regComplex * 4 + 2].array[i, j];
+                    i_sdv[3] = zArrayPicture[regComplex * 4 + 3].array[i, j];
+
+                    double[] v_sdv = Vector_orto(i_sdv);                // ------  Формула расшифровки фазы
+                    double fz1 = Vector_Mul(v_sdv, k_sin);              // +3 * Math.PI / 2;
+                    double fz2 = Vector_Mul(v_sdv, k_cos);
+                    //faza.array[i, j] = 2 * Math.PI - (Math.Atan2(fz1, fz2) + Math.PI);
+                    faza.array[i, j] = Math.Atan2(fz1, fz2);
+                }
+            }
+
+            return faza;
         }
-*/
         public static ZComplexDescriptor ATAN_8_11(int k1, int k2, int k3, int k4, ZArrayDescriptor[] zArrayPicture,  double[] fzz, double amplit = 255)
         {
             // 8, 9, 10, 11   ->    Complex[1] 
@@ -252,50 +279,7 @@ namespace rab1.Forms
             return faza;
         }
 
-        // Определение фазы от 0 до 2pi
-
-        public static ZArrayDescriptor ATAN(ZArrayDescriptor[] zArrayPicture, int k1, int k2, int k3, int k4, double[] fz)
-        {
-            // 1, 2, 3, 4   ->    Complex[1] 
-
-            //MessageBox.Show("k1= " + k1+" k2= " + k2+" k3= " + k3+" k4= " + k4);
-            int w1 = zArrayPicture[k1].width;
-            int h1 = zArrayPicture[k2].height;
-
-            ZArrayDescriptor faza = new ZArrayDescriptor(w1, h1);
-
-            int n_sdv = 4;                                                       // Число фазовых сдвигов
-
-            double[] i_sdv = new double[4];
-            double[] k_sin = new double[4];
-            double[] k_cos = new double[4];
-
-
-            for (int i = 0; i < n_sdv; i++)
-            {
-                k_sin[i] = Math.Sin(fz[i]);
-                k_cos[i] = Math.Cos(fz[i]);
-            }
-
-            for (int i = 0; i < w1; i++)
-            {
-                for (int j = 0; j < h1; j++)
-                {
-
-                    i_sdv[0] = zArrayPicture[k1].array[i, j];
-                    i_sdv[1] = zArrayPicture[k2].array[i, j];
-                    i_sdv[2] = zArrayPicture[k3].array[i, j];
-                    i_sdv[3] = zArrayPicture[k4].array[i, j];
-
-                    double[] v_sdv = Vector_orto(i_sdv);                // ------  Формула расшифровки фазы
-                    double fz1 = Vector_Mul(v_sdv, k_sin); // +3 * Math.PI / 2;
-                    double fz2 = Vector_Mul(v_sdv, k_cos)  ;
-                    faza.array[i, j] = 2*Math.PI - (Math.Atan2(fz1, fz2) + Math.PI);
-                }
-            }
-
-            return faza;
-        }
+       
 
 
       

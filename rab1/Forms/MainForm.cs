@@ -2547,19 +2547,19 @@ namespace rab1
             zArrayDescriptor[9] = Model_Sinus.Sinus1(fz[1], 255, n1, 1, 0, Nx, Ny, noise);
             zArrayDescriptor[10] = Model_Sinus.Sinus1(fz[2], 255, n1, 1, 0, Nx, Ny, noise);
             zArrayDescriptor[11] = Model_Sinus.Sinus1(fz[3], 255, n1, 1, 0, Nx, Ny, noise);
-            zArrayDescriptor[0] = ATAN_PSI.ATAN(zArrayDescriptor, 8, 9, 10, 11, fz);   // ATAN2 с периодом n1  => zArrayDescriptor[0]
+            zArrayDescriptor[0] = ATAN_PSI.ATAN(zArrayDescriptor, 2, fz);   // 8,9,10,11 ATAN2 с периодом n1  => zArrayDescriptor[0]
 
             zArrayDescriptor[8] = Model_Sinus.Sinus1(fz[0],  255, n2, 1, 0, Nx, Ny, noise);   // 4 синусоиды с периодом n2
             zArrayDescriptor[9] = Model_Sinus.Sinus1(fz[1],  255, n2, 1, 0, Nx, Ny, noise);
             zArrayDescriptor[10] = Model_Sinus.Sinus1(fz[2], 255, n2, 1, 0, Nx, Ny, noise);
             zArrayDescriptor[11] = Model_Sinus.Sinus1(fz[3], 255, n2, 1, 0, Nx, Ny, noise);
-            zArrayDescriptor[1] = ATAN_PSI.ATAN(zArrayDescriptor, 8, 9, 10, 11, fz);   // ATAN2 с периодом n2  => zArrayDescriptor[1]
+            zArrayDescriptor[1] = ATAN_PSI.ATAN(zArrayDescriptor, 2, fz);   // 8,9,10,11 ATAN2 с периодом n2  => zArrayDescriptor[1]
 
             zArrayDescriptor[8]  = Model_Sinus.Sinus1(fz[0], 255, n3, 1, 0, Nx, Ny, noise);   // 4 синусоиды с периодом n2
             zArrayDescriptor[9]  = Model_Sinus.Sinus1(fz[1], 255, n3, 1, 0, Nx, Ny, noise);
             zArrayDescriptor[10] = Model_Sinus.Sinus1(fz[2], 255, n3, 1, 0, Nx, Ny, noise);
             zArrayDescriptor[11] = Model_Sinus.Sinus1(fz[3], 255, n3, 1, 0, Nx, Ny, noise);
-            zArrayDescriptor[2]  = ATAN_PSI.ATAN(zArrayDescriptor, 8, 9, 10, 11, fz);   // ATAN2 с периодом n2  => zArrayDescriptor[2]
+            zArrayDescriptor[2]  = ATAN_PSI.ATAN(zArrayDescriptor, 2, fz);   //8,9,10,11  ATAN2 с периодом n2  => zArrayDescriptor[2]
 
             zArrayDescriptor[3] = Model_Sinus.Model_FAZA_SUBN(zArrayDescriptor[0], zArrayDescriptor[1], noise);   // n12
             zArrayDescriptor[4] = Model_Sinus.Model_FAZA_SUBN(zArrayDescriptor[1], zArrayDescriptor[2], noise);   // n23
@@ -2605,8 +2605,8 @@ namespace rab1
             zArrayDescriptor[11] = Model_Sinus.Sinus1(fz[3], 255, n2, 1, 0, Nx, Ny, noise);
     
 
-            zArrayDescriptor[0] = ATAN_PSI.ATAN(zArrayDescriptor, 4, 5, 6, 7, fz);
-            zArrayDescriptor[1] = ATAN_PSI.ATAN(zArrayDescriptor, 8, 9, 10, 11, fz);
+            zArrayDescriptor[0] = ATAN_PSI.ATAN(zArrayDescriptor, 1, fz); // 4,5,6,7
+            zArrayDescriptor[1] = ATAN_PSI.ATAN(zArrayDescriptor, 2, fz); // 8,9,10,11
 
             zArrayDescriptor[2] = Model_Sinus.Model_FAZA_SUB(zArrayDescriptor[0], zArrayDescriptor[1]);
             zArrayDescriptor[3] = Model_Sinus.Model_FAZA_SUBN(zArrayDescriptor[0], zArrayDescriptor[1], noise);
@@ -2796,11 +2796,11 @@ namespace rab1
             Complex_pictureBox(1);
 
         }
-        private void FormPSI1(int k1, int k2, int k3, int k4, int k5, double[] fz)
+        private void FormPSI1(double[] fz)
         {
-       
-            zArrayDescriptor[k5] = ATAN_PSI.ATAN(zArrayDescriptor, k1, k2, k3, k4, fz);
-            Vizual_regImage(k5);
+
+            zArrayPicture = ATAN_PSI.ATAN(zArrayDescriptor, regComplex, fz);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
         }
 
         private void FormIMAX(int imax)

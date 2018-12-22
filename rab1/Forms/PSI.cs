@@ -8,7 +8,6 @@ using System.Text;
 using System.Windows.Forms;
 
 public delegate void DelegatPSI(double[] fz, double am);
-public delegate void DelegatPSI1(int k1, int k2, int k3, int k4, int k5, double[] fz);
 public delegate void DelegatIMAX(int imax);
 public delegate void DelegatMaska(int k1, int k2, int k3);
 public delegate void DelegatLis(double[] fz);
@@ -18,7 +17,7 @@ namespace rab1.Forms
     public partial class PSI : Form
     {
         public event DelegatPSI    OnPSI;
-        public event DelegatPSI1   OnPSI1;
+        public event DelegatLis    OnPSI1;
         public event DelegatIMAX   OnIMAX;
         public event DelegatIMAX   OnIMAX1;
         public event DelegatMaska  OnMaska;
@@ -28,11 +27,7 @@ namespace rab1.Forms
         private static double[] fz = { 0.0, 90.0, 180.0, 270.0 };
         private static double am = 255;
         private static int imax = 255;
-        private static int k1 = 1;
-        private static int k2 = 2;
-        private static int k3 = 3;
-        private static int k4 = 4;
-        private static int k5 = 5;
+      
         private static int km1 = 1;
         private static int km2 = 2;
         private static int km3 = 3;
@@ -47,11 +42,7 @@ namespace rab1.Forms
             textBox5.Text = Convert.ToString(am);
             textBox6.Text = Convert.ToString(imax);
 
-            textBox8.Text = Convert.ToString(k1);
-            textBox9.Text = Convert.ToString(k2);
-            textBox10.Text = Convert.ToString(k3);
-            textBox11.Text = Convert.ToString(k4);
-            textBox12.Text = Convert.ToString(k5);
+            
 
             textBox13.Text = Convert.ToString(km1);
             textBox14.Text = Convert.ToString(km2);
@@ -92,26 +83,16 @@ namespace rab1.Forms
             Close();
         }
 
-        private void button4_Click(object sender, EventArgs e)  // PSI  1,2,3,4 -> 5
+        private void button4_Click(object sender, EventArgs e)  // PSI  regCpmplex -> Главное окно
         {
-            k1 = Convert.ToInt32(textBox8.Text);
-            k2 = Convert.ToInt32(textBox9.Text);
-            k3 = Convert.ToInt32(textBox10.Text);
-            k4 = Convert.ToInt32(textBox11.Text);
-            k5 = Convert.ToInt32(textBox12.Text);
+            double[] fzrad = new double[4];
 
-            fz[0] = Convert.ToDouble(textBox1.Text);
-            fz[1] = Convert.ToDouble(textBox2.Text);
-            fz[2] = Convert.ToDouble(textBox3.Text);
-            fz[3] = Convert.ToDouble(textBox4.Text);
+            fz[0] = Convert.ToDouble(textBox1.Text); fzrad[0] = Math.PI * fz[0] / 180.0;
+            fz[1] = Convert.ToDouble(textBox2.Text); fzrad[1] = Math.PI * fz[1] / 180.0;
+            fz[2] = Convert.ToDouble(textBox3.Text); fzrad[2] = Math.PI * fz[2] / 180.0;
+            fz[3] = Convert.ToDouble(textBox4.Text); fzrad[3] = Math.PI * fz[3] / 180.0;
 
-            double[] fzrad = new double[4];                 // Фаза в радианах
-            fzrad[0] = Math.PI * fz[0] / 180.0;
-            fzrad[1] = Math.PI * fz[1] / 180.0;
-            fzrad[2] = Math.PI * fz[2] / 180.0;
-            fzrad[3] = Math.PI * fz[3] / 180.0;
-            
-            OnPSI1(k1-1, k2-1, k3-1, k4-1, k5-1, fzrad);
+            OnPSI1(fzrad);
             Close();
 
         }
