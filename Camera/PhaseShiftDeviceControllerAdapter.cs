@@ -5,6 +5,7 @@ using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Common;
 using rab1;
@@ -25,6 +26,8 @@ namespace Camera
         [BindToUI, ValueCollection(ValueCollectionProviderPropertyName = nameof(PortNames))]
         public string PortName { get; set; }
         public ObservableCollection<string> PortNames { get; }
+
+        public bool Connected => _phaseShiftDeviceConnected;
 
         [BindToUI]
         public int Shift { get; set; }
@@ -74,14 +77,14 @@ namespace Camera
                 _inner.SetShift((short) ((short) shift + ZeroPhaseShiftValue));
             }
         }
-
-        public void SetShift(int step, int stepNumber, float delay)
+        
+        public async Task SetShift(int shiftValue, float delay)
         {
             if (!_phaseShiftDeviceConnected)
                 return;
 
-            SetShift(step * stepNumber);
-            //Thread.Sleep((int) delay); // TODO: сделать ожидание не блокирующим!
+            SetShift(shiftValue);
+            await Task.Delay(TimeSpan.FromMilliseconds(delay));
         }
 
         [BindToUI]

@@ -201,9 +201,6 @@ namespace UserInterface.DataEditors
 
         public void Redraw()
         {
-            if (RendererUpdateManager.Locked)
-                return;
-
             _glControl.MakeCurrent();
             _renderer?.Update();
             _glControl.SwapBuffers();

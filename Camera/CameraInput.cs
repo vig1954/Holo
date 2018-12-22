@@ -21,6 +21,7 @@ namespace Camera
         private const string DontApplySelectionName = "Не обрезать";
         private readonly ImageHandler[] _images = new ImageHandler[4];
         private readonly OnShotParameters _onShotParameters = new OnShotParameters();
+        private int[] _shiftValues = new int[4];
 
         private bool ignoreNewImages = false;
 
@@ -30,7 +31,11 @@ namespace Camera
 
         public IBindingManager<CameraInput> BindingManager { get; set; }
 
-        public event Action<IImageHandler> OnImageCreate;
+        public event Action<IImageHandler> ImageCreate;
+
+        // TODO: review usage
+        public event Action SeriesStarted;
+        public event Action SeriesComplete;
 
         // TODO: добавить StringInputAttribute
         public string ImageNamePrefix { get; set; } = "camera_";
@@ -111,13 +116,13 @@ namespace Camera
         public ObservableCollection<ImageSelection> AvailableSelectionsToApply { get; } = new ObservableCollection<ImageSelection>();
 
         [BindToUI("Серия снимков")]
-        public void MakeSeries()
+        public async void MakeSeries()
         {
             BindingManager.SetPropertyValue(c => c.CaptureLiveView, false);
 
             _onShotParameters.Reset();
             _onShotParameters.TakeSeries = true;
-            PhaseShiftController.SetShift(ShiftStep, _onShotParameters.CurrentImageIndex, ShiftDelay);
+            await PhaseShiftController.SetShift(GetShiftValue(_onShotParameters.CurrentImageIndex), ShiftDelay);
 
             CameraConnector.TakePhoto();
         }
@@ -137,6 +142,17 @@ namespace Camera
 
         [BindToUI]
         public int ShiftStep { get; set; } = 400;
+        
+        [BindToUI]
+        public bool UseShiftValues { get; set; }
+        [BindToUI]
+        public int ShiftValue1 { get => _shiftValues[0]; set => _shiftValues[0] = value; }
+        [BindToUI]
+        public int ShiftValue2 { get => _shiftValues[1]; set => _shiftValues[1] = value; }
+        [BindToUI]
+        public int ShiftValue3 { get => _shiftValues[2]; set => _shiftValues[2] = value; }
+        [BindToUI]
+        public int ShiftValue4 { get => _shiftValues[3]; set => _shiftValues[3] = value; }
 
         [BindToUI("Время установления сдвига, мс")]
         public int ShiftDelay { get; set; } = 100;
@@ -192,8 +208,8 @@ namespace Camera
         [OnBindedPropertyChanged(nameof(CaptureLiveView))]
         public void OnCaptureLiveViewUpdated(ValueUpdatedEventArgs e)
         {
-            if (CaptureLiveView)
-                _onShotParameters.Reset();
+            _onShotParameters.Reset();
+            ignoreNewImages = false;
 
             _onShotParameters.TakeSeries = CaptureLiveView;
         }
@@ -235,6 +251,10 @@ namespace Camera
                 bitmap = ImageUtils.ExtractSelection(bitmap, SelectionToApply);
 
             var currentImageIndex = _onShotParameters.CurrentImageIndex;
+
+            if (currentImageIndex == 0)
+                SeriesStarted?.Invoke();
+
             if (_images[currentImageIndex] == null)
             {
                 var newImage = ImageHandler.FromBitmapAsGreyscale(bitmap);
@@ -242,7 +262,7 @@ namespace Camera
 
                 BindingManager.SetPropertyValue(nameof(ImageSlot1).Replace("1", (currentImageIndex + 1).ToString()), (IImageHandler) newImage);
 
-                OnImageCreate?.Invoke(newImage);
+                ImageCreate?.Invoke(newImage);
             }
             else
                 _images[currentImageIndex].UpdateFromBitmap(bitmap);
@@ -250,19 +270,26 @@ namespace Camera
             ImageSlotsUpdated?.Invoke();
 
             _onShotParameters.Update();
-            PhaseShiftController.SetShift(ShiftStep, _onShotParameters.CurrentImageIndex, ShiftDelay);
-            if (CaptureLiveView && _onShotParameters.SeriesComplete)
+            if (_onShotParameters.SeriesComplete || !_onShotParameters.TakeSeries)
             {
-                _onShotParameters.Reset();
-                return;
-            }
+                SeriesComplete?.Invoke();
 
-            await Task.Delay(ShiftDelay);
+                if (CaptureLiveView)
+                    _onShotParameters.Reset();
+            }
+            
+            if (PhaseShiftController.Connected && !_onShotParameters.SeriesComplete)
+                await PhaseShiftController.SetShift(GetShiftValue(_onShotParameters.CurrentImageIndex), ShiftDelay);
 
             ignoreNewImages = false;
 
             if (!CaptureLiveView && _onShotParameters.TakeSeries && !_onShotParameters.SeriesComplete)
                 CameraConnector.TakePhoto();
+        }
+
+        private int GetShiftValue(int imageIndex)
+        {
+            return UseShiftValues ? _shiftValues[imageIndex] : ShiftStep * imageIndex;
         }
 
         private class OnShotParameters
@@ -283,7 +310,8 @@ namespace Camera
                 if (!TakeSeries)
                     return;
 
-                CurrentImageIndex++;
+                if (CurrentImageIndex < ImagesCount)
+                    CurrentImageIndex++;
             }
         }
     }

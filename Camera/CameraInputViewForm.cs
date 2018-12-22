@@ -17,7 +17,9 @@ namespace Camera
         private CameraInput _cameraInput;
         private InterfaceController _interfaceController;
 
-        public event Action<IImageHandler> OnImageCreate;
+        public event Action<IImageHandler> ImageCreate;
+        public event Action SeriesStarted;
+        public event Action SeriesComplete;
 
         public CameraInputViewForm()
         {
@@ -32,12 +34,18 @@ namespace Camera
             _interfaceController.BindObjectToInterface(_cameraInput);
 
             _cameraInput.PreviewImageUpdated += CameraInputOnPreviewImageUpdated;
-            _cameraInput.OnImageCreate += image => OnImageCreate?.Invoke(image);
+            _cameraInput.ImageCreate += image => ImageCreate?.Invoke(image);
+            _cameraInput.SeriesStarted += () => SeriesStarted?.Invoke();
+            _cameraInput.SeriesComplete += () => SeriesComplete?.Invoke();
         }
 
         private void CameraInputOnPreviewImageUpdated()
         {
-            pictureBox1.Image = _cameraInput.LastPreviewImage;
+            var bmp = new Bitmap(pictureBox1.ClientSize.Width, pictureBox1.ClientSize.Height);
+            var g = Graphics.FromImage(bmp);
+            g.DrawImage(_cameraInput.LastPreviewImage, new Rectangle(0, 0, bmp.Width, bmp.Height));
+            
+            pictureBox1.Image = bmp;
         }
 
         private void CameraInputViewForm_FormClosing(object sender, FormClosingEventArgs e)

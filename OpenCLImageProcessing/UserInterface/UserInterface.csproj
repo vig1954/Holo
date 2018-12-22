@@ -152,7 +152,7 @@
     <Compile Include="DataEditors\Renderers\ImageRenderer\DefaultViewMode.cs" />
     <Compile Include="DataEditors\Renderers\DataProcessorRenderer\DataProcessorRenderer.cs" />
     <Compile Include="DataEditors\Renderers\ImageRenderer\ImageRenderer.cs" />
-    <Compile Include="DataEditors\Renderers\RendererUpdateManager.cs" />
+    <Compile Include="DataEditors\Renderers\UpdateManager.cs" />
     <Compile Include="DataEditors\Renderers\Shaders\CustomizableShader.cs" />
     <Compile Include="DataEditors\Renderers\Shaders\AmplitudePhaseImageShader.cs" />
     <Compile Include="DataEditors\Renderers\Shaders\RealImaginativeImageShader.cs" />

@@ -14,6 +14,7 @@ using Processing.Computing;
 using Processing.DataAttributes;
 using Processing.DataProcessors;
 using UserInterface.DataEditors.InterfaceBinding;
+using UserInterface.DataEditors.Renderers;
 using Timer = Common.Timer;
 
 namespace UserInterface.DataProcessorViews
@@ -79,6 +80,12 @@ namespace UserInterface.DataProcessorViews
         {
             if (!AreAllParametersSet())
                 return;
+
+            if (UpdateManager.Locked)
+            {
+                UpdateManager.DelayUpdateUntilUnlocked(this, Compute);
+                return;
+            }
 
             using (new Timer($"{Info.Name}.{nameof(Compute)}"))
             {

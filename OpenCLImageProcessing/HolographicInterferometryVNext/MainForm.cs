@@ -105,8 +105,8 @@ namespace HolographicInterferometryVNext
 
             timer1.Start();
 
-            ValueBindingSynchronizer.ValueUpdateStarted += () => RendererUpdateManager.Locked = true;
-            ValueBindingSynchronizer.ValueUpdateFinished += () => RendererUpdateManager.Locked = false;
+            ValueBindingSynchronizer.ValueUpdateStarted += UpdateManager.Lock;
+            ValueBindingSynchronizer.ValueUpdateFinished += UpdateManager.Unlock;
         }
 
         private void FillMenus()
@@ -133,7 +133,7 @@ namespace HolographicInterferometryVNext
                         dataProcessorView.Initialize();
                         workspacePanel1.AddDataProcessorView(dataProcessorView);
 
-                        dataProcessorView.OnImageCreate += OnImageCreate;
+                        dataProcessorView.OnImageCreate += ImageCreate;
                     };
 
                     if (dataProcessorViewCreator.DataProcessorInfo.MenuItem == "Input")
@@ -153,16 +153,25 @@ namespace HolographicInterferometryVNext
             {
                 CameraInputViewForm cameraInputViewForm;
                 var cameraInputViewForms = Application.OpenForms.OfType<CameraInputViewForm>().ToArray();
-                cameraInputViewForm = cameraInputViewForms.Any() ? cameraInputViewForms.Single() : new CameraInputViewForm();
 
-                cameraInputViewForm.OnImageCreate+= OnImageCreate;
+                if (cameraInputViewForms.Any())
+                    cameraInputViewForm = cameraInputViewForms.Single();
+                else
+                {
+                    cameraInputViewForm = new CameraInputViewForm();
+                    cameraInputViewForm.ImageCreate += ImageCreate;
+                    cameraInputViewForm.SeriesStarted += UpdateManager.Lock;
+                    cameraInputViewForm.SeriesComplete += UpdateManager.Unlock;
+                }
+
+                
                 cameraInputViewForm.Show();
             };
 
             inputMenuItem.DropDownItems.Add(cameraInputMenuItem);
         }
 
-        private void OnImageCreate(IImageHandler image)
+        private void ImageCreate(IImageHandler image)
         {
             workspacePanel1.AddImageHandler(image);
         }
