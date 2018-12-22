@@ -719,7 +719,7 @@ namespace rab1
 
             if (cbShifts8.Checked)
             {
-                imageOffsetStep = float.Parse(offsstPixelsTextBox.Text);
+                imageOffsetStep = float.Parse(offsetPixelsTextBox.Text);
             }
 
             takeNextPhoto = true;

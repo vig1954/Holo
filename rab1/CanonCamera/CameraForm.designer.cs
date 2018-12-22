@@ -42,7 +42,7 @@
             this.FocusNear3Button = new System.Windows.Forms.Button();
             this.SettingsGroupBox = new System.Windows.Forms.GroupBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.offsstPixelsTextBox = new System.Windows.Forms.TextBox();
+            this.offsetPixelsTextBox = new System.Windows.Forms.TextBox();
             this.cbShifts8 = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.groupNumberComboBox = new System.Windows.Forms.ComboBox();
@@ -231,7 +231,7 @@
             // SettingsGroupBox
             // 
             this.SettingsGroupBox.Controls.Add(this.label7);
-            this.SettingsGroupBox.Controls.Add(this.offsstPixelsTextBox);
+            this.SettingsGroupBox.Controls.Add(this.offsetPixelsTextBox);
             this.SettingsGroupBox.Controls.Add(this.cbShifts8);
             this.SettingsGroupBox.Controls.Add(this.label6);
             this.SettingsGroupBox.Controls.Add(this.groupNumberComboBox);
@@ -277,12 +277,12 @@
             this.label7.TabIndex = 32;
             this.label7.Text = "Pixels:";
             // 
-            // offsstPixelsTextBox
+            // offsetPixelsTextBox
             // 
-            this.offsstPixelsTextBox.Location = new System.Drawing.Point(715, 17);
-            this.offsstPixelsTextBox.Name = "offsstPixelsTextBox";
-            this.offsstPixelsTextBox.Size = new System.Drawing.Size(44, 20);
-            this.offsstPixelsTextBox.TabIndex = 31;
+            this.offsetPixelsTextBox.Location = new System.Drawing.Point(715, 17);
+            this.offsetPixelsTextBox.Name = "offsetPixelsTextBox";
+            this.offsetPixelsTextBox.Size = new System.Drawing.Size(44, 20);
+            this.offsetPixelsTextBox.TabIndex = 31;
             // 
             // cbShifts8
             // 
@@ -845,7 +845,7 @@
         private System.Windows.Forms.ComboBox groupNumberComboBox;
         private System.Windows.Forms.CheckBox cbShifts8;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox offsstPixelsTextBox;
+        private System.Windows.Forms.TextBox offsetPixelsTextBox;
     }
 }
 
