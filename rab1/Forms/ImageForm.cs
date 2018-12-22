@@ -12,23 +12,36 @@ namespace rab1
 {
     public partial class ImageForm : Form
     {
+        private CustomPictureBox imageBox = null;
+
         public ImageForm()
         {
             InitializeComponent();
+            this.imageBox = new CustomPictureBox();
 
+            this.imageBox.Dock = DockStyle.Fill;
             this.imageBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+
+            this.Controls.Add(this.imageBox);
         }
 
-        public void SetImage(Image image)
+        public void SetImage(Image image, float offsetX)
         {
-            this.imageBox.Image = image;
             this.imageBox.Invoke
             (
                 (MethodInvoker)delegate 
                 {
+                    this.imageBox.OffsetX = offsetX;
+                    this.imageBox.Image = image;
                     this.imageBox.Refresh();
                 }
             );
+        }
+
+        public void SetImage(Image image)
+        {
+            float offsetX = 0;
+            this.SetImage(image, offsetX);
         }
     }
 }
