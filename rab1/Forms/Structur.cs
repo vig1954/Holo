@@ -11,14 +11,21 @@ using System.Windows.Forms;
 namespace rab1.Forms
 {
     public delegate void Correct(double L, double d, double d1);
+    public delegate void Scale(double x, int n);
+
+
     public partial class Structur : Form
     {
         public event Correct On_Corr;
         public event Correct On_CorrX;
+        public event Scale   On_Scale;
 
-        private static double L = 2000;  // Расстояние до объекта
-        private static double d = 2000;  // Расстояние от начала объекта до камеры
-        private static double d1 = 400;  //Размер объекта
+        private static double L = 2000;    // Расстояние до объекта
+        private static double d = 2000;    // Расстояние от начала объекта до камеры
+        private static double d1 = 400;    // Размер объекта
+        private static double x_max = 1;   // Максимальное смещение объекта
+
+        private static int Number_line = 247;   // Максимальное смещение объекта
 
         public Structur()
         {
@@ -26,7 +33,8 @@ namespace rab1.Forms
             textBox1.Text = Convert.ToString(d);
             textBox2.Text = Convert.ToString(L);
             textBox3.Text = Convert.ToString(d1);
-            
+            textBox6.Text = Convert.ToString(x_max);
+            textBox7.Text = Convert.ToString(Number_line);
         }
 
         private  void button2_Click(object sender, EventArgs e)  // Определить углы
@@ -57,6 +65,14 @@ namespace rab1.Forms
             L = Convert.ToDouble(textBox2.Text);
             d1 = Convert.ToDouble(textBox3.Text);
             On_CorrX(L, d, d1);
+            Close();
+        }
+
+        private void button4_Click(object sender, EventArgs e)  // Масштабирование центрального окна
+        {
+            x_max       = Convert.ToDouble(textBox6.Text);
+            Number_line = Convert.ToInt32(textBox7.Text);
+            On_Scale(x_max, Number_line);
             Close();
         }
     }

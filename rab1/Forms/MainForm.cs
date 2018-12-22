@@ -2973,9 +2973,16 @@ namespace rab1
             Structur STRUCTUR = new Structur();
             STRUCTUR.On_Corr += Correct;
             STRUCTUR.On_CorrX += CorrectX;
+            STRUCTUR.On_Scale += Correct_Scale;
             STRUCTUR.Show();
-
         }
+
+        private void Correct_Scale(double x, int n)
+        {
+            zArrayPicture = Model_object.Correct_Scale(zArrayPicture, x, n);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        }
+
 
         private void Correct(double L, double d, double d1)
         {

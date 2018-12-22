@@ -862,6 +862,33 @@ namespace rab1
             return zArray;
         }
 
+        public static ZArrayDescriptor Correct_Scale(ZArrayDescriptor zArrayPicture, double x, int n)
+        {
+            int w1 = zArrayPicture.width;
+            int h1 = zArrayPicture.height;
 
+            ZArrayDescriptor zArray = new ZArrayDescriptor(w1, h1);
+            double max = zArrayPicture.array[0, n];
+            double min = zArrayPicture.array[0, n]; 
+            for (int i = 0; i < w1; i++)
+            {
+                double a = zArrayPicture.array[i, n];
+                if (a < min) min = a;
+                if (a > max) max = a;
+            }
+
+            double x1 = x / (max - min);
+            for (int j = 0; j < h1; j++)
+              for (int i = 0; i < w1; i++)
+                {
+                    double a = (zArrayPicture.array[i, j] - min) * x1;
+                    if (a < 0) a = 0;
+                    if (a > x) a = x;
+                    zArray.array[i, j] = a ;
+                }
+
+
+            return zArray;
+        }
     }
 }
