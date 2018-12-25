@@ -137,6 +137,20 @@ namespace Camera
             CameraConnector.TakePhoto();
         }
 
+        [BindToUI("Тестовый снимок с LV")]
+        public void MakeTestLiveViewShot()
+        {
+            BindingManager.SetPropertyValue(c => c.CaptureLiveView, false);
+
+            _onShotParameters.Reset();
+            _onShotParameters.TakeSeries = false;
+
+            if (LastPreviewImage == null)
+                return;
+
+            ProcessBitmap(LastPreviewImage);
+        }
+
         [BindToUI, BindMembersToUI(HideProperty = true, MergeMembers = true)]
         public PhaseShiftDeviceControllerAdapter PhaseShiftController => Singleton.Get<PhaseShiftDeviceControllerAdapter>();
 
@@ -252,7 +266,7 @@ namespace Camera
 
             var currentImageIndex = _onShotParameters.CurrentImageIndex;
 
-            if (currentImageIndex == 0)
+            if (currentImageIndex == 0 && _onShotParameters.TakeSeries)
                 SeriesStarted?.Invoke();
 
             if (_images[currentImageIndex] == null)
