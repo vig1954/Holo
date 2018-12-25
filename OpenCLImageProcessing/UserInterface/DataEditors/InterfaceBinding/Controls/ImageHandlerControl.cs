@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Common;
+using Infrastructure;
 using Processing;
 using Processing.DataAttributes;
 using UserInterface.DataEditors.InterfaceBinding.Attributes;
@@ -31,6 +32,13 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
         public void SetBinding(IBinding binding)
         {
             _binding = BindingUtil.PrepareValueBinding(binding, _binding, BindingOnValueUpdated, t => true);
+
+            var imageHandlerRepository = Singleton.Get<ImageHandlerRepository>();
+            imageHandlerRepository.ItemRemoved += handler =>
+            {
+                if (handler == _imageHandler)
+                    _binding.SetValue(null, imageHandlerRepository);
+            };
 
             HideLabel = _binding.GetAttribute<BindToUIAttribute>().HideLabel;
 
