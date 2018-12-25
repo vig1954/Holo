@@ -2422,7 +2422,7 @@ namespace rab1
             ModelForm.OnModel_Dithering   += FormModel_Dithering;
             ModelForm.OnModel_DitheringVZ += FormModel_DitheringVZ;
             ModelForm.OnModelAtan2        += FormModel_Atan2;
-            ModelForm.OnModelAtan2_L      += FormModel_Atan2_L;
+            ModelForm.OnModelAtan2_L      += FormModel_Atan2_L;        // Фигуры Лиссажу
             ModelForm.OnModelExp          += FormModel_Exp;
             ModelForm.Show();
 
@@ -2510,9 +2510,11 @@ namespace rab1
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
             //zArrayPicture.Double_Picture(pictureBox01);
         }
-        private void FormModel_Atan2_L(double[] fz)  // Atan2 bp 1,2,3,4 => zArrayPicture
+        
+        // --------------------------------------------------------------------------------- Фигуры Лиссажу
+        private void FormModel_Atan2_L(double[] fz)  // Atan2 bp 1,2,3,4 => zArrayPicture 
         {
-            zArrayPicture = FazaClass.ATAN_Gr(zArrayDescriptor, fz);
+            zArrayPicture = FazaClass.ATAN_Gr(zArrayDescriptor, fz, regComplex);
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
             //zArrayPicture.Double_Picture(pictureBox01);
         }
@@ -2779,15 +2781,17 @@ namespace rab1
             PSIForm.OnIMAX  += FormIMAX;             // Квантование (8,9,10,11)
             PSIForm.OnIMAX1 += FormIMAX1;            // Квантование одного кадра
             PSIForm.OnMaska += FormMaska;            // Наложение маски
-            PSIForm.OnLis   += FormLis;              // Фигуры Лиссажу
+            PSIForm.OnSdvg   += FormSdvg;              // Фигуры Лиссажу
 
             PSIForm.Show();
         }
 
-        private void FormLis(double[] fz)
+        private void FormSdvg()
         {
-            zArrayPicture = FazaClass.ATAN_Gr9101112(zArrayDescriptor, fz);
+            zArrayPicture = FazaClass.ATAN_Sdvg(zArrayDescriptor, regComplex);
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+            //zArrayDescriptor[5] = FazaClass.ATAN_Sdvg(zArrayDescriptor, regComplex);
+            //Vizual_regImage(5);
 
         }
         private void FormPSI(double[] fz, double am)

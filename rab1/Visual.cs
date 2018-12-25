@@ -59,6 +59,7 @@ namespace rab1.Forms
                 return;
 
             }
+            
             if (max != min)
             {
                 double mxmn = 255.0 / (max - min);
@@ -66,7 +67,16 @@ namespace rab1.Forms
                 {
                     for (int i = 0; i < height; i++)
                     {
-                        int c = Convert.ToInt32((zArrayDescriptor.array[j, i] - min) * mxmn);
+                        int c;
+                        try
+                        {
+                            c = Convert.ToInt32((zArrayDescriptor.array[j, i] - min) * mxmn);
+                        }
+                        catch (System.OverflowException )
+                        {
+                            c = 0;
+                        }
+
                         Color c1 = Color.FromArgb(c, c, c);
                         ImageProcessor.setPixel(data2, j, i, c1);
                     }

@@ -64,15 +64,15 @@ namespace rab1
             return cmpl;
         }
 
-        public static ZArrayDescriptor ATAN_Gr(ZArrayDescriptor[] zArrayDescriptor, double[] fz)   // Фигура Лиссажу 1,2,3,4  => zArrayPicture
+        public static ZArrayDescriptor ATAN_Gr(ZArrayDescriptor[] zArrayDescriptor, double[] fz, int regComplex)   // Фигура Лиссажу 1,2,3,4  => zArrayPicture
         {
 
             int n_sdv = fz.Length;                                             // Число фазовых сдвигов
             for (int i = 0; i < n_sdv; i++) if (zArrayDescriptor[i] == null) { MessageBox.Show("FazaCalass.ATAN_Gr zArrayDescriptor == NULL"); return null; }
 
 
-            int w1 = zArrayDescriptor[0].width;
-            int h1 = zArrayDescriptor[0].height;
+            int w1 = zArrayDescriptor[regComplex * 4].width;
+            int h1 = zArrayDescriptor[regComplex * 4].height;
             //ZArrayDescriptor cmpl = new ZArrayDescriptor(w1, h1);        // Массив для фаз
 
             double[] i_sdv = new double[n_sdv];
@@ -99,7 +99,7 @@ namespace rab1
                 {
 
                     // ------                                     Формула расшифровки
-                    for (int k = 0; k < n_sdv; k++) { i_sdv[k] = zArrayDescriptor[k].array[i, j]; }
+                    for (int k = 0; k < n_sdv; k++) { i_sdv[k] = zArrayDescriptor[regComplex*4+k].array[i, j]; }
                     v_sdv[0] = i_sdv[1] - i_sdv[n_sdv - 1];
                     v_sdv[n_sdv - 1] = i_sdv[0] - i_sdv[n_sdv - 2];
                     for (int k = 1; k < n_sdv - 1; k++) v_sdv[k] = i_sdv[k + 1] - i_sdv[k - 1];
@@ -123,7 +123,7 @@ namespace rab1
                 {
 
                     // ------                                     Формула расшифровки
-                    for (int k = 0; k < n_sdv; k++) { i_sdv[k] = zArrayDescriptor[k].array[i, j]; }
+                    for (int k = 0; k < n_sdv; k++) { i_sdv[k] = zArrayDescriptor[regComplex * 4 + k].array[i, j]; }
                     v_sdv[0] = i_sdv[1] - i_sdv[n_sdv - 1];
                     v_sdv[n_sdv - 1] = i_sdv[0] - i_sdv[n_sdv - 2];
                     for (int k = 1; k < n_sdv - 1; k++) v_sdv[k] = i_sdv[k + 1] - i_sdv[k - 1];
@@ -143,6 +143,41 @@ namespace rab1
             return cmpl;
         }
 
+        public static ZArrayDescriptor ATAN_Sdvg(ZArrayDescriptor[] zArrayDescriptor,  int regComplex)
+        {
+            int w1 = zArrayDescriptor[regComplex * 4].width;
+            int h1 = zArrayDescriptor[regComplex * 4].height;
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(w1, h1);        // Массив для углов
+            double  s1=0, s=0, n=0;
+            double kf = 2 * 180 / Math.PI;
+            for (int j = 0; j < h1; j++)
+            {
+                //double s = 0;
+                for (int i = 0; i < w1; i++)
+                {
+                    double a1 = zArrayDescriptor[regComplex * 4].array[i, j];
+                    double a2 = zArrayDescriptor[regComplex * 4 + 1].array[i, j];
+                    double a3 = zArrayDescriptor[regComplex * 4 + 2].array[i, j];
+                    double a4 = zArrayDescriptor[regComplex * 4 + 3].array[i, j];
+                    double ch = 3 * (a2 - a3) - (a1 - a4);
+                    double zn = (a1 - a4) + (a2 - a3);
+                    double b = Math.Sqrt(Math.Abs(ch / zn));
+                    
+                    b =  Math.Atan(b) * kf;
+                    if (Double.IsNaN(b)) { b = 0; n = n - 1; }
+                    cmpl.array[i, j] = b;
+                    n = n + 1;
+                    s = s + b;
+                }
+                
+                
+            }
+            s1 = s1 + s / (h1 * w1);
+            MessageBox.Show("Средний угол = "+ s1);
+            return cmpl;
+        }
+
+/*
         public static ZArrayDescriptor ATAN_Gr9101112(ZArrayDescriptor[] zArrayDescriptor, double[] fz)   // Фигура Лиссажу 9,10,11,12  => zArrayPicture
         {
             int n_img = 8;
@@ -223,22 +258,22 @@ namespace rab1
                     cmpl.array[x + nn1/4, y + nn1 / 4] += 20;                              // В центр
                 }
             }
-/*
-            double min = SumClass.getMin(cmpl);
-            double max = SumClass.getMax(cmpl);
-            for (int i = 0; i < w1; i++)
-            {
-                for (int j = 0; j < h1; j++)
-                {
-                    cmpl.array[i, j] = (cmpl.array[i,j] - min) * 255 / (max - min);
+
+         //   double min = SumClass.getMin(cmpl);
+         //   double max = SumClass.getMax(cmpl);
+         //   for (int i = 0; i < w1; i++)
+         //   {
+         //       for (int j = 0; j < h1; j++)
+         //       {
+         //           cmpl.array[i, j] = (cmpl.array[i,j] - min) * 255 / (max - min);
                    
-                }
-            }
-*/
+         //       }
+         //   }
+
 
                     return cmpl;
         }
-
+*/
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

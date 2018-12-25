@@ -11,6 +11,7 @@ public delegate void DelegatPSI(double[] fz, double am);
 public delegate void DelegatIMAX(int imax);
 public delegate void DelegatMaska(int k1, int k2, int k3);
 public delegate void DelegatLis(double[] fz);
+public delegate void DelegatSdvg();
 
 namespace rab1.Forms
 {
@@ -21,7 +22,7 @@ namespace rab1.Forms
         public event DelegatIMAX   OnIMAX;
         public event DelegatIMAX   OnIMAX1;
         public event DelegatMaska  OnMaska;
-        public event DelegatLis    OnLis;
+        public event DelegatSdvg   OnSdvg;
 
 
         private static double[] fz = { 0.0, 90.0, 180.0, 270.0 };
@@ -106,21 +107,9 @@ namespace rab1.Forms
             Close();
         }
 
-        private void button6_Click(object sender, EventArgs e)  //  Фигура Лиссажу данные из 9, 10, 11, 12
+        private void button6_Click(object sender, EventArgs e)  //  Угол из regComplex
         {
-            fz[0] = Convert.ToDouble(textBox1.Text);
-            fz[1] = Convert.ToDouble(textBox2.Text);
-            fz[2] = Convert.ToDouble(textBox3.Text);
-            fz[3] = Convert.ToDouble(textBox4.Text);
-        
-
-            double[] fzrad = new double[4];                 // Фаза в радианах
-            fzrad[0] = Math.PI * fz[0] / 180.0;
-            fzrad[1] = Math.PI * fz[1] / 180.0;
-            fzrad[2] = Math.PI * fz[2] / 180.0;
-            fzrad[3] = Math.PI * fz[3] / 180.0;
-
-            OnLis(fzrad);
+            OnSdvg();
             Close();
 
         }

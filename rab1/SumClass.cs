@@ -213,7 +213,8 @@ namespace rab1
                         double fc = zArrayPicture.array[j, i];
                         if (fc > max) fc = max;
                         if (fc < min) fc = min;
-                        int c = Convert.ToInt32((fc - min) * mxmn);
+                        int c;
+                        try { c = Convert.ToInt32((fc - min) * mxmn); } catch (DivideByZeroException) { c = 0; }
                         Color c1 = Color.FromArgb(c, c, c);
                         ImageProcessor.setPixel(data2, j, i, c1);
                     }

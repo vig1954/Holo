@@ -214,7 +214,7 @@ namespace rab1
 
 
             for (int j = 0; j < max_y; j++)
-                for (int i = 0; i < max_x; i++)
+              for (int i = 0; i < max_x; i++)
                 {
                     Form1.Coords R1 = YYY(X[0], X[1], max_y, j);
                     Form1.Coords R2 = YYY(X[2], X[3], max_y, j);
@@ -226,7 +226,7 @@ namespace rab1
                     if (iy < 0 || iy > h1) continue;
                     if (ix < 0 || ix > w1) continue;
                     zArray1.array[i, j] = zArrayDescriptor.array[ix, iy];
-                    //zArray1.array[i, j] = Intens(zArrayDescriptor[k], x, y);
+                    //zArray1.array[i, j] = Intens(zArrayDescriptor, x, y);
                 }
 
 
