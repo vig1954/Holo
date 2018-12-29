@@ -7,6 +7,7 @@ namespace UserInterface.DataEditors.Renderers
 {
     public static class UpdateManager
     {
+        private static object _lockObject = new object();
         private static List<UpdateInvokationInfo> _updateInvokationInfos = new List<UpdateInvokationInfo>();
         public static bool Locked { get; private set; }
 
@@ -17,33 +18,40 @@ namespace UserInterface.DataEditors.Renderers
 
         public static void Unlock()
         {
-            Locked = false;
-
-            foreach (var updateInvokationInfo in _updateInvokationInfos)
+            lock (_lockObject)
             {
-                updateInvokationInfo.UpdateAction.Invoke();
-            }
+                foreach (var updateInvokationInfo in _updateInvokationInfos)
+                {
+                    updateInvokationInfo.UpdateAction.Invoke();
+                }
 
-            _updateInvokationInfos.Clear();
+                _updateInvokationInfos.Clear();
+                
+                Locked = false;
+            }
         }
 
         public static void DelayUpdateUntilUnlocked(object obj, Action updateAction)
         {
-            if (!Locked)
+            lock (_lockObject)
             {
-                updateAction.Invoke();
-                return;
+
+                if (!Locked)
+                {
+                    updateAction.Invoke();
+                    return;
+                }
+
+                if (_updateInvokationInfos.Any(i => i.Object == obj))
+                    return;
+
+                _updateInvokationInfos.Add(new UpdateInvokationInfo
+                {
+                    Object = obj,
+                    UpdateAction = updateAction
+
+                });
             }
-
-            if (_updateInvokationInfos.Any(i => i.Object == obj))
-                return;
-
-            _updateInvokationInfos.Add(new UpdateInvokationInfo
-            {
-                Object = obj,
-                UpdateAction = updateAction
-                    
-            });
         }
 
         private class UpdateInvokationInfo
