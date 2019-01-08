@@ -95,12 +95,11 @@
             this.фазаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.моделированиеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.моделированиеФазыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.моделированиеОбъектаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.фурьеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.фурьеToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.интерференцияПлоскихВолнToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.интерференцияСферическихВолнToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.интерферометрияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.модельОбъектаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pSIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pSIToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.разверткаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -203,6 +202,8 @@
             this.button9 = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
+            this.графикToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox01)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -552,14 +553,14 @@
             this.Фильтр,
             this.фазаToolStripMenuItem,
             this.фурьеToolStripMenuItem,
-            this.интерферометрияToolStripMenuItem,
             this.pSIToolStripMenuItem,
             this.разверткаToolStripMenuItem,
             this.арифметикаToolStripMenuItem,
             this.арифметикаToolStripMenuItem1,
             this.изменитьРазмерToolStripMenuItem,
             this.сверхразрешениеToolStripMenuItem,
-            this.структурирОсвещениеToolStripMenuItem});
+            this.структурирОсвещениеToolStripMenuItem,
+            this.графикToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1135, 24);
@@ -833,25 +834,33 @@
             // 
             this.фазаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.моделированиеToolStripMenuItem,
-            this.моделированиеФазыToolStripMenuItem});
+            this.моделированиеФазыToolStripMenuItem,
+            this.моделированиеОбъектаToolStripMenuItem});
             this.фазаToolStripMenuItem.Name = "фазаToolStripMenuItem";
-            this.фазаToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.фазаToolStripMenuItem.Text = "Фаза";
+            this.фазаToolStripMenuItem.Size = new System.Drawing.Size(100, 20);
+            this.фазаToolStripMenuItem.Text = "Моделирование";
             this.фазаToolStripMenuItem.Click += new System.EventHandler(this.фазаToolStripMenuItem_Click);
             // 
             // моделированиеToolStripMenuItem
             // 
             this.моделированиеToolStripMenuItem.Name = "моделированиеToolStripMenuItem";
-            this.моделированиеToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.моделированиеToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.моделированиеToolStripMenuItem.Text = "Моделирование полос";
             this.моделированиеToolStripMenuItem.Click += new System.EventHandler(this.моделированиеToolStripMenuItem_Click);
             // 
             // моделированиеФазыToolStripMenuItem
             // 
             this.моделированиеФазыToolStripMenuItem.Name = "моделированиеФазыToolStripMenuItem";
-            this.моделированиеФазыToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.моделированиеФазыToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.моделированиеФазыToolStripMenuItem.Text = "Моделирование фазы";
             this.моделированиеФазыToolStripMenuItem.Click += new System.EventHandler(this.моделированиеФазыToolStripMenuItem_Click);
+            // 
+            // моделированиеОбъектаToolStripMenuItem
+            // 
+            this.моделированиеОбъектаToolStripMenuItem.Name = "моделированиеОбъектаToolStripMenuItem";
+            this.моделированиеОбъектаToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.моделированиеОбъектаToolStripMenuItem.Text = "Моделирование объекта";
+            this.моделированиеОбъектаToolStripMenuItem.Click += new System.EventHandler(this.модельОбъектаToolStripMenuItem_Click);
             // 
             // фурьеToolStripMenuItem
             // 
@@ -884,22 +893,6 @@
             this.интерференцияСферическихВолнToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
             this.интерференцияСферическихВолнToolStripMenuItem.Text = "Интерференция сферических волн";
             this.интерференцияСферическихВолнToolStripMenuItem.Click += new System.EventHandler(this.интерференцияСферическихВолнToolStripMenuItem_Click);
-            // 
-            // интерферометрияToolStripMenuItem
-            // 
-            this.интерферометрияToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.модельОбъектаToolStripMenuItem});
-            this.интерферометрияToolStripMenuItem.Name = "интерферометрияToolStripMenuItem";
-            this.интерферометрияToolStripMenuItem.Size = new System.Drawing.Size(112, 20);
-            this.интерферометрияToolStripMenuItem.Text = "Интерферометрия";
-            this.интерферометрияToolStripMenuItem.Click += new System.EventHandler(this.интерферометрияToolStripMenuItem_Click);
-            // 
-            // модельОбъектаToolStripMenuItem
-            // 
-            this.модельОбъектаToolStripMenuItem.Name = "модельОбъектаToolStripMenuItem";
-            this.модельОбъектаToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
-            this.модельОбъектаToolStripMenuItem.Text = "Модель объекта";
-            this.модельОбъектаToolStripMenuItem.Click += new System.EventHandler(this.модельОбъектаToolStripMenuItem_Click);
             // 
             // pSIToolStripMenuItem
             // 
@@ -1885,6 +1878,21 @@
             this.vScrollBar2.TabIndex = 115;
             this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar2_Scroll);
             // 
+            // графикToolStripMenuItem
+            // 
+            this.графикToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dToolStripMenuItem});
+            this.графикToolStripMenuItem.Name = "графикToolStripMenuItem";
+            this.графикToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.графикToolStripMenuItem.Text = "График";
+            // 
+            // dToolStripMenuItem
+            // 
+            this.dToolStripMenuItem.Name = "dToolStripMenuItem";
+            this.dToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.dToolStripMenuItem.Text = "3D";
+            this.dToolStripMenuItem.Click += new System.EventHandler(this.dToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2090,8 +2098,6 @@
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.ToolStripMenuItem загрузитьИзФайлаdoubleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem сохранитьZaarayВФайлToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem интерферометрияToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem модельОбъектаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem инверсияToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem моделированиеToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem сглаживаниеToolStripMenuItem1;
@@ -2164,6 +2170,9 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem структурирОсвещениеToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem моделированиеОстаткаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem моделированиеОбъектаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem графикToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dToolStripMenuItem;
     }
 }
 

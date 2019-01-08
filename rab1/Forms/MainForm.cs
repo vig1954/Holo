@@ -33,17 +33,13 @@ namespace rab1
 
         int scaleMode = 0;                          // Масштаб изображения
 
-       // int X1, Y1;                       // Первая точка (Шелкаем на экране)
-       // int X2, Y2;
-       // int X3, Y3;
-       // int X4, Y4;
+       
 
         Form f_filt;                             // Для Фильтрации
         TextBox tb1_filt; //, tb2_filt, tb3_filt;
         int k_filt = 1;
 
-        //int x0_end = 0, y0_end = 0;
-        //int x1_end = 0, y1_end = 0;
+       
 
 
 
@@ -277,6 +273,13 @@ namespace rab1
 
 
         }
+        //  -----------------------------------------------------------      График 3D
+        private void dToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Graph3D graph_3D = new Graph3D(zArrayPicture);
+            graph_3D.Show();
+        }
+
         // -----------------------------------------------------------      Refresh
         private void button9_Click(object sender, EventArgs e)
         {
@@ -3016,6 +3019,12 @@ namespace rab1
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
 
         }
+
+       
+        // private void модельОбъектаToolStripMenuItem(object sender, EventArgs e)
+        // {
+
+        //}
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
