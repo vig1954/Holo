@@ -855,7 +855,7 @@ namespace rab1
                     //double h = ac * Math.Sin(f);
                     //int ih = (int)h;
                     //zArray.array[i, j] = h-ih;
-                    zArray.array[i, j] = h-x;
+                    zArray.array[i, j] = (int)(h*100);
                 }
 
 
