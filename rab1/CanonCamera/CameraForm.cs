@@ -47,6 +47,8 @@ namespace rab1
 
         ImageForm imageForm = null;
         short currentImageNumber = 0;
+        float imageOffsetX = 0;
+        float imageOffsetStep = 0;
 
         #endregion
 
@@ -127,6 +129,7 @@ namespace rab1
             groupNumberComboBox.DisplayMember = "GroupName";
             groupNumberComboBox.SelectedIndexChanged += groupNumberComboBox_SelectedIndexChanged;
 
+            groupNumberComboBox.Items.Add(new GroupItem() { GroupNumber = 1, GroupName = "0" });
             groupNumberComboBox.Items.Add(new GroupItem() { GroupNumber = 1, GroupName = "1" });
             groupNumberComboBox.Items.Add(new GroupItem() { GroupNumber = 2, GroupName = "2" });
             groupNumberComboBox.Items.Add(new GroupItem() { GroupNumber = 3, GroupName = "3" });
@@ -269,7 +272,8 @@ namespace rab1
                 if (seriesType == TakePhotoSeriesTypeEnum.ImageSeries)
                 {
                     currentImageNumber++;
-                    if (currentImageNumber == 4)
+                    imageOffsetX -= imageOffsetStep;
+                    if (currentImageNumber == GetMaxImagesCount())
                     {
                         takeNextPhoto = false;
                     }
@@ -278,7 +282,7 @@ namespace rab1
                         takeNextPhoto = true;
                     }
 
-                    if (currentImageNumber <= 4)
+                    if (currentImageNumber <= GetMaxImagesCount())
                     {
                         SetImageAndTakePhoto();
                     }
@@ -390,6 +394,7 @@ namespace rab1
             {
                 currentPhaseShiftNumber = 0;
                 currentImageNumber = 0;
+                imageOffsetX = 0;
 
                 if ((string)TvCoBox.SelectedItem == "Bulb") CameraHandler.TakePhoto((uint)BulbUpDo.Value);
                 else CameraHandler.TakePhoto();
@@ -709,7 +714,13 @@ namespace rab1
             seriesType = TakePhotoSeriesTypeEnum.ImageSeries;
 
             currentImageNumber = 1;
+            imageOffsetX = 0;
             delay = int.Parse(DelayTextBox.Text);
+
+            if (cbShifts8.Checked)
+            {
+                imageOffsetStep = float.Parse(offsetPixelsTextBox.Text);
+            }
 
             takeNextPhoto = true;
             SetImageAndTakePhoto();
@@ -730,7 +741,28 @@ namespace rab1
 
         private void SetImage()
         {
-            imageForm.SetImage(MainForm.GetImageFromPictureBox(currentImageNumber)); 
+            if (this.cbShifts8.Checked)
+            {
+                int pictureBoxNumber = 12;
+                Image image = MainForm.GetImageFromPictureBox(pictureBoxNumber);
+                imageForm.SetImage(image, imageOffsetX);
+            }
+            else
+            {
+                imageForm.SetImage(MainForm.GetImageFromPictureBox(currentImageNumber));
+            }
+        }
+        
+        private int GetMaxImagesCount()
+        {
+            if (cbShifts8.Checked)
+            {
+                return 8;
+            }
+            else
+            {
+                return 4;
+            }
         }
 
         private void ExecutePhaseShift()

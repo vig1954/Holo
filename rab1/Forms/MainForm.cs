@@ -2897,13 +2897,28 @@ namespace rab1
                 
                 default:
                     {
-                        int index = (eventArgs.GroupNumber - 1) * 4 + (eventArgs.Number - 1);
+                        int index = GetPictureBoxIndex(eventArgs);
                         zArrayDescriptor[index] = new ZArrayDescriptor(eventArgs.Image, eventArgs.ColorMode);
                         pictureBoxArray[index].Image = eventArgs.Image;
                         break;
                     } 
-
             }
+        }
+        
+        private int GetPictureBoxIndex(PictureTakenEventArgs args)
+        {
+            int index = 1;
+
+            if (args.GroupNumber == 0)
+            {
+                index = args.Number - 1;
+            }
+            else
+            {
+                index = (args.GroupNumber - 1) * 4 + (args.Number - 1);
+            }
+
+            return index;
         }
 
         private void HandleLiveViewUpdate(LiveViewUpdatedEventArgs eventArgs)
