@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Common;
+using Processing;
 
 namespace UserInterface.DataProcessorViews
 {
@@ -59,7 +60,18 @@ namespace UserInterface.DataProcessorViews
 
         protected bool AreAllParametersSet()
         {
-            return Parameters.All(p => p.HasValue);
+            return Parameters.All(p =>
+            {
+                if (!p.HasValue)
+                    return false;
+
+                var value = p.GetValue();
+
+                if (value is IImageHandler imageHandlerValue)
+                    return imageHandlerValue.Ready;
+
+                return true;
+            });
         }
     }
 }

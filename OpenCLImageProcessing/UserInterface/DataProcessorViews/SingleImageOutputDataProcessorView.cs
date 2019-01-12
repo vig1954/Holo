@@ -81,7 +81,7 @@ namespace UserInterface.DataProcessorViews
             if (!AreAllParametersSet())
                 return;
 
-            if (UpdateManager.Locked)
+            if (UpdateManager.IsLockedFor(this))
             {
                 UpdateManager.DelayUpdateUntilUnlocked(this, Compute);
                 return;

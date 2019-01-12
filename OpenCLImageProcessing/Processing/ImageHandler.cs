@@ -439,7 +439,11 @@ namespace Processing
 
         public static string GetTitle(this IImageHandler self)
         {
-            self.Tags.TryGetValue(ImageHandlerTagKeys.Title, out object title);
+            object title = null;
+
+            if (self.Tags != null)
+                self.Tags.TryGetValue(ImageHandlerTagKeys.Title, out title);
+
             return (string) title ?? "Image";
         }
     }
