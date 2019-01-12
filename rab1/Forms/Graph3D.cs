@@ -166,70 +166,81 @@ namespace rab1.Forms
             ns = Convert.ToInt32(textBox1.Text);
             ZArrayDescriptor zArray3D = new ZArrayDescriptor(nx1, ny1);
 
-            double[] arr_max = new double[nx1];
-            double[] arr_tmp = new double[nx1];
+            int[] arr_max = new int[nx1];
+            int[] arr_tmp = new int[nx1];
             for (int i = 0; i < nx1; i++)
             {
-                arr_max[i] = -nx1;
-                arr_tmp[i] = -nx1;
+                arr_max[i] = 0;
+                //arr_tmp[i] = -1000;
             }
 
             
-            int ys=4;
-            int k = 0;
-            int y0 = 300;  //  Сдвиг снизу для красоты
+            int ys=2;
+            
+            int y0 = 250;  //  Сдвиг снизу для красоты
             //int ns1 = ns;
 
-            double max = SumClass.getMax(zArrayPicture);
+           double max = SumClass.getMax(zArray2D);
+           double min = SumClass.getMin(zArray2D);
 
-           for (int j = 0; j < ny; j+=ns, k++)
+            int k = 0;
+            for (int j = 0; j < ny1; j+=ns, k++)
              { 
-                for (int i = 0; i < nx; i++)
+                for (int i = 0; i < nx1; i++)
                 {
-                    int x = (int)(i * arr[0, 0] + j * arr[1, 0] + arr[2, 0]);
-                    int y = (int)(i * arr[0, 1] + j * arr[1, 1] + arr[2, 1]);
-                    if (x < nx1 && y < ny1 && x > 0 && y > 0) arr_tmp[x] = zArrayPicture.array[i, j]*128/max + k*ys;
+                    // int x = (int)(i * arr[0, 0] + j * arr[1, 0] + arr[2, 0]);
+                    // int y = (int)(i * arr[0, 1] + j * arr[1, 1] + arr[2, 1]);
+                    // if (x < nx1 && y < ny1 && x > 0 && y > 0) arr_tmp[x] = zArrayPicture.array[i, j]*128/max + k*ys;
+                    int ix = i; // + ys * k;
+                    if (ix<nx1)
+                        arr_tmp[i] =(int) ((zArray2D.array[ix, j]-min) * 128 / (max-min));
                 }
 
-                for (int i = 0; i < nx1-ns; i++)
+                for (int i = 0; i < nx1; i++)
                 {
                     //if (arr_tmp[i+ns*j] > arr_max[i]) arr_max[i] = arr_tmp[i+ns*j];
-                    if (arr_tmp[i ] > arr_max[i]) arr_max[i] = arr_tmp[i ];
+                    if (arr_tmp[i] > arr_max[i]) arr_max[i] = arr_tmp[i];
                 }
-
-                int x1 = 0;
-                int y1 = 0;    // (int)(arr_max[0]);
-                for (int i = 1; i < nx1; i++)
-                { 
+                
+                                int x1 = 0;
+                                int y1 = 0;    // (int)(arr_max[0]);
+                for (int i = 100; i < nx1 - 100; i++)
+                {
                     int x2 = i;
-                    int y2 =(int) (arr_max[i]);
-                                        double dx, dy, steps;
-                                        dx = x2 - x1;
-                                        dy = y2 - y1;
+                    //if (arr_max[i] != arr_tmp[i]) break;
+                    int y2 = (int)(arr_max[i]);
+                    double dx, dy, steps;
+                    dx = x2 - x1;
+                    dy = y2 - y1;
                     if (dy < 0) { y1 = y2; dy = -dy; }
-                                        if (dx > dy) steps = Math.Abs(dx); else steps = Math.Abs(dy);
-                                        double Xinc = dx / (float)steps;
-                                        double Yinc = dy / (float)steps;
-                                        double xx = x1 + 0.5 * Math.Sign(dx), 
-                                               yy = y1 + 0.5 * Math.Sign(dy);
+                    if (dx > dy) steps = Math.Abs(dx); else steps = Math.Abs(dy);
+                    double Xinc = dx / (float)steps;
+                    double Yinc = dy / (float)steps;
+                    double xx = x1 + 0.5 * Math.Sign(dx),
+                           yy = y1 + 0.5 * Math.Sign(dy);
 
-                                        for (int ii = 0; ii < steps; ii++)
-                                        {
-                                            xx = (int)(xx + Xinc);
-                                            yy = (int)(yy + Yinc);
-                        int xi = (int)xx;  //+ ns * j;
-                                            int yi =  nx1 - y0 - (int)yy;
-                                            if (xi < nx1 && yi < ny1 && xi > 0 && yi > 0) zArray3D.array[xi, yi] = 255;
-                                        }
-                       y1 = y2;
-                       x1 = x2;
-                                   
-                   
-              //      for (int i = 0; i < nx1; i++)
-              // {
-              //      int y = (int)arr_max[i];
-               //     if (y < nx1 && y>0) zArray3D.array[i , y] = 255;
-               }
+                    for (int ii = 0; ii < steps; ii++)
+                    {
+                        xx = (int)(xx + Xinc);
+                        yy = (int)(yy + Yinc);
+                        int xi = (int)xx +  k;
+                        int yi = nx1 - y0 - ((int)yy + ys * k);
+                        if (xi < nx1 && yi < ny1 && xi > 0 && yi > 0) zArray3D.array[xi, yi] = 255;
+                    }
+                    y1 = y2;
+                    x1 = x2;
+                }
+               
+              //  for (int i = 100; i < nx1 - 100; i++)
+              //  {
+              //      if (arr_max[i] == arr_tmp[i])
+              //      { int y = nx1 - y0 - (int)arr_tmp[i] - ys * k; ;
+
+                        //nx1 - y0 - (int)arr_max[i]; // - ys * k;
+              //      int x = i + k;
+              //      if (y < ny1 && y > 0 && x < nx1 && x > 0) zArray3D.array[x, y] = 255;
+              //     }
+              // }
             }
 
 
