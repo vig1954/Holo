@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Common;
 using Infrastructure;
 using Processing;
@@ -12,6 +13,7 @@ using Processing.DataAttributes;
 using Processing.Utils;
 using UserInterface.DataEditors.InterfaceBinding;
 using UserInterface.DataEditors.InterfaceBinding.Attributes;
+using UserInterface.DataEditors.InterfaceBinding.BindingEvents;
 
 namespace Camera
 {
@@ -79,6 +81,25 @@ namespace Camera
 
         [BindToUI("Захват LV")]
         public bool CaptureLiveView { get; set; }
+
+        [BindToUI("Выкл. захват в конце серии")]
+        public void StopCaptureAfterSeriesFinished()
+        {
+            if (!CaptureLiveView)
+                return;
+
+            SeriesComplete += StopCaptureOnSeriesComplete;
+            BindingManager.RaiseMethodBindingEvent(c => c.StopCaptureAfterSeriesFinished(), new PerformBindableControlActionEvent(c => (c as Control).Enabled = false, this));
+            BindingManager.RaiseMemberBindingEvent(c => c.CaptureLiveView, new PerformBindableControlActionEvent(c => (c as Control).Enabled = false, this));
+        }
+
+        private void StopCaptureOnSeriesComplete()
+        {
+            SeriesComplete -= StopCaptureOnSeriesComplete;
+            BindingManager.SetPropertyValue(c => c.CaptureLiveView, false);
+            BindingManager.RaiseMethodBindingEvent(c => c.StopCaptureAfterSeriesFinished(), new PerformBindableControlActionEvent(c => (c as Control).Enabled = true, this));
+            BindingManager.RaiseMemberBindingEvent(c => c.CaptureLiveView, new PerformBindableControlActionEvent(c => (c as Control).Enabled = true, this));
+        }
 
         // TODO: добавить аттрибут для работы со списками
         // TODO: заменить всю эту байду с проперти-аттрибутами на что-то более гибкое, возможно тип проперти PropertyBinder<T>
