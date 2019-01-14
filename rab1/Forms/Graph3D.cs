@@ -166,13 +166,15 @@ namespace rab1.Forms
             ns = Convert.ToInt32(textBox1.Text);
             ZArrayDescriptor zArray3D = new ZArrayDescriptor(nx1, ny1);
 
-            int[] arr_max = new int[nx1];
-            int[] arr_tmp = new int[nx1];
-            for (int i = 0; i < nx1; i++)
-            {
-                arr_max[i] = 0;
+            int[] arr_max    = new int[nx1];
+            int[] arr_tmp    = new int[nx1];
+            int[] arr_tmp_gr = new int[nx1];
+
+            //for (int i = 0; i < nx1; i++)
+            //{
+            //    arr_max[i] = 0;
                 //arr_tmp[i] = -1000;
-            }
+           // }
 
             
             int ys=2;
@@ -184,72 +186,64 @@ namespace rab1.Forms
            double min = SumClass.getMin(zArray2D);
 
             int k = 0;
-            for (int j = 0; j < ny1; j+=ns, k++)
-             { 
+            for (int j = 0; j < ny1; j += ns, k++)
+            {
                 for (int i = 0; i < nx1; i++)
                 {
-                    // int x = (int)(i * arr[0, 0] + j * arr[1, 0] + arr[2, 0]);
-                    // int y = (int)(i * arr[0, 1] + j * arr[1, 1] + arr[2, 1]);
-                    // if (x < nx1 && y < ny1 && x > 0 && y > 0) arr_tmp[x] = zArrayPicture.array[i, j]*128/max + k*ys;
-                    int ix = i; // + ys * k;
-                    if (ix<nx1)
-                        arr_tmp[i] =(int) ((zArray2D.array[ix, j]-min) * 128 / (max-min));
+                    int ix = i - k;
+                    if (ix < nx1 && ix>0) arr_tmp[i] = (int)((zArray2D.array[ix, j] - min) * 128 / (max - min)) + ys * k;
                 }
 
                 for (int i = 0; i < nx1; i++)
                 {
-                    //if (arr_tmp[i+ns*j] > arr_max[i]) arr_max[i] = arr_tmp[i+ns*j];
                     if (arr_tmp[i] > arr_max[i]) arr_max[i] = arr_tmp[i];
                 }
-                
-                                int x1 = 0;
-                                int y1 = 0;    // (int)(arr_max[0]);
-                for (int i = 100; i < nx1 - 100; i++)
+
+                int x1 = 0;
+                int y1 = (int)(arr_max[0]);          
+                for (int i = 1; i < nx1-100+k; i++)
                 {
                     int x2 = i;
-                    //if (arr_max[i] != arr_tmp[i]) break;
                     int y2 = (int)(arr_max[i]);
-                    double dx, dy, steps;
-                    dx = x2 - x1;
-                    dy = y2 - y1;
-                    if (dy < 0) { y1 = y2; dy = -dy; }
-                    if (dx > dy) steps = Math.Abs(dx); else steps = Math.Abs(dy);
-                    double Xinc = dx / (float)steps;
-                    double Yinc = dy / (float)steps;
-                    double xx = x1 + 0.5 * Math.Sign(dx),
-                           yy = y1 + 0.5 * Math.Sign(dy);
-
-                    for (int ii = 0; ii < steps; ii++)
-                    {
-                        xx = (int)(xx + Xinc);
-                        yy = (int)(yy + Yinc);
-                        int xi = (int)xx +  k;
-                        int yi = nx1 - y0 - ((int)yy + ys * k);
-                        if (xi < nx1 && yi < ny1 && xi > 0 && yi > 0) zArray3D.array[xi, yi] = 255;
-                    }
+                    lineDDA(x1, y1, x2, y2, y0, zArray3D);
                     y1 = y2;
                     x1 = x2;
                 }
-               
-              //  for (int i = 100; i < nx1 - 100; i++)
-              //  {
-              //      if (arr_max[i] == arr_tmp[i])
-              //      { int y = nx1 - y0 - (int)arr_tmp[i] - ys * k; ;
-
-                        //nx1 - y0 - (int)arr_max[i]; // - ys * k;
-              //      int x = i + k;
-              //      if (y < ny1 && y > 0 && x < nx1 && x > 0) zArray3D.array[x, y] = 255;
-              //     }
-              // }
-            }
-
-
+           
+          }
             Vizual.Vizual_Picture(zArray3D, picture3D);
         }
 
-       
+        
+        private void lineDDA(int x1, int y1, int x2, int y2,  int y0, ZArrayDescriptor zArray3D)
+                {
+                    double dx, dy, steps;
+                            dx = x2 - x1;
+                            dy = y2 - y1;
+                            if (dy < 0) { y1 = y2; dy = -dy; }
+                            if (dx > dy) steps = Math.Abs(dx); else steps = Math.Abs(dy);
+                            double Xinc = dx / (double)steps;
+                            double Yinc = dy / (double)steps;
+                            double xx = x1 + 0.5 * Math.Sign(dx),
+                                   yy = y1 + 0.5 * Math.Sign(dy);
 
-    
+                            for (int ii = 0; ii < steps; ii++)
+                            {
+                                xx = (int)(xx + Xinc);
+                                yy = (int)(yy + Yinc);
+                                Put1((int)xx, (int)yy, y0, zArray3D);
+                            }
+                   
+                }
+         private void Put1(int x, int y, int y0, ZArrayDescriptor zArray3D)
+         {
+            int nx1 = zArray3D.width;
+            int ny1 = zArray3D.width;
+            int xi = x;
+            int yi = nx1 - y - y0;        
+            if (xi < nx1 && yi < ny1 && xi > 0 && yi > 0) zArray3D.array[xi, yi] = 255;
+
+        }
 
     }
 }
