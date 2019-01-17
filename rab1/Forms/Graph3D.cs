@@ -30,6 +30,7 @@ namespace rab1.Forms
             textBox1.Text = Convert.ToString(ns);
             zArray2D      = new ZArrayDescriptor(picture3D.Width, picture3D.Height); // Массив для изображения
             Vizual_2D(zArrayPicture);
+            Vizual.Vizual_Picture(zArray2D, picture3D);
         }
         private void Graph3D_Load(object sender, EventArgs e)
         {
@@ -130,6 +131,25 @@ namespace rab1.Forms
             arr = Sdv(arr, dx1, dy1);
 
             Refresh3D();
+            Vizual.Vizual_Picture(zArray2D, picture3D);
+        }
+
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+            double fi = trackBar2.Value * Math.PI / 180;
+            label2.Text = String.Format("Поворот графика: {0} градусов", trackBar1.Value);
+
+            arr = Ini3D();
+            arr = Scale(arr, sx, sx);
+            arr = Sdv(arr, dx, dy);
+            double dx1 = nx1 / 2;
+            double dy1 = ny1 / 2;
+            arr = Sdv(arr, -dx1, -dy1);
+            arr = Rot(arr, fi);
+            arr = Sdv(arr, dx1, dy1);
+
+            Refresh3D();
+            Gr3D();
         }
 
         private void Refresh3D()
@@ -147,21 +167,27 @@ namespace rab1.Forms
                     if (x < nx1 && y < ny1 && x > 0 && y > 0) zArray2D.array[x, y] = zArrayPicture.array[i, j];
                 }
 
-            Vizual.Vizual_Picture(zArray2D, picture3D);
+            //Vizual.Vizual_Picture(zArray2D, picture3D);
 
         }
         // Перерисовать button
         private void button1_Click(object sender, EventArgs e)
         {
-            arr = Ini3D();
-            arr = Scale(arr, sx, sx);
-            arr = Sdv(arr, dx, dy);
+            //arr = Ini3D();
+            //arr = Scale(arr, sx, sx);
+            //arr = Sdv(arr, dx, dy);
             Refresh3D();
+            Vizual.Vizual_Picture(zArray2D, picture3D);
         }
         // ----------------------------------------------------------------------------------------------------
         //              График 3D
         // ----------------------------------------------------------------------------------------------------
         private void button2_Click(object sender, EventArgs e)
+        {
+            Gr3D();
+        }
+
+        private void Gr3D()
         {
             ns = Convert.ToInt32(textBox1.Text);
             ZArrayDescriptor zArray3D = new ZArrayDescriptor(nx1, ny1);
@@ -203,6 +229,7 @@ namespace rab1.Forms
                 int y1 = (int)(arr_max[0]);          
                 for (int i = 1; i < nx1-100+k; i++)
                 {
+                    if (i >= nx1) break;
                     int x2 = i;
                     int y2 = (int)(arr_max[i]);
                     lineDDA(x1, y1, x2, y2, y0, zArray3D);

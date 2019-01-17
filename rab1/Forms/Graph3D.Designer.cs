@@ -35,9 +35,12 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.trackBar2 = new System.Windows.Forms.TrackBar();
+            this.label2 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picture3D)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -81,7 +84,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(855, 594);
+            this.button1.Location = new System.Drawing.Point(855, 91);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(139, 23);
             this.button1.TabIndex = 3;
@@ -91,7 +94,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(923, 107);
+            this.button2.Location = new System.Drawing.Point(935, 132);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(59, 23);
             this.button2.TabIndex = 4;
@@ -101,17 +104,40 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(855, 109);
+            this.textBox1.Location = new System.Drawing.Point(855, 135);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(35, 20);
             this.textBox1.TabIndex = 5;
             this.textBox1.Text = "6";
+            // 
+            // trackBar2
+            // 
+            this.trackBar2.Cursor = System.Windows.Forms.Cursors.Default;
+            this.trackBar2.Location = new System.Drawing.Point(843, 203);
+            this.trackBar2.Maximum = 360;
+            this.trackBar2.Name = "trackBar2";
+            this.trackBar2.Size = new System.Drawing.Size(151, 42);
+            this.trackBar2.TabIndex = 6;
+            this.trackBar2.TickFrequency = 20;
+            this.trackBar2.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.trackBar2.Scroll += new System.EventHandler(this.trackBar2_Scroll);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(840, 177);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(96, 13);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Поворот графика";
             // 
             // Graph3D
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1006, 634);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.trackBar2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -127,6 +153,7 @@
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picture3D)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -141,5 +168,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TrackBar trackBar2;
+        private System.Windows.Forms.Label label2;
     }
 }
