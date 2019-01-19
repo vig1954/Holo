@@ -11,12 +11,13 @@ using System.Windows.Forms;
 namespace rab1.Forms
 {
     public delegate void Correct(double L, double d, double d1);
+    public delegate void Correct1(double L, double d, double d1, double x_max);
     public delegate void Scale(double x, int n);
 
 
     public partial class Structur : Form
     {
-        public event Correct On_Corr;
+        public event Correct1 On_Corr;
         public event Correct On_CorrX;
         public event Scale   On_Scale;
 
@@ -55,7 +56,8 @@ namespace rab1.Forms
             d = Convert.ToDouble(textBox1.Text);
             L = Convert.ToDouble(textBox2.Text);
             d1 = Convert.ToDouble(textBox3.Text);
-            On_Corr(L, d, d1);
+            x_max = Convert.ToDouble(textBox6.Text);   // Максисальное смещение
+            On_Corr(L, d, d1, x_max);
             Close();
         }
 

@@ -22,6 +22,7 @@ namespace rab1.Forms
         public event DelegatUnrupLine OnUnrupLine;
         public event DelegatUnrupLine OnUnrupLinePlus;
         public event DelegatUnrup2pi  OnUnrupLine2pi;
+        public event DelegatUnrup2pi OnUnrupLine2pi_L;
 
         public UnRupLine()
         {
@@ -50,6 +51,12 @@ namespace rab1.Forms
         private void button3_Click(object sender, EventArgs e) // Обычная развертка
         {
             OnUnrupLine2pi();
+            Close();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            OnUnrupLine2pi_L();
             Close();
         }
     }

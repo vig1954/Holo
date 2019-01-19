@@ -597,6 +597,34 @@ namespace rab1.Forms
             return zArray_res;
         }
 
+            // Переходы через 2PI
+        public static ZArrayDescriptor Unrup_Line2pi_L(ZArrayDescriptor zArray)        // Развертка по строкам 
+        {
+
+            if (zArray == null) { MessageBox.Show("Unrup.cs    Unrup_Line2pi  zArray == NULL"); return null; }
+
+            int nx = zArray.width;
+            int ny = zArray.height;
+
+            ZArrayDescriptor zArray_res = new ZArrayDescriptor(nx, ny);
+
+
+            for (int j = 0; j < ny; j++)                                          // Строка 
+            {
+                int n = 0;
+                double a1 = zArray.array[0, j];
+                for (int i = 1; i < nx; i++)
+                {
+                    double a2 = zArray.array[i, j];
+                    if (Math.Abs(a2 - a1) > Math.PI) { n = n + 1; }
+                    //zArray_res.array[i, j] = 2 * Math.PI * n ;
+                    zArray_res.array[i, j] = n;
+                    a1 = a2;
+                }
+            }
+
+            return zArray_res;
+        }
     }
 }
 //               Pen myPen = new Pen(Color.Black, 1);

@@ -2673,6 +2673,7 @@ namespace rab1
             UnrupLine.OnUnrupLine     += RupLine;
             UnrupLine.OnUnrupLinePlus += RupLinePluss;
             UnrupLine.OnUnrupLine2pi  += RupLine2pi;
+            UnrupLine.OnUnrupLine2pi_L += RupLine2pi_L;
             UnrupLine.Show();
         }
 
@@ -2694,7 +2695,14 @@ namespace rab1
             zArrayPicture = Unrup.Unrup_Line2pi(zArrayPicture);
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
         }
-        //------------------------------------------------------------------------------------------
+        //---
+        private void RupLine2pi_L()
+        {
+            // MessageBox.Show("Фазовая развертка по строкам " +gr);
+            zArrayPicture = Unrup.Unrup_Line2pi_L(zArrayPicture);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        }
+        //---------------------------------------------------------------------------------------
         private void разверткаToolStripMenuItem_Click(object sender, EventArgs e)     // Построение таблицы
         {
             UnrupForm UnrupForm = new UnrupForm();
@@ -2993,7 +3001,7 @@ namespace rab1
         private void моделированиеОстаткаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Structur STRUCTUR = new Structur();
-            STRUCTUR.On_Corr += Correct;
+            STRUCTUR.On_Corr += Correct;            // Скорректировать высоты
             STRUCTUR.On_CorrX += CorrectX;
             STRUCTUR.On_Scale += Correct_Scale;
             STRUCTUR.Show();
@@ -3006,9 +3014,9 @@ namespace rab1
         }
 
 
-        private void Correct(double L, double d, double d1)
+        private void Correct(double L, double d, double d1, double x_max)
         {
-            zArrayPicture = Model_object.Correct(zArrayPicture, L,  d, d1);
+            zArrayPicture = Model_object.Correct(zArrayPicture, L,  d, d1, x_max);
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
 
         }
