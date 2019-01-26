@@ -8,7 +8,7 @@ using Processing.DataProcessors;
 
 namespace UserInterface.WorkspacePanel
 {
-    public class DataProcessorWorkspacePanelItemController : WorkspacePanelItemControllerBase
+    public class DataProcessorWorkspacePanelItemController : WorkspacePanelGroupableItemControllerBase
     {
         private IDataProcessor DataProcessor { get; set; }
         private DataProcessorInfo DataProcessorInfo { get; set; }
@@ -21,7 +21,7 @@ namespace UserInterface.WorkspacePanel
             dataProcessor.Updated += UpdateView;
         }
 
-        public void UpdateView()
+        public override void UpdateView()
         {
             View.SetTitle(DataProcessorInfo.DisplayName);
             View.SetInfo(DataProcessorInfo.Type.Name + "\n" + DataProcessorInfo.DisplayTooltip);

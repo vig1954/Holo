@@ -8,7 +8,7 @@ using Processing;
 
 namespace UserInterface.WorkspacePanel
 {
-    public class ImageWorkspacePanelItemController : WorkspacePanelItemControllerBase
+    public class ImageWorkspacePanelItemController : WorkspacePanelGroupableItemControllerBase
     {
         private IImageHandler ImageHandler { get; set; }
 
@@ -23,7 +23,7 @@ namespace UserInterface.WorkspacePanel
             }
         }
 
-        public void UpdateView()
+        public override void UpdateView()
         {
             ImageHandler.Tags.TryGetValue(ImageHandlerTagKeys.Title, out object title);
 

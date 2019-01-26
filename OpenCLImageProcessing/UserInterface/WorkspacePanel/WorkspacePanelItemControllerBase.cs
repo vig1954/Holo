@@ -7,8 +7,11 @@ namespace UserInterface.WorkspacePanel
 {
     public abstract class WorkspacePanelItemControllerBase
     {
-        protected WorkspacePanelItem View;
-
+        public WorkspacePanelItem View { get; }
+        
+        public virtual void UpdateView()
+        {
+        }
         protected WorkspacePanelItemControllerBase(WorkspacePanelItem view)
         {
             View = view;

@@ -30,6 +30,7 @@
         {
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.AddImageButton = new System.Windows.Forms.ToolStripButton();
+            this.AddFolderButton = new System.Windows.Forms.ToolStripButton();
             this.MainLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.toolStrip1.SuspendLayout();
@@ -41,7 +42,8 @@
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Right;
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.AddImageButton});
+            this.AddImageButton,
+            this.AddFolderButton});
             this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Table;
             this.toolStrip1.Location = new System.Drawing.Point(155, 0);
             this.toolStrip1.Name = "toolStrip1";
@@ -52,21 +54,34 @@
             // AddImageButton
             // 
             this.AddImageButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.AddImageButton.Image = global::UserInterface.Properties.Resources.icons8_Add_Image_2;
+            this.AddImageButton.Image = global::UserInterface.Properties.Resources.icons8_add_image_40;
             this.AddImageButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.AddImageButton.Name = "AddImageButton";
             this.AddImageButton.Size = new System.Drawing.Size(36, 36);
             this.AddImageButton.Text = "toolStripButton1";
             this.AddImageButton.Click += new System.EventHandler(this.AddImageButton_Click);
             // 
+            // AddFolderButton
+            // 
+            this.AddFolderButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.AddFolderButton.Image = global::UserInterface.Properties.Resources.icons8_add_folder_40;
+            this.AddFolderButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AddFolderButton.Name = "AddFolderButton";
+            this.AddFolderButton.Size = new System.Drawing.Size(36, 36);
+            this.AddFolderButton.Text = "Add Folder";
+            this.AddFolderButton.Click += new System.EventHandler(this.AddFolderButton_Click);
+            // 
             // MainLayoutPanel
             // 
             this.MainLayoutPanel.AutoScroll = true;
+            this.MainLayoutPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.MainLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MainLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.MainLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.MainLayoutPanel.Name = "MainLayoutPanel";
             this.MainLayoutPanel.Size = new System.Drawing.Size(155, 411);
             this.MainLayoutPanel.TabIndex = 1;
+            this.MainLayoutPanel.Resize += new System.EventHandler(this.MainLayoutPanel_Resize);
             // 
             // openFileDialog1
             // 
@@ -93,5 +108,6 @@
         private System.Windows.Forms.ToolStripButton AddImageButton;
         private System.Windows.Forms.FlowLayoutPanel MainLayoutPanel;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.ToolStripButton AddFolderButton;
     }
 }

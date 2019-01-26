@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Common;
 
@@ -19,6 +14,8 @@ namespace UserInterface.WorkspacePanel
         public bool Selected { get; private set; }
 
         public event Action<string> TitleChanged;
+
+        public string Title => TitleLabel.Text;
 
         public WorkspacePanelItem()
         {

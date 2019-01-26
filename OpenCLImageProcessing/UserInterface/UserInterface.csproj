@@ -195,7 +195,9 @@
     </Compile>
     <Compile Include="WorkspacePanel\DataProcessorViewWorkspacePanelItemController.cs" />
     <Compile Include="WorkspacePanel\DataProcessorWorkspacePanelItemController.cs" />
+    <Compile Include="WorkspacePanel\FolderWorkspacePanelItemController.cs" />
     <Compile Include="WorkspacePanel\ImageWorkspacePanelItemController.cs" />
+    <Compile Include="WorkspacePanel\WorkspacePanelGroupableItemControllerBase.cs" />
     <Compile Include="WorkspacePanel\WorkspacePanelItemControllerBase.cs" />
     <Compile Include="WorkspacePanel\WorkspacePanel.cs">
       <SubType>UserControl</SubType>
@@ -209,6 +211,7 @@
     <Compile Include="WorkspacePanel\WorkspacePanelItem.Designer.cs">
       <DependentUpon>WorkspacePanelItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="WorkspacePanel\WorkspacePanelItemControllerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -315,6 +318,27 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\chain-unchain.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-folder-40.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-opened-folder-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-opened-folder-40.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-add-folder-40.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-add-image-40.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-folder-30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-opened-folder-30.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

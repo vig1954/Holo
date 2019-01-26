@@ -96,11 +96,7 @@ namespace HolographicInterferometryVNext
                 {
                     var copy = (item.Data as IImageHandler).Duplicate();
                     ImageHandlerRepository.Add(copy);
-                    
-                    if (copy is ImageHandler imageHandler)
-                        workspacePanel1.AddImageHandler(imageHandler);
-                    else if (copy is IDataProcessorView dataProcessorView)
-                        workspacePanel1.AddDataProcessorView(dataProcessorView);
+                    workspacePanel1.AddItem(copy);
                 }
             });
 
@@ -147,7 +143,7 @@ namespace HolographicInterferometryVNext
                     {
                         var dataProcessorView = dataProcessorViewCreator.Create();
                         dataProcessorView.Initialize();
-                        workspacePanel1.AddDataProcessorView(dataProcessorView);
+                        workspacePanel1.AddItem(dataProcessorView);
 
                         dataProcessorView.OnImageCreate += ImageCreate;
                     };
@@ -189,7 +185,7 @@ namespace HolographicInterferometryVNext
 
         private void ImageCreate(IImageHandler image)
         {
-            workspacePanel1.AddImageHandler(image);
+            workspacePanel1.AddItem(image);
         }
 
         private IReadOnlyCollection<DataProcessorViewCreator> GetDataProcessorViewCreators(params Type[] dataProcessorContainerTypes)

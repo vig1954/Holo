@@ -10,7 +10,7 @@ using UserInterface.DataProcessorViews;
 
 namespace UserInterface.WorkspacePanel
 {
-    public class DataProcessorViewWorkspacePanelItemController : WorkspacePanelItemControllerBase
+    public class DataProcessorViewWorkspacePanelItemController : WorkspacePanelGroupableItemControllerBase
     {
         private IDataProcessorView DataProcessorView { get; set; }
         public DataProcessorViewWorkspacePanelItemController(IDataProcessorView dataProcessorView, WorkspacePanelItem view) : base(view)
@@ -29,7 +29,7 @@ namespace UserInterface.WorkspacePanel
             };
         }
 
-        public void UpdateView()
+        public override void UpdateView()
         {
             View.SetTitle(DataProcessorView.Info.Name);
             View.SetInfo(DataProcessorView.Info.Tooltip);

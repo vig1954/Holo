@@ -23,7 +23,7 @@ namespace UserInterface.Utility
 
             foreach (var imageHandler in imageHandlers)
             {
-                workspacePanel1.AddImageHandler(imageHandler);
+                workspacePanel1.AddItem(imageHandler);
             }
 
             workspacePanel1.ShowToolbar = false;

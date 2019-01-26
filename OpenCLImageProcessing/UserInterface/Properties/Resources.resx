@@ -139,8 +139,11 @@
   <data name="chevron_collapse_9378" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\chevron-collapse_9378.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="icons8_Add_Image_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icons8-Add Image_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="icons8_add_folder_40" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8-add-folder-40.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icons8_add_image_40" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8-add-image-40.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="icons8_add_new_16__1_" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8-add-new-16 (1).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -154,8 +157,20 @@
   <data name="icons8_close_window_40" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8-close-window-40.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="icons8_folder_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8-folder-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icons8_folder_40" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8-folder-40.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="icons8_ok_40" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8-ok-40.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icons8_opened_folder_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8-opened-folder-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icons8_opened_folder_40" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8-opened-folder-40.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="lock_6522" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\lock_6522.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
