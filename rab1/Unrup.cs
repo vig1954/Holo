@@ -611,12 +611,12 @@ namespace rab1.Forms
 
             for (int j = 0; j < ny; j++)                                          // Строка 
             {
-                int n = 0;
+                double n = 0;
                 double a1 = zArray.array[0, j];
                 for (int i = 1; i < nx; i++)
                 {
                     double a2 = zArray.array[i, j];
-                    if (Math.Abs(a2 - a1) > Math.PI) { n = n + 1; }
+                    if (Math.Abs(a2 - a1) > Math.PI) { n = n + 2* Math.PI; }
                     //zArray_res.array[i, j] = 2 * Math.PI * n ;
                     zArray_res.array[i, j] = n;
                     a1 = a2;

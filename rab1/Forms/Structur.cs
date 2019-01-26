@@ -13,13 +13,19 @@ namespace rab1.Forms
     public delegate void Correct(double L, double d, double d1);
     public delegate void Correct1(double L, double d, double d1, double x_max);
     public delegate void Scale(double x, int n);
+    public delegate void Sub();
+    public delegate void Sub_Line(int num);
 
 
     public partial class Structur : Form
     {
         public event Correct1 On_Corr;
-        public event Correct On_CorrX;
-        public event Scale   On_Scale;
+        public event Correct  On_CorrX;
+        public event Scale    On_Scale;
+        public event Sub      On_Sub;
+        public event Sub      On_Sub_Cos;
+        public event Sub_Line On_Sub_Line;
+        public event Correct1 On_Corr_Sub;
 
         private static double L = 2000;    // Расстояние до объекта
         private static double d = 2000;    // Расстояние от начала объекта до камеры
@@ -56,7 +62,7 @@ namespace rab1.Forms
             d = Convert.ToDouble(textBox1.Text);
             L = Convert.ToDouble(textBox2.Text);
             d1 = Convert.ToDouble(textBox3.Text);
-            x_max = Convert.ToDouble(textBox6.Text);   // Максисальное смещение
+            x_max = Convert.ToDouble(textBox6.Text);   // Максимальное смещение
             On_Corr(L, d, d1, x_max);
             Close();
         }
@@ -75,6 +81,34 @@ namespace rab1.Forms
             x_max       = Convert.ToDouble(textBox6.Text);
             Number_line = Convert.ToInt32(textBox7.Text);
             On_Scale(x_max, Number_line);
+            Close();
+        }
+        // Разность полных фаз 1-2=>ArrayPicture
+        private void button5_Click(object sender, EventArgs e) // Обычная разность 
+        {
+            On_Sub();
+            Close();
+        }
+        private void button7_Click(object sender, EventArgs e)  // Разность  1-2=>ArrayPicture с помощью cos
+        {
+            On_Sub_Cos();
+            Close();
+        }
+        // Разность полных фаз 1-2=>ArrayPicture c корректировкой значений
+        private void button6_Click(object sender, EventArgs e)
+        {
+            d = Convert.ToDouble(textBox1.Text);
+            L = Convert.ToDouble(textBox2.Text);
+            d1 = Convert.ToDouble(textBox3.Text);
+            x_max = Convert.ToDouble(textBox6.Text);   // Максимальное смещение
+            On_Corr_Sub(L, d, d1, x_max);
+            Close();
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            Number_line = Convert.ToInt32(textBox7.Text);
+            On_Sub_Line(Number_line);
             Close();
         }
     }

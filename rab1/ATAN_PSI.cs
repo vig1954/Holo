@@ -157,6 +157,50 @@ namespace rab1.Forms
 
             return faza;
         }
+
+        public static ZArrayDescriptor ATAN_Faza(ZArrayDescriptor[] zArray, double[] fz)
+        {
+            // regComplex   ->    Главное окно
+
+            int w1 = zArray[0].width;
+            int h1 = zArray[0].height;
+
+            ZArrayDescriptor faza = new ZArrayDescriptor(w1, h1);
+
+            int n_sdv = 4;                                                       // Число фазовых сдвигов
+
+            double[] i_sdv = new double[4];
+            double[] k_sin = new double[4];
+            double[] k_cos = new double[4];
+
+
+            for (int i = 0; i < n_sdv; i++)
+            {
+                k_sin[i] = Math.Sin(fz[i]);
+                k_cos[i] = Math.Cos(fz[i]);
+            }
+
+            for (int i = 0; i < w1; i++)
+            {
+                for (int j = 0; j < h1; j++)
+                {
+
+                    i_sdv[0] = zArray[0].array[i, j];
+                    i_sdv[1] = zArray[1].array[i, j];
+                    i_sdv[2] = zArray[2].array[i, j];
+                    i_sdv[3] = zArray[3].array[i, j];
+
+                    double[] v_sdv = Vector_orto(i_sdv);                // ------  Формула расшифровки фазы
+                    double fz1 = Vector_Mul(v_sdv, k_sin);              // +3 * Math.PI / 2;
+                    double fz2 = Vector_Mul(v_sdv, k_cos);
+                    //faza.array[i, j] = 2 * Math.PI - (Math.Atan2(fz1, fz2) + Math.PI);
+                    faza.array[i, j] = Math.Atan2(fz1, fz2);
+                }
+            }
+
+            return faza;
+        }
+
         public static ZComplexDescriptor ATAN_8_11(int k1, int k2, int k3, int k4, ZArrayDescriptor[] zArrayPicture,  double[] fzz, double amplit = 255)
         {
             // 8, 9, 10, 11   ->    Complex[1] 

@@ -2997,14 +2997,46 @@ namespace rab1
             }
             return image;
         }
-
+// Структурированное освещение
         private void моделированиеОстаткаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Structur STRUCTUR = new Structur();
-            STRUCTUR.On_Corr += Correct;            // Скорректировать высоты
+            STRUCTUR.On_Corr += Correct;                    // Скорректировать высоты
             STRUCTUR.On_CorrX += CorrectX;
             STRUCTUR.On_Scale += Correct_Scale;
+            STRUCTUR.On_Sub += Correct_Sub;                 // Вычесть два массива 1-2 => ArrayPicture
+            STRUCTUR.On_Sub_Cos += Correct_Sub_Cos;         // Вычесть два массива
+            STRUCTUR.On_Corr_Sub += Correct_Corr_Sub;       // Вычесть два массива с корректировкой значений по углу
+            STRUCTUR.On_Sub_Line += Correct_Line;
             STRUCTUR.Show();
+        }
+
+        private void Correct_Line(int num)                    // Вычесть два массива
+        {
+            zArrayPicture = Model_object.Sub_Line(zArrayPicture, num);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        }
+
+
+        private void Correct_Corr_Sub(double L, double d, double d1, double x_max)
+        {
+            zArrayDescriptor[2] = Model_object.Correct(zArrayDescriptor[0], L, d, d1, x_max);
+            zArrayDescriptor[3] = Model_object.Correct(zArrayDescriptor[1], L, d, d1, x_max);
+            zArrayPicture = SumClass.Sub_zArray(zArrayDescriptor[2], zArrayDescriptor[3]);
+            Vizual_regImage(2); Vizual_regImage(3);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+
+        }
+        private void Correct_Sub()                    // Вычесть два массива
+        {
+            zArrayPicture = SumClass.Sub_zArray(zArrayDescriptor[0], zArrayDescriptor[1]);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        }
+
+        private void Correct_Sub_Cos()              // Вычесть два массива с помощью Cos
+        {
+            zArrayPicture = Model_object.Sub_zArray_Сos(zArrayDescriptor[0], zArrayDescriptor[1]);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
         }
 
         private void Correct_Scale(double x, int n)

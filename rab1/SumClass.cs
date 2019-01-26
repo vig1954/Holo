@@ -166,7 +166,22 @@ namespace rab1
 
             return res_array;
         }
+        public static ZArrayDescriptor Sub_zArray(ZArrayDescriptor a, ZArrayDescriptor b)
+        {
+            int w1 = a.width;
+            int h1 = a.height;
+            ZArrayDescriptor res_array = new ZArrayDescriptor(w1, h1);
 
+            //double min = getMin(amp);
+
+            for (int i = 0; i < w1; i++)    // По строкам
+                for (int j = 0; j < h1; j++)
+                {
+                    res_array.array[i, j] = a.array[i, j] - b.array[i, j];
+                }
+
+            return res_array;
+        }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>

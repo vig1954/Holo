@@ -50,6 +50,10 @@
             this.button4 = new System.Windows.Forms.Button();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
@@ -246,11 +250,55 @@
             this.label11.TabIndex = 24;
             this.label11.Text = "Номер строки";
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(289, 328);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(265, 24);
+            this.button5.TabIndex = 25;
+            this.button5.Text = "Обычная разность 1-2=> ArrayPicture";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(289, 367);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(265, 38);
+            this.button6.TabIndex = 26;
+            this.button6.Text = "Разность полных фаз 1-2=> ArrayPicture\r\nс корректировкой => 3,4";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(586, 328);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(193, 24);
+            this.button7.TabIndex = 27;
+            this.button7.Text = "Разность по cos 1-2=> ArrayPicture";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(586, 109);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(202, 40);
+            this.button8.TabIndex = 28;
+            this.button8.Text = "Вычесть линейный тренд\r\nпо номеру строки";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
             // Structur
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button8);
+            this.Controls.Add(this.button7);
+            this.Controls.Add(this.button6);
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.textBox7);
             this.Controls.Add(this.button4);
@@ -304,5 +352,9 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
     }
 }
