@@ -238,6 +238,11 @@ namespace UserInterface.DataProcessorViews
             return OutputParameter.GetValue()?.ExtractSelection(selection);
         }
 
+        public IImageHandler Duplicate()
+        {
+            return OutputParameter.GetValue()?.Duplicate();
+        }
+
         private T GetImagePropertyOrDefaultValue<T>(Func<IImageHandler, T> getValue)
         {
             return OutputParameter.HasValue ? getValue(OutputParameter.GetValue()) : (T) typeof(T).GetDefaultValue();

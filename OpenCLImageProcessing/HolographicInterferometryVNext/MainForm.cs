@@ -90,6 +90,22 @@ namespace HolographicInterferometryVNext
 
             workspacePanel1.ContextMenuActions.Add(new WorkspacePanel.ContextMenuAction
             {
+                DisplayCondition = item => item.Data is IImageHandler,
+                Text = "Дублировать",
+                Action = item =>
+                {
+                    var copy = (item.Data as IImageHandler).Duplicate();
+                    ImageHandlerRepository.Add(copy);
+                    
+                    if (copy is ImageHandler imageHandler)
+                        workspacePanel1.AddImageHandler(imageHandler);
+                    else if (copy is IDataProcessorView dataProcessorView)
+                        workspacePanel1.AddDataProcessorView(dataProcessorView);
+                }
+            });
+
+            workspacePanel1.ContextMenuActions.Add(new WorkspacePanel.ContextMenuAction
+            {
                 Text = "Удалить",
                 Action = item =>
                 {
@@ -187,68 +203,7 @@ namespace HolographicInterferometryVNext
 
             return creators.ToArray();
         }
-
-        private void FillMenus_Legacy()
-        {
-            var dataProcessorInfos = DataProcessorsProvider.GetDataProcessorInfos();
-
-            if (!dataProcessorInfos.Any())
-                return;
-
-            var dataProcessorGroups = dataProcessorInfos.ToLookup(pi => pi.DisplayGroup?.ToLower());
-
-            foreach (var groupedDataProcessorInfos in dataProcessorGroups)
-            {
-                foreach (var dataProcessorInfo in groupedDataProcessorInfos)
-                {
-                    var menuItem = new ToolStripMenuItem(dataProcessorInfo.DisplayName)
-                    {
-                        ToolTipText = dataProcessorInfo.DisplayTooltip,
-                    };
-
-                    menuItem.Click += (sender, args) =>
-                    {
-                        var dataProcessor = dataProcessorInfo.CreateNewInstance();
-                        Singleton.Get<DataProcessorRepository>().Add(dataProcessor);
-                        dataProcessor.Initialize();
-                        workspacePanel1.AddDataProcessor(dataProcessor);
-                        
-                        dataProcessor.OnImageFinalize += image =>
-                        {
-                            workspacePanel1.AddImageHandler(image);
-                            var imageHandlerRepository = Singleton.Get<ImageHandlerRepository>();
-
-                            imageHandlerRepository.Add(image);
-
-                            if (dataProcessor is IImageHandler imageHandler)
-                                imageHandlerRepository.Remove(imageHandler);
-
-                            Singleton.Get<DataProcessorRepository>().Remove(dataProcessor);
-                            workspacePanel1.Remove(dataProcessor);
-                        };
-
-                        dataProcessor.OnImageCreate += image =>
-                        {
-                            workspacePanel1.AddImageHandler(image);
-                            var imageHandlerRepository = Singleton.Get<ImageHandlerRepository>();
-
-                            imageHandlerRepository.Add(image);
-                        };
-                    };
-
-                    if (dataProcessorInfo.DisplayMenuItem == "Input")
-                        inputMenuItem.DropDownItems.Add(menuItem);
-                    else
-                        processingMenuItem.DropDownItems.Add(menuItem);
-                }
-
-                processingMenuItem.DropDownItems.Add(new ToolStripSeparator());
-            }
-
-            var lastSeparator = processingMenuItem.DropDownItems.OfType<ToolStripSeparator>().Last();
-            processingMenuItem.DropDownItems.Remove(lastSeparator);
-        }
-
+        
         private void editOpenClProgramCode_Click(object sender, EventArgs e)
         {
             var editor = Application.OpenForms.OfType<OpenClProgramCodeEditor>().SingleOrDefault() ?? new OpenClProgramCodeEditor();

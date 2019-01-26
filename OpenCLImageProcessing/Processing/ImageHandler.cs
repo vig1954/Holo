@@ -56,6 +56,7 @@ namespace Processing
         void DownloadFromComputingDevice();
         Bitmap ToBitmap(int channel = 0);
         IImageHandler ExtractSelection(ImageSelection selection);
+        IImageHandler Duplicate();
     }
 
     public class ImageHandler : IImageHandler, IDisposable
@@ -308,6 +309,50 @@ namespace Processing
             bitmap.UnlockBits(bdata);
             return bitmap;
         }
+
+        public IImageHandler Duplicate()
+        {
+            DownloadFromComputingDevice();
+
+            var newImageHandler = new ImageHandler
+            {
+                Width = this.Width,
+                Height = Height,
+                Data = new byte[Data.Length],
+                Format = Format,
+                PixelFormat = PixelFormat
+            };
+
+            Array.Copy(Data, newImageHandler.Data, Data.Length);
+
+            var title = (string) _tags[ImageHandlerTagKeys.Title] + " copy ";
+
+            var index = Singleton.Get<ImageHandlerRepository>().GetAll()
+                .Select(h => h.GetTitle())
+                .Where(t => t.StartsWith(title))
+                .OrderBy(t => t)
+                .Count() + 1;
+
+            title = $"{title} {index}";
+
+
+            if (_tags.ContainsKey(ImageHandlerTagKeys.MaximumValueF))
+                newImageHandler._tags.Add(ImageHandlerTagKeys.MaximumValueF, (float)_tags[ImageHandlerTagKeys.MaximumValueF]);
+
+            if (_tags.ContainsKey(ImageHandlerTagKeys.MinimumValueF))
+                newImageHandler._tags.Add(ImageHandlerTagKeys.MinimumValueF, (float)_tags[ImageHandlerTagKeys.MinimumValueF]);
+
+            if (_tags.ContainsKey(ImageHandlerTagKeys.MaximumValue2F))
+                newImageHandler._tags.Add(ImageHandlerTagKeys.MaximumValue2F, (float)_tags[ImageHandlerTagKeys.MaximumValue2F]);
+
+            if (_tags.ContainsKey(ImageHandlerTagKeys.MinimumValue2F))
+                newImageHandler._tags.Add(ImageHandlerTagKeys.MinimumValue2F, (float)_tags[ImageHandlerTagKeys.MinimumValue2F]);
+
+            newImageHandler._tags.Add(ImageHandlerTagKeys.Title, title);
+            newImageHandler._tags.Add(ImageHandlerTagKeys.Thumbnail, ((Bitmap)_tags[ImageHandlerTagKeys.Thumbnail]).Clone());
+
+            return newImageHandler;
+        }
         
         public static ImageHandler FromBitmap(Bitmap bmp, string title = null)
         {
@@ -339,12 +384,15 @@ namespace Processing
 
         public static ImageHandler Create(string title, int width, int height, ImageFormat imageFormat, ImagePixelFormat imagePixelFormat)
         {
-            var imageHandler = new ImageHandler();
-            imageHandler.Data = new byte[width * height * imageFormat.GetAttribute<ChannelsCountAttribute>().Value * imagePixelFormat.GetAttribute<SizeInBytesAttribute>().Value];
-            imageHandler.Width = width;
-            imageHandler.Height = height;
-            imageHandler.PixelFormat = imagePixelFormat;
-            imageHandler.Format = imageFormat;
+            var imageHandler = new ImageHandler
+            {
+                Data = new byte[width * height * imageFormat.GetAttribute<ChannelsCountAttribute>().Value *
+                                imagePixelFormat.GetAttribute<SizeInBytesAttribute>().Value],
+                Width = width,
+                Height = height,
+                PixelFormat = imagePixelFormat,
+                Format = imageFormat
+            };
             imageHandler._tags.Add(ImageHandlerTagKeys.Title, title);
             imageHandler._tags.Add(ImageHandlerTagKeys.Thumbnail, Utils.ThumbnailGenerator.Generate());
             imageHandler.Update();
