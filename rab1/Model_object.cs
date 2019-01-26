@@ -875,6 +875,8 @@ namespace rab1
             ZArrayDescriptor zArray = new ZArrayDescriptor(w1, h1);
 
             for (int j = 0; j < h1; j++)
+            {
+                for (int i = 0; i < w1; i++) zArray.array[i, j] = -1;
                 for (int i = 0; i < w1; i++)
                 {
 
@@ -889,6 +891,7 @@ namespace rab1
                     double h = ac * Math.Sin(f);
                     double dx = ac * Math.Cos(f);
                     double x = xi + dx;
+                    //int ix = (int)Math.Round(x * w1 / d1);
                     int ix = (int)(x * w1 / d1);
                     if (ix < w1 && ix > 0) zArray.array[ix, j] = h;
                     //zArray.array[i, j] = ac;
@@ -911,6 +914,24 @@ namespace rab1
                                        // zArray.array[i, j] = h;
                                        */
                 }
+
+                for (int i = 0; i < w1; i++)
+                {
+                    
+
+                    if (zArray.array[i, j] == -1)
+                    {
+                        int i1 = i;
+                        while (i1 >= 1)
+                            {
+                                       i1--;
+                                       if (zArray.array[i1, j] != -1) { zArray.array[i, j] = zArray.array[i1, j]; break; }
+                             }
+                    }
+
+                }
+
+        }
 
 
             return zArray;
