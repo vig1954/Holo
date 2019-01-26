@@ -31,6 +31,7 @@
             this.TitleLabel = new System.Windows.Forms.Label();
             this.InfoLabel = new System.Windows.Forms.Label();
             this.IconPictureBox = new System.Windows.Forms.PictureBox();
+            this.ChangeNameTextBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.IconPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -43,6 +44,7 @@
             this.TitleLabel.Size = new System.Drawing.Size(47, 13);
             this.TitleLabel.TabIndex = 1;
             this.TitleLabel.Text = "[Name]";
+            this.TitleLabel.DoubleClick += new System.EventHandler(this.TitleLabel_DoubleClick);
             // 
             // InfoLabel
             // 
@@ -63,10 +65,22 @@
             this.IconPictureBox.Click += new System.EventHandler(this.IconPictureBox_Click);
             this.IconPictureBox.DoubleClick += new System.EventHandler(this.IconPictureBox_DoubleClick);
             // 
+            // ChangeNameTextBox
+            // 
+            this.ChangeNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ChangeNameTextBox.Location = new System.Drawing.Point(3, 0);
+            this.ChangeNameTextBox.Name = "ChangeNameTextBox";
+            this.ChangeNameTextBox.Size = new System.Drawing.Size(502, 20);
+            this.ChangeNameTextBox.TabIndex = 3;
+            this.ChangeNameTextBox.Visible = false;
+            this.ChangeNameTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ChangeNameTextBox_KeyDown);
+            // 
             // WorkspacePanelItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.ChangeNameTextBox);
             this.Controls.Add(this.InfoLabel);
             this.Controls.Add(this.TitleLabel);
             this.Controls.Add(this.IconPictureBox);
@@ -83,5 +97,6 @@
         private System.Windows.Forms.PictureBox IconPictureBox;
         private System.Windows.Forms.Label TitleLabel;
         private System.Windows.Forms.Label InfoLabel;
+        private System.Windows.Forms.TextBox ChangeNameTextBox;
     }
 }

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Common;
 using Processing;
 using UserInterface.DataProcessorViews;
 
@@ -16,6 +17,16 @@ namespace UserInterface.WorkspacePanel
         {
             DataProcessorView = dataProcessorView;
             DataProcessorView.OnUpdated += UpdateView;
+
+            View.TitleChanged += t =>
+            {
+                var imageHandler = DataProcessorView.GetOutputValues().OfType<IImageHandler>().SingleOrDefault();
+
+                if (imageHandler == null)
+                    return;
+
+                imageHandler.Tags.SetOrAdd(ImageHandlerTagKeys.Title, t);
+            };
         }
 
         public void UpdateView()

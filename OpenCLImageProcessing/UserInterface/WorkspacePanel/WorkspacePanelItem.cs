@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Common;
 
 namespace UserInterface.WorkspacePanel
 {
@@ -16,6 +17,9 @@ namespace UserInterface.WorkspacePanel
         private Color SelectedBackground = SystemColors.Highlight;
         
         public bool Selected { get; private set; }
+
+        public event Action<string> TitleChanged;
+
         public WorkspacePanelItem()
         {
             InitializeComponent();
@@ -57,6 +61,30 @@ namespace UserInterface.WorkspacePanel
         private void IconPictureBox_Click(object sender, EventArgs e)
         {
             OnClick(e);
+        }
+
+        private void TitleLabel_DoubleClick(object sender, EventArgs e)
+        {
+            TitleLabel.Hide();
+            ChangeNameTextBox.Text = TitleLabel.Text;
+            ChangeNameTextBox.Show();
+            ChangeNameTextBox.Focus();
+            ChangeNameTextBox.SelectAll();
+        }
+
+        private void ChangeNameTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter && !ChangeNameTextBox.Text.Trim().IsNullOrEmpty())
+            {
+                TitleLabel.Text = ChangeNameTextBox.Text;
+                TitleChanged?.Invoke(TitleLabel.Text);
+            }
+
+            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Escape)
+            {
+                ChangeNameTextBox.Hide();
+                TitleLabel.Show();
+            }
         }
     }
 }
