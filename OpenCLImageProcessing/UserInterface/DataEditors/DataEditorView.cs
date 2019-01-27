@@ -12,7 +12,6 @@ using Processing.Computing;
 using UserInterface.DataEditors.InterfaceBinding;
 using UserInterface.DataEditors.Renderers;
 using UserInterface.DataEditors.Tools;
-using UserInterface.DataProcessorViews;
 
 // ReSharper disable All
 
@@ -30,7 +29,7 @@ namespace UserInterface.DataEditors
 
         public object Data => _renderer?.GetData();
         public bool HasData => Data != null;
-        
+
         public DataEditorView()
         {
             InitializeComponent();
@@ -46,15 +45,12 @@ namespace UserInterface.DataEditors
 
             renderer.SetData(data);
             SetRenderer(renderer);
-            
-            containerHeader1.Text = $"[{renderer.GetType().Name} - {renderer.GetData().GetType().Name}] {renderer.GetTitle()}";
 
-            // TODO: hack - переместить логику в надлежащее место
-//            if (data is IDataProcessorView dataProcessorView)
-//                dataProcessorView.Compute();
+            containerHeader1.Text = $"[{renderer.GetType().Name} - {renderer.GetData().GetType().Name}] {renderer.GetTitle()}";
 
             Redraw();
         }
+
         public void UpdateRendererControls()
         {
             _rightPanelInterfaceController.BindObjectToInterface(_renderer);
@@ -97,7 +93,7 @@ namespace UserInterface.DataEditors
 
         private void ClearToolPanel()
         {
-            tsToolPanel.Items.Clear();   
+            tsToolPanel.Items.Clear();
         }
 
         private void FillToolPanel(ITool tool)
@@ -118,7 +114,7 @@ namespace UserInterface.DataEditors
 
             _renderer = renderer;
             renderer.Resize(_glControl.ClientSize);
-      
+
             UpdateRendererControls();
             UpdateRendererTools();
 
@@ -130,7 +126,7 @@ namespace UserInterface.DataEditors
         {
             Redraw();
         }
-        
+
         private void Clear()
         {
             _tool?.Deactivate();
@@ -141,6 +137,7 @@ namespace UserInterface.DataEditors
             ClearToolPanel();
             rightPanel.Controls.Clear();
         }
+
         private void DataEditorView_Load(object sender, EventArgs e)
         {
             if (IsInDesignMode)
@@ -148,7 +145,7 @@ namespace UserInterface.DataEditors
                 containerHeader1.Text = "DESIGNER MODE";
                 return;
             }
-            
+
             containerHeader1.Text = "";
 
             InitializeGlControl();

@@ -7,7 +7,7 @@ using Processing;
 
 namespace UserInterface.DataProcessorViews
 {
-    public interface IDataProcessorView
+    public interface IDataProcessorView: IDisposable
     {
         DataProcessorInfo Info { get; }
 

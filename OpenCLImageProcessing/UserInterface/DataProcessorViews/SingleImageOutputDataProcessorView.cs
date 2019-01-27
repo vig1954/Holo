@@ -97,7 +97,8 @@ namespace UserInterface.DataProcessorViews
                 if (imageHandlerInput != null)
                 {
                     var outputImageFilterAttribute = OutputParameter.GetAttribute<ImageHandlerFilterAttribute>();
-                    CreateOrUpdateOutputWithSameParametres(imageHandlerInput.GetValue(), Info.Name + " result", outputImageFilterAttribute?.GetAllowedPixelFormats().FirstOrDefault(), outputImageFilterAttribute?.GetAllowedImageFormats().FirstOrDefault());
+                    CreateOrUpdateOutputWithSameParametres(imageHandlerInput.GetValue(), Info.Name + " result", outputImageFilterAttribute?.GetAllowedPixelFormats().FirstOrDefault(),
+                        outputImageFilterAttribute?.GetAllowedImageFormats().FirstOrDefault());
                 }
                 else
                 {
@@ -117,8 +118,7 @@ namespace UserInterface.DataProcessorViews
                 }
 
                 // Output может быть единственным ImageHangler-ом. Нужно добавить механизм для указания параметров, представляющих размеры изображения
-
-                using (StartOperationScope(_outputImageParametersUpdated, imageHandlerParameters.Select(p => p.GetValue()).Concat(new[] { OutputParameter.GetValue() }).ToArray()))
+                using (StartOperationScope(_outputImageParametersUpdated, imageHandlerParameters.Select(p => p.GetValue()).Concat(new[] {OutputParameter.GetValue()}).ToArray()))
                 {
                     Invoke();
                 }
@@ -128,12 +128,17 @@ namespace UserInterface.DataProcessorViews
                     var counterAttribute = counterParameter.GetAttribute<CounterAttribute>();
 
                     if (counterParameter is DataProcessorParameter<int> intParameter)
-                        intParameter.SetValue(intParameter.GetValue() + (int)counterAttribute.Increment, this);
+                        intParameter.SetValue(intParameter.GetValue() + (int) counterAttribute.Increment, this);
 
                     if (counterParameter is DataProcessorParameter<float> floatParameter)
                         floatParameter.SetValue(floatParameter.GetValue() + counterAttribute.Increment, this);
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            OutputParameter?.GetValue().FreeComputingDevice();
         }
 
         protected void CreateOrUpdateOutputWithSameParametres(IImageHandler image, string title, ImagePixelFormat? pixelFormat = null, ImageFormat? format = null)

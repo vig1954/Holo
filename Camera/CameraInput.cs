@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Common;
 using Infrastructure;
@@ -18,7 +17,7 @@ using UserInterface.DataEditors.InterfaceBinding.BindingEvents;
 namespace Camera
 {
     [DataProcessor(MenuItem = "Input", Group = "ImageInput", Name = "Camera", Tooltip = "Получение изображний с фотоаппарата, с возможностью управления зеркалом на пьезокерамике")]
-    public class CameraInput //: SingleImageOutputDataProcessorBase
+    public class CameraInput
     {
         private const string DontApplySelectionName = "Не обрезать";
         private readonly ImageHandler[] _images = new ImageHandler[4];

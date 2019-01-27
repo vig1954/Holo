@@ -12,7 +12,6 @@ using Common;
 using Infrastructure;
 using Processing;
 using Processing.Computing;
-using Processing.DataProcessors;
 using UserInterface.DataEditors.InterfaceBinding;
 using UserInterface.DataEditors.Renderers;
 using UserInterface.DataProcessorViews;
@@ -210,9 +209,9 @@ namespace HolographicInterferometryVNext
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            foreach (IDataProcessor dataProcessor in Singleton.Get<DataProcessorRepository>().GetAll())
+            foreach (var dataProcessorView in DataProcessorViewRepository.GetAll())
             {
-                dataProcessor.Dispose();
+                dataProcessorView.Dispose();
             }
 
             foreach (IImageHandler handler in Singleton.Get<ImageHandlerRepository>().GetAll())
