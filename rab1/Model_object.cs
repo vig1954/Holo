@@ -868,11 +868,39 @@ namespace rab1
         {
             int w1 = zArrayPicture.width;
             int h1 = zArrayPicture.height;
-
-            double max = SumClass.getMax(zArrayPicture);
-            double min = SumClass.getMin(zArrayPicture);
-
+           
             ZArrayDescriptor zArray = new ZArrayDescriptor(w1, h1);
+
+            //MessageBox.Show(" Расстояние до объекта = " + L + " до камеры от начала объекта = " + d + " размер объекта = " + d1+ " максимальное смещение = " + x_max);
+
+            double max = double.MinValue;
+            double min = double.MaxValue;
+
+         
+              for (int i = 0; i < w1; i++)
+                {
+                    double xi = i * d1 / w1;
+                    double f  = Math.Atan(L / (d - xi));
+                    double ac = zArrayPicture.array[i, 170];
+                    double h  = ac * Math.Sin(f);
+                    if (h > max) max = h;
+                    if (h < min) min = h;
+                }
+
+            double max1 = double.MinValue;
+            double min1 = double.MaxValue;
+            for (int i = 0; i < w1; i++)
+            {
+                double xi = i * d1 / w1;
+                double f = Math.Atan(L / (d - xi));
+                double ac = zArrayPicture.array[i, 170];
+                double h = ac * Math.Sin(f);
+                h = (h - min) * x_max / (max - min);
+                double dx = h / Math.Tan(f);
+                if (dx > max1) max1 = dx;
+                if (dx < min1) min1 = dx;
+            }
+            MessageBox.Show(" max dx = " + max1 + " min dx= " + min1);
 
             for (int j = 0; j < h1; j++)
             {
@@ -881,44 +909,21 @@ namespace rab1
                 {
 
                     double xi = i * d1 / w1;
-                    //  double x = line_x(0,0, d1, x_max, xi, 0, d, L);
-
-                    // int ix = (int)(x * w1 / d1);
-                    // if (ix < w1 && ix > 0) h = zArrayPicture.array[ix, j]; else h = 0;
-
+                   
                     double f = Math.Atan(L / (d - xi));
                     double ac = zArrayPicture.array[i, j];
                     double h = ac * Math.Sin(f);
-                    double dx = ac * Math.Cos(f);
+                    h = (h - min) * x_max / (max - min);
+                    double dx = h / Math.Tan(f);
                     double x = xi + dx;
-                    //int ix = (int)Math.Round(x * w1 / d1);
-                    int ix = (int)(x * w1 / d1);
+                    int ix = (int)Math.Round(x * w1 / d1);
+                    //int ix = (int)(x * w1 / d1);
                     if (ix < w1 && ix > 0) zArray.array[ix, j] = h;
-                    //zArray.array[i, j] = ac;
-                    /*
-                                        double h = zArrayPicture.array[i, j]*x_max / (max-min);
-                                        double x = i * d1 / w1;
-                                        double f = Math.Atan(L / (d - x));
-
-                                        double dx = h * Math.Tan(f);
-                                        x = x + dx;
-                                        int ix = (int)(x * w1 / d1);
-                                        if (ix < w1 && ix > 0) zArray.array[ix, j] = h;
-
-
-                                        double ac = h * Math.Sin(f);
-
-                                        x = x + dx;
-                                       int ix =(int)(x * w1 / d1);
-                                        if (ix < w1 && ix > 0) zArray.array[ix, j] = h;
-                                       // zArray.array[i, j] = h;
-                                       */
+                   
                 }
 
                 for (int i = 0; i < w1; i++)
                 {
-                    
-
                     if (zArray.array[i, j] == -1)
                     {
                         int i1 = i;
@@ -926,7 +931,7 @@ namespace rab1
                             {
                                        i1--;
                                        if (zArray.array[i1, j] != -1) { zArray.array[i, j] = zArray.array[i1, j]; break; }
-                             }
+                            }
                     }
 
                 }

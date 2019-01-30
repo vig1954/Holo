@@ -201,6 +201,58 @@ namespace rab1.Forms
             return faza;
         }
 
+        public static ZArrayDescriptor ATAN_Faza_Carre(ZArrayDescriptor[] zArray, int regComplex, ProgressBar progressBar1)
+        {
+            // regComplex   ->    Главное окно
+
+            int w1 = zArray[regComplex * 4].width;
+            int h1 = zArray[regComplex * 4].height;
+
+            ZArrayDescriptor faza = new ZArrayDescriptor(w1, h1);
+
+
+            progressBar1.Visible = true;
+            progressBar1.Minimum = 1;
+            progressBar1.Maximum = w1 - 1;
+            progressBar1.Value = 1;
+            progressBar1.Step = 1;
+
+            for (int i = 0; i < w1; i++)
+            {
+                for (int j = 0; j < h1; j++)
+                {
+                    double i1 = zArray[regComplex * 4].array[i, j];
+                    double i2 = zArray[regComplex * 4 + 1].array[i, j];
+                    double i3 = zArray[regComplex * 4 + 2].array[i, j];
+                    double i4 = zArray[regComplex * 4 + 3].array[i, j];
+
+                    double i23 = i2 - i3;
+                    double i14 = i2 - i3;
+                    int zsn = Math.Sign(-i23);  
+                    //int zcn = Math.Sign((i2+i3) - (i1+i4));
+
+                    double sn = Math.Sqrt(   (i14 + i23)*(i23+ i23 + i23 - i14)  ) ;
+                    double cn = (i2+i3)-(i1+i4);
+
+
+
+                    faza.array[i, j] = 2 * Math.PI - (Math.Atan2(zsn * sn, cn) + Math.PI);
+                    //faza.array[i, j] = Math.Atan2(zsn*sn, cn);
+                }
+                progressBar1.PerformStep();
+
+
+            }
+            progressBar1.Value = 1;
+            return faza;
+        }
+
+
+
+
+
+
+
         public static ZComplexDescriptor ATAN_8_11(int k1, int k2, int k3, int k4, ZArrayDescriptor[] zArrayPicture,  double[] fzz, double amplit = 255)
         {
             // 8, 9, 10, 11   ->    Complex[1] 
@@ -472,7 +524,7 @@ namespace rab1.Forms
             
         }
 
-        public static ZArrayDescriptor Maska(ZArrayDescriptor[] zArrayPicture, int k1, int k2)
+/*        public static ZArrayDescriptor Maska(ZArrayDescriptor[] zArrayPicture, int k1, int k2)
         {
 
             int nx = zArrayPicture[k2].width;
@@ -490,7 +542,7 @@ namespace rab1.Forms
                 }
             return res;
         }
-
+*/
         //------------------------------------------------------------------------------------------
     }
 }

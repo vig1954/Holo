@@ -352,7 +352,20 @@ namespace rab1
             Vizual_regImage(regComplex * 4 + 2);
             Vizual_regImage(regComplex * 4 + 3);
         }
+        // Простое вырезение прямоугольника zArrayPicture
+        private void выделениеПрямоугольникаИзЦентральногоОкнаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Coords[] X = new Coords[4];
 
+            X[0] = new Coords(Convert.ToDouble(textBox3.Text), Convert.ToDouble(textBox4.Text));
+            X[1] = new Coords(Convert.ToDouble(textBox5.Text), Convert.ToDouble(textBox6.Text));
+            X[2] = new Coords(Convert.ToDouble(textBox7.Text), Convert.ToDouble(textBox8.Text));
+            X[3] = new Coords(Convert.ToDouble(textBox9.Text), Convert.ToDouble(textBox10.Text));
+
+            zArrayPicture = File_Change_Size.Change_rectangle(zArrayPicture, X);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+
+        }
 
         private void рисованиеПрямоугольникаToolStripMenuItem_Click(object sender, EventArgs e) // Рисование прямоугольника по 4 выделенным точкам в zArrayPicture
         {
@@ -2788,10 +2801,12 @@ namespace rab1
         {
             PSI PSIForm = new PSI();
             PSIForm.OnPSI   += FormPSI;              // PSI амплитуда и фаза =>  (8,9,10,11)
-            PSIForm.OnPSI1  += FormPSI1;             // PSI  фазы (1,2,3,4) -> 5
+            PSIForm.OnPSI1  += FormPSI1;             // PSI  фазы (1,2,3,4) -> в Главное  окно
+            PSIForm.OnPSI_Carre += FormPSI_Carre;    // PSI Carre фазы (1,2,3,4) -> в Главное  окно
+
             PSIForm.OnIMAX  += FormIMAX;             // Квантование (8,9,10,11)
             PSIForm.OnIMAX1 += FormIMAX1;            // Квантование одного кадра
-            PSIForm.OnMaska += FormMaska;            // Наложение маски
+            //PSIForm.OnMaska += FormMaska;            // Наложение маски
             PSIForm.OnSdvg   += FormSdvg;              // Фигуры Лиссажу
 
             PSIForm.Show();
@@ -2815,6 +2830,12 @@ namespace rab1
         {
 
             zArrayPicture = ATAN_PSI.ATAN(zArrayDescriptor, regComplex, fz);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        }
+
+        private void FormPSI_Carre()
+        {
+            zArrayPicture = ATAN_PSI.ATAN_Faza_Carre(zArrayDescriptor, regComplex, progressBar1);
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
         }
 
@@ -2847,11 +2868,12 @@ namespace rab1
 
         }
 
-		private void FormMaska(int k1, int k2, int k3)
+/*		private void FormMaska(int k1, int k2, int k3)
         {
             zArrayDescriptor[k3] = ATAN_PSI.Maska(zArrayDescriptor, k1, k2);
             Vizual_regImage(k3);
         }
+*/
 //
 //                  Устранение фона по трем точкам
 //
@@ -3020,9 +3042,11 @@ namespace rab1
 
         private void Correct_Corr_Sub(double L, double d, double d1, double x_max)
         {
-            zArrayDescriptor[2] = Model_object.Correct(zArrayDescriptor[0], L, d, d1, x_max);
-            zArrayDescriptor[3] = Model_object.Correct(zArrayDescriptor[1], L, d, d1, x_max);
-            zArrayPicture = SumClass.Sub_zArray(zArrayDescriptor[2], zArrayDescriptor[3]);
+            //zArrayDescriptor[2] = Model_object.Correct(zArrayDescriptor[0], L, d, d1, x_max);
+            //zArrayDescriptor[3] = Model_object.Correct(zArrayDescriptor[1], L, d, d1, x_max);
+            //zArrayPicture = SumClass.Sub_zArray(zArrayDescriptor[0], zArrayDescriptor[1]);
+            zArrayDescriptor[2] = SumClass.Sub_zArray(zArrayDescriptor[0], zArrayDescriptor[1]);
+            zArrayDescriptor[3] = Model_object.Correct(zArrayDescriptor[2], L, d, d1, x_max);
             Vizual_regImage(2); Vizual_regImage(3);
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
 
@@ -3061,6 +3085,7 @@ namespace rab1
         }
 
        
+
         // private void модельОбъектаToolStripMenuItem(object sender, EventArgs e)
         // {
 

@@ -41,11 +41,8 @@
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.textBox13 = new System.Windows.Forms.TextBox();
-            this.textBox14 = new System.Windows.Forms.TextBox();
             this.button6 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -151,47 +148,13 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(24, 284);
+            this.button4.Location = new System.Drawing.Point(24, 281);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(392, 23);
             this.button4.TabIndex = 13;
             this.button4.Text = "PSI (regComplex) Фаза -> Главное окно";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(226, 328);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(132, 23);
-            this.button5.TabIndex = 19;
-            this.button5.Text = "Наложение маски ->";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // textBox7
-            // 
-            this.textBox7.Location = new System.Drawing.Point(373, 328);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(40, 20);
-            this.textBox7.TabIndex = 20;
-            this.textBox7.Text = "3";
-            // 
-            // textBox13
-            // 
-            this.textBox13.Location = new System.Drawing.Point(107, 331);
-            this.textBox13.Name = "textBox13";
-            this.textBox13.Size = new System.Drawing.Size(40, 20);
-            this.textBox13.TabIndex = 21;
-            this.textBox13.Text = "1";
-            // 
-            // textBox14
-            // 
-            this.textBox14.Location = new System.Drawing.Point(172, 330);
-            this.textBox14.Name = "textBox14";
-            this.textBox14.Size = new System.Drawing.Size(40, 20);
-            this.textBox14.TabIndex = 22;
-            this.textBox14.Text = "2";
             // 
             // button6
             // 
@@ -203,16 +166,23 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(24, 332);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(392, 23);
+            this.button5.TabIndex = 24;
+            this.button5.Text = "PSI (regComplex) Фаза Carre -> Главное окно";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // PSI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(425, 405);
-            this.Controls.Add(this.button6);
-            this.Controls.Add(this.textBox14);
-            this.Controls.Add(this.textBox13);
-            this.Controls.Add(this.textBox7);
             this.Controls.Add(this.button5);
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.textBox6);
@@ -248,10 +218,7 @@
         private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.TextBox textBox7;
-        private System.Windows.Forms.TextBox textBox13;
-        private System.Windows.Forms.TextBox textBox14;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button5;
     }
 }

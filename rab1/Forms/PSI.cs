@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 public delegate void DelegatPSI(double[] fz, double am);
 public delegate void DelegatIMAX(int imax);
-public delegate void DelegatMaska(int k1, int k2, int k3);
+//public delegate void DelegatMaska(int k1, int k2, int k3);
 public delegate void DelegatLis(double[] fz);
 public delegate void DelegatSdvg();
 
@@ -19,9 +19,10 @@ namespace rab1.Forms
     {
         public event DelegatPSI    OnPSI;
         public event DelegatLis    OnPSI1;
+        public event DelegatSdvg   OnPSI_Carre;
         public event DelegatIMAX   OnIMAX;
         public event DelegatIMAX   OnIMAX1;
-        public event DelegatMaska  OnMaska;
+       // public event DelegatMaska  OnMaska;
         public event DelegatSdvg   OnSdvg;
 
 
@@ -29,9 +30,9 @@ namespace rab1.Forms
         private static double am = 255;
         private static int imax = 255;
       
-        private static int km1 = 1;
-        private static int km2 = 2;
-        private static int km3 = 3;
+        //private static int km1 = 1;
+        //private static int km2 = 2;
+        //private static int km3 = 3;
 
         public PSI()
         {
@@ -45,9 +46,9 @@ namespace rab1.Forms
 
             
 
-            textBox13.Text = Convert.ToString(km1);
-            textBox14.Text = Convert.ToString(km2);
-            textBox7.Text = Convert.ToString(km3);
+           // textBox13.Text = Convert.ToString(km1);
+          //  textBox14.Text = Convert.ToString(km2);
+           // textBox7.Text = Convert.ToString(km3);
 
         }
        
@@ -97,21 +98,28 @@ namespace rab1.Forms
             Close();
 
         }
-
-        private void button5_Click(object sender, EventArgs e)  // Наложение маски
-        {
-            km1 = Convert.ToInt32(textBox13.Text);
-            km2 = Convert.ToInt32(textBox14.Text);
-            km3 = Convert.ToInt32(textBox7.Text);
-            OnMaska(km1-1 , km2 - 1, km3 - 1);
+        private void button5_Click(object sender, EventArgs e) // PSI Carre regCpmplex -> Главное окно
+        { 
+            OnPSI_Carre();
             Close();
         }
 
+        /*      private void button5_Click(object sender, EventArgs e)  // Наложение маски
+               {
+                   km1 = Convert.ToInt32(textBox13.Text);
+                   km2 = Convert.ToInt32(textBox14.Text);
+                   km3 = Convert.ToInt32(textBox7.Text);
+                  // OnMaska(km1-1 , km2 - 1, km3 - 1);
+                   Close();
+               }
+       */
         private void button6_Click(object sender, EventArgs e)  //  Угол из regComplex
         {
             OnSdvg();
             Close();
 
         }
+
+        
     }
 }

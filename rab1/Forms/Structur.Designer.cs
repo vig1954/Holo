@@ -264,9 +264,10 @@
             // 
             this.button6.Location = new System.Drawing.Point(289, 367);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(265, 38);
+            this.button6.Size = new System.Drawing.Size(265, 52);
             this.button6.TabIndex = 26;
-            this.button6.Text = "Разность полных фаз 1-2=> ArrayPicture\r\nс корректировкой => 3,4";
+            this.button6.Text = "Разность полных фаз 1-2=> ArrayPicture\r\nРазность => 3\r\nРазность с корректировкой " +
+    "=> 4";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
