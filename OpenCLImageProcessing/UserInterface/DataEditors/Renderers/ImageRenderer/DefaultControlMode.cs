@@ -15,14 +15,14 @@ namespace UserInterface.DataEditors.Renderers.ImageRenderer
             _renderer = renderer;
         }
 
-        [BindToUI("По размеру окна", "Zoom")]
+        [BindToUI("По размеру окна")]
         public void ZoomFit()
         {
             _renderer.ZoomFit();
             _renderer.RequestUpdate();
         }
 
-        [BindToUI("По размеру изображения", "Zoom")]
+        [BindToUI("По размеру изображения")]
         public void ZoomEqual()
         {
             _renderer.ZoomEquals();

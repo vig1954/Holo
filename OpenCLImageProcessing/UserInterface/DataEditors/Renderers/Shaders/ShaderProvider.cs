@@ -4,13 +4,14 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Common;
+using Infrastructure;
 using Processing;
 
 namespace UserInterface.DataEditors.Renderers.Shaders
 {
     public class ShaderProvider
     {
-        private List<IImageShader> _cachedShaders = new List<IImageShader>();
+        private Dictionary<int, List<IImageShader>> _cachedShaders = new Dictionary<int, List<IImageShader>>();
 
         public T Get<T>() where T : IImageShader
         {
@@ -22,11 +23,16 @@ namespace UserInterface.DataEditors.Renderers.Shaders
             if (!t.IsClass || t.IsAbstract)
                 throw new InvalidOperationException();
 
-            if (_cachedShaders.Any(t.IsInstanceOfType))
-                return _cachedShaders.Single(t.IsInstanceOfType);
+            // todo убрать логику в какой-нибудь провайдер
+            var editorId = DataEditorView.CurrentlyUpdatingEditorId ?? Singleton.Get<DataEditorManager>().GetActive()?.Id ?? throw new InvalidOperationException();
+            if (!_cachedShaders.ContainsKey(editorId))
+                _cachedShaders.Add(editorId, new List<IImageShader>());
+
+            if (_cachedShaders[editorId].Any(t.IsInstanceOfType))
+                return _cachedShaders[editorId].Single(t.IsInstanceOfType);
 
             var shader = (IImageShader)Activator.CreateInstance(t);
-            _cachedShaders.Add(shader);
+            _cachedShaders[editorId].Add(shader);
 
             return shader;
         }

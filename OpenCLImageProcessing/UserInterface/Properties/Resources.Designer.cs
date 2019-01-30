@@ -63,6 +63,26 @@ namespace UserInterface.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap application__minus {
+            get {
+                object obj = ResourceManager.GetObject("application__minus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap application__plus {
+            get {
+                object obj = ResourceManager.GetObject("application__plus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap arrow_state_blue_collapsed_8599 {
             get {
                 object obj = ResourceManager.GetObject("arrow_state_blue_collapsed_8599", resourceCulture);
@@ -126,6 +146,16 @@ namespace UserInterface.Properties {
         internal static System.Drawing.Bitmap chevron_collapse_9378 {
             get {
                 object obj = ResourceManager.GetObject("chevron_collapse_9378", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap cross {
+            get {
+                object obj = ResourceManager.GetObject("cross", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -236,6 +266,36 @@ namespace UserInterface.Properties {
         internal static System.Drawing.Bitmap icons8_opened_folder_40 {
             get {
                 object obj = ResourceManager.GetObject("icons8_opened_folder_40", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap layers_arrange {
+            get {
+                object obj = ResourceManager.GetObject("layers_arrange", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap layout_split {
+            get {
+                object obj = ResourceManager.GetObject("layout_split", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap layout_split_vertical {
+            get {
+                object obj = ResourceManager.GetObject("layout_split_vertical", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

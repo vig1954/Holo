@@ -79,7 +79,6 @@ namespace Processing.Computing
 
             processor.Compute(input, output, wavelength, distance, objectSize, cyclicShift);
         }
-
         #endregion
     }
 }

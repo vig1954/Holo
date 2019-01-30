@@ -26,7 +26,7 @@ namespace Infrastructure
         {
             if (_singletones.OfType<T>().Any())
                 throw new InvalidOperationException($"Instance of type {typeof(T).Name} is already registered.");
-            
+
             _singletones.Add(instance);
         }
     }

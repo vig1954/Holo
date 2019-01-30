@@ -71,7 +71,8 @@ namespace Processing.Computing
         }
 
         [DataProcessor("Интерференция", ProcessorGroups.Computing)]
-        public static void Interference(IImageHandler image1, IImageHandler image2, [Range(0, 360), Precision(0), DefaultValue(0)] float delta, IImageHandler output)
+        public static void Interference(IImageHandler image1, IImageHandler image2, [Range(0, 360), Precision(0), DefaultValue(0)]
+            float delta, IImageHandler output)
         {
             if (!image1.SizeEquals(image1) || !output.SizeEquals(image1))
                 throw new InvalidOperationException("Изображения должны быть одинакового размера.");
@@ -80,7 +81,7 @@ namespace Processing.Computing
         }
 
         [DataProcessor("Бесконечное накопление", ProcessorGroups.Computing)]
-        public static void Accumulate(IImageHandler input, [Counter]float counter, IImageHandler output)
+        public static void Accumulate(IImageHandler input, [Counter] float counter, IImageHandler output)
         {
             if (!input.SizeEquals(output))
                 throw new InvalidOperationException("Изображения должны быть одинакового размера.");

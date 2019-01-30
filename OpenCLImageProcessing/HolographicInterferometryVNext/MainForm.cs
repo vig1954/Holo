@@ -12,6 +12,7 @@ using Common;
 using Infrastructure;
 using Processing;
 using Processing.Computing;
+using UserInterface.DataEditors;
 using UserInterface.DataEditors.InterfaceBinding;
 using UserInterface.DataEditors.Renderers;
 using UserInterface.DataProcessorViews;
@@ -25,6 +26,7 @@ namespace HolographicInterferometryVNext
     {
         public DataProcessorViewRepository DataProcessorViewRepository { get; set; }
         public ImageHandlerRepository ImageHandlerRepository { get; set; }
+        public DataEditorManager DataEditorManager { get; set; }
 
         public MainForm()
         {
@@ -38,32 +40,57 @@ namespace HolographicInterferometryVNext
         {
             AppDomain.CurrentDomain.Load(new AssemblyName("Camera"));
 
+            DataEditorManager = new DataEditorManager(dataEditorView1);
+            Singleton.Register(DataEditorManager);
+            DataEditorManager.SetActive(dataEditorView1);
+
+            InitializeWorkspacePanel();
+
+            FillMenus();
+
+
+            var lastSessionValuesJson = Properties.Settings.Default.SessionValues;
+
+            if (!lastSessionValuesJson.IsNullOrEmpty())
+                Singleton.Get<SessionValues>().FromJson(lastSessionValuesJson);
+
+            timer1.Start();
+
+            ValueBindingSynchronizer.ValueUpdateStarted += UpdateManager.Lock;
+            ValueBindingSynchronizer.ValueUpdateFinished += UpdateManager.Unlock;
+        }
+
+        private void InitializeWorkspacePanel()
+        {
             workspacePanel1.OnItemAdded += item =>
             {
-                dataEditor1.EditorView.SetData(item.Data);
-                workspacePanel1.MarkItemSelected(item.View);
+                var activeEditor = DataEditorManager.GetActive();
+
+                if (activeEditor != null && !activeEditor.HasData)
+                {
+                    activeEditor.SetData(item.Data);
+                    // workspacePanel1.MarkItemSelected(item.View);
+                }
             };
 
             workspacePanel1.OnItemDoubleClick += (item, me) =>
             {
                 if (!item.View.Selected && me.Button == MouseButtons.Left)
                 {
-                    dataEditor1.EditorView.SetData(item.Data);
-                    workspacePanel1.MarkItemSelected(item.View);
+                    DataEditorManager.GetActive()?.SetData(item.Data);
+                    // workspacePanel1.MarkItemSelected(item.View);
                 }
             };
 
             workspacePanel1.OnItemClick += (item, me) =>
             {
+                var activeEditor = DataEditorManager.GetActive();
                 // TODO: move to settings
-                if (ModifierKeys == Keys.Control && me.Button == MouseButtons.Left
-                    && dataEditor1.EditorView.HasData && dataEditor1.EditorView.Data is IDataProcessorView)
+                if (ModifierKeys == Keys.Control && me.Button == MouseButtons.Left && activeEditor != null && activeEditor.HasData && activeEditor.Data is IDataProcessorView)
                 {
-                    dataEditor1.EditorView.SetFirstEmptyDataPropertyIfExist(item.Data);
+                    activeEditor.SetFirstEmptyDataPropertyIfExist(item.Data);
                 }
             };
-
-            FillMenus();
 
             workspacePanel1.ContextMenuActions.Add(new WorkspacePanel.ContextMenuAction
             {
@@ -108,16 +135,6 @@ namespace HolographicInterferometryVNext
                     workspacePanel1.Remove(item.Data);
                 }
             });
-
-            var lastSessionValuesJson = Properties.Settings.Default.SessionValues;
-
-            if (!lastSessionValuesJson.IsNullOrEmpty())
-                Singleton.Get<SessionValues>().FromJson(lastSessionValuesJson);
-
-            timer1.Start();
-
-            ValueBindingSynchronizer.ValueUpdateStarted += UpdateManager.Lock;
-            ValueBindingSynchronizer.ValueUpdateFinished += UpdateManager.Unlock;
         }
 
         private void FillMenus()
@@ -175,7 +192,7 @@ namespace HolographicInterferometryVNext
                     cameraInputViewForm.SeriesComplete += UpdateManager.Unlock;
                 }
 
-                
+
                 cameraInputViewForm.Show();
             };
 
@@ -198,7 +215,7 @@ namespace HolographicInterferometryVNext
 
             return creators.ToArray();
         }
-        
+
         private void editOpenClProgramCode_Click(object sender, EventArgs e)
         {
             var editor = Application.OpenForms.OfType<OpenClProgramCodeEditor>().SingleOrDefault() ?? new OpenClProgramCodeEditor();

@@ -17,6 +17,7 @@ namespace UserInterface.DataEditors.Renderers.ImageRenderer
     [DataRendererFor(typeof(IImageHandler))]
     public class ImageRenderer: IDataRenderer
     {
+        private bool isZoomFitMode;
         private bool zoomIsSet;
         
         private IImageHandler _imageHandler;
@@ -71,11 +72,8 @@ namespace UserInterface.DataEditors.Renderers.ImageRenderer
         {
             _viewParametres.ViewportSize = size;
 
-            if (zoomIsSet)
-                return;
-
-            zoomIsSet = true;
-            ZoomFit();
+            if (!zoomIsSet || isZoomFitMode)
+                ZoomFit();
         }
 
         public void SetData(object data)
@@ -95,6 +93,7 @@ namespace UserInterface.DataEditors.Renderers.ImageRenderer
             _imageHandler.ImageUpdated += ImageHandlerImageUpdated;
 
             UpdateControls();
+            ZoomEquals();
         }
 
         private void ImageHandlerImageUpdated(ImageUpdatedEventData obj)
@@ -196,12 +195,18 @@ namespace UserInterface.DataEditors.Renderers.ImageRenderer
         public void ZoomEquals()
         {
             _viewParametres.Zoom = 1f;
+
+            isZoomFitMode = false;
+            zoomIsSet = true;
         }
 
         public void ZoomFit()
         {
             if (!_imageHandler.IsReady())
                 return;
+
+            isZoomFitMode = true;
+            zoomIsSet = true;
 
             var iRatio = (float)_imageHandler.Width / _imageHandler.Height;
             var vRatio = _viewParametres.ViewportRatio;

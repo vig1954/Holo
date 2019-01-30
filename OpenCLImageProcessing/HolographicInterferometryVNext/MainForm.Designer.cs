@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.dataEditor1 = new UserInterface.DataEditors.DataEditor();
             this.workspacePanel1 = new UserInterface.WorkspacePanel.WorkspacePanel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.inputMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,6 +40,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.dataEditorView1 = new UserInterface.DataEditors.DataEditorView();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -57,7 +57,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.dataEditor1);
+            this.splitContainer1.Panel1.Controls.Add(this.dataEditorView1);
             // 
             // splitContainer1.Panel2
             // 
@@ -65,14 +65,6 @@
             this.splitContainer1.Size = new System.Drawing.Size(1167, 571);
             this.splitContainer1.SplitterDistance = 937;
             this.splitContainer1.TabIndex = 1;
-            // 
-            // dataEditor1
-            // 
-            this.dataEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataEditor1.Location = new System.Drawing.Point(0, 0);
-            this.dataEditor1.Name = "dataEditor1";
-            this.dataEditor1.Size = new System.Drawing.Size(937, 571);
-            this.dataEditor1.TabIndex = 0;
             // 
             // workspacePanel1
             // 
@@ -144,6 +136,17 @@
             this.timer1.Interval = 500;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // dataEditorView1
+            // 
+            this.dataEditorView1.Active = false;
+            this.dataEditorView1.CloseEnabled = false;
+            this.dataEditorView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataEditorView1.Location = new System.Drawing.Point(0, 0);
+            this.dataEditorView1.Name = "dataEditorView1";
+            this.dataEditorView1.Size = new System.Drawing.Size(937, 571);
+            this.dataEditorView1.SplitEnabled = true;
+            this.dataEditorView1.TabIndex = 0;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -170,7 +173,6 @@
         #endregion
         private System.Windows.Forms.SplitContainer splitContainer1;
         private UserInterface.WorkspacePanel.WorkspacePanel workspacePanel1;
-        private UserInterface.DataEditors.DataEditor dataEditor1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem settingsMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpMenuItem;
@@ -180,6 +182,7 @@
         private System.Windows.Forms.ToolStripMenuItem inputMenuItem;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private UserInterface.DataEditors.DataEditorView dataEditorView1;
     }
 }
 

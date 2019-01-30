@@ -63,7 +63,7 @@ namespace UserInterface.DataEditors.InterfaceBinding
 
         private void TableOnResize(object sender, EventArgs e)
         {
-            _table.ColumnStyles[2].Width = _table.Width - _table.ColumnStyles[1].Width - _iconWidth;
+            _table.ColumnStyles[2].Width = Math.Max(2, _table.Width - _table.ColumnStyles[1].Width - _iconWidth);
         }
 
         private void RenderTable()

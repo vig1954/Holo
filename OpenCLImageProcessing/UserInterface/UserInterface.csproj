@@ -76,12 +76,7 @@
     <Compile Include="DataEditors\ContainerHeader.Designer.cs">
       <DependentUpon>ContainerHeader.cs</DependentUpon>
     </Compile>
-    <Compile Include="DataEditors\DataEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="DataEditors\DataEditor.Designer.cs">
-      <DependentUpon>DataEditor.cs</DependentUpon>
-    </Compile>
+    <Compile Include="DataEditors\DataEditorManager.cs" />
     <Compile Include="DataEditors\DataEditorView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -237,9 +232,6 @@
     <EmbeddedResource Include="DataEditors\ContainerHeader.resx">
       <DependentUpon>ContainerHeader.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DataEditors\DataEditor.resx">
-      <DependentUpon>DataEditor.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="DataEditors\DataEditorView.resx">
       <DependentUpon>DataEditorView.cs</DependentUpon>
     </EmbeddedResource>
@@ -337,6 +329,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icons8-opened-folder-30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cross.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\layout-split-vertical.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\layout-split.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\layers-arrange.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\application--plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\application--minus.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

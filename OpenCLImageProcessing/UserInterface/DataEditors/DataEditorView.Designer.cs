@@ -42,7 +42,7 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 20);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 24);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -50,7 +50,7 @@
             this.splitContainer1.Panel1.Controls.Add(this.openTkControlContainer);
             this.splitContainer1.Panel1.Controls.Add(this.tsToolPanel);
             this.splitContainer1.Panel1.Controls.Add(this.tsTools);
-            this.splitContainer1.Size = new System.Drawing.Size(751, 474);
+            this.splitContainer1.Size = new System.Drawing.Size(751, 470);
             this.splitContainer1.SplitterDistance = 514;
             this.splitContainer1.TabIndex = 1;
             // 
@@ -59,7 +59,7 @@
             this.openTkControlContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.openTkControlContainer.Location = new System.Drawing.Point(1, 25);
             this.openTkControlContainer.Name = "openTkControlContainer";
-            this.openTkControlContainer.Size = new System.Drawing.Size(513, 449);
+            this.openTkControlContainer.Size = new System.Drawing.Size(513, 445);
             this.openTkControlContainer.TabIndex = 2;
             // 
             // tsToolPanel
@@ -76,18 +76,18 @@
             this.tsTools.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Table;
             this.tsTools.Location = new System.Drawing.Point(0, 0);
             this.tsTools.Name = "tsTools";
-            this.tsTools.Size = new System.Drawing.Size(1, 474);
+            this.tsTools.Size = new System.Drawing.Size(1, 470);
             this.tsTools.TabIndex = 0;
             this.tsTools.Text = "toolStrip1";
             // 
             // containerHeader1
             // 
-            this.containerHeader1.Active = true;
+            this.containerHeader1.Active = false;
             this.containerHeader1.BackColor = System.Drawing.Color.SteelBlue;
             this.containerHeader1.Dock = System.Windows.Forms.DockStyle.Top;
             this.containerHeader1.Location = new System.Drawing.Point(0, 0);
             this.containerHeader1.Name = "containerHeader1";
-            this.containerHeader1.Size = new System.Drawing.Size(751, 20);
+            this.containerHeader1.Size = new System.Drawing.Size(751, 24);
             this.containerHeader1.TabIndex = 0;
             // 
             // DataEditorView
