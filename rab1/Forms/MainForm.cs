@@ -124,15 +124,27 @@ namespace rab1
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void pictureBox01_MouseMove(object sender, MouseEventArgs e)
         {
-            /*
-            if (zArrayPicture == null) { MessageBox.Show("zArrayPicture == NULL"); return; }
-            imageWidth.Text = zArrayPicture.width.ToString();
-            imageHeight.Text = zArrayPicture.height.ToString();
+            if (cursorMode != 7) return;
+            if (zArrayPicture == null) {  return; }
+
+            int w_max = zArrayPicture.width;
+            int h_max = zArrayPicture.height;
+
+            int rx = pictureBox01.Width;
+            int ry = pictureBox01.Height;
+
+
             int x = (int)e.X;
             int y = (int)e.Y;
+
+            if (scaleMode == 1)                                                     // Подогнанный режим отображения      
+            {
+                x = pdgn_scale(w_max, h_max, rx, ry, x, y, 1);
+                y = pdgn_scale(w_max, h_max, rx, ry, x, y, 2);
+            }
             imageWidth.Text  = x.ToString();
             imageHeight.Text = y.ToString();
-            */
+           
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
