@@ -587,7 +587,7 @@ namespace rab1.Forms
                 for (int i = 1; i < nx; i++)
                 {         
                     double a2 = zArray.array[i, j];
-                    if (Math.Abs(a2 - a1) > Math.PI) { n = n + 1; }
+                    if (Math.Abs(a2 - a1) > 2 ) { n = n + 1; }
                     zArray_res.array[i, j] = 2*Math.PI*n + a2; 
                     //zArray_res.array[i, j] = n;
                     a1 = a2;
@@ -616,9 +616,9 @@ namespace rab1.Forms
                 for (int i = 1; i < nx; i++)
                 {
                     double a2 = zArray.array[i, j];
-                    if (Math.Abs(a2 - a1) > Math.PI) { n = n + 2* Math.PI; }
+                    //if (Math.Abs(a2 - a1) > 2) { n = n + 2* Math.PI; }
                     //zArray_res.array[i, j] = 2 * Math.PI * n ;
-                    zArray_res.array[i, j] = n;
+                    if (Math.Abs(a2 - a1) > 2) { zArray_res.array[i, j] = 255; } else zArray_res.array[i, j] = 0;
                     a1 = a2;
                 }
             }
