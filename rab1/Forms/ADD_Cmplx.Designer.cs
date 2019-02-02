@@ -83,6 +83,8 @@
             this.button21 = new System.Windows.Forms.Button();
             this.textBox13 = new System.Windows.Forms.TextBox();
             this.textBox14 = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
@@ -587,11 +589,31 @@
             this.textBox14.TabIndex = 67;
             this.textBox14.Text = "3";
             // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(386, 237);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(186, 13);
+            this.label21.TabIndex = 68;
+            this.label21.Text = "Не циклический сдвиг zArrayPicture";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(33, 237);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(215, 13);
+            this.label22.TabIndex = 69;
+            this.label22.Text = "Циклический сдвиг zComplex[regComplex]";
+            // 
             // ADD_Cmplx
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(707, 426);
+            this.Controls.Add(this.label22);
+            this.Controls.Add(this.label21);
             this.Controls.Add(this.textBox14);
             this.Controls.Add(this.textBox13);
             this.Controls.Add(this.button21);
@@ -711,5 +733,7 @@
         private System.Windows.Forms.Button button21;
         private System.Windows.Forms.TextBox textBox13;
         private System.Windows.Forms.TextBox textBox14;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label22;
     }
 }

@@ -124,11 +124,12 @@ namespace rab1.Forms
 
             ZArrayDescriptor faza = new ZArrayDescriptor(w1, h1);
 
-            int n_sdv = 4;                                                       // Число фазовых сдвигов
+            int n_sdv = fz.Length;                                                       // Число фазовых сдвигов
+            //MessageBox.Show(" fz.Length= " + n );
 
-            double[] i_sdv = new double[4];
-            double[] k_sin = new double[4];
-            double[] k_cos = new double[4];
+            double[] i_sdv = new double[n_sdv];
+            double[] k_sin = new double[n_sdv];
+            double[] k_cos = new double[n_sdv];
 
 
             for (int i = 0; i < n_sdv; i++)
@@ -141,11 +142,7 @@ namespace rab1.Forms
             {
                 for (int j = 0; j < h1; j++)
                 {
-
-                    i_sdv[0] = zArrayPicture[regComplex * 4].array[i, j];
-                    i_sdv[1] = zArrayPicture[regComplex * 4 + 1].array[i, j];
-                    i_sdv[2] = zArrayPicture[regComplex * 4 + 2].array[i, j];
-                    i_sdv[3] = zArrayPicture[regComplex * 4 + 3].array[i, j];
+                    for (int ii = 0; ii < n_sdv; ii++) { i_sdv[ii] = zArrayPicture[regComplex * 4+ii].array[i, j]; }
 
                     double[] v_sdv = Vector_orto(i_sdv);                // ------  Формула расшифровки фазы
                     double fz1 = Vector_Mul(v_sdv, k_sin);              // +3 * Math.PI / 2;

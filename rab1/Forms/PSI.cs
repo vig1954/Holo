@@ -26,10 +26,12 @@ namespace rab1.Forms
         public event DelegatSdvg   OnSdvg;
 
 
-        private static double[] fz = { 0.0, 90.0, 180.0, 270.0 };
+        private static double[] fz = { 0.0, 90.0, 180.0, 270.0, 0.0, 90.0, 180.0, 270.0 };
         private static double am = 255;
         private static int imax = 255;
-      
+
+        private static int n_sdv = 4;   // Число фазовых сдвигов   textBox11
+
         //private static int km1 = 1;
         //private static int km2 = 2;
         //private static int km3 = 3;
@@ -37,18 +39,24 @@ namespace rab1.Forms
         public PSI()
         {
             InitializeComponent();
-            textBox1.Text = Convert.ToString(fz[0]); 
-            textBox2.Text = Convert.ToString(fz[1]); 
-            textBox3.Text = Convert.ToString(fz[2]); 
-            textBox4.Text = Convert.ToString(fz[3]);
+            textBox1.Text  = Convert.ToString(fz[0]); 
+            textBox2.Text  = Convert.ToString(fz[1]); 
+            textBox3.Text  = Convert.ToString(fz[2]); 
+            textBox4.Text  = Convert.ToString(fz[3]);
+            textBox7.Text  = Convert.ToString(fz[4]);
+            textBox8.Text  = Convert.ToString(fz[5]);
+            textBox9.Text  = Convert.ToString(fz[6]);
+            textBox10.Text = Convert.ToString(fz[7]);
+
+
             textBox5.Text = Convert.ToString(am);
             textBox6.Text = Convert.ToString(imax);
 
-            
+            textBox11.Text = Convert.ToString(n_sdv); // Число фазовых сдвигов 
 
-           // textBox13.Text = Convert.ToString(km1);
-          //  textBox14.Text = Convert.ToString(km2);
-           // textBox7.Text = Convert.ToString(km3);
+            // textBox13.Text = Convert.ToString(km1);
+            //  textBox14.Text = Convert.ToString(km2);
+            // textBox7.Text = Convert.ToString(km3);
 
         }
        
@@ -87,12 +95,20 @@ namespace rab1.Forms
 
         private void button4_Click(object sender, EventArgs e)  // PSI  regCpmplex -> Главное окно
         {
-            double[] fzrad = new double[4];
 
-            fz[0] = Convert.ToDouble(textBox1.Text); fzrad[0] = Math.PI * fz[0] / 180.0;
-            fz[1] = Convert.ToDouble(textBox2.Text); fzrad[1] = Math.PI * fz[1] / 180.0;
-            fz[2] = Convert.ToDouble(textBox3.Text); fzrad[2] = Math.PI * fz[2] / 180.0;
-            fz[3] = Convert.ToDouble(textBox4.Text); fzrad[3] = Math.PI * fz[3] / 180.0;
+            n_sdv = Convert.ToInt32(textBox11.Text);
+            double[] fzrad = new double[n_sdv];
+
+            fz[0] = Convert.ToDouble(textBox1.Text); 
+            fz[1] = Convert.ToDouble(textBox2.Text); 
+            fz[2] = Convert.ToDouble(textBox3.Text); 
+            fz[3] = Convert.ToDouble(textBox4.Text); 
+            fz[4] = Convert.ToDouble(textBox7.Text); 
+            fz[5] = Convert.ToDouble(textBox8.Text); 
+            fz[6] = Convert.ToDouble(textBox9.Text); 
+            fz[7] = Convert.ToDouble(textBox10.Text);
+
+            for (int i=0; i<n_sdv; i++) fzrad[i] = Math.PI * fz[i] / 180.0;
 
             OnPSI1(fzrad);
             Close();

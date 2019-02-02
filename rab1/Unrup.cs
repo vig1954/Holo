@@ -611,7 +611,7 @@ namespace rab1.Forms
 
             for (int j = 0; j < ny; j++)                                          // Строка 
             {
-                double n = 0;
+                //double n = 0;
                 double a1 = zArray.array[0, j];
                 for (int i = 1; i < nx; i++)
                 {

@@ -74,47 +74,55 @@ namespace rab1
         public static void ROR_D(int k1)             // Циклический сдвиг вправо zArrayDescriptor[regImage]
         {
 
-            if (Form1.zArrayDescriptor[Form1.regImage] == null) { MessageBox.Show(" ROR_D  zArrayDescriptor [" + Form1.regImage + "] == NULL"); return; }
+            if (Form1.zArrayPicture == null) { MessageBox.Show(" ROR_D  zArrayDescriptor [" + Form1.regImage + "] == NULL"); return; }
 
-            int nx = Form1.zArrayDescriptor[Form1.regImage].width;
-            int ny = Form1.zArrayDescriptor[Form1.regImage].height;
+            int nx = Form1.zArrayPicture.width;
+            int ny = Form1.zArrayPicture.height;
             ZArrayDescriptor zArray = new ZArrayDescriptor(nx, ny);
 
             for (int i = 0; i < nx - k1; i++)
                 for (int j = 0; j < ny; j++)
-                    zArray.array[i + k1, j] = Form1.zArrayDescriptor[Form1.regImage].array[i, j];
+                    zArray.array[i + k1, j] = Form1.zArrayPicture.array[i, j];
 
-            for (int i = 0; i < k1; i++)
-                for (int j = 0; j < ny; j++)
-                    zArray.array[i, j] = Form1.zArrayDescriptor[Form1.regImage].array[nx + i - k1, j];
+            //  for (int i = 0; i < k1; i++)     // Циклический сдвиг
+            //      for (int j = 0; j < ny; j++)
+            //          zArray.array[i, j] = Form1.zArrayPicture.array[nx + i - k1, j];
+
+              for (int i = 0; i < k1; i++)     // Не циклический сдвиг
+                  for (int j = 0; j < ny; j++)
+                      zArray.array[i, j] = Form1.zArrayPicture.array[ i, j];
 
             for (int i = 0; i < nx; i++)
                 for (int j = 0; j < ny; j++)
-                    Form1.zArrayDescriptor[Form1.regImage].array[i, j] = zArray.array[i, j];
-           VisualRegImage(Form1.regImage); 
+                    Form1.zArrayPicture.array[i, j] = zArray.array[i, j];
+           //VisualRegImage(Form1.regImage); 
 
         }
 
-        public static void ROL_D(int k1)             // Циклический сдвиг влево zArrayDescriptor[regImage]
+        public static void ROL_D(int k1)             // Cдвиг влево zArrayDescriptor[regImage]
         {
-            if (Form1.zArrayDescriptor[Form1.regImage] == null) { MessageBox.Show(" ROR_D  zArrayDescriptor [" + Form1.regImage + "] == NULL"); return; }
+            if (Form1.zArrayPicture == null) { MessageBox.Show(" ROL_D  zArrayPicture == NULL"); return; }
 
-            int nx = Form1.zArrayDescriptor[Form1.regImage].width;
-            int ny = Form1.zArrayDescriptor[Form1.regImage].height;
+            int nx = Form1.zArrayPicture.width;
+            int ny = Form1.zArrayPicture.height;
             ZArrayDescriptor zArray = new ZArrayDescriptor(nx, ny);
 
             for (int i = 0; i < nx - k1; i++)
                 for (int j = 0; j < ny; j++)
-                    zArray.array[i, j] = Form1.zArrayDescriptor[Form1.regImage].array[k1 + i, j];
+                    zArray.array[i, j] = Form1.zArrayPicture.array[k1 + i, j];
 
-            for (int i = k1; i > 0; i--)
-                for (int j = 0; j < ny; j++)
-                    zArray.array[nx - i, j] = Form1.zArrayDescriptor[Form1.regImage].array[k1 - i, j];
+            //  for (int i = k1; i > 0; i--)               // Циклический сдвиг
+            //      for (int j = 0; j < ny; j++)
+            //          zArray.array[nx - i, j] = Form1.zArrayPicture.array[k1 - i, j];
+
+            for (int i = k1; i > 0; i--)               // Не циклический сдвиг
+                  for (int j = 0; j < ny; j++)
+                      zArray.array[nx - i, j] = Form1.zArrayPicture.array[nx - i, j];
 
             for (int i = 0; i < nx; i++)
                 for (int j = 0; j < ny; j++)
-                    Form1.zArrayDescriptor[Form1.regImage].array[i, j] = zArray.array[i, j];
-            VisualRegImage(Form1.regImage);
+                    Form1.zArrayPicture.array[i, j] = zArray.array[i, j];
+           // VisualRegImage(Form1.regImage);
         }
 
 
@@ -122,49 +130,49 @@ namespace rab1
         public static void ROR_C(int k1)             // Циклический сдвиг вправо  комплексных чисел
         {
             
-            if (Form1.zComplex[Form1.regComplex] == null) { MessageBox.Show("ROR_C:  zComplex[" + Form1.regComplex + "] == NULL"); return; }
+            if (Form1.zComplex[Form1.regImage] == null) { MessageBox.Show("ROR_C:  Form1.zComplex[Form1.regImage] == NULL"); return; }
 
-            int nx = Form1.zComplex[Form1.regComplex].width;
-            int ny = Form1.zComplex[Form1.regComplex].height;
+            int nx = Form1.zComplex[Form1.regImage].width;
+            int ny = Form1.zComplex[Form1.regImage].height;
 
             ZComplexDescriptor zArray = new ZComplexDescriptor(nx, ny);
 
             for (int i = 0; i < nx - k1; i++)
                 for (int j = 0; j < ny; j++)
-                    zArray.array[i + k1, j] = Form1.zComplex[Form1.regComplex].array[i, j];
+                    zArray.array[i + k1, j] = Form1.zComplex[Form1.regImage].array[i, j];
 
-            for (int i = 0; i < k1; i++)
-                for (int j = 0; j < ny; j++)
-                    zArray.array[i, j] = Form1.zComplex[Form1.regComplex].array[nx + i - k1, j];
+              for (int i = 0; i < k1; i++)         // Циклический сдвиг
+                  for (int j = 0; j < ny; j++)
+                      zArray.array[i, j] = Form1.zComplex[Form1.regImage].array[nx + i - k1, j];
 
-            for (int i = 0; i < nx; i++)
+            for (int i = 0; i < nx; i++)                                        // Переписываем результат
                 for (int j = 0; j < ny; j++)
-                    Form1.zComplex[Form1.regComplex].array[i, j] = zArray.array[i, j];
+                    Form1.zComplex[Form1.regImage].array[i, j] = zArray.array[i, j];
             VisualRegImage(Form1.regImage);
         }
 
 
         public static void ROL_C(int k1)             // Циклический сдвиг влево комплексных чисел
         {
-            if (Form1.zComplex[Form1.regComplex] == null) { MessageBox.Show("ROR_C:  zComplex[" + Form1.regImage + "] == NULL"); return; }
+            if (Form1.zComplex[Form1.regImage] == null) { MessageBox.Show("ROR_C:  zComplex[Form1.regImage] == NULL"); return; }
 
-            int nx = Form1.zComplex[Form1.regComplex].width;
-            int ny = Form1.zComplex[Form1.regComplex].height;
+            int nx = Form1.zComplex[Form1.regImage].width;
+            int ny = Form1.zComplex[Form1.regImage].height;
 
             ZComplexDescriptor zArray = new ZComplexDescriptor(nx, ny);
 
             for (int i = 0; i < nx - k1; i++)
                 for (int j = 0; j < ny; j++)
-                    zArray.array[i, j] = Form1.zComplex[Form1.regComplex].array[k1 + i, j];
+                    zArray.array[i, j] = Form1.zComplex[Form1.regImage].array[k1 + i, j];
 
             for (int i = k1; i > 0; i--)
                 for (int j = 0; j < ny; j++)
-                    zArray.array[nx - i, j] = Form1.zComplex[Form1.regComplex].array[k1 - i, j];
+                    zArray.array[nx - i, j] = Form1.zComplex[Form1.regImage].array[k1 - i, j];
 
             for (int i = 0; i < nx; i++)
                 for (int j = 0; j < ny; j++)
-                    Form1.zComplex[Form1.regComplex].array[i, j] = zArray.array[i, j];
-            VisualRegImage(Form1.regImage);
+                    Form1.zComplex[Form1.regImage].array[i, j] = zArray.array[i, j];
+           VisualRegImage(Form1.regImage);
         }
 
         public static void TRNS_D()             // Транспонирование zArrayDescriptor[regImage]
