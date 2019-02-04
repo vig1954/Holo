@@ -2926,25 +2926,36 @@ namespace rab1
             cameraForm.Show();
         }
 
+        private void SetImage(Image image, PictureBox pictureBox)
+        {
+            pictureBox.Invoke
+            (
+                (MethodInvoker)delegate
+                {
+                    pictureBox.Image = image;
+                    pictureBox.Refresh();
+                }
+            );
+        }
+
         private void HandleCameraPicture(PictureTakenEventArgs eventArgs)
         {
             if (eventArgs == null) return;
 
             switch (eventArgs.Number)
             {
-                
                 case 0:
                     zArrayPicture = new ZArrayDescriptor(eventArgs.Image, eventArgs.ColorMode);
-                    pictureBox01.Image = eventArgs.Image;
+                    SetImage(eventArgs.Image, pictureBox01);
                     break;
                 
                 default:
                     {
                         int index = GetPictureBoxIndex(eventArgs);
                         zArrayDescriptor[index] = new ZArrayDescriptor(eventArgs.Image, eventArgs.ColorMode);
-                        pictureBoxArray[index].Image = eventArgs.Image;
+                        SetImage(eventArgs.Image, pictureBoxArray[index]);
                         break;
-                    } 
+                    }
             }
         }
         
