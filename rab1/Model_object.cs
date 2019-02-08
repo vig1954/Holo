@@ -863,8 +863,32 @@ namespace rab1
 
             return x;
         }
+
+        public static ZArrayDescriptor Sub_Line(ZArrayDescriptor zArrayPicture, int num)  // Вычесть линейный тренд
+        {
+            int w1 = zArrayPicture.width;
+            int h1 = zArrayPicture.height;
+
+            ZArrayDescriptor zArray = new ZArrayDescriptor(w1, h1);
+
+            double x1 = 0;
+            double x2 = w1 - 1;
+            double y1 = zArrayPicture.array[0, num];
+            double y2 = zArrayPicture.array[w1 - 1, num];
+
+            for (int j = 0; j < h1; j++)
+                for (int i = 0; i < w1; i++)
+                {
+                    double y = (i - x1) * (y2 - y1) / (x2 - x1) + y1;
+                    zArray.array[i, j] = zArrayPicture.array[i, j] - y;
+                }
+
+
+            return zArray;
+        }
+
         // Корректировка по углу
-        public static ZArrayDescriptor Correct(ZArrayDescriptor zArrayPicture, double L, double d, double d1, double x_max)
+        public static ZArrayDescriptor Correct(ZArrayDescriptor zArrayPicture, double L, double d, double d1, int num)
         {
             int w1 = zArrayPicture.width;
             int h1 = zArrayPicture.height;
@@ -873,11 +897,44 @@ namespace rab1
 
             //MessageBox.Show(" Расстояние до объекта = " + L + " до камеры от начала объекта = " + d + " размер объекта = " + d1+ " максимальное смещение = " + x_max);
 
-            double max = double.MinValue;
-            double min = double.MaxValue;
+            //double max = double.MinValue;
+            //double min = double.MaxValue;
 
-         
-              for (int i = 0; i < w1; i++)
+            //double t = 104;
+
+            double x1 = 0;                                                      // Убрать линейный тренд
+            double x2 = w1 - 1;
+            double y1 = zArrayPicture.array[0, num];
+            double y2 = zArrayPicture.array[w1 - 1, num];
+           
+
+            for (int j = 0; j < h1; j++)                                        // Скорректировать высоты
+                for (int i = 0; i < w1; i++)
+                    {
+                         double xi = i * d1 / w1;
+                         double f = Math.Atan(L / (d - xi));
+                                //double ac = zArrayPicture.array[i, j] + Math.PI;
+                         double y = (i - x1) * (y2 - y1) / (x2 - x1) + y1;
+                         double ac = zArrayPicture.array[i, j] - y;             // Убрать линейный тренд
+                         double h  = ac * Math.Sin(f);
+                         double dx = ac * Math.Cos(f);
+                         dx = Math.Abs(dx);
+                         int di =(int) ( (dx - y1) * w1 / (y2 - y1) ) ;
+                         int ix = i + di;
+                         if (ix < w1 && ix > 0) zArray.array[ix, j] = h;
+                    //zArray.array[i, j] = di;
+                   }
+
+            //MessageBox.Show(" max = " + max + " min = " + min);
+            //MessageBox.Show(" t = " + t);
+
+
+
+
+
+
+            /* 
+             for (int i = 0; i < w1; i++)
                 {
                     double xi = i * d1 / w1;
                     double f  = Math.Atan(L / (d - xi));
@@ -909,7 +966,7 @@ namespace rab1
                 {
 
                     double xi = i * d1 / w1;
-                   
+
                     double f = Math.Atan(L / (d - xi));
                     double ac = zArrayPicture.array[i, j];
                     double h = ac * Math.Sin(f);
@@ -919,7 +976,7 @@ namespace rab1
                     int ix = (int)Math.Round(x * w1 / d1);
                     //int ix = (int)(x * w1 / d1);
                     if (ix < w1 && ix > 0) zArray.array[ix, j] = h;
-                   
+
                 }
 
                 for (int i = 0; i < w1; i++)
@@ -937,6 +994,33 @@ namespace rab1
                 }
 
         }
+*/
+
+            return zArray;
+        }
+
+        public static ZArrayDescriptor Count_Null(ZArrayDescriptor zArrayPicture)
+        {
+            int w1 = zArrayPicture.width;
+            int h1 = zArrayPicture.height;
+
+            ZArrayDescriptor zArray = new ZArrayDescriptor(w1, h1);
+
+            for (int j = 0; j < h1; j++)
+                for (int i = 0; i < w1; i++)
+                {
+                    if (zArrayPicture.array[i, j] == 0)
+                    {
+                        int i1 = i;
+                        while (i1 >= 1)
+                        {
+                            i1--;
+                            if (zArrayPicture.array[i1, j] != 0) { zArray.array[i, j] = zArrayPicture.array[i1, j]; break; }
+                        }
+                    }
+                    else zArray.array[i, j] = zArrayPicture.array[i, j];
+
+                }
 
 
             return zArray;
@@ -994,29 +1078,25 @@ namespace rab1
 
             return zArray;
         }
-        public static ZArrayDescriptor Sub_Line(ZArrayDescriptor zArrayPicture, int num)
+      
+
+        public static void Count_Line(ZArrayDescriptor zArrayPicture, int num)
         {
-         int w1 = zArrayPicture.width;
-         int h1 = zArrayPicture.height;
+            int w1 = zArrayPicture.width;
+            int h1 = zArrayPicture.height;
 
-        ZArrayDescriptor zArray = new ZArrayDescriptor(w1, h1);
+            ZArrayDescriptor zArray = new ZArrayDescriptor(w1, h1);
 
-            double x1 = 0;
-            double x2 = w1-1;
-            double y1 = zArrayPicture.array[0, num];
-            double y2 = zArrayPicture.array[w1 - 1, num];
+            int j = num;
+            int i0 = 0, i1 = 0;
+            int i = 0, n=0;
 
-            for (int j = 0; j < h1; j++)
-                for (int i = 0; i < w1; i++)
-                {
-                    double y = (i - x1) * (y2 - y1) / (x2 - x1) + y1;
-                    zArray.array[i, j] = zArrayPicture.array[i, j] - y;
-                }
+            for (i = 0; i < w1; i++)    { if (zArrayPicture.array[i, j] > 0) { i0 = i; break; } }
+            for (i = w1-1; i > i1; i--) { if (zArrayPicture.array[i, j] > 0) { i1 = i; break; } }
+            for (i = i0+1; i < i1; i++)  { if (zArrayPicture.array[i, j] > 0) n++;   }
 
-
-            return zArray;
+            int t = (i1 - i0) / n;
+            MessageBox.Show(" i0= " + i0 +" i1= "+ i1 +" n= "+ n +" Средний период = " + t); 
         }
-
-
     }
 }

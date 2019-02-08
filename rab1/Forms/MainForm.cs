@@ -755,6 +755,10 @@ namespace rab1
             if (string_dialog.Contains("5.")) { string_rab = string_dialog.Replace("5.", "6."); return string_rab; }
             if (string_dialog.Contains("6.")) { string_rab = string_dialog.Replace("6.", "7."); return string_rab; }
             if (string_dialog.Contains("7.")) { string_rab = string_dialog.Replace("7.", "8."); return string_rab; }
+            if (string_dialog.Contains("8.")) { string_rab = string_dialog.Replace("8.", "9."); return string_rab; }
+            if (string_dialog.Contains("9.")) { string_rab = string_dialog.Replace("9.", "10."); return string_rab; }
+            if (string_dialog.Contains("10.")) { string_rab = string_dialog.Replace("10.", "11."); return string_rab; }
+            if (string_dialog.Contains("11.")) { string_rab = string_dialog.Replace("11.", "12."); return string_rab; }
 
 
             //MessageBox.Show("SaveString  ERROR - Первый файл должен оканчиваться на 9" + string_dialog + " string_rab - " + string_rab);
@@ -792,7 +796,7 @@ namespace rab1
                     for (int i = 0; i < 4; i++)
                     {
                         ZGR_File(str, regComplex*4+i);
-                        str = SaveString(str, i); //if (str == null) break;  // Неправильное имя файла
+                        str = SaveString8(str, i); //if (str == null) break;  // Неправильное имя файла
                         GC.Collect();
                         GC.WaitForPendingFinalizers();
                         progressBar1.PerformStep();
@@ -3050,18 +3054,33 @@ namespace rab1
             STRUCTUR.On_Sub += Correct_Sub;                 // Вычесть два массива 1-2 => ArrayPicture
             STRUCTUR.On_Sub_Cos += Correct_Sub_Cos;         // Вычесть два массива
             STRUCTUR.On_Corr_Sub += Correct_Corr_Sub;       // Вычесть два массива с корректировкой значений по углу
-            STRUCTUR.On_Sub_Line += Correct_Line;
+            STRUCTUR.On_Sub_Line += Correct_Line;           // Вычесть линейный тренд 
+            STRUCTUR.On_Count_Line += Correct_Count;
+            STRUCTUR.On_Null += Correct_Null;              // Убрать нули
             STRUCTUR.Show();
         }
 
-        private void Correct_Line(int num)                    // Вычесть два массива
+
+        private void Correct_Null()                    // Убрать нули
+        {
+            zArrayPicture = Model_object.Count_Null(zArrayPicture);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+
+        }
+
+        private void Correct_Count(int num)                    // Вычесть два массива
+        {
+            Model_object.Count_Line(zArrayPicture, num);
+
+        }
+        private void Correct_Line(int num)                    // Вычесть линейный тренд
         {
             zArrayPicture = Model_object.Sub_Line(zArrayPicture, num);
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
         }
 
 
-        private void Correct_Corr_Sub(double L, double d, double d1, double x_max)
+        private void Correct_Corr_Sub(double L, double d, double d1, int x_max)
         {
             //zArrayDescriptor[2] = Model_object.Correct(zArrayDescriptor[0], L, d, d1, x_max);
             //zArrayDescriptor[3] = Model_object.Correct(zArrayDescriptor[1], L, d, d1, x_max);
@@ -3072,6 +3091,7 @@ namespace rab1
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
 
         }
+     
         private void Correct_Sub()                    // Вычесть два массива
         {
             zArrayPicture = SumClass.Sub_zArray(zArrayDescriptor[0], zArrayDescriptor[1]);
@@ -3091,9 +3111,9 @@ namespace rab1
         }
 
 
-        private void Correct(double L, double d, double d1, double x_max)
+        private void Correct(double L, double d, double d1, int Number_line)    // Корректировка высот
         {
-            zArrayPicture = Model_object.Correct(zArrayPicture, L,  d, d1, x_max);
+            zArrayPicture = Model_object.Correct(zArrayPicture, L,  d, d1, Number_line);
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
 
         }

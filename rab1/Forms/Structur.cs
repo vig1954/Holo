@@ -11,7 +11,7 @@ using System.Windows.Forms;
 namespace rab1.Forms
 {
     public delegate void Correct(double L, double d, double d1);
-    public delegate void Correct1(double L, double d, double d1, double x_max);
+    public delegate void Correct1(double L, double d, double d1, int Number_line);
     public delegate void Scale(double x, int n);
     public delegate void Sub();
     public delegate void Sub_Line(int num);
@@ -24,11 +24,14 @@ namespace rab1.Forms
         public event Scale    On_Scale;
         public event Sub      On_Sub;
         public event Sub      On_Sub_Cos;
+        public event Sub      On_Null;
         public event Sub_Line On_Sub_Line;
+        public event Sub_Line On_Count_Line;  // Определить шаг полосы
+
         public event Correct1 On_Corr_Sub;
 
-        private static double L = 2000;    // Расстояние до объекта
-        private static double d = 2000;    // Расстояние от начала объекта до камеры
+        private static double L = 1000;    // Расстояние до объекта
+        private static double d = 900;    // Расстояние от начала объекта до камеры
         private static double d1 = 400;    // Размер объекта
         private static double x_max = 1;   // Максимальное смещение объекта
 
@@ -62,8 +65,9 @@ namespace rab1.Forms
             d = Convert.ToDouble(textBox1.Text);
             L = Convert.ToDouble(textBox2.Text);
             d1 = Convert.ToDouble(textBox3.Text);
-            x_max = Convert.ToDouble(textBox6.Text);   // Максимальное смещение
-            On_Corr(L, d, d1, x_max);
+            //x_max = Convert.ToDouble(textBox6.Text);            // Максимальное смещение
+            Number_line = Convert.ToInt32(textBox7.Text);         // Номер строки по которой проводится корректировка
+            On_Corr(L, d, d1, Number_line);
             Close();
         }
 
@@ -101,14 +105,27 @@ namespace rab1.Forms
             L = Convert.ToDouble(textBox2.Text);
             d1 = Convert.ToDouble(textBox3.Text);
             x_max = Convert.ToDouble(textBox6.Text);   // Максимальное смещение
-            On_Corr_Sub(L, d, d1, x_max);
+           // On_Corr_Sub(L, d, d1, x_max);
             Close();
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private void button8_Click(object sender, EventArgs e)   // вычесть тренд
         {
             Number_line = Convert.ToInt32(textBox7.Text);
             On_Sub_Line(Number_line);
+            Close();
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            Number_line = Convert.ToInt32(textBox7.Text);
+            On_Count_Line(Number_line);
+            Close();
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            On_Null();
             Close();
         }
     }

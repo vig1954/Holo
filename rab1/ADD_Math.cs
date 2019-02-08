@@ -238,8 +238,9 @@ namespace rab1
 
             Form1.zArrayDescriptor[k3] = new ZArrayDescriptor(nx, ny);
            
-            for (int i = 0; i < nx; i++)
-                for (int j = 0; j < ny; j++)
+          
+            for (int j = 0; j < ny; j++)
+               for (int i = 0; i < nx; i++)
                     Form1.zArrayDescriptor[k3].array[i, j] = Form1.zArrayDescriptor[k1].array[i, j] - Form1.zArrayDescriptor[k2].array[i, j];
             VisualRegImage(k3);
         }
