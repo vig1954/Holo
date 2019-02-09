@@ -914,15 +914,18 @@ namespace rab1
                          double xi = i * d1 / w1;
                          double f = Math.Atan(L / (d - xi));
                                 //double ac = zArrayPicture.array[i, j] + Math.PI;
+                        
+                         double ac1 = zArrayPicture.array[i, j];
                          double y = (i - x1) * (y2 - y1) / (x2 - x1) + y1;
-                         double ac = zArrayPicture.array[i, j] - y;             // Убрать линейный тренд
+                         double ac = ac1 - y;             // Убрать линейный тренд
                          double h  = ac * Math.Sin(f);
                          double dx = ac * Math.Cos(f);
-                         dx = Math.Abs(dx);
-                         int di =(int) ( (dx - y1) * w1 / (y2 - y1) ) ;
-                         int ix = i + di;
+                         double dx1 = ac1+dx;
+                         int ix =(int) ( (dx1 - y1) * w1 / (y2 - y1) ) ;
+                         //int ix = i + di;
                          if (ix < w1 && ix > 0) zArray.array[ix, j] = h;
-                    //zArray.array[i, j] = di;
+
+                    //zArray.array[i, j] = dx;
                    }
 
             //MessageBox.Show(" max = " + max + " min = " + min);
