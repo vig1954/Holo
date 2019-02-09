@@ -78,10 +78,17 @@ namespace Camera
             }
         }
         
-        public async Task SetShift(int shiftValue, float delay)
+        public async Task SetShift(int shiftValue, float delay, bool compensateHysteresis)
         {
             if (!_phaseShiftDeviceConnected)
                 return;
+
+            if (compensateHysteresis)
+            {
+                delay = delay / 2;
+                SetShift(0);
+                await Task.Delay(TimeSpan.FromMilliseconds(delay));
+            }
 
             SetShift(shiftValue);
             await Task.Delay(TimeSpan.FromMilliseconds(delay));

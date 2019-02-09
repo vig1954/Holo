@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Common;
 using Infrastructure;
@@ -23,6 +24,7 @@ namespace Camera
         private readonly ImageHandler[] _images = new ImageHandler[4];
         private readonly OnShotParameters _onShotParameters = new OnShotParameters();
         private int[] _shiftValues = new int[4];
+        private Bitmap[] _delayedImages = new Bitmap[4];
 
         private bool ignoreNewImages = false;
 
@@ -80,6 +82,9 @@ namespace Camera
 
         [BindToUI("Захват LV")]
         public bool CaptureLiveView { get; set; }
+
+        [BindToUI("Не обновлять до завершения серии")]
+        public bool DelayUpdatesUntilSeriesFinished { get; set; }
 
         [BindToUI("Выкл. захват в конце серии")]
         public void StopCaptureAfterSeriesFinished()
@@ -142,7 +147,7 @@ namespace Camera
 
             _onShotParameters.Reset();
             _onShotParameters.TakeSeries = true;
-            await PhaseShiftController.SetShift(GetShiftValue(_onShotParameters.CurrentImageIndex), ShiftDelay);
+            await PhaseShiftController.SetShift(GetShiftValue(_onShotParameters.CurrentImageIndex), ShiftDelay, CompensateHysteresis);
 
             CameraConnector.TakePhoto();
         }
@@ -173,6 +178,9 @@ namespace Camera
 
         [BindToUI, BindMembersToUI(HideProperty = true, MergeMembers = true)]
         public PhaseShiftDeviceControllerAdapter PhaseShiftController => Singleton.Get<PhaseShiftDeviceControllerAdapter>();
+
+        [BindToUI("(Эксп.) Устранить гистерезис")]
+        public bool CompensateHysteresis { get; set; }
 
         [BindToUI]
         public int ShiftStep { get; set; } = 400;
@@ -289,36 +297,58 @@ namespace Camera
             if (currentImageIndex == 0 && _onShotParameters.TakeSeries)
                 SeriesStarted?.Invoke();
 
-            if (_images[currentImageIndex] == null)
-            {
-                var newImage = ImageHandler.FromBitmapAsGreyscale(bitmap);
-                _images[currentImageIndex] = newImage;
-
-                BindingManager.SetPropertyValue(nameof(ImageSlot1).Replace("1", (currentImageIndex + 1).ToString()), (IImageHandler) newImage);
-
-                ImageCreate?.Invoke(newImage);
-            }
+            if (!DelayUpdatesUntilSeriesFinished)
+                UpdateImageHandler(bitmap, currentImageIndex);
             else
-                _images[currentImageIndex].UpdateFromBitmap(bitmap);
-
-            ImageSlotsUpdated?.Invoke();
+                _delayedImages[currentImageIndex] = bitmap;
 
             _onShotParameters.Update();
             if (_onShotParameters.SeriesComplete || !_onShotParameters.TakeSeries)
             {
+                if (DelayUpdatesUntilSeriesFinished)
+                {
+                    for (var i = 0; i <= currentImageIndex; i++)
+                    {
+                        UpdateImageHandler(_delayedImages[i], i);
+                    }
+                }
+
                 SeriesComplete?.Invoke();
 
                 if (CaptureLiveView)
                     _onShotParameters.Reset();
             }
-            
-            if (PhaseShiftController.Connected && !_onShotParameters.SeriesComplete)
-                await PhaseShiftController.SetShift(GetShiftValue(_onShotParameters.CurrentImageIndex), ShiftDelay);
+
+            if (!_onShotParameters.SeriesComplete)
+            {
+                if (PhaseShiftController.Connected)
+                    await PhaseShiftController.SetShift(GetShiftValue(_onShotParameters.CurrentImageIndex), ShiftDelay, CompensateHysteresis);
+                else
+                    await Task.Delay(TimeSpan.FromMilliseconds(100));
+            }
 
             ignoreNewImages = false;
 
             if (!CaptureLiveView && _onShotParameters.TakeSeries && !_onShotParameters.SeriesComplete)
                 CameraConnector.TakePhoto();
+
+            void UpdateImageHandler(Bitmap newValue, int imageHandlerIndex)
+            {
+                if (_images[imageHandlerIndex] == null)
+                {
+                    var newImage = ImageHandler.FromBitmapAsGreyscale(newValue);
+                    _images[imageHandlerIndex] = newImage;
+
+                    BindingManager.SetPropertyValue(nameof(ImageSlot1).Replace("1", (imageHandlerIndex + 1).ToString()),
+                        (IImageHandler)newImage);
+
+                    ImageCreate?.Invoke(newImage);
+                }
+                else
+                    _images[imageHandlerIndex].UpdateFromBitmap(newValue);
+
+                ImageSlotsUpdated?.Invoke();
+            }
         }
 
         private int GetShiftValue(int imageIndex)
