@@ -741,6 +741,31 @@ namespace rab1
             return null;
 
         }
+        private string SaveString8(string string_dialog, int k)
+        {
+
+            string strk = k.ToString();
+
+            string string_rab = string_dialog;
+
+            if (string_dialog.Contains("1.")) { string_rab = string_dialog.Replace("1.", "2."); return string_rab; }
+            if (string_dialog.Contains("2.")) { string_rab = string_dialog.Replace("2.", "3."); return string_rab; }
+            if (string_dialog.Contains("3.")) { string_rab = string_dialog.Replace("3.", "4."); return string_rab; }
+            if (string_dialog.Contains("4.")) { string_rab = string_dialog.Replace("4.", "5."); return string_rab; }
+            if (string_dialog.Contains("5.")) { string_rab = string_dialog.Replace("5.", "6."); return string_rab; }
+            if (string_dialog.Contains("6.")) { string_rab = string_dialog.Replace("6.", "7."); return string_rab; }
+            if (string_dialog.Contains("7.")) { string_rab = string_dialog.Replace("7.", "8."); return string_rab; }
+            if (string_dialog.Contains("8.")) { string_rab = string_dialog.Replace("8.", "9."); return string_rab; }
+            if (string_dialog.Contains("9.")) { string_rab = string_dialog.Replace("9.", "10."); return string_rab; }
+            if (string_dialog.Contains("10.")) { string_rab = string_dialog.Replace("10.", "11."); return string_rab; }
+            if (string_dialog.Contains("11.")) { string_rab = string_dialog.Replace("11.", "12."); return string_rab; }
+
+
+            //MessageBox.Show("SaveString  ERROR - Первый файл должен оканчиваться на 9" + string_dialog + " string_rab - " + string_rab);
+
+            return null;
+
+        }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void ZGR_File(string str, int i)   // Перегруженный ZGR_File(int i)
         {
@@ -771,7 +796,7 @@ namespace rab1
                     for (int i = 0; i < 4; i++)
                     {
                         ZGR_File(str, regComplex*4+i);
-                        str = SaveString(str, i); //if (str == null) break;  // Неправильное имя файла
+                        str = SaveString8(str, i); //if (str == null) break;  // Неправильное имя файла
                         GC.Collect();
                         GC.WaitForPendingFinalizers();
                         progressBar1.PerformStep();
@@ -784,7 +809,7 @@ namespace rab1
         }
 
 
-        private void Save8ToolStripMenuItem_Click(object sender, EventArgs e)   // Загрузить 8 файлов в 0,1,2,3
+        private void Save8ToolStripMenuItem_Click(object sender, EventArgs e)   // Загрузить 8 файлов в 0,1,...,7
         {
             var dialog1 = new OpenFileDialog();
             dialog1.InitialDirectory = string_dialog;
@@ -796,48 +821,25 @@ namespace rab1
                     dialog1.InitialDirectory = dialog1.FileName;
                     string_dialog = dialog1.FileName;
                     string str = string_dialog;
+
+                    progressBar1.Visible = true;
+                    progressBar1.Minimum = 1;
+                    progressBar1.Maximum = 9;
+                    progressBar1.Value = 1;
+                    progressBar1.Step = 1;
+
                     for (int i = 0; i < 8; i++)
                     {
-                        str = SaveString(string_dialog, i + 1);
-                        switch (i)
-                        {
-                            case 0: pictureBox1.Image = Image.FromFile(str); pictureBox1.Invalidate(); img[0] = pictureBox1.Image; break;
-                            case 1: pictureBox2.Image = Image.FromFile(str); pictureBox2.Invalidate(); img[1] = pictureBox2.Image; break;
-                            case 2: pictureBox3.Image = Image.FromFile(str); pictureBox3.Invalidate(); img[2] = pictureBox3.Image; break;
-                            case 3: pictureBox4.Image = Image.FromFile(str); pictureBox4.Invalidate(); img[3] = pictureBox4.Image; break;
-                            case 4: pictureBox5.Image = Image.FromFile(str); pictureBox5.Invalidate(); img[4] = pictureBox5.Image; break;
-                            case 5: pictureBox6.Image = Image.FromFile(str); pictureBox6.Invalidate(); img[5] = pictureBox6.Image; break;
-                            case 6: pictureBox7.Image = Image.FromFile(str); pictureBox7.Invalidate(); img[6] = pictureBox7.Image; break;
-                            case 7: pictureBox8.Image = Image.FromFile(str); pictureBox8.Invalidate(); img[7] = pictureBox8.Image; break;
-                        }
+                        ZGR_File(str,  i);
+                        str = SaveString8(str, i); //if (str == null) break;  // Неправильное имя файла
+                        GC.Collect();
+                        GC.WaitForPendingFinalizers();
+                        progressBar1.PerformStep();
                     }
 
-                    if (img[regImage] != null)
-                    {
-                        //imageWidth.Text = img[regImage].Width.ToString();
-                        //imageHeight.Text = img[regImage].Height.ToString();
-                    }
-
-
-
-                    GC.Collect();
-                    GC.WaitForPendingFinalizers();
-
-                    if ((pictureBox1.Image.Size.Equals(pictureBox2.Image.Size))
-             && (pictureBox1.Image.Size.Equals(pictureBox3.Image.Size))
-             && (pictureBox1.Image.Size.Equals(pictureBox4.Image.Size))
-             && (pictureBox1.Image.Size.Equals(pictureBox5.Image.Size))
-             && (pictureBox1.Image.Size.Equals(pictureBox6.Image.Size))
-             && (pictureBox1.Image.Size.Equals(pictureBox7.Image.Size))
-             && (pictureBox1.Image.Size.Equals(pictureBox8.Image.Size)))
-                    {
-                        StretchImageForm newForm = new StretchImageForm();
-                        newForm.initialSize = pictureBox1.Image.Size;
-                        newForm.userChoosedSize += userChoosedSize;
-                        newForm.Show();
-                    }
+                    progressBar1.Value = 1;
                 }
-                catch (Exception ex) { MessageBox.Show(" Ошибка " + ex.Message); }
+                catch (Exception ex) { MessageBox.Show("загрузить418ToolStripMenuItem_Click Ошибка " + ex.Message); }
             }
         }
 
@@ -1638,10 +1640,10 @@ namespace rab1
         // Сами программы формы ADD_Cmplx находятся в  ADD_Math.cs - Арифметические операции над массивами
 
         private void ABS_D()        { ADD_Math.ABS_D(regImage); }                   // Абсолютное значение
-        private void ROR_D(int k1)  { ADD_Math.ROR_D(k1);       }                   // Циклический сдвиг вправо zArrayDescriptor[regImage]
-        private void ROL_D(int k1)  { ADD_Math.ROL_D(k1);       }                   // Циклический сдвиг влево zArrayDescriptor[regImage]
-        private void ROL_C(int k1)  { ADD_Math.ROL_C(k1);       }              // Циклический сдвиг влево комплексных чисел
-        private void ROR_C(int k1)  { ADD_Math.ROR_C(k1);       }              // Циклический сдвиг вправо  комплексных чисел
+        private void ROR_D(int k1)  { ADD_Math.ROR_D(k1); Vizual.Vizual_Picture(zArrayPicture, pictureBox01); }      // Циклический сдвиг вправо zArrayPicture
+        private void ROL_D(int k1)  { ADD_Math.ROL_D(k1); Vizual.Vizual_Picture(zArrayPicture, pictureBox01); }      // Циклический сдвиг влево zArrayPicture
+        private void ROL_C(int k1)  { ADD_Math.ROL_C(k1); }              // Циклический сдвиг влево комплексных чисел
+        private void ROR_C(int k1)  { ADD_Math.ROR_C(k1);  }              // Циклический сдвиг вправо  комплексных чисел
         private void TRNS_D()       { ADD_Math.TRNS_D();        }                         // Транспонирование zArrayDescriptor[regImage]
         private void ROT180_D()     { ADD_Math.ROT180_D();      }                     // Поворот zArrayDescriptor[regImage] на 180 градусов
         private void ADD_D(int k1, int k2, int k3) { ADD_Math.ADD_D(k1, k2, k3);  } // Сложить два вещественных массива
@@ -1651,7 +1653,7 @@ namespace rab1
         private void Add_C(int k3, int k4, int k5)  { ADD_Math.Add_C(k3, k4, k5); Complex_pictureBox(k5-1); }   // Сложить два комплексных массива
         private void Sub_C(int k3, int k4, int k5)  { ADD_Math.Sub_C(k3, k4, k5); Complex_pictureBox(k5-1); }   // Вычесть два комплексных массива
 
-        private void Ampl_C(int k11, int k12)       { ADD_Math.Ampl_C(k11, k12); Vizual.Vizual_Picture(zArrayPicture, pictureBox01); ; }   // Амплитуда суммы двух комплексных массивов
+        private void Ampl_C(int k11, int k12)       { ADD_Math.Ampl_C(k11, k12); Vizual.Vizual_Picture(zArrayPicture, pictureBox01); }   // Амплитуда суммы двух комплексных массивов
         private void Mul_C(int k3, int k4, int k5)  { ADD_Math.Mul_C(k3, k4, k5, progressBar1); Complex_pictureBox(k5 - 1); } // Умножить два комплексных массива
         private void Mul_D(int k3, int k4, int k5)  { ADD_Math.Mul_D(k3, k4, k5, progressBar1);  } // Умножить два вещественных массивов
         private void Conv_D(int k3, int k4, int k5) { ADD_Math.Conv_D(k3, k4, k5, progressBar1);  } // Корреляция двух вещественных массивов
@@ -2813,7 +2815,7 @@ namespace rab1
         {
             PSI PSIForm = new PSI();
             PSIForm.OnPSI   += FormPSI;              // PSI амплитуда и фаза =>  (8,9,10,11)
-            PSIForm.OnPSI1  += FormPSI1;             // PSI  фазы (1,2,3,4) -> в Главное  окно
+            PSIForm.OnPSI1  += FormPSI1;             // PSI  фазы (regComplex) -> в Главное  окно
             PSIForm.OnPSI_Carre += FormPSI_Carre;    // PSI Carre фазы (1,2,3,4) -> в Главное  окно
 
             PSIForm.OnIMAX  += FormIMAX;             // Квантование (8,9,10,11)
@@ -3052,18 +3054,33 @@ namespace rab1
             STRUCTUR.On_Sub += Correct_Sub;                 // Вычесть два массива 1-2 => ArrayPicture
             STRUCTUR.On_Sub_Cos += Correct_Sub_Cos;         // Вычесть два массива
             STRUCTUR.On_Corr_Sub += Correct_Corr_Sub;       // Вычесть два массива с корректировкой значений по углу
-            STRUCTUR.On_Sub_Line += Correct_Line;
+            STRUCTUR.On_Sub_Line += Correct_Line;           // Вычесть линейный тренд 
+            STRUCTUR.On_Count_Line += Correct_Count;
+            STRUCTUR.On_Null += Correct_Null;              // Убрать нули
             STRUCTUR.Show();
         }
 
-        private void Correct_Line(int num)                    // Вычесть два массива
+
+        private void Correct_Null()                    // Убрать нули
+        {
+            zArrayPicture = Model_object.Count_Null(zArrayPicture);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+
+        }
+
+        private void Correct_Count(int num)                    // Вычесть два массива
+        {
+            Model_object.Count_Line(zArrayPicture, num);
+
+        }
+        private void Correct_Line(int num)                    // Вычесть линейный тренд
         {
             zArrayPicture = Model_object.Sub_Line(zArrayPicture, num);
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
         }
 
 
-        private void Correct_Corr_Sub(double L, double d, double d1, double x_max)
+        private void Correct_Corr_Sub(double L, double d, double d1, int x_max)
         {
             //zArrayDescriptor[2] = Model_object.Correct(zArrayDescriptor[0], L, d, d1, x_max);
             //zArrayDescriptor[3] = Model_object.Correct(zArrayDescriptor[1], L, d, d1, x_max);
@@ -3074,6 +3091,7 @@ namespace rab1
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
 
         }
+     
         private void Correct_Sub()                    // Вычесть два массива
         {
             zArrayPicture = SumClass.Sub_zArray(zArrayDescriptor[0], zArrayDescriptor[1]);
@@ -3093,9 +3111,9 @@ namespace rab1
         }
 
 
-        private void Correct(double L, double d, double d1, double x_max)
+        private void Correct(double L, double d, double d1, int Number_line)    // Корректировка высот
         {
-            zArrayPicture = Model_object.Correct(zArrayPicture, L,  d, d1, x_max);
+            zArrayPicture = Model_object.Correct(zArrayPicture, L,  d, d1, Number_line);
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
 
         }

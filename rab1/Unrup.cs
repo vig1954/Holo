@@ -584,6 +584,7 @@ namespace rab1.Forms
             {
                 int n = 0;
                 double a1 = zArray.array[0, j];
+                zArray_res.array[0, j] = a1;
                 for (int i = 1; i < nx; i++)
                 {         
                     double a2 = zArray.array[i, j];
