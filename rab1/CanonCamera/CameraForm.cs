@@ -37,8 +37,9 @@ namespace rab1
         List<int> ISOList;
         List<Camera> CamList;
         Bitmap Evf_Bmp;
-        int LVBw, LVBh, w, h;
-        float LVBratio, LVration;
+        int LVBw, LVBh; 
+        //int w, h;
+        //float LVBratio, LVration;
 
         int ErrCount;
         object ErrLock = new object();
