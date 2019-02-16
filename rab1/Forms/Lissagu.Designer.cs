@@ -50,6 +50,7 @@
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.button4 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -97,7 +98,7 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Checked = true;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(22, 379);
+            this.checkBox1.Location = new System.Drawing.Point(835, 392);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(32, 17);
             this.checkBox1.TabIndex = 12;
@@ -110,7 +111,7 @@
             this.checkBox2.AutoSize = true;
             this.checkBox2.Checked = true;
             this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox2.Location = new System.Drawing.Point(60, 379);
+            this.checkBox2.Location = new System.Drawing.Point(873, 392);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(32, 17);
             this.checkBox2.TabIndex = 13;
@@ -123,7 +124,7 @@
             this.checkBox3.AutoSize = true;
             this.checkBox3.Checked = true;
             this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox3.Location = new System.Drawing.Point(98, 379);
+            this.checkBox3.Location = new System.Drawing.Point(911, 392);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(32, 17);
             this.checkBox3.TabIndex = 14;
@@ -136,7 +137,7 @@
             this.checkBox4.AutoSize = true;
             this.checkBox4.Checked = true;
             this.checkBox4.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox4.Location = new System.Drawing.Point(136, 379);
+            this.checkBox4.Location = new System.Drawing.Point(949, 392);
             this.checkBox4.Name = "checkBox4";
             this.checkBox4.Size = new System.Drawing.Size(32, 17);
             this.checkBox4.TabIndex = 15;
@@ -179,11 +180,11 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(768, 96);
+            this.button1.Location = new System.Drawing.Point(737, 96);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(179, 37);
+            this.button1.Size = new System.Drawing.Size(263, 49);
             this.button1.TabIndex = 5;
-            this.button1.Text = "Построить фигуру Лиссажу\r\nпо кадру (regComplex)";
+            this.button1.Text = "Построить фигуру Лиссажу числитель/знаменатель\r\nпо кадру (regComplex)";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -217,17 +218,17 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(768, 139);
+            this.button2.Location = new System.Drawing.Point(737, 151);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(179, 37);
+            this.button2.Size = new System.Drawing.Size(262, 50);
             this.button2.TabIndex = 10;
-            this.button2.Text = "Построить фигуру Лиссажу\r\nпо строке";
+            this.button2.Text = "Построить фигуру Лиссажу числитель/знаменатель\r\nпо строке";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(768, 182);
+            this.button3.Location = new System.Drawing.Point(768, 328);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(179, 37);
             this.button3.TabIndex = 11;
@@ -261,11 +262,22 @@
             this.label3.TabIndex = 18;
             this.label3.Text = "0";
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(738, 207);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(262, 50);
+            this.button4.TabIndex = 19;
+            this.button4.Text = "Построить фигуру Лиссажу\r\n y- 1 кадр x - 2 кадр\r\nпо строке";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Lissagu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1011, 773);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.hScrollBar1);
@@ -322,5 +334,6 @@
         private System.Windows.Forms.HScrollBar hScrollBar1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button button4;
     }
 }
