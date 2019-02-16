@@ -22,6 +22,7 @@ namespace rab1.Forms
     {
         public event ModelSinG_kr OnModelSin;
         public event ModelSinG_kr OnModelSin1;
+        public event ModelSinG_kr OnModelSin8;
         public event ModelSinG    OnModelWB;
         public event ModelSinD    OnModel_Dithering;
         public event ModelSinD    OnModel_DitheringVZ;
@@ -72,13 +73,10 @@ namespace rab1.Forms
             Close();
         }
 
-        private void button8_Click(object sender, EventArgs e)                         // Смоделировать 4 синусоиды с размером периода N_pol
+        private void button8_Click(object sender, EventArgs e)                         // Смоделировать 4(8) синусоиды с размером периода N_pol
         {
-            double[] fzrad = new double[4];
-            fz[0] = Convert.ToDouble(textBox1.Text); fzrad[0] = Math.PI * fz[0] / 180.0;   // Фаза в радианах  
-            fz[1] = Convert.ToDouble(textBox2.Text); fzrad[1] = Math.PI * fz[1] / 180.0;
-            fz[2] = Convert.ToDouble(textBox3.Text); fzrad[2] = Math.PI * fz[2] / 180.0;
-            fz[3] = Convert.ToDouble(textBox4.Text); fzrad[3] = Math.PI * fz[3] / 180.0;
+            double[] fzrad = null;
+
             gamma = Convert.ToDouble(textBox5.Text);
             N_pol = Convert.ToDouble(textBox6.Text);
             N_urovn = Convert.ToDouble(textBox8.Text);   // Амплитуда
@@ -87,8 +85,37 @@ namespace rab1.Forms
             Ny = Convert.ToInt32(textBox12.Text);
             noise = Convert.ToDouble(textBox11.Text);
 
-            OnModelSin1(fzrad, N_urovn, gamma, N_pol, kr, Nx, Ny, noise);
-            Close();
+            if (cbUse8Shifts.Checked)
+            {
+                fzrad = new double[8];
+
+                fzrad[0] = Math.PI * Convert.ToDouble(textBox1.Text) / 180.0;   // Фаза в радианах  
+                fzrad[1] = Math.PI * Convert.ToDouble(textBox2.Text) / 180.0;
+                fzrad[2] = Math.PI * Convert.ToDouble(textBox3.Text) / 180.0;
+                fzrad[3] = Math.PI * Convert.ToDouble(textBox4.Text) / 180.0;
+
+                fzrad[4] = Math.PI * Convert.ToDouble(textBox13.Text) / 180.0;
+                fzrad[5] = Math.PI * Convert.ToDouble(textBox14.Text) / 180.0;
+                fzrad[6] = Math.PI * Convert.ToDouble(textBox15.Text) / 180.0;
+                fzrad[7] = Math.PI * Convert.ToDouble(textBox16.Text) / 180.0;
+
+                OnModelSin8(fzrad, N_urovn, gamma, N_pol, kr, Nx, Ny, noise);
+                Close();
+
+                MessageBox.Show("Arrays are created successfully", "Message", MessageBoxButtons.OK);
+            }
+            else
+            {
+                fzrad = new double[4];
+
+                fz[0] = Convert.ToDouble(textBox1.Text); fzrad[0] = Math.PI * fz[0] / 180.0;   // Фаза в радианах  
+                fz[1] = Convert.ToDouble(textBox2.Text); fzrad[1] = Math.PI * fz[1] / 180.0;
+                fz[2] = Convert.ToDouble(textBox3.Text); fzrad[2] = Math.PI * fz[2] / 180.0;
+                fz[3] = Convert.ToDouble(textBox4.Text); fzrad[3] = Math.PI * fz[3] / 180.0;
+                
+                OnModelSin1(fzrad, N_urovn, gamma, N_pol, kr, Nx, Ny, noise);
+                Close();
+            }
         }
 
         private void button7_Click(object sender, EventArgs e)     // В текущий комплексный массив exp(-iw)

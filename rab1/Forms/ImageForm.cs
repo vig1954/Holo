@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using rab1.Forms;
+
 namespace rab1
 {
     public partial class ImageForm : Form
@@ -23,6 +25,18 @@ namespace rab1
             this.imageBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 
             this.Controls.Add(this.imageBox);
+        }
+
+        public void SetImage(ZArrayDescriptor zArray)
+        {
+            this.imageBox.Invoke
+            (
+                (MethodInvoker)delegate
+                {
+                    Vizual.Vizual_Picture(zArray, this.imageBox);
+                    this.imageBox.Refresh();
+                }
+            );
         }
 
         public void SetImage(Image image, float offsetX)

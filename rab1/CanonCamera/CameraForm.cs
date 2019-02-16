@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
+using rab1.Forms;
 
 using EDSDKLib;
 
@@ -38,9 +39,7 @@ namespace rab1
         List<Camera> CamList;
         Bitmap Evf_Bmp;
         int LVBw, LVBh; 
-        //int w, h;
-        //float LVBratio, LVration;
-
+        
         int ErrCount;
         object ErrLock = new object();
 
@@ -50,6 +49,9 @@ namespace rab1
         short currentImageNumber = 0;
         float imageOffsetX = 0;
         float imageOffsetStep = 0;
+
+        int imageWidth = 0;
+        int imageHeight = 0;
 
         #endregion
 
@@ -273,7 +275,6 @@ namespace rab1
                 if (seriesType == TakePhotoSeriesTypeEnum.ImageSeries)
                 {
                     currentImageNumber++;
-                    imageOffsetX -= imageOffsetStep;
                     if (currentImageNumber == GetMaxImagesCount())
                     {
                         takeNextPhoto = false;
@@ -717,12 +718,7 @@ namespace rab1
             currentImageNumber = 1;
             imageOffsetX = 0;
             delay = int.Parse(DelayTextBox.Text);
-
-            if (cbShifts8.Checked)
-            {
-                imageOffsetStep = float.Parse(offsetPixelsTextBox.Text);
-            }
-
+                        
             takeNextPhoto = true;
             SetImageAndTakePhoto();
         }
@@ -744,9 +740,8 @@ namespace rab1
         {
             if (this.cbShifts8.Checked)
             {
-                int pictureBoxNumber = 12;
-                Image image = MainForm.GetImageFromPictureBox(pictureBoxNumber);
-                imageForm.SetImage(image, imageOffsetX);
+                ZArrayDescriptor zArray = MainForm.GetZArrayFrom8(currentImageNumber);
+                imageForm.SetImage(zArray);
             }
             else
             {

@@ -37,7 +37,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.button4 = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.button5 = new System.Windows.Forms.Button();
             this.textBox7 = new System.Windows.Forms.TextBox();
@@ -56,6 +55,11 @@
             this.button8 = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.textBox12 = new System.Windows.Forms.TextBox();
+            this.textBox13 = new System.Windows.Forms.TextBox();
+            this.textBox14 = new System.Windows.Forms.TextBox();
+            this.textBox15 = new System.Windows.Forms.TextBox();
+            this.textBox16 = new System.Windows.Forms.TextBox();
+            this.cbUse8Shifts = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // button1
@@ -113,7 +117,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(249, 55);
+            this.label1.Location = new System.Drawing.Point(281, 92);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 6;
@@ -121,7 +125,7 @@
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(318, 52);
+            this.textBox5.Location = new System.Drawing.Point(354, 88);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(46, 20);
             this.textBox5.TabIndex = 7;
@@ -137,18 +141,9 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(20, 52);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(72, 13);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "Число полос";
-            // 
             // textBox6
             // 
-            this.textBox6.Location = new System.Drawing.Point(152, 55);
+            this.textBox6.Location = new System.Drawing.Point(214, 73);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(46, 20);
             this.textBox6.TabIndex = 11;
@@ -210,7 +205,7 @@
             // 
             // textBox9
             // 
-            this.textBox9.Location = new System.Drawing.Point(439, 108);
+            this.textBox9.Location = new System.Drawing.Point(439, 124);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(46, 20);
             this.textBox9.TabIndex = 19;
@@ -219,7 +214,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(281, 110);
+            this.label5.Location = new System.Drawing.Point(281, 127);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(133, 13);
             this.label5.TabIndex = 20;
@@ -227,7 +222,7 @@
             // 
             // textBox10
             // 
-            this.textBox10.Location = new System.Drawing.Point(439, 13);
+            this.textBox10.Location = new System.Drawing.Point(439, 55);
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(46, 20);
             this.textBox10.TabIndex = 21;
@@ -236,7 +231,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(404, 16);
+            this.label6.Location = new System.Drawing.Point(413, 59);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(20, 13);
             this.label6.TabIndex = 22;
@@ -272,11 +267,11 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(20, 68);
+            this.label8.Location = new System.Drawing.Point(20, 76);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(107, 13);
+            this.label8.Size = new System.Drawing.Size(183, 13);
             this.label8.TabIndex = 26;
-            this.label8.Text = "Размер sin в точках";
+            this.label8.Text = "Число полос / Размер sin в точках";
             // 
             // button8
             // 
@@ -291,7 +286,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(404, 42);
+            this.label9.Location = new System.Drawing.Point(413, 88);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(20, 13);
             this.label9.TabIndex = 28;
@@ -299,17 +294,64 @@
             // 
             // textBox12
             // 
-            this.textBox12.Location = new System.Drawing.Point(439, 39);
+            this.textBox12.Location = new System.Drawing.Point(439, 85);
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(46, 20);
             this.textBox12.TabIndex = 29;
             this.textBox12.Text = "2160";
+            // 
+            // textBox13
+            // 
+            this.textBox13.Location = new System.Drawing.Point(284, 13);
+            this.textBox13.Name = "textBox13";
+            this.textBox13.Size = new System.Drawing.Size(46, 20);
+            this.textBox13.TabIndex = 30;
+            this.textBox13.Text = "180";
+            // 
+            // textBox14
+            // 
+            this.textBox14.Location = new System.Drawing.Point(336, 13);
+            this.textBox14.Name = "textBox14";
+            this.textBox14.Size = new System.Drawing.Size(46, 20);
+            this.textBox14.TabIndex = 31;
+            this.textBox14.Text = "225";
+            // 
+            // textBox15
+            // 
+            this.textBox15.Location = new System.Drawing.Point(388, 13);
+            this.textBox15.Name = "textBox15";
+            this.textBox15.Size = new System.Drawing.Size(46, 20);
+            this.textBox15.TabIndex = 32;
+            this.textBox15.Text = "270";
+            // 
+            // textBox16
+            // 
+            this.textBox16.Location = new System.Drawing.Point(440, 14);
+            this.textBox16.Name = "textBox16";
+            this.textBox16.Size = new System.Drawing.Size(46, 20);
+            this.textBox16.TabIndex = 33;
+            this.textBox16.Text = "315";
+            // 
+            // cbUse8Shifts
+            // 
+            this.cbUse8Shifts.AutoSize = true;
+            this.cbUse8Shifts.Location = new System.Drawing.Point(25, 48);
+            this.cbUse8Shifts.Name = "cbUse8Shifts";
+            this.cbUse8Shifts.Size = new System.Drawing.Size(76, 17);
+            this.cbUse8Shifts.TabIndex = 34;
+            this.cbUse8Shifts.Text = "8 сдвигов";
+            this.cbUse8Shifts.UseVisualStyleBackColor = true;
             // 
             // Model_Sin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(497, 388);
+            this.Controls.Add(this.cbUse8Shifts);
+            this.Controls.Add(this.textBox16);
+            this.Controls.Add(this.textBox15);
+            this.Controls.Add(this.textBox14);
+            this.Controls.Add(this.textBox13);
             this.Controls.Add(this.textBox12);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.button8);
@@ -328,7 +370,6 @@
             this.Controls.Add(this.textBox7);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.textBox6);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.textBox5);
             this.Controls.Add(this.label1);
@@ -356,7 +397,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TextBox textBox7;
@@ -375,5 +415,10 @@
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.TextBox textBox13;
+        private System.Windows.Forms.TextBox textBox14;
+        private System.Windows.Forms.TextBox textBox15;
+        private System.Windows.Forms.TextBox textBox16;
+        private System.Windows.Forms.CheckBox cbUse8Shifts;
     }
 }

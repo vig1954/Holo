@@ -23,7 +23,8 @@ namespace rab1
         
 // -----------------------------------------------------------------------------------------------------------
         Image[] img = new Image[12];
-        public static ZArrayDescriptor[]   zArrayDescriptor = new ZArrayDescriptor[12];     // Иконки справа      
+        public static ZArrayDescriptor[] zArrayDescriptor = new ZArrayDescriptor[12];     // Иконки справа
+        public static ZArrayDescriptor[] zArray8 = new ZArrayDescriptor[8]; 
         public static ZArrayDescriptor     zArrayPicture = new ZArrayDescriptor();            // Массив для главного окна
         public static ZComplexDescriptor[] zComplex = new ZComplexDescriptor[3];
         public PictureBox[] pictureBoxArray = null;
@@ -2448,6 +2449,7 @@ namespace rab1
             Model_Sin ModelForm = new Model_Sin();
             ModelForm.OnModelSin          += FormModel_Sin;             // Задается число полос
             ModelForm.OnModelSin1         += FormModel_Sin1;            // Задается число точек в периоде
+            ModelForm.OnModelSin8         += FormModel_Sin8;
             ModelForm.OnModelWB           += FormModel_WB;
             ModelForm.OnModel_Dithering   += FormModel_Dithering;
             ModelForm.OnModel_DitheringVZ += FormModel_DitheringVZ;
@@ -2478,6 +2480,14 @@ namespace rab1
             {
                 zArrayDescriptor[regComplex * 4 + i] = Model_Sinus.Sinus1(fz[i], amp, n_pol, gamma, kr, Nx, Ny, noise);
                 Vizual_regImage(regComplex * 4 + i);
+            }
+        }
+
+        private void FormModel_Sin8(double[] fz, double amp, double gamma, double n_pol, int kr, int Nx, int Ny, double noise)       // Модель sin c фазовым сдвигом
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                zArray8[i] = Model_Sinus.Sinus1(fz[i], amp, n_pol, gamma, kr, Nx, Ny, noise);
             }
         }
 
@@ -3047,7 +3057,14 @@ namespace rab1
             }
             return image;
         }
-// Структурированное освещение
+        
+        public ZArrayDescriptor GetZArrayFrom8(int number)
+        {
+            int index = number - 1;
+            return zArray8[index];
+        }
+
+        // Структурированное освещение
         private void моделированиеОстаткаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Structur STRUCTUR = new Structur();
