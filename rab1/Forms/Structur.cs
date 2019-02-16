@@ -105,7 +105,7 @@ namespace rab1.Forms
             L = Convert.ToDouble(textBox2.Text);
             d1 = Convert.ToDouble(textBox3.Text);
             x_max = Convert.ToDouble(textBox6.Text);   // Максимальное смещение
-           // On_Corr_Sub(L, d, d1, x_max);
+            //On_Corr_Sub(L, d, d1, x_max);
             Close();
         }
 

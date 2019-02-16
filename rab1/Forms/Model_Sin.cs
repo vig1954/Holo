@@ -26,7 +26,7 @@ namespace rab1.Forms
         public event ModelSinD    OnModel_Dithering;
         public event ModelSinD    OnModel_DitheringVZ;
         public event ModelSin     OnModelAtan2;
-        public event ModelSin     OnModelAtan2_L;
+        //public event ModelSin     OnModelAtan2_L;
         public event ModelExp     OnModelExp;
 
         private static double[] fz = { 0.0, 90.0, 180.0, 270.0 };
@@ -160,17 +160,7 @@ namespace rab1.Forms
 
         }
 
-        private void button3_Click(object sender, EventArgs e)                      // Фигура Лиссажу
-        {
-            double[] fzrad = new double[4];
-            fz[0] = Convert.ToDouble(textBox1.Text); fzrad[0] = Math.PI * fz[0] / 180.0;   // Фаза в радианах  
-            fz[1] = Convert.ToDouble(textBox2.Text); fzrad[1] = Math.PI * fz[1] / 180.0;
-            fz[2] = Convert.ToDouble(textBox3.Text); fzrad[2] = Math.PI * fz[2] / 180.0;
-            fz[3] = Convert.ToDouble(textBox4.Text); fzrad[3] = Math.PI * fz[3] / 180.0;
-
-            OnModelAtan2_L(fzrad);
-            Close();
-        }
+       
 
         
 

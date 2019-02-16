@@ -102,6 +102,7 @@
             this.интерференцияСферическихВолнToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pSIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pSIToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.лиссажуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.разверткаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.таблицаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.разверткаToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -117,6 +118,7 @@
             this.выделениеПоОкружностиПо4ёмОпределяемымТочкам9101112ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.удалениеТрапеции4Массивов13ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выделениеПрямоугольникаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.выделениеПрямоугольникаИзЦентральногоОкнаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сверхразрешениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.разряжениеМассиваНулямиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.добвлениеМассиваПовторениемЗначенийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -204,7 +206,6 @@
             this.button9 = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
-            this.выделениеПрямоугольникаИзЦентральногоОкнаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox01)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -840,7 +841,6 @@
             this.фазаToolStripMenuItem.Name = "фазаToolStripMenuItem";
             this.фазаToolStripMenuItem.Size = new System.Drawing.Size(100, 20);
             this.фазаToolStripMenuItem.Text = "Моделирование";
-            this.фазаToolStripMenuItem.Click += new System.EventHandler(this.фазаToolStripMenuItem_Click);
             // 
             // моделированиеToolStripMenuItem
             // 
@@ -898,18 +898,25 @@
             // pSIToolStripMenuItem
             // 
             this.pSIToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.pSIToolStripMenuItem1});
+            this.pSIToolStripMenuItem1,
+            this.лиссажуToolStripMenuItem});
             this.pSIToolStripMenuItem.Name = "pSIToolStripMenuItem";
             this.pSIToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.pSIToolStripMenuItem.Text = "PSI";
-            this.pSIToolStripMenuItem.Click += new System.EventHandler(this.pSI4ToolStripMenuItem_Click);
             // 
             // pSIToolStripMenuItem1
             // 
             this.pSIToolStripMenuItem1.Name = "pSIToolStripMenuItem1";
-            this.pSIToolStripMenuItem1.Size = new System.Drawing.Size(90, 22);
+            this.pSIToolStripMenuItem1.Size = new System.Drawing.Size(188, 22);
             this.pSIToolStripMenuItem1.Text = "PSI";
             this.pSIToolStripMenuItem1.Click += new System.EventHandler(this.pSI4ToolStripMenuItem_Click);
+            // 
+            // лиссажуToolStripMenuItem
+            // 
+            this.лиссажуToolStripMenuItem.Name = "лиссажуToolStripMenuItem";
+            this.лиссажуToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.лиссажуToolStripMenuItem.Text = "Лиссажу  (regComplex)";
+            this.лиссажуToolStripMenuItem.Click += new System.EventHandler(this.лиссажуToolStripMenuItem_Click);
             // 
             // разверткаToolStripMenuItem
             // 
@@ -1026,6 +1033,13 @@
             this.выделениеПрямоугольникаToolStripMenuItem.Size = new System.Drawing.Size(332, 22);
             this.выделениеПрямоугольникаToolStripMenuItem.Text = "Выделение прямоугольника (4 текущих кадра)";
             this.выделениеПрямоугольникаToolStripMenuItem.Click += new System.EventHandler(this.выделениеПрямоугольникаToolStripMenuItem_Click);
+            // 
+            // выделениеПрямоугольникаИзЦентральногоОкнаToolStripMenuItem
+            // 
+            this.выделениеПрямоугольникаИзЦентральногоОкнаToolStripMenuItem.Name = "выделениеПрямоугольникаИзЦентральногоОкнаToolStripMenuItem";
+            this.выделениеПрямоугольникаИзЦентральногоОкнаToolStripMenuItem.Size = new System.Drawing.Size(332, 22);
+            this.выделениеПрямоугольникаИзЦентральногоОкнаToolStripMenuItem.Text = "Выделение прямоугольника из центрального окна";
+            this.выделениеПрямоугольникаИзЦентральногоОкнаToolStripMenuItem.Click += new System.EventHandler(this.выделениеПрямоугольникаИзЦентральногоОкнаToolStripMenuItem_Click);
             // 
             // сверхразрешениеToolStripMenuItem
             // 
@@ -1895,13 +1909,6 @@
             this.vScrollBar2.TabIndex = 115;
             this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar2_Scroll);
             // 
-            // выделениеПрямоугольникаИзЦентральногоОкнаToolStripMenuItem
-            // 
-            this.выделениеПрямоугольникаИзЦентральногоОкнаToolStripMenuItem.Name = "выделениеПрямоугольникаИзЦентральногоОкнаToolStripMenuItem";
-            this.выделениеПрямоугольникаИзЦентральногоОкнаToolStripMenuItem.Size = new System.Drawing.Size(332, 22);
-            this.выделениеПрямоугольникаИзЦентральногоОкнаToolStripMenuItem.Text = "Выделение прямоугольника из центрального окна";
-            this.выделениеПрямоугольникаИзЦентральногоОкнаToolStripMenuItem.Click += new System.EventHandler(this.выделениеПрямоугольникаИзЦентральногоОкнаToolStripMenuItem_Click);
-            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2183,6 +2190,7 @@
         private System.Windows.Forms.ToolStripMenuItem графикToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem выделениеПрямоугольникаИзЦентральногоОкнаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem лиссажуToolStripMenuItem;
     }
 }
 

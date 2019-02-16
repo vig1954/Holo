@@ -22,6 +22,7 @@ namespace rab1.Forms
             // c1 = ImageProcessor.getPixel(i, j, data1);                       // c1 = bmp1.GetPixel(i, j);   
             // ImageProcessor.setPixel(data5, i, j, Color.FromArgb(r, r, r));   // bmp2.SetPixel(j, i, c1);
             // bmp5.UnlockBits(data5);   
+           
             if (pictureBox01     == null) { MessageBox.Show("Vizual_Picture: pictureBox01 == null"); return; }
             if (zArrayDescriptor == null) { MessageBox.Show("Vizual_Picture: ZArrayDescriptor array == null"); return; }
 
@@ -104,6 +105,7 @@ namespace rab1.Forms
             if (width == 0 || height == 0) { MessageBox.Show("width == 0 || height == 0"); return; }
 
             Bitmap bmp2 = new Bitmap(width, height);
+   
             BitmapData data2 = ImageProcessor.getBitmapData(bmp2);
 
             double max = SumClass.getMax(zArrayDescriptor);

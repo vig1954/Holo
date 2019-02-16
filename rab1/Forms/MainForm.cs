@@ -2452,7 +2452,7 @@ namespace rab1
             ModelForm.OnModel_Dithering   += FormModel_Dithering;
             ModelForm.OnModel_DitheringVZ += FormModel_DitheringVZ;
             ModelForm.OnModelAtan2        += FormModel_Atan2;
-            ModelForm.OnModelAtan2_L      += FormModel_Atan2_L;        // Фигуры Лиссажу
+            
             ModelForm.OnModelExp          += FormModel_Exp;
             ModelForm.Show();
 
@@ -2541,13 +2541,7 @@ namespace rab1
             //zArrayPicture.Double_Picture(pictureBox01);
         }
         
-        // --------------------------------------------------------------------------------- Фигуры Лиссажу
-        private void FormModel_Atan2_L(double[] fz)  // Atan2 bp 1,2,3,4 => zArrayPicture 
-        {
-            zArrayPicture = FazaClass.ATAN_Gr(zArrayDescriptor, fz, regComplex);
-            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
-            //zArrayPicture.Double_Picture(pictureBox01);
-        }
+        
 
 
 
@@ -2806,6 +2800,15 @@ namespace rab1
         {
             zArrayDescriptor[k3] = Unrup.Unrup_array(zArrayDescriptor, k1, k2, N1_sin, N2_sin, N_diag, sdvig, Mngtl);
             Vizual_regImage(k3);
+        }
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //           Исправление интенсивности по фигуре лиссажу
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        private void лиссажуToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Lissagu LsgForm = new Lissagu();
+
+            LsgForm.Show();
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3125,7 +3128,8 @@ namespace rab1
 
         }
 
-       
+     
+
 
         // private void модельОбъектаToolStripMenuItem(object sender, EventArgs e)
         // {

@@ -64,11 +64,11 @@ namespace rab1
             return cmpl;
         }
 
-        public static ZArrayDescriptor ATAN_Gr(ZArrayDescriptor[] zArrayDescriptor, double[] fz, int regComplex)   // Фигура Лиссажу 1,2,3,4  => zArrayPicture
+        public static ZArrayDescriptor ATAN_Gr(ZArrayDescriptor[] zArrayDescriptor, double[] fz, int regComplex)   // Фигура Лиссажу regComplex 1,2,3,4  => zArrayPicture
         {
 
             int n_sdv = fz.Length;                                             // Число фазовых сдвигов
-            for (int i = 0; i < n_sdv; i++) if (zArrayDescriptor[i] == null) { MessageBox.Show("FazaCalass.ATAN_Gr zArrayDescriptor == NULL"); return null; }
+            for (int i = 0; i < n_sdv; i++) if (zArrayDescriptor[regComplex * 4 + i] == null) { MessageBox.Show("FazaCalass.ATAN_Gr zArrayDescriptor == NULL"); return null; }
 
 
             int w1 = zArrayDescriptor[regComplex * 4].width;
@@ -99,7 +99,7 @@ namespace rab1
                 {
 
                     // ------                                     Формула расшифровки
-                    for (int k = 0; k < n_sdv; k++) { i_sdv[k] = zArrayDescriptor[regComplex*4+k].array[i, j]; }
+                    for (int k = 0; k < n_sdv; k++) { i_sdv[k] = zArrayDescriptor[regComplex*4 + k].array[i, j]; }
                     v_sdv[0] = i_sdv[1] - i_sdv[n_sdv - 1];
                     v_sdv[n_sdv - 1] = i_sdv[0] - i_sdv[n_sdv - 2];
                     for (int k = 1; k < n_sdv - 1; k++) v_sdv[k] = i_sdv[k + 1] - i_sdv[k - 1];
@@ -116,7 +116,7 @@ namespace rab1
             //MessageBox.Show("min  fz1= " + min_fz1 + " max fz1= " + max_fz1 + "min  fz2= " + min_fz2 + " max fz2= " + max_fz2);
             int nn = 1024;
             ZArrayDescriptor cmpl = new ZArrayDescriptor(nn, nn);        // Массив для фаз
-            nn = 512;
+            nn = 256;
             for (int i = 0; i < w1; i++)
             {
                 for (int j = 0; j < h1; j++)
@@ -133,7 +133,7 @@ namespace rab1
                     fz1 = -fz1;
                     int x = (int)  ((fz1 - min_fz1) * nn / (max_fz1 - min_fz1));
                     int y = (int)  ((fz2 - min_fz2) * nn / (max_fz2 - min_fz2));
-                    cmpl.array[x+20, y+20] += 25;
+                    cmpl.array[x+10, y+10] += 25;
                    
                    // cmpl.array[x+20, y+20] = 250;
                    
@@ -142,7 +142,83 @@ namespace rab1
 
             return cmpl;
         }
+        // Фигура Лиссажу regComplex 1,2,3,4  по строке N_Line => ZArrayDescriptor
+        public static ZArrayDescriptor ATAN_Gr_N(ZArrayDescriptor[] zArrayDescriptor, double[] fz, int regComplex, int N_Line)  
+        {
 
+            int n_sdv = fz.Length;                                             // Число фазовых сдвигов
+            for (int i = 0; i < n_sdv; i++) if (zArrayDescriptor[regComplex * 4 + i] == null) { MessageBox.Show("FazaCalass.ATAN_Gr zArrayDescriptor == NULL"); return null; }
+
+
+            int w1 = zArrayDescriptor[regComplex * 4].width;
+            int h1 = zArrayDescriptor[regComplex * 4].height;
+            //ZArrayDescriptor cmpl = new ZArrayDescriptor(w1, h1);        // Массив для фаз
+
+            double[] i_sdv = new double[n_sdv];
+            double[] v_sdv = new double[n_sdv];                                  // Вектор коэффициентов
+            double[] k_sin = new double[n_sdv];
+            double[] k_cos = new double[n_sdv];
+
+            for (int i = 0; i < n_sdv; i++) { k_sin[i] = Math.Sin(fz[i]); k_cos[i] = Math.Cos(fz[i]); }  //  Сдвиги фаз (4 сдвига - 0, 90, 180, 270  градусов)
+
+            int[] ims1 = new int[h1];
+            int[] ims2 = new int[h1];
+            int[] ims3 = new int[h1];
+
+            // double pi2 = Math.PI * 2;
+
+            double max_fz1 = double.MinValue; ;
+            double max_fz2 = double.MinValue; ;
+            double min_fz1 = double.MaxValue;
+            double min_fz2 = double.MaxValue;
+
+         
+                for (int j = 0; j < w1; j++)
+                {
+
+                    // ------                                     Формула расшифровки
+                    for (int k = 0; k < n_sdv; k++) { i_sdv[k] = zArrayDescriptor[regComplex * 4 + k].array[j, N_Line]; }
+                    v_sdv[0] = i_sdv[1] - i_sdv[n_sdv - 1];
+                    v_sdv[n_sdv - 1] = i_sdv[0] - i_sdv[n_sdv - 2];
+                    for (int k = 1; k < n_sdv - 1; k++) v_sdv[k] = i_sdv[k + 1] - i_sdv[k - 1];
+                    double fz1 = 0;
+                    double fz2 = 0;
+                    for (int k = 0; k < n_sdv; k++) { fz1 += v_sdv[k] * k_sin[k]; fz2 += v_sdv[k] * k_cos[k]; }
+                    fz1 = -fz1;
+                    if (fz1 > max_fz1) max_fz1 = fz1;
+                    if (fz2 > max_fz2) max_fz2 = fz2;
+                    if (fz1 < min_fz1) min_fz1 = fz1;
+                    if (fz2 < min_fz2) min_fz2 = fz2;
+                }
+           
+            //MessageBox.Show("min  fz1= " + min_fz1 + " max fz1= " + max_fz1 + "min  fz2= " + min_fz2 + " max fz2= " + max_fz2);
+            int nn = 1024;
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(nn, nn);        // Массив для фаз
+            nn = 256;                                                    // 512x512
+           
+                for (int j = 0; j < w1; j++)
+                {
+
+                    // ------                                     Формула расшифровки
+                    for (int k = 0; k < n_sdv; k++) { i_sdv[k] = zArrayDescriptor[regComplex * 4 + k].array[j, N_Line]; }
+                    v_sdv[0] = i_sdv[1] - i_sdv[n_sdv - 1];
+                    v_sdv[n_sdv - 1] = i_sdv[0] - i_sdv[n_sdv - 2];
+                    for (int k = 1; k < n_sdv - 1; k++) v_sdv[k] = i_sdv[k + 1] - i_sdv[k - 1];
+                    double fz1 = 0;
+                    double fz2 = 0;
+                    for (int k = 0; k < n_sdv; k++) { fz1 += v_sdv[k] * k_sin[k]; fz2 += v_sdv[k] * k_cos[k]; }
+                    fz1 = -fz1;
+                    int x = (int)((fz1 - min_fz1) * nn / (max_fz1 - min_fz1));
+                    int y = (int)((fz2 - min_fz2) * nn / (max_fz2 - min_fz2));
+                    cmpl.array[x + 10, y + 10] += 25;
+
+                    // cmpl.array[x+20, y+20] = 250;
+
+                }
+    
+
+            return cmpl;
+        }
         public static ZArrayDescriptor ATAN_Sdvg(ZArrayDescriptor[] zArrayDescriptor,  int regComplex)
         {
             int w1 = zArrayDescriptor[regComplex * 4].width;
