@@ -233,5 +233,43 @@ namespace rab1.Forms
             int ixx = hScrollBar1.Value;
             Gr(ixx);
         }
+        //  ---------------------------------------------------------------------------------------------------
+        //                     Фигуры Лиссажу по y 1 кадр по x - 2 кадр
+        //  ---------------------------------------------------------------------------------------------------
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            
+            if ((k1 + k2 + k3 + k4) != 2) { MessageBox.Show("Число флагов больше или меньше 2"); return; }  // Только 2 кадра должны быть выбраны
+
+            int[] kk = new int[4]; { kk[0] = k1;  kk[1] = k2;  kk[2] = k3;  kk[3] = k4; }
+
+            int kk1 = 0, kk2 = 1;                                                               // Номер 1 и второго кадров
+
+            for (int i = 0; i < 4; i++) { if (kk[i] != 0) { kk1 = i; kk[i] = 0; break; }  }
+            for (int i = 0; i < 4; i++) { if (kk[i] != 0) { kk2 = i; break; } }
+
+
+            int N_line = Convert.ToInt32(textBox1.Text);                                        // Номер строки
+
+            int w1 = Form1.zArrayDescriptor[Form1.regComplex].width;
+            int h1 = Form1.zArrayDescriptor[Form1.regComplex].height;
+
+            ZArrayDescriptor faza = new ZArrayDescriptor(w1, h1);
+
+            faza = FazaClass.Lissagu(Form1.zArrayDescriptor, Form1.regComplex, N_line, kk1, kk2);
+            Vizual.Vizual_Picture(faza, pictureBox2);
+        }
+
+        
+
+
+
+
+
+
+
+
     }
+
 }
