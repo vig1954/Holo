@@ -24,6 +24,9 @@ namespace rab1.Forms
         private static double max = double.MinValue;  // Минимальное значение для 4 строк
         private static double min = double.MaxValue;
 
+        private static double maxg = double.MinValue;  // Минимальное значение гистограммы для 4 строк
+        private static double ming = double.MaxValue;
+
         private static  double[] buf1;    // массивы для 4 строк
         private static  double[] buf2;
         private static  double[] buf3;
@@ -134,7 +137,7 @@ namespace rab1.Forms
 
             for (int j = 0; j < w1; j++)
                {
-                  buf1[j] = (buf1[j] - min) * 255/  (max-min);
+                  buf1[j] = (buf1[j] - min) * 255/  (max - min);
                   buf2[j] = (buf2[j] - min) * 255 / (max - min);
                   buf3[j] = (buf3[j] - min) * 255 / (max - min);
                   buf4[j] = (buf4[j] - min) * 255 / (max - min);
@@ -260,8 +263,158 @@ namespace rab1.Forms
             faza = FazaClass.Lissagu(Form1.zArrayDescriptor, Form1.regComplex, N_line, kk1, kk2);
             Vizual.Vizual_Picture(faza, pictureBox2);
         }
+        //  ---------------------------------------------------------------------------------------------------
+        //                    Гистограмма 4 кадров
+        //  ---------------------------------------------------------------------------------------------------
+        private void Min_Max_gstgr(int N_line)                                    // ming, maxg  - глобальные
+        {
+            int w1 = Form1.zArrayDescriptor[Form1.regComplex].width;
+            int h1 = Form1.zArrayDescriptor[Form1.regComplex].height;
 
-        
+            buf1 = new double[w1];
+            const int n = 256;                           // Максимальное число яркости по гистограмме
+            double[] gstgr = new double[n];
+
+            max = double.MinValue;
+            min = double.MaxValue;
+
+          
+
+            for (int k = 0; k < 4; k++)             // 1. Определение максимальной и минимальной яркости для 4 кадров
+            {
+                for (int i = 0; i < w1; i++) buf1[i] = Form1.zArrayDescriptor[Form1.regComplex * 4 + k].array[i, N_line];
+                for (int i = 0; i < w1; i++)
+                {
+                    if (buf1[i] > max) max = buf1[i];
+                    if (buf1[i] < min) min = buf1[i];
+                }
+            }
+
+            maxg = double.MinValue;
+            ming = double.MaxValue;
+
+            for (int k = 0; k < 4; k++)             // 2. Определение максимального и минимального значения гистограммы
+                for (int i = 0; i < w1; i++) buf1[i] = Form1.zArrayDescriptor[Form1.regComplex * 4 + k].array[i, N_line];
+            for (int i = 0; i < n; i++) gstgr[i] = 0;
+            for (int i = 0; i < w1; i++)
+            {
+                int k = (int)((buf1[i] - min) * (n - 1) / (max - min));  // от 0 до 255
+                gstgr[k]++;
+            }
+            for (int i = 0; i < n; i++)
+            {
+                if (gstgr[i] > maxg) maxg = gstgr[i];
+                if (gstgr[i] < ming) ming = gstgr[i];
+            }
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)  //  ----------------------------------------------Построение гистограммы
+        {
+            if (Form1.zArrayDescriptor[Form1.regComplex * 4] == null) { MessageBox.Show("Гистограмма zArrayDescriptor == NULL"); return; }
+
+            int w = Form1.zArrayDescriptor[Form1.regComplex].width;
+            int h = Form1.zArrayDescriptor[Form1.regComplex].height;
+
+            int w1 = pictureBox1.Width;
+            int h1 = pictureBox1.Height;
+
+            int N_line = Convert.ToInt32(textBox1.Text);
+            Min_Max_gstgr(N_line);
+
+            buf1 = new double[w];
+            const int n = 256;                           // Максимальное число яркости по гистограмме
+            double[] gstgr = new double[n];
+
+            Bitmap btm = new Bitmap(w1, h1);
+            Graphics gr_Image = Graphics.FromImage(btm);
+            pictureBox1.Image = btm;
+
+            Pen p1 = new Pen(Color.Black, 1);
+            Pen p2 = new Pen(Color.Red, 1);       // Red
+            Pen p3 = new Pen(Color.Green, 1);  
+            Pen p4 = new Pen(Color.Purple, 1); 
+
+            SolidBrush drawBrush = new SolidBrush(Color.Black);
+
+            int x0 = 20;
+            int y0 = 20;
+
+            if (k1 == 1)                                                        // Флаг включен Гистограмма по 1 кадру
+                 {
+                   for (int i = 0; i < w; i++) { buf1[i] = Form1.zArrayDescriptor[Form1.regComplex * 4 + 0].array[i, N_line];}
+                   for (int i = 0; i < w; i++)
+                   {
+                    int k = (int)((buf1[i] - min) * (n - 1) / (max - min));  // от 0 до 255
+                    gstgr[k]++;
+                   }
+                  for (int i = 0; i < gstgr.Length - 1; i++)                                   // Вывод графика
+                   {
+                    int i1 = i + x0;
+                    int c1 = (int)((gstgr[i] - ming) * 255 / (maxg - ming));
+                    int y1 = (h1 - 0 - y0);
+                    int y2 = (h1 - c1 - y0);
+                    gr_Image.DrawLine(p1, i + x0, y1, i + x0, y2);
+                   }
+                 }
+    
+            if (k2 == 1)                                                        // Флаг включен Гистограмма по 1 кадру
+            {
+                for (int i = 0; i < w; i++) { buf1[i] = Form1.zArrayDescriptor[Form1.regComplex * 4 + 1].array[i, N_line]; }
+                for (int i = 0; i < w; i++)
+                {
+                    int k = (int)((buf1[i] - min) * (n - 1) / (max - min));  // от 0 до 255
+                    gstgr[k]++;
+                }
+                for (int i = 0; i < gstgr.Length - 1; i++)                                   // Вывод графика
+                {
+                    int i1 = i + x0;
+                    int c1 = (int)((gstgr[i] - ming) * 255 / (maxg - ming));
+                    int y1 = (h1 - 0 - y0);
+                    int y2 = (h1 - c1 - y0);
+                    gr_Image.DrawLine(p2, i + x0, y1, i  + x0, y2);
+                }
+            }
+            if (k3 == 1)                                                        // Флаг включен Гистограмма по 1 кадру
+            {
+                for (int i = 0; i < w; i++) { buf1[i] = Form1.zArrayDescriptor[Form1.regComplex * 4 + 2].array[i, N_line]; }
+                for (int i = 0; i < w; i++)
+                {
+                    int k = (int)((buf1[i] - min) * (n - 1) / (max - min));  // от 0 до 255
+                    gstgr[k]++;
+                }
+                for (int i = 0; i < gstgr.Length - 1; i++)                                   // Вывод графика
+                {
+                    int i1 = i + x0;
+                    int c1 = (int)((gstgr[i] - ming) * 255 / (maxg - ming));
+                    int y1 = (h1 - 0 - y0);
+                    int y2 = (h1 - c1 - y0);
+                    gr_Image.DrawLine(p2, i + x0, y1, i  + x0, y2);
+                }
+            }
+
+            if (k4 == 1)                                                        // Флаг включен Гистограмма по 1 кадру
+            {
+                for (int i = 0; i < w; i++) { buf1[i] = Form1.zArrayDescriptor[Form1.regComplex * 4 + 3].array[i, N_line]; }
+                for (int i = 0; i < w; i++)
+                {
+                    int k = (int)((buf1[i] - min) * (n - 1) / (max - min));  // от 0 до 255
+                    gstgr[k]++;
+                }
+                for (int i = 0; i < gstgr.Length - 1; i++)                                   // Вывод графика
+                {
+                    int i1 = i + x0;
+                    int c1 = (int)((gstgr[i] - ming) * 255 / (maxg - ming));
+                    int y1 = (h1 - 0 - y0);
+                    int y2 = (h1 - c1 - y0);
+                    gr_Image.DrawLine(p3, i + x0, y1, i  + x0, y2);
+                }
+            }
+
+            pictureBox1.Invalidate();
+
+        }
+
 
 
 
