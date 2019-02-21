@@ -49,6 +49,7 @@
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox11 = new System.Windows.Forms.TextBox();
+            this.button7 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -225,11 +226,22 @@
             this.textBox11.Size = new System.Drawing.Size(40, 20);
             this.textBox11.TabIndex = 30;
             // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(237, 27);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(149, 23);
+            this.button7.TabIndex = 31;
+            this.button7.Text = "Задание сдвигов";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
             // PSI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(687, 405);
+            this.Controls.Add(this.button7);
             this.Controls.Add(this.textBox11);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.textBox10);
@@ -281,5 +293,6 @@
         private System.Windows.Forms.TextBox textBox10;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.Button button7;
     }
 }

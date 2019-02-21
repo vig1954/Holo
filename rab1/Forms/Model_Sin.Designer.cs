@@ -59,7 +59,9 @@
             this.textBox14 = new System.Windows.Forms.TextBox();
             this.textBox15 = new System.Windows.Forms.TextBox();
             this.textBox16 = new System.Windows.Forms.TextBox();
-            this.cbUse8Shifts = new System.Windows.Forms.CheckBox();
+            this.textBox17 = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -147,7 +149,7 @@
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(46, 20);
             this.textBox6.TabIndex = 11;
-            this.textBox6.Text = "4";
+            this.textBox6.Text = "40";
             // 
             // button5
             // 
@@ -332,22 +334,41 @@
             this.textBox16.TabIndex = 33;
             this.textBox16.Text = "315";
             // 
-            // cbUse8Shifts
+            // textBox17
             // 
-            this.cbUse8Shifts.AutoSize = true;
-            this.cbUse8Shifts.Location = new System.Drawing.Point(25, 48);
-            this.cbUse8Shifts.Name = "cbUse8Shifts";
-            this.cbUse8Shifts.Size = new System.Drawing.Size(76, 17);
-            this.cbUse8Shifts.TabIndex = 34;
-            this.cbUse8Shifts.Text = "8 сдвигов";
-            this.cbUse8Shifts.UseVisualStyleBackColor = true;
+            this.textBox17.Location = new System.Drawing.Point(23, 39);
+            this.textBox17.Name = "textBox17";
+            this.textBox17.Size = new System.Drawing.Size(46, 20);
+            this.textBox17.TabIndex = 34;
+            this.textBox17.Text = "4";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(93, 46);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(83, 13);
+            this.label2.TabIndex = 35;
+            this.label2.Text = "Число сдвигов";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(214, 41);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(116, 23);
+            this.button3.TabIndex = 36;
+            this.button3.Text = "Задание сдвигов";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // Model_Sin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(497, 388);
-            this.Controls.Add(this.cbUse8Shifts);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.textBox17);
             this.Controls.Add(this.textBox16);
             this.Controls.Add(this.textBox15);
             this.Controls.Add(this.textBox14);
@@ -419,6 +440,8 @@
         private System.Windows.Forms.TextBox textBox14;
         private System.Windows.Forms.TextBox textBox15;
         private System.Windows.Forms.TextBox textBox16;
-        private System.Windows.Forms.CheckBox cbUse8Shifts;
+        private System.Windows.Forms.TextBox textBox17;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button button3;
     }
 }

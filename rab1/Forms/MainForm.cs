@@ -2449,7 +2449,7 @@ namespace rab1
             Model_Sin ModelForm = new Model_Sin();
             ModelForm.OnModelSin          += FormModel_Sin;             // Задается число полос
             ModelForm.OnModelSin1         += FormModel_Sin1;            // Задается число точек в периоде
-            ModelForm.OnModelSin8         += FormModel_Sin8;
+            //ModelForm.OnModelSin8         += FormModel_Sin8;
             ModelForm.OnModelWB           += FormModel_WB;
             ModelForm.OnModel_Dithering   += FormModel_Dithering;
             ModelForm.OnModel_DitheringVZ += FormModel_DitheringVZ;
@@ -2474,22 +2474,22 @@ namespace rab1
             }         
         }
 
-        private void FormModel_Sin1(double[] fz, double amp, double gamma, double n_pol, int kr, int Nx, int Ny, double noise)       // Модель sin c фазовым сдвигом
+        private void FormModel_Sin1(double[] fz, int N_sdv, double amp, double gamma, double n_pol, int kr, int Nx, int Ny, double noise)       // Модель sin c фазовым сдвигом
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < N_sdv; i++)
             {
                 zArrayDescriptor[regComplex * 4 + i] = Model_Sinus.Sinus1(fz[i], amp, n_pol, gamma, kr, Nx, Ny, noise);
                 Vizual_regImage(regComplex * 4 + i);
             }
         }
 
-        private void FormModel_Sin8(double[] fz, double amp, double gamma, double n_pol, int kr, int Nx, int Ny, double noise)       // Модель sin c фазовым сдвигом
-        {
-            for (int i = 0; i < 8; i++)
-            {
-                zArray8[i] = Model_Sinus.Sinus1(fz[i], amp, n_pol, gamma, kr, Nx, Ny, noise);
-            }
-        }
+        //private void FormModel_Sin8(double[] fz, double amp, double gamma, double n_pol, int kr, int Nx, int Ny, double noise)       // Модель sin c фазовым сдвигом
+        //{
+        //    for (int i = 0; i < 8; i++)
+        //    {
+        //        zArray8[i] = Model_Sinus.Sinus1(fz[i], amp, n_pol, gamma, kr, Nx, Ny, noise);
+         //   }
+        //}
 
         private void FormModel_Dithering(double[] fz, double n_pol, int n_kvant, int n_urovn)       // Dithering
         {

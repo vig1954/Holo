@@ -136,6 +136,20 @@ namespace rab1.Forms
 
         }
 
-        
+        private void button7_Click(object sender, EventArgs e)
+        {
+            n_sdv = Convert.ToInt32(textBox11.Text);   // Число сдвигов
+            double n = 360.0 / n_sdv;
+
+            textBox1.Text = Convert.ToString(0);
+            textBox2.Text = Convert.ToString(n);
+            textBox3.Text = Convert.ToString(2 * n);
+            textBox4.Text = Convert.ToString(3 * n);
+
+            textBox7.Text = Convert.ToString(4 * n);
+            textBox8.Text = Convert.ToString(5 * n);
+            textBox9.Text = Convert.ToString(6 * n);
+            textBox10.Text = Convert.ToString(7 * n);
+        }
     }
 }
