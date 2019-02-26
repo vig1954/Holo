@@ -2453,12 +2453,25 @@ namespace rab1
             ModelForm.OnModelWB           += FormModel_WB;
             ModelForm.OnModel_Dithering   += FormModel_Dithering;
             ModelForm.OnModel_DitheringVZ += FormModel_DitheringVZ;
-            ModelForm.OnModelAtan2        += FormModel_Atan2;
-            
-            ModelForm.OnModelExp          += FormModel_Exp;
+            //ModelForm.OnModelAtan2        += FormModel_Atan2;
+            ModelForm.OnModel_Intensity    += FormModel_Intensity;      // Клин интенсивности
+            ModelForm.OnModelExp           += FormModel_Exp;
             ModelForm.Show();
 
         }
+
+        private void FormModel_Intensity(double nu, int Nx, int Ny)       // Модель exponent
+        {
+            zArrayDescriptor[regComplex * 4 + 0] = Model_Sinus.Intensity1(nu, Nx, Ny);
+            zArrayDescriptor[regComplex * 4 + 1] = Model_Sinus.Intensity2(nu, Nx, Ny);
+            zArrayDescriptor[regComplex * 4 + 2] = Model_Sinus.Intensity3(nu, Nx, Ny);
+            zArrayDescriptor[regComplex * 4 + 3] = Model_Sinus.Intensity4(nu, Nx, Ny);
+
+            for (int i = 0; i < 4; i++) Vizual_regImage(regComplex * 4 + i);
+           
+        }
+
+
 
         private void FormModel_Exp(double g, int N)       // Модель exponent
         {
@@ -2544,12 +2557,12 @@ namespace rab1
             zArrayDescriptor[3].Double_Picture(pictureBox4);
         }
 
-        private void FormModel_Atan2(double[] fz)  // Atan2 bp 1,2,3,4 => zArrayPicture
-        {
-            zArrayPicture = FazaClass.ATAN_N(zArrayDescriptor, fz);
-            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+      //  private void FormModel_Atan2(double[] fz)  // Atan2 bp 1,2,3,4 => zArrayPicture
+      //  {
+      //      zArrayPicture = FazaClass.ATAN_N(zArrayDescriptor, fz);
+      //      Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
             //zArrayPicture.Double_Picture(pictureBox01);
-        }
+     //   }
         
         
 
@@ -3145,7 +3158,12 @@ namespace rab1
 
         }
 
-     
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+
 
 
         // private void модельОбъектаToolStripMenuItem(object sender, EventArgs e)

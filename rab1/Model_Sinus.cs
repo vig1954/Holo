@@ -103,8 +103,93 @@ namespace rab1.Forms
 
             return cmpl;
         }
+        // ---------------------------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Моделирование клина интенсивности
+        /// </summary>
+        /// <param name="nu"></param> Число уровней интенсивности
+        /// <param name="Nx"></param> Размер массива по x
+        /// <param name="Ny"></param>  Размер массива по y
+        /// <returns></returns>
+        public static ZArrayDescriptor Intensity1(double nu, int Nx, int Ny)
+        {
+            Nx = 4096;
+            Ny = 2048;
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(Nx, Ny);
+            int k = (int)(Nx/(nu+1));
+
+            //int i1 = 0;
+            for (int i = 0; i < Nx; i++)
+               {
+                // for (int ints = 0; ints < k; ints++)
+                    for (int j = 0; j < Ny; j++)
+                     {
+                       cmpl.array[i , j] = i/k;
+
+                     }
+                }
+            return cmpl;
+        }
+        public static ZArrayDescriptor Intensity2(double nu, int Nx, int Ny)
+        {
+            Nx = 4096;
+            Ny = 2048;
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(Nx, Ny);
+            int k = (int)(Nx / (nu + 1));
+
+            //int i1 = 0;
+            for (int i = 0; i < Nx; i++)
+            {
+                // for (int ints = 0; ints < k; ints++)
+                for (int j = 0; j < Ny; j++)
+                {
+                    cmpl.array[i, j] = (Nx-i) / k;
+
+                }
+            }
+            return cmpl;
+        }
+        public static ZArrayDescriptor Intensity3(double nu, int Nx, int Ny)
+        {
+            Nx = 4096;
+            Ny = 2048;
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(Nx, Ny);
+            int n = (int) (nu + 1);
+            int ky = Ny / n;
+
+            //int i1 = 0;
+            for (int i = 0; i < Nx; i++)
+            {
+                // for (int ints = 0; ints < k; ints++)
+                for (int j = 0; j < Ny; j++)
+                {
+                    cmpl.array[i, j] =  j / ky;
+                }
+            }
+            return cmpl;
+        }
+        public static ZArrayDescriptor Intensity4(double nu, int Nx, int Ny)
+        {
+            int n = (int) ((nu + 1) / 2);
+            Nx = 4096;
+            Ny = 2048;
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(Nx, Ny);
+            int k = Nx / n;
+
+            //int i1 = 0;
+            for (int i = 0; i < Nx; i++)
+            {
+                // for (int ints = 0; ints < k; ints++)
+                for (int j = 0; j < Ny; j++)
+                {
+                    cmpl.array[i, j] = i / k;
+
+                }
+            }
+            return cmpl;
+        }
         //----------------------------------------------------------------------------------------------------------Dithering
-       
+
         public static ZArrayDescriptor Dithering(double fz, double n_polos, int N_kvant, int N_urovn)
         {
 

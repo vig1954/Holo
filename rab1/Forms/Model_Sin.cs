@@ -9,12 +9,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
-public delegate void ModelSin(double[] fz);
+//public delegate void ModelSin(double[] fz);
 public delegate void ModelSinG(double[] fz, double gamma, double N_pol);
 public delegate void ModelSinG_kr(double[] fz, double N_urovn, double gamma, double N_pol, int k, int Nx, int Ny, double noise);
 public delegate void ModelSinG_Picture(double[] fz, int N, double N_urovn, double gamma, double N_pol, int k, int Nx, int Ny, double noise);
 public delegate void ModelSinD(double[] fz, double N_pol, int kvant, int N_urovn);
 public delegate void ModelExp(double g, int N);
+public delegate void Model_I(double nu, int nx, int ny);
 
 
 namespace rab1.Forms
@@ -27,9 +28,10 @@ namespace rab1.Forms
         public event ModelSinG    OnModelWB;
         public event ModelSinD    OnModel_Dithering;
         public event ModelSinD    OnModel_DitheringVZ;
-        public event ModelSin     OnModelAtan2;
+        //public event ModelSin     OnModelAtan2;
         //public event ModelSin     OnModelAtan2_L;
         public event ModelExp     OnModelExp;
+        public event Model_I      OnModel_Intensity;
 
         private static double[] fz = { 0.0, 90.0, 180.0, 270.0, 0.0, 90.0, 180.0, 270.0 };
         private static int N_sdv = 4;
@@ -165,7 +167,7 @@ namespace rab1.Forms
        
 
 
-        private void button2_Click(object sender, EventArgs e)                       //   ATAN2
+ /*       private void button2_Click(object sender, EventArgs e)                       //   ATAN2
         {
             double[] fzrad = new double[4];
             fz[0] = Convert.ToDouble(textBox1.Text); fzrad[0] = Math.PI * fz[0] / 180.0;   // Фаза в радианах  
@@ -177,7 +179,7 @@ namespace rab1.Forms
             Close();
 
         }
-
+*/
         private void button3_Click(object sender, EventArgs e)   // Задание сдвигов
         {
             N_sdv = Convert.ToInt32(textBox17.Text);   // Число сдвигов
@@ -195,7 +197,14 @@ namespace rab1.Forms
          
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            N_urovn = Convert.ToDouble(textBox8.Text);   // Число уровней
+            Nx = Convert.ToInt32(textBox10.Text);
+            Ny = Convert.ToInt32(textBox12.Text);
+            OnModel_Intensity(N_urovn, Nx, Ny);
 
-
+            Close();
+        }
     }
 }
