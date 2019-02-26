@@ -16,6 +16,7 @@ public delegate void ModelSinG_Picture(double[] fz, int N, double N_urovn, doubl
 public delegate void ModelSinD(double[] fz, double N_pol, int kvant, int N_urovn);
 public delegate void ModelExp(double g, int N);
 public delegate void Model_I(double nu, int nx, int ny);
+public delegate void Model_IL(int nl);
 
 
 namespace rab1.Forms
@@ -32,6 +33,8 @@ namespace rab1.Forms
         //public event ModelSin     OnModelAtan2_L;
         public event ModelExp     OnModelExp;
         public event Model_I      OnModel_Intensity;
+        public event Model_IL     OnModel_Intensity_Line;  // Вертикальные полосы
+        
 
         private static double[] fz = { 0.0, 90.0, 180.0, 270.0, 0.0, 90.0, 180.0, 270.0 };
         private static int N_sdv = 4;
@@ -203,6 +206,14 @@ namespace rab1.Forms
             Nx = Convert.ToInt32(textBox10.Text);
             Ny = Convert.ToInt32(textBox12.Text);
             OnModel_Intensity(N_urovn, Nx, Ny);
+
+            Close();
+        }
+
+        private void button9_Click(object sender, EventArgs e) // Полосы поверх изображения
+        {
+            int N_p = Convert.ToInt32(textBox6.Text);
+            OnModel_Intensity_Line(N_p);
 
             Close();
         }

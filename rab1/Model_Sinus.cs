@@ -188,6 +188,31 @@ namespace rab1.Forms
             }
             return cmpl;
         }
+        /// <summary>
+        /// -----------------------------   Вертикальные полосы
+        /// </summary>
+        /// <param name="nl"></param>       Период полос в точках
+        /// <param name="zArray"></param>   Массив в который вносятся изменения
+        /// <returns></returns>
+        public static ZArrayDescriptor Intensity_Line(int nl, ZArrayDescriptor zArray)
+        {
+            if (zArray == null) { MessageBox.Show("Intensity_Line zArray == NULL"); return null; }
+            int Nx = zArray.width;
+            int Ny = zArray.height;
+
+            for (int i = 0; i < Nx; i+=nl)
+            {
+               
+                for (int j = 0; j < Ny; j++)
+                {
+                    double z = zArray.array[i, j];
+                    if (z < 128) zArray.array[i, j] = 255; else zArray.array[i, j] = 0;
+
+
+                }
+            }
+            return zArray;
+        }
         //----------------------------------------------------------------------------------------------------------Dithering
 
         public static ZArrayDescriptor Dithering(double fz, double n_polos, int N_kvant, int N_urovn)
