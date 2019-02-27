@@ -170,11 +170,11 @@ namespace rab1.Forms
         }
         public static ZArrayDescriptor Intensity4(double nu, int Nx, int Ny)
         {
-            int n = (int) ((nu + 1) / 2);
             Nx = 4096;
             Ny = 2048;
             ZArrayDescriptor cmpl = new ZArrayDescriptor(Nx, Ny);
-            int k = Nx / n;
+            int n = (int)(nu + 1);
+            int ky = Ny / n;
 
             //int i1 = 0;
             for (int i = 0; i < Nx; i++)
@@ -182,8 +182,7 @@ namespace rab1.Forms
                 // for (int ints = 0; ints < k; ints++)
                 for (int j = 0; j < Ny; j++)
                 {
-                    cmpl.array[i, j] = i / k;
-
+                    cmpl.array[i, j] = (Ny-j) / ky;
                 }
             }
             return cmpl;
@@ -204,6 +203,26 @@ namespace rab1.Forms
             {
                
                 for (int j = 0; j < Ny; j++)
+                {
+                    double z = zArray.array[i, j];
+                    if (z < 128) zArray.array[i, j] = 255; else zArray.array[i, j] = 0;
+
+
+                }
+            }
+            return zArray;
+        }
+
+        public static ZArrayDescriptor Intensity_Line1(int nl, ZArrayDescriptor zArray)
+        {
+            if (zArray == null) { MessageBox.Show("Intensity_Line zArray == NULL"); return null; }
+            int Nx = zArray.width;
+            int Ny = zArray.height;
+
+            for (int i = 0; i < Nx; i ++)
+            {
+
+                for (int j = 0; j < Ny; j += nl)
                 {
                     double z = zArray.array[i, j];
                     if (z < 128) zArray.array[i, j] = 255; else zArray.array[i, j] = 0;

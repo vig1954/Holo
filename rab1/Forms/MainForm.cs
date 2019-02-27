@@ -2476,10 +2476,10 @@ namespace rab1
         {
             zArrayDescriptor[regComplex * 4 + 0] = Model_Sinus.Intensity_Line(nl, zArrayDescriptor[regComplex * 4 + 0]);
             zArrayDescriptor[regComplex * 4 + 1] = Model_Sinus.Intensity_Line(nl, zArrayDescriptor[regComplex * 4 + 1]);
-            zArrayDescriptor[regComplex * 4 + 2] = Model_Sinus.Intensity_Line(nl, zArrayDescriptor[regComplex * 4 + 2]);
-           // zArrayDescriptor[regComplex * 4 + 3] = Model_Sinus.Intensity4(nu, Nx, Ny);
+            zArrayDescriptor[regComplex * 4 + 2] = Model_Sinus.Intensity_Line1(nl, zArrayDescriptor[regComplex * 4 + 2]);
+            zArrayDescriptor[regComplex * 4 + 3] = Model_Sinus.Intensity_Line1(nl, zArrayDescriptor[regComplex * 4 + 3]);
 
-            for (int i = 0; i < 3; i++) Vizual_regImage(regComplex * 4 + i);
+            for (int i = 0; i < 4; i++) Vizual_regImage(regComplex * 4 + i);
         }
 
 
