@@ -111,7 +111,7 @@ D:\Programm\Holo\EDSDKLib\bin\Debug\MLib.dll
 D:\Programm\Holo\EDSDKLib\bin\Debug\Ucs32P.dll
 D:\Programm\Holo\EDSDKLib\bin\Debug\EDSDKLib.dll
 D:\Programm\Holo\EDSDKLib\bin\Debug\EDSDKLib.pdb
-D:\Programm\Holo\EDSDKLib\obj\x86\Debug\EDSDKLib.csprojResolveAssemblyReference.cache
 D:\Programm\Holo\EDSDKLib\obj\x86\Debug\EDSDKLib.csproj.CoreCompileInputs.cache
 D:\Programm\Holo\EDSDKLib\obj\x86\Debug\EDSDKLib.dll
 D:\Programm\Holo\EDSDKLib\obj\x86\Debug\EDSDKLib.pdb
+D:\Programm\Holo\EDSDKLib\obj\x86\Debug\EDSDKLib.csprojAssemblyReference.cache
