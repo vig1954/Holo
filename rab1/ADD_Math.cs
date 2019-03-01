@@ -30,16 +30,23 @@ namespace rab1
                 }
             VisualRegImage(k1); 
         }
-
+        /// <summary>
+        /// Линейный коэффициент корреляции r-Пирсона между двумя массивами
+        /// </summary>
+        /// <param name="k1"></param> Номер 1 массива (от 1 до 12 перуводится в диапазон от 0 до 11)
+        /// <param name="k2"></param> Номер 2 массива
         public static void Pirs_D(int k1, int k2)             // Линейный коэффициент корреляции r-Пирсона между двумя массивами
         {
             k1--; k2--;                                   // Массив 1 ->  0
+            //MessageBox.Show("k1=  " + k1 + " k2=  " + k2);
             if (Form1.zArrayDescriptor[k1] == null) { MessageBox.Show("Pirs_D zArrayDescriptor[" + k1 + "] == NULL"); return; }
             if (Form1.zArrayDescriptor[k2] == null) { MessageBox.Show("Pirs_D zArrayDescriptor[" + k2 + "] == NULL"); return; }
 
             int nx = Form1.zArrayDescriptor[k1].width;
             int ny = Form1.zArrayDescriptor[k2].height;
 
+            int nx1 = nx-1;
+            int ny1 = ny - 1;
             // MessageBox.Show("Pirs_D");
 
             double s1 = 0;
@@ -50,7 +57,7 @@ namespace rab1
                     s1 += Form1.zArrayDescriptor[k1].array[i, j];
                     s2 += Form1.zArrayDescriptor[k2].array[i, j];
                 }
-            s1 = s1 / (nx * ny); s2 = s2 / (nx * ny);
+            s1 = s1 / (nx1 * ny1); s2 = s2 / (nx1 * ny1);  // Среднее значение
             //MessageBox.Show("s1 = " + s1);
 
             double r;
@@ -68,7 +75,8 @@ namespace rab1
                 }
 
             r = ch1 / Math.Sqrt(zn1 * zn2);
-            MessageBox.Show("Pirs_D s1 = " + s1 + " s2 = " + s2 + " r = " + r);
+            double gr = Math.Acos(r) * 180 / Math.PI;
+            MessageBox.Show("Pirs_D Среднее значение s1 = " + s1 + " s2 = " + s2 + "\n Коэффициент корреляции r = " + r + "\n В градусах = " + gr);
         }
 
         public static void ROR_D(int k1)             // Циклический сдвиг вправо zArrayDescriptor[regImage]

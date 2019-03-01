@@ -270,7 +270,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(422, 114);
+            this.label12.Location = new System.Drawing.Point(423, 103);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(12, 13);
             this.label12.TabIndex = 45;
@@ -326,7 +326,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(424, 54);
+            this.label9.Location = new System.Drawing.Point(423, 66);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(10, 13);
             this.label9.TabIndex = 39;
@@ -472,9 +472,9 @@
             // 
             // button16
             // 
-            this.button16.Location = new System.Drawing.Point(530, 380);
+            this.button16.Location = new System.Drawing.Point(389, 132);
             this.button16.Name = "button16";
-            this.button16.Size = new System.Drawing.Size(130, 35);
+            this.button16.Size = new System.Drawing.Size(89, 35);
             this.button16.TabIndex = 55;
             this.button16.Text = "Коэффициент корреляции";
             this.button16.UseVisualStyleBackColor = true;

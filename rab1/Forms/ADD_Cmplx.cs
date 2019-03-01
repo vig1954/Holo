@@ -269,7 +269,7 @@ namespace rab1.Forms
             k6 = Convert.ToInt32(textBox6.Text);
             k7 = Convert.ToInt32(textBox7.Text);
             On_Pirs(k6, k7);
-            Close();
+           
         }
 
         private void button19_Click(object sender, EventArgs e)

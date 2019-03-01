@@ -344,6 +344,24 @@ namespace rab1
             Vizual_regImage(regComplex * 4 + 3);
 
         }
+        /// <summary>
+        ///  Удаление трапеции из центрального окна по 4 точкам
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void удалениеТрапецииzArrayPictureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Coords[] X = new Coords[4];
+
+            X[0] = new Coords(Convert.ToDouble(textBox3.Text), Convert.ToDouble(textBox4.Text));
+            X[1] = new Coords(Convert.ToDouble(textBox5.Text), Convert.ToDouble(textBox6.Text));
+            X[2] = new Coords(Convert.ToDouble(textBox7.Text), Convert.ToDouble(textBox8.Text));
+            X[3] = new Coords(Convert.ToDouble(textBox9.Text), Convert.ToDouble(textBox10.Text));
+
+            zArrayPicture = File_Change_Size.Change_trapezium(zArrayPicture, X);
+
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        }
         // Простое вырезение прямоугольника (8,9,10,11)
         private void выделениеПрямоугольникаToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -749,17 +767,17 @@ namespace rab1
 
             string string_rab = string_dialog;
 
-            if (string_dialog.Contains("1.")) { string_rab = string_dialog.Replace("1.", "2."); return string_rab; }
-            if (string_dialog.Contains("2.")) { string_rab = string_dialog.Replace("2.", "3."); return string_rab; }
-            if (string_dialog.Contains("3.")) { string_rab = string_dialog.Replace("3.", "4."); return string_rab; }
-            if (string_dialog.Contains("4.")) { string_rab = string_dialog.Replace("4.", "5."); return string_rab; }
-            if (string_dialog.Contains("5.")) { string_rab = string_dialog.Replace("5.", "6."); return string_rab; }
-            if (string_dialog.Contains("6.")) { string_rab = string_dialog.Replace("6.", "7."); return string_rab; }
-            if (string_dialog.Contains("7.")) { string_rab = string_dialog.Replace("7.", "8."); return string_rab; }
-            if (string_dialog.Contains("8.")) { string_rab = string_dialog.Replace("8.", "9."); return string_rab; }
-            if (string_dialog.Contains("9.")) { string_rab = string_dialog.Replace("9.", "10."); return string_rab; }
-            if (string_dialog.Contains("10.")) { string_rab = string_dialog.Replace("10.", "11."); return string_rab; }
-            if (string_dialog.Contains("11.")) { string_rab = string_dialog.Replace("11.", "12."); return string_rab; }
+            if (string_dialog.Contains("1."))  { string_rab = string_dialog.Replace("1.", "2.");    return string_rab; }
+            if (string_dialog.Contains("2."))  { string_rab = string_dialog.Replace("2.", "3.");    return string_rab; }
+            if (string_dialog.Contains("3."))  { string_rab = string_dialog.Replace("3.", "4.");    return string_rab; }
+            if (string_dialog.Contains("4."))  { string_rab = string_dialog.Replace("4.", "5.");    return string_rab; }
+            if (string_dialog.Contains("5."))  { string_rab = string_dialog.Replace("5.", "6.");    return string_rab; }
+            if (string_dialog.Contains("6."))  { string_rab = string_dialog.Replace("6.", "7.");    return string_rab; }
+            if (string_dialog.Contains("7."))  { string_rab = string_dialog.Replace("7.", "8.");    return string_rab; }
+            if (string_dialog.Contains("8."))  { string_rab = string_dialog.Replace("8.", "9.");    return string_rab; }
+            if (string_dialog.Contains("9."))  { string_rab = string_dialog.Replace("9.", "10.");   return string_rab; }
+            if (string_dialog.Contains("10.")) { string_rab = string_dialog.Replace("10.", "11.");  return string_rab; }
+            if (string_dialog.Contains("11.")) { string_rab = string_dialog.Replace("11.", "12.");  return string_rab; }
 
 
             //MessageBox.Show("SaveString  ERROR - Первый файл должен оканчиваться на 9" + string_dialog + " string_rab - " + string_rab);
@@ -797,7 +815,7 @@ namespace rab1
                     for (int i = 0; i < 4; i++)
                     {
                         ZGR_File(str, regComplex*4+i);
-                        str = SaveString8(str, i); //if (str == null) break;  // Неправильное имя файла
+                        str = SaveString8(str, i);                          //if (str == null) break;  // Неправильное имя файла
                         GC.Collect();
                         GC.WaitForPendingFinalizers();
                         progressBar1.PerformStep();
@@ -815,6 +833,12 @@ namespace rab1
             var dialog1 = new OpenFileDialog();
             dialog1.InitialDirectory = string_dialog;
 
+            progressBar1.Visible = true;
+            progressBar1.Minimum = 1;
+            progressBar1.Maximum = 9;
+            progressBar1.Value = 1;
+            progressBar1.Step = 1;
+
             if (dialog1.ShowDialog() == DialogResult.OK)
             {
                 try
@@ -823,12 +847,6 @@ namespace rab1
                     string_dialog = dialog1.FileName;
                     string str = string_dialog;
 
-                    progressBar1.Visible = true;
-                    progressBar1.Minimum = 1;
-                    progressBar1.Maximum = 9;
-                    progressBar1.Value = 1;
-                    progressBar1.Step = 1;
-
                     for (int i = 0; i < 8; i++)
                     {
                         ZGR_File(str,  i);
@@ -836,12 +854,11 @@ namespace rab1
                         GC.Collect();
                         GC.WaitForPendingFinalizers();
                         progressBar1.PerformStep();
-                    }
-
-                    progressBar1.Value = 1;
+                    }                 
                 }
                 catch (Exception ex) { MessageBox.Show("загрузить418ToolStripMenuItem_Click Ошибка " + ex.Message); }
             }
+            progressBar1.Value = 1;
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -923,7 +940,7 @@ namespace rab1
             }
         }
         /// <summary>
-        /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///                                                 Сохранить 4 файла 8,9,10,11
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -937,6 +954,12 @@ namespace rab1
             dialog1.Filter = "Bitmap(*.bmp)|*.bmp";
             string str1;
 
+            progressBar1.Visible = true;
+            progressBar1.Minimum = 1;
+            progressBar1.Maximum = 5;
+            progressBar1.Value = 1;
+            progressBar1.Step = 1;
+
             if (dialog1.ShowDialog() == DialogResult.OK)
             {
                 try
@@ -945,31 +968,34 @@ namespace rab1
                     string_dialog = dialog1.FileName;
                     string str = string_dialog;
 
+                  
+
                     str1 = str.Replace(".", "9.");
                     Bitmap newBitmap = new Bitmap(pictureBox9.Image);
                     newBitmap.Save(str1, System.Drawing.Imaging.ImageFormat.Bmp);
-
+                    progressBar1.PerformStep();
 
                     str1 = str.Replace(".", "10.");
                     newBitmap = new Bitmap(pictureBox10.Image);
                     newBitmap.Save(str1, System.Drawing.Imaging.ImageFormat.Bmp);
-
+                    progressBar1.PerformStep();
 
                     str1 = str.Replace(".", "11.");
                     newBitmap = new Bitmap(pictureBox11.Image);
                     newBitmap.Save(str1, System.Drawing.Imaging.ImageFormat.Bmp);
-
+                    progressBar1.PerformStep();
 
                     str1 = str.Replace(".", "12.");
                     newBitmap = new Bitmap(pictureBox12.Image);
                     newBitmap.Save(str1, System.Drawing.Imaging.ImageFormat.Bmp);
-
+                    progressBar1.PerformStep();
 
                     GC.Collect();
                     GC.WaitForPendingFinalizers();
                 }
                 catch (Exception ex) { MessageBox.Show(" Ошибка при записи файла " + ex.Message); }
             }
+            progressBar1.Value = 1;
         }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2461,7 +2487,12 @@ namespace rab1
             ModelForm.Show();
 
         }
-
+        /// <summary>
+        ///  Клин интенсивности 4096 х 2048
+        /// </summary>
+        /// <param name="nu"></param> Число градаций
+        /// <param name="Nx"></param> Не используется
+        /// <param name="Ny"></param> Не используется
         private void FormModel_Intensity(double nu, int Nx, int Ny)       // Клин интенсивности
         {
             zArrayDescriptor[regComplex * 4 + 0] = Model_Sinus.Intensity1(nu, Nx, Ny);
@@ -3173,6 +3204,8 @@ namespace rab1
         {
 
         }
+
+       
 
 
 

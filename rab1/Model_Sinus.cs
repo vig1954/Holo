@@ -108,50 +108,69 @@ namespace rab1.Forms
         /// Моделирование клина интенсивности
         /// </summary>
         /// <param name="nu"></param> Число уровней интенсивности
-        /// <param name="Nx"></param> Размер массива по x
-        /// <param name="Ny"></param>  Размер массива по y
+        /// <param name="Nx"></param> Не используется
+        /// <param name="Ny"></param> Не используется
         /// <returns></returns>
-        public static ZArrayDescriptor Intensity1(double nu, int Nx, int Ny)
+        /// 
+        public static ZArrayDescriptor Intens(int nu1, int nu2, int dx, ZArrayDescriptor zArray)  // Прямоугольник с цветом nu1 в начале и nu2 в конце
+        {
+
+            int Nx = zArray.width;
+            int Ny = zArray.height;
+
+            for (int j = 0; j < Ny; j++) 
+                for (int i = 0; i <dx; i++)
+                    zArray.array[i, j] = nu1;
+
+            for (int j = 0; j < Ny; j++)
+                for (int i = Nx-dx; i < Nx; i++)
+                    zArray.array[i, j] = nu2;
+
+            return zArray;
+        }
+
+        public static ZArrayDescriptor Intensity1(double nu, int Nx, int Ny)  // от светлово к темному
         {
             Nx = 4096;
             Ny = 2048;
+
+            int dx = 100;
+            int Nx1 = Nx;
+            Nx = Nx + dx * 2;
+
             ZArrayDescriptor cmpl = new ZArrayDescriptor(Nx, Ny);
-            int k = (int)(Nx/(nu+1));
 
-            //int i1 = 0;
-            for (int i = 0; i < Nx; i++)
-               {
-                // for (int ints = 0; ints < k; ints++)
+            int k = (int)(Nx1/(nu+1));
+
+            for (int i = 0; i < Nx-dx*2; i++)
                     for (int j = 0; j < Ny; j++)
-                     {
-                       cmpl.array[i , j] = i/k;
+                       cmpl.array[i+dx , j] = i/k;
 
-                     }
-                }
+            cmpl = Intens(255, 0, dx, cmpl);
             return cmpl;
         }
-        public static ZArrayDescriptor Intensity2(double nu, int Nx, int Ny)
+        public static ZArrayDescriptor Intensity2(double nu, int Nx, int Ny) // От черного к белому
         {
             Nx = 4096;
             Ny = 2048;
+            int dx = 100;
+            int Nx1 = Nx;
+            Nx = Nx + dx * 2;
+
             ZArrayDescriptor cmpl = new ZArrayDescriptor(Nx, Ny);
-            int k = (int)(Nx / (nu + 1));
 
-            //int i1 = 0;
-            for (int i = 0; i < Nx; i++)
-            {
-                // for (int ints = 0; ints < k; ints++)
+            int k = (int)(Nx1 / (nu + 1));
+
+            for (int i = 0; i < Nx - dx * 2; i++)
                 for (int j = 0; j < Ny; j++)
-                {
-                    cmpl.array[i, j] = (Nx-i) / k;
+                    cmpl.array[i+dx, j] = 255 - i / k;
 
-                }
-            }
+            cmpl = Intens(0, 255, dx, cmpl);
             return cmpl;
         }
         public static ZArrayDescriptor Intensity3(double nu, int Nx, int Ny)
         {
-            Nx = 4096;
+            Nx = 4296;
             Ny = 2048;
             ZArrayDescriptor cmpl = new ZArrayDescriptor(Nx, Ny);
             int n = (int) (nu + 1);
@@ -170,7 +189,7 @@ namespace rab1.Forms
         }
         public static ZArrayDescriptor Intensity4(double nu, int Nx, int Ny)
         {
-            Nx = 4096;
+            Nx = 4296;
             Ny = 2048;
             ZArrayDescriptor cmpl = new ZArrayDescriptor(Nx, Ny);
             int n = (int)(nu + 1);
