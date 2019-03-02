@@ -25,7 +25,6 @@ namespace rab1
 // -----------------------------------------------------------------------------------------------------------
         Image[] img = new Image[12];
         public static ZArrayDescriptor[] zArrayDescriptor = new ZArrayDescriptor[12];     // Иконки справа
-        public static ZArrayDescriptor[] zArray8 = new ZArrayDescriptor[8]; 
         public static ZArrayDescriptor     zArrayPicture = new ZArrayDescriptor();            // Массив для главного окна
         public static ZComplexDescriptor[] zComplex = new ZComplexDescriptor[3];
         public PictureBox[] pictureBoxArray = null;
@@ -3034,6 +3033,9 @@ namespace rab1
         
         private int GetPictureBoxIndex(PictureTakenEventArgs args)
         {
+            return args.Number - 1;
+            
+            /*
             int index = 1;
 
             if (args.GroupNumber == 0)
@@ -3046,6 +3048,7 @@ namespace rab1
             }
 
             return index;
+            */
         }
 
         private void HandleLiveViewUpdate(LiveViewUpdatedEventArgs eventArgs)
@@ -3113,12 +3116,7 @@ namespace rab1
             }
             return image;
         }
-        
-        public ZArrayDescriptor GetZArrayFrom8(int number)
-        {
-            int index = number - 1;
-            return zArray8[index];
-        }
+                
 
         // Структурированное освещение
         private void моделированиеОстаткаToolStripMenuItem_Click(object sender, EventArgs e)

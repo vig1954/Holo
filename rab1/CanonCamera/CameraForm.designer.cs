@@ -41,11 +41,6 @@
             this.FocusNear2Button = new System.Windows.Forms.Button();
             this.FocusNear3Button = new System.Windows.Forms.Button();
             this.SettingsGroupBox = new System.Windows.Forms.GroupBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.offsetPixelsTextBox = new System.Windows.Forms.TextBox();
-            this.cbShifts8 = new System.Windows.Forms.CheckBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.groupNumberComboBox = new System.Windows.Forms.ComboBox();
             this.backGroundWindowButton = new System.Windows.Forms.Button();
             this.takeSeriesFromPictureBoxesButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -87,6 +82,8 @@
             this.SaveFolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.LiveViewPicBox = new System.Windows.Forms.PictureBox();
             this.LiveViewGroupBox = new System.Windows.Forms.GroupBox();
+            this.ShiftsCountLabel = new System.Windows.Forms.Label();
+            this.ShiftsCountTextBox = new System.Windows.Forms.TextBox();
             this.InitGroupBox.SuspendLayout();
             this.SettingsGroupBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -230,11 +227,8 @@
             // 
             // SettingsGroupBox
             // 
-            this.SettingsGroupBox.Controls.Add(this.label7);
-            this.SettingsGroupBox.Controls.Add(this.offsetPixelsTextBox);
-            this.SettingsGroupBox.Controls.Add(this.cbShifts8);
-            this.SettingsGroupBox.Controls.Add(this.label6);
-            this.SettingsGroupBox.Controls.Add(this.groupNumberComboBox);
+            this.SettingsGroupBox.Controls.Add(this.ShiftsCountLabel);
+            this.SettingsGroupBox.Controls.Add(this.ShiftsCountTextBox);
             this.SettingsGroupBox.Controls.Add(this.backGroundWindowButton);
             this.SettingsGroupBox.Controls.Add(this.takeSeriesFromPictureBoxesButton);
             this.SettingsGroupBox.Controls.Add(this.groupBox1);
@@ -268,56 +262,12 @@
             this.SettingsGroupBox.TabStop = false;
             this.SettingsGroupBox.Text = "Settings";
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(675, 22);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(37, 13);
-            this.label7.TabIndex = 32;
-            this.label7.Text = "Pixels:";
-            // 
-            // offsetPixelsTextBox
-            // 
-            this.offsetPixelsTextBox.Location = new System.Drawing.Point(715, 17);
-            this.offsetPixelsTextBox.Name = "offsetPixelsTextBox";
-            this.offsetPixelsTextBox.Size = new System.Drawing.Size(44, 20);
-            this.offsetPixelsTextBox.TabIndex = 31;
-            // 
-            // cbShifts8
-            // 
-            this.cbShifts8.AutoSize = true;
-            this.cbShifts8.Location = new System.Drawing.Point(765, 17);
-            this.cbShifts8.Name = "cbShifts8";
-            this.cbShifts8.Size = new System.Drawing.Size(59, 17);
-            this.cbShifts8.TabIndex = 30;
-            this.cbShifts8.Text = "8 shifts";
-            this.cbShifts8.UseVisualStyleBackColor = true;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(673, 50);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(39, 13);
-            this.label6.TabIndex = 28;
-            this.label6.Text = "Group:";
-            // 
-            // groupNumberComboBox
-            // 
-            this.groupNumberComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.groupNumberComboBox.FormattingEnabled = true;
-            this.groupNumberComboBox.Location = new System.Drawing.Point(716, 46);
-            this.groupNumberComboBox.Name = "groupNumberComboBox";
-            this.groupNumberComboBox.Size = new System.Drawing.Size(43, 21);
-            this.groupNumberComboBox.TabIndex = 27;
-            // 
             // backGroundWindowButton
             // 
             this.backGroundWindowButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.backGroundWindowButton.Location = new System.Drawing.Point(763, 40);
+            this.backGroundWindowButton.Location = new System.Drawing.Point(676, 56);
             this.backGroundWindowButton.Name = "backGroundWindowButton";
-            this.backGroundWindowButton.Size = new System.Drawing.Size(65, 57);
+            this.backGroundWindowButton.Size = new System.Drawing.Size(149, 41);
             this.backGroundWindowButton.TabIndex = 26;
             this.backGroundWindowButton.Text = "Background Window";
             this.backGroundWindowButton.UseVisualStyleBackColor = true;
@@ -528,7 +478,7 @@
             // DelayPhaseShiftLabel
             // 
             this.DelayPhaseShiftLabel.AutoSize = true;
-            this.DelayPhaseShiftLabel.Location = new System.Drawing.Point(675, 79);
+            this.DelayPhaseShiftLabel.Location = new System.Drawing.Point(711, 38);
             this.DelayPhaseShiftLabel.Name = "DelayPhaseShiftLabel";
             this.DelayPhaseShiftLabel.Size = new System.Drawing.Size(37, 13);
             this.DelayPhaseShiftLabel.TabIndex = 21;
@@ -536,9 +486,9 @@
             // 
             // DelayTextBox
             // 
-            this.DelayTextBox.Location = new System.Drawing.Point(715, 75);
+            this.DelayTextBox.Location = new System.Drawing.Point(754, 34);
             this.DelayTextBox.Name = "DelayTextBox";
-            this.DelayTextBox.Size = new System.Drawing.Size(44, 20);
+            this.DelayTextBox.Size = new System.Drawing.Size(71, 20);
             this.DelayTextBox.TabIndex = 20;
             this.DelayTextBox.TextChanged += new System.EventHandler(this.DelayTextBox_TextChanged);
             // 
@@ -756,6 +706,22 @@
             this.LiveViewGroupBox.TabStop = false;
             this.LiveViewGroupBox.Text = "Live view";
             // 
+            // ShiftsCountLabel
+            // 
+            this.ShiftsCountLabel.AutoSize = true;
+            this.ShiftsCountLabel.Location = new System.Drawing.Point(685, 16);
+            this.ShiftsCountLabel.Name = "ShiftsCountLabel";
+            this.ShiftsCountLabel.Size = new System.Drawing.Size(63, 13);
+            this.ShiftsCountLabel.TabIndex = 28;
+            this.ShiftsCountLabel.Text = "Shits count:";
+            // 
+            // ShiftsCountTextBox
+            // 
+            this.ShiftsCountTextBox.Location = new System.Drawing.Point(754, 12);
+            this.ShiftsCountTextBox.Name = "ShiftsCountTextBox";
+            this.ShiftsCountTextBox.Size = new System.Drawing.Size(71, 20);
+            this.ShiftsCountTextBox.TabIndex = 27;
+            // 
             // CameraForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -841,11 +807,8 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button backGroundWindowButton;
         private System.Windows.Forms.Button takeSeriesFromPictureBoxesButton;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox groupNumberComboBox;
-        private System.Windows.Forms.CheckBox cbShifts8;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox offsetPixelsTextBox;
+        private System.Windows.Forms.Label ShiftsCountLabel;
+        private System.Windows.Forms.TextBox ShiftsCountTextBox;
     }
 }
 

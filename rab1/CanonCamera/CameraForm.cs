@@ -98,8 +98,7 @@ namespace rab1
             {
                 ReportError(ex.Message, true);
             }
-
-            InitGroupNumberCombobox();
+            
             InitColorModes();
             InitImageSaveModes();
             InitializeDefaultValues();
@@ -111,6 +110,7 @@ namespace rab1
             phaseShiftCountTextBox.Text = "4";
             phaseShiftStepTextBox.Text = "100";
             DelayTextBox.Text = "1500";
+            ShiftsCountTextBox.Text = "4";
         }
         
         private void InitColorModes()
@@ -127,21 +127,7 @@ namespace rab1
 
             colorComboBox.SelectedIndex = 0;
         }
-
-        private void InitGroupNumberCombobox()
-        {
-            groupNumberComboBox.ValueMember = "GroupNumber";
-            groupNumberComboBox.DisplayMember = "GroupName";
-            groupNumberComboBox.SelectedIndexChanged += groupNumberComboBox_SelectedIndexChanged;
-
-            groupNumberComboBox.Items.Add(new GroupItem() { GroupNumber = 1, GroupName = "0" });
-            groupNumberComboBox.Items.Add(new GroupItem() { GroupNumber = 1, GroupName = "1" });
-            groupNumberComboBox.Items.Add(new GroupItem() { GroupNumber = 2, GroupName = "2" });
-            groupNumberComboBox.Items.Add(new GroupItem() { GroupNumber = 3, GroupName = "3" });
-
-            groupNumberComboBox.SelectedIndex = 0;
-        }
-
+                
         private void InitImageSaveModes()
         {
             imageSaveComboBox.ValueMember = "ImageSaveModeValue";
@@ -159,14 +145,6 @@ namespace rab1
             if (colorComboBox.SelectedItem != null)
             {
                 colorMode = ((ColorItem)colorComboBox.SelectedItem).ColorModeValue;
-            }
-        }
-
-        private void groupNumberComboBox_SelectedIndexChanged(object sender, EventArgs args)
-        {
-            if (groupNumberComboBox.SelectedItem != null)
-            {
-                groupNumber = ((GroupItem)groupNumberComboBox.SelectedItem).GroupNumber;
             }
         }
 
@@ -740,27 +718,12 @@ namespace rab1
 
         private void SetImage()
         {
-            if (this.cbShifts8.Checked)
-            {
-                ZArrayDescriptor zArray = MainForm.GetZArrayFrom8(currentImageNumber);
-                imageForm.SetImage(zArray);
-            }
-            else
-            {
-                imageForm.SetImage(MainForm.GetImageFromPictureBox(currentImageNumber));
-            }
+            imageForm.SetImage(MainForm.GetImageFromPictureBox(currentImageNumber));
         }
         
         private int GetMaxImagesCount()
         {
-            if (cbShifts8.Checked)
-            {
-                return 8;
-            }
-            else
-            {
-                return 4;
-            }
+            return int.Parse(ShiftsCountTextBox.Text);
         }
 
         private void ExecutePhaseShift()
