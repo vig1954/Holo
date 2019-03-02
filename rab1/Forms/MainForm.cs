@@ -13,6 +13,7 @@ using System.Diagnostics;
 using rab1.Forms;
 using ClassLibrary;
 using System.Numerics;
+using System.IO;
 
 namespace rab1
 {
@@ -3205,15 +3206,119 @@ namespace rab1
 
         }
 
-       
+        private void сохранитьТочкиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveCoordinates();
+        }
+        
+        private void SaveCoordinates()
+        {
+            string x1 = textBox3.Text;
+            string y1 = textBox4.Text;
 
+            string x2 = textBox5.Text;
+            string y2 = textBox6.Text;
 
+            string x3 = textBox7.Text;
+            string y3 = textBox8.Text;
 
+            string x4 = textBox9.Text;
+            string y4 = textBox10.Text;
 
-        // private void модельОбъектаToolStripMenuItem(object sender, EventArgs e)
-        // {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.AddExtension = true;
+            saveFileDialog.Filter = "(*.txt)|*.txt";
+            saveFileDialog.DefaultExt = "txt";
+            DialogResult dialogResult = saveFileDialog.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+                string filePath = saveFileDialog.FileName;
+                if (!string.IsNullOrEmpty(filePath))
+                {
+                    using (FileStream fs = File.OpenWrite(filePath))
+                    {
+                        using (StreamWriter sw = new StreamWriter(fs))
+                        {
+                            sw.WriteLine(FormatCoordinate(x1, y1));
+                            sw.WriteLine(FormatCoordinate(x2, y2));
+                            sw.WriteLine(FormatCoordinate(x3, y3));
+                            sw.WriteLine(FormatCoordinate(x4, y4));
 
-        //}
+                            sw.Flush();
+                        }
+                    }
+                }
+            }
+        }
+
+        private string FormatCoordinate(string x, string y)
+        {
+            return string.Format("{0} {1}", x, y);
+        }
+
+        private void LoadCoordinates()
+        {
+            string x1, y1;
+            string x2, y2;
+            string x3, y3;
+            string x4, y4;
+            
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "(*.txt)|*.txt";
+            openFileDialog.DefaultExt = "txt";
+
+            DialogResult dialogResult = openFileDialog.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+                string filePath = openFileDialog.FileName;
+                if (!string.IsNullOrEmpty(filePath))
+                {
+                    using (FileStream fs = File.OpenRead(filePath))
+                    {
+                        using (StreamReader sr = new StreamReader(fs))
+                        {
+                            ExtractCoordinates(sr.ReadLine(), out x1, out y1);
+                            ExtractCoordinates(sr.ReadLine(), out x2, out y2);
+                            ExtractCoordinates(sr.ReadLine(), out x3, out y3);
+                            ExtractCoordinates(sr.ReadLine(), out x4, out y4);
+                        }
+                    }
+
+                    textBox3.Text = x1;
+                    textBox4.Text = y1;
+
+                    textBox5.Text = x2;
+                    textBox6.Text = y2;
+
+                    textBox7.Text = x3;
+                    textBox8.Text = y3;
+
+                    textBox9.Text = x4;
+                    textBox10.Text = y4;
+                }
+            }
+        }
+
+        private void ExtractCoordinates(string formattedCoordinate, out string x, out string y)
+        {
+            x = null;
+            y = null;
+
+            if (!string.IsNullOrEmpty(formattedCoordinate))
+            {
+                string[] xyArray = formattedCoordinate.Split(' ', '\t');
+                if (xyArray != null && xyArray.Length == 2)
+                {
+                    x = xyArray[0];
+                    y = xyArray[1];
+                }
+            }
+        }
+
+        private void загрузитьТочкиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoadCoordinates();
+        }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
