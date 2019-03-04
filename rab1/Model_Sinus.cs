@@ -168,44 +168,72 @@ namespace rab1.Forms
             cmpl = Intens(0, 255, dx, cmpl);
             return cmpl;
         }
-        public static ZArrayDescriptor Intensity3(double nu, int Nx, int Ny)
+        public static ZArrayDescriptor Intensity3(double nu, int Nx, int Ny)  // от светлово к темному
         {
-            Nx = 4296;
+            Nx = 4096;
             Ny = 2048;
-            ZArrayDescriptor cmpl = new ZArrayDescriptor(Nx, Ny);
-            int n = (int) (nu + 1);
-            int ky = Ny / n;
 
-            //int i1 = 0;
-            for (int i = 0; i < Nx; i++)
-            {
-                // for (int ints = 0; ints < k; ints++)
-                for (int j = 0; j < Ny; j++)
+            int dx = 100;
+            int Nx1 = Nx;
+            Nx = Nx + dx * 2;
+
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(Nx, Ny);
+
+            int k = (int)(Nx1 / (nu + 1));
+            int k1 = 0;
+
+            for (int i = 0; i < Nx - dx * 2; i++)
+                for (int j = 0; j < Ny; j++, k1++)
                 {
-                    cmpl.array[i, j] =  j / ky;
+                    int kk = k1 / 16;
+                    cmpl.array[i + dx, j] =( i+kk )/ k ; 
+                  
                 }
-            }
+
+            cmpl = Intens(255, 0, dx, cmpl);
             return cmpl;
         }
-        public static ZArrayDescriptor Intensity4(double nu, int Nx, int Ny)
-        {
-            Nx = 4296;
-            Ny = 2048;
-            ZArrayDescriptor cmpl = new ZArrayDescriptor(Nx, Ny);
-            int n = (int)(nu + 1);
-            int ky = Ny / n;
+        /*       public static ZArrayDescriptor Intensity3(double nu, int Nx, int Ny)
+               {
+                   Nx = 4296;
+                   Ny = 2048;
+                   ZArrayDescriptor cmpl = new ZArrayDescriptor(Nx, Ny);
+                   int n = (int) (nu + 1);
+                   int ky = Ny / n;
 
-            //int i1 = 0;
-            for (int i = 0; i < Nx; i++)
-            {
-                // for (int ints = 0; ints < k; ints++)
-                for (int j = 0; j < Ny; j++)
-                {
-                    cmpl.array[i, j] = (Ny-j) / ky;
-                }
-            }
-            return cmpl;
-        }
+                   //int i1 = 0;
+                   for (int i = 0; i < Nx; i++)
+                   {
+                       // for (int ints = 0; ints < k; ints++)
+                       for (int j = 0; j < Ny; j++)
+                       {
+                           cmpl.array[i, j] =  j / ky;
+                       }
+                   }
+                   return cmpl;
+               }
+                */
+     
+       public static ZArrayDescriptor Intensity4(double nu, int Nx, int Ny)
+       {
+           Nx = 4296;
+           Ny = 2048;
+           ZArrayDescriptor cmpl = new ZArrayDescriptor(Nx, Ny);
+           int n = (int)(nu + 1);
+           int ky = Ny / n;
+
+           //int i1 = 0;
+           for (int i = 0; i < Nx; i++)
+           {
+               // for (int ints = 0; ints < k; ints++)
+               for (int j = 0; j < Ny; j++)
+               {
+                   cmpl.array[i, j] = (Ny-j) / ky;
+               }
+           }
+           return cmpl;
+       }
+     
         /// <summary>
         /// -----------------------------   Вертикальные полосы
         /// </summary>
