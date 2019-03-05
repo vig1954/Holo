@@ -181,15 +181,20 @@ namespace rab1.Forms
 
             int k = (int)(Nx1 / (nu + 1));
             int k1 = 0;
+            int kk = 0;
+            int ii = 0;
 
-            for (int i = 0; i < Nx - dx * 2; i++)
-                for (int j = 0; j < Ny; j++, k1++)
-                {
-                    int kk = k1 / 16;
-                    cmpl.array[i + dx, j] =( i+kk )/ k ; 
-                  
+            
+          
+             for (int j = 0; j < Ny; j++, k1++)
+               {
+                 if (k1 == 8) { kk = kk + 8; k1 = 0; }
+                 for (int i = 0; i < Nx - dx * 2; i++)
+                       {
+                         ii = i + dx + kk;
+                         if (ii < Nx - dx * 2)   cmpl.array[ii, j] = i / k ; 
+                      }
                 }
-
             cmpl = Intens(255, 0, dx, cmpl);
             return cmpl;
         }
