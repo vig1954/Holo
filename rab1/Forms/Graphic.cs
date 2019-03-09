@@ -53,6 +53,10 @@ namespace rab1.Forms
             bf_gl = new double[w1];                                // Масштабированные значений
             bf1_gl = new double[w1];                                // Истинные значения
 
+          
+
+
+
             hScrollBar2.Minimum = 0;                                 //    hScrollBar2
             hScrollBar2.Maximum = w1;
             label6.Text = hScrollBar2.Minimum.ToString(); ;
@@ -72,11 +76,14 @@ namespace rab1.Forms
             grBack = Graphics.FromImage(btmBack);       
             pc1.BackgroundImage = btmBack;
 
-           
             if (maxx == minx) { MessageBox.Show("max == min = " + Convert.ToString(maxx)); return; }
             label3.Text = minx.ToString();
             label9.Text = maxx.ToString();
             for (int i = 0; i < w1; i++) { double b = buf[i]; buf1_gl[i] = b; if (b < minx) minx = b; if (b > maxx) maxx = b; buf1_gl[i] = b; }
+            if (maxx == minx) { MessageBox.Show("max == min = " + Convert.ToString(maxx)); return; }
+
+
+
             for (int i = 0; i < w1; i ++) { buf_gl[i] = (buf[i] - minx) * hh / (maxx - minx); }
 
             for (int i = 0; i < w1; i++) { bf_gl[i]  = buf_gl[i];  }
@@ -92,8 +99,6 @@ namespace rab1.Forms
  private void Gr(int x)
  {
 //     pc1.Image = null;
-
-     if (maxx == minx) { MessageBox.Show("max == min = " + Convert.ToString(maxx)); return; }
 
        Bitmap btmBack = new Bitmap(pc1.Width, hh + 64);   
        grBack = Graphics.FromImage(btmBack);
@@ -118,6 +123,7 @@ namespace rab1.Forms
             for (int i = 0; i < w; i += 8) grBack.DrawLine(p1, i + x0, h , i + x0, h + 8);
             for (int i = x; i < w; i += 32)
             {
+
                 string sx = i.ToString();
                 grBack.DrawString(sx, drawFont, drawBrush, i + x0 - 8-x, h + 20); //, drawFormat);
              }
@@ -136,7 +142,7 @@ namespace rab1.Forms
             for (int i = 0; i <= hh; i += 32)
             {
                 kf = nf;
-                string sx = kf.ToString("0.00");
+                string sx = kf.ToString("0.00");                        // 0.00 это формат
                 grBack.DrawString(sx, drawFont, drawBrush, 2, h - i); //, drawFormat);
                 nf += kx;
                // grBack.DrawLine(p1, x0, i, x0 + w1, i);
