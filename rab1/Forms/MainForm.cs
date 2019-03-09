@@ -2493,9 +2493,10 @@ namespace rab1
         /// <param name="nu"></param> Число градаций
         /// <param name="Nx"></param> Не используется
         /// <param name="Ny"></param> Не используется
-        private void FormModel_Intensity(double nu, int Nx, int Ny)       // Клин интенсивности
+        /// 
+        private void FormModel_Intensity(double nu, int Nx, int Ny, double gamma)       // Клин интенсивности
         {
-            zArrayDescriptor[regComplex * 4 + 0] = Model_Sinus.Intensity1(nu, Nx, Ny);
+            zArrayDescriptor[regComplex * 4 + 0] = Model_Sinus.Intensity1(nu, Nx, Ny,gamma);
             zArrayDescriptor[regComplex * 4 + 1] = Model_Sinus.Intensity2(nu, Nx, Ny);
             zArrayDescriptor[regComplex * 4 + 2] = Model_Sinus.Intensity3(nu, Nx, Ny);
             zArrayDescriptor[regComplex * 4 + 3] = Model_Sinus.Intensity4(nu, Nx, Ny);

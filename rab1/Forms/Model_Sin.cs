@@ -15,7 +15,7 @@ public delegate void ModelSinG_kr(double[] fz, double N_urovn, double gamma, dou
 public delegate void ModelSinG_Picture(double[] fz, int N, double N_urovn, double gamma, double N_pol, int k, int Nx, int Ny, double noise);
 public delegate void ModelSinD(double[] fz, double N_pol, int kvant, int N_urovn);
 public delegate void ModelExp(double g, int N);
-public delegate void Model_I(double nu, int nx, int ny);
+public delegate void Model_I(double nu, int nx, int ny, double gamma);
 public delegate void Model_IL(int nl);
 
 
@@ -205,7 +205,8 @@ namespace rab1.Forms
             N_urovn = Convert.ToDouble(textBox8.Text);   // Число уровней
             Nx = Convert.ToInt32(textBox10.Text);
             Ny = Convert.ToInt32(textBox12.Text);
-            OnModel_Intensity(N_urovn, Nx, Ny);
+            gamma = Convert.ToDouble(textBox5.Text);
+            OnModel_Intensity(N_urovn, Nx, Ny, gamma);
 
             Close();
         }
