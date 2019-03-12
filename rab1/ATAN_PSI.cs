@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace rab1.Forms
 {
-    class ATAN_PSI
+    public class ATAN_PSI
     {
         // Нахождение ортогонального вектора
 

@@ -150,7 +150,7 @@
             // 
             this.pictureBox3.Location = new System.Drawing.Point(16, 12);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(927, 272);
+            this.pictureBox3.Size = new System.Drawing.Size(1024, 272);
             this.pictureBox3.TabIndex = 0;
             this.pictureBox3.TabStop = false;
             // 
@@ -160,7 +160,7 @@
             this.panel3.Controls.Add(this.pictureBox3);
             this.panel3.Location = new System.Drawing.Point(20, 425);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(961, 291);
+            this.panel3.Size = new System.Drawing.Size(1052, 291);
             this.panel3.TabIndex = 2;
             // 
             // label1
@@ -279,7 +279,7 @@
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(262, 38);
             this.button5.TabIndex = 20;
-            this.button5.Text = "Построить гистограмму";
+            this.button5.Text = "Построить гистограмму по № строке";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
@@ -287,7 +287,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1011, 773);
+            this.ClientSize = new System.Drawing.Size(1098, 773);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.label3);

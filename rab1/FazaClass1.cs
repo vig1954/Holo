@@ -3,10 +3,11 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
 using System.Collections.Generic;
-using rab1;
+//using rab1;
 using System.Numerics;
 using System.Threading;
 using ClassLibrary;
+using rab1.Forms;
 
 public delegate void ImageProcessed(Bitmap resultBitmap);
 //public delegate void ImageProcessedForOpenGL(List<Point3D> points);
@@ -73,7 +74,6 @@ namespace rab1
 
             int w1 = zArrayDescriptor[regComplex * 4].width;
             int h1 = zArrayDescriptor[regComplex * 4].height;
-            //ZArrayDescriptor cmpl = new ZArrayDescriptor(w1, h1);        // Массив для фаз
 
             double[] i_sdv = new double[n_sdv];
             double[] v_sdv = new double[n_sdv];                                  // Вектор коэффициентов
@@ -97,8 +97,7 @@ namespace rab1
             {
                 for (int j = 0; j < h1; j++)
                 {
-
-                    // ------                                     Формула расшифровки
+                    // ------                                     Формула расшифровки для числителя и знаменателя
                     for (int k = 0; k < n_sdv; k++) { i_sdv[k] = zArrayDescriptor[regComplex*4 + k].array[i, j]; }
                     v_sdv[0] = i_sdv[1] - i_sdv[n_sdv - 1];
                     v_sdv[n_sdv - 1] = i_sdv[0] - i_sdv[n_sdv - 2];
@@ -107,10 +106,8 @@ namespace rab1
                     double fz2 = 0;
                     for (int k = 0; k < n_sdv; k++) { fz1 += v_sdv[k] * k_sin[k]; fz2 += v_sdv[k] * k_cos[k]; }
                     fz1 = -fz1;
-                    if (fz1 > max_fz1) max_fz1 = fz1;
-                    if (fz2 > max_fz2) max_fz2 = fz2;
-                    if (fz1 < min_fz1) min_fz1 = fz1;
-                    if (fz2 < min_fz2) min_fz2 = fz2;
+                    if (fz1 > max_fz1) max_fz1 = fz1; if (fz1 < min_fz1) min_fz1 = fz1;
+                    if (fz2 > max_fz2) max_fz2 = fz2; if (fz2 < min_fz2) min_fz2 = fz2;
                 }
             }
             //MessageBox.Show("min  fz1= " + min_fz1 + " max fz1= " + max_fz1 + "min  fz2= " + min_fz2 + " max fz2= " + max_fz2);
@@ -208,8 +205,8 @@ namespace rab1
                     double fz2 = 0;
                     for (int k = 0; k < n_sdv; k++) { fz1 += v_sdv[k] * k_sin[k]; fz2 += v_sdv[k] * k_cos[k]; }
                     fz1 = -fz1;
-                    int x = (int)((fz1 - min_fz1) * nn / (max_fz1 - min_fz1));
-                    int y = (int)((fz2 - min_fz2) * nn / (max_fz2 - min_fz2));
+                    int x = (int)((fz1 - min_fz1) * (nn-1) / (max_fz1 - min_fz1));
+                    int y = (int)((fz2 - min_fz2) * (nn-1) / (max_fz2 - min_fz2));
                     cmpl.array[x + 10, y + 10] += 25;
 
                     // cmpl.array[x+20, y+20] = 250;
@@ -250,10 +247,9 @@ namespace rab1
 
             }
 
-
-            int nn = 256;
-            ZArrayDescriptor cmpl = new ZArrayDescriptor(nn, nn);        // Массив для фаз 256x256
-                                                                        
+            int nn = 1024;
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(nn, nn);        // Массив для фаз
+            nn = 256;                                                         
         
             for (int j = 0; j < w1; j++)
             {
@@ -265,7 +261,7 @@ namespace rab1
                 int y = (int) ( (yy - min_y) * (nn-1) / (max_y - min_y)  );
                 //if (x < 0 || x > 255) { MessageBox.Show(" x " + x); continue; }
                 //if (y < 0 || y > 255) { MessageBox.Show(" y " + y); continue; }
-                cmpl.array[x , y ] = 255;
+                cmpl.array[x + 10 , y + 10 ] = 255;
 
 
             }

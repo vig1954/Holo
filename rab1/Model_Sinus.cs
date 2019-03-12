@@ -69,6 +69,18 @@ namespace rab1.Forms
 
             return cmpl;
         }
+        /// <summary>
+        /// Моделирование синусоидальной картины с заданным в точках размером полос 
+        /// </summary>
+        /// <param name="fz"></param>           фазовый сдвиг полос
+        /// <param name="a"></param>            амплитуда
+        /// <param name="n_polos"></param>      размер полосы в точках
+        /// <param name="gamma"></param>        гамма искажения
+        /// <param name="kr"></param>           разрядка нулями для моделирования сверхразрешения (0 - нет разрядки)
+        /// <param name="Nx"></param>           размер по X
+        /// <param name="Ny"></param>           размер по Y
+        /// <param name="noise"></param>        шум в долях амплитуды (0,1)*a
+        /// <returns></returns>
         public static ZArrayDescriptor Sinus1(double fz, double a, double n_polos, double gamma, int kr, int Nx, int Ny, double noise)
         {
             int kr1 = kr + 1;
@@ -86,20 +98,31 @@ namespace rab1.Forms
 
             // a = (a - min) * 2.0 * Math.PI / (max - min);   -pi +pi
 
+            double[] sn = new double[NX];
+            for (int i = 0; i < NX; i += kr1) sn[i] = a * (Math.Sin(2.0 * Math.PI * i / n_polos + fz) + 1.0) / 2.0;          // синусоида от 0 до 1
 
-            for (int i = 0; i < NX; i += kr1)
-                for (int j = 0; j < NY; j++)
+            double max = double.MinValue;
+            double min = double.MaxValue;
+
+            for (int j = 0; j < NY; j++)
+              for (int i = 0; i < NX; i += kr1)
                 {
-
-                    //double fz1 = a * (Math.Sin(kx * i * n_polos + fz) + 1) / 2;
-                    double fz1 = a * (Math.Sin(2.0 * Math.PI * i / n_polos + fz) + 1) / 2;
-                    double fa = (0.5 - rnd.NextDouble()) * a * noise;   //rnd.NextDouble() 0-1  
-
+                    double fz1 = sn[i];                                                             // синусоида от 0 до 1
+                    double fa = (0.5 - rnd.NextDouble()) * a * noise;                               //rnd.NextDouble() 0-1  
                     fz1 = fz1 + fa;
-
-                    cmpl.array[i, j] = Math.Pow(fz1, gamma);
-
+                    double s = Math.Pow(fz1, gamma);                                              // Гамма искажения
+                    //double s = fz1;
+                    if (s > max) max = s;  if (s < min) min = s;
+                    cmpl.array[i, j] = s;
                 }
+            double maxmin = max - min;
+
+            for (int j = 0; j < NY; j++)
+                for (int i = 0; i < NX; i += kr1)
+                {
+                    cmpl.array[i, j] = (cmpl.array[i, j] - min) * a / maxmin;
+                }
+
 
             return cmpl;
         }
