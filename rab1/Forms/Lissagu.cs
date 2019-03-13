@@ -10,9 +10,12 @@ using System.Windows.Forms;
 
 namespace rab1.Forms
 {
-    
+    public delegate void Liss3D(int Nline, int k1, int k2, int k3);
     public partial class Lissagu : Form
     {
+        public event Liss3D On_Liss3D;
+
+
         private static double[] fz = { 0.0, 90.0, 180.0, 270.0, 0.0, 90.0, 180.0, 270.0 };
         private static int k1 = 1;   // Флаг для вывода 2 графика
         private static int k2 = 1;
@@ -423,15 +426,30 @@ namespace rab1.Forms
             pictureBox3.Invalidate();
 
         }
+        /// <summary>
+        /// Фигуры Лиссажу 3D
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button6_Click(object sender, EventArgs e) 
+        {
+            if ((k1 + k2 + k3 + k4) != 3) { MessageBox.Show("Число флагов больше или меньше 3"); return; }  // Только 3 кадра должны быть выбраны
 
+            int[] kk = new int[4];
+            { kk[0] = k1; kk[1] = k2; kk[2] = k3; kk[3] = k4; }
 
+            int kk1 = 0, kk2 = 0, kk3 = 0;                                                                // Номер 1 и второго кадров
 
+            for (int i = 0; i < 4; i++) { if (kk[i] != 0) { kk1 = i; kk[i] = 0; break; } }
+            for (int i = 0; i < 4; i++) { if (kk[i] != 0) { kk2 = i; kk[i] = 0; break; } }
+            for (int i = 0; i < 4; i++) { if (kk[i] != 0) { kk3 = i;  break; } }
 
+            int N_line = Convert.ToInt32(textBox1.Text);                                        // Номер строки
 
-
-
-
-
+            ZArrayDescriptor faza = FazaClass.Lissagu3D(Form1.zArrayDescriptor, Form1.regComplex, N_line, kk1, kk2, kk3);
+            Vizual.Vizual_Picture(faza, pictureBox2);
+            On_Liss3D(N_line, kk1, kk2, kk3);
+        }
     }
 
-}
+};

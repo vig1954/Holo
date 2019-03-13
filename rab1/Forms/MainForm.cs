@@ -2875,10 +2875,14 @@ namespace rab1
         private void лиссажуToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Lissagu LsgForm = new Lissagu();
-
+            LsgForm.On_Liss3D += FormLiss3D;
             LsgForm.Show();
         }
-
+        private void FormLiss3D(int N_line, int k1, int k2, int k3)
+        {
+            zArrayPicture = FazaClass.Lissagu3D(zArrayDescriptor, regComplex, N_line, k1, k2, k3);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //           PSI  из 8,9,10,11 в zArrayPicture fz[4]         Амплитуда Фаза Квантование
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

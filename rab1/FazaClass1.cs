@@ -270,6 +270,56 @@ namespace rab1
             return cmpl;
         }
 
+        public static ZArrayDescriptor Lissagu3D(ZArrayDescriptor[] zArrayDescriptor, int regComplex, int N_Line, int k1, int k2, int k3)
+        {
+
+            //MessageBox.Show("k1 " + k1 + "k2 " + k2 + "regComplex " + regComplex);
+            for (int i = 0; i < 4; i++) if (zArrayDescriptor[regComplex * 4 + i] == null)
+                { MessageBox.Show("FazaCalass.Lissagu zArrayDescriptor == NULL"); return null; }
+
+
+            int w1 = zArrayDescriptor[regComplex * 4].width;
+            //int h1 = zArrayDescriptor[regComplex * 4].height;
+
+            double max_x = double.MinValue; 
+            double max_y = double.MinValue; 
+            double min_y = double.MaxValue;
+            double min_x = double.MaxValue;
+
+            for (int j = 0; j < w1; j++)
+            {
+
+                double x = zArrayDescriptor[regComplex * 4 + k1].array[j, N_Line];
+                double y = zArrayDescriptor[regComplex * 4 + k2].array[j, N_Line];
+
+                if (x > max_x) max_x = x; if (x < min_x) min_x = x;
+                if (y > max_y) max_y = y; if (y < min_y) min_y = y;
+
+            }
+
+            int nn = 256;
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(nn+20, nn+20);        // Массив для фаз
+           
+
+            for (int j = 0; j < w1; j++)
+            {
+
+
+                double xx = zArrayDescriptor[regComplex * 4 + k1].array[j, N_Line];
+                double yy = zArrayDescriptor[regComplex * 4 + k2].array[j, N_Line];
+                double zz = zArrayDescriptor[regComplex * 4 + k3].array[j, N_Line];
+                int x = (int)((xx - min_x) * (nn - 1) / (max_x - min_x));
+                int y = (int)((yy - min_y) * (nn - 1) / (max_y - min_y));
+                if (x < 0 || x > 255) { MessageBox.Show(" x " + x); continue; }
+                if (y < 0 || y > 255) { MessageBox.Show(" y " + y); continue; }
+                cmpl.array[x+10 , y+10 ] = zz*50;
+
+
+            }
+
+
+            return cmpl;
+        }
 
 
 

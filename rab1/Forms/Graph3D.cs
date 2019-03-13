@@ -59,6 +59,9 @@ namespace rab1.Forms
 
             if (nx1 > nx * sx) dx = (double)(nx1 - nx * sx) / 2;
             if (ny1 > ny * sx) dy = (double)(ny1 - ny * sx) / 2;
+            //dx = nx1 / 2;
+            //dy = ny1 / 2;
+
 
             //MessageBox.Show("sx = " + sx + "sy = " + sy );
             //MessageBox.Show("nx = " + nx*sx + "ny = " + ny*sy + "r = " + Math.Sqrt(nx * sx* nx * sx + ny * sy * ny * sx));
@@ -66,7 +69,7 @@ namespace rab1.Forms
             //ZArrayDescriptor zArray2D = new ZArrayDescriptor(nx1, ny1);
 
             //arr = Sdv(arr, dx, dy);
-            arr = Scale(arr, sx, sx);
+            //arr = Scale(arr, sx, sy);   // Обобщенная матрица поворота
             arr = Sdv(arr, dx, dy);
 
             Refresh3D();
@@ -116,7 +119,7 @@ namespace rab1.Forms
             return c;
         }
         // Обработка ползунка поворота
-        private void trackBar1_Scroll(object sender, EventArgs e)
+        private void trackBar1_Scroll(object sender, EventArgs e)     // Поворот изображения
         {
             double fi = trackBar1.Value * Math.PI / 180;
             label1.Text = String.Format("Поворот: {0} градусов", trackBar1.Value);
@@ -134,7 +137,7 @@ namespace rab1.Forms
             Vizual.Vizual_Picture(zArray2D, picture3D);
         }
 
-        private void trackBar2_Scroll(object sender, EventArgs e)
+        private void trackBar2_Scroll(object sender, EventArgs e)   // Поворот графика
         {
             double fi = trackBar2.Value * Math.PI / 180;
             label2.Text = String.Format("Поворот графика: {0} градусов", trackBar1.Value);
@@ -152,11 +155,32 @@ namespace rab1.Forms
             Gr3D();
         }
 
+        private void trackBar3_Scroll(object sender, EventArgs e)   // Поворот графика
+        {
+            double fi = trackBar3.Value;
+           
+            arr = Ini3D();
+            arr = Scale(arr, sx, sx);
+            arr = Sdv(arr, dx, dy);
+            sx = trackBar3.Value / 50.0 + 1;  // от 0 до 2
+           
+            label3.Text = "Масштаб: " + sx.ToString();
+
+            double dx1 = nx1 / 2;
+            double dy1 = ny1 / 2;
+            arr = Sdv(arr, -dx1, -dy1);
+            arr = Scale(arr, sx, sx); ;
+            arr = Sdv(arr, dx1, dy1);
+
+            Refresh3D();
+            Vizual.Vizual_Picture(zArray2D, picture3D);
+        }
+
         private void Refresh3D()
         {
             for (int i = 0; i < nx1; i++)
-                for (int j = 0; j < ny1; j++)
-                { zArray2D.array[i, j] = 0; }
+              for (int j = 0; j < ny1; j++)
+                { zArray2D.array[i, j] = 0; } 
 
 
             for (int i = 0; i < nx; i++)
