@@ -64,8 +64,15 @@ namespace rab1
             }
             return cmpl;
         }
-
-        public static ZArrayDescriptor ATAN_Gr(ZArrayDescriptor[] zArrayDescriptor, double[] fz, int regComplex)   // Фигура Лиссажу regComplex 1,2,3,4  => zArrayPicture
+        /// <summary>
+        /// Фигура Лиссажу regComplex 1,2,3,4  => zArrayPicture
+        /// </summary>
+        /// <param name="zArrayDescriptor"></param>
+        /// <param name="fz"></param>
+        /// <param name="regComplex"></param>
+        /// <returns></returns>
+        
+        public static ZArrayDescriptor ATAN_Gr(ZArrayDescriptor[] zArrayDescriptor, double[] fz, int regComplex, int n_begin, int n_end)   
         {
 
             int n_sdv = fz.Length;                                             // Число фазовых сдвигов
@@ -95,7 +102,7 @@ namespace rab1
 
             for (int i = 0; i < w1; i++)
             {
-                for (int j = 0; j < h1; j++)
+                for (int j = n_begin; j < n_end; j++)
                 {
                     // ------                                     Формула расшифровки для числителя и знаменателя
                     for (int k = 0; k < n_sdv; k++) { i_sdv[k] = zArrayDescriptor[regComplex*4 + k].array[i, j]; }
@@ -116,7 +123,7 @@ namespace rab1
             nn = 256;
             for (int i = 0; i < w1; i++)
             {
-                for (int j = 0; j < h1; j++)
+                for (int j = n_begin; j < n_end; j++)
                 {
 
                     // ------                                     Формула расшифровки
@@ -132,7 +139,7 @@ namespace rab1
                     int y = (int)  ((fz2 - min_fz2) * nn / (max_fz2 - min_fz2));
                     cmpl.array[x+10, y+10] += 25;
                    
-                   // cmpl.array[x+20, y+20] = 250;
+                    //cmpl.array[x+20, y+20] = 250;
                    
                 }
             }
@@ -207,9 +214,9 @@ namespace rab1
                     fz1 = -fz1;
                     int x = (int)((fz1 - min_fz1) * (nn-1) / (max_fz1 - min_fz1));
                     int y = (int)((fz2 - min_fz2) * (nn-1) / (max_fz2 - min_fz2));
-                    cmpl.array[x + 10, y + 10] += 25;
+                    //cmpl.array[x + 10, y + 10] += 25;
 
-                    // cmpl.array[x+20, y+20] = 250;
+                     cmpl.array[x+20, y+20] = 250;
 
                 }
     
@@ -220,7 +227,7 @@ namespace rab1
         //Lissagu(Form1.zArrayDescriptor, N_line, kk1, kk2);
 
         // Фигура Лиссажу k1, k2  по строке N_Line => ZArrayDescriptor 
-        public static ZArrayDescriptor Lissagu(ZArrayDescriptor[] zArrayDescriptor, int regComplex, int N_Line, int k1, int k2)
+        public static ZArrayDescriptor Lissagu(ZArrayDescriptor[] zArrayDescriptor, int regComplex,  int k1, int k2, int n_begin, int n_end )
         {
 
             //MessageBox.Show("k1 " + k1 + "k2 " + k2 + "regComplex " + regComplex);
@@ -229,18 +236,19 @@ namespace rab1
 
 
             int w1 = zArrayDescriptor[regComplex * 4].width;
-            //int h1 = zArrayDescriptor[regComplex * 4].height;
+            int h1 = zArrayDescriptor[regComplex * 4].height;
            
             double max_x = double.MinValue; ;
             double max_y = double.MinValue; ;
             double min_y = double.MaxValue;
             double min_x = double.MaxValue;
 
-            for (int j = 0; j < w1; j++)
-            {
+            for (int i = 0; i < w1; i++)
+               for (int j = n_begin; j < n_end; j++)
+                {
 
-                double x = zArrayDescriptor[regComplex * 4 + k1].array[j, N_Line];
-                double y = zArrayDescriptor[regComplex * 4 + k2].array[j, N_Line];
+                double x = zArrayDescriptor[regComplex * 4 + k1].array[i, j];
+                double y = zArrayDescriptor[regComplex * 4 + k2].array[i, j];
 
                 if (x > max_x) max_x = x;    if (x < min_x) min_x = x;
                 if (y > max_y) max_y = y;    if (y < min_y) min_y = y;
@@ -251,71 +259,71 @@ namespace rab1
             ZArrayDescriptor cmpl = new ZArrayDescriptor(nn, nn);        // Массив для фаз
             nn = 256;                                                         
         
-            for (int j = 0; j < w1; j++)
+            for (int i = 0; i < w1; i++)
+                for (int j = n_begin; j < n_end; j++)
             {
-
-                            
-                double xx = zArrayDescriptor[regComplex * 4 + k1].array[j, N_Line];
-                double yy = zArrayDescriptor[regComplex * 4 + k2].array[j, N_Line];
+        
+                double xx = zArrayDescriptor[regComplex * 4 + k1].array[i, j];
+                double yy = zArrayDescriptor[regComplex * 4 + k2].array[i, j];
                 int x = (int) ( (xx - min_x) * (nn-1) / (max_x - min_x)  );
                 int y = (int) ( (yy - min_y) * (nn-1) / (max_y - min_y)  );
                 //if (x < 0 || x > 255) { MessageBox.Show(" x " + x); continue; }
                 //if (y < 0 || y > 255) { MessageBox.Show(" y " + y); continue; }
-                cmpl.array[x + 10 , y + 10 ] = 255;
-
-
+                cmpl.array[x + 10 , y + 10 ] = 250;
             }
-          
 
             return cmpl;
         }
 
-        public static ZArrayDescriptor Lissagu3D(ZArrayDescriptor[] zArrayDescriptor, int regComplex, int N_Line, int k1, int k2, int k3)
+        public static ZArrayDescriptor Lissagu3D(ZArrayDescriptor[] zArrayDescriptor, int regComplex, int k1, int k2, int k3, int n_begin, int n_end)
         {
 
-            //MessageBox.Show("k1 " + k1 + "k2 " + k2 + "regComplex " + regComplex);
+            //MessageBox.Show("k1 " + k1 + "k2 " + k2 + "k3 " + k3 + "regComplex " + regComplex);
             for (int i = 0; i < 4; i++) if (zArrayDescriptor[regComplex * 4 + i] == null)
                 { MessageBox.Show("FazaCalass.Lissagu zArrayDescriptor == NULL"); return null; }
 
 
             int w1 = zArrayDescriptor[regComplex * 4].width;
-            //int h1 = zArrayDescriptor[regComplex * 4].height;
+            int h1 = zArrayDescriptor[regComplex * 4].height;
 
-            double max_x = double.MinValue; 
-            double max_y = double.MinValue; 
-            double min_y = double.MaxValue;
-            double min_x = double.MaxValue;
+            double min_x = double.MaxValue; double max_x = double.MinValue;
+            double min_y = double.MaxValue; double max_y = double.MinValue;         
+            double min_z = double.MaxValue; double max_z = double.MaxValue;
 
-            for (int j = 0; j < w1; j++)
-            {
+            for (int i = 0; i < w1; i++)
+              for (int j = n_begin; j <n_end; j++)
+                {
 
-                double x = zArrayDescriptor[regComplex * 4 + k1].array[j, N_Line];
-                double y = zArrayDescriptor[regComplex * 4 + k2].array[j, N_Line];
+                double x = zArrayDescriptor[regComplex * 4 + k1].array[i, j];
+                double y = zArrayDescriptor[regComplex * 4 + k2].array[i, j];
+                double z = zArrayDescriptor[regComplex * 4 + k3].array[i, j];
 
                 if (x > max_x) max_x = x; if (x < min_x) min_x = x;
                 if (y > max_y) max_y = y; if (y < min_y) min_y = y;
+                if (z > max_y) max_z = z; if (z < min_z) min_z = z;
 
-            }
+                }
 
             int nn = 256;
             ZArrayDescriptor cmpl = new ZArrayDescriptor(nn+20, nn+20);        // Массив для фаз
            
 
-            for (int j = 0; j < w1; j++)
-            {
+            for (int i = 0; i < w1; i++)
+                for (int j = n_begin; j < n_end; j++)
+                {
+
+                double xx = zArrayDescriptor[regComplex * 4 + k1].array[i, j];
+                double yy = zArrayDescriptor[regComplex * 4 + k2].array[i, j];
+                double zz = zArrayDescriptor[regComplex * 4 + k3].array[i, j];
+                int x = (int)((xx - min_x) * (nn - 1) / (max_x - min_x));     if (x < 0 || x > 255) { MessageBox.Show(" x " + x); continue; }
+                int y = (int)((yy - min_y) * (nn - 1) / (max_y - min_y));     if (y < 0 || y > 255) { MessageBox.Show(" y " + y); continue; }
+
+                int z = (int)((zz - min_z) * (nn - 1 - 100) / (max_z - min_z));
+                if (z != 0) z = z+100;
+                cmpl.array[x+10 , y+10 ] = z;
 
 
-                double xx = zArrayDescriptor[regComplex * 4 + k1].array[j, N_Line];
-                double yy = zArrayDescriptor[regComplex * 4 + k2].array[j, N_Line];
-                double zz = zArrayDescriptor[regComplex * 4 + k3].array[j, N_Line];
-                int x = (int)((xx - min_x) * (nn - 1) / (max_x - min_x));
-                int y = (int)((yy - min_y) * (nn - 1) / (max_y - min_y));
-                if (x < 0 || x > 255) { MessageBox.Show(" x " + x); continue; }
-                if (y < 0 || y > 255) { MessageBox.Show(" y " + y); continue; }
-                cmpl.array[x+10 , y+10 ] = zz*50;
-
-
-            }
+            } 
 
 
             return cmpl;

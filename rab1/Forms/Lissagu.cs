@@ -7,13 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using rab1.Forms;
 
-namespace rab1.Forms
+namespace rab1
 {
-    public delegate void Liss3D(int Nline, int k1, int k2, int k3);
+   //public delegate void Liss3D(int Nline, int k1, int k2, int k3);
     public partial class Lissagu : Form
     {
-        public event Liss3D On_Liss3D;
+        //public event Liss3D On_Liss3D;
 
 
         private static double[] fz = { 0.0, 90.0, 180.0, 270.0, 0.0, 90.0, 180.0, 270.0 };
@@ -21,7 +22,8 @@ namespace rab1.Forms
         private static int k2 = 1;
         private static int k3 = 1;
         private static int k4 = 1;
-        private static int n = 256;     // Номер строки
+        private static int n = 128;     // Номер строки
+        private static int n_end = 129; // Номер конечной строки
         private static int xx0 = 0;     // Начальное значение в графике
 
         private static double max = double.MinValue;  // Минимальное значение для 4 строк
@@ -38,7 +40,9 @@ namespace rab1.Forms
         public Lissagu()
         {
             InitializeComponent();
-            textBox1.Text = Convert.ToString(n);
+            textBox1.Text = Convert.ToString(n);     // Номер начальной строки
+            textBox6.Text = Convert.ToString(n_end); // Номер конечной строки
+
             textBox2.Text = Convert.ToString(fz[0]);
             textBox3.Text = Convert.ToString(fz[1]);
             textBox4.Text = Convert.ToString(fz[2]);
@@ -59,9 +63,15 @@ namespace rab1.Forms
             int w1 = Form1.zArrayDescriptor[Form1.regComplex*4].width;
             int h1 = Form1.zArrayDescriptor[Form1.regComplex*4].height;
 
+            n     = Convert.ToInt32(textBox1.Text);
+            n_end = Convert.ToInt32(textBox6.Text);
+
+            if (n<0 || n_end>(h1-1)) { MessageBox.Show("n<0 || n_end>(h1-1)"); return; }
+
+
             ZArrayDescriptor faza = new ZArrayDescriptor(w1, h1);
 
-            faza = FazaClass.ATAN_Gr(Form1.zArrayDescriptor, fzrad, Form1.regComplex);
+            faza = FazaClass.ATAN_Gr(Form1.zArrayDescriptor, fzrad, Form1.regComplex, n, n_end);
             Vizual.Vizual_Picture(faza, pictureBox2);
         }
 
@@ -75,14 +85,14 @@ namespace rab1.Forms
             fz[2] = Convert.ToDouble(textBox4.Text); fzrad[2] = Math.PI * fz[2] / 180.0;
             fz[3] = Convert.ToDouble(textBox5.Text); fzrad[3] = Math.PI * fz[3] / 180.0;
 
-            int N_line = Convert.ToInt32(textBox1.Text);
+            n = Convert.ToInt32(textBox1.Text);
 
             int w1 = Form1.zArrayDescriptor[Form1.regComplex].width;
             int h1 = Form1.zArrayDescriptor[Form1.regComplex].height;
 
             ZArrayDescriptor faza = new ZArrayDescriptor(w1, h1);
 
-            faza = FazaClass.ATAN_Gr_N(Form1.zArrayDescriptor, fzrad, Form1.regComplex, N_line);
+            faza = FazaClass.ATAN_Gr_N(Form1.zArrayDescriptor, fzrad, Form1.regComplex, n);
             Vizual.Vizual_Picture(faza, pictureBox2);
         }
 
@@ -91,7 +101,7 @@ namespace rab1.Forms
         // --------------------------------------------------------------------------------------------------------------------------------------------
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            CheckBox checkBox = (CheckBox)sender; // приводим отправителя к элементу типа CheckBox
+            CheckBox checkBox = (CheckBox)sender;            // приводим отправителя к элементу типа CheckBox
             if (checkBox.Checked == true) { k1 = 1; } else { k1 = 0; }
         }
 
@@ -245,7 +255,11 @@ namespace rab1.Forms
 
         private void button4_Click(object sender, EventArgs e)
         {
-            
+            if (checkBox1.Checked == true) { k1 = 1; } else { k1 = 0; }
+            if (checkBox2.Checked == true) { k2 = 1; } else { k2 = 0; }
+            if (checkBox3.Checked == true) { k3 = 1; } else { k3 = 0; }
+            if (checkBox4.Checked == true) { k4 = 1; } else { k4 = 0; }
+
             if ((k1 + k2 + k3 + k4) != 2) { MessageBox.Show("Число флагов больше или меньше 2"); return; }  // Только 2 кадра должны быть выбраны
 
             int[] kk = new int[4]; { kk[0] = k1;  kk[1] = k2;  kk[2] = k3;  kk[3] = k4; }
@@ -256,15 +270,58 @@ namespace rab1.Forms
             for (int i = 0; i < 4; i++) { if (kk[i] != 0) { kk2 = i; break; } }
 
 
-            int N_line = Convert.ToInt32(textBox1.Text);                                        // Номер строки
+           
 
             int w1 = Form1.zArrayDescriptor[Form1.regComplex].width;
             int h1 = Form1.zArrayDescriptor[Form1.regComplex].height;
 
-            ZArrayDescriptor faza = new ZArrayDescriptor(w1, h1);
+            n = Convert.ToInt32(textBox1.Text);
+            n_end = Convert.ToInt32(textBox6.Text);
 
-            faza = FazaClass.Lissagu(Form1.zArrayDescriptor, Form1.regComplex, N_line, kk1, kk2);
+            if (n < 0 || n_end > (h1 - 1)) { MessageBox.Show("n<0 || n_end>(h1-1)"); return; }
+
+
+            ZArrayDescriptor  faza = FazaClass.Lissagu(Form1.zArrayDescriptor, Form1.regComplex,  kk1, kk2, n, n_end);
             Vizual.Vizual_Picture(faza, pictureBox2);
+        }
+
+
+        /// <summary>
+        /// Фигуры Лиссажу 3D
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button6_Click(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked == true) { k1 = 1; } else { k1 = 0; }
+            if (checkBox2.Checked == true) { k2 = 1; } else { k2 = 0; }
+            if (checkBox3.Checked == true) { k3 = 1; } else { k3 = 0; }
+            if (checkBox4.Checked == true) { k4 = 1; } else { k4 = 0; }
+
+            if ((k1 + k2 + k3 + k4) != 3) { MessageBox.Show("Число флагов больше или меньше 3"); return; }  // Только 3 кадра должны быть выбраны
+
+            int[] kk = new int[4];
+            { kk[0] = k1; kk[1] = k2; kk[2] = k3; kk[3] = k4; }
+
+            int kk1 = 0, kk2 = 0, kk3 = 0;                                                                // Номер 1 и второго кадров
+
+            for (int i = 0; i < 4; i++) { if (kk[i] != 0) { kk1 = i; kk[i] = 0; break; } }
+            for (int i = 0; i < 4; i++) { if (kk[i] != 0) { kk2 = i; kk[i] = 0; break; } }
+            for (int i = 0; i < 4; i++) { if (kk[i] != 0) { kk3 = i; break; } }
+
+            int w1 = Form1.zArrayDescriptor[Form1.regComplex].width;
+            int h1 = Form1.zArrayDescriptor[Form1.regComplex].height;
+
+            n = Convert.ToInt32(textBox1.Text);
+            n_end = Convert.ToInt32(textBox6.Text);
+
+            if (n < 0 || n_end > (h1 - 1)) { MessageBox.Show("n<0 || n_end>(h1-1)"); return; }
+
+           
+
+            ZArrayDescriptor faza = FazaClass.Lissagu3D(Form1.zArrayDescriptor, Form1.regComplex,  kk1, kk2, kk3, n, n_end);
+            Vizual.Vizual_Picture(faza, pictureBox2);
+            //On_Liss3D(n, kk1, kk2, kk3);
         }
         //  ---------------------------------------------------------------------------------------------------
         //                    Гистограмма 4 кадров
@@ -426,30 +483,7 @@ namespace rab1.Forms
             pictureBox3.Invalidate();
 
         }
-        /// <summary>
-        /// Фигуры Лиссажу 3D
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button6_Click(object sender, EventArgs e) 
-        {
-            if ((k1 + k2 + k3 + k4) != 3) { MessageBox.Show("Число флагов больше или меньше 3"); return; }  // Только 3 кадра должны быть выбраны
-
-            int[] kk = new int[4];
-            { kk[0] = k1; kk[1] = k2; kk[2] = k3; kk[3] = k4; }
-
-            int kk1 = 0, kk2 = 0, kk3 = 0;                                                                // Номер 1 и второго кадров
-
-            for (int i = 0; i < 4; i++) { if (kk[i] != 0) { kk1 = i; kk[i] = 0; break; } }
-            for (int i = 0; i < 4; i++) { if (kk[i] != 0) { kk2 = i; kk[i] = 0; break; } }
-            for (int i = 0; i < 4; i++) { if (kk[i] != 0) { kk3 = i;  break; } }
-
-            int N_line = Convert.ToInt32(textBox1.Text);                                        // Номер строки
-
-            ZArrayDescriptor faza = FazaClass.Lissagu3D(Form1.zArrayDescriptor, Form1.regComplex, N_line, kk1, kk2, kk3);
-            Vizual.Vizual_Picture(faza, pictureBox2);
-            On_Liss3D(N_line, kk1, kk2, kk3);
-        }
+      
     }
 
 };

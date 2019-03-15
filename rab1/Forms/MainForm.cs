@@ -2496,7 +2496,7 @@ namespace rab1
         /// 
         private void FormModel_Intensity(double nu, int Nx, int Ny, double gamma)       // Клин интенсивности
         {
-            zArrayDescriptor[regComplex * 4 + 0] = Model_Sinus.Intensity1(nu, Nx, Ny,gamma);
+            zArrayDescriptor[regComplex * 4 + 0] = Model_Sinus.Intensity1(nu, 0, Nx, Ny,gamma);
             zArrayDescriptor[regComplex * 4 + 1] = Model_Sinus.Intensity2(nu, Nx, Ny);
             zArrayDescriptor[regComplex * 4 + 2] = Model_Sinus.Intensity3(nu, Nx, Ny);
             zArrayDescriptor[regComplex * 4 + 3] = Model_Sinus.Intensity4(nu, Nx, Ny);
@@ -2875,14 +2875,14 @@ namespace rab1
         private void лиссажуToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Lissagu LsgForm = new Lissagu();
-            LsgForm.On_Liss3D += FormLiss3D;
+            //LsgForm.On_Liss3D += FormLiss3D;
             LsgForm.Show();
         }
-        private void FormLiss3D(int N_line, int k1, int k2, int k3)
-        {
-            zArrayPicture = FazaClass.Lissagu3D(zArrayDescriptor, regComplex, N_line, k1, k2, k3);
-            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
-        }
+       // private void FormLiss3D(int N_line, int k1, int k2, int k3)
+       // {
+       //     //zArrayPicture = FazaClass.Lissagu3D(zArrayDescriptor, regComplex, N_line, k1, k2, k3);
+       //     Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        //}
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //           PSI  из 8,9,10,11 в zArrayPicture fz[4]         Амплитуда Фаза Квантование
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3123,9 +3123,150 @@ namespace rab1
             }
             return image;
         }
-                
 
-        // Структурированное освещение
+
+        // ----------------------------------------------------- Структурированное освещение
+        /// <summary>
+        /// Коррекция неравномерности освещения
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void коррекцияНеравномерностиОсвещенияToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CorrectBr CorI = new CorrectBr();
+            CorI.On_CorrectX += CorX;        // Коррекция размера
+            CorI.On_CorrectG += CorG;        // Коррекция клина
+            CorI.On_CorrectClin += CorClin;  // Коррекция клина
+            CorI.On_CorrectSumm += CorSumm;  // Суммирование строк
+            CorI.On_CorrectGxy += CorGxy;    // Коррекция размера по x, y
+
+            CorI.Show();
+        }
+
+        private void CorGxy(int k1, int k2, int N_Line, int nx, int ny)                    // Меняем размер массива по x, y
+        {
+            if (zArrayDescriptor[k1] == null) { MessageBox.Show("CorGxy zArrayDescriptor[k1] == NULL"); return; }
+           
+            int w1 = zArrayDescriptor[k1].width;
+            int h1 = zArrayDescriptor[k1].height;
+
+            if (N_Line <0 || N_Line >w1-1) { MessageBox.Show("CorGxy N_line <0 || N_line >w1-1"); return; }
+
+            int dx = 100;
+            ZArrayDescriptor faza = new ZArrayDescriptor(nx+2*dx, ny);
+
+            double[] array_line = new double[nx];
+
+            for (int i = 0; i < nx; i++)
+                {
+                 int i1 = i * (w1-1) / (nx - 1);
+                 array_line[i] = zArrayDescriptor[k1].array[i1, N_Line];
+                }
+
+            for (int i = 0; i < nx; i++)
+                for (int j = 0; j < ny; j++)
+                {
+                    faza.array[i+100, j] = array_line[i];
+                }
+            faza = Model_Sinus.Intens(255, 0, dx, faza);     // Белая и черная полоса по краям
+
+            zArrayDescriptor[k2] = faza;
+            Vizual_regImage(k1); Vizual_regImage(k2);
+        }
+        private void CorSumm(int k1,  int k2)                    // Сложение строк
+        {
+            if (zArrayDescriptor[k1] == null) { MessageBox.Show("CorG zArrayDescriptor[k1] == NULL"); return; }
+            
+            int w1 = zArrayDescriptor[k1].width;
+            int h1 = zArrayDescriptor[k1].height;
+
+            ZArrayDescriptor faza = new ZArrayDescriptor(w1, h1);
+
+            int y1 = Convert.ToInt32(textBox4.Text);
+            int y2 = Convert.ToInt32(textBox6.Text);
+
+            if (y2 < y1 || y2>h1 || y1<0 ) { MessageBox.Show("CorSumm y2< y1 || y2>h1"); return; }
+
+            double[] array_line = new double[w1];
+
+            for (int i = 0; i < w1; i++)
+                for (int j = y1; j < y2; j++)
+                    array_line[i] += zArrayDescriptor[k1].array[i, j];
+
+            for (int i = 0; i < w1; i++)
+                for (int j = 0; j < h1; j++)
+                    faza.array[i, j] = array_line[i] / (y2 - y1);
+
+            zArrayDescriptor[k2] = faza;
+            Vizual_regImage(k1);   Vizual_regImage(k2);
+
+        }
+
+        private void CorClin(int I0, int n, int k1)                    // Меняем размер массива
+        {
+            double gamma = 1;
+            int ny = 2048;
+            int nu = 255;                                               // Число уровней
+            zArrayDescriptor[k1] = Model_Sinus.Intensity1(nu, I0, n, ny, gamma);
+            Vizual_regImage(k1); 
+        }
+    
+
+
+
+        private void CorG(int k1, int k2, int k3)                    // Меняем размер массива
+        {
+            if (zArrayDescriptor[k1] == null) { MessageBox.Show("CorG zArrayDescriptor[k1] == NULL"); return; }
+            if (zArrayDescriptor[k2] == null) { MessageBox.Show("CorG zArrayDescriptor[k2] == NULL"); return; }
+            int w1 = zArrayDescriptor[k1].width;
+            int h1 = zArrayDescriptor[k1].height;
+
+
+            ZArrayDescriptor faza = new ZArrayDescriptor(w1, h1);
+
+            double max = double.MinValue;
+            double min = double.MaxValue;
+
+            for (int i = 0; i < w1; i++)
+                for (int j = 0; j < h1; j++)
+                {
+                   double y1 = zArrayDescriptor[k1].array[i, j];
+                   double y0 = zArrayDescriptor[k2].array[i, j];   // Клин
+                   double y2 = 2 * y0 - y1;
+                   if (y2 > max) max = y2; if (y2 < min) min = y2;
+                   faza.array[i, j]=y2;
+                }
+
+            MessageBox.Show("max = " + max+ " min = " + min);
+
+
+            zArrayDescriptor[k3] = faza;
+            Vizual_regImage(k1); Vizual_regImage(k2); Vizual_regImage(k3);
+        }
+        private void CorX(int k1, int k2, int n)                    // Меняем размер массива
+        {
+            if (zArrayDescriptor[k1] == null) { MessageBox.Show("zArrayDescriptor[k1] == NULL"); return; }
+            int w1 = zArrayDescriptor[k1].width;
+            int h1 = zArrayDescriptor[k1].height;
+
+            int x1 = Convert.ToInt32(textBox3.Text);
+            int x2 = Convert.ToInt32(textBox5.Text);
+
+            if (x1>=x2 || x2 > w1-1) { MessageBox.Show("x1 >= x2 || x2 > w1-1"); return; }
+
+            ZArrayDescriptor faza = new ZArrayDescriptor(n, h1);
+
+            for (int i=0; i<n; i++)
+                for (int j = 0; j < h1; j++)
+                {
+                    //int i1 = ((i - x1) * n) / (x2 - x1);
+                    int i1 = i * (x2 - x1) / (n-1) + x1;
+                    faza.array[i, j] = zArrayDescriptor[k1].array[i1,j];
+                }
+            zArrayDescriptor[k2] = faza;
+            Vizual_regImage(k1); Vizual_regImage(k2);
+        }
+
         private void моделированиеОстаткаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Structur STRUCTUR = new Structur();
@@ -3134,7 +3275,7 @@ namespace rab1
             STRUCTUR.On_Scale += Correct_Scale;
             STRUCTUR.On_Sub += Correct_Sub;                 // Вычесть два массива 1-2 => ArrayPicture
             STRUCTUR.On_Sub_Cos += Correct_Sub_Cos;         // Вычесть два массива
-            STRUCTUR.On_Corr_Sub += Correct_Corr_Sub;       // Вычесть два массива с корректировкой значений по углу
+            //STRUCTUR.On_Corr_Sub += Correct_Corr_Sub;       // Вычесть два массива с корректировкой значений по углу
             STRUCTUR.On_Sub_Line += Correct_Line;           // Вычесть линейный тренд 
             STRUCTUR.On_Count_Line += Correct_Count;
             STRUCTUR.On_Null += Correct_Null;              // Убрать нули
@@ -3324,6 +3465,8 @@ namespace rab1
         {
             LoadCoordinates();
         }
+
+      
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }

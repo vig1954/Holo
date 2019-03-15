@@ -226,6 +226,13 @@ namespace rab1
             if (Form1.zArrayDescriptor[k2] == null) { MessageBox.Show("zArrayDescriptor [" + k2 + "] == NULL"); return; }
             int nx = Form1.zArrayDescriptor[k1].width;
             int ny = Form1.zArrayDescriptor[k1].height;
+
+            int nx1 = Form1.zArrayDescriptor[k2].width;
+            int ny1 = Form1.zArrayDescriptor[k2].height;
+
+            nx = Math.Min(nx, nx1); ny = Math.Min(ny, ny1);
+
+
             Form1.zArrayDescriptor[k3] = new ZArrayDescriptor(nx, ny);
 
             for (int i = 0; i < nx; i++)
@@ -241,8 +248,14 @@ namespace rab1
             //MessageBox.Show(" Main   k1=" + k1 + " k2 =" + k2 + " k3 =" + k3);
             if (Form1.zArrayDescriptor[k1] == null) { MessageBox.Show("Sub_D zArrayDescriptor [" + k1 + "] == NULL"); return; }
             if (Form1.zArrayDescriptor[k2] == null) { MessageBox.Show("Sub_D zArrayDescriptor [" + k2 + "] == NULL"); return; }
-            int nx = Form1.zArrayDescriptor[k1].width;
+
+            int nx = Form1.zArrayDescriptor[k1].width; 
             int ny = Form1.zArrayDescriptor[k1].height;
+
+            int nx1 = Form1.zArrayDescriptor[k2].width;
+            int ny1 = Form1.zArrayDescriptor[k2].height;
+
+            nx = Math.Min(nx, nx1); ny = Math.Min(ny, ny1);
 
             Form1.zArrayDescriptor[k3] = new ZArrayDescriptor(nx, ny);
            
@@ -252,6 +265,7 @@ namespace rab1
                     Form1.zArrayDescriptor[k3].array[i, j] = Form1.zArrayDescriptor[k1].array[i, j] - Form1.zArrayDescriptor[k2].array[i, j];
             VisualRegImage(k3);
         }
+    
         public static void ADD_C(int k1, int k2)             // Накопление += комплексных массивов
         {
             k1--; k2--;                                   // Массив 1 ->  0

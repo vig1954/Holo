@@ -28,7 +28,7 @@ namespace rab1.Forms
         public event Sub_Line On_Sub_Line;
         public event Sub_Line On_Count_Line;  // Определить шаг полосы
 
-        public event Correct1 On_Corr_Sub;
+   //     public event Correct1 On_Corr_Sub;
 
         private static double L = 1000;    // Расстояние до объекта
         private static double d = 900;    // Расстояние от начала объекта до камеры
