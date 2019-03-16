@@ -13,7 +13,7 @@ using rab1;
 
 namespace rab1.Forms
 {
-    //public delegate void VisualRegImageDelegate(int k);
+    public delegate void VisualRegImageDelegate(int k);
 
 
     public delegate void ADD_Complex(int k1, int k2);
@@ -27,7 +27,7 @@ namespace rab1.Forms
 
     public partial class ADD_Cmplx : Form
     {
-        //public static VisualRegImageDelegate VisualRegImage; // = null;
+        public static VisualRegImageDelegate VisualRegImage = null;
 
         public event ADD_Complex  On_ADD;
        
@@ -153,9 +153,9 @@ namespace rab1.Forms
             k7 = Convert.ToInt32(textBox7.Text);
             k8 = Convert.ToInt32(textBox8.Text);
             //MessageBox.Show("k1=" + k6 + " k2 =" + k7 + " k3 =" + k8);
-            On_Sub_Double(k6, k7, k8);
+            //On_Sub_Double(k6, k7, k8);
 
-  /*        
+      
                 k6--; k7--; k8--;                                   // Массив 1 ->  0
 
                 //MessageBox.Show(" Main   k1=" + k1 + " k2 =" + k2 + " k3 =" + k3);
@@ -176,8 +176,8 @@ namespace rab1.Forms
                 for (int j = 0; j < ny; j++)
                     for (int i = 0; i < nx; i++)
                         Form1.zArrayDescriptor[k8].array[i, j] = Form1.zArrayDescriptor[k6].array[i, j] - Form1.zArrayDescriptor[k7].array[i, j];
-                VisualRegImage(k8);         
-*/
+                VisualRegImage(k8);
+            k6++; k7++; k8++;
             Close();
         }
 

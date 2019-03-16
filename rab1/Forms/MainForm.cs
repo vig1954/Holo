@@ -78,6 +78,7 @@ namespace rab1
             };
 
             ADD_Math.VisualRegImage      = this.Vizual_regImage;
+            ADD_Cmplx.VisualRegImage = this.Vizual_regImage;
             ADD_Math.ComplexPictureImage = this.Complex_pictureBox;
 
             relayout();
@@ -3233,7 +3234,9 @@ namespace rab1
                    double y1 = zArrayDescriptor[k1].array[i, j];
                    double y0 = zArrayDescriptor[k2].array[i, j];   // Клин
                    double y2 = 2 * y0 - y1;
-                   if (y2 > max) max = y2; if (y2 < min) min = y2;
+                   if (y2 > 255) y2 = 255;
+                   if (y2 < 0) y2 = -y2;
+                    if (y2 > max) max = y2; if (y2 < min) min = y2;
                    faza.array[i, j]=y2;
                 }
 
