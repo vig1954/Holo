@@ -163,9 +163,7 @@ namespace rab1.Forms
         /// <returns></returns>
         public static ZArrayDescriptor Intensity1(double nu, int I0, int Nx, int Ny, double gamma)  // от светлого к темному
         {
-            Nx = 4096;
-            Ny = 2048;
-
+          
             int dx = 100;
             int Nx1 = Nx;
             Nx = Nx + dx * 2;

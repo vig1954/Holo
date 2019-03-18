@@ -25,8 +25,8 @@ namespace rab1
 // -----------------------------------------------------------------------------------------------------------
         Image[] img = new Image[12];
         public static ZArrayDescriptor[] zArrayDescriptor = new ZArrayDescriptor[12];     // Иконки справа
-        public static ZArrayDescriptor     zArrayPicture = new ZArrayDescriptor();            // Массив для главного окна
-        public static ZComplexDescriptor[] zComplex = new ZComplexDescriptor[3];
+        public static ZArrayDescriptor     zArrayPicture  = new ZArrayDescriptor();            // Массив для главного окна
+        public static ZComplexDescriptor[] zComplex       = new ZComplexDescriptor[3];
         public PictureBox[] pictureBoxArray = null;
         
         public static int regImage = 0;                           // Номер изображения (0-11)
@@ -36,13 +36,9 @@ namespace rab1
 
        
 
-        Form f_filt;                             // Для Фильтрации
+        Form f_filt;                               // Для Фильтрации
         TextBox tb1_filt; //, tb2_filt, tb3_filt;
         int k_filt = 1;
-
-       
-
-
 
         string string_dialog; // = "D:\\Студенты\\Эксперимент";       
 
@@ -78,7 +74,8 @@ namespace rab1
             };
 
             ADD_Math.VisualRegImage      = this.Vizual_regImage;
-            ADD_Cmplx.VisualRegImage = this.Vizual_regImage;
+            CorrectBr.VisualRegImage = this.Vizual_regImage;
+            //ADD_Cmplx.VisualRegImage = this.Vizual_regImage;
             ADD_Math.ComplexPictureImage = this.Complex_pictureBox;
 
             relayout();
@@ -1634,65 +1631,19 @@ namespace rab1
 
             ADD_Cmplx ADDPLUS = new ADD_Cmplx();
 
-
-            ADDPLUS.On_ADD += ADD_C;        // Сложить += два комплекных массива
-            ADDPLUS.On_Send += Send_C;      // Переслать 
-            ADDPLUS.On_Sub += Sub_C;        // Вычесть
-            ADDPLUS.On_Add += Add_C;        // Сложить
-            ADDPLUS.On_Div += Div_C;        // Разделить
-            ADDPLUS.On_Mul += Mul_C;        // Умножить
-            ADDPLUS.On_Ampl += Ampl_C;      // Амплитуда суммы двух волновых полей
-
-
-            ADDPLUS.On_ROR_CMPLX += ROR_C;      // Cдвиг вправо  (циклический)
-            ADDPLUS.On_ROL_CMPLX += ROL_C;      // Cдвиг влево  (циклический)
-
-
-            ADDPLUS.On_ADD_Double += ADD_D;     // Сложить два вещественных массива
-            ADDPLUS.On_Sub_Double += Sub_D;     // Вычесть
-            ADDPLUS.On_Div_Double += Div_D;     // Разделить
-            ADDPLUS.On_MulD   += Mul_D;         // Умножение вещественных массивов
-            ADDPLUS.On_ROR    += ROR_D;         // Cдвиг вправо (циклический)
-            ADDPLUS.On_ROL    += ROL_D;         // Cдвиг влево  (циклический)
+            ADDPLUS.On_Mul    += Mul_C;         // Умножить комплексные массивы
+            ADDPLUS.On_Ampl   += Ampl_C;        // Амплитуда суммы двух волновых полей
+            ADDPLUS.On_MulD   += Mul_D;         // Умножение вещественных массивов        
             ADDPLUS.On_Conv   += Conv_D;        // Свертка двух массивов
-            ADDPLUS.On_TRNS   += TRNS_D;        // Транспонирование вещественных массивов
-            ADDPLUS.On_ROT180 += ROT180_D;      // Транспонирование вещественных массивов
-
-            ADDPLUS.On_Pirs += ADD_Math.Pirs_D;          // Линейный коэффициент корреляции r-Пирсона
-            ADDPLUS.On_ABS  += ABS_D;           // Абсолютное значение
-
-            ADDPLUS.On_Send_double += Send_C4;      // Переслать 4 файла
-
             ADDPLUS.Show();
         }
         // Сами программы формы ADD_Cmplx находятся в  ADD_Math.cs - Арифметические операции над массивами
-
-        private void ABS_D()        { ADD_Math.ABS_D(regImage); }                   // Абсолютное значение
-        private void ROR_D(int k1)  { ADD_Math.ROR_D(k1); Vizual.Vizual_Picture(zArrayPicture, pictureBox01); }      // Циклический сдвиг вправо zArrayPicture
-        private void ROL_D(int k1)  { ADD_Math.ROL_D(k1); Vizual.Vizual_Picture(zArrayPicture, pictureBox01); }      // Циклический сдвиг влево zArrayPicture
-        private void ROL_C(int k1)  { ADD_Math.ROL_C(k1); }              // Циклический сдвиг влево комплексных чисел
-        private void ROR_C(int k1)  { ADD_Math.ROR_C(k1);  }              // Циклический сдвиг вправо  комплексных чисел
-        private void TRNS_D()       { ADD_Math.TRNS_D();        }                         // Транспонирование zArrayDescriptor[regImage]
-        private void ROT180_D()     { ADD_Math.ROT180_D();      }                     // Поворот zArrayDescriptor[regImage] на 180 градусов
-        private void ADD_D(int k1, int k2, int k3) { ADD_Math.ADD_D(k1, k2, k3);  } // Сложить два вещественных массива
-        private void Sub_D(int k1, int k2, int k3) { ADD_Math.Sub_D1(k1, k2, k3); } // Вычесть два вещественных массива (3 аргумента)
-        private void ADD_C(int k1, int k2)          { ADD_Math.ADD_C(k1, k2);   Complex_pictureBox(k2-1); }          // Накопление += комплексных массивов
-        private void Send_C(int k1, int k2)         { ADD_Math.Send_C(k1, k2); }        // Пересылка комплексных массивов
-        private void Add_C(int k3, int k4, int k5)  { ADD_Math.Add_C(k3, k4, k5); Complex_pictureBox(k5-1); }   // Сложить два комплексных массива
-        private void Sub_C(int k3, int k4, int k5)  { ADD_Math.Sub_C(k3, k4, k5); Complex_pictureBox(k5-1); }   // Вычесть два комплексных массива
-
+           
         private void Ampl_C(int k11, int k12)       { ADD_Math.Ampl_C(k11, k12); Vizual.Vizual_Picture(zArrayPicture, pictureBox01); }   // Амплитуда суммы двух комплексных массивов
         private void Mul_C(int k3, int k4, int k5)  { ADD_Math.Mul_C(k3, k4, k5, progressBar1); Complex_pictureBox(k5 - 1); } // Умножить два комплексных массива
-        private void Mul_D(int k3, int k4, int k5)  { ADD_Math.Mul_D(k3, k4, k5, progressBar1);  } // Умножить два вещественных массивов
+        private void Mul_D(int k3, int k4, int k5)  { ADD_Math.Mul_D(k3, k4, k5, progressBar1);  }  // Умножить два вещественных массивов
         private void Conv_D(int k3, int k4, int k5) { ADD_Math.Conv_D(k3, k4, k5, progressBar1);  } // Корреляция двух вещественных массивов
 
-        private void Div_C(int k3, int k4, int k5)  { ADD_Math.Div_C(k3, k4, k5);  Complex_pictureBox(k5 - 1); } // Поэлементное деление комплексных чисел
-        private void Div_D(int k3, int k4, int k5)  { ADD_Math.Div_D(k3, k4, k5);  }     // Поэлементное деление вещественных массивов
-
-        private void Send_C4(int k1, int k2)        { ADD_Math.Send_C4(k1, k2); }                                       //  Пересылка 4 массивов
-                                                                         
-
-      
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //        Двухмерное преобразование Фурье и Френеля
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3137,7 +3088,7 @@ namespace rab1
             CorrectBr CorI = new CorrectBr();
             CorI.On_CorrectX += CorX;        // Коррекция размера
             CorI.On_CorrectG += CorG;        // Коррекция клина
-            CorI.On_CorrectClin += CorClin;  // Коррекция клина
+           // CorI.On_CorrectClin += CorClin;  // Коррекция клина
             CorI.On_CorrectSumm += CorSumm;  // Суммирование строк
             CorI.On_CorrectGxy += CorGxy;    // Коррекция размера по x, y
 
@@ -3203,12 +3154,12 @@ namespace rab1
 
         }
 
-        private void CorClin(int I0, int n, int k1)                    // Меняем размер массива
+        private void CorClin(int I0, int nx, int ny, int k1)                    // Меняем размер массива
         {
             double gamma = 1;
-            int ny = 2048;
+           
             int nu = 255;                                               // Число уровней
-            zArrayDescriptor[k1] = Model_Sinus.Intensity1(nu, I0, n, ny, gamma);
+            zArrayDescriptor[k1] = Model_Sinus.Intensity1(nu, I0, nx, ny, gamma);
             Vizual_regImage(k1); 
         }
     
