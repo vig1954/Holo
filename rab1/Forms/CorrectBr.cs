@@ -10,14 +10,18 @@ using System.Windows.Forms;
 
 namespace rab1.Forms
 {
+    public delegate void VisualRegImageDelegate(int k);  // Для VisualRegImage 
+
     public delegate void CorrectBr1(int k1, int k2, int n);
     public delegate void CorrectBr2(int k1, int k2);
     public delegate void CorrectBr3(int k1, int k2, int N, int nx, int ny);
     public partial class CorrectBr : Form
     {
+        public static VisualRegImageDelegate VisualRegImage = null;  // Визувлизация одного кадра от 0 до 11
+
         public event CorrectBr1 On_CorrectX;
         public event CorrectBr1 On_CorrectG;
-        public event CorrectBr1 On_CorrectClin;
+       // public event CorrectBr1 On_CorrectClin;
         public event CorrectBr2 On_CorrectSumm;
         public event CorrectBr3 On_CorrectGxy;
 
@@ -90,8 +94,9 @@ namespace rab1.Forms
             On_CorrectG(k11 - 1, k21 - 1, k31-1);
             Close();
         }
+        //------------------------------------------------------------------------------------------- Клин
         /// <summary>
-        /// Клин от I0 до 255
+        /// Клин от I0 до 255 размер текущий размер
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -99,12 +104,59 @@ namespace rab1.Forms
         {
             k12 = Convert.ToInt32(textBox8.Text);
             I0 = Convert.ToInt32(textBox7.Text);
-            n = Convert.ToInt32(textBox2.Text);
-            On_CorrectClin(I0, n, k12 - 1);
+            nx = Convert.ToInt32(textBox14.Text);                       // Текущий размер
+            ny = Convert.ToInt32(textBox15.Text);
+
+            double gamma = 1;
+            int nu = 255;                                               // Число уровней
+            Form1.zArrayDescriptor[k12-1] = Model_Sinus.Intensity1(nu, I0, nx, ny, gamma);
+            VisualRegImage(k12-1);
+
+            //On_CorrectClin(I0, nx, k12 - 1);
             Close();
 
+        }
+        /// <summary>
+        /// Клин с 32 значениями интенсивности из массива
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button6_Click(object sender, EventArgs e)
+        {
+            //double[] cl = { 1,  2,  3,  4,  5,  6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  26,  27,  28, 29,   30,  31, 32 };
+            //double[] cl = { 0,  1,  2,  3,  4,  5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  26,  27, 28,   29,  30, 31 };
+            //double[] cl = { 7, 15, 23, 31, 39, 47,  55,  63,  71, 79,  87,  95, 103, 111, 119, 127, 135, 143, 151, 159, 167, 175, 183, 191, 199, 207, 215, 223, 231, 239, 247, 255 };
+              double[] cl = { 7, 15, 23, 31, 39, 47,  55,  63,  71, 79,  87,  95, 103, 111, 119, 127, 135, 143, 151, 159, 167, 175, 183, 191, 199, 207, 215, 223, 231, 239, 247, 255 };
+
+            k12 = Convert.ToInt32(textBox8.Text);
+            //I0 = Convert.ToInt32(textBox7.Text);
+            nx = Convert.ToInt32(textBox14.Text);                       // Текущий размер
+            ny = Convert.ToInt32(textBox15.Text);
+
+            int dx = 100;
+            int Nx1 = nx + dx * 2; ;
+            
+
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(Nx1, ny);
+
+            double[] am = new double[nx ];
+            
+
+            for (int i = 0; i < nx; i++) { am[i] = cl[i / 128]; }      // 0-31
+           
+
+            for (int i = 0; i < nx; i++)
+               for (int j = 0; j < ny; j++)
+                   {  cmpl.array[i + dx, j] = am[i];  }
+
+            cmpl = Model_Sinus.Intens(255, 0, dx, cmpl);     // Белая и черная полоса по краям
+
+            Form1.zArrayDescriptor[k12 - 1] = cmpl;
+            VisualRegImage(k12 - 1);
 
         }
+
+
         /// <summary>
         /// Сложение строк от Y1 до Y2
         /// </summary>
@@ -136,5 +188,7 @@ namespace rab1.Forms
             Close();
 
         }
+
+       
     }
 }
