@@ -3469,7 +3469,24 @@ namespace rab1
             LoadCoordinates();
         }
 
-      
+        private void коррекцияГаммаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int width = zArrayPicture.width;
+            int height = zArrayPicture.height;
+
+            ZArrayDescriptor resArrayDescriptor = new ZArrayDescriptor(width, height);
+
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    resArrayDescriptor.array[x, y] = GammaCorrection.GetCorrectedValue(zArrayPicture.array[x, y]);
+                }
+            }
+
+            zArrayPicture = resArrayDescriptor;
+            Vizual.Vizual_Picture(resArrayDescriptor, pictureBox01);
+        }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
