@@ -83,6 +83,7 @@
             this.textBox14 = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
             // label1
@@ -155,7 +156,7 @@
             // 
             this.button2.Location = new System.Drawing.Point(198, 83);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(102, 23);
+            this.button2.Size = new System.Drawing.Size(152, 23);
             this.button2.TabIndex = 9;
             this.button2.Text = "-";
             this.button2.UseVisualStyleBackColor = true;
@@ -165,7 +166,7 @@
             // 
             this.button3.Location = new System.Drawing.Point(198, 112);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(102, 23);
+            this.button3.Size = new System.Drawing.Size(152, 23);
             this.button3.TabIndex = 10;
             this.button3.Text = "+";
             this.button3.UseVisualStyleBackColor = true;
@@ -220,7 +221,7 @@
             // 
             this.button9.Location = new System.Drawing.Point(198, 183);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(102, 36);
+            this.button9.Size = new System.Drawing.Size(152, 36);
             this.button9.TabIndex = 27;
             this.button9.Text = "Поэлементное деление";
             this.button9.UseVisualStyleBackColor = true;
@@ -432,9 +433,9 @@
             // 
             this.button14.Location = new System.Drawing.Point(198, 141);
             this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(102, 37);
+            this.button14.Size = new System.Drawing.Size(154, 37);
             this.button14.TabIndex = 52;
-            this.button14.Text = "Умножить 2 массива";
+            this.button14.Text = "Умножить 2 комплексных массива";
             this.button14.UseVisualStyleBackColor = true;
             this.button14.Click += new System.EventHandler(this.button14_Click);
             // 
@@ -584,11 +585,19 @@
             this.label22.Size = new System.Drawing.Size(0, 13);
             this.label22.TabIndex = 69;
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(28, 487);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(692, 23);
+            this.progressBar1.TabIndex = 70;
+            // 
             // ADD_Cmplx
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(750, 522);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.label22);
             this.Controls.Add(this.label21);
             this.Controls.Add(this.textBox14);
@@ -707,5 +716,6 @@
         private System.Windows.Forms.TextBox textBox14;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }

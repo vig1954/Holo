@@ -17,50 +17,18 @@ namespace rab1.Forms
 
 
     public delegate void ADD_Complex(int k1, int k2);
-    public delegate void Send_Complex(int k1, int k2);
-    public delegate void Sub_Complex(int k3, int k4, int k5);
-    public delegate void Sub_Double(int k6, int k7, int k8);
-    public delegate void ROR_Double(int k9);
-    public delegate void TRNS_Double();
-    public delegate void ABS_Double();
-    // public delegate void ROR_Double1(int k9, Form1 f);
+ 
 
     public partial class ADD_Cmplx : Form
     {
-       // public static VisualRegImageDelegate VisualRegImage = null;
-
-        //public event ADD_Complex  On_ADD;
        
-        //public event Send_Complex On_Send;
-        //public event Sub_Complex  On_Sub;
-        public event Sub_Complex  On_Mul;
-       // public event Sub_Complex  On_Add;
-       // public event Sub_Complex  On_Div;
-
-       // public event Sub_Double On_Sub_Double;
-       // public event Sub_Double On_ADD_Double;
-       // public event Sub_Double On_Div_Double;
-        public event Sub_Complex On_MulD;
-        public event Sub_Double On_Conv;
-
-        //public event ROR_Double On_ROR;
-        //public event ROR_Double On_ROL;
-
-        //public event ROR_Double On_ROR_CMPLX;
-        //public event ROR_Double On_ROL_CMPLX;
-
-        //public event TRNS_Double On_TRNS;
-        //public event TRNS_Double On_ROT180;
-        //public event ABS_Double On_ABS;
-
-        //public event ADD_Complex On_Pirs;
         public event ADD_Complex On_Ampl;
 
-        //public event Send_Complex On_Send_double;
+     
 
         private static int k1 = 2;
         private static int k2 = 3;
-        private static int k3 = 3;
+        private static int k3 = 1;
         private static int k4 = 2;
         private static int k5 = 3;
 
@@ -260,18 +228,19 @@ namespace rab1.Forms
             k6 = Convert.ToInt32(textBox6.Text);
             k7 = Convert.ToInt32(textBox7.Text);
             k8 = Convert.ToInt32(textBox8.Text);
-
-            On_MulD(k6, k7, k8);
+            ADD_Math.Mul_D(k6, k7, k8, progressBar1);
+            //On_MulD(k6, k7, k8);
             Close();
         }
 
         private void button14_Click(object sender, EventArgs e)  // Умножение комплексных массивов
         {
-            k6 = Convert.ToInt32(textBox6.Text);
-            k7 = Convert.ToInt32(textBox7.Text);
-            k8 = Convert.ToInt32(textBox8.Text);
+            k3 = Convert.ToInt32(textBox3.Text);
+            k4 = Convert.ToInt32(textBox4.Text);
+            k5 = Convert.ToInt32(textBox5.Text);
+            ADD_Math.Mul_C(k3, k4, k5, progressBar1);
 
-            On_Mul(k6, k7, k8);
+            //On_Mul(k6, k7, k8);
             Close();
         }
 
@@ -280,8 +249,8 @@ namespace rab1.Forms
             k6 = Convert.ToInt32(textBox6.Text);
             k7 = Convert.ToInt32(textBox7.Text);
             k8 = Convert.ToInt32(textBox8.Text);
-
-            On_Conv(k6, k7, k8);
+            ADD_Math.Conv_D(k6, k7, k8, progressBar1);
+            //On_Conv(k6, k7, k8);
             Close();
         }
 

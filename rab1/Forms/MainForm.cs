@@ -1630,20 +1630,15 @@ namespace rab1
         {
 
             ADD_Cmplx ADDPLUS = new ADD_Cmplx();
-
-            ADDPLUS.On_Mul    += Mul_C;         // Умножить комплексные массивы
+          
             ADDPLUS.On_Ampl   += Ampl_C;        // Амплитуда суммы двух волновых полей
-            ADDPLUS.On_MulD   += Mul_D;         // Умножение вещественных массивов        
-            ADDPLUS.On_Conv   += Conv_D;        // Свертка двух массивов
+          
             ADDPLUS.Show();
         }
         // Сами программы формы ADD_Cmplx находятся в  ADD_Math.cs - Арифметические операции над массивами
            
         private void Ampl_C(int k11, int k12)       { ADD_Math.Ampl_C(k11, k12); Vizual.Vizual_Picture(zArrayPicture, pictureBox01); }   // Амплитуда суммы двух комплексных массивов
-        private void Mul_C(int k3, int k4, int k5)  { ADD_Math.Mul_C(k3, k4, k5, progressBar1); Complex_pictureBox(k5 - 1); } // Умножить два комплексных массива
-        private void Mul_D(int k3, int k4, int k5)  { ADD_Math.Mul_D(k3, k4, k5, progressBar1);  }  // Умножить два вещественных массивов
-        private void Conv_D(int k3, int k4, int k5) { ADD_Math.Conv_D(k3, k4, k5, progressBar1);  } // Корреляция двух вещественных массивов
-
+       
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //        Двухмерное преобразование Фурье и Френеля
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

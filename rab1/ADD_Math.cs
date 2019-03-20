@@ -418,7 +418,7 @@ namespace rab1
             }
             progressBar1.Value = 1;
             Form1.zComplex[k5] = a;
-            
+            ComplexPictureImage(k5);
         }
 
         public static void Mul_D(int k3, int k4, int k5, ProgressBar progressBar1)             // Умножить два вещественных массива (Транспонировать не надо)
