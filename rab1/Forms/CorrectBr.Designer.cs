@@ -62,6 +62,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.textBox16 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // button1
@@ -333,14 +335,14 @@
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(244, 42);
             this.button6.TabIndex = 46;
-            this.button6.Text = "Клин от I0 до 255 (32 градации)\r\nШирина Размер по оси X +200";
+            this.button6.Text = "Клин от I0 до 255 (16 градаций)\r\nШирина Размер по оси X +200";
             this.button6.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // textBox8
             // 
-            this.textBox8.Location = new System.Drawing.Point(509, 185);
+            this.textBox8.Location = new System.Drawing.Point(509, 165);
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(37, 20);
             this.textBox8.TabIndex = 50;
@@ -349,7 +351,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(473, 188);
+            this.label7.Location = new System.Drawing.Point(472, 168);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(19, 13);
             this.label7.TabIndex = 49;
@@ -357,7 +359,7 @@
             // 
             // textBox7
             // 
-            this.textBox7.Location = new System.Drawing.Point(357, 185);
+            this.textBox7.Location = new System.Drawing.Point(357, 165);
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(99, 20);
             this.textBox7.TabIndex = 48;
@@ -366,17 +368,36 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(286, 185);
+            this.label6.Location = new System.Drawing.Point(285, 168);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(25, 13);
             this.label6.TabIndex = 47;
             this.label6.Text = "I0 =";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(285, 216);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(206, 13);
+            this.label14.TabIndex = 51;
+            this.label14.Text = "Число градаций (16, 32, 64, 128, 256)  =";
+            // 
+            // textBox16
+            // 
+            this.textBox16.Location = new System.Drawing.Point(508, 213);
+            this.textBox16.Name = "textBox16";
+            this.textBox16.Size = new System.Drawing.Size(37, 20);
+            this.textBox16.TabIndex = 52;
+            this.textBox16.Text = "16";
             // 
             // CorrectBr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(964, 450);
+            this.Controls.Add(this.textBox16);
+            this.Controls.Add(this.label14);
             this.Controls.Add(this.textBox8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.textBox7);
@@ -454,5 +475,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox textBox16;
     }
 }

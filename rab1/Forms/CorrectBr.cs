@@ -44,6 +44,9 @@ namespace rab1.Forms
         private static int N_Line = 128;
         private static int nx = 4096;                  // Размер массива
         private static int ny = 2160;                  // Размер массива
+
+        private static int kv = 16;
+
         public CorrectBr()
         {
             InitializeComponent();
@@ -66,6 +69,8 @@ namespace rab1.Forms
             textBox13.Text = Convert.ToString(N_Line);
             textBox14.Text = Convert.ToString(nx);
             textBox15.Text = Convert.ToString(ny);
+
+            textBox16.Text = Convert.ToString(kv);  // Число градаций 16, 32, 64, 128, 256
         }
         /// <summary>
         /// Массив меняет длину от X1 до X2 -> 0 до 4096      
@@ -117,7 +122,7 @@ namespace rab1.Forms
 
         }
         /// <summary>
-        /// Клин с 32 значениями интенсивности из массива
+        /// Клин с 16 значениями интенсивности из массива
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -127,24 +132,42 @@ namespace rab1.Forms
             //double[] cl = { 0,  1,  2,  3,  4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  26,  27, 28,   29,  30, 31 };
             //double[] cl = { 7, 15, 23, 31, 39,  47,  55,  63,  71,  79,  87,  95, 103, 111, 119, 127, 135, 143, 151, 159, 167, 175, 183, 191, 199, 207, 215, 223, 231, 239, 247, 255 };
             // double[] cl = { 0, 15, 47, 63, 79, 95, 111, 127, 143, 159,  175, 191, 207, 223, 239, 255 };
-               double[] cl = { 0, 32, 40, 48, 57, 65,  75,  85,  95, 110,  120, 135, 155, 170, 200, 255 };
+            // double[] cl = { 30, 45, 60, 75, 90, 105, 120, 135, 150, 165,  180, 195, 210, 225, 240, 255 };
+               double[] cl = { 0,  32, 40, 48, 57, 65,  75,  85,  95, 110,  120, 135, 155, 170, 200, 255 };
 
             k12 = Convert.ToInt32(textBox8.Text);
             //I0 = Convert.ToInt32(textBox7.Text);
             nx = Convert.ToInt32(textBox14.Text);                       // Текущий размер
-            ny = Convert.ToInt32(textBox15.Text);
+            ny = Convert.ToInt32(textBox15.Text);          
+
+            double[] am = new double[nx];
+            //for (int i = 0; i < nx; i++) { am[i] = cl[i / 256]; }      // строка клина 128 -  0-31  256 -  0-15
+
+            
+            kv = Convert.ToInt32(textBox16.Text);                      //  Число градаций
+         
+            switch (kv)
+            {
+                case 16:                                  for (int  i = 0; i < nx; i++) { am[i] = cl[i / 256]; } break;
+                case 32:  cl = MasX2(cl);                 for (int  i = 0; i < nx; i++) { am[i] = cl[i / 128]; } break;
+                case 64:  cl = MasX2(cl); cl = MasX2(cl); for (int i = 0; i < nx; i++)  { am[i] = cl[i / 64];  } break;
+                case 128: cl = MasX2(cl); cl = MasX2(cl); cl = MasX2(cl);  for (int i = 0; i < nx; i++) { am[i] = cl[i / 32]; } break;
+                case 256: cl = MasX2(cl); cl = MasX2(cl); cl = MasX2(cl); cl = MasX2(cl); for (int i = 0; i < nx; i++) { am[i] = cl[i / 16]; } break;  
+                default:  MessageBox.Show("kv != 16, 32, 64, 128  kv= " + kv);  return; 
+            }
+
+          
 
             int dx = 100;
             int Nx1 = nx + dx * 2; ;
             
-
             ZArrayDescriptor cmpl = new ZArrayDescriptor(Nx1, ny);
 
-            double[] am = new double[nx ];
+            
             
 
-            for (int i = 0; i < nx; i++) { am[i] = cl[i / 256]; }      // 128  0-31
            
+
 
             for (int i = 0; i < nx; i++)
                for (int j = 0; j < ny; j++)
@@ -157,7 +180,34 @@ namespace rab1.Forms
 
         }
 
+        private double[] MasX2(double[] am)
+        {
+            int nx  = am.Length;
+            int nx2 = nx * 2;
+            double[] am2 = new double[nx2];
 
+            for (int i = 0; i < nx2-1; i++)
+               {
+                  if (i % 2 == 0) am2[i] =  am[i/2];
+                  if (i % 2 != 0) am2[i] = (am[i/2] + am[i / 2 + 1])/2;
+               }
+            am2[nx2 - 1] = am[nx-1];
+
+            double[] am3 = new double[nx2];
+            for (int i = nx2 - 1; i > 1; i--)
+            {
+                if (i % 2 != 0) am3[i] = am[i / 2];
+                if (i % 2 == 0) am3[i] = (am[i / 2] + am[i / 2 - 1]) / 2;
+            }
+            am3[0] = am[0];
+
+            for (int i = 0; i < nx2 ; i++)
+            {
+                am2[i] = (am2[i] + am3[i]) / 2;
+            }
+
+            return am2;
+        }
         /// <summary>
         /// Сложение строк от Y1 до Y2
         /// </summary>
