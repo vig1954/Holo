@@ -77,6 +77,7 @@
             this.сделатьСнимокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Cadr8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.manageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fastTakePhotoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Фильтр = new System.Windows.Forms.ToolStripMenuItem();
             this.сглаживаниеToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.сглаживаниеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -211,7 +212,6 @@
             this.button9 = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
-            this.fastTakePhotoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox01)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -718,6 +718,13 @@
             this.manageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.manageToolStripMenuItem.Text = "Manage";
             this.manageToolStripMenuItem.Click += new System.EventHandler(this.manageToolStripMenuItem_Click);
+            // 
+            // fastTakePhotoToolStripMenuItem
+            // 
+            this.fastTakePhotoToolStripMenuItem.Name = "fastTakePhotoToolStripMenuItem";
+            this.fastTakePhotoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fastTakePhotoToolStripMenuItem.Text = "Ttake photo (1 -> 2)";
+            this.fastTakePhotoToolStripMenuItem.Click += new System.EventHandler(this.fastTakePhotoToolStripMenuItem_Click);
             // 
             // Фильтр
             // 
@@ -1955,13 +1962,6 @@
             this.vScrollBar2.Size = new System.Drawing.Size(16, 279);
             this.vScrollBar2.TabIndex = 115;
             this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar2_Scroll);
-            // 
-            // fastTakePhotoToolStripMenuItem
-            // 
-            this.fastTakePhotoToolStripMenuItem.Name = "fastTakePhotoToolStripMenuItem";
-            this.fastTakePhotoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.fastTakePhotoToolStripMenuItem.Text = "Fast take photo";
-            this.fastTakePhotoToolStripMenuItem.Click += new System.EventHandler(this.fastTakePhotoToolStripMenuItem_Click);
             // 
             // Form1
             // 

@@ -9,7 +9,7 @@ namespace rab1
 {
     public static class CanonSdkProvider
     {
-        private static SDKHandler sdkHandler = null;
+        private static SDKHandler sdkHandler = new SDKHandler();
 
         public static SDKHandler GetSDKHandler()
         {

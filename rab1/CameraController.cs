@@ -26,9 +26,10 @@ namespace rab1
         //Events
         public PictureTakenHandler PictureTaken;
                
-        public CameraController(Form1 mainForm)
+        public CameraController(SDKHandler sdkHandler, Form1 mainForm)
         {
-            MainForm = mainForm;
+            this.CameraHandler = sdkHandler;
+            this.MainForm = mainForm;
         }
 
         private void SDK_ImageDownloaded(Bitmap bitmap, ImageType imageType)
@@ -48,11 +49,13 @@ namespace rab1
                 PictureTaken(eventArgs);
             }
 
+            /*
             if (CameraHandler != null)
             {
                 CameraHandler.Dispose();
                 CameraHandler = null;
             }
+            */
         }
         
         private void ShowBackgroundWindow()
@@ -74,11 +77,13 @@ namespace rab1
                                    
         public void FastTakePhoto()
         {
-            CameraHandler = new SDKHandler();
+            //CameraHandler = new SDKHandler();
 
             //Handler of image download
-            CameraHandler.ImageDownloaded += new SDKHandler.BitmapUpdate(SDK_ImageDownloaded);
 
+            CameraHandler.ImageDownloaded -= new SDKHandler.BitmapUpdate(SDK_ImageDownloaded);
+            CameraHandler.ImageDownloaded += new SDKHandler.BitmapUpdate(SDK_ImageDownloaded);
+            
             List<Camera> cameraList = CameraHandler.GetCameraList();
             if (cameraList == null && cameraList.Count == 0)
             {

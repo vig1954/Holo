@@ -139,6 +139,9 @@ namespace EDSDKLib
         /// </summary>
         public SDKHandler()
         {
+            //terminate SDK
+            EDSDK.EdsTerminateSDK();
+
             //initialize SDK
             Error = EDSDK.EdsInitializeSDK();
             STAThread.Init();
