@@ -138,7 +138,7 @@ namespace rab1.Forms
             // double[] cl = { 16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 174, 190, 206, 222, 238, 255 };
 
             // double[] cl = { 0, 32, 40, 48, 57, 65,  75,  85,  95, 110,  120, 135, 155, 170, 200, 255 };
-               double[] cl = { 0, 37,  48, 54, 63, 68, 77,  85,  93, 101, 111, 124, 139, 162, 187, 255 };
+              double[] cl = { 0, 37,  48, 54, 63, 68, 77,  85,  93, 101, 111, 124, 139, 162, 187, 255 };
             //-------------------------------------------------------------------------
             k12 = Convert.ToInt32(textBox8.Text);
             //I0 = Convert.ToInt32(textBox7.Text);
@@ -150,20 +150,32 @@ namespace rab1.Forms
 
             
             kv = Convert.ToInt32(textBox16.Text);                      //  Число градаций
-         
+            int nsd = 0;
             switch (kv)
             {
-                case 16:                                  for (int  i = 0; i < nx; i++) { am[i] = cl[i / 256]; } break;
-                case 32:  cl = MasX2(cl);                 for (int  i = 0; i < nx; i++) { am[i] = cl[i / 128]; } break;
-                case 64:  cl = MasX2(cl); cl = MasX2(cl); for (int i = 0; i < nx; i++)  { am[i] = cl[i / 64];  } break;
-                case 128: cl = MasX2(cl); cl = MasX2(cl); cl = MasX2(cl);  for (int i = 0; i < nx; i++) { am[i] = cl[i / 32]; } break;
-                case 256: cl = MasX2(cl); cl = MasX2(cl); cl = MasX2(cl); cl = MasX2(cl); for (int i = 0; i < nx; i++) { am[i] = cl[i / 16]; } break;  
+                case 16:  for (int  i = 0; i < nx; i++) { am[i] = cl[i / 256]; } break;    // 4096
+                case 32:  cl = MasX2(cl);
+                          nsd = nx / 32;
+                          for (int  i = 0; i < nx; i++) { am[i] = cl[i / 128]; }   am = Strerch(am, nsd);
+                          break;  // 4096-128
+                case 64:  cl = MasX2(cl); cl = MasX2(cl);
+                          nsd = nx / 32 + nx/64;
+                          for (int  i = 0; i < nx; i++) { am[i] = cl[i / 64]; }    am = Strerch(am, nsd);
+                          break;
+                case 128: cl = MasX2(cl); cl = MasX2(cl); cl = MasX2(cl);
+                          nsd = nx / 32 + nx / 64 + nx / 128;
+                          for (int i = 0; i < nx; i++) { am[i] = cl[i / 32];  }   am = Strerch(am, nsd);
+                          break;
+                case 256: cl = MasX2(cl); cl = MasX2(cl); cl = MasX2(cl); cl = MasX2(cl); 
+                          nsd = nx / 32 + nx / 64 + nx / 128 + nx / 256;
+                          for (int i = 0; i < nx; i++) { am[i] = cl[i / 16];  }   am = Strerch(am, nsd);
+                    break;  
                 default:  MessageBox.Show("kv != 16, 32, 64, 128  kv= " + kv);  return; 
             }
 
 
             int dx = 100;
-            int Nx1 = nx + dx * 2; ;
+            int Nx1 = nx + dx * 2; 
             
             ZArrayDescriptor cmpl = new ZArrayDescriptor(Nx1, ny);
 
@@ -177,32 +189,59 @@ namespace rab1.Forms
             VisualRegImage(k12 - 1);
 
         }
+/// <summary>
+/// Растяжение массива 0 - n-nx -> 0 - n
+/// </summary>
+/// <param name="am"></param>
+/// <returns></returns>
+        private double[] Strerch(double[] am, int nx)
+        {
+           int n = am.Length;        double[] am2 = new double[n];
+           int n1 = n - nx;
 
+            for (int i=0; i<n; i++)   
+                { 
+                    int i1 = (n1-1) * i / n ;
+                    am2[i] = am[i1];
+                }
+            return am2;
+        }
         private double[] MasX2(double[] am)
         {
             int nx  = am.Length;
             int nx2 = nx * 2;
             double[] am2 = new double[nx2];
 
-            for (int i = 0; i < nx2-1; i++)
-               {
-                  if (i % 2 == 0) am2[i] =  am[i/2];
+           for (int i = 0; i < nx2-1; i++)
+              {
+                 if (i % 2 == 0) am2[i] =  am[i/2];
                   if (i % 2 != 0) am2[i] = (am[i/2] + am[i / 2 + 1])/2;
-               }
-            am2[nx2 - 1] = am[nx-1];
+              }
+           //am2[nx2 - 1] = am[nx-1];
 
-            double[] am3 = new double[nx2];
-            for (int i = nx2 - 1; i > 1; i--)
-            {
-                if (i % 2 != 0) am3[i] = am[i / 2];
-                if (i % 2 == 0) am3[i] = (am[i / 2] + am[i / 2 - 1]) / 2;
-            }
-            am3[0] = am[0];
+           // int nx1 = nx;
+           // if (nx % 2 == 0) nx1 = nx1 - 1;
 
-            for (int i = 0; i < nx2 ; i++)
-            {
-                am2[i] = (am2[i] + am3[i]) / 2;
-            }
+          //  double[] am3 = new double[nx1];
+
+           // for (int i = 0; i < nx1; i++)
+          //  {
+           //     am3[i] = am[i];
+          //  }
+
+            //  double[] am3 = new double[nx2];
+            //  for (int i = nx2 - 1; i > 0; i--)
+            //   {
+            //      if (i % 2 != 0) am3[i] = am[i / 2];
+            //      if (i % 2 == 0) am3[i] = (am[i / 2] + am[i / 2 - 1]) / 2;
+            //   }
+            //am3[0] = am[0];
+
+            // for (int i = 0; i < nx2 ; i++)
+            // {
+            //    am2[i] = (am2[i] + am3[i]) / 2;
+            //  }
+            //  am2[nx2 - 1] = am[nx - 1];
 
             return am2;
         }
