@@ -846,14 +846,16 @@ namespace rab1
                 CameraHandler.OpenSession(camera);
             }
 
+            int delay = 1000;
             ShowBackgroundWindow();
-            Thread.Sleep(500);
+            Thread.Sleep(delay);
 
             this.seriesType = TakePhotoSeriesTypeEnum.ImageSeries;
             this.currentImageNumber = 2;
 
             CameraHandler.TakePhoto();
-
+            Thread.Sleep(delay);
+            
             this.imageForm.Close();
             this.imageForm = null;
         }
