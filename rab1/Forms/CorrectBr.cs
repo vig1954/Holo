@@ -108,13 +108,13 @@ namespace rab1.Forms
         private void button3_Click(object sender, EventArgs e)
         {
             k12 = Convert.ToInt32(textBox8.Text);
-            I0 = Convert.ToInt32(textBox7.Text);
+            //I0 = Convert.ToInt32(textBox7.Text);
             nx = Convert.ToInt32(textBox14.Text);                       // Текущий размер
             ny = Convert.ToInt32(textBox15.Text);
 
             double gamma = 1;
             int nu = 255;                                               // Число уровней
-            Form1.zArrayDescriptor[k12-1] = Model_Sinus.Intensity1(nu, I0, nx, ny, gamma);
+            Form1.zArrayDescriptor[k12-1] = Model_Sinus.Intensity1(nu,  nx, ny, gamma);
             VisualRegImage(k12-1);
 
             //On_CorrectClin(I0, nx, k12 - 1);

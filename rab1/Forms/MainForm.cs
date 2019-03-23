@@ -2443,8 +2443,8 @@ namespace rab1
         /// 
         private void FormModel_Intensity(double nu, int Nx, int Ny, double gamma)       // Клин интенсивности
         {
-            zArrayDescriptor[regComplex * 4 + 0] = Model_Sinus.Intensity1(nu, 0, Nx, Ny,gamma);
-            zArrayDescriptor[regComplex * 4 + 1] = Model_Sinus.Intensity2(nu, Nx, Ny);
+            zArrayDescriptor[regComplex * 4 + 0] = Model_Sinus.Intensity1(nu, Nx, Ny, gamma);
+            zArrayDescriptor[regComplex * 4 + 1] = Model_Sinus.Intensity2(nu, Nx, Ny, gamma);
             zArrayDescriptor[regComplex * 4 + 2] = Model_Sinus.Intensity3(nu, Nx, Ny);
             zArrayDescriptor[regComplex * 4 + 3] = Model_Sinus.Intensity4(nu, Nx, Ny);
 
@@ -3154,7 +3154,7 @@ namespace rab1
             double gamma = 1;
            
             int nu = 255;                                               // Число уровней
-            zArrayDescriptor[k1] = Model_Sinus.Intensity1(nu, I0, nx, ny, gamma);
+            zArrayDescriptor[k1] = Model_Sinus.Intensity1(nu,  nx, ny, gamma);
             Vizual_regImage(k1); 
         }
     
