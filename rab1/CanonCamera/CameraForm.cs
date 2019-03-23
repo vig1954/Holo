@@ -6,6 +6,8 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
+using System.Linq;
+
 using rab1.Forms;
 
 using EDSDKLib;
@@ -761,7 +763,22 @@ namespace rab1
 
         private void backGroundWindowButton_Click(object sender, EventArgs e)
         {
+            ShowBackgroundWindow();
+        }
+
+        private void ShowBackgroundWindow()
+        {
+            Screen currentScreen = Screen.FromControl(this);
+            Screen targetScreen = Screen.AllScreens.FirstOrDefault(s => !s.Equals(currentScreen)) ?? currentScreen;
+
+            Point location = new Point();
+            location.X = targetScreen.WorkingArea.Left;
+            location.Y = targetScreen.WorkingArea.Top;
+
             this.imageForm = new ImageForm();
+            this.imageForm.StartPosition = FormStartPosition.Manual;
+            this.imageForm.Location = location;
+            this.imageForm.WindowState = FormWindowState.Maximized;
             this.imageForm.Show();
             this.imageForm.SetImage(this.MainForm.GetImageFromPictureBox(1));
         }
@@ -802,12 +819,43 @@ namespace rab1
             delay = int.Parse(DelayTextBox.Text);
         }
 
+        private void FastTakePhotoButton_Click(object sender, EventArgs e)
+        {
+            FastTakePhoto();
+        }
+
         private void CameraForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (phaseShiftDeviceController != null)
             {
                 phaseShiftDeviceController.Dispose();
             }
+        }
+        
+        private void FastTakePhoto()
+        {
+            List<Camera> cameraList = CameraHandler.GetCameraList();
+            if (cameraList == null && cameraList.Count == 0)
+            {
+                return;
+            }
+
+            Camera camera = cameraList[0];
+            if (!CameraHandler.CameraSessionOpen)
+            {
+                CameraHandler.OpenSession(camera);
+            }
+
+            ShowBackgroundWindow();
+            Thread.Sleep(500);
+
+            this.seriesType = TakePhotoSeriesTypeEnum.ImageSeries;
+            this.currentImageNumber = 2;
+
+            CameraHandler.TakePhoto();
+
+            this.imageForm.Close();
+            this.imageForm = null;
         }
     }
 }
