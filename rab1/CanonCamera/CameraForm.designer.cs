@@ -41,6 +41,8 @@
             this.FocusNear2Button = new System.Windows.Forms.Button();
             this.FocusNear3Button = new System.Windows.Forms.Button();
             this.SettingsGroupBox = new System.Windows.Forms.GroupBox();
+            this.ShiftsCountLabel = new System.Windows.Forms.Label();
+            this.ShiftsCountTextBox = new System.Windows.Forms.TextBox();
             this.backGroundWindowButton = new System.Windows.Forms.Button();
             this.takeSeriesFromPictureBoxesButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -82,8 +84,7 @@
             this.SaveFolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.LiveViewPicBox = new System.Windows.Forms.PictureBox();
             this.LiveViewGroupBox = new System.Windows.Forms.GroupBox();
-            this.ShiftsCountLabel = new System.Windows.Forms.Label();
-            this.ShiftsCountTextBox = new System.Windows.Forms.TextBox();
+            this.FastTakePhotoButton = new System.Windows.Forms.Button();
             this.InitGroupBox.SuspendLayout();
             this.SettingsGroupBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -108,15 +109,15 @@
             this.CameraListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.CameraListBox.FormattingEnabled = true;
-            this.CameraListBox.Location = new System.Drawing.Point(8, 35);
+            this.CameraListBox.Location = new System.Drawing.Point(6, 44);
             this.CameraListBox.Name = "CameraListBox";
-            this.CameraListBox.Size = new System.Drawing.Size(121, 82);
+            this.CameraListBox.Size = new System.Drawing.Size(121, 43);
             this.CameraListBox.TabIndex = 6;
             // 
             // SessionButton
             // 
             this.SessionButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.SessionButton.Location = new System.Drawing.Point(6, 127);
+            this.SessionButton.Location = new System.Drawing.Point(6, 91);
             this.SessionButton.Name = "SessionButton";
             this.SessionButton.Size = new System.Drawing.Size(84, 23);
             this.SessionButton.TabIndex = 7;
@@ -140,9 +141,9 @@
             this.InitGroupBox.Controls.Add(this.CameraListBox);
             this.InitGroupBox.Controls.Add(this.SessionLabel);
             this.InitGroupBox.Controls.Add(this.SessionButton);
-            this.InitGroupBox.Location = new System.Drawing.Point(12, 12);
+            this.InitGroupBox.Location = new System.Drawing.Point(12, 44);
             this.InitGroupBox.Name = "InitGroupBox";
-            this.InitGroupBox.Size = new System.Drawing.Size(135, 158);
+            this.InitGroupBox.Size = new System.Drawing.Size(135, 120);
             this.InitGroupBox.TabIndex = 9;
             this.InitGroupBox.TabStop = false;
             this.InitGroupBox.Text = "Init";
@@ -151,7 +152,7 @@
             // 
             this.RefreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.RefreshButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RefreshButton.Location = new System.Drawing.Point(96, 127);
+            this.RefreshButton.Location = new System.Drawing.Point(98, 91);
             this.RefreshButton.Name = "RefreshButton";
             this.RefreshButton.Size = new System.Drawing.Size(31, 23);
             this.RefreshButton.TabIndex = 9;
@@ -261,6 +262,22 @@
             this.SettingsGroupBox.TabIndex = 11;
             this.SettingsGroupBox.TabStop = false;
             this.SettingsGroupBox.Text = "Settings";
+            // 
+            // ShiftsCountLabel
+            // 
+            this.ShiftsCountLabel.AutoSize = true;
+            this.ShiftsCountLabel.Location = new System.Drawing.Point(685, 16);
+            this.ShiftsCountLabel.Name = "ShiftsCountLabel";
+            this.ShiftsCountLabel.Size = new System.Drawing.Size(63, 13);
+            this.ShiftsCountLabel.TabIndex = 28;
+            this.ShiftsCountLabel.Text = "Shits count:";
+            // 
+            // ShiftsCountTextBox
+            // 
+            this.ShiftsCountTextBox.Location = new System.Drawing.Point(754, 12);
+            this.ShiftsCountTextBox.Name = "ShiftsCountTextBox";
+            this.ShiftsCountTextBox.Size = new System.Drawing.Size(71, 20);
+            this.ShiftsCountTextBox.TabIndex = 27;
             // 
             // backGroundWindowButton
             // 
@@ -706,27 +723,23 @@
             this.LiveViewGroupBox.TabStop = false;
             this.LiveViewGroupBox.Text = "Live view";
             // 
-            // ShiftsCountLabel
+            // FastTakePhotoButton
             // 
-            this.ShiftsCountLabel.AutoSize = true;
-            this.ShiftsCountLabel.Location = new System.Drawing.Point(685, 16);
-            this.ShiftsCountLabel.Name = "ShiftsCountLabel";
-            this.ShiftsCountLabel.Size = new System.Drawing.Size(63, 13);
-            this.ShiftsCountLabel.TabIndex = 28;
-            this.ShiftsCountLabel.Text = "Shits count:";
-            // 
-            // ShiftsCountTextBox
-            // 
-            this.ShiftsCountTextBox.Location = new System.Drawing.Point(754, 12);
-            this.ShiftsCountTextBox.Name = "ShiftsCountTextBox";
-            this.ShiftsCountTextBox.Size = new System.Drawing.Size(71, 20);
-            this.ShiftsCountTextBox.TabIndex = 27;
+            this.FastTakePhotoButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FastTakePhotoButton.Location = new System.Drawing.Point(12, 12);
+            this.FastTakePhotoButton.Name = "FastTakePhotoButton";
+            this.FastTakePhotoButton.Size = new System.Drawing.Size(135, 29);
+            this.FastTakePhotoButton.TabIndex = 26;
+            this.FastTakePhotoButton.Text = "1 -> 2";
+            this.FastTakePhotoButton.UseVisualStyleBackColor = true;
+            this.FastTakePhotoButton.Click += new System.EventHandler(this.FastTakePhotoButton_Click);
             // 
             // CameraForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1000, 882);
+            this.Controls.Add(this.FastTakePhotoButton);
             this.Controls.Add(this.LiveViewGroupBox);
             this.Controls.Add(this.SettingsGroupBox);
             this.Controls.Add(this.InitGroupBox);
@@ -809,6 +822,7 @@
         private System.Windows.Forms.Button takeSeriesFromPictureBoxesButton;
         private System.Windows.Forms.Label ShiftsCountLabel;
         private System.Windows.Forms.TextBox ShiftsCountTextBox;
+        private System.Windows.Forms.Button FastTakePhotoButton;
     }
 }
 
