@@ -3434,6 +3434,19 @@ namespace rab1
             Vizual.Vizual_Picture(resArrayDescriptor, pictureBox01);
         }
 
+        private void fastTakePhotoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FastTakePhoto();    
+        }
+
+        private void FastTakePhoto()
+        {
+            CameraController cameraController = new CameraController(this);
+            cameraController.PictureTaken += new PictureTakenHandler(HandleCameraPicture);
+            cameraController.FastTakePhoto();
+            cameraController.Dispose();
+        }
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }

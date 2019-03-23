@@ -128,6 +128,7 @@
             this.структурирОсвещениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.моделированиеОстаткаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.коррекцияНеравномерностиОсвещенияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.коррекцияГаммаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.графикToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox8 = new System.Windows.Forms.PictureBox();
@@ -210,7 +211,7 @@
             this.button9 = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
-            this.коррекцияГаммаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fastTakePhotoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox01)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -681,7 +682,8 @@
             // 
             this.cameraToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.canon500DToolStripMenuItem,
-            this.manageToolStripMenuItem});
+            this.manageToolStripMenuItem,
+            this.fastTakePhotoToolStripMenuItem});
             this.cameraToolStripMenuItem.Name = "cameraToolStripMenuItem";
             this.cameraToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
             this.cameraToolStripMenuItem.Text = "Камера";
@@ -692,7 +694,7 @@
             this.сделатьСнимокToolStripMenuItem,
             this.Cadr8ToolStripMenuItem});
             this.canon500DToolStripMenuItem.Name = "canon500DToolStripMenuItem";
-            this.canon500DToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.canon500DToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.canon500DToolStripMenuItem.Text = "Canon 500D";
             this.canon500DToolStripMenuItem.Click += new System.EventHandler(this.canon500DToolStripMenuItem_Click);
             // 
@@ -713,7 +715,7 @@
             // manageToolStripMenuItem
             // 
             this.manageToolStripMenuItem.Name = "manageToolStripMenuItem";
-            this.manageToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.manageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.manageToolStripMenuItem.Text = "Manage";
             this.manageToolStripMenuItem.Click += new System.EventHandler(this.manageToolStripMenuItem_Click);
             // 
@@ -1116,6 +1118,13 @@
             this.коррекцияНеравномерностиОсвещенияToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
             this.коррекцияНеравномерностиОсвещенияToolStripMenuItem.Text = "Коррекция неравномерности освещения";
             this.коррекцияНеравномерностиОсвещенияToolStripMenuItem.Click += new System.EventHandler(this.коррекцияНеравномерностиОсвещенияToolStripMenuItem_Click);
+            // 
+            // коррекцияГаммаToolStripMenuItem
+            // 
+            this.коррекцияГаммаToolStripMenuItem.Name = "коррекцияГаммаToolStripMenuItem";
+            this.коррекцияГаммаToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
+            this.коррекцияГаммаToolStripMenuItem.Text = "Коррекция гамма";
+            this.коррекцияГаммаToolStripMenuItem.Click += new System.EventHandler(this.коррекцияГаммаToolStripMenuItem_Click);
             // 
             // графикToolStripMenuItem
             // 
@@ -1947,12 +1956,12 @@
             this.vScrollBar2.TabIndex = 115;
             this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar2_Scroll);
             // 
-            // коррекцияГаммаToolStripMenuItem
+            // fastTakePhotoToolStripMenuItem
             // 
-            this.коррекцияГаммаToolStripMenuItem.Name = "коррекцияГаммаToolStripMenuItem";
-            this.коррекцияГаммаToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
-            this.коррекцияГаммаToolStripMenuItem.Text = "Коррекция гамма";
-            this.коррекцияГаммаToolStripMenuItem.Click += new System.EventHandler(this.коррекцияГаммаToolStripMenuItem_Click);
+            this.fastTakePhotoToolStripMenuItem.Name = "fastTakePhotoToolStripMenuItem";
+            this.fastTakePhotoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fastTakePhotoToolStripMenuItem.Text = "Fast take photo";
+            this.fastTakePhotoToolStripMenuItem.Click += new System.EventHandler(this.fastTakePhotoToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -2242,6 +2251,7 @@
         private System.Windows.Forms.ToolStripMenuItem загрузитьТочкиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem коррекцияНеравномерностиОсвещенияToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem коррекцияГаммаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fastTakePhotoToolStripMenuItem;
     }
 }
 

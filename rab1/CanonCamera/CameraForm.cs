@@ -65,9 +65,9 @@ namespace rab1
         
         #endregion
 
-    #region Events
+        #region Events
 
-    public PictureTakenHandler PictureTaken;
+        public PictureTakenHandler PictureTaken;
         public LiveViewUpdatedHandler LiveViewUpdated;
 
         #endregion
@@ -826,6 +826,13 @@ namespace rab1
 
         private void CameraForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            /*
+            if (this.CameraHandler != null)
+            {
+                this.CameraHandler.Dispose();
+            }
+            */
+
             if (phaseShiftDeviceController != null)
             {
                 phaseShiftDeviceController.Dispose();

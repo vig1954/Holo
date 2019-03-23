@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="ADD_Math.cs" />
     <Compile Include="ATAN_PSI.cs" />
+    <Compile Include="CameraController.cs" />
     <Compile Include="CanonCamera\CameraForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,6 +94,7 @@
     </Compile>
     <Compile Include="CanonCamera\LiveViewUpdatedHandler.cs" />
     <Compile Include="CanonCamera\PictureTakenHandler.cs" />
+    <Compile Include="CanonSdkProvider.cs" />
     <Compile Include="ColorItem.cs" />
     <Compile Include="ColorModeEnum.cs" />
     <Compile Include="ControlExtensions.cs" />
