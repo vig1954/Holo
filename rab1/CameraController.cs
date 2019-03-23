@@ -85,7 +85,7 @@ namespace rab1
             CameraHandler.ImageDownloaded += new SDKHandler.BitmapUpdate(SDK_ImageDownloaded);
             
             List<Camera> cameraList = CameraHandler.GetCameraList();
-            if (cameraList == null && cameraList.Count == 0)
+            if (cameraList == null || cameraList.Count == 0)
             {
                 return;
             }
