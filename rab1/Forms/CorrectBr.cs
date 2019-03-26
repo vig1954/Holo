@@ -34,7 +34,8 @@ namespace rab1.Forms
         private static int k31 = 5;
 
         private static int k12 = 1;
-        private static int I0 = 0;
+        //private static int I0 = 0;
+        private static double gamma = 1;
 
         private static int k13 = 1;
         private static int k23 = 2;
@@ -47,6 +48,15 @@ namespace rab1.Forms
 
         private static int kv = 16;
 
+        private static int X0   = 100;
+        private static int STEP = 128;
+        private static int k18 = 1;
+
+        private static int dx = 100;
+        private static int k21_1 = 1;
+        private static int k22_2 = 2;
+
+
         public CorrectBr()
         {
             InitializeComponent();
@@ -58,7 +68,7 @@ namespace rab1.Forms
             textBox5.Text = Convert.ToString(k21);
             textBox6.Text = Convert.ToString(k31);
 
-            textBox7.Text = Convert.ToString(I0);
+            textBox7.Text = Convert.ToString(gamma);
             textBox8.Text = Convert.ToString(k12);
 
             textBox11.Text = Convert.ToString(k13);    // Сложение строк
@@ -71,7 +81,17 @@ namespace rab1.Forms
             textBox15.Text = Convert.ToString(ny);
 
             textBox16.Text = Convert.ToString(kv);  // Число градаций 16, 32, 64, 128, 256
+
+            textBox17.Text = Convert.ToString(X0);    // Начало для вертикальных линий
+            textBox19.Text = Convert.ToString(STEP);  // Шаг для вертикальных линий
+            textBox18.Text = Convert.ToString(k18 );  // В какой массив
+
+            textBox21.Text = Convert.ToString(k21_1);    // Уменьшение массива
+            textBox22.Text = Convert.ToString(k22_2);
+            textBox20.Text = Convert.ToString(dx);
         }
+
+
         /// <summary>
         /// Массив меняет длину от X1 до X2 -> 0 до 4096      
         /// </summary>
@@ -87,7 +107,7 @@ namespace rab1.Forms
             Close();
         }
         /// <summary>
-        /// Определения клина с обратными гамма-искажениями
+        ///  Определения клина с обратными гамма-искажениями
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -108,19 +128,89 @@ namespace rab1.Forms
         private void button3_Click(object sender, EventArgs e)
         {
             k12 = Convert.ToInt32(textBox8.Text);
-            //I0 = Convert.ToInt32(textBox7.Text);
+            gamma = Convert.ToDouble(textBox7.Text);
             nx = Convert.ToInt32(textBox14.Text);                       // Текущий размер
             ny = Convert.ToInt32(textBox15.Text);
 
-            double gamma = 1;
             int nu = 255;                                               // Число уровней
             Form1.zArrayDescriptor[k12-1] = Model_Sinus.Intensity1(nu,  nx, ny, gamma);
             VisualRegImage(k12-1);
 
-            //On_CorrectClin(I0, nx, k12 - 1);
-            Close();
+           // Close();
 
         }
+        private void button7_Click(object sender, EventArgs e)          // ---------------------------------   Обратный клин
+        {
+            k12 = Convert.ToInt32(textBox8.Text);
+            gamma = Convert.ToDouble(textBox7.Text);
+            nx = Convert.ToInt32(textBox14.Text);                       // Текущий размер
+            ny = Convert.ToInt32(textBox15.Text);
+
+            int nu = 255;                                               // Число уровней
+            Form1.zArrayDescriptor[k12 - 1] = Model_Sinus.Intensity2(nu, nx, ny, gamma);
+            VisualRegImage(k12 - 1);
+
+            //Close();
+        }
+  /// <summary>
+  ///  Вертикальные линии для определения геометрических искажений
+  /// </summary>
+  /// <param name="sender"></param>
+  /// <param name="e"></param>
+        private void button8_Click(object sender, EventArgs e)
+        {
+            int k= Convert.ToInt32(textBox18.Text) -1;
+            if (Form1.zArrayDescriptor[k] == null) { MessageBox.Show("CorrectBr zArrayDescriptor == NULL"); return; }
+            int Nx = Form1.zArrayDescriptor[k].width;
+            int Ny = Form1.zArrayDescriptor[k].height;
+
+            X0 = Convert.ToInt32(textBox17.Text);    // Полосы рисуются начиная с X0
+            STEP = Convert.ToInt32(textBox19.Text);  //Шаг полос
+
+            for (int i = X0; i < Nx; i += STEP)
+            {
+                for (int j = 0; j < Ny; j++)
+                {
+                    double z = Form1.zArrayDescriptor[k].array[i, j];
+                    if (z < 128) Form1.zArrayDescriptor[k].array[i, j] = 255; else Form1.zArrayDescriptor[k].array[i, j] = 0;
+                }
+            }
+            VisualRegImage(k);
+        }
+
+
+        /// <summary>
+        /// Ч/Б полосы с заданным чмслом градаций
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button10_Click(object sender, EventArgs e)
+        {
+            k12 = Convert.ToInt32(textBox8.Text);
+            nx = Convert.ToInt32(textBox14.Text);                       // Текущий размер
+            ny = Convert.ToInt32(textBox15.Text);
+            kv = Convert.ToInt32(textBox16.Text);                       // Число градация
+            int dx = 100;
+            int nx1 = nx + dx * 2;
+
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(nx1, ny);
+
+            int step = nx / kv;
+
+            for (int i = 0; i < nx; i++)
+                for (int j = 0; j < ny; j++)
+                   {
+                      if ( (i / step) % 2 == 0 ) cmpl.array[i + dx, j] = 0; else cmpl.array[i + dx, j] = 255;
+                   }
+
+            cmpl = Model_Sinus.Intens(255, 0, dx, cmpl);     // Белая и черная полоса по краям
+
+            Form1.zArrayDescriptor[k12 - 1] = cmpl;
+            VisualRegImage(k12 - 1);
+
+
+        }
+
         /// <summary>
         /// Клин с 16 значениями интенсивности из массива
         /// </summary>
@@ -217,31 +307,7 @@ namespace rab1.Forms
                  if (i % 2 == 0) am2[i] =  am[i/2];
                   if (i % 2 != 0) am2[i] = (am[i/2] + am[i / 2 + 1])/2;
               }
-           //am2[nx2 - 1] = am[nx-1];
-
-           // int nx1 = nx;
-           // if (nx % 2 == 0) nx1 = nx1 - 1;
-
-          //  double[] am3 = new double[nx1];
-
-           // for (int i = 0; i < nx1; i++)
-          //  {
-           //     am3[i] = am[i];
-          //  }
-
-            //  double[] am3 = new double[nx2];
-            //  for (int i = nx2 - 1; i > 0; i--)
-            //   {
-            //      if (i % 2 != 0) am3[i] = am[i / 2];
-            //      if (i % 2 == 0) am3[i] = (am[i / 2] + am[i / 2 - 1]) / 2;
-            //   }
-            //am3[0] = am[0];
-
-            // for (int i = 0; i < nx2 ; i++)
-            // {
-            //    am2[i] = (am2[i] + am3[i]) / 2;
-            //  }
-            //  am2[nx2 - 1] = am[nx - 1];
+        
 
             return am2;
         }
@@ -276,7 +342,37 @@ namespace rab1.Forms
             Close();
 
         }
+        /// <summary>
+        /// Выбрасывание белой и черной полосы
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button9_Click(object sender, EventArgs e)
+        {
+            k21_1 = Convert.ToInt32(textBox21.Text);
+            k22_2 = Convert.ToInt32(textBox22.Text);
+            dx    = Convert.ToInt32(textBox20.Text);
 
-       
+            k1 = k21_1 - 1;
+            k2 = k22_2 - 1;
+            if (Form1.zArrayDescriptor[k1] == null) { MessageBox.Show("CorrectBr zArrayDescriptor == NULL"); return; }
+            int nx1 = Form1.zArrayDescriptor[k1].width;
+            int ny = Form1.zArrayDescriptor[k1].height;
+
+            nx = nx1 - dx * 2;
+
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(nx, ny);      // Результирующий фронт
+
+            for (int i = dx; i < nx1-dx; i++)
+              for (int j = 0; j < ny; j++)
+                {
+                     cmpl.array[i-dx,j] = Form1.zArrayDescriptor[k1].array[i , j];
+                }
+            Form1.zArrayDescriptor[k2] = cmpl;
+            VisualRegImage(k2);
+            Close();
+        }
+
+      
     }
 }

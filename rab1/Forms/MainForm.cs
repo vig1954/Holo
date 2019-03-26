@@ -2427,8 +2427,8 @@ namespace rab1
             ModelForm.OnModel_Dithering   += FormModel_Dithering;
             ModelForm.OnModel_DitheringVZ += FormModel_DitheringVZ;
             //ModelForm.OnModelAtan2        += FormModel_Atan2;
-            ModelForm.OnModel_Intensity    += FormModel_Intensity;             // Клин интенсивности
-            ModelForm.OnModel_Intensity_Line += FormModel_Intensity_Line;      // Вертикальные полосы
+            //ModelForm.OnModel_Intensity    += FormModel_Intensity;             // Клин интенсивности
+            //ModelForm.OnModel_Intensity_Line += FormModel_Intensity_Line;      // Вертикальные полосы
 
             ModelForm.OnModelExp           += FormModel_Exp;
             ModelForm.Show();
@@ -2441,25 +2441,25 @@ namespace rab1
         /// <param name="Nx"></param> Не используется
         /// <param name="Ny"></param> Не используется
         /// 
-        private void FormModel_Intensity(double nu, int Nx, int Ny, double gamma)       // Клин интенсивности
-        {
-            zArrayDescriptor[regComplex * 4 + 0] = Model_Sinus.Intensity1(nu, Nx, Ny, gamma);
-            zArrayDescriptor[regComplex * 4 + 1] = Model_Sinus.Intensity2(nu, Nx, Ny, gamma);
-            zArrayDescriptor[regComplex * 4 + 2] = Model_Sinus.Intensity3(nu, Nx, Ny);
-            zArrayDescriptor[regComplex * 4 + 3] = Model_Sinus.Intensity4(nu, Nx, Ny);
+       // private void FormModel_Intensity(double nu, int Nx, int Ny, double gamma)       // Клин интенсивности
+       // {
+       //     zArrayDescriptor[regComplex * 4 + 0] = Model_Sinus.Intensity1(nu, Nx, Ny, gamma);
+       //     zArrayDescriptor[regComplex * 4 + 1] = Model_Sinus.Intensity2(nu, Nx, Ny, gamma);
+       //     zArrayDescriptor[regComplex * 4 + 2] = Model_Sinus.Intensity3(nu, Nx, Ny);
+       //     zArrayDescriptor[regComplex * 4 + 3] = Model_Sinus.Intensity4(nu, Nx, Ny);
 
-            for (int i = 0; i < 4; i++) Vizual_regImage(regComplex * 4 + i);
+       //     for (int i = 0; i < 4; i++) Vizual_regImage(regComplex * 4 + i);
            
-        }
-        private void FormModel_Intensity_Line(int nl)                    // Вертикальные полосы
-        {
-            zArrayDescriptor[regComplex * 4 + 0] = Model_Sinus.Intensity_Line(nl, zArrayDescriptor[regComplex * 4 + 0]);
-            zArrayDescriptor[regComplex * 4 + 1] = Model_Sinus.Intensity_Line(nl, zArrayDescriptor[regComplex * 4 + 1]);
-            zArrayDescriptor[regComplex * 4 + 2] = Model_Sinus.Intensity_Line1(nl, zArrayDescriptor[regComplex * 4 + 2]);
-            zArrayDescriptor[regComplex * 4 + 3] = Model_Sinus.Intensity_Line1(nl, zArrayDescriptor[regComplex * 4 + 3]);
+        //}
+       // private void FormModel_Intensity_Line(int nl)                    // Вертикальные полосы
+       // {
+       //     zArrayDescriptor[regComplex * 4 + 0] = Model_Sinus.Intensity_Line(nl, zArrayDescriptor[regComplex * 4 + 0]);
+       //     zArrayDescriptor[regComplex * 4 + 1] = Model_Sinus.Intensity_Line(nl, zArrayDescriptor[regComplex * 4 + 1]);
+       //     zArrayDescriptor[regComplex * 4 + 2] = Model_Sinus.Intensity_Line1(nl, zArrayDescriptor[regComplex * 4 + 2]);
+       //     zArrayDescriptor[regComplex * 4 + 3] = Model_Sinus.Intensity_Line1(nl, zArrayDescriptor[regComplex * 4 + 3]);
 
-            for (int i = 0; i < 4; i++) Vizual_regImage(regComplex * 4 + i);
-        }
+       //     for (int i = 0; i < 4; i++) Vizual_regImage(regComplex * 4 + i);
+       // }
 
 
 

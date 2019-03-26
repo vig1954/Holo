@@ -163,9 +163,6 @@ namespace rab1.Forms
         /// <returns></returns>
         public static ZArrayDescriptor Intensity1(double nu,  int Nx, int Ny, double gamma)  // от светлого к темному
         {
-
-            Nx = 4096;
-            Ny = 2048;
             int dx = 100;
             int Nx1 = Nx;
             Nx = Nx + dx * 2;
@@ -174,32 +171,25 @@ namespace rab1.Forms
 
             int k = (int)(Nx1 / (nu + 1));
 
-            for (int i = 0; i < Nx - dx * 2; i++)
-                for (int j = 0; j < Ny; j++)
-                    cmpl.array[i + dx, j] = Math.Pow(i / k, gamma);
+            double[] ag = new double[Nx];
+
+            double max = double.MinValue;
+            double min = double.MaxValue;
+
+            for (int i = 0; i < Nx; i++)
+             {
+                double a = Math.Pow(i / k, gamma);
+                ag[i] = a;
+                if (a > max) max = a;
+                if (a < min) min = a;
+             }
+
+            for (int i = 0; i < Nx; i++) ag[i] = (ag[i] - min) * nu / (max - min);
 
 
-            //double max = double.MinValue;
-            //double min = double.MaxValue;
-
-            // double[] am = new double[Nx - dx * 2];
-
-           // for (int i = 0; i < Nx - dx * 2; i++)
-           // {
-            //   am[i] = i / k;
-                //double a = i/ k ;
-               // am[i] = Math.Pow(a, gamma);
-                //if (am[i] > max) max = am[i];
-               // if (am[i] < min) min = am[i];
-          //  }
-          
-
-           // for (int i = 0; i < Nx-dx*2; i++)
-           //    for (int j = 0; j < Ny; j++)
-           //     {
-                    //cmpl.array[i + dx, j] =  (am[i] - min) * nu / (max - min) ;
-            //        cmpl.array[i + dx, j] = am[i];
-           //     }
+            for (int j = 0; j < Ny; j++)
+                for (int i = 0; i < Nx - dx * 2; i++)
+                    cmpl.array[i + dx, j] =ag[i];
 
             cmpl = Intens(255, 0, dx, cmpl);     // Белая и черная полоса по краям
                                     
@@ -207,8 +197,6 @@ namespace rab1.Forms
         }
         public static ZArrayDescriptor Intensity2(double nu, int Nx, int Ny, double gamma) // От черного к белому
         {
-            Nx = 4096;
-            Ny = 2048;
             int dx = 100;
             int Nx1 = Nx;
             Nx = Nx + dx * 2;
@@ -217,13 +205,31 @@ namespace rab1.Forms
 
             int k = (int)(Nx1 / (nu + 1));
 
-            for (int i = 0; i < Nx - dx * 2; i++)
-                for (int j = 0; j < Ny; j++)
-                    cmpl.array[i+dx, j] = Math.Pow(255 - i / k, gamma); ;
+            double[] ag = new double[Nx];
 
-            cmpl = Intens(0, 255, dx, cmpl);
+            double max = double.MinValue;
+            double min = double.MaxValue;
+
+            for (int i = 0; i < Nx; i++)
+            {
+                double a = Math.Pow(255 - i / k, gamma);
+                ag[i] = a;
+                if (a > max) max = a;
+                if (a < min) min = a;
+            }
+
+            for (int i = 0; i < Nx; i++) ag[i] = (ag[i] - min) * nu / (max - min);
+
+
+            for (int j = 0; j < Ny; j++)
+                for (int i = 0; i < Nx - dx * 2; i++)
+                    cmpl.array[i + dx, j] =ag[i];
+
+            cmpl = Intens(255, 0, dx, cmpl);     // Белая и черная полоса по краям
+
             return cmpl;
         }
+        /*
         public static ZArrayDescriptor Intensity3(double nu, int Nx, int Ny)  // от светлово к темному
         {
             Nx = 4096;
@@ -254,26 +260,7 @@ namespace rab1.Forms
             cmpl = Intens(255, 0, dx, cmpl);
             return cmpl;
         }
-        /*       public static ZArrayDescriptor Intensity3(double nu, int Nx, int Ny)
-               {
-                   Nx = 4296;
-                   Ny = 2048;
-                   ZArrayDescriptor cmpl = new ZArrayDescriptor(Nx, Ny);
-                   int n = (int) (nu + 1);
-                   int ky = Ny / n;
-
-                   //int i1 = 0;
-                   for (int i = 0; i < Nx; i++)
-                   {
-                       // for (int ints = 0; ints < k; ints++)
-                       for (int j = 0; j < Ny; j++)
-                       {
-                           cmpl.array[i, j] =  j / ky;
-                       }
-                   }
-                   return cmpl;
-               }
-                */
+      
      
        public static ZArrayDescriptor Intensity4(double nu, int Nx, int Ny)
        {
@@ -294,6 +281,7 @@ namespace rab1.Forms
            }
            return cmpl;
        }
+      
      
         /// <summary>
         /// -----------------------------   Вертикальные полосы
@@ -340,6 +328,7 @@ namespace rab1.Forms
             }
             return zArray;
         }
+         */
         //----------------------------------------------------------------------------------------------------------Dithering
 
         public static ZArrayDescriptor Dithering(double fz, double n_polos, int N_kvant, int N_urovn)

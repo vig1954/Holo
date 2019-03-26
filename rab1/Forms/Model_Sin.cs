@@ -15,8 +15,8 @@ public delegate void ModelSinG_kr(double[] fz, double N_urovn, double gamma, dou
 public delegate void ModelSinG_Picture(double[] fz, int N, double N_urovn, double gamma, double N_pol, int k, int Nx, int Ny, double noise);
 public delegate void ModelSinD(double[] fz, double N_pol, int kvant, int N_urovn);
 public delegate void ModelExp(double g, int N);
-public delegate void Model_I(double nu, int nx, int ny, double gamma);
-public delegate void Model_IL(int nl);
+//public delegate void Model_I(double nu, int nx, int ny, double gamma);
+//public delegate void Model_IL(int nl);
 
 
 namespace rab1.Forms
@@ -32,8 +32,8 @@ namespace rab1.Forms
         //public event ModelSin     OnModelAtan2;
         //public event ModelSin     OnModelAtan2_L;
         public event ModelExp     OnModelExp;
-        public event Model_I      OnModel_Intensity;
-        public event Model_IL     OnModel_Intensity_Line;  // Вертикальные полосы
+        //public event Model_I      OnModel_Intensity;
+        //public event Model_IL     OnModel_Intensity_Line;  // Вертикальные полосы
         
 
         private static double[] fz = { 0.0, 90.0, 180.0, 270.0, 0.0, 90.0, 180.0, 270.0 };
@@ -199,7 +199,7 @@ namespace rab1.Forms
             textBox16.Text = Convert.ToString(7*n);
          
         }
-
+/*
         private void button2_Click(object sender, EventArgs e)
         {
             N_urovn = Convert.ToDouble(textBox8.Text);   // Число уровней
@@ -210,13 +210,13 @@ namespace rab1.Forms
 
             Close();
         }
+*/
+ //       private void button9_Click(object sender, EventArgs e) // Полосы поверх изображения
+//        {
+//            int N_p = Convert.ToInt32(textBox6.Text);
+ //           OnModel_Intensity_Line(N_p);
 
-        private void button9_Click(object sender, EventArgs e) // Полосы поверх изображения
-        {
-            int N_p = Convert.ToInt32(textBox6.Text);
-            OnModel_Intensity_Line(N_p);
-
-            Close();
-        }
-    }
+//            Close();
+ //       }
+   }
 }
