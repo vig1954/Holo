@@ -24,10 +24,10 @@ namespace rab1
         
 // -----------------------------------------------------------------------------------------------------------
         Image[] img = new Image[12];
-        public static ZArrayDescriptor[] zArrayDescriptor = new ZArrayDescriptor[12];     // Иконки справа
-        public static ZArrayDescriptor     zArrayPicture  = new ZArrayDescriptor();            // Массив для главного окна
-        public static ZComplexDescriptor[] zComplex       = new ZComplexDescriptor[3];
-        public PictureBox[] pictureBoxArray = null;
+        public static ZArrayDescriptor[]   zArrayDescriptor = new ZArrayDescriptor[12];     // Иконки справа
+        public static ZArrayDescriptor     zArrayPicture    = new ZArrayDescriptor();            // Массив для главного окна
+        public static ZComplexDescriptor[] zComplex         = new ZComplexDescriptor[3];
+        public PictureBox[]                pictureBoxArray   = null;
         
         public static int regImage = 0;                           // Номер изображения (0-11)
         public static int regComplex = 0;                         // Номер Complex (0-3)
@@ -77,6 +77,8 @@ namespace rab1
             CorrectBr.VisualRegImage = this.Vizual_regImage;
             //ADD_Cmplx.VisualRegImage = this.Vizual_regImage;
             ADD_Math.ComplexPictureImage = this.Complex_pictureBox;
+            
+            CorrectBr.TakePhoto12 = this.FastTakePhoto;
 
             relayout();
         }
@@ -3085,41 +3087,12 @@ namespace rab1
             CorI.On_CorrectG += CorG;        // Коррекция клина
            // CorI.On_CorrectClin += CorClin;  // Коррекция клина
             CorI.On_CorrectSumm += CorSumm;  // Суммирование строк
-            CorI.On_CorrectGxy += CorGxy;    // Коррекция размера по x, y
+         
 
             CorI.Show();
         }
 
-        private void CorGxy(int k1, int k2, int N_Line, int nx, int ny)                    // Меняем размер массива по x, y
-        {
-            if (zArrayDescriptor[k1] == null) { MessageBox.Show("CorGxy zArrayDescriptor[k1] == NULL"); return; }
-           
-            int w1 = zArrayDescriptor[k1].width;
-            int h1 = zArrayDescriptor[k1].height;
-
-            if (N_Line <0 || N_Line >w1-1) { MessageBox.Show("CorGxy N_line <0 || N_line >w1-1"); return; }
-
-            int dx = 100;
-            ZArrayDescriptor faza = new ZArrayDescriptor(nx+2*dx, ny);
-
-            double[] array_line = new double[nx];
-
-            for (int i = 0; i < nx; i++)
-                {
-                 int i1 = i * (w1-1) / (nx - 1);
-                 array_line[i] = zArrayDescriptor[k1].array[i1, N_Line];
-                }
-
-            for (int i = 0; i < nx; i++)
-                for (int j = 0; j < ny; j++)
-                {
-                    faza.array[i+100, j] = array_line[i];
-                }
-            faza = Model_Sinus.Intens(255, 0, dx, faza);     // Белая и черная полоса по краям
-
-            zArrayDescriptor[k2] = faza;
-            Vizual_regImage(k1); Vizual_regImage(k2);
-        }
+       
         private void CorSumm(int k1,  int k2)                    // Сложение строк
         {
             if (zArrayDescriptor[k1] == null) { MessageBox.Show("CorG zArrayDescriptor[k1] == NULL"); return; }

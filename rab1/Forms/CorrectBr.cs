@@ -11,19 +11,23 @@ using System.Windows.Forms;
 namespace rab1.Forms
 {
     public delegate void VisualRegImageDelegate(int k);  // Для VisualRegImage 
+    public delegate void PhotoDelegate();                // TakePhoto12
+
+
 
     public delegate void CorrectBr1(int k1, int k2, int n);
     public delegate void CorrectBr2(int k1, int k2);
-    public delegate void CorrectBr3(int k1, int k2, int N, int nx, int ny);
+   // public delegate void CorrectBr3(int k1, int k2, int N, int nx, int ny);
     public partial class CorrectBr : Form
     {
-        public static VisualRegImageDelegate VisualRegImage = null;  // Визувлизация одного кадра от 0 до 11
+        public static VisualRegImageDelegate VisualRegImage = null;  // Визуализация одного кадра от 0 до 11 из main
+        public static PhotoDelegate TakePhoto12             = null;  // Ввести кадр из 1 в 2 из main
 
         public event CorrectBr1 On_CorrectX;
         public event CorrectBr1 On_CorrectG;
        // public event CorrectBr1 On_CorrectClin;
         public event CorrectBr2 On_CorrectSumm;
-        public event CorrectBr3 On_CorrectGxy;
+       // public event CorrectBr3 On_CorrectGxy;
 
         private static int n = 4096;                  // Размер массива
         private static int k1 = 1;
@@ -36,13 +40,7 @@ namespace rab1.Forms
         private static int k12 = 1;
         //private static int I0 = 0;
         private static double gamma = 1;
-
-        private static int k13 = 1;
-        private static int k23 = 2;
-
-        private static int k14 = 1;
-        private static int k24 = 2;
-        private static int N_Line = 128;
+       
         private static int nx = 4096;                  // Размер массива
         private static int ny = 2160;                  // Размер массива
 
@@ -50,11 +48,24 @@ namespace rab1.Forms
 
         private static int X0   = 100;
         private static int STEP = 128;
-        private static int k18 = 1;
+        //private static int k18 = 1;
 
         private static int dx = 100;
-        private static int k21_1 = 1;
-        private static int k22_2 = 2;
+
+        private static int porog = 250;
+
+        //double[] cl = { 1,  2,  3,  4,  5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  26,  27,  28, 29,   30,  31, 32 };
+        //double[] cl = { 0,  1,  2,  3,  4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  26,  27, 28,   29,  30, 31 };
+        //double[] cl = { 7, 15, 23, 31, 39,  47,  55,  63,  71,  79,  87,  95, 103, 111, 119, 127, 135, 143, 151, 159, 167, 175, 183, 191, 199, 207, 215, 223, 231, 239, 247, 255 };
+        // double[] cl = { 0, 15, 47, 63, 79, 95, 111, 127, 143, 159,  175, 191, 207, 223, 239, 255 };
+
+
+        // double[] cl = { 30, 45, 60, 75, 90, 105, 120, 135, 150, 165,  180, 195, 210, 225, 240, 255 };    Правильные значения
+        // double[] cl = { 16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 174, 190, 206, 222, 238, 255   };
+
+        // double[] cl = { 0, 32, 40, 48, 57, 65,  75,  85,  95, 110,  120, 135, 155, 170, 200, 255 };
+        double[] cl = { 0, 37, 48, 54, 63, 68, 77, 85, 93, 101, 111, 124, 139, 162, 187, 255 };
+
 
 
         public CorrectBr()
@@ -71,12 +82,8 @@ namespace rab1.Forms
             textBox7.Text = Convert.ToString(gamma);
             textBox8.Text = Convert.ToString(k12);
 
-            textBox11.Text = Convert.ToString(k13);    // Сложение строк
-            textBox12.Text = Convert.ToString(k23);
+            textBox9.Text = Convert.ToString(porog);
 
-            textBox9.Text = Convert.ToString(k14);    // Сложение строк
-            textBox10.Text = Convert.ToString(k24);
-            textBox13.Text = Convert.ToString(N_Line);
             textBox14.Text = Convert.ToString(nx);
             textBox15.Text = Convert.ToString(ny);
 
@@ -84,10 +91,8 @@ namespace rab1.Forms
 
             textBox17.Text = Convert.ToString(X0);    // Начало для вертикальных линий
             textBox19.Text = Convert.ToString(STEP);  // Шаг для вертикальных линий
-            textBox18.Text = Convert.ToString(k18 );  // В какой массив
-
-            textBox21.Text = Convert.ToString(k21_1);    // Уменьшение массива
-            textBox22.Text = Convert.ToString(k22_2);
+           // textBox18.Text = Convert.ToString(k18 );  // В какой массив
+          
             textBox20.Text = Convert.ToString(dx);
         }
 
@@ -159,7 +164,7 @@ namespace rab1.Forms
   /// <param name="e"></param>
         private void button8_Click(object sender, EventArgs e)
         {
-            int k= Convert.ToInt32(textBox18.Text) -1;
+            int k = Convert.ToInt32(textBox8.Text) - 1;
             if (Form1.zArrayDescriptor[k] == null) { MessageBox.Show("CorrectBr zArrayDescriptor == NULL"); return; }
             int Nx = Form1.zArrayDescriptor[k].width;
             int Ny = Form1.zArrayDescriptor[k].height;
@@ -218,20 +223,9 @@ namespace rab1.Forms
         /// <param name="e"></param>
         private void button6_Click(object sender, EventArgs e)
         {
-            //double[] cl = { 1,  2,  3,  4,  5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  26,  27,  28, 29,   30,  31, 32 };
-            //double[] cl = { 0,  1,  2,  3,  4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  26,  27, 28,   29,  30, 31 };
-            //double[] cl = { 7, 15, 23, 31, 39,  47,  55,  63,  71,  79,  87,  95, 103, 111, 119, 127, 135, 143, 151, 159, 167, 175, 183, 191, 199, 207, 215, 223, 231, 239, 247, 255 };
-            // double[] cl = { 0, 15, 47, 63, 79, 95, 111, 127, 143, 159,  175, 191, 207, 223, 239, 255 };
-
-
-            // double[] cl = { 30, 45, 60, 75, 90, 105, 120, 135, 150, 165,  180, 195, 210, 225, 240, 255 };    Правильные значения
-            // double[] cl = { 16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 174, 190, 206, 222, 238, 255 };
-
-            // double[] cl = { 0, 32, 40, 48, 57, 65,  75,  85,  95, 110,  120, 135, 155, 170, 200, 255 };
-              double[] cl = { 0, 37,  48, 54, 63, 68, 77,  85,  93, 101, 111, 124, 139, 162, 187, 255 };
-            //-------------------------------------------------------------------------
+   
             k12 = Convert.ToInt32(textBox8.Text);
-            //I0 = Convert.ToInt32(textBox7.Text);
+          
             nx = Convert.ToInt32(textBox14.Text);                       // Текущий размер
             ny = Convert.ToInt32(textBox15.Text);          
 
@@ -240,50 +234,78 @@ namespace rab1.Forms
 
             
             kv = Convert.ToInt32(textBox16.Text);                      //  Число градаций
-            int nsd = 0;
-            switch (kv)
-            {
-                case 16:  for (int  i = 0; i < nx; i++) { am[i] = cl[i / 256]; } break;    // 4096
-                case 32:  cl = MasX2(cl);
-                          nsd = nx / 32;
-                          for (int  i = 0; i < nx; i++) { am[i] = cl[i / 128]; }   am = Strerch(am, nsd);
-                          break;  // 4096-128
-                case 64:  cl = MasX2(cl); cl = MasX2(cl);
-                          nsd = nx / 32 + nx/64;
-                          for (int  i = 0; i < nx; i++) { am[i] = cl[i / 64]; }    am = Strerch(am, nsd);
-                          break;
-                case 128: cl = MasX2(cl); cl = MasX2(cl); cl = MasX2(cl);
-                          nsd = nx / 32 + nx / 64 + nx / 128;
-                          for (int i = 0; i < nx; i++) { am[i] = cl[i / 32];  }   am = Strerch(am, nsd);
-                          break;
-                case 256: cl = MasX2(cl); cl = MasX2(cl); cl = MasX2(cl); cl = MasX2(cl); 
-                          nsd = nx / 32 + nx / 64 + nx / 128 + nx / 256;
-                          for (int i = 0; i < nx; i++) { am[i] = cl[i / 16];  }   am = Strerch(am, nsd);
-                    break;  
-                default:  MessageBox.Show("kv != 16, 32, 64, 128  kv= " + kv);  return; 
-            }
+            am = Clin(kv, nx);                                     // Формирование клина
 
+            if (am == null ) { MessageBox.Show("kv != 16, 32, 64, 128  kv= " + kv); return; }
 
             int dx = 100;
             int Nx1 = nx + dx * 2; 
             
             ZArrayDescriptor cmpl = new ZArrayDescriptor(Nx1, ny);
-
+            // ----------------------------------------------------------------------------------- Клин
             for (int i = 0; i < nx; i++)
                for (int j = 0; j < ny; j++)
                    {  cmpl.array[i + dx, j] = am[i];  }
 
             cmpl = Model_Sinus.Intens(255, 0, dx, cmpl);     // Белая и черная полоса по краям
-
             Form1.zArrayDescriptor[k12 - 1] = cmpl;
             VisualRegImage(k12 - 1);
+            // ----------------------------------------------------------------------------------- Обратный клин
+            ZArrayDescriptor cmpl1 = new ZArrayDescriptor(Nx1, ny);
+            for (int i = 0; i < nx; i++)
+                for (int j = 0; j < ny; j++)
+                { cmpl1.array[i + dx, j] = am[nx-1-i]; }
+
+            cmpl1 = Model_Sinus.Intens(0, 256, dx, cmpl1);     // Белая и черная полоса по краям
+            Form1.zArrayDescriptor[k12 - 1 + 1] = cmpl1;
+            VisualRegImage(k12 - 1 + 1);
 
         }
-/// <summary>
-/// Растяжение массива 0 - n-nx -> 0 - n
-/// </summary>
-/// <param name="am"></param>
-/// <returns></returns>
+
+
+        private double[] Clin( int kv, int nx)
+        {
+            double[] am = new double[nx];
+            int nsd = 0;
+            switch (kv)
+            {
+                case 16: for (int i = 0; i < nx; i++) { am[i] = cl[i / 256]; } break;    // 4096
+                case 32:
+                    cl = MasX2(cl);
+                    nsd = nx / 32;
+                    for (int i = 0; i < nx; i++) { am[i] = cl[i / 128]; }
+                    am = Strerch(am, nsd);
+                    break;  // 4096-128
+                case 64:
+                    cl = MasX2(cl); cl = MasX2(cl);
+                    nsd = nx / 32 + nx / 64;
+                    for (int i = 0; i < nx; i++) { am[i] = cl[i / 64]; }
+                    am = Strerch(am, nsd);
+                    break;
+                case 128:
+                    cl = MasX2(cl); cl = MasX2(cl); cl = MasX2(cl);
+                    nsd = nx / 32 + nx / 64 + nx / 128;
+                    for (int i = 0; i < nx; i++) { am[i] = cl[i / 32]; }
+                    am = Strerch(am, nsd);
+                    break;
+                case 256:
+                    cl = MasX2(cl); cl = MasX2(cl); cl = MasX2(cl); cl = MasX2(cl);
+                    nsd = nx / 32 + nx / 64 + nx / 128 + nx / 256;
+                    for (int i = 0; i < nx; i++) { am[i] = cl[i / 16]; }
+                    am = Strerch(am, nsd);
+                    break;
+                default:  return null;
+            }
+
+            return am;
+
+        }
+
+        /// <summary>
+        /// Растяжение массива 0 - n-nx -> 0 - n
+        /// </summary>
+        /// <param name="am"></param>
+        /// <returns></returns>
         private double[] Strerch(double[] am, int nx)
         {
            int n = am.Length;        double[] am2 = new double[n];
@@ -318,9 +340,9 @@ namespace rab1.Forms
         /// <param name="e"></param>
         private void button4_Click(object sender, EventArgs e)
         {
-            k13 = Convert.ToInt32(textBox11.Text);
-            k23 = Convert.ToInt32(textBox12.Text);
-            On_CorrectSumm(k13-1, k23 - 1);
+            k1 = Convert.ToInt32(textBox1.Text);
+            k2 = Convert.ToInt32(textBox3.Text);
+            On_CorrectSumm(k1-1, k2 - 1);
             Close();
 
         }
@@ -329,19 +351,19 @@ namespace rab1.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button5_Click(object sender, EventArgs e)
-        {
+       // private void button5_Click(object sender, EventArgs e)
+      //  {
            // textBox9.Text = Convert.ToString(k14);    // Сложение строк
           
-            k14 = Convert.ToInt32(textBox9.Text);
-            k24 = Convert.ToInt32(textBox10.Text);
-            N_Line = Convert.ToInt32(textBox13.Text);
-            nx= Convert.ToInt32(textBox14.Text);
-            ny = Convert.ToInt32(textBox15.Text);
-            On_CorrectGxy(k14 - 1, k24 - 1, N_Line, nx, ny);
-            Close();
+      //      k1 = Convert.ToInt32(textBox1.Text);
+     //       k2 = Convert.ToInt32(textBox3.Text);
+      //      N_Line = Convert.ToInt32(textBox13.Text);
+      //      nx= Convert.ToInt32(textBox14.Text);
+       //     ny = Convert.ToInt32(textBox15.Text);
+      //      On_CorrectGxy(k1 - 1, k2 - 1, N_Line, nx, ny);
+      //      Close();
 
-        }
+     //   }
         /// <summary>
         /// Выбрасывание белой и черной полосы
         /// </summary>
@@ -349,15 +371,13 @@ namespace rab1.Forms
         /// <param name="e"></param>
         private void button9_Click(object sender, EventArgs e)
         {
-            k21_1 = Convert.ToInt32(textBox21.Text);
-            k22_2 = Convert.ToInt32(textBox22.Text);
+            k1 = Convert.ToInt32(textBox1.Text);
+            k2 = Convert.ToInt32(textBox3.Text);
             dx    = Convert.ToInt32(textBox20.Text);
 
-            k1 = k21_1 - 1;
-            k2 = k22_2 - 1;
             if (Form1.zArrayDescriptor[k1] == null) { MessageBox.Show("CorrectBr zArrayDescriptor == NULL"); return; }
-            int nx1 = Form1.zArrayDescriptor[k1].width;
-            int ny = Form1.zArrayDescriptor[k1].height;
+            int nx1 = Form1.zArrayDescriptor[k1-1].width;
+            int ny = Form1.zArrayDescriptor[k1-1].height;
 
             nx = nx1 - dx * 2;
 
@@ -366,13 +386,123 @@ namespace rab1.Forms
             for (int i = dx; i < nx1-dx; i++)
               for (int j = 0; j < ny; j++)
                 {
-                     cmpl.array[i-dx,j] = Form1.zArrayDescriptor[k1].array[i , j];
+                     cmpl.array[i-dx,j] = Form1.zArrayDescriptor[k1-1].array[i , j];
                 }
-            Form1.zArrayDescriptor[k2] = cmpl;
-            VisualRegImage(k2);
+            Form1.zArrayDescriptor[k2-1] = cmpl;
+            VisualRegImage(k2-1);
             Close();
         }
+        /// <summary>
+        /// Выделение белых и черных полос
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button5_Click(object sender, EventArgs e)
+        {
+            k1 = Convert.ToInt32(textBox1.Text);
+            k2 = Convert.ToInt32(textBox3.Text);
+            porog  = Convert.ToInt32(textBox9.Text);
+           
+            if (Form1.zArrayDescriptor[k1-1] == null) { MessageBox.Show("CorrectBr zArrayDescriptor == NULL"); return; }
+            int nx = Form1.zArrayDescriptor[k1 - 1].width;
+            int ny = Form1.zArrayDescriptor[k1 - 1].height;
 
-      
+          
+
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(nx, ny);      // Результирующий фронт
+
+            for (int i = 0; i < nx; i++)
+                for (int j = 0; j < ny; j++)
+                {
+                    double a = Form1.zArrayDescriptor[k1 - 1].array[i, j];
+                    if (a > porog) cmpl.array[i, j] = 255; else cmpl.array[i, j] = 0;
+                }
+            Form1.zArrayDescriptor[k2 - 1] = cmpl;
+            VisualRegImage(k2 - 1);
+            Close();
+        }
+        /// <summary>
+        /// Усреднение клина
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button11_Click(object sender, EventArgs e)
+        {
+            k1 = Convert.ToInt32(textBox1.Text);
+            k2 = Convert.ToInt32(textBox3.Text);
+            porog = Convert.ToInt32(textBox9.Text);
+
+            if (Form1.zArrayDescriptor[k1 - 1] == null) { MessageBox.Show("CorrectBr zArrayDescriptor 1 == NULL"); return; }
+            if (Form1.zArrayDescriptor[k2 - 1] == null) { MessageBox.Show("CorrectBr zArrayDescriptor 2 == NULL"); return; }
+            int nx = Form1.zArrayDescriptor[k1 - 1].width;
+            int ny = Form1.zArrayDescriptor[k1 - 1].height;
+
+            ZArrayDescriptor cmpl_1 = new ZArrayDescriptor(nx, ny);      // Полосы
+            ZArrayDescriptor cmpl_2 = new ZArrayDescriptor(nx, ny);      // Клин
+
+            double[] am1 = new double[nx];
+            double[] am2 = new double[nx];
+            double[] am3 = new double[nx];
+
+            int N_line = 128;
+
+            for (int i = 0; i < nx; i++)
+            {
+               am1[i] = Form1.zArrayDescriptor[k1 - 1].array[i, N_line];
+               am2[i] = Form1.zArrayDescriptor[k2 - 1].array[i, N_line];
+            }
+
+            int ii = 0, i2 = 0, i1 =0;
+            double s = 0;
+
+            do
+            {
+                
+                i1 = ii;
+                s = 0;                 while (am1[ii] == 0) { s = s + am2[ii]; ii++; if (ii >= nx) break; }
+                i2 = ii--; s = s/(i2 - i1);
+                for (int i = i1; i < i2; i++) am3[i] = s;
+
+                ii++; i1 = ii;  if (ii >= nx) break;
+                s = 0;                 while (am1[ii] != 0) { s = s + am2[ii]; ii++; if (ii >= nx) break; }
+                i2 = ii--; s = s/(i2 - i1);
+                for (int i = i1; i < i2; i++) am3[i] = s;
+                ii++;
+            }
+            while (ii < nx);
+
+
+            for (int i = 0; i < nx; i++)
+                for (int j = 0; j < ny; j++)
+                {
+                    cmpl_1.array[i, j] = am3[i];
+                }
+            Form1.zArrayDescriptor[k2] = cmpl_1; //  => 3
+            VisualRegImage(k2 );
+
+            Close();
+        }
+        /// <summary>
+        /// Ввод клина с камеры и обработка
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button12_Click(object sender, EventArgs e)
+        {
+            int nx = 4096;
+            int dx = 100;
+            int nx1 = nx + dx * 2;              // Размер для изображения с добавленными полосами
+            double[] am = new double[nx];
+            int kv = 16;                        //  Число градаций
+
+            am = Clin(kv, nx);                  // Формирование клина
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(nx1, ny);
+            
+            for (int i = 0; i < nx; i++) for (int j = 0; j < ny; j++)  { cmpl.array[i + dx, j] = am[i]; } // ----------------- Клин
+            cmpl = Model_Sinus.Intens(255, 0, dx, cmpl);                                                  // Белая и черная полоса по краям
+            Form1.zArrayDescriptor[0] = cmpl;    // Клин в 1 массив
+            VisualRegImage(0);
+            TakePhoto12();
+        }
     }
 }
