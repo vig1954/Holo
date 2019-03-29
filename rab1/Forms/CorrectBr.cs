@@ -543,16 +543,19 @@ namespace rab1.Forms
             X[1] = new Form1.Coords(Form1.X2,  Form1.Y2);
             X[2] = new Form1.Coords(Form1.X3,  Form1.Y3);
             X[3] = new Form1.Coords(Form1.X4,  Form1.Y4);
+
+            MessageBox.Show(" X1 - " + Form1.X1 + " Y1 - " + Form1.Y1);
             Form1.zArrayDescriptor[2] = File_Change_Size.Change_rectangle(Form1.zArrayDescriptor[1], X);
             VisualRegImage(2);
+            MessageBox.Show(" Ограничение клина по размеру прошло");
             //---------------------------------------------------------------------------------------------- Усреднение по Y => 2
 
             int y1 = File_Change_Size.MinY(X);   // Минимальное значение по Y
-            int y2 = File_Change_Size.MaxY(X);   // Минимальное значение по Y
+            int y2 = File_Change_Size.MaxY(X);   // Максимальное значение по Y
             Form1.zArrayDescriptor[2] = SumClass.Sum_zArrayY(Form1.zArrayDescriptor[2], y1, y2);
             VisualRegImage(2);
-           
-            
+            MessageBox.Show(" Усреднение по Y прошло  y1= "+ y1 + " y2= " + y2);
+
             //---------------------------------------------------------------------------------------------- Полосы => 0
             Form1.zArrayDescriptor[0] = BW_Line(nx, ny, kv);     // Полосы с kv градациями
             VisualRegImage(0);
