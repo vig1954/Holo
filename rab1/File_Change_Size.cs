@@ -151,7 +151,7 @@ namespace rab1
             }
             return maxX;
         }
-        private static int MinY(Form1.Coords[] X)  // Максимальное число точек по X
+        public static int MinY(Form1.Coords[] X)  // Максимальное число точек по X
         {
             int minY = (int)X[0].y;
             for (int i = 0; i < 3; i++)
@@ -160,7 +160,7 @@ namespace rab1
             }
             return minY;
         }
-        private static int MaxY(Form1.Coords[] X)  // Максимальное число точек по X
+        public static int MaxY(Form1.Coords[] X)  // Максимальное число точек по X
         {
             int maxY = (int)X[0].y;
             for (int i = 0; i < 3; i++)

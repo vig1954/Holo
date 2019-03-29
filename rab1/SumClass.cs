@@ -166,6 +166,36 @@ namespace rab1
 
             return res_array;
         }
+        /// <summary>
+        /// Суммирование строк в массиве от Y1 до Y2
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static ZArrayDescriptor Sum_zArrayY(ZArrayDescriptor zArray, int y1, int y2)
+        {
+            if (zArray == null) { MessageBox.Show(" Sum_zArrayY: zArrayDescriptor == null"); return null; }
+            int w1 = zArray.width;
+            int h1 = zArray.height;
+            if (y2 < y1)   { MessageBox.Show(" y2 < y1"); return null; }
+            if (y2 > h1)   { MessageBox.Show(" y2 > h1"); return null; }
+            if (y1 < 0)    { MessageBox.Show(" y1 < 0");  return null;  }
+           
+            ZArrayDescriptor res_array = new ZArrayDescriptor(w1, h1);
+
+            double[] array_line = new double[w1];
+
+            for (int i = 0; i < w1; i++)
+                for (int j = y1; j < y2; j++)
+                    array_line[i] += zArray.array[i, j];
+
+            for (int i = 0; i < w1; i++)
+                for (int j = 0; j < h1; j++)
+                    res_array.array[i, j] = array_line[i] / (y2 - y1);
+
+            return res_array;
+        }
+
         public static ZArrayDescriptor Sub_zArray(ZArrayDescriptor a, ZArrayDescriptor b)
         {
             int w1 = a.width;

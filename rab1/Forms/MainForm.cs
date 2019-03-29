@@ -34,7 +34,7 @@ namespace rab1
 
         int scaleMode = 0;                          // Масштаб изображения
 
-       
+        public static int X1, Y1, X2, Y2, X3, Y3, X4, Y4;        // Глобальные точки задания координат
 
         Form f_filt;                               // Для Фильтрации
         TextBox tb1_filt; //, tb2_filt, tb3_filt;
@@ -211,10 +211,10 @@ namespace rab1
             int rx = pictureBox01.Width;
             int ry = pictureBox01.Height;
 
-            int X1=0, Y1 = 0;                       // Первая точка (Шелкаем на экране)
-             int X2, Y2;
-             int X3, Y3;
-             int X4, Y4;
+            // int X1=0, Y1 = 0;                       // Первая точка (Шелкаем на экране)
+            // int X2, Y2;
+            // int X3, Y3;
+            // int X4, Y4;
 
             //double  kx = 1, ky = 1;
             int x = 0, y = 0;

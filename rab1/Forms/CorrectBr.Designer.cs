@@ -470,7 +470,7 @@
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(310, 159);
             this.button12.TabIndex = 78;
-            this.button12.Text = "Ввод клина\r\n1) Клин 16 градаций => 1; Ввод кадра с камеры =>2";
+            this.button12.Text = resources.GetString("button12.Text");
             this.button12.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button12.UseVisualStyleBackColor = false;
             this.button12.Click += new System.EventHandler(this.button12_Click);
