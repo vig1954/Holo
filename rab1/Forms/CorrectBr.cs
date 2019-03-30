@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 
 namespace rab1.Forms
@@ -536,39 +537,25 @@ namespace rab1.Forms
             if (dialogResult == DialogResult.No)  { return;           }
             
             Form1.Coords[] X = MainForm.GetCoordinates();
-
-            /*
-            Form1.Coords[] X = new Form1.Coords[4];
-
-            X[0] = new Coords(Convert.ToDouble(textBox3.Text), Convert.ToDouble(Form1.textBox4.Text));
-            X[1] = new Coords(Convert.ToDouble(textBox5.Text), Convert.ToDouble(Form1.textBox6.Text));
-            X[2] = new Coords(Convert.ToDouble(textBox7.Text), Convert.ToDouble(Form1.textBox8.Text));
-            X[3] = new Coords(Convert.ToDouble(textBox9.Text), Convert.ToDouble(Form1.textBox10.Text));
-            */
-
-            //X[0] = new Form1.Coords(Form1.X1 , Form1.Y1);
-            ///X[1] = new Form1.Coords(Form1.X2,  Form1.Y2);
-            //X[2] = new Form1.Coords(Form1.X3,  Form1.Y3);
-            //X[3] = new Form1.Coords(Form1.X4,  Form1.Y4);
-
+                        
             MessageBox.Show(" X1 - " + Form1.X1 + " Y1 - " + Form1.Y1);
             Form1.zArrayDescriptor[2] = File_Change_Size.Change_rectangle(Form1.zArrayDescriptor[1], X);
             VisualRegImage(2);
-            MessageBox.Show(" Ограничение клина по размеру прошло");
+            MessageBox.Show("Ограничение клина по размеру прошло");
             //---------------------------------------------------------------------------------------------- Усреднение по Y => 2
 
             int y1 = File_Change_Size.MinY(X);   // Минимальное значение по Y
             int y2 = File_Change_Size.MaxY(X);   // Максимальное значение по Y
             Form1.zArrayDescriptor[2] = SumClass.Sum_zArrayY_ALL(Form1.zArrayDescriptor[2]);
             VisualRegImage(2);
-            MessageBox.Show(" Усреднение по Y прошло ");
+            MessageBox.Show("Усреднение по Y прошло");
 
             //---------------------------------------------------------------------------------------------- Полосы => 0
             Form1.zArrayDescriptor[0] = BW_Line(nx, ny, kv);     // Полосы с kv градациями
             VisualRegImage(0);
             //---------------------------------------------------------------------------------------------- Фото => 1
             TakePhoto12();
-            MessageBox.Show(" вВОД ПОЛОС ");
+            MessageBox.Show("ВВОД ПОЛОС");
             //---------------------------------------------------------------------------------------------- Ограничение по размеру => 2
             Form1.zArrayDescriptor[3] = File_Change_Size.Change_rectangle(Form1.zArrayDescriptor[1], X);
             VisualRegImage(3);
@@ -576,21 +563,82 @@ namespace rab1.Forms
             //Form1.zArrayDescriptor[3] = SumClass.Sum_zArrayY_ALL(Form1.zArrayDescriptor[3]);
             Form1.zArrayDescriptor[4] = BW_Line_255(Form1.zArrayDescriptor[3], 210);  // Выше порога 255 ниже 0
             VisualRegImage(4);
-            MessageBox.Show(" Контраст прошло ");
+            MessageBox.Show("Контраст прошло");
             //---------------------------------------------------------------------------------------------- Усреднение по X => 2
             Form1.zArrayDescriptor[5] = Summ_Y(Form1.zArrayDescriptor[2], Form1.zArrayDescriptor[4]);
             VisualRegImage(5);
         }
-        /*        public struct Coords
-                {
-                    public double x, y;
+               
+        private void LoadWedge()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "(*.txt)|*.txt";
+            openFileDialog.DefaultExt = "txt";
 
-                    public Coords(double p1, double p2)
+            DialogResult dialogResult = openFileDialog.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+                string filePath = openFileDialog.FileName;
+                if (!string.IsNullOrEmpty(filePath))
+                {
+                    List<double> valuesList = new List<double>();
+                    using (FileStream fs = File.OpenRead(filePath))
                     {
-                        x = p1;
-                        y = p2;
+                        using (StreamReader sr = new StreamReader(fs))
+                        {
+                            while (!sr.EndOfStream)
+                            {
+                                string stringValue = sr.ReadLine();
+                                valuesList.Add(double.Parse(stringValue));
+                            }
+                        }
                     }
+
+                    cl = valuesList.ToArray();
+                    MessageBox.Show("Клин загружен (cl)");
                 }
-                */
+            }
+        }
+
+        private void SaveWedge()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.AddExtension = true;
+            saveFileDialog.Filter = "(*.txt)|*.txt";
+            saveFileDialog.DefaultExt = "txt";
+            DialogResult dialogResult = saveFileDialog.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+                string filePath = saveFileDialog.FileName;
+                if (!string.IsNullOrEmpty(filePath))
+                {
+                    using (FileStream fs = File.OpenWrite(filePath))
+                    {
+                        using (StreamWriter sw = new StreamWriter(fs))
+                        {
+                            if (cl != null)
+                            {
+                                for (int i = 0; i < cl.Length; i++)
+                                {
+                                    sw.WriteLine(cl[i]);
+                                }
+                            }
+                            sw.Flush();
+                        }
+                    }
+                    MessageBox.Show("Клин сохранен (cl)");
+                }
+            }
+        }
+
+        private void SaveWedgeButton_Click(object sender, EventArgs e)
+        {
+            SaveWedge();
+        }
+
+        private void LoadWedgeButton_Click(object sender, EventArgs e)
+        {
+            LoadWedge();
+        }
     }
 }

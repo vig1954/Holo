@@ -3436,6 +3436,15 @@ namespace rab1
             cameraController.Dispose();
         }
 
+        private void FastTakePhoto(short fromImageNumber, short toImageNumber)
+        {
+            CameraController cameraController = new CameraController(CanonSdkProvider.GetSDKHandler(), this);
+            cameraController.PictureTaken += new PictureTakenHandler(HandleCameraPicture);
+
+            cameraController.FastTakePhoto(fromImageNumber, toImageNumber);
+            cameraController.Dispose();
+        }
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }

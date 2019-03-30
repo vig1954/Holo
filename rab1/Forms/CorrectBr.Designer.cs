@@ -71,6 +71,8 @@
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.button11 = new System.Windows.Forms.Button();
             this.button12 = new System.Windows.Forms.Button();
+            this.SaveWedgeButton = new System.Windows.Forms.Button();
+            this.LoadWedgeButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -475,11 +477,33 @@
             this.button12.UseVisualStyleBackColor = false;
             this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
+            // SaveWedgeButton
+            // 
+            this.SaveWedgeButton.Location = new System.Drawing.Point(579, 684);
+            this.SaveWedgeButton.Name = "SaveWedgeButton";
+            this.SaveWedgeButton.Size = new System.Drawing.Size(140, 23);
+            this.SaveWedgeButton.TabIndex = 79;
+            this.SaveWedgeButton.Text = "Сохранить клин";
+            this.SaveWedgeButton.UseVisualStyleBackColor = true;
+            this.SaveWedgeButton.Click += new System.EventHandler(this.SaveWedgeButton_Click);
+            // 
+            // LoadWedgeButton
+            // 
+            this.LoadWedgeButton.Location = new System.Drawing.Point(738, 684);
+            this.LoadWedgeButton.Name = "LoadWedgeButton";
+            this.LoadWedgeButton.Size = new System.Drawing.Size(151, 23);
+            this.LoadWedgeButton.TabIndex = 80;
+            this.LoadWedgeButton.Text = "Загрузить клин";
+            this.LoadWedgeButton.UseVisualStyleBackColor = true;
+            this.LoadWedgeButton.Click += new System.EventHandler(this.LoadWedgeButton_Click);
+            // 
             // CorrectBr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(964, 716);
+            this.Controls.Add(this.LoadWedgeButton);
+            this.Controls.Add(this.SaveWedgeButton);
             this.Controls.Add(this.button12);
             this.Controls.Add(this.button11);
             this.Controls.Add(this.label11);
@@ -573,5 +597,7 @@
         private System.Windows.Forms.TextBox textBox9;
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Button SaveWedgeButton;
+        private System.Windows.Forms.Button LoadWedgeButton;
     }
 }
