@@ -106,7 +106,7 @@ namespace rab1
             InitializeDefaultValues();
    
         }
-        
+
         private void InitializeDefaultValues()
         {
             phaseShiftCountTextBox.Text = "4";
@@ -763,10 +763,10 @@ namespace rab1
 
         private void backGroundWindowButton_Click(object sender, EventArgs e)
         {
-            ShowBackgroundWindow();
+            ShowBackgroundWindow(1);
         }
 
-        private void ShowBackgroundWindow()
+        private void ShowBackgroundWindow(int imageNumber)
         {
             Screen currentScreen = Screen.FromControl(this);
             Screen targetScreen = Screen.AllScreens.FirstOrDefault(s => !s.Equals(currentScreen)) ?? currentScreen;
@@ -780,7 +780,7 @@ namespace rab1
             this.imageForm.Location = location;
             this.imageForm.WindowState = FormWindowState.Maximized;
             this.imageForm.Show();
-            this.imageForm.SetImage(this.MainForm.GetImageFromPictureBox(1));
+            this.imageForm.SetImage(this.MainForm.GetImageFromPictureBox(imageNumber));
         }
 
         private void takeSeriesFromPictureBoxesButton_Click(object sender, EventArgs e)
@@ -818,12 +818,7 @@ namespace rab1
             phaseShiftCount = short.Parse(phaseShiftCountTextBox.Text);
             delay = int.Parse(DelayTextBox.Text);
         }
-
-        private void FastTakePhotoButton_Click(object sender, EventArgs e)
-        {
-            FastTakePhoto();
-        }
-
+                
         private void CameraForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             /*
@@ -838,7 +833,8 @@ namespace rab1
                 phaseShiftDeviceController.Dispose();
             }
         }
-        
+
+        /*
         private void FastTakePhoto()
         {
             List<Camera> cameraList = CameraHandler.GetCameraList();
@@ -854,11 +850,14 @@ namespace rab1
             }
 
             int delay = 1000;
-            ShowBackgroundWindow();
+            short fromImageNumber = short.Parse(fromImageNumberTextBox.Text);
+            short toImageNumber = short.Parse(toImageNumberTextBox.Text);
+
+            ShowBackgroundWindow(fromImageNumber);
             Thread.Sleep(delay);
 
             this.seriesType = TakePhotoSeriesTypeEnum.ImageSeries;
-            this.currentImageNumber = 2;
+            this.currentImageNumber = toImageNumber;
 
             CameraHandler.TakePhoto();
             Thread.Sleep(delay);
@@ -866,5 +865,6 @@ namespace rab1
             this.imageForm.Close();
             this.imageForm = null;
         }
+        */
     }
 }

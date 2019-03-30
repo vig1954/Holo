@@ -84,7 +84,6 @@
             this.SaveFolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.LiveViewPicBox = new System.Windows.Forms.PictureBox();
             this.LiveViewGroupBox = new System.Windows.Forms.GroupBox();
-            this.FastTakePhotoButton = new System.Windows.Forms.Button();
             this.InitGroupBox.SuspendLayout();
             this.SettingsGroupBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -723,23 +722,11 @@
             this.LiveViewGroupBox.TabStop = false;
             this.LiveViewGroupBox.Text = "Live view";
             // 
-            // FastTakePhotoButton
-            // 
-            this.FastTakePhotoButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FastTakePhotoButton.Location = new System.Drawing.Point(12, 12);
-            this.FastTakePhotoButton.Name = "FastTakePhotoButton";
-            this.FastTakePhotoButton.Size = new System.Drawing.Size(135, 29);
-            this.FastTakePhotoButton.TabIndex = 26;
-            this.FastTakePhotoButton.Text = "1 -> 2";
-            this.FastTakePhotoButton.UseVisualStyleBackColor = true;
-            this.FastTakePhotoButton.Click += new System.EventHandler(this.FastTakePhotoButton_Click);
-            // 
             // CameraForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1000, 882);
-            this.Controls.Add(this.FastTakePhotoButton);
             this.Controls.Add(this.LiveViewGroupBox);
             this.Controls.Add(this.SettingsGroupBox);
             this.Controls.Add(this.InitGroupBox);
@@ -822,7 +809,6 @@
         private System.Windows.Forms.Button takeSeriesFromPictureBoxesButton;
         private System.Windows.Forms.Label ShiftsCountLabel;
         private System.Windows.Forms.TextBox ShiftsCountTextBox;
-        private System.Windows.Forms.Button FastTakePhotoButton;
     }
 }
 
