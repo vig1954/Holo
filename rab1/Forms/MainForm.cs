@@ -3072,7 +3072,18 @@ namespace rab1
             }
             return image;
         }
+        
+        public Coords[] GetCoordinates()
+        {
+            Coords[] X = new Coords[4];
 
+            X[0] = new Coords(Convert.ToDouble(textBox3.Text), Convert.ToDouble(textBox4.Text));
+            X[1] = new Coords(Convert.ToDouble(textBox5.Text), Convert.ToDouble(textBox6.Text));
+            X[2] = new Coords(Convert.ToDouble(textBox7.Text), Convert.ToDouble(textBox8.Text));
+            X[3] = new Coords(Convert.ToDouble(textBox9.Text), Convert.ToDouble(textBox10.Text));
+
+            return X;
+        }
 
         // ----------------------------------------------------- Структурированное освещение
         /// <summary>
@@ -3083,6 +3094,7 @@ namespace rab1
         private void коррекцияНеравномерностиОсвещенияToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CorrectBr CorI = new CorrectBr();
+            CorI.MainForm = this;
             CorI.On_CorrectX += CorX;        // Коррекция размера
             CorI.On_CorrectG += CorG;        // Коррекция клина
            // CorI.On_CorrectClin += CorClin;  // Коррекция клина
@@ -3416,7 +3428,11 @@ namespace rab1
         {
             CameraController cameraController = new CameraController(CanonSdkProvider.GetSDKHandler(), this);
             cameraController.PictureTaken += new PictureTakenHandler(HandleCameraPicture);
-            cameraController.FastTakePhoto();
+
+            short fromImageNumber = 1;
+            short toImageNumber = 2;
+
+            cameraController.FastTakePhoto(fromImageNumber, toImageNumber);
             cameraController.Dispose();
         }
 

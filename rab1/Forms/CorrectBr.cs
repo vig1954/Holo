@@ -17,9 +17,12 @@ namespace rab1.Forms
 
     public delegate void CorrectBr1(int k1, int k2, int n);
     public delegate void CorrectBr2(int k1, int k2);
-   // public delegate void CorrectBr3(int k1, int k2, int N, int nx, int ny);
+    // public delegate void CorrectBr3(int k1, int k2, int N, int nx, int ny);
+               
     public partial class CorrectBr : Form
     {
+        public Form1 MainForm = null;
+
         public static VisualRegImageDelegate VisualRegImage = null;  // Визуализация одного кадра от 0 до 11 из main
         public static PhotoDelegate TakePhoto12             = null;  // Ввести кадр из 1 в 2 из main
 
@@ -531,18 +534,22 @@ namespace rab1.Forms
             //---------------------------------------------------------------------------------------------- Ограничение клина по размеру => 2
             DialogResult dialogResult = MessageBox.Show("Заданы границы X0, X1, X2, X3 ?", "Ограничение по размеру", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.No)  { return;           }
+            
+            Form1.Coords[] X = MainForm.GetCoordinates();
 
+            /*
             Form1.Coords[] X = new Form1.Coords[4];
 
-            //X[0] = new Coords(Convert.ToDouble(textBox3.Text), Convert.ToDouble(Form1.textBox4.Text));
-            //X[1] = new Coords(Convert.ToDouble(textBox5.Text), Convert.ToDouble(Form1.textBox6.Text));
-            //X[2] = new Coords(Convert.ToDouble(textBox7.Text), Convert.ToDouble(Form1.textBox8.Text));
-            //X[3] = new Coords(Convert.ToDouble(textBox9.Text), Convert.ToDouble(Form1.textBox10.Text));
+            X[0] = new Coords(Convert.ToDouble(textBox3.Text), Convert.ToDouble(Form1.textBox4.Text));
+            X[1] = new Coords(Convert.ToDouble(textBox5.Text), Convert.ToDouble(Form1.textBox6.Text));
+            X[2] = new Coords(Convert.ToDouble(textBox7.Text), Convert.ToDouble(Form1.textBox8.Text));
+            X[3] = new Coords(Convert.ToDouble(textBox9.Text), Convert.ToDouble(Form1.textBox10.Text));
+            */
 
-            X[0] = new Form1.Coords(Form1.X1 , Form1.Y1);
-            X[1] = new Form1.Coords(Form1.X2,  Form1.Y2);
-            X[2] = new Form1.Coords(Form1.X3,  Form1.Y3);
-            X[3] = new Form1.Coords(Form1.X4,  Form1.Y4);
+            //X[0] = new Form1.Coords(Form1.X1 , Form1.Y1);
+            ///X[1] = new Form1.Coords(Form1.X2,  Form1.Y2);
+            //X[2] = new Form1.Coords(Form1.X3,  Form1.Y3);
+            //X[3] = new Form1.Coords(Form1.X4,  Form1.Y4);
 
             MessageBox.Show(" X1 - " + Form1.X1 + " Y1 - " + Form1.Y1);
             Form1.zArrayDescriptor[2] = File_Change_Size.Change_rectangle(Form1.zArrayDescriptor[1], X);
@@ -552,24 +559,27 @@ namespace rab1.Forms
 
             int y1 = File_Change_Size.MinY(X);   // Минимальное значение по Y
             int y2 = File_Change_Size.MaxY(X);   // Максимальное значение по Y
-            Form1.zArrayDescriptor[2] = SumClass.Sum_zArrayY(Form1.zArrayDescriptor[2], y1, y2);
+            Form1.zArrayDescriptor[2] = SumClass.Sum_zArrayY_ALL(Form1.zArrayDescriptor[2]);
             VisualRegImage(2);
-            MessageBox.Show(" Усреднение по Y прошло  y1= "+ y1 + " y2= " + y2);
+            MessageBox.Show(" Усреднение по Y прошло ");
 
             //---------------------------------------------------------------------------------------------- Полосы => 0
             Form1.zArrayDescriptor[0] = BW_Line(nx, ny, kv);     // Полосы с kv градациями
             VisualRegImage(0);
             //---------------------------------------------------------------------------------------------- Фото => 1
             TakePhoto12();
+            MessageBox.Show(" вВОД ПОЛОС ");
             //---------------------------------------------------------------------------------------------- Ограничение по размеру => 2
             Form1.zArrayDescriptor[3] = File_Change_Size.Change_rectangle(Form1.zArrayDescriptor[1], X);
-            //---------------------------------------------------------------------------------------------- Усреднение  по Y и повышение контраста => 2
-            Form1.zArrayDescriptor[3] = SumClass.Sum_zArrayY(Form1.zArrayDescriptor[3], y1, y2);
-            Form1.zArrayDescriptor[3] = BW_Line_255(Form1.zArrayDescriptor[3], 259);  // Выше порога 255 ниже 0
             VisualRegImage(3);
-            //---------------------------------------------------------------------------------------------- Усреднение по X => 2
-            Form1.zArrayDescriptor[4] = Summ_Y(Form1.zArrayDescriptor[2], Form1.zArrayDescriptor[3]);
+            //---------------------------------------------------------------------------------------------- Усреднение  по Y и повышение контраста => 2
+            //Form1.zArrayDescriptor[3] = SumClass.Sum_zArrayY_ALL(Form1.zArrayDescriptor[3]);
+            Form1.zArrayDescriptor[4] = BW_Line_255(Form1.zArrayDescriptor[3], 210);  // Выше порога 255 ниже 0
             VisualRegImage(4);
+            MessageBox.Show(" Контраст прошло ");
+            //---------------------------------------------------------------------------------------------- Усреднение по X => 2
+            Form1.zArrayDescriptor[5] = Summ_Y(Form1.zArrayDescriptor[2], Form1.zArrayDescriptor[4]);
+            VisualRegImage(5);
         }
         /*        public struct Coords
                 {

@@ -58,7 +58,7 @@ namespace rab1
             */
         }
         
-        private void ShowBackgroundWindow()
+        private void ShowBackgroundWindow(int imageNumber)
         {
             Screen currentScreen = Screen.FromControl(this.MainForm);
             Screen targetScreen = Screen.AllScreens.FirstOrDefault(s => !s.Equals(currentScreen)) ?? currentScreen;
@@ -72,10 +72,10 @@ namespace rab1
             this.imageForm.Location = location;
             this.imageForm.WindowState = FormWindowState.Maximized;
             this.imageForm.Show();
-            this.imageForm.SetImage(this.MainForm.GetImageFromPictureBox(1));
+            this.imageForm.SetImage(this.MainForm.GetImageFromPictureBox(imageNumber));
         }
-                                   
-        public void FastTakePhoto()
+
+        public void FastTakePhoto(short fromImageNumber, short toImageNumber)
         {
             //CameraHandler = new SDKHandler();
 
@@ -97,10 +97,10 @@ namespace rab1
             }
 
             int delay = 1000;
-            ShowBackgroundWindow();
+            ShowBackgroundWindow(fromImageNumber);
             Thread.Sleep(delay);
                         
-            this.currentImageNumber = 2;
+            this.currentImageNumber = toImageNumber;
 
             //Transfer image to computer
             CameraHandler.SetSetting(EDSDK.PropID_SaveTo, (uint)EDSDK.EdsSaveTo.Host);

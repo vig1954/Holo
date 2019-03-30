@@ -196,6 +196,39 @@ namespace rab1
             return res_array;
         }
 
+
+        public static ZArrayDescriptor Sum_zArrayY_ALL(ZArrayDescriptor zArray)
+        {
+            if (zArray == null) { MessageBox.Show(" Sum_zArrayY: zArrayDescriptor == null"); return null; }
+            int w1 = zArray.width;
+            int h1 = zArray.height;
+            
+            ZArrayDescriptor res_array = new ZArrayDescriptor(w1, h1);
+
+            double[] array_line = new double[w1];
+
+            for (int i = 0; i < w1; i++)
+                for (int j = 0; j < h1; j++)
+                    array_line[i] += zArray.array[i, j];
+
+            for (int i = 0; i < w1; i++)
+                for (int j = 0; j < h1; j++)
+                    res_array.array[i, j] = array_line[i] / h1;
+
+            return res_array;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
         public static ZArrayDescriptor Sub_zArray(ZArrayDescriptor a, ZArrayDescriptor b)
         {
             int w1 = a.width;
