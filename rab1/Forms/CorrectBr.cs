@@ -729,12 +729,13 @@ namespace rab1.Forms
                 {
                   if ( (int)am_BW[i] == k)
                     {
+                        int br = (int)cl0[k];                       // должен быть такой цвет
                         int flag = 0;
                         for (int ii = 0; ii < nx; ii++)
-                           { if ((int)am_Clin[ii] == (int)cl0[k])
+                           { if ((int)am_Clin[ii] == br)
                                 {
-                                 cl1[k] = am_Clin_Ideal[ii];
-                                 flag = 1; break;
+                                  cl1[k] = am_Clin_Ideal[ii];
+                                  flag = 1; break;
                                 }
                            }
                         if (flag == 1) break; else { MessageBox.Show("Уровень " + k + " не найден"); return null; }
