@@ -654,6 +654,7 @@ namespace rab1.Forms
             //Form1.zArrayDescriptor[3] = SumClass.Sum_zArrayY_ALL(Form1.zArrayDescriptor[3]);
             Form1.zArrayDescriptor[4] = BW_Line_255(Form1.zArrayDescriptor[3], 210);                     // --------------Выше порога 255 ниже 0
             VisualRegImage(4);
+            double[] am_BW = BW_Num(Form1.zArrayDescriptor[4], N_Line);
             //MessageBox.Show("Контраст прошло");
             //--------------------------------------------------------------------------------------------- Усреднение по X клина => 6
             Form1.zArrayDescriptor[5] = Summ_Y(Form1.zArrayDescriptor[2], Form1.zArrayDescriptor[4]);
@@ -674,14 +675,14 @@ namespace rab1.Forms
             VisualRegImage(6);
 
             //---------------------------------------------------------------------------------------------- Новый клин  => 7
-            Form1.zArrayDescriptor[1] = Minus100(Form1.zArrayDescriptor[1], 100);
+            Form1.zArrayDescriptor[1] = Minus100(Form1.zArrayDescriptor[0], 100);
             VisualRegImage(1);
             double[] am_Clin_Ideal = new double[nx];                                                           // Идеальный клин от 0 до 255 
             for (int i = 0; i < nx; i++) { am_Clin_Ideal[i] = Form1.zArrayDescriptor[1].array[i, N_Line]; }
 
-            double[] am_BW = BW_Num(Form1.zArrayDescriptor[4], N_Line);                                        // Нумерация полос из 5 BW => 0, 1 , ... , 15
+                                         // Нумерация полос из 5 BW => 0, 1 , ... , 15
             double[] am_Clin = new double[nx];                                                                 // Идеальный клин от 0 до 255 
-            for (int i = 0; i < nx; i++) { am_Clin[i] = Form1.zArrayDescriptor[5].array[i, N_Line]; }
+            for (int i = 0; i < nx; i++) { am_Clin[i] = Form1.zArrayDescriptor[6].array[i, N_Line]; }
             //---------------------------------------------------------------------------------------------- Определение уровня черного и белого
             Form1.zArrayDescriptor[0] = Bright(nx, ny, 0); VisualRegImage(0);                                                   // Черный цвет
             TakePhoto12(); 
