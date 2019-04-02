@@ -668,38 +668,34 @@ namespace rab1.Forms
             Form1.zArrayDescriptor[6] = SumClass.Sum_zArrayY_ALL(Form1.zArrayDescriptor[6]);                // Суммирование по Y      7 => 7
             VisualRegImage(6);
 
-            Form1.zArrayDescriptor[0] = File_Change_Size.Change_rectangle(Form1.zArrayDescriptor[0], X);   // Идеальный клин
-            VisualRegImage(0);
-
             //---------------------------------------------------------------------------------------------- Новый клин  => 7
             double[] am_Clin_Ideal = new double[nx];                                                                 // Идеальный клин от 0 до 255 
             for (int i = 0; i < nx; i++) { am_Clin_Ideal[i] = Form1.zArrayDescriptor[0].array[i, N_Line]; }
-
 
             double[] am_BW = BW_Num(Form1.zArrayDescriptor[4], N_Line);                                        // Нумерация полос из 5 BW => 0, 1 , ... , 15
             double[] am_Clin = new double[nx];                                                                 // Идеальный клин от 0 до 255 
             for (int i = 0; i < nx; i++) { am_Clin[i] = Form1.zArrayDescriptor[5].array[i, N_Line]; }
             //---------------------------------------------------------------------------------------------- Определение уровня черного и белого
-            Form1.zArrayDescriptor[0] = Bright(nx, ny, 0);                                                      // Черный цвет
-            VisualRegImage(0);
-            TakePhoto12();
-            VisualRegImage(1);
+            Form1.zArrayDescriptor[0] = Bright(nx, ny, 0); VisualRegImage(0);                                                   // Черный цвет
+            TakePhoto12(); 
             MessageBox.Show("Черный цвет введен");
+            VisualRegImage(1);
             Form1.zArrayDescriptor[1] = File_Change_Size.Change_rectangle(Form1.zArrayDescriptor[1], X);        // Черный цвет
             VisualRegImage(1);
             double Black = SumClass.getAverage(Form1.zArrayDescriptor[1]);
+            MessageBox.Show("Черный цвет  = " + Black);
 
             Form1.zArrayDescriptor[0] = Bright(nx, ny, 255);  VisualRegImage(0);                                                // Белый
-            TakePhoto12();                                    VisualRegImage(1);                                                                                //---------------------------- Фото => 1
+            TakePhoto12();                                                                                                                 //---------------------------- Фото => 1
             MessageBox.Show("Белый цвет введен");
+            VisualRegImage(1);
             Form1.zArrayDescriptor[1] = File_Change_Size.Change_rectangle(Form1.zArrayDescriptor[1], X);        // Белый цвет
             VisualRegImage(1);
             double White = SumClass.getAverage(Form1.zArrayDescriptor[1]);
             MessageBox.Show("Белый цвет  = " + White + "Черный цвет  = " + Black);
-                      //----------------------------------------------------------------------------------------------    Определение нового клина
-                cl1 = NewClin(Black, White, am_Clin, am_BW, am_Clin_Ideal);
-
-
+            //----------------------------------------------------------------------------------------------    Определение нового клина
+               
+           cl1 = NewClin(Black, White, am_Clin, am_BW, am_Clin_Ideal);
 
                       //----------------------------------------------------------------------------------------------Отображение нового клина
                       am =  Clin(cl, kv, nx);
@@ -731,7 +727,7 @@ namespace rab1.Forms
             for (int k = 1; k < 15; k++)
                 for (int i = 0; i < nx; i++)
                 {
-                  if ( am_BW[i] == k)
+                  if ( (int)am_BW[i] == k)
                     {
                         int flag = 0;
                         for (int ii = 0; ii < nx; ii++)
