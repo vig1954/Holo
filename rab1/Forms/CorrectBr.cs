@@ -567,26 +567,31 @@ namespace rab1.Forms
             dx    = Convert.ToInt32(textBox20.Text);
 
             if (Form1.zArrayDescriptor[k1] == null) { MessageBox.Show("CorrectBr zArrayDescriptor == NULL"); return; }
-            int nx1 = Form1.zArrayDescriptor[k1-1].width;
-            int ny = Form1.zArrayDescriptor[k1-1].height;
+           
+            Form1.zArrayDescriptor[k2-1] = Minus100(Form1.zArrayDescriptor[k1], dx);
+            VisualRegImage(k2-1);
+            Close();
+        }
 
+        private ZArrayDescriptor Minus100(ZArrayDescriptor Array, int dx)  // Убирается по 100 точек с обоих сторон
+        {
+            int nx1 = Array.width;
+            int ny  = Array.height;
             nx = nx1 - dx * 2;
 
             ZArrayDescriptor cmpl = new ZArrayDescriptor(nx, ny);      // Результирующий фронт
 
-            for (int i = dx; i < nx1-dx; i++)
-              for (int j = 0; j < ny; j++)
+            for (int i = dx; i < nx1 - dx; i++)
+                for (int j = 0; j < ny; j++)
                 {
-                     cmpl.array[i-dx,j] = Form1.zArrayDescriptor[k1-1].array[i , j];
+                    cmpl.array[i - dx, j] = Array.array[i, j];
                 }
-            Form1.zArrayDescriptor[k2-1] = cmpl;
-            VisualRegImage(k2-1);
-            Close();
+
+            return cmpl;
         }
-     
 
 
-      
+
         /// <summary>
         /// Ввод клина с камеры и обработка
         /// </summary>
@@ -669,8 +674,10 @@ namespace rab1.Forms
             VisualRegImage(6);
 
             //---------------------------------------------------------------------------------------------- Новый клин  => 7
-            double[] am_Clin_Ideal = new double[nx];                                                                 // Идеальный клин от 0 до 255 
-            for (int i = 0; i < nx; i++) { am_Clin_Ideal[i] = Form1.zArrayDescriptor[0].array[i, N_Line]; }
+            Form1.zArrayDescriptor[1] = Minus100(Form1.zArrayDescriptor[1], 100);
+            VisualRegImage(1);
+            double[] am_Clin_Ideal = new double[nx];                                                           // Идеальный клин от 0 до 255 
+            for (int i = 0; i < nx; i++) { am_Clin_Ideal[i] = Form1.zArrayDescriptor[1].array[i, N_Line]; }
 
             double[] am_BW = BW_Num(Form1.zArrayDescriptor[4], N_Line);                                        // Нумерация полос из 5 BW => 0, 1 , ... , 15
             double[] am_Clin = new double[nx];                                                                 // Идеальный клин от 0 до 255 
