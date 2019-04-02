@@ -166,6 +166,24 @@ namespace rab1
 
             return res_array;
         }
+
+        public static double get_Sum_zArray(ZArrayDescriptor a)
+        {
+            int w1 = a.width;
+            int h1 = a.height;
+            ZArrayDescriptor res_array = new ZArrayDescriptor(w1, h1);
+
+            double s = 0;
+
+            for (int i = 0; i < w1; i++)    // По строкам
+                for (int j = 0; j < h1; j++)
+                {
+                    s += a.array[i, j];
+                }
+            s = s / (w1 * h1);
+            return s;
+        }
+
         /// <summary>
         /// Суммирование строк в массиве от Y1 до Y2
         /// </summary>
@@ -196,7 +214,11 @@ namespace rab1
             return res_array;
         }
 
-
+        /// <summary>
+        /// Суммирование строк в массиве от 0 до h1
+        /// </summary>
+        /// <param name="zArray"></param>
+        /// <returns></returns>
         public static ZArrayDescriptor Sum_zArrayY_ALL(ZArrayDescriptor zArray)
         {
             if (zArray == null) { MessageBox.Show(" Sum_zArrayY: zArrayDescriptor == null"); return null; }

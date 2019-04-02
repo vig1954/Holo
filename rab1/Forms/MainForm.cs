@@ -74,11 +74,13 @@ namespace rab1
             };
 
             ADD_Math.VisualRegImage      = this.Vizual_regImage;
-            CorrectBr.VisualRegImage = this.Vizual_regImage;
+            CorrectBr.VisualRegImage     = this.Vizual_regImage;
+            CorrectBr.TakePhoto12 = this.FastTakePhoto;
+            CorrectBr.TakePhoto = this.FastTakePhoto;
             //ADD_Cmplx.VisualRegImage = this.Vizual_regImage;
             ADD_Math.ComplexPictureImage = this.Complex_pictureBox;
             
-            CorrectBr.TakePhoto12 = this.FastTakePhoto;
+            
 
             relayout();
         }
