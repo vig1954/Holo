@@ -43,3 +43,17 @@ D:\Projects\Holo\EDSDKLib\obj\x64\Debug\EDSDKLib.csproj.CoreCompileInputs.cache
 D:\Projects\Holo\EDSDKLib\obj\x64\Debug\EDSDKLib.dll
 D:\Projects\Holo\EDSDKLib\obj\x64\Debug\EDSDKLib.pdb
 D:\Projects\Holo\EDSDKLib\obj\x64\Debug\EDSDKLib.csprojAssemblyReference.cache
+D:\Programm\Holo\EDSDKLib\bin\x64\Debug\DppCore.dll
+D:\Programm\Holo\EDSDKLib\bin\x64\Debug\DppCoreSub.dll
+D:\Programm\Holo\EDSDKLib\bin\x64\Debug\DppMath.dll
+D:\Programm\Holo\EDSDKLib\bin\x64\Debug\EdsCFParse.dll
+D:\Programm\Holo\EDSDKLib\bin\x64\Debug\EDSDK.dll
+D:\Programm\Holo\EDSDKLib\bin\x64\Debug\EdsImage.dll
+D:\Programm\Holo\EDSDKLib\bin\x64\Debug\MLib.dll
+D:\Programm\Holo\EDSDKLib\bin\x64\Debug\Ucs32P.dll
+D:\Programm\Holo\EDSDKLib\bin\x64\Debug\EDSDKLib.dll
+D:\Programm\Holo\EDSDKLib\bin\x64\Debug\EDSDKLib.pdb
+D:\Programm\Holo\EDSDKLib\obj\x64\Debug\EDSDKLib.csprojAssemblyReference.cache
+D:\Programm\Holo\EDSDKLib\obj\x64\Debug\EDSDKLib.csproj.CoreCompileInputs.cache
+D:\Programm\Holo\EDSDKLib\obj\x64\Debug\EDSDKLib.dll
+D:\Programm\Holo\EDSDKLib\obj\x64\Debug\EDSDKLib.pdb

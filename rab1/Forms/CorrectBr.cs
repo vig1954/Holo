@@ -736,23 +736,26 @@ namespace rab1.Forms
             for (int k = 1; k < 15; k++) cl0[k] = kv * k;
 
             for (int k = 1; k < 15; k++)
+            { 
                 for (int i = 0; i < nx; i++)
                 {
                   if ( (int)am_BW[i] == k)
                     {
                         int br = (int)cl0[k];                       // должен быть такой цвет
+                        MessageBox.Show("Уровень " + k + " идеальное значение" + br);
                         int flag = 0;
                         for (int ii = 0; ii < nx; ii++)
-                           { if ((int)am_Clin[ii] == br)
+                           { if ((int)am_Clin[ii] == br)           // Отклик от идеального клина 0-255
                                 {
                                   cl1[k] = am_Clin_Ideal[ii];
-                                  flag = 1; break;
+                                  flag = 1; goto M;
                                 }
                            }
-                        if (flag == 1) break; else { MessageBox.Show("Уровень " + k + " не найден"); return null; }
+                        if (flag == 0)  { MessageBox.Show("Уровень " + k + " не найден"); continue; }
                     }
                 }
-
+                M: continue;
+            }
 
             return cl1;
         }
