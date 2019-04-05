@@ -712,7 +712,7 @@ namespace rab1.Forms
 
             //----------------------------------------------------------------------------------------------Отображение нового клина
             
-            am =  Clin(cl, kv, nx);
+            am =  Clin(cl1, kv, nx);
                       for (int i = 0; i < nx; i++) for (int j = 0; j < ny; j++) { cmpl.array[i + dx, j] = am[i]; }  // ----------------- Клин в рабочий массив
                       cmpl = Model_Sinus.Intens(255, 0, dx, cmpl);                                                  // Белая и черная полоса по краям
                       Form1.zArrayDescriptor[7] = cmpl;                                                             // новый клин в 7 массив
@@ -731,10 +731,12 @@ namespace rab1.Forms
         private double [] NewClin(double Black, double White, double [] am_Clin,  double[] am_BW, double[] am_Clin_Ideal)
         {
             double[] cl1 = new double[16];
-            double[] cl0 = new double[16];                  // Идеальный клин 16 градаций
+            double[] cl0 = new double[16];
+            int nx = am_Clin.GetLength(0);
             //White = 255;
             //Black = 0;
             cl0[0] = 0; cl0[15] = 255;
+            cl1[0] = 0; cl1[15] = 255;
             double kv =( White - Black) / 15;
             for (int k = 1; k < 15; k++) cl0[k] = kv * k;
 
@@ -754,7 +756,7 @@ namespace rab1.Forms
                                   flag = 1; goto M;
                                 }
                            }
-                        if (flag == 0)  { MessageBox.Show("Уровень " + k + " не найден"); continue; }
+                        if (flag == 0)  { MessageBox.Show("Уровень " + k + " не найден"); goto M; }
                     }
                 }
                 M: continue;
