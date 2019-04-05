@@ -633,7 +633,7 @@ namespace rab1.Forms
             Form1.zArrayDescriptor[2] = File_Change_Size.Change_rectangle(Form1.zArrayDescriptor[1], X);
             VisualRegImage(2);
             //MessageBox.Show("Ограничение клина по размеру прошло");
-           
+            int N_Line = 128;
 
             //int y1 = File_Change_Size.MinY(X);   // Минимальное значение по Y
             //int y2 = File_Change_Size.MaxY(X);   // Максимальное значение по Y
@@ -654,7 +654,7 @@ namespace rab1.Forms
             //Form1.zArrayDescriptor[3] = SumClass.Sum_zArrayY_ALL(Form1.zArrayDescriptor[3]);
             Form1.zArrayDescriptor[4] = BW_Line_255(Form1.zArrayDescriptor[3], 210);                     // --------------Выше порога 255 ниже 0
             VisualRegImage(4);
-            double[] am_BW = BW_Num(Form1.zArrayDescriptor[4], N_Line);
+            double[] am_BW = BW_Num(Form1.zArrayDescriptor[4], N_Line);  // размер новый после прямоугольного ограничения
             //MessageBox.Show("Контраст прошло");
             //--------------------------------------------------------------------------------------------- Усреднение по X клина => 6
             Form1.zArrayDescriptor[5] = Summ_Y(Form1.zArrayDescriptor[2], Form1.zArrayDescriptor[4]);
@@ -714,7 +714,7 @@ namespace rab1.Forms
                       cmpl = Model_Sinus.Intens(255, 0, dx, cmpl);                                                  // Белая и черная полоса по краям
                       Form1.zArrayDescriptor[7] = cmpl;                                                             // новый клин в 7 массив
                       VisualRegImage(7);
-          
+            for (int i = 0; i < 16; i++) cl[i] = cl1[i];
 
         }
         /// <summary>
