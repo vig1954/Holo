@@ -69,7 +69,7 @@ namespace rab1.Forms
         // double[] cl = { 30, 45, 60, 75, 90, 105, 120, 135, 150, 165,  180, 195, 210, 225, 240, 255 };    Правильные значения
         // double[] cl = { 16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 174, 190, 206, 222, 238, 255   };
 
-        // double[] cl = { 0, 32, 40, 48, 57, 65,  75,  85,  95, 110,  120, 135, 155, 170, 200, 255 };
+        // double[] cl = { 0, 49, 63, 77, 91, 115, 129,  143,  157, 171,  185, 189, 213, 227, 241, 255 };  // шаг 14
         double[] cl = { 0, 37, 48, 54, 63, 68, 77, 85, 93, 101, 111, 124, 139, 162, 187, 255  };
         double[] cl1 = { 0, 37, 48, 54, 63, 68, 77, 85, 93, 101, 111, 124, 139, 162, 187, 255 };
 
@@ -718,6 +718,7 @@ namespace rab1.Forms
                       cmpl = Model_Sinus.Intens(255, 0, dx, cmpl);                                                  // Белая и черная полоса по краям
                       Form1.zArrayDescriptor[7] = cmpl;                                                             // новый клин в 7 массив
                       VisualRegImage(7);
+
             for (int i = 0; i < 16; i++) cl[i] = cl1[i];
 
         }
@@ -732,14 +733,15 @@ namespace rab1.Forms
         private double [] NewClin( double [] am_Clin,  double[] am_BW, double[] am_Clin_Ideal)
         {
             double[] cl1 = new double[16];
-            double[] cl0 = new double[16];
+            //double[] cl0 = new double[16];
             int nx = am_Clin.GetLength(0);
-            int White = 255;
-            int Black = 0;
-            cl0[0] = 0; cl0[15] = 255;
+            //int White = 255;
+            //int Black = 0;
+            double[] cl0 = { 0, 49, 63, 77, 91, 115, 129, 143, 157, 171, 185, 189, 213, 227, 241, 255 };  // шаг 14
+            //cl0[0] = 0; cl0[15] = 255;
             cl1[0] = 0; cl1[15] = 255;
-            double kv =( White - Black) / 15;
-            for (int k = 1; k < 15; k++) cl0[k] = kv * k;
+            //double kv =( White - Black) / 15;
+            //for (int k = 1; k < 15; k++) cl0[k] = kv * k;
 
             for (int k = 1; k < 15; k++)
             { 
