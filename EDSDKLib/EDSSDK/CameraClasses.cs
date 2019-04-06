@@ -560,7 +560,10 @@ namespace EDSDKLib
                     break;
                 case EDSDK.StateEvent_Shutdown:
                     CameraSessionOpen = false;
-                    if (LVThread.IsAlive) LVThread.Abort();
+                    if (LVThread != null && LVThread.IsAlive)
+                    {
+                        LVThread.Abort();
+                    }
                     if (CameraHasShutdown != null) CameraHasShutdown(this, new EventArgs());
                     break;
                 case EDSDK.StateEvent_ShutDownTimerUpdate:
