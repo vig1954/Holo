@@ -611,7 +611,7 @@ namespace rab1.Forms
 
             double[] am = new double[nx];
 
-            // -------------------------------------------------------------------------------------------- Клин => 0
+            // -------------------------------------------------------------------------------------------- Клин => 0  (16 градаций)
             am = Clin(cl, kv, nx);                                                                              // Формирование клина
             ZArrayDescriptor cmpl = new ZArrayDescriptor(nx1, ny);
             
@@ -677,7 +677,7 @@ namespace rab1.Forms
             Form1.zArrayDescriptor[6] = SumClass.Sum_zArrayY_ALL(Form1.zArrayDescriptor[6]);                // Суммирование по Y      7 => 7
             VisualRegImage(6);
 
-            //---------------------------------------------------------------------------------------------- Новый клин  => 7
+            //---------------------------------------------------------------------------------------------- Идеальный клин без ввода   
 
             Form1.zArrayDescriptor[0] = Model_Sinus.Intensity1(255, nx2, ny2, 1);
             Form1.zArrayDescriptor[1] = Minus100(Form1.zArrayDescriptor[0], 100);
@@ -689,7 +689,7 @@ namespace rab1.Forms
             double[] am_Clin = new double[nx2];                                                                 // Отклик от идеального клина от 0 до 255 
             for (int i = 0; i < nx2; i++) { am_Clin[i] = Form1.zArrayDescriptor[6].array[i, N_Line]; }
             //---------------------------------------------------------------------------------------------- Определение уровня черного и белого
-            Form1.zArrayDescriptor[0] = Bright(nx, ny, 0); VisualRegImage(0);                                                   // Черный цвет
+          /*  Form1.zArrayDescriptor[0] = Bright(nx, ny, 0); VisualRegImage(0);                                                   // Черный цвет
             TakePhoto12(); 
             MessageBox.Show("Черный цвет введен");
             VisualRegImage(1);
@@ -706,9 +706,10 @@ namespace rab1.Forms
             VisualRegImage(1);
             double White = SumClass.getAverage(Form1.zArrayDescriptor[1]);
             MessageBox.Show("Белый цвет  = " + White + "Черный цвет  = " + Black);
+            */
             //----------------------------------------------------------------------------------------------    Определение нового клина
                
-           cl1 = NewClin(Black, White, am_Clin, am_BW, am_Clin_Ideal);
+           cl1 = NewClin( am_Clin, am_BW, am_Clin_Ideal);
 
             //----------------------------------------------------------------------------------------------Отображение нового клина
             
@@ -728,13 +729,13 @@ namespace rab1.Forms
         /// <param name="am_Clin_Ideal"></param>     Клин от 0 до 255           размер от 0 до nx
         /// <param name=" Black,  White"></param> Уровни черного и белого при отражении от объекта
         /// <returns></returns>
-        private double [] NewClin(double Black, double White, double [] am_Clin,  double[] am_BW, double[] am_Clin_Ideal)
+        private double [] NewClin( double [] am_Clin,  double[] am_BW, double[] am_Clin_Ideal)
         {
             double[] cl1 = new double[16];
             double[] cl0 = new double[16];
             int nx = am_Clin.GetLength(0);
-            //White = 255;
-            //Black = 0;
+            int White = 255;
+            int Black = 0;
             cl0[0] = 0; cl0[15] = 255;
             cl1[0] = 0; cl1[15] = 255;
             double kv =( White - Black) / 15;

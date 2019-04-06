@@ -74,6 +74,7 @@
             this.SaveWedgeButton = new System.Windows.Forms.Button();
             this.LoadWedgeButton = new System.Windows.Forms.Button();
             this.button13 = new System.Windows.Forms.Button();
+            this.button14 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -209,7 +210,7 @@
             // button4
             // 
             this.button4.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.button4.Location = new System.Drawing.Point(12, 519);
+            this.button4.Location = new System.Drawing.Point(12, 583);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(244, 42);
             this.button4.TabIndex = 19;
@@ -367,7 +368,7 @@
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(16, 647);
+            this.button9.Location = new System.Drawing.Point(16, 711);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(245, 41);
             this.button9.TabIndex = 63;
@@ -378,7 +379,7 @@
             // 
             // textBox20
             // 
-            this.textBox20.Location = new System.Drawing.Point(290, 658);
+            this.textBox20.Location = new System.Drawing.Point(290, 722);
             this.textBox20.Name = "textBox20";
             this.textBox20.Size = new System.Drawing.Size(37, 20);
             this.textBox20.TabIndex = 64;
@@ -408,7 +409,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(333, 661);
+            this.label9.Location = new System.Drawing.Point(333, 725);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(36, 13);
             this.label9.TabIndex = 72;
@@ -430,7 +431,7 @@
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(244, 42);
             this.button5.TabIndex = 74;
-            this.button5.Text = "Выделение Ч/Б полосы\r\n > порога белые остальные черные";
+            this.button5.Text = "Повышение контраста Ч/Б полос\r\n > порога белые остальные черные";
             this.button5.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
@@ -455,7 +456,7 @@
             // button11
             // 
             this.button11.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.button11.Location = new System.Drawing.Point(290, 519);
+            this.button11.Location = new System.Drawing.Point(290, 583);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(244, 42);
             this.button11.TabIndex = 77;
@@ -502,7 +503,7 @@
             // button13
             // 
             this.button13.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.button13.Location = new System.Drawing.Point(12, 583);
+            this.button13.Location = new System.Drawing.Point(12, 647);
             this.button13.Name = "button13";
             this.button13.Size = new System.Drawing.Size(244, 30);
             this.button13.TabIndex = 81;
@@ -511,11 +512,23 @@
             this.button13.UseVisualStyleBackColor = true;
             this.button13.Click += new System.EventHandler(this.button13_Click);
             // 
+            // button14
+            // 
+            this.button14.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.button14.Location = new System.Drawing.Point(14, 519);
+            this.button14.Name = "button14";
+            this.button14.Size = new System.Drawing.Size(244, 42);
+            this.button14.TabIndex = 82;
+            this.button14.Text = "Из Ч/Б полос -> линии\r\n > порога белые остальные черные";
+            this.button14.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button14.UseVisualStyleBackColor = true;
+            // 
             // CorrectBr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(964, 716);
+            this.ClientSize = new System.Drawing.Size(964, 807);
+            this.Controls.Add(this.button14);
             this.Controls.Add(this.button13);
             this.Controls.Add(this.LoadWedgeButton);
             this.Controls.Add(this.SaveWedgeButton);
@@ -615,5 +628,6 @@
         private System.Windows.Forms.Button SaveWedgeButton;
         private System.Windows.Forms.Button LoadWedgeButton;
         private System.Windows.Forms.Button button13;
+        private System.Windows.Forms.Button button14;
     }
 }
