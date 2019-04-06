@@ -665,6 +665,9 @@ namespace rab1.Forms
             //double[] am_Clin_TV = new double[nx];                                                           // Текущий клин  
             //for (int i = 0; i < nx; i++) { am_Clin_TV[i] = Form1.zArrayDescriptor[5].array[i, N_Line]; }
             VisualRegImage(5);
+
+            dialogResult = MessageBox.Show("Определять новый клин?", "", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.No) { return; }
             //---------------------------------------------------------------------------------------------- Идеальный клин => 7
             Form1.zArrayDescriptor[0] = Model_Sinus.Intensity1(255, nx, ny, 1);                             // => 1
             VisualRegImage(0);
@@ -676,6 +679,8 @@ namespace rab1.Forms
             Form1.zArrayDescriptor[6] = File_Change_Size.Change_rectangle(Form1.zArrayDescriptor[1], X);    // Ограничение по размеру 2 => 7
             Form1.zArrayDescriptor[6] = SumClass.Sum_zArrayY_ALL(Form1.zArrayDescriptor[6]);                // Суммирование по Y      7 => 7
             VisualRegImage(6);
+
+           
 
             //---------------------------------------------------------------------------------------------- Идеальный клин без ввода   
 
@@ -737,7 +742,7 @@ namespace rab1.Forms
             int nx = am_Clin.GetLength(0);
             //int White = 255;
             //int Black = 0;
-            double[] cl0 = { 0, 49, 63, 77, 91, 115, 129, 143, 157, 171, 185, 189, 213, 227, 241, 255 };  // шаг 14
+            double[] cl0 = { 0, 40, 52, 64, 80, 96, 112, 128, 144, 160, 174, 190, 206, 222, 238, 255 };  // шаг 16
             //cl0[0] = 0; cl0[15] = 255;
             cl1[0] = 0; cl1[15] = 255;
             //double kv =( White - Black) / 15;
@@ -788,7 +793,10 @@ namespace rab1.Forms
                             while (!sr.EndOfStream)
                             {
                                 string stringValue = sr.ReadLine();
-                                valuesList.Add(double.Parse(stringValue));
+                                if (!string.IsNullOrEmpty(stringValue))
+                                {
+                                    valuesList.Add(double.Parse(stringValue));
+                                }
                             }
                         }
                     }
@@ -811,7 +819,7 @@ namespace rab1.Forms
                 string filePath = saveFileDialog.FileName;
                 if (!string.IsNullOrEmpty(filePath))
                 {
-                    using (FileStream fs = File.OpenWrite(filePath))
+                    using (FileStream fs = File.Create(filePath))
                     {
                         using (StreamWriter sw = new StreamWriter(fs))
                         {
