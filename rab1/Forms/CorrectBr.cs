@@ -556,12 +556,13 @@ namespace rab1.Forms
 
      //   }
         /// <summary>
-        /// Выбрасывание белой и черной полосы
+        /// Выбрасывание белой и черной полосы слева и справа
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void button9_Click(object sender, EventArgs e)
         {
+           
             k1 = Convert.ToInt32(textBox1.Text);
             k2 = Convert.ToInt32(textBox3.Text);
             dx    = Convert.ToInt32(textBox20.Text);
@@ -604,23 +605,20 @@ namespace rab1.Forms
 
             int dx = 100;
             int nx1 = nx + dx * 2;              // Размер для изображения с добавленными полосами
-
-           
            
             int kv = 16;                        //  Число градаций
 
-            double[] am = new double[nx];
 
             // -------------------------------------------------------------------------------------------- Клин => 0  (16 градаций)
-            am = Clin(cl, kv, nx);                                                                              // Формирование клина
+            double[] am = Clin(cl, kv, nx);                                                               // Формирование клина
             ZArrayDescriptor cmpl = new ZArrayDescriptor(nx1, ny);
             
             for (int i = 0; i < nx; i++) for (int j = 0; j < ny; j++)  { cmpl.array[i + dx, j] = am[i]; } // ----------------- Клин
             cmpl = Model_Sinus.Intens(255, 0, dx, cmpl);                                                  // Белая и черная полоса по краям
-            Form1.zArrayDescriptor[0] = cmpl;    // Клин в 1 массив
+            Form1.zArrayDescriptor[0] = cmpl;                                                            // Клин в 1 массив
             VisualRegImage(0);
 
-            TakePhoto12();  //---------------------------------------------------------------------------------------------- Фото => 1
+            TakePhoto12();                                                                                //-------- Фото => 1
             
             DialogResult dialogResult = MessageBox.Show("Заданы границы X0, X1, X2, X3 ?", "Ограничение по размеру", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.No)  { return;           }
@@ -666,69 +664,9 @@ namespace rab1.Forms
             //for (int i = 0; i < nx; i++) { am_Clin_TV[i] = Form1.zArrayDescriptor[5].array[i, N_Line]; }
             VisualRegImage(5);
 
-            dialogResult = MessageBox.Show("Определять новый клин?", "", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.No) { return; }
-            //---------------------------------------------------------------------------------------------- Идеальный клин => 7
-            Form1.zArrayDescriptor[0] = Model_Sinus.Intensity1(255, nx, ny, 1);                             // => 1
-            VisualRegImage(0);
-            TakePhoto12();
-            MessageBox.Show("Идеальный клин 0-255 введен");
-            VisualRegImage(1);
-            
-
-            Form1.zArrayDescriptor[6] = File_Change_Size.Change_rectangle(Form1.zArrayDescriptor[1], X);    // Ограничение по размеру 2 => 7
-            Form1.zArrayDescriptor[6] = SumClass.Sum_zArrayY_ALL(Form1.zArrayDescriptor[6]);                // Суммирование по Y      7 => 7
-            VisualRegImage(6);
-
-           
-
-            //---------------------------------------------------------------------------------------------- Идеальный клин без ввода   
-
-            Form1.zArrayDescriptor[0] = Model_Sinus.Intensity1(255, nx2, ny2, 1);
-            Form1.zArrayDescriptor[1] = Minus100(Form1.zArrayDescriptor[0], 100);
-            VisualRegImage(1);
-            double[] am_Clin_Ideal = new double[nx2];                                                           // Идеальный клин от 0 до 255 
-            for (int i = 0; i < nx2; i++) { am_Clin_Ideal[i] = Form1.zArrayDescriptor[1].array[i, N_Line]; }
-
-                                        
-            double[] am_Clin = new double[nx2];                                                                 // Отклик от идеального клина от 0 до 255 
-            for (int i = 0; i < nx2; i++) { am_Clin[i] = Form1.zArrayDescriptor[6].array[i, N_Line]; }
-            //---------------------------------------------------------------------------------------------- Определение уровня черного и белого
-          /*  Form1.zArrayDescriptor[0] = Bright(nx, ny, 0); VisualRegImage(0);                                                   // Черный цвет
-            TakePhoto12(); 
-            MessageBox.Show("Черный цвет введен");
-            VisualRegImage(1);
-            Form1.zArrayDescriptor[1] = File_Change_Size.Change_rectangle(Form1.zArrayDescriptor[1], X);        // Черный цвет
-            VisualRegImage(1);
-            double Black = SumClass.getAverage(Form1.zArrayDescriptor[1]);
-            MessageBox.Show("Черный цвет  = " + Black);
-
-            Form1.zArrayDescriptor[0] = Bright(nx, ny, 255);  VisualRegImage(0);                                                // Белый
-            TakePhoto12();                                                                                                                 //---------------------------- Фото => 1
-            MessageBox.Show("Белый цвет введен");
-            VisualRegImage(1);
-            Form1.zArrayDescriptor[1] = File_Change_Size.Change_rectangle(Form1.zArrayDescriptor[1], X);        // Белый цвет
-            VisualRegImage(1);
-            double White = SumClass.getAverage(Form1.zArrayDescriptor[1]);
-            MessageBox.Show("Белый цвет  = " + White + "Черный цвет  = " + Black);
-            */
-            //----------------------------------------------------------------------------------------------    Определение нового клина
-               
-           cl1 = NewClin( am_Clin, am_BW, am_Clin_Ideal);
-
-            //----------------------------------------------------------------------------------------------Отображение нового клина
-            
-            am =  Clin(cl1, kv, nx);
-                      for (int i = 0; i < nx; i++) for (int j = 0; j < ny; j++) { cmpl.array[i + dx, j] = am[i]; }  // ----------------- Клин в рабочий массив
-                      cmpl = Model_Sinus.Intens(255, 0, dx, cmpl);                                                  // Белая и черная полоса по краям
-                      Form1.zArrayDescriptor[7] = cmpl;                                                             // новый клин в 7 массив
-                      VisualRegImage(7);
-
-            for (int i = 0; i < 16; i++) cl[i] = cl1[i];
-
         }
         /// <summary>
-        /// Определение нового клина 16 градаций
+        /// Определение  клина 16 градаций
         /// </summary>
         /// <param name="am_Clin"></param>           Отклик от идеального клина размер от 0 до nx
         /// <param name="am_BW"></param>             Нумерация полос от 0 до 15 размер от 0 до nx
@@ -771,6 +709,79 @@ namespace rab1.Forms
             }
 
             return cl1;
+        }
+        /// <summary>
+        /// Автоматическое определение клина
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button15_Click(object sender, EventArgs e)
+        {
+            int nx = 4096;
+            int ny = 2160;
+
+            int dx = 100;
+            int nx1 = nx + dx * 2;              // Размер для изображения с добавленными полосами
+
+            int kv = 16;                        //  Число градаций
+
+            Form1.zArrayDescriptor[0] = Model_Sinus.Intensity1(255, nx, ny, 1);                             // Идеальная интенсивностсть => 1
+            VisualRegImage(0);
+            TakePhoto12();
+            VisualRegImage(1);
+            DialogResult dialogResult = MessageBox.Show("Заданы границы X0, X1, X2, X3 ?", "Ограничение по размеру", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.No) { return; }
+
+            Form1.Coords[] X = MainForm.GetCoordinates();
+           
+            Form1.zArrayDescriptor[6] = File_Change_Size.Change_rectangle(Form1.zArrayDescriptor[1], X);    // Ограничение по размеру 2 => 7
+            Form1.zArrayDescriptor[6] = SumClass.Sum_zArrayY_ALL(Form1.zArrayDescriptor[6]);                // Суммирование по Y      7 => 7
+            VisualRegImage(6);
+            int nx2 = Form1.zArrayDescriptor[6].width;                                                      // Размер массива после ограничения
+            int ny2 = Form1.zArrayDescriptor[6].height;
+            int N_Line = ny2 / 2;                                                                           // Линия по центральной строке
+
+
+            //---------------------------------------------------------------------------------------------- Идеальный клин без ввода с новыми размерами  
+
+            Form1.zArrayDescriptor[0] = Model_Sinus.Intensity1(255, nx2, ny2, 1);
+            Form1.zArrayDescriptor[1] = Minus100(Form1.zArrayDescriptor[0], 100);
+            VisualRegImage(1);
+            double[] am_Clin_Ideal = new double[nx2];                                                           // Идеальный клин от 0 до 255 
+            for (int i = 0; i < nx2; i++) { am_Clin_Ideal[i] = Form1.zArrayDescriptor[1].array[i, N_Line]; }
+
+            double[] am_Clin = new double[nx2];                                                                 // Отклик от идеального клина от 0 до 255 
+            for (int i = 0; i < nx2; i++) { am_Clin[i] = Form1.zArrayDescriptor[6].array[i, N_Line]; }
+
+           
+
+            //---------------------------------------------------------------------------------------------- Черно белые полосы => 0
+            Form1.zArrayDescriptor[0] = BW_Line(nx, ny, kv);     // Полосы с kv градациями
+            VisualRegImage(0);
+            TakePhoto12();                                                                               //---------------------------- Фото => 1
+            MessageBox.Show("Ч/Б полосы введены");
+
+            Form1.zArrayDescriptor[3] = File_Change_Size.Change_rectangle(Form1.zArrayDescriptor[1], X); //----------------- Ограничение по размеру => 2
+            VisualRegImage(3);
+
+            Form1.zArrayDescriptor[3] = SumClass.Sum_zArrayY_ALL(Form1.zArrayDescriptor[3]);
+            Form1.zArrayDescriptor[4] = BW_Line_255(Form1.zArrayDescriptor[3], 210);                     // --------------Выше порога 255 ниже 0
+            VisualRegImage(4);
+            double[] am_BW = BW_Num(Form1.zArrayDescriptor[4], N_Line);                                  // размер новый после прямоугольного ограничения
+
+            //----------------------------------------------------------------------------------------------    Определение нового клина
+
+            cl1 = NewClin(am_Clin, am_BW, am_Clin_Ideal);
+
+            //----------------------------------------------------------------------------------------------Отображение нового клина
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(nx1, ny);
+            double[] am = Clin(cl1, kv, nx);
+            for (int i = 0; i < nx; i++) for (int j = 0; j < ny; j++) { cmpl.array[i + dx, j] = am[i]; }  // ----------------- Клин в рабочий массив
+            cmpl = Model_Sinus.Intens(255, 0, dx, cmpl);                                                  // Белая и черная полоса по краям
+            Form1.zArrayDescriptor[7] = cmpl;                                                             // новый клин в 7 массив
+            VisualRegImage(7);
+
+            for (int i = 0; i < 16; i++) cl[i] = cl1[i];
         }
 
         private void LoadWedge()
@@ -848,6 +859,6 @@ namespace rab1.Forms
             LoadWedge();
         }
 
-       
+      
     }
 }

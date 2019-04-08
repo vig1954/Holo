@@ -75,6 +75,7 @@
             this.LoadWedgeButton = new System.Windows.Forms.Button();
             this.button13 = new System.Windows.Forms.Button();
             this.button14 = new System.Windows.Forms.Button();
+            this.button15 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -473,7 +474,7 @@
             this.button12.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.button12.Location = new System.Drawing.Point(636, 386);
             this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(316, 210);
+            this.button12.Size = new System.Drawing.Size(316, 133);
             this.button12.TabIndex = 78;
             this.button12.Text = resources.GetString("button12.Text");
             this.button12.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -482,7 +483,7 @@
             // 
             // SaveWedgeButton
             // 
-            this.SaveWedgeButton.Location = new System.Drawing.Point(636, 628);
+            this.SaveWedgeButton.Location = new System.Drawing.Point(636, 654);
             this.SaveWedgeButton.Name = "SaveWedgeButton";
             this.SaveWedgeButton.Size = new System.Drawing.Size(140, 23);
             this.SaveWedgeButton.TabIndex = 79;
@@ -492,7 +493,7 @@
             // 
             // LoadWedgeButton
             // 
-            this.LoadWedgeButton.Location = new System.Drawing.Point(801, 628);
+            this.LoadWedgeButton.Location = new System.Drawing.Point(801, 654);
             this.LoadWedgeButton.Name = "LoadWedgeButton";
             this.LoadWedgeButton.Size = new System.Drawing.Size(151, 23);
             this.LoadWedgeButton.TabIndex = 80;
@@ -523,11 +524,26 @@
             this.button14.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button14.UseVisualStyleBackColor = true;
             // 
+            // button15
+            // 
+            this.button15.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.button15.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.button15.Location = new System.Drawing.Point(636, 538);
+            this.button15.Name = "button15";
+            this.button15.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.button15.Size = new System.Drawing.Size(316, 73);
+            this.button15.TabIndex = 83;
+            this.button15.Text = resources.GetString("button15.Text");
+            this.button15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button15.UseVisualStyleBackColor = false;
+            this.button15.Click += new System.EventHandler(this.button15_Click);
+            // 
             // CorrectBr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(964, 807);
+            this.ClientSize = new System.Drawing.Size(964, 768);
+            this.Controls.Add(this.button15);
             this.Controls.Add(this.button14);
             this.Controls.Add(this.button13);
             this.Controls.Add(this.LoadWedgeButton);
@@ -629,5 +645,6 @@
         private System.Windows.Forms.Button LoadWedgeButton;
         private System.Windows.Forms.Button button13;
         private System.Windows.Forms.Button button14;
+        private System.Windows.Forms.Button button15;
     }
 }
