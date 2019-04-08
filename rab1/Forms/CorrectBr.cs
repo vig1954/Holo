@@ -567,9 +567,9 @@ namespace rab1.Forms
             k2 = Convert.ToInt32(textBox3.Text);
             dx    = Convert.ToInt32(textBox20.Text);
 
-            if (Form1.zArrayDescriptor[k1] == null) { MessageBox.Show("CorrectBr zArrayDescriptor == NULL"); return; }
+            if (Form1.zArrayDescriptor[k1-1] == null) { MessageBox.Show("CorrectBr zArrayDescriptor == NULL"); return; }
            
-            Form1.zArrayDescriptor[k2-1] = Minus100(Form1.zArrayDescriptor[k1], dx);
+            Form1.zArrayDescriptor[k2-1] = Minus100(Form1.zArrayDescriptor[k1-1], dx);
             VisualRegImage(k2-1);
             Close();
         }
