@@ -63,15 +63,15 @@ namespace rab1.Forms
         //double[] cl = { 1,  2,  3,  4,  5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  26,  27,  28, 29,   30,  31, 32 };
         //double[] cl = { 0,  1,  2,  3,  4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  26,  27, 28,   29,  30, 31 };
         //double[] cl = { 7, 15, 23, 31, 39,  47,  55,  63,  71,  79,  87,  95, 103, 111, 119, 127, 135, 143, 151, 159, 167, 175, 183, 191, 199, 207, 215, 223, 231, 239, 247, 255 };
-        // double[] cl = { 0, 15, 47, 63, 79, 95, 111, 127, 143, 159,  175, 191, 207, 223, 239, 255 };
+         double[] cl = { 0, 15, 47, 63, 79, 95, 111, 127, 143, 159,  175, 191, 207, 223, 239, 255 };
 
 
         // double[] cl = { 30, 45, 60, 75, 90, 105, 120, 135, 150, 165,  180, 195, 210, 225, 240, 255 };    Правильные значения
         // double[] cl = { 16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 174, 190, 206, 222, 238, 255   };
 
         // double[] cl = { 0, 49, 63, 77, 91, 115, 129,  143,  157, 171,  185, 189, 213, 227, 241, 255 };  // шаг 14
-        double[] cl = { 0, 37, 48, 54, 63, 68, 77, 85, 93, 101, 111, 124, 139, 162, 187, 255  };
-        double[] cl1 = { 0, 37, 48, 54, 63, 68, 77, 85, 93, 101, 111, 124, 139, 162, 187, 255 };
+        // double[] cl = { 0, 37, 48, 54, 63, 68, 77, 85, 93, 101, 111, 124, 139, 162, 187, 255  };
+        //double[] cl1 = { 0, 37, 48, 54, 63, 68, 77, 85, 93, 101, 111, 124, 139, 162, 187, 255 };
 
 
         public CorrectBr()
@@ -456,33 +456,37 @@ namespace rab1.Forms
 
         private double[] Clin(double[] cl, int kv, int nx)
         {
+            int nx1 = cl.GetLength(0);
+            double[] cl1 = new double[nx1];
+            for (int i = 0; i < nx1; i++) cl1[i] = cl[i];
+
             double[] am = new double[nx];
             int nsd = 0;
             switch (kv)
             {
-                case 16: for (int i = 0; i < nx; i++) { am[i] = cl[i / 256]; } break;    // 4096
+                case 16: for (int i = 0; i < nx; i++) { am[i] = cl1[i / 256]; } break;    // 4096
                 case 32:
-                    cl = MasX2(cl);
+                    cl1 = MasX2(cl1);
                     nsd = nx / 32;
-                    for (int i = 0; i < nx; i++) { am[i] = cl[i / 128]; }
+                    for (int i = 0; i < nx; i++) { am[i] = cl1[i / 128]; }
                     am = Strerch(am, nsd);
                     break;  // 4096-128
                 case 64:
-                    cl = MasX2(cl); cl = MasX2(cl);
+                    cl1 = MasX2(cl1); cl1 = MasX2(cl1);
                     nsd = nx / 32 + nx / 64;
-                    for (int i = 0; i < nx; i++) { am[i] = cl[i / 64]; }
+                    for (int i = 0; i < nx; i++) { am[i] = cl1[i / 64]; }
                     am = Strerch(am, nsd);
                     break;
                 case 128:
-                    cl = MasX2(cl); cl = MasX2(cl); cl = MasX2(cl);
+                    cl1 = MasX2(cl1); cl1 = MasX2(cl1); cl1 = MasX2(cl1);
                     nsd = nx / 32 + nx / 64 + nx / 128;
-                    for (int i = 0; i < nx; i++) { am[i] = cl[i / 32]; }
+                    for (int i = 0; i < nx; i++) { am[i] = cl1[i / 32]; }
                     am = Strerch(am, nsd);
                     break;
                 case 256:
-                    cl = MasX2(cl); cl = MasX2(cl); cl = MasX2(cl); cl = MasX2(cl);
+                    cl1 = MasX2(cl1); cl1 = MasX2(cl1); cl1 = MasX2(cl1); cl1 = MasX2(cl1);
                     nsd = nx / 32 + nx / 64 + nx / 128 + nx / 256;
-                    for (int i = 0; i < nx; i++) { am[i] = cl[i / 16]; }
+                    for (int i = 0; i < nx; i++) { am[i] = cl1[i / 16]; }
                     am = Strerch(am, nsd);
                     break;
                 default:  return null;
@@ -592,7 +596,7 @@ namespace rab1.Forms
         }
 
 
-
+        //-------------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Ввод клина с камеры и обработка
         /// </summary>
@@ -617,53 +621,53 @@ namespace rab1.Forms
             cmpl = Model_Sinus.Intens(255, 0, dx, cmpl);                                                  // Белая и черная полоса по краям
             Form1.zArrayDescriptor[0] = cmpl;                                                            // Клин в 1 массив
             VisualRegImage(0);
-
-            TakePhoto12();                                                                                //-------- Фото => 1
-            
-            DialogResult dialogResult = MessageBox.Show("Заданы границы X0, X1, X2, X3 ?", "Ограничение по размеру", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.No)  { return;           }
-            
-            Form1.Coords[] X = MainForm.GetCoordinates();
-
-            //MessageBox.Show(" X1 - " + Form1.X1 + " Y1 - " + Form1.Y1);
-
-            //---------------------------------------------------------------------------------------------- Ограничение клина по размеру => 2
-            Form1.zArrayDescriptor[2] = File_Change_Size.Change_rectangle(Form1.zArrayDescriptor[1], X);
-            VisualRegImage(2);
-            //MessageBox.Show("Ограничение клина по размеру прошло");
-            int nx2 = Form1.zArrayDescriptor[2].width;                                       // Размер массива после ограничения
-            int ny2 = Form1.zArrayDescriptor[2].height;
-
-            int N_Line = ny2/2;                                                              // Полоса по центру
-
-            //int y1 = File_Change_Size.MinY(X);   // Минимальное значение по Y
-            //int y2 = File_Change_Size.MaxY(X);   // Максимальное значение по Y
-            Form1.zArrayDescriptor[2] = SumClass.Sum_zArrayY_ALL(Form1.zArrayDescriptor[2]);  //------------------------- Усреднение по Y => 2
-            VisualRegImage(2); 
-            //MessageBox.Show("Усреднение по Y прошло");
-
-            //---------------------------------------------------------------------------------------------- Черно белые полосы => 0
-            Form1.zArrayDescriptor[0] = BW_Line(nx, ny, kv);     // Полосы с kv градациями
-            VisualRegImage(0);
-           
-            TakePhoto12();                                                                               //---------------------------- Фото => 1
-            MessageBox.Show("Полосы введены");
-           
-            Form1.zArrayDescriptor[3] = File_Change_Size.Change_rectangle(Form1.zArrayDescriptor[1], X); //----------------- Ограничение по размеру => 2
-            VisualRegImage(3);
           
-            //Form1.zArrayDescriptor[3] = SumClass.Sum_zArrayY_ALL(Form1.zArrayDescriptor[3]);
-            Form1.zArrayDescriptor[4] = BW_Line_255(Form1.zArrayDescriptor[3], 210);                     // --------------Выше порога 255 ниже 0
-            VisualRegImage(4);
-            double[] am_BW = BW_Num(Form1.zArrayDescriptor[4], N_Line);                                  // размер новый после прямоугольного ограничения
-            //MessageBox.Show("Контраст прошло");
-            //--------------------------------------------------------------------------------------------- Усреднение по X клина => 6
-            Form1.zArrayDescriptor[5] = Summ_Y(Form1.zArrayDescriptor[2], Form1.zArrayDescriptor[4]);
-            
-            //double[] am_Clin_TV = new double[nx];                                                           // Текущий клин  
-            //for (int i = 0; i < nx; i++) { am_Clin_TV[i] = Form1.zArrayDescriptor[5].array[i, N_Line]; }
-            VisualRegImage(5);
+                     TakePhoto12();                                                                                //-------- Фото => 1
 
+                     DialogResult dialogResult = MessageBox.Show("Заданы границы X0, X1, X2, X3 ?", "Ограничение по размеру", MessageBoxButtons.YesNo);
+                     if (dialogResult == DialogResult.No)  { return;           }
+
+                     Form1.Coords[] X = MainForm.GetCoordinates();
+          
+                               //MessageBox.Show(" X1 - " + Form1.X1 + " Y1 - " + Form1.Y1);
+
+                                           //---------------------------------------------------------------------------------------------- Ограничение клина по размеру => 2
+                                           Form1.zArrayDescriptor[2] = File_Change_Size.Change_rectangle(Form1.zArrayDescriptor[1], X);
+                                           VisualRegImage(2);
+                                           //MessageBox.Show("Ограничение клина по размеру прошло");
+                                           int nx2 = Form1.zArrayDescriptor[2].width;                                       // Размер массива после ограничения
+                                           int ny2 = Form1.zArrayDescriptor[2].height;
+
+                                           int N_Line = ny2/2;                                                              // Полоса по центру
+
+                                           //int y1 = File_Change_Size.MinY(X);   // Минимальное значение по Y
+                                           //int y2 = File_Change_Size.MaxY(X);   // Максимальное значение по Y
+                                           Form1.zArrayDescriptor[2] = SumClass.Sum_zArrayY_ALL(Form1.zArrayDescriptor[2]);  //------------------------- Усреднение по Y => 2
+                                           VisualRegImage(2); 
+                                           //MessageBox.Show("Усреднение по Y прошло");
+  
+                                           //---------------------------------------------------------------------------------------------- Черно белые полосы => 0
+                                           Form1.zArrayDescriptor[0] = BW_Line(nx, ny, kv);     // Полосы с kv градациями
+                                           VisualRegImage(0);
+
+                                           TakePhoto12();                                                                               //---------------------------- Фото => 1
+                                           MessageBox.Show("Полосы введены");
+
+                                           Form1.zArrayDescriptor[3] = File_Change_Size.Change_rectangle(Form1.zArrayDescriptor[1], X); //----------------- Ограничение по размеру => 2
+                                           VisualRegImage(3);
+
+                                           //Form1.zArrayDescriptor[3] = SumClass.Sum_zArrayY_ALL(Form1.zArrayDescriptor[3]);
+                                           Form1.zArrayDescriptor[4] = BW_Line_255(Form1.zArrayDescriptor[3], 210);                     // --------------Выше порога 255 ниже 0
+                                           VisualRegImage(4);
+                                           double[] am_BW = BW_Num(Form1.zArrayDescriptor[4], N_Line);                                  // размер новый после прямоугольного ограничения
+                                           //MessageBox.Show("Контраст прошло");
+                                           //--------------------------------------------------------------------------------------------- Усреднение по X клина => 6
+                                         Form1.zArrayDescriptor[5] = Summ_Y(Form1.zArrayDescriptor[2], Form1.zArrayDescriptor[4]);
+
+                                           //double[] am_Clin_TV = new double[nx];                                                           // Текущий клин  
+                                           //for (int i = 0; i < nx; i++) { am_Clin_TV[i] = Form1.zArrayDescriptor[5].array[i, N_Line]; }
+                                           VisualRegImage(5);
+                              
         }
         /// <summary>
         /// Определение  клина 16 градаций
@@ -771,7 +775,7 @@ namespace rab1.Forms
 
             //----------------------------------------------------------------------------------------------    Определение нового клина
 
-            cl1 = NewClin(am_Clin, am_BW, am_Clin_Ideal);
+            double[] cl1 = NewClin(am_Clin, am_BW, am_Clin_Ideal);
 
             //----------------------------------------------------------------------------------------------Отображение нового клина
             ZArrayDescriptor cmpl = new ZArrayDescriptor(nx1, ny);
