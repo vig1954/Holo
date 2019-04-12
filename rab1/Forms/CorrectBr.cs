@@ -35,7 +35,7 @@ namespace rab1.Forms
         public event CorrectBr2 On_CorrectSumm;
        // public event CorrectBr3 On_CorrectGxy;
 
-        private static int n = 4096;                  // Размер массива
+        private static int n = 3996;                  // Размер массива
         private static int k1 = 1;
         private static int k2 = 2;
 
@@ -47,16 +47,16 @@ namespace rab1.Forms
         //private static int I0 = 0;
         private static double gamma = 1;
        
-        private static int nx = 4096;                  // Размер массива
+        private static int nx = 3996;                  // Размер массива
         private static int ny = 2160;                  // Размер массива
 
         private static int kv = 16;
 
-        private static int X0   = 100;
+        private static int X0   = 50;
         private static int STEP = 128;
         //private static int k18 = 1;
 
-        private static int dx = 100;
+        private static int dx = 50;
 
         private static int porog = 250;
 
@@ -142,9 +142,10 @@ namespace rab1.Forms
             gamma = Convert.ToDouble(textBox7.Text);
             nx = Convert.ToInt32(textBox14.Text);                       // Текущий размер
             ny = Convert.ToInt32(textBox15.Text);
+            dx = Convert.ToInt32(textBox20.Text);                       // Полосы по краям
 
             int nu = 255;                                               // Число уровней
-            Form1.zArrayDescriptor[k12-1] = Model_Sinus.Intensity1(nu,  nx, ny, gamma);
+            Form1.zArrayDescriptor[k12-1] = Model_Sinus.Intensity1(nu,  nx, ny, dx, gamma);
             VisualRegImage(k12-1);
 
            // Close();
@@ -156,9 +157,10 @@ namespace rab1.Forms
             gamma = Convert.ToDouble(textBox7.Text);
             nx = Convert.ToInt32(textBox14.Text);                       // Текущий размер
             ny = Convert.ToInt32(textBox15.Text);
+            dx = Convert.ToInt32(textBox20.Text);                       // Полосы по краям
 
             int nu = 255;                                               // Число уровней
-            Form1.zArrayDescriptor[k12 - 1] = Model_Sinus.Intensity2(nu, nx, ny, gamma);
+            Form1.zArrayDescriptor[k12 - 1] = Model_Sinus.Intensity2(nu, nx, ny, dx, gamma);
             VisualRegImage(k12 - 1);
 
             //Close();
@@ -293,7 +295,7 @@ namespace rab1.Forms
 
         private ZArrayDescriptor BW_Line( int nx, int ny, int kv )  // Ч/Б полосы с заданным числом градаций
         {
-            int dx = 100;
+           
             int nx1 = nx + dx * 2;
 
             ZArrayDescriptor cmpl = new ZArrayDescriptor(nx1, ny);
@@ -389,7 +391,7 @@ namespace rab1.Forms
 
         private ZArrayDescriptor Bright(int nx, int ny, int c)  // Однотонный цвет
         {
-            int dx = 100;
+          
             int nx1 = nx + dx * 2;
 
             ZArrayDescriptor cmpl = new ZArrayDescriptor(nx1, ny);
@@ -429,7 +431,6 @@ namespace rab1.Forms
 
             if (am == null ) { MessageBox.Show("kv != 16, 32, 64, 128  kv= " + kv); return; }
 
-            int dx = 100;
             int Nx1 = nx + dx * 2; 
             
             ZArrayDescriptor cmpl = new ZArrayDescriptor(Nx1, ny);
@@ -522,9 +523,8 @@ namespace rab1.Forms
            for (int i = 0; i < nx2-1; i++)
               {
                  if (i % 2 == 0) am2[i] =  am[i/2];
-                  if (i % 2 != 0) am2[i] = (am[i/2] + am[i / 2 + 1])/2;
+                 if (i % 2 != 0) am2[i] = (am[i/2] + am[i / 2 + 1])/2;
               }
-        
 
             return am2;
         }
@@ -598,16 +598,15 @@ namespace rab1.Forms
 
         //-------------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Ввод клина с камеры и обработка
+        /// Ввод клина с камеры и обработка с усреднением
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void button12_Click(object sender, EventArgs e)
         {
-            int nx = 4096;
+            int nx = 3996;
             int ny = 2160;
 
-            int dx = 100;
             int nx1 = nx + dx * 2;              // Размер для изображения с добавленными полосами
            
             int kv = 16;                        //  Число градаций
@@ -662,15 +661,12 @@ namespace rab1.Forms
                                            double[] am_BW = BW_Num(Form1.zArrayDescriptor[4], N_Line);                                  // размер новый после прямоугольного ограничения
                                            //MessageBox.Show("Контраст прошло");
                                            //--------------------------------------------------------------------------------------------- Усреднение по X клина => 6
-                                         Form1.zArrayDescriptor[5] = Summ_Y(Form1.zArrayDescriptor[2], Form1.zArrayDescriptor[4]);
-
-                                           //double[] am_Clin_TV = new double[nx];                                                           // Текущий клин  
-                                           //for (int i = 0; i < nx; i++) { am_Clin_TV[i] = Form1.zArrayDescriptor[5].array[i, N_Line]; }
-                                           VisualRegImage(5);
+                    Form1.zArrayDescriptor[5] = Summ_Y(Form1.zArrayDescriptor[2], Form1.zArrayDescriptor[4]);                      
+                    VisualRegImage(5);
                               
         }
         /// <summary>
-        /// Определение  клина 16 градаций
+        /// Определение  клина 16 градаций 
         /// </summary>
         /// <param name="am_Clin"></param>           Отклик от идеального клина размер от 0 до nx
         /// <param name="am_BW"></param>             Нумерация полос от 0 до 15 размер от 0 до nx
@@ -721,15 +717,15 @@ namespace rab1.Forms
         /// <param name="e"></param>
         private void button15_Click(object sender, EventArgs e)
         {
-            int nx = 4096;
+            int nx = 3096;
             int ny = 2160;
 
-            int dx = 100;
+          
             int nx1 = nx + dx * 2;              // Размер для изображения с добавленными полосами
 
             int kv = 16;                        //  Число градаций
 
-            Form1.zArrayDescriptor[0] = Model_Sinus.Intensity1(255, nx, ny, 1);                             // Идеальная интенсивностсть => 1
+            Form1.zArrayDescriptor[0] = Model_Sinus.Intensity1(255, nx, ny, dx, 1);                             // Идеальная интенсивностсть => 1
             VisualRegImage(0);
             TakePhoto12();
             VisualRegImage(1);
@@ -748,7 +744,7 @@ namespace rab1.Forms
 
             //---------------------------------------------------------------------------------------------- Идеальный клин без ввода с новыми размерами  
 
-            Form1.zArrayDescriptor[0] = Model_Sinus.Intensity1(255, nx2, ny2, 1);
+            Form1.zArrayDescriptor[0] = Model_Sinus.Intensity1(255, nx2, ny2, dx, 1);
             Form1.zArrayDescriptor[1] = Minus100(Form1.zArrayDescriptor[0], 100);
             VisualRegImage(1);
             double[] am_Clin_Ideal = new double[nx2];                                                           // Идеальный клин от 0 до 255 

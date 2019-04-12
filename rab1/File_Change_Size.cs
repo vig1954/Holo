@@ -175,16 +175,22 @@ namespace rab1
             if (zArrayDescriptor == null) { MessageBox.Show(" Change_trapezium: zArrayDescriptor == null"); return null; }
             int w1 = zArrayDescriptor.width;
             int h1 = zArrayDescriptor.height;
+            
+            /*
+                        int X0 = MinX(X); if (X0 < 0)  X0 = 0;
+                        int X1 = MaxX(X); if (X1 > w1) X1 = w1;
 
+                        int Y0 = MinY(X); if (Y0 < 0) Y0 = 0;
+                        int Y1 = MaxY(X); if (Y1 > h1) Y1 = h1;
+            */
 
+            int X0 = (int)X[0].x; if (X0 < 0)  X0 = 0;
+            int X1 = (int)X[1].x; if (X1 > w1) X1 = w1;
 
-            ZArrayDescriptor zArray1 = new ZArrayDescriptor(MaxX(X) - MinX(X), MaxY(X) - MinY(X));
+            int Y0 = (int)X[2].y; if (Y0 < 0)  Y0 = 0;
+            int Y1 = (int)X[3].y; if (Y1 > h1) Y1 = h1;
 
-            int X0 = MinX(X); if (X0 < 0)  X0 = 0;
-            int X1 = MaxX(X); if (X1 > w1) X1 = w1;
-
-            int Y0 = MinY(X); if (Y0 < 0) Y0 = 0;
-            int Y1 = MaxY(X); if (Y1 > h1) X1 = h1;
+            ZArrayDescriptor zArray1 = new ZArrayDescriptor(X1 - X0, Y1 - Y0);
 
             for (int j = Y0;   j < Y1; j++)
               for (int i = X0; i < X1; i++)

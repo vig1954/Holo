@@ -159,11 +159,12 @@ namespace rab1.Forms
         /// <param name="I0"></param>    Пьедистал
         /// <param name="Nx"></param>
         /// <param name="Ny"></param>
+        /// <param name="dx"></param>  Полосы по краям
         /// <param name="gamma"></param> Гамма
         /// <returns></returns>
-        public static ZArrayDescriptor Intensity1(double nu,  int Nx, int Ny, double gamma)  // от светлого к темному
+        public static ZArrayDescriptor Intensity1(double nu,  int Nx, int Ny, int dx, double gamma)  // от светлого к темному
         {
-            int dx = 100;
+           
             int Nx1 = Nx;
             Nx = Nx + dx * 2;
 
@@ -171,12 +172,12 @@ namespace rab1.Forms
 
             int k = (int)(Nx1 / (nu + 1));
 
-            double[] ag = new double[Nx];
+            double[] ag = new double[Nx1];
 
             double max = double.MinValue;
             double min = double.MaxValue;
 
-            for (int i = 0; i < Nx; i++)
+            for (int i = 0; i < Nx1; i++)
              {
                 double a = Math.Pow(i / k, gamma);
                 ag[i] = a;
@@ -184,20 +185,19 @@ namespace rab1.Forms
                 if (a < min) min = a;
              }
 
-            for (int i = 0; i < Nx; i++) ag[i] = (ag[i] - min) * nu / (max - min);
+            for (int i = 0; i < Nx1; i++) ag[i] = (ag[i] - min) * nu / (max - min);
 
 
             for (int j = 0; j < Ny; j++)
-                for (int i = 0; i < Nx - dx * 2; i++)
+                for (int i = 0; i < Nx1; i++)
                     cmpl.array[i + dx, j] =ag[i];
 
             cmpl = Intens(255, 0, dx, cmpl);     // Белая и черная полоса по краям
                                     
             return cmpl;
         }
-        public static ZArrayDescriptor Intensity2(double nu, int Nx, int Ny, double gamma) // От черного к белому
+        public static ZArrayDescriptor Intensity2(double nu, int Nx, int Ny, int dx, double gamma) // От черного к белому
         {
-            int dx = 100;
             int Nx1 = Nx;
             Nx = Nx + dx * 2;
 
@@ -205,12 +205,12 @@ namespace rab1.Forms
 
             int k = (int)(Nx1 / (nu + 1));
 
-            double[] ag = new double[Nx];
+            double[] ag = new double[Nx1];
 
             double max = double.MinValue;
             double min = double.MaxValue;
 
-            for (int i = 0; i < Nx; i++)
+            for (int i = 0; i < Nx1; i++)
             {
                 double a = Math.Pow(255 - i / k, gamma);
                 ag[i] = a;
@@ -218,14 +218,14 @@ namespace rab1.Forms
                 if (a < min) min = a;
             }
 
-            for (int i = 0; i < Nx; i++) ag[i] = (ag[i] - min) * nu / (max - min);
+            for (int i = 0; i < Nx1; i++) ag[i] = (ag[i] - min) * nu / (max - min);
 
 
             for (int j = 0; j < Ny; j++)
-                for (int i = 0; i < Nx - dx * 2; i++)
-                    cmpl.array[i + dx, j] =ag[i];
+                for (int i = 0; i < Nx1; i++)
+                    cmpl.array[i + dx, j] = ag[i];
 
-            cmpl = Intens(255, 0, dx, cmpl);     // Белая и черная полоса по краям
+            cmpl = Intens(0, 255, dx, cmpl);     // Белая и черная полоса по краям
 
             return cmpl;
         }

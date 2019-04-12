@@ -3096,11 +3096,11 @@ namespace rab1
         private void коррекцияНеравномерностиОсвещенияToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CorrectBr CorI = new CorrectBr();
-            CorI.MainForm = this;
-            CorI.On_CorrectX += CorX;        // Коррекция размера
-            CorI.On_CorrectG += CorG;        // Коррекция клина
+            CorI.MainForm = this; 
+            CorI.On_CorrectX += CorX;          // Коррекция размера
+            CorI.On_CorrectG += CorG;          // Коррекция клина
            // CorI.On_CorrectClin += CorClin;  // Коррекция клина
-            CorI.On_CorrectSumm += CorSumm;  // Суммирование строк
+            CorI.On_CorrectSumm += CorSumm;    // Суммирование строк
          
 
             CorI.Show();
@@ -3135,16 +3135,16 @@ namespace rab1
             Vizual_regImage(k1);   Vizual_regImage(k2);
 
         }
-
+/*
         private void CorClin(int I0, int nx, int ny, int k1)                    // Меняем размер массива
         {
             double gamma = 1;
            
             int nu = 255;                                               // Число уровней
-            zArrayDescriptor[k1] = Model_Sinus.Intensity1(nu,  nx, ny, gamma);
+            zArrayDescriptor[k1] = Model_Sinus.Intensity1(nu,  nx, ny, dx, gamma);
             Vizual_regImage(k1); 
         }
-    
+*/    
 
 
 

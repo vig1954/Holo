@@ -122,7 +122,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(100, 20);
             this.textBox2.TabIndex = 4;
-            this.textBox2.Text = "4096";
+            this.textBox2.Text = "3996";
             // 
             // label3
             // 
@@ -203,7 +203,7 @@
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(244, 42);
             this.button3.TabIndex = 14;
-            this.button3.Text = "Идеальный клин от 0 до 255 \r\nШирина Размер по оси X +200";
+            this.button3.Text = "Идеальный клин от 0 до 255 \r\nШирина Размер по оси 50+ X +50";
             this.button3.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
@@ -226,7 +226,7 @@
             this.textBox14.Name = "textBox14";
             this.textBox14.Size = new System.Drawing.Size(100, 20);
             this.textBox14.TabIndex = 44;
-            this.textBox14.Text = "4096";
+            this.textBox14.Text = "3996";
             // 
             // label13
             // 
@@ -339,7 +339,7 @@
             this.textBox17.Name = "textBox17";
             this.textBox17.Size = new System.Drawing.Size(37, 20);
             this.textBox17.TabIndex = 58;
-            this.textBox17.Text = "100";
+            this.textBox17.Text = "50";
             // 
             // label15
             // 
@@ -384,7 +384,7 @@
             this.textBox20.Name = "textBox20";
             this.textBox20.Size = new System.Drawing.Size(37, 20);
             this.textBox20.TabIndex = 64;
-            this.textBox20.Text = "100";
+            this.textBox20.Text = "50";
             // 
             // button10
             // 
