@@ -3317,7 +3317,7 @@ namespace rab1
                 string filePath = saveFileDialog.FileName;
                 if (!string.IsNullOrEmpty(filePath))
                 {
-                    using (FileStream fs = File.OpenWrite(filePath))
+                    using (FileStream fs = File.Create(filePath))
                     {
                         using (StreamWriter sw = new StreamWriter(fs))
                         {
