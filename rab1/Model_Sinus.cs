@@ -695,15 +695,15 @@ namespace rab1.Forms
             for (int i = 0; i < NX; i++) for (int j = 0; j < 100; j++) cmpl.array[i, j + 600] = (cmpl.array[i, j + 500] + cmpl.array[i, j + 200]) / 2;
             return cmpl;
         }
-        
+
         public static double CorrectValueByClin(double idealSinusValue, double[] clinArray)
         {
             double clinArrayCount = 240;
             double idealCount = 255;
 
-            int intIdealSinusValue = Convert.ToInt32(idealSinusValue * clinArrayCount / idealCount);
-            double correctedValue = clinArray[intIdealSinusValue];
-            return correctedValue;
+            int value = Convert.ToInt32(idealSinusValue * clinArrayCount / idealCount);
+            double resValue = clinArray[value];
+            return resValue;
         }
     }
 }
