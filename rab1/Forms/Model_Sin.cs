@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -12,7 +13,7 @@ using System.Windows.Forms;
 //public delegate void ModelSin(double[] fz);
 public delegate void ModelSinG(double[] fz, double gamma, double N_pol);
 public delegate void ModelSinG_kr(double[] fz, double N_urovn, double gamma, double N_pol, int k, int Nx, int Ny, double noise);
-public delegate void ModelSinG_Picture(double[] fz, int N, double N_urovn, double gamma, double N_pol, int k, int Nx, int Ny, double noise);
+public delegate void ModelSinG_Picture(double[] fz, int N, double N_urovn, double gamma, double N_pol, int k, int Nx, int Ny, double noise, double[] clin = null);
 public delegate void ModelSinD(double[] fz, double N_pol, int kvant, int N_urovn);
 public delegate void ModelExp(double g, int N);
 //public delegate void Model_I(double nu, int nx, int ny, double gamma);
@@ -46,6 +47,8 @@ namespace rab1.Forms
         private static int    Nx = 4096;                 // Размер массива
         private static int    Ny = 2160;                 // Размер массива
         private static double noise = 0.1;               // Шум от амплитуды
+
+        private double[] clin = null;
 
         public Model_Sin()
         {
@@ -107,9 +110,9 @@ namespace rab1.Forms
                 fzrad[4] = Math.PI * Convert.ToDouble(textBox13.Text) / 180.0;
                 fzrad[5] = Math.PI * Convert.ToDouble(textBox14.Text) / 180.0;
                 fzrad[6] = Math.PI * Convert.ToDouble(textBox15.Text) / 180.0;
-                fzrad[7] = Math.PI * Convert.ToDouble(textBox16.Text) / 180.0;    
-            
-                OnModelSin1(fzrad, N_sdv, N_urovn, gamma, N_pol, kr, Nx, Ny, noise);
+                fzrad[7] = Math.PI * Convert.ToDouble(textBox16.Text) / 180.0;
+                                        
+                OnModelSin1(fzrad, N_sdv, N_urovn, gamma, N_pol, kr, Nx, Ny, noise, null);
                 Close();
           
         }
@@ -199,24 +202,99 @@ namespace rab1.Forms
             textBox16.Text = Convert.ToString(7*n);
          
         }
-/*
-        private void button2_Click(object sender, EventArgs e)
+
+        private void loadClinButton_Click(object sender, EventArgs e)
         {
-            N_urovn = Convert.ToDouble(textBox8.Text);   // Число уровней
+            LoadWedge();
+        }
+
+        private void LoadWedge()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "(*.txt)|*.txt";
+            openFileDialog.DefaultExt = "txt";
+
+            DialogResult dialogResult = openFileDialog.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+                string filePath = openFileDialog.FileName;
+                if (!string.IsNullOrEmpty(filePath))
+                {
+                    List<double> valuesList = new List<double>();
+                    using (FileStream fs = File.OpenRead(filePath))
+                    {
+                        using (StreamReader sr = new StreamReader(fs))
+                        {
+                            while (!sr.EndOfStream)
+                            {
+                                string stringValue = sr.ReadLine();
+                                if (!string.IsNullOrEmpty(stringValue))
+                                {
+                                    valuesList.Add(double.Parse(stringValue));
+                                }
+                            }
+                        }
+                    }
+
+                    clin = valuesList.ToArray();
+                    MessageBox.Show("Клин загружен (cl)");
+                }
+            }
+        }
+
+        private void ModelSinByClinButton_Click(object sender, EventArgs e)
+        {
+            double[] fzrad = new double[8];
+
+            gamma = Convert.ToDouble(textBox5.Text);
+            N_pol = Convert.ToDouble(textBox6.Text);   // Число точек на полоссу
+            N_urovn = Convert.ToDouble(textBox8.Text);   // Амплитуда
+            kr = Convert.ToInt32(textBox9.Text);    // Разрядка нулями
             Nx = Convert.ToInt32(textBox10.Text);
             Ny = Convert.ToInt32(textBox12.Text);
-            gamma = Convert.ToDouble(textBox5.Text);
-            OnModel_Intensity(N_urovn, Nx, Ny, gamma);
+            noise = Convert.ToDouble(textBox11.Text);
+            N_sdv = Convert.ToInt32(textBox17.Text);   // Число сдвигов
 
+            if (N_sdv > 8) MessageBox.Show("Число сдвигов больше 8", "Message", MessageBoxButtons.OK);
+
+
+            fzrad = new double[8];
+
+            fzrad[0] = Math.PI * Convert.ToDouble(textBox1.Text) / 180.0;   // Фаза в радианах  
+            fzrad[1] = Math.PI * Convert.ToDouble(textBox2.Text) / 180.0;
+            fzrad[2] = Math.PI * Convert.ToDouble(textBox3.Text) / 180.0;
+            fzrad[3] = Math.PI * Convert.ToDouble(textBox4.Text) / 180.0;
+
+            fzrad[4] = Math.PI * Convert.ToDouble(textBox13.Text) / 180.0;
+            fzrad[5] = Math.PI * Convert.ToDouble(textBox14.Text) / 180.0;
+            fzrad[6] = Math.PI * Convert.ToDouble(textBox15.Text) / 180.0;
+            fzrad[7] = Math.PI * Convert.ToDouble(textBox16.Text) / 180.0;
+
+            CorrectBr correctBr = new CorrectBr();
+            double[] interpolatedClin = correctBr.InterpolateClin(clin);
+
+            OnModelSin1(fzrad, N_sdv, N_urovn, gamma, N_pol, kr, Nx, Ny, noise, interpolatedClin);
             Close();
         }
-*/
- //       private void button9_Click(object sender, EventArgs e) // Полосы поверх изображения
-//        {
-//            int N_p = Convert.ToInt32(textBox6.Text);
- //           OnModel_Intensity_Line(N_p);
 
-//            Close();
- //       }
-   }
+        /*
+       private void button2_Click(object sender, EventArgs e)
+       {
+           N_urovn = Convert.ToDouble(textBox8.Text);   // Число уровней
+           Nx = Convert.ToInt32(textBox10.Text);
+           Ny = Convert.ToInt32(textBox12.Text);
+           gamma = Convert.ToDouble(textBox5.Text);
+           OnModel_Intensity(N_urovn, Nx, Ny, gamma);
+
+           Close();
+       }
+*/
+        //       private void button9_Click(object sender, EventArgs e) // Полосы поверх изображения
+        //        {
+        //            int N_p = Convert.ToInt32(textBox6.Text);
+        //           OnModel_Intensity_Line(N_p);
+
+        //            Close();
+        //       }
+    }
 }

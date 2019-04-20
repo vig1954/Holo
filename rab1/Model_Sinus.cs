@@ -81,7 +81,7 @@ namespace rab1.Forms
         /// <param name="Ny"></param>           размер по Y
         /// <param name="noise"></param>        шум в долях амплитуды (0,1)*a
         /// <returns></returns>
-        public static ZArrayDescriptor Sinus1(double fz, double a, double n_polos, double gamma, int kr, int Nx, int Ny, double noise)
+        public static ZArrayDescriptor Sinus1(double fz, double a, double n_polos, double gamma, int kr, int Nx, int Ny, double noise, double[] clinArray = null)
         {
             int kr1 = kr + 1;
 
@@ -99,7 +99,18 @@ namespace rab1.Forms
             // a = (a - min) * 2.0 * Math.PI / (max - min);   -pi +pi
 
             double[] sn = new double[NX];
-            for (int i = 0; i < NX; i += kr1) sn[i] = a * (Math.Sin(2.0 * Math.PI * i / n_polos + fz) + 1.0) / 2.0;          // синусоида от 0 до 1
+            for (int i = 0; i < NX; i += kr1)
+            {
+                double v = a * (Math.Sin(2.0 * Math.PI * i / n_polos + fz) + 1.0) / 2.0;          // синусоида от 0 до 1
+                if (clinArray != null)
+                {
+                    sn[i] = CorrectValueByClin(v, clinArray);
+                }
+                else
+                {
+                    sn[i] = v;
+                }
+            }
 
             double max = double.MinValue;
             double min = double.MaxValue;
@@ -684,6 +695,15 @@ namespace rab1.Forms
             for (int i = 0; i < NX; i++) for (int j = 0; j < 100; j++) cmpl.array[i, j + 600] = (cmpl.array[i, j + 500] + cmpl.array[i, j + 200]) / 2;
             return cmpl;
         }
+        
+        public static double CorrectValueByClin(double idealSinusValue, double[] clinArray)
+        {
+            double clinArrayCount = 240;
+            double idealCount = 255;
 
+            int intIdealSinusValue = Convert.ToInt32(idealSinusValue * clinArrayCount / idealCount);
+            double correctedValue = clinArray[intIdealSinusValue];
+            return correctedValue;
+        }
     }
 }

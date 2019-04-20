@@ -101,8 +101,24 @@ namespace rab1.Forms
           
             textBox20.Text = Convert.ToString(dx);
         }
+        
+        public double[] InterpolateClin(double[] clin)
+        {
+            if (clin == null)
+            {
+                return null;
+            }
 
+            double[] resClin = clin;
 
+            for (int i = 1; i <= 4; i++)
+            {
+                resClin = MasX2(resClin);
+            }
+
+            return resClin;
+        }
+                            
         /// <summary>
         /// Массив меняет длину от X1 до X2 -> 0 до 4096      
         /// </summary>

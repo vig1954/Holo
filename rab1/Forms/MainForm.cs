@@ -2481,11 +2481,11 @@ namespace rab1
             }         
         }
 
-        private void FormModel_Sin1(double[] fz, int N_sdv, double amp, double gamma, double n_pol, int kr, int Nx, int Ny, double noise)       // Модель sin c фазовым сдвигом
+        private void FormModel_Sin1(double[] fz, int N_sdv, double amp, double gamma, double n_pol, int kr, int Nx, int Ny, double noise, double[] clin = null)       // Модель sin c фазовым сдвигом
         {
             for (int i = 0; i < N_sdv; i++)
             {
-                zArrayDescriptor[regComplex * 4 + i] = Model_Sinus.Sinus1(fz[i], amp, n_pol, gamma, kr, Nx, Ny, noise);
+                zArrayDescriptor[regComplex * 4 + i] = Model_Sinus.Sinus1(fz[i], amp, n_pol, gamma, kr, Nx, Ny, noise, clin);
                 Vizual_regImage(regComplex * 4 + i);
             }
         }

@@ -61,6 +61,8 @@
             this.textBox17 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
+            this.loadClinButton = new System.Windows.Forms.Button();
+            this.ModelSinByClinButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -350,11 +352,33 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // loadClinButton
+            // 
+            this.loadClinButton.Location = new System.Drawing.Point(317, 356);
+            this.loadClinButton.Name = "loadClinButton";
+            this.loadClinButton.Size = new System.Drawing.Size(168, 23);
+            this.loadClinButton.TabIndex = 37;
+            this.loadClinButton.Text = "Загрузить клин";
+            this.loadClinButton.UseVisualStyleBackColor = true;
+            this.loadClinButton.Click += new System.EventHandler(this.loadClinButton_Click);
+            // 
+            // ModelSinByClinButton
+            // 
+            this.ModelSinByClinButton.Location = new System.Drawing.Point(12, 334);
+            this.ModelSinByClinButton.Name = "ModelSinByClinButton";
+            this.ModelSinByClinButton.Size = new System.Drawing.Size(248, 45);
+            this.ModelSinByClinButton.TabIndex = 38;
+            this.ModelSinByClinButton.Text = "Синусоиды с фазовым свдигом (число полос) Коррекция клином";
+            this.ModelSinByClinButton.UseVisualStyleBackColor = true;
+            this.ModelSinByClinButton.Click += new System.EventHandler(this.ModelSinByClinButton_Click);
+            // 
             // Model_Sin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(497, 388);
+            this.Controls.Add(this.ModelSinByClinButton);
+            this.Controls.Add(this.loadClinButton);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBox17);
@@ -430,5 +454,7 @@
         private System.Windows.Forms.TextBox textBox17;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button loadClinButton;
+        private System.Windows.Forms.Button ModelSinByClinButton;
     }
 }
