@@ -131,6 +131,8 @@
             // 
             // pictureBox3
             // 
+            this.pictureBox3.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.pictureBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox3.Location = new System.Drawing.Point(16, 12);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(1024, 272);
@@ -143,7 +145,7 @@
             this.panel3.Controls.Add(this.pictureBox3);
             this.panel3.Location = new System.Drawing.Point(12, 358);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1052, 291);
+            this.panel3.Size = new System.Drawing.Size(1052, 302);
             this.panel3.TabIndex = 2;
             // 
             // label1
@@ -222,16 +224,16 @@
             // 
             // hScrollBar1
             // 
-            this.hScrollBar1.Location = new System.Drawing.Point(12, 652);
+            this.hScrollBar1.Location = new System.Drawing.Point(12, 676);
             this.hScrollBar1.Name = "hScrollBar1";
-            this.hScrollBar1.Size = new System.Drawing.Size(980, 16);
+            this.hScrollBar1.Size = new System.Drawing.Size(1049, 16);
             this.hScrollBar1.TabIndex = 16;
             this.hScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hScrollBar1_Scroll);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(26, 678);
+            this.label2.Location = new System.Drawing.Point(26, 704);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(13, 13);
             this.label2.TabIndex = 17;
@@ -305,7 +307,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1070, 700);
+            this.ClientSize = new System.Drawing.Size(1070, 726);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.textBox6);
             this.Controls.Add(this.label4);

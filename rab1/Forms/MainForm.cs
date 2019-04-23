@@ -43,11 +43,11 @@ namespace rab1
         string string_dialog; // = "D:\\Студенты\\Эксперимент";       
 
 
-        //int pr_obr = 10;
+        
 
         int cursorMode = 0;
         Point downPoint;
-        //Point upPoint;
+       
 
 
         private delegate void SetControlPropertyThreadSafeDelegate(Control control, string propertyName, object propertyValue);
@@ -197,7 +197,11 @@ namespace rab1
             if (k == 1) return x; else return y;
 
         }
-
+/// <summary>
+///      Клик мышкой на центральном окне
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
         private void pictureBox3_MouseClick(object sender, MouseEventArgs e)
         {
             //if (pictureBox01.Image == null)  {  return;   }
@@ -213,12 +217,7 @@ namespace rab1
             int rx = pictureBox01.Width;
             int ry = pictureBox01.Height;
 
-            // int X1=0, Y1 = 0;                       // Первая точка (Шелкаем на экране)
-            // int X2, Y2;
-            // int X3, Y3;
-            // int X4, Y4;
-
-            //double  kx = 1, ky = 1;
+         
             int x = 0, y = 0;
 
             x = (int)e.X; y = (int)e.Y;
@@ -231,14 +230,10 @@ namespace rab1
             }
             switch (cursorMode)   // Задание 4 точек
             {
-                case 0: X1 = x; Y1 = y; //x1.Text = X1.ToString(); y1.Text = Y1.ToString();
-                    textBox3.Text = x.ToString(); textBox4.Text = y.ToString();                                   break;
-                case 1: X2 = x; Y2 = y; //xx2.Text = X2.ToString(); yy2.Text = Y2.ToString();
-                    textBox5.Text = x.ToString(); textBox6.Text = y.ToString(); break;
-                case 2: X3 = x; Y3 = y; //xx3.Text = X3.ToString(); yy3.Text = Y3.ToString();
-                    textBox7.Text = x.ToString(); textBox8.Text = y.ToString(); break;
-                case 3: X4 = x; Y4 = y; // xx4.Text = X4.ToString(); yy4.Text = Y4.ToString();
-                    textBox9.Text = x.ToString(); textBox10.Text = y.ToString(); break;
+                case 0: X1 = x; Y1 = y;  textBox3.Text = x.ToString(); textBox4.Text  = y.ToString(); break;
+                case 1: X2 = x; Y2 = y;  textBox5.Text = x.ToString(); textBox6.Text  = y.ToString(); break;
+                case 2: X3 = x; Y3 = y;  textBox7.Text = x.ToString(); textBox8.Text  = y.ToString(); break;
+                case 3: X4 = x; Y4 = y;  textBox9.Text = x.ToString(); textBox10.Text = y.ToString(); break;
             }
            // MessageBox.Show("zArrayPicture "+ zArrayPicture.height);
             if (zArrayPicture.height != 0 || zArrayPicture.width != 0) { textBox11.Text = zArrayPicture.array[X1, Y1].ToString(); }  // Величина точки           
@@ -257,14 +252,12 @@ namespace rab1
                 int xx = (int)e.X;
                 int yy = (int)e.Y;
 
-                if (scaleMode == 1)                                                                            // Подогнанный режим отображения      
+                if (scaleMode == 1)                                                    // Подогнанный режим отображения      
                 {
                     xx = pdgn_scale(w_max, h_max, rx, ry, xx, yy, 1);
                     yy = pdgn_scale(w_max, h_max, rx, ry, xx, yy, 2);
                 }
-                //imageWidth.Text = Convert.ToString(x);
-                //imageHeight.Text = Convert.ToString(y);
-
+               
 
                 if (radioButton22.Checked != true)                                      // по X
                 {

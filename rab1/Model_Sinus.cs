@@ -121,7 +121,7 @@ namespace rab1.Forms
                     double fz1 = sn[i];                                                             // синусоида от 0 до 1
                     double fa = (0.5 - rnd.NextDouble()) * a * noise;                               //rnd.NextDouble() 0-1  
                     fz1 = fz1 + fa;
-                    double s = Math.Pow(fz1, gamma);                                              // Гамма искажения
+                    double s = Math.Pow(fz1, gamma);                                                // Гамма искажения
                     //double s = fz1;
                     if (s > max) max = s;  if (s < min) min = s;
                     cmpl.array[i, j] = s;
@@ -136,6 +136,15 @@ namespace rab1.Forms
 
 
             return cmpl;
+        }
+        public static double CorrectValueByClin(double idealSinusValue, double[] clinArray)
+        {
+            double clinArrayCount = 240;
+            double idealCount = 255;
+
+            int value = Convert.ToInt32(idealSinusValue * clinArrayCount / idealCount);
+            double resValue = clinArray[value];
+            return resValue;
         }
         // ---------------------------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -696,14 +705,6 @@ namespace rab1.Forms
             return cmpl;
         }
 
-        public static double CorrectValueByClin(double idealSinusValue, double[] clinArray)
-        {
-            double clinArrayCount = 240;
-            double idealCount = 255;
-
-            int value = Convert.ToInt32(idealSinusValue * clinArrayCount / idealCount);
-            double resValue = clinArray[value];
-            return resValue;
-        }
+      
     }
 }

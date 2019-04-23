@@ -66,12 +66,10 @@ namespace rab1.Forms
         // double[] cl = { 0, 15, 47, 63, 79, 95, 111, 127, 143, 159,  175, 191, 207, 223, 239, 255 };
 
 
-        // double[] cl = { 30, 45, 60, 75, 90, 105, 120, 135, 150, 165,  180, 195, 210, 225, 240, 255 };    Правильные значения
-         double[] cl = { 16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 174, 190, 206, 222, 238, 255   };
+           double[] cl = { 35, 50, 58, 65, 72, 78, 85, 94, 100, 108, 118, 132, 149, 168, 192, 255 };    //Правильные значения
+        // double[] cl = { 16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 174, 190, 206, 222, 238, 255   };
 
-        // double[] cl = { 0, 49, 63, 77, 91, 115, 129,  143,  157, 171,  185, 189, 213, 227, 241, 255 };  // шаг 14
-        // double[] cl = { 0, 37, 48, 54, 63, 68, 77, 85, 93, 101, 111, 124, 139, 162, 187, 255  };
-        //double[] cl1 = { 0, 37, 48, 54, 63, 68, 77, 85, 93, 101, 111, 124, 139, 162, 187, 255 };
+        
 
 
         public CorrectBr()
@@ -102,22 +100,7 @@ namespace rab1.Forms
             textBox20.Text = Convert.ToString(dx);
         }
         
-        public double[] InterpolateClin(double[] clin)
-        {
-            if (clin == null)
-            {
-                return null;
-            }
-
-            double[] resClin = clin;
-
-            for (int i = 1; i <= 4; i++)
-            {
-                resClin = MasX2(resClin);
-            }
-
-            return resClin;
-        }
+     
                             
         /// <summary>
         /// Массив меняет длину от X1 до X2 -> 0 до 4096      
@@ -523,11 +506,11 @@ namespace rab1.Forms
            int n = am.Length;        double[] am2 = new double[n];
            int n1 = n - nx;
 
-            for (int i=0; i<n; i++)   
-                { 
-                    int i1 = (n1-1) * i / n ;
-                    am2[i] = am[i1];
-                }
+           for (int i=0; i < n; i++)   
+            { 
+              int i1 = (n1 - 1) * i / n ;
+              am2[i] = am[i1];
+            }
             return am2;
         }
         private double[] MasX2(double[] am)
@@ -543,6 +526,22 @@ namespace rab1.Forms
               }
 
             return am2;
+        }
+        public double[] InterpolateClin(double[] clin)
+        {
+            if (clin == null)
+            {
+                return null;
+            }
+
+            double[] resClin = clin;
+
+            for (int i = 1; i <= 4; i++)
+            {
+                resClin = MasX2(resClin);
+            }
+
+            return resClin;
         }
         /// <summary>
         /// Сложение строк от Y1 до Y2

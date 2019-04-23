@@ -175,7 +175,7 @@ namespace rab1
             Bitmap btm = new Bitmap(w1, h1);
             Graphics gr_Image = Graphics.FromImage(btm);
             pictureBox3.Image = btm;
-
+            pictureBox3.BackColor = Color.White;
 
             Pen p1 = new Pen(Color.Black, 1);
             Pen p2 = new Pen(Color.Red, 1);      // Red

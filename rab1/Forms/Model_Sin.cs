@@ -48,7 +48,7 @@ namespace rab1.Forms
         private static int    Ny = 2160;                 // Размер массива
         private static double noise = 0.1;               // Шум от амплитуды
 
-        private double[] clin = null;
+        private double[] clin = { 35, 50, 58, 65, 72, 78, 85, 94, 100, 108, 118, 132, 149, 168, 192, 255 };  // Клин для исправления нелинейности
 
         public Model_Sin()
         {
@@ -241,19 +241,23 @@ namespace rab1.Forms
                 }
             }
         }
-
+/// <summary>
+/// Синусоиды с учетом клина
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
         private void ModelSinByClinButton_Click(object sender, EventArgs e)
         {
             double[] fzrad = new double[8];
 
             gamma = Convert.ToDouble(textBox5.Text);
-            N_pol = Convert.ToDouble(textBox6.Text);   // Число точек на полоссу
+            N_pol = Convert.ToDouble(textBox6.Text);     // Число точек на полоссу
             N_urovn = Convert.ToDouble(textBox8.Text);   // Амплитуда
-            kr = Convert.ToInt32(textBox9.Text);    // Разрядка нулями
+            kr = Convert.ToInt32(textBox9.Text);         // Разрядка нулями
             Nx = Convert.ToInt32(textBox10.Text);
             Ny = Convert.ToInt32(textBox12.Text);
             noise = Convert.ToDouble(textBox11.Text);
-            N_sdv = Convert.ToInt32(textBox17.Text);   // Число сдвигов
+            N_sdv = Convert.ToInt32(textBox17.Text);     // Число сдвигов
 
             if (N_sdv > 8) MessageBox.Show("Число сдвигов больше 8", "Message", MessageBoxButtons.OK);
 
