@@ -212,6 +212,7 @@
             this.button9 = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
+            this.dToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox01)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -1136,7 +1137,8 @@
             // графикToolStripMenuItem
             // 
             this.графикToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dToolStripMenuItem});
+            this.dToolStripMenuItem,
+            this.dToolStripMenuItem1});
             this.графикToolStripMenuItem.Name = "графикToolStripMenuItem";
             this.графикToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.графикToolStripMenuItem.Text = "График";
@@ -1144,7 +1146,7 @@
             // dToolStripMenuItem
             // 
             this.dToolStripMenuItem.Name = "dToolStripMenuItem";
-            this.dToolStripMenuItem.Size = new System.Drawing.Size(87, 22);
+            this.dToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.dToolStripMenuItem.Text = "3D";
             this.dToolStripMenuItem.Click += new System.EventHandler(this.dToolStripMenuItem_Click);
             // 
@@ -1963,6 +1965,13 @@
             this.vScrollBar2.TabIndex = 115;
             this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar2_Scroll);
             // 
+            // dToolStripMenuItem1
+            // 
+            this.dToolStripMenuItem1.Name = "dToolStripMenuItem1";
+            this.dToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.dToolStripMenuItem1.Text = "2D";
+            this.dToolStripMenuItem1.Click += new System.EventHandler(this.dToolStripMenuItem1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2252,6 +2261,7 @@
         private System.Windows.Forms.ToolStripMenuItem коррекцияНеравномерностиОсвещенияToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem коррекцияГаммаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fastTakePhotoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dToolStripMenuItem1;
     }
 }
 

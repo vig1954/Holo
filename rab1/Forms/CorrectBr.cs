@@ -11,8 +11,8 @@ using System.Windows.Forms;
 
 namespace rab1.Forms
 {
-    public delegate void VisualRegImageDelegate(int k);    // Для VisualRegImage 
-    public delegate void Photo12Delegate();                // TakePhoto12
+    public delegate void VisualRegImageDelegate(int k);        // Для VisualRegImage 
+    public delegate void Photo12Delegate();                    // TakePhoto12
     public delegate void PhotoDelegate(short k1, short k2);    // TakePhoto
 
 

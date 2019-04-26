@@ -75,8 +75,8 @@ namespace rab1
 
             ADD_Math.VisualRegImage      = this.Vizual_regImage;
             CorrectBr.VisualRegImage     = this.Vizual_regImage;
-            CorrectBr.TakePhoto12 = this.FastTakePhoto;
-            CorrectBr.TakePhoto = this.FastTakePhoto;
+            CorrectBr.TakePhoto12        = this.FastTakePhoto;
+            CorrectBr.TakePhoto          = this.FastTakePhoto;
             //ADD_Cmplx.VisualRegImage = this.Vizual_regImage;
             ADD_Math.ComplexPictureImage = this.Complex_pictureBox;
             
@@ -287,7 +287,12 @@ namespace rab1
             Graph3D graph_3D = new Graph3D(zArrayPicture);
             graph_3D.Show();
         }
-
+        //  -----------------------------------------------------------      График 2D
+        private void dToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Graphic2D graph_2D = new Graphic2D();
+            graph_2D.Show();
+        }
         // -----------------------------------------------------------      Refresh
         private void button9_Click(object sender, EventArgs e)
         {
@@ -3330,6 +3335,8 @@ namespace rab1
         {
             return string.Format("{0} {1}", x, y);
         }
+
+      
 
         private void LoadCoordinates()
         {
