@@ -125,7 +125,7 @@ namespace rab1.Forms
              Form1.Coords[] X = MainForm.GetCoordinates();
            
           
-             N_line = (int)X[0].x; if (N_line < 0) N_line = 0; if (N_line > w1) N_line = w1;    // Координаты графика из Form1
+             N_line = (int)X[0].y; if (N_line < 0) N_line = 0; if (N_line > w1) N_line = w1;    // Координаты графика из Form1
              MessageBox.Show("Graphic2D N_line = " + N_line);
              //N_line = 512;
 

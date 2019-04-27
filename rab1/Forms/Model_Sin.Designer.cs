@@ -368,7 +368,7 @@
             this.ModelSinByClinButton.Name = "ModelSinByClinButton";
             this.ModelSinByClinButton.Size = new System.Drawing.Size(248, 45);
             this.ModelSinByClinButton.TabIndex = 38;
-            this.ModelSinByClinButton.Text = "Синусоиды с фазовым свдигом (число полос) Коррекция клином";
+            this.ModelSinByClinButton.Text = "Синусоиды с фазовым свдигом (период в точках) Коррекция клином";
             this.ModelSinByClinButton.UseVisualStyleBackColor = true;
             this.ModelSinByClinButton.Click += new System.EventHandler(this.ModelSinByClinButton_Click);
             // 

@@ -2474,7 +2474,7 @@ namespace rab1
         {
             for (int i = 0; i < 4; i++)
             {
-                zArrayDescriptor[regComplex*4+i] = Model_Sinus.Sinus(fz[i], amp, n_pol, gamma, kr, Nx, Ny, noise);               
+                zArrayDescriptor[regComplex*4+i] = Model_Sinus.Sinus(fz[i], amp, n_pol, gamma, kr, Nx, Ny, noise);
                 Vizual_regImage(regComplex * 4 + i);
             }         
         }
