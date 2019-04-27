@@ -51,10 +51,13 @@ namespace rab1.Forms
 
 
 
-        public Graphic2D()
+        public Graphic2D(Form1 mainForm)
         {
+            
             InitializeComponent();
-          
+
+            this.MainForm = mainForm;
+
 
         // w  = w1;
         // ww = w1;
@@ -119,12 +122,12 @@ namespace rab1.Forms
             // Глобальный размер
            
              int N_line = 0;
-             //Form1.Coords[] X = MainForm.GetCoordinates();
+             Form1.Coords[] X = MainForm.GetCoordinates();
            
           
-             //N_line = (int)X[0].x; if (N_line < 0) N_line = 0; if (N_line > w1) N_line = w1;    // Координаты графика из Form1
-             //MessageBox.Show("Graphic2D N_line = " + N_line);
-              N_line = 512;
+             N_line = (int)X[0].x; if (N_line < 0) N_line = 0; if (N_line > w1) N_line = w1;    // Координаты графика из Form1
+             MessageBox.Show("Graphic2D N_line = " + N_line);
+             //N_line = 512;
 
             for (int i = 0; i < 4; i++)                                                           // 4 массива для графиков
               {

@@ -290,7 +290,7 @@ namespace rab1
         //  -----------------------------------------------------------      График 2D
         private void dToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Graphic2D graph_2D = new Graphic2D();
+            Graphic2D graph_2D = new Graphic2D(this);
             graph_2D.Show();
         }
         // -----------------------------------------------------------      Refresh
