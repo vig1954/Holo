@@ -16,7 +16,7 @@ namespace rab1
     {
         //public event Liss3D On_Liss3D;
 
-
+        private static int N_sdv=4;                                                      // Число сдвигов
         private static double[] fz = { 0.0, 90.0, 180.0, 270.0, 0.0, 90.0, 180.0, 270.0 };
         private static int k1 = 1;   // Флаг для вывода 2 графика
         private static int k2 = 1;
@@ -43,22 +43,38 @@ namespace rab1
             textBox1.Text = Convert.ToString(n);     // Номер начальной строки
             textBox6.Text = Convert.ToString(n_end); // Номер конечной строки
 
-            textBox2.Text = Convert.ToString(fz[0]);
-            textBox3.Text = Convert.ToString(fz[1]);
-            textBox4.Text = Convert.ToString(fz[2]);
-            textBox5.Text = Convert.ToString(fz[3]);
+            textBox2.Text  = Convert.ToString(fz[0]);
+            textBox3.Text  = Convert.ToString(fz[1]);
+            textBox4.Text  = Convert.ToString(fz[2]);
+            textBox5.Text  = Convert.ToString(fz[3]);
+            textBox7.Text  = Convert.ToString(fz[4]);
+            textBox8.Text  = Convert.ToString(fz[5]);
+            textBox9.Text  = Convert.ToString(fz[6]);
+            textBox10.Text = Convert.ToString(fz[7]);
+
+            textBox10.Text = Convert.ToString(N_sdv);
+
         }
 
         private void button1_Click(object sender, EventArgs e)                                // Построить фигуру Лиссажу по кадру
         {
             // MessageBox.Show("RegComplex = " + Form1.regComplex ); // 0, 1, 2
             if (Form1.zArrayDescriptor[Form1.regComplex*4] == null) { MessageBox.Show("Lissagu zArrayDescriptor == NULL"); return; }
+                           
+            
+                fz[0] = Convert.ToDouble(textBox2.Text); 
+                fz[1] = Convert.ToDouble(textBox3.Text); 
+                fz[2] = Convert.ToDouble(textBox4.Text); 
+                fz[3] = Convert.ToDouble(textBox5.Text); 
+            
+                fz[4] = Convert.ToDouble(textBox7.Text); 
+                fz[5] = Convert.ToDouble(textBox8.Text); 
+                fz[6] = Convert.ToDouble(textBox9.Text); 
+                fz[7] = Convert.ToDouble(textBox10.Text);
 
-            double[] fzrad = new double[4];                                                   // Фаза в радианах
-            fz[0] = Convert.ToDouble(textBox2.Text); fzrad[0] = Math.PI * fz[0] / 180.0;
-            fz[1] = Convert.ToDouble(textBox3.Text); fzrad[1] = Math.PI * fz[1] / 180.0;
-            fz[2] = Convert.ToDouble(textBox4.Text); fzrad[2] = Math.PI * fz[2] / 180.0;
-            fz[3] = Convert.ToDouble(textBox5.Text); fzrad[3] = Math.PI * fz[3] / 180.0;
+            N_sdv = Convert.ToInt32(textBox11.Text);                                // Число сдвигов
+            double[] fzrad = new double[N_sdv];
+            for (int i=0; i< N_sdv; i++) { fzrad[i] = Math.PI * fz[i] / 180.0; }   // Фаза в радианах
 
             int w1 = Form1.zArrayDescriptor[Form1.regComplex*4].width;
             int h1 = Form1.zArrayDescriptor[Form1.regComplex*4].height;
@@ -72,27 +88,6 @@ namespace rab1
             ZArrayDescriptor faza = new ZArrayDescriptor(w1, h1);
 
             faza = FazaClass.ATAN_Gr(Form1.zArrayDescriptor, fzrad, Form1.regComplex, n, n_end);
-            Vizual.Vizual_Picture(faza, pictureBox2);
-        }
-
-        private void button2_Click(object sender, EventArgs e)                                  // Построить фигуру Лиссажу по строке
-        {
-            if (Form1.zArrayDescriptor[Form1.regComplex * 4] == null) { MessageBox.Show("Lissagu zArrayDescriptor == NULL"); return; }
-            double[] fzrad = new double[4];                                                   // Фаза в радианах
-
-            fz[0] = Convert.ToDouble(textBox2.Text); fzrad[0] = Math.PI * fz[0] / 180.0;
-            fz[1] = Convert.ToDouble(textBox3.Text); fzrad[1] = Math.PI * fz[1] / 180.0;
-            fz[2] = Convert.ToDouble(textBox4.Text); fzrad[2] = Math.PI * fz[2] / 180.0;
-            fz[3] = Convert.ToDouble(textBox5.Text); fzrad[3] = Math.PI * fz[3] / 180.0;
-
-            n = Convert.ToInt32(textBox1.Text);
-
-            int w1 = Form1.zArrayDescriptor[Form1.regComplex].width;
-            int h1 = Form1.zArrayDescriptor[Form1.regComplex].height;
-
-            ZArrayDescriptor faza = new ZArrayDescriptor(w1, h1);
-
-            faza = FazaClass.ATAN_Gr_N(Form1.zArrayDescriptor, fzrad, Form1.regComplex, n);
             Vizual.Vizual_Picture(faza, pictureBox2);
         }
 
