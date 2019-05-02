@@ -18,6 +18,8 @@ namespace rab1
 
         private static int N_sdv=4;                                                      // Число сдвигов
         private static double[] fz = { 0.0, 90.0, 180.0, 270.0, 0.0, 90.0, 180.0, 270.0 };
+        private static int StepI = 100;                                                 // Приращение яркости при повторном попадании в Лиссажу
+
         private static int k1 = 1;   // Флаг для вывода 2 графика
         private static int k2 = 1;
         private static int k3 = 1;
@@ -52,7 +54,9 @@ namespace rab1
             textBox9.Text  = Convert.ToString(fz[6]);
             textBox10.Text = Convert.ToString(fz[7]);
 
-            textBox10.Text = Convert.ToString(N_sdv);
+            textBox11.Text = Convert.ToString(N_sdv);
+
+            textBox12.Text = Convert.ToString(StepI);
 
         }
 
@@ -264,8 +268,19 @@ namespace rab1
             for (int i = 0; i < 4; i++) { if (kk[i] != 0) { kk1 = i; kk[i] = 0; break; }  }
             for (int i = 0; i < 4; i++) { if (kk[i] != 0) { kk2 = i; break; } }
 
+            fz[0] = Convert.ToDouble(textBox2.Text);
+            fz[1] = Convert.ToDouble(textBox3.Text);
+            fz[2] = Convert.ToDouble(textBox4.Text);
+            fz[3] = Convert.ToDouble(textBox5.Text);
 
-           
+            fz[4] = Convert.ToDouble(textBox7.Text);
+            fz[5] = Convert.ToDouble(textBox8.Text);
+            fz[6] = Convert.ToDouble(textBox9.Text);
+            fz[7] = Convert.ToDouble(textBox10.Text);
+
+            //MessageBox.Show("kk1 =" + kk1 + " kk2 =" + kk2);
+            double fzrad1 = Math.PI * fz[kk1] / 180.0;
+            double fzrad2 = Math.PI * fz[kk2] / 180.0;
 
             int w1 = Form1.zArrayDescriptor[Form1.regComplex].width;
             int h1 = Form1.zArrayDescriptor[Form1.regComplex].height;
@@ -276,7 +291,7 @@ namespace rab1
             if (n < 0 || n_end > (h1 - 1)) { MessageBox.Show("n<0 || n_end>(h1-1)"); return; }
 
 
-            ZArrayDescriptor  faza = FazaClass.Lissagu(Form1.zArrayDescriptor, Form1.regComplex,  kk1, kk2, n, n_end);
+            ZArrayDescriptor  faza = FazaClass.Lissagu(Form1.zArrayDescriptor, Form1.regComplex,  kk1, kk2, n, n_end, StepI, fzrad1, fzrad2);
             Vizual.Vizual_Picture(faza, pictureBox2);
         }
 
@@ -478,7 +493,22 @@ namespace rab1
             pictureBox3.Invalidate();
 
         }
-      
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            int n_sdv = Convert.ToInt32(textBox11.Text);   // Число сдвигов
+            double n = 360.0 / n_sdv;
+
+            textBox2.Text = Convert.ToString(0);
+            textBox3.Text = Convert.ToString(n);
+            textBox4.Text = Convert.ToString(2 * n);
+            textBox5.Text = Convert.ToString(3 * n);
+
+            textBox7.Text = Convert.ToString(4 * n);
+            textBox8.Text = Convert.ToString(5 * n);
+            textBox9.Text = Convert.ToString(6 * n);
+            textBox10.Text = Convert.ToString(7 * n);
+        }
     }
 
 };

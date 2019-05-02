@@ -227,7 +227,8 @@ namespace rab1
         //Lissagu(Form1.zArrayDescriptor, N_line, kk1, kk2);
 
         // Фигура Лиссажу k1, k2  по строке N_Line => ZArrayDescriptor 
-        public static ZArrayDescriptor Lissagu(ZArrayDescriptor[] zArrayDescriptor, int regComplex,  int k1, int k2, int n_begin, int n_end )
+        public static ZArrayDescriptor Lissagu(ZArrayDescriptor[] zArrayDescriptor, int regComplex,  int k1, int k2, int n_begin, int n_end, 
+                                               int StepI, double  fzrad1, double fzrad2 )
         {
 
             //MessageBox.Show("k1 " + k1 + "k2 " + k2 + "regComplex " + regComplex);
@@ -247,8 +248,8 @@ namespace rab1
                for (int j = n_begin; j < n_end; j++)
                 {
 
-                double x = zArrayDescriptor[regComplex * 4 + k1].array[i, j];
-                double y = zArrayDescriptor[regComplex * 4 + k2].array[i, j];
+                    double x = zArrayDescriptor[regComplex * 4 + k1].array[i, j]; // * Math.Cos(fzrad1);
+                    double y = zArrayDescriptor[regComplex * 4 + k2].array[i, j]; // * Math.Sin(fzrad2);
 
                 if (x > max_x) max_x = x;    if (x < min_x) min_x = x;
                 if (y > max_y) max_y = y;    if (y < min_y) min_y = y;
@@ -263,13 +264,13 @@ namespace rab1
                 for (int j = n_begin; j < n_end; j++)
             {
         
-                double xx = zArrayDescriptor[regComplex * 4 + k1].array[i, j];
-                double yy = zArrayDescriptor[regComplex * 4 + k2].array[i, j];
+                double xx = zArrayDescriptor[regComplex * 4 + k1].array[i, j] * Math.Cos(fzrad1);
+                double yy = zArrayDescriptor[regComplex * 4 + k2].array[i, j] * Math.Sin(fzrad2);
                 int x = (int) ( (xx - min_x) * (nn-1) / (max_x - min_x)  );
                 int y = (int) ( (yy - min_y) * (nn-1) / (max_y - min_y)  );
                 //if (x < 0 || x > 255) { MessageBox.Show(" x " + x); continue; }
                 //if (y < 0 || y > 255) { MessageBox.Show(" y " + y); continue; }
-                cmpl.array[x + 10 , y + 10 ] = 250;
+                cmpl.array[x + 10 , y + 10 ] += StepI;   if (cmpl.array[x + 10, y + 10] > 250) cmpl.array[x + 10, y + 10] = 250;
             }
 
             return cmpl;
