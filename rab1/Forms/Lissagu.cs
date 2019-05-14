@@ -76,7 +76,9 @@ namespace rab1
                 fz[6] = Convert.ToDouble(textBox9.Text); 
                 fz[7] = Convert.ToDouble(textBox10.Text);
 
-            N_sdv = Convert.ToInt32(textBox11.Text);                                // Число сдвигов
+                N_sdv = Convert.ToInt32(textBox11.Text);                                // Число сдвигов
+                
+
             double[] fzrad = new double[N_sdv];
             for (int i=0; i< N_sdv; i++) { fzrad[i] = Math.PI * fz[i] / 180.0; }   // Фаза в радианах
 
@@ -287,6 +289,7 @@ namespace rab1
 
             n = Convert.ToInt32(textBox1.Text);
             n_end = Convert.ToInt32(textBox6.Text);
+            StepI = Convert.ToInt32(textBox12.Text);                                        // Приращение по цвету
 
             if (n < 0 || n_end > (h1 - 1)) { MessageBox.Show("n<0 || n_end>(h1-1)"); return; }
 

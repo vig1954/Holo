@@ -248,14 +248,15 @@ namespace rab1
                for (int j = n_begin; j < n_end; j++)
                 {
 
-                    double x = zArrayDescriptor[regComplex * 4 + k1].array[i, j]; // * Math.Cos(fzrad1);
-                    double y = zArrayDescriptor[regComplex * 4 + k2].array[i, j]; // * Math.Sin(fzrad2);
+                  double x = zArrayDescriptor[regComplex * 4 + k1].array[i, j]; // * Math.Cos(fzrad1);
+                  double y = zArrayDescriptor[regComplex * 4 + k2].array[i, j]; // * Math.Sin(fzrad2);
 
-                if (x > max_x) max_x = x;    if (x < min_x) min_x = x;
-                if (y > max_y) max_y = y;    if (y < min_y) min_y = y;
+                  if (x > max_x) max_x = x;    if (x < min_x) min_x = x;
+                  if (y > max_y) max_y = y;    if (y < min_y) min_y = y;
 
-            }
-
+                }
+            if ((max_x - min_x) == 0) { MessageBox.Show("(max_x - min_x) == 0"); return null; }
+            if ((max_y - min_y) == 0) { MessageBox.Show("(max_y - min_y) == 0"); return null; }
             int nn = 1024;
             ZArrayDescriptor cmpl = new ZArrayDescriptor(nn, nn);        // Массив для фаз
             nn = 256;                                                         
