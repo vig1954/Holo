@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using Common;
 using Processing.DataAttributes;
 
@@ -34,6 +33,19 @@ namespace UserInterface.DataProcessorViews
         public static IReadOnlyCollection<DataProcessorViewCreator> For<T>()
         {
             return For(typeof(T));
+        }
+
+        public static DataProcessorViewCreator For<T>(string methodName)
+        {
+            return For(typeof(T), methodName);
+        }
+
+        public static DataProcessorViewCreator For(Type type, string methodName)
+        {
+            var staticMethods = type.GetMethods().Where(m => m.IsStatic && m.IsPublic);
+            var dataProcessorMethodInfo = staticMethods.Single(m => m.Name == methodName && m.HastAttribute<DataProcessorAttribute>());
+
+            return new DataProcessorViewCreator(dataProcessorMethodInfo);
         }
 
         public static IReadOnlyCollection<DataProcessorViewCreator> For(Type type)

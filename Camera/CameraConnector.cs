@@ -24,6 +24,7 @@ namespace Camera
         public event Action<Bitmap> LiveViewUpdated;
         public event Action<Bitmap> ImageDownloaded;
 
+        public EDSDKLib.Camera ActiveCamera => _activeCamera;
         public ObservableCollection<CameraUIntSetting> AvailableAvModes = new ObservableCollection<CameraUIntSetting>();
         public ObservableCollection<CameraUIntSetting> AvailableTvModes = new ObservableCollection<CameraUIntSetting>();
         public ObservableCollection<CameraUIntSetting> AvailableISOModes = new ObservableCollection<CameraUIntSetting>();
@@ -114,7 +115,7 @@ namespace Camera
             if (_sessionOpened)
             {
                 CloseSession();
-                camera = AvailableCameras.FirstOrDefault(c => c.Info.szDeviceDescription == camera.Info.szDeviceDescription);
+                camera = AvailableCameras.FirstOrDefault(c => c.Info.szDeviceDescription == camera?.Info.szDeviceDescription);
 
                 if (camera == null)
                     DebugLogger.Log("CameraConnector.SetActiveCamera: camera lost after closing session");

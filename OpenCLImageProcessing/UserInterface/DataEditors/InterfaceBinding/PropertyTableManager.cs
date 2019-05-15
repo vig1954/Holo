@@ -11,7 +11,7 @@ using UserInterface.DataEditors.InterfaceBinding.Controls;
 
 namespace UserInterface.DataEditors.InterfaceBinding
 {
-    public class PropertyTableManager
+    public class PropertyTableManager : IPropertyRenderer
     {
         private const int _iconWidth = 24;
         private Bitmap _synchronizeIcon => Properties.Resources.chain;
@@ -20,7 +20,7 @@ namespace UserInterface.DataEditors.InterfaceBinding
         private TableLayoutPanel _table;
         private TreeNode _rootNode;
 
-        public TableLayoutPanel Render(IBindingProvider bindingProvider)
+        public Control Render(IBindingProvider bindingProvider)
         {
             _bindingProvider = bindingProvider;
 
@@ -129,7 +129,7 @@ namespace UserInterface.DataEditors.InterfaceBinding
             if (!(bindableControl is Control control))
                 throw new InvalidOperationException();
 
-            var hideLabel = bindableControl.HideLabel;
+            var hideLabel = bindableControl.LabelMode == UiLabelMode.None;
 
             _table.Controls.Add(control, hideLabel ? 0 : 2, row);
 
@@ -337,7 +337,7 @@ namespace UserInterface.DataEditors.InterfaceBinding
 
             public int GetPreferredLabelWidth()
             {
-                var maxLabelWidth = IsGroupTitle || BindableControl.HideLabel ? 0 : Label.PreferredWidth + Label.Margin.Left + Label.Margin.Right + 3;
+                var maxLabelWidth = IsGroupTitle || (BindableControl.LabelMode != UiLabelMode.None) ? 0 : Label.PreferredWidth + Label.Margin.Left + Label.Margin.Right + 3;
 
                 if (Expanded)
                 {

@@ -12,6 +12,8 @@ namespace UserInterface.DataEditors.InterfaceBinding.Attributes
     [AttributeUsage(AttributeTargets.Property)]
     public class ValueCollectionAttribute: Attribute
     {
+        public bool AllowDefaultValue { get; set; }
+        public string DefaultValueDisplayText { get; set; }
         public string ValueCollectionProviderPropertyName { get; set; }
         public object[] ValueCollection { get; }
 

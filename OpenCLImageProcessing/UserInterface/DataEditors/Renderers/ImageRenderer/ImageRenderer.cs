@@ -31,7 +31,6 @@ namespace UserInterface.DataEditors.Renderers.ImageRenderer
 
         private readonly List<IDrawable> _drawables = new List<IDrawable>();
 
-        [BindToUI, BindMembersToUI(HideProperty = true, MergeMembers = true)]
         public IImageHandler ImageHandler => _imageHandler;
         
         [BindToUI(displayGroup: "View"), BindMembersToUI(HideProperty = true, MergeMembers = true)]
@@ -79,14 +78,10 @@ namespace UserInterface.DataEditors.Renderers.ImageRenderer
         public void SetData(object data)
         {
             var imageHandler = data as IImageHandler;
-
-            if (imageHandler == null)
-                throw new InvalidOperationException($"Аргумент {nameof(data)} должен наследовать интерфейс {nameof(IImageHandler)}");
-
             if (_imageHandler != null)
                 _imageHandler.ImageUpdated -= ImageHandlerImageUpdated;
 
-            _imageHandler = imageHandler;
+            _imageHandler = imageHandler ?? throw new InvalidOperationException($"Аргумент {nameof(data)} должен наследовать интерфейс {nameof(IImageHandler)}");
             _imageHandler.UploadToComputingDevice();
             imagePlane.SetImage(_imageHandler);
 

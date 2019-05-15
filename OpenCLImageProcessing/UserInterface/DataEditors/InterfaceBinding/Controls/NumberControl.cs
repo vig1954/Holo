@@ -19,7 +19,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
         private bool _suppressValueInputHandlerExecution = false;
         private IValueBinding _binding;
 
-        public bool HideLabel { get; private set; }
+        public UiLabelMode LabelMode { get; private set; }
         public IBinding Binding => _binding;
 
         public NumberControl()
@@ -45,7 +45,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
 
             SetValueInternal(value, false);
 
-            HideLabel = _binding.GetAttribute<BindToUIAttribute>().HideLabel;
+            LabelMode = _binding.GetAttribute<BindToUIAttribute>().LabelMode;
         }
 
         private void BindingOnValueUpdated(ValueUpdatedEventArgs obj)

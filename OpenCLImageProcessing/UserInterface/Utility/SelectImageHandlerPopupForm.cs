@@ -28,6 +28,7 @@ namespace UserInterface.Utility
 
             workspacePanel1.ShowToolbar = false;
             workspacePanel1.SelectItemOnClick = true;
+            workspacePanel1.HideShowInEditorButtons = true;
 
             workspacePanel1.OnItemDoubleClick += (item, me) =>
             {

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Common;
+using Infrastructure;
+using UserInterface.Events;
 
 namespace UserInterface.WorkspacePanel
 {
@@ -10,8 +12,29 @@ namespace UserInterface.WorkspacePanel
     {
         private Color RegularBackground = SystemColors.Control;
         private Color SelectedBackground = SystemColors.Highlight;
+
+        public event Action OnOpenSettingsClicked;
+        public event Action OnShowInEditorClicked;
         
+        public bool  IsOpenSettingsButtonVisible
+        {
+            get => OpenSettings.Visible;
+            set => OpenSettings.Visible = value;
+        }
+
         public bool Selected { get; private set; }
+
+        public bool IsShowInEditorButtonVisible
+        {
+            get => ShowInEditor.Visible;
+            set => ShowInEditor.Visible = value;
+        }
+
+        public bool IsShowInEditorButtonEnabled
+        {
+            get => ShowInEditor.Enabled;
+            set => ShowInEditor.Enabled = value;
+        }
 
         public event Action<string> TitleChanged;
 
@@ -35,7 +58,8 @@ namespace UserInterface.WorkspacePanel
 
         public void SetInfo(string info)
         {
-            InfoLabel.Text = info;
+            IconToolTip.SetToolTip(IconPictureBox, info);
+            IconToolTip.ToolTipTitle = Title;
         }
 
         public void SetSelectionState(bool selected)
@@ -82,6 +106,16 @@ namespace UserInterface.WorkspacePanel
                 ChangeNameTextBox.Hide();
                 TitleLabel.Show();
             }
+        }
+
+        private void OpenSettings_Click(object sender, EventArgs e)
+        {
+            OnOpenSettingsClicked?.Invoke();
+        }
+
+        private void ShowInEditor_Click(object sender, EventArgs e)
+        {
+            OnShowInEditorClicked?.Invoke();
         }
     }
 }

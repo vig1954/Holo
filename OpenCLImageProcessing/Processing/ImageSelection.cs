@@ -66,5 +66,16 @@ namespace Processing
         {
             return $"{X0}, {Y0}: {Width} x {Height}";
         }
+
+        public static ImageSelection FromRectangle(Rectangle rectangle)
+        {
+            return new ImageSelection
+            {
+                X0 = rectangle.X,
+                Y0 = rectangle.Y,
+                X1 = rectangle.Right,
+                Y1 = rectangle.Bottom
+            };
+        }
     }
 }

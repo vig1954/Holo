@@ -11,7 +11,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
         private bool _suppressBindingSelectedIndexChangedEventHandlerExecution = false;
         private ObservableCollectionBindingBase _binding;
 
-        public bool HideLabel { get; private set; }
+        public UiLabelMode LabelMode { get; private set; }
 
         public IBinding Binding => _binding;
 
@@ -29,7 +29,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
             SetAllowedValues(_binding.GetAllowedValues().ToArray(), false);
             SetValue(_binding.GetValue());
 
-            HideLabel = _binding.GetAttribute<BindToUIAttribute>().HideLabel;
+            LabelMode = _binding.GetAttribute<BindToUIAttribute>().LabelMode;
         }
 
         private void BindingOnAllowedValuesUpdated(object sender)
@@ -45,6 +45,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
 
             foreach (var item in newItems)
             {
+                
                 Items.Add(item);
 
                 if (setDefaultValueIfNothingSelected && currentValue == null || currentValue != null && currentValue.Equals(item))
@@ -79,7 +80,9 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
         private void SetValue(object value)
         {
             _suppressBindingSelectedIndexChangedEventHandlerExecution = true;
-            SelectedItem = value;
+
+            SelectedItem = _binding.IsDefaultValue(value) ? _binding.DefaultValue : value;
+
             _suppressBindingSelectedIndexChangedEventHandlerExecution = false;
         }
     }

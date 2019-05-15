@@ -4,7 +4,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using Common;
+using Infrastructure;
 using Processing;
+using UserInterface.Events;
 
 namespace UserInterface.WorkspacePanel
 {
@@ -21,6 +23,14 @@ namespace UserInterface.WorkspacePanel
                 View.TitleChanged += t => { ImageHandler.Tags.SetOrAdd(ImageHandlerTagKeys.Title, t); };
                 ImageHandler.ImageUpdated += data => UpdateView();
             }
+
+            View.IsShowInEditorButtonVisible = true;
+            View.OnShowInEditorClicked += ViewOnShowInEditorClicked;
+        }
+
+        private void ViewOnShowInEditorClicked()
+        {
+            Singleton.Get<EventManager>().Emit(new ShowInEditorEvent(ImageHandler, this));
         }
 
         public override void UpdateView()

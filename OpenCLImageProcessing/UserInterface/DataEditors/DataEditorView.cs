@@ -68,19 +68,22 @@ namespace UserInterface.DataEditors
             InitializeComponent();
 
             IsInDesignMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime;
-            _rightPanelInterfaceController = new InterfaceController(rightPanel);
+            _rightPanelInterfaceController = new InterfaceController(rightPanel, new PropertyListManager {AutoWidth = true});
 
             containerHeader1.SplitRightClicked += () => SplitRight?.Invoke();
             containerHeader1.SplitBottomClicked += () => SplitBottom?.Invoke();
             containerHeader1.CloseClicked += () => Close?.Invoke();
             containerHeader1.NewWindowClicked += () => NewWindow?.Invoke();
             containerHeader1.HeaderClicked += () => HeaderClicked?.Invoke();
+            containerHeader1.ToggleSidebarClicked += () => ToggleRightPanel(show: splitContainer1.Panel2Collapsed);
         }
 
         public void SetData(object data)
         {
             using (StartGlTimeScope())
             {
+                ToggleRightPanel(true);
+
                 var renderer = DataRendererUtil.GetRendererFor(data.GetType());
                 if (renderer == null)
                     return;
@@ -195,6 +198,8 @@ namespace UserInterface.DataEditors
             containerHeader1.Text = "";
 
             InitializeGlControl();
+
+            ToggleRightPanel(false);
         }
 
         private void InitializeGlControl()
@@ -265,6 +270,12 @@ namespace UserInterface.DataEditors
 //                childControl.Width = rightPanel.ClientSize.Width - rightPanel.Padding.Left - rightPanel.Padding.Right - 10;
 //                childControl.Height = childControl.PreferredSize.Height;
 //            }
+        }
+
+        private void ToggleRightPanel(bool show)
+        {
+            splitContainer1.Panel2Collapsed = !show;
+            containerHeader1.IsSidebarVisible = show;
         }
 
         private DataEditorGlTimeScope StartGlTimeScope()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
@@ -16,13 +17,15 @@ using UserInterface.DataEditors;
 using UserInterface.DataEditors.InterfaceBinding;
 using UserInterface.DataEditors.Renderers;
 using UserInterface.DataProcessorViews;
+using UserInterface.Events;
+using UserInterface.ImageSeries;
 using UserInterface.Utility;
 using UserInterface.WorkspacePanel;
 using ImageFormat = System.Drawing.Imaging.ImageFormat;
 
 namespace HolographicInterferometryVNext
 {
-    public partial class MainForm : Form
+    public partial class MainForm : Form, IEventHandler<ShowInEditorEvent>
     {
         public DataProcessorViewRepository DataProcessorViewRepository { get; set; }
         public ImageHandlerRepository ImageHandlerRepository { get; set; }
@@ -34,8 +37,12 @@ namespace HolographicInterferometryVNext
 
             DataProcessorViewRepository = Singleton.Get<DataProcessorViewRepository>();
             ImageHandlerRepository = Singleton.Get<ImageHandlerRepository>();
-        }
 
+            this.Closing += OnClosing;
+
+            Singleton.Get<EventManager>().Subscribe(this);
+        }
+        
         private void MainForm_Load(object sender, EventArgs e)
         {
             AppDomain.CurrentDomain.Load(new AssemblyName("Camera"));
@@ -62,6 +69,16 @@ namespace HolographicInterferometryVNext
 
         private void InitializeWorkspacePanel()
         {
+            Singleton.Get<ImageSeriesRepository>().ItemAdded += imageSeries =>
+            {
+                imageSeries.AddDataProcessor(DataProcessorViewCreator.For(typeof(Psi),nameof(Psi.Psi4)).Create());
+                //imageSeries.AddDataProcessor(DataProcessorViewCreator.For(typeof(Fourier),nameof(Fourier.Transform)).Create());
+
+                workspacePanel1.AddSeries(imageSeries);
+            };
+
+            workspacePanel1.OnOpenCameraClick += ShowCameraForm;
+
             workspacePanel1.OnItemAdded += item =>
             {
                 var activeEditor = DataEditorManager.GetActive();
@@ -81,7 +98,7 @@ namespace HolographicInterferometryVNext
                     // workspacePanel1.MarkItemSelected(item.View);
                 }
             };
-
+            
             workspacePanel1.OnItemClick += (item, me) =>
             {
                 var activeEditor = DataEditorManager.GetActive();
@@ -159,6 +176,7 @@ namespace HolographicInterferometryVNext
                     {
                         var dataProcessorView = dataProcessorViewCreator.Create();
                         dataProcessorView.Initialize();
+                        dataProcessorView.AutoCompute = true;
                         workspacePanel1.AddItem(dataProcessorView);
 
                         dataProcessorView.OnImageCreate += ImageCreate;
@@ -177,26 +195,36 @@ namespace HolographicInterferometryVNext
             processingMenuItem.DropDownItems.Remove(lastSeparator);
 
             var cameraInputMenuItem = new ToolStripMenuItem("Camera");
-            cameraInputMenuItem.Click += (sender, args) =>
-            {
-                CameraInputViewForm cameraInputViewForm;
-                var cameraInputViewForms = Application.OpenForms.OfType<CameraInputViewForm>().ToArray();
-
-                if (cameraInputViewForms.Any())
-                    cameraInputViewForm = cameraInputViewForms.Single();
-                else
-                {
-                    cameraInputViewForm = new CameraInputViewForm();
-                    cameraInputViewForm.ImageCreate += ImageCreate;
-                    cameraInputViewForm.SeriesStarted += UpdateManager.Lock;
-                    cameraInputViewForm.SeriesComplete += UpdateManager.Unlock;
-                }
-
-
-                cameraInputViewForm.Show();
-            };
+            cameraInputMenuItem.Click += (sender, args) => { ShowCameraForm(); };
 
             inputMenuItem.DropDownItems.Add(cameraInputMenuItem);
+        }
+
+        private void ShowCameraForm()
+        {
+            if (Process.GetProcessesByName("EOS Utility").Any())
+            {
+                MessageBox.Show("Обнаружен процесс EOS Utility, который вызывает проблемы при работе с камерой. Для продолжения работы необходимо завершить этот процесс.",
+                    "Обнаружен EOS Utility.", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                return;
+            }
+
+            CameraInputViewForm cameraInputViewForm;
+            var cameraInputViewForms = Application.OpenForms.OfType<CameraInputViewForm>().ToArray();
+
+            if (cameraInputViewForms.Any())
+                cameraInputViewForm = cameraInputViewForms.Single();
+            else
+            {
+                cameraInputViewForm = new CameraInputViewForm();
+//                    cameraInputViewForm.ImageCreate += ImageCreate;
+//                    cameraInputViewForm.SeriesStarted += UpdateManager.Lock;
+//                    cameraInputViewForm.SeriesComplete += UpdateManager.Unlock;
+            }
+
+
+            cameraInputViewForm.Show();
         }
 
         private void ImageCreate(IImageHandler image)
@@ -244,6 +272,16 @@ namespace HolographicInterferometryVNext
         {
             // нужно перерисовывать без перерасчетов
             //dataEditor1.EditorView.Redraw();
+        }
+
+        private void OnClosing(object sender, CancelEventArgs e)
+        {
+            Singleton.DisposeAll();
+        }
+
+        public void Handle(ShowInEditorEvent @event)
+        {
+            DataEditorManager.GetActive()?.SetData(@event.ImageHandler);
         }
     }
 }

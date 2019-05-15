@@ -29,5 +29,16 @@ namespace Infrastructure
 
             _singletones.Add(instance);
         }
+
+        public static void DisposeAll()
+        {
+            foreach (var singleton in _singletones)
+            {
+                if (singleton is IDisposable disposable)
+                    disposable.Dispose();
+            }
+
+            _singletones.Clear();
+        }
     }
 }

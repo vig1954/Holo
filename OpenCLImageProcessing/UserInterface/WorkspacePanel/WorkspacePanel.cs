@@ -9,9 +9,11 @@ using System.Text;
 using System.Windows.Forms;
 using Processing.ImageReaders;
 using Common;
+using Infrastructure;
 using Processing;
 using Processing.DataProcessors;
 using UserInterface.DataProcessorViews;
+using UserInterface.Events;
 using ContextMenu = System.Windows.Forms.ContextMenu;
 
 namespace UserInterface.WorkspacePanel
@@ -25,6 +27,8 @@ namespace UserInterface.WorkspacePanel
             public WorkspacePanelGroupableItemControllerBase Controller { get; set; }
         }
 
+        public bool HideShowInEditorButtons { get; set; }
+
         private List<FolderWorkspacePanelItemController> folders = new List<FolderWorkspacePanelItemController>();
         private readonly List<Item> items = new List<Item>();
         private bool _showToolbar = true;
@@ -32,6 +36,7 @@ namespace UserInterface.WorkspacePanel
         public event Action<Item, MouseEventArgs> OnItemDoubleClick;
         public event Action<Item, MouseEventArgs> OnItemClick;
         public event Action<Item> OnItemAdded;
+        public event Action OnOpenCameraClick;
 
         public List<ContextMenuAction> ContextMenuActions { get; } = new List<ContextMenuAction>();
 
@@ -96,9 +101,19 @@ namespace UserInterface.WorkspacePanel
 
             OnItemAdded?.Invoke(itemData);
 
+            if (HideShowInEditorButtons)
+                view.IsShowInEditorButtonVisible = false;
+
             ResizeItems();
         }
 
+        public void AddSeries(UserInterface.ImageSeries.ImageSeries series)
+        {
+            var view = new WorkspacePanelImageSeriesItem(series);
+            MainLayoutPanel.Controls.Add(view);
+
+            ResizeItems();
+        }
         public void AddFolder(string title)
         {
             var view = new WorkspacePanelItem();
@@ -330,6 +345,11 @@ namespace UserInterface.WorkspacePanel
         private void MainLayoutPanel_Resize(object sender, EventArgs e)
         {
             ResizeItems();
+        }
+
+        private void OpenCameraButton_Click(object sender, EventArgs e)
+        {
+            OnOpenCameraClick?.Invoke();
         }
     }
 }

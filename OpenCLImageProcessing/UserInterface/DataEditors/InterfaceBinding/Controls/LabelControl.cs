@@ -7,7 +7,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
     public class LabelControl: Label, IBindableControl
     {
         private IValueBinding _binding;
-        public bool HideLabel { get; private set; }
+        public UiLabelMode LabelMode { get; private set; }
         public IBinding Binding => _binding;
 
         public LabelControl()
@@ -22,7 +22,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
         {
             _binding = BindingUtil.PrepareValueBinding(binding, _binding, BindingOnValueUpdated, t => true);
 
-            HideLabel = _binding.GetAttribute<BindToUIAttribute>().HideLabel;
+            LabelMode = _binding.GetAttribute<BindToUIAttribute>().LabelMode;
 
             SetValue(_binding.GetValue());
         }

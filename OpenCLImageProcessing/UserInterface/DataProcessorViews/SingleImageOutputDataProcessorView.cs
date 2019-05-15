@@ -23,10 +23,11 @@ namespace UserInterface.DataProcessorViews
     {
         private bool _outputImageParametersUpdated;
         protected DataProcessorParameter<IImageHandler> OutputParameter => Output.As<IImageHandler>();
+        public bool AutoCompute { get; set; }
         public DataProcessorInfo Info { get; }
 
         public event Action<IImageHandler> OnImageCreate;
-        public event Action OnUpdated;
+        public event Action OnValueUpdated;
 
         public SingleImageOutputDataProcessorView(MethodInfo processorMethod) : base(processorMethod)
         {
@@ -55,7 +56,7 @@ namespace UserInterface.DataProcessorViews
                         }
                     }
 
-                    if (e.Sender != this)
+                    if (e.Sender != this && AutoCompute)
                         Compute();
                 };
             }
@@ -63,7 +64,8 @@ namespace UserInterface.DataProcessorViews
 
         private void OnParameterImageUpdated(ImageUpdatedEventData obj)
         {
-            Compute();
+            if (AutoCompute)
+                Compute();
         }
 
         public IEnumerable<object> GetOutputValues()
@@ -194,9 +196,9 @@ namespace UserInterface.DataProcessorViews
             {
                 _singleOperationContext.Dispose();
 
-                _processor.OnUpdated?.Invoke();
                 _processor.OutputParameter.GetValue()?.Update();
                 _processor.ImageUpdated?.Invoke(new ImageUpdatedEventData(_redrawControls));
+                _processor.OnValueUpdated?.Invoke();
             }
         }
 

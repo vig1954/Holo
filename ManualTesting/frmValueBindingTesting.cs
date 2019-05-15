@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Processing;
 using Processing.DataAttributes;
+using UserInterface.DataEditors;
 using UserInterface.DataEditors.InterfaceBinding;
 using UserInterface.DataEditors.InterfaceBinding.Attributes;
 
@@ -29,9 +30,9 @@ namespace ManualTesting
 
         private void Test()
         {
-            var testSubject = new TestSubject3();
+            var testSubject = new TestSubject4();
 
-            var interfaceController = new InterfaceController(testHostPanel);
+            var interfaceController = new InterfaceController(testHostPanel, new PropertyListManager());
             interfaceController.BindObjectToInterface(testSubject);
         }
 
@@ -45,7 +46,7 @@ namespace ManualTesting
             [BindToUI(displayGroup: "Button?")]
             public void Action1() => Debug.WriteLine("Action1 Clicked!");
 
-            [BindToUI(hideLabel: true), Precision(2)]
+            [BindToUI(labelMode: UiLabelMode.None), Precision(2)]
             public float FloatValue { get; set; } = -2.3f;
 
             [BindToUI("ACTION 2", "Display Group 1")]
@@ -70,10 +71,10 @@ namespace ManualTesting
             [BindToUI]
             public IImageHandler ImageHandler { get; set; }
 
-            [BindToUI]
+            // [BindToUI]
             public Point Point { get; set; } = new Point(1, 2);
 
-            [BindToUI]
+            //[BindToUI]
             public Rectangle Rectangle { get; set; } = new Rectangle(0, 0, 100, 100);
 
             [BindToUI]
@@ -82,7 +83,7 @@ namespace ManualTesting
 
             [BindToUI]
             public void InitializeMyTestSubject() => MyBindingManager.SetPropertyValue(o => o.MyTestSubject, new TestSubject2 { Title = "Hello", Count = 2 });
-            
+
             [BindToUI]
             public void NullifyMyTestSubject() => MyBindingManager.SetPropertyValue(o => o.MyTestSubject, null);
 
@@ -108,6 +109,64 @@ namespace ManualTesting
         {
             [BindToUI, BindMembersToUI]
             public TestSubject2 Member { get; set; } = new TestSubject2 { Title = "Title", Count = 2 };
+        }
+
+        private class TestSubject4
+        {
+            public enum CaptureSourceType
+            {
+                LiveView,
+                Shot
+            }
+
+            [BindToUI(displayName: "Выбор камеры", displayGroup: "Камера")]
+            [ValueCollection("Camera1", "Camera2", AllowDefaultValue = true)]
+            public string Camera { get; set; }
+
+            [BindToUI(displayName: "Настройки камеры", displayGroup: "Камера")]
+            public void CameraSettings()
+            {
+            }
+
+            [BindToUI(displayName: "Захват с LV", displayGroup: "Захват")]
+            public bool CaptureFromLiveView { get; set; }
+
+            [BindToUI(displayName: "Начать захват", displayGroup: "Захват")]
+            public void ToggleCapture()
+            {
+            }
+
+            [BindToUI(displayName: "Серия", displayGroup: "Захват")]
+            [ValueCollection("Серия 1", "Серия 2", AllowDefaultValue = true)]
+            public string Series { get; set; }
+
+            [BindToUI(displayName: "Тестовый снимок", displayGroup: "Захват - тест")]
+            public void TestShot()
+            {
+            }
+
+            [BindToUI(displayName: "Сохранить в", displayGroup: "Захват - тест")]
+            public IImageHandler TestShotDestination { get; set; }
+
+
+            [BindToUI(displayName: "Порт", displayGroup: "Пьезокерамика")]
+            [ValueCollection("Com 1", "Com 2")]
+            public string PhaseShittDevicePort { get; set; } = "None";
+
+            [BindToUI(displayName: "Подключить", displayGroup: "Пьезокерамика")]
+            public void Connect()
+            {
+            }
+
+            [BindToUI(displayName: "Настройки", displayGroup: "Пьезокерамика")]
+            public void PhaseShiftSettings()
+            {
+            }
+
+            [BindToUI(displayName: "Калибровка", displayGroup: "Пьезокерамика")]
+            public void Calibration()
+            {
+            }
         }
     }
 }

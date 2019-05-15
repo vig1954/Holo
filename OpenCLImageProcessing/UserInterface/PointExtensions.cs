@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using OpenTK;
 
 namespace UserInterface
 {
@@ -91,6 +92,19 @@ namespace UserInterface
             ResolveCoordinates(self.X, self.Y, dx, dy, out x, out y, zoom, CoordinateResolvingDirection.ViewToImage,
                 origin);
             return new PointF(x, y);
+        }
+    }
+
+    public static class PointExtensions
+    {
+        public static Vector2 ToVector2(this Point self)
+        {
+            return new Vector2(self.X, self.Y);
+        }
+
+        public static Vector2 ToVector2(this PointF self)
+        {
+            return new Vector2(self.X, self.Y);
         }
     }
 }

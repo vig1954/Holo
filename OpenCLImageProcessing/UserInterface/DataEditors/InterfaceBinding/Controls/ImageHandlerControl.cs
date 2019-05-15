@@ -21,7 +21,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
         public int? RequiredChannelCount;
         public bool OnlyImages;
 
-        public bool HideLabel { get; private set; }
+        public UiLabelMode LabelMode { get; private set; }
         public IBinding Binding => _binding;
 
         public ImageHandlerControl()
@@ -40,7 +40,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
                     _binding.SetValue(null, imageHandlerRepository);
             };
 
-            HideLabel = _binding.GetAttribute<BindToUIAttribute>().HideLabel;
+            LabelMode = _binding.GetAttribute<BindToUIAttribute>().LabelMode;
 
             var imageHandlerFilter = _binding.GetAttribute<ImageHandlerFilterAttribute>();
             if (imageHandlerFilter != null)

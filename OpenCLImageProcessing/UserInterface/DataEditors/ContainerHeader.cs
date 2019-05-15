@@ -15,10 +15,21 @@ namespace UserInterface.DataEditors
         private bool _closeEnabled;
         private bool _splitEnabled;
         private bool _newWindowEnabled;
+        private bool _isSidebarVisible;
         public Color ActiveFontColor => Color.White;
         public Color ActiveBackgroundColor => Color.SteelBlue;
         public Color InactiveFontColor => Color.Black;
         public Color InactiveBackgroundColor => Color.LightGray;
+
+        public bool IsSidebarVisible
+        {
+            get => _isSidebarVisible;
+            set
+            {
+                _isSidebarVisible = value;
+                UpdateToggleSidebarButtonImage();
+            }
+        }
 
         public bool CloseEnabled
         {
@@ -56,7 +67,7 @@ namespace UserInterface.DataEditors
         public event Action SplitBottomClicked;
         public event Action SplitRightClicked;
         public event Action HeaderClicked;
-
+        public event Action ToggleSidebarClicked;
 
         public bool Active
         {
@@ -119,6 +130,20 @@ namespace UserInterface.DataEditors
         private void HeaderLabel_Click(object sender, EventArgs e)
         {
             HeaderClicked?.Invoke();
+        }
+
+        private void ToggleSidebar_Click(object sender, EventArgs e)
+        {
+            ToggleSidebarClicked?.Invoke();
+
+        }
+
+        private void UpdateToggleSidebarButtonImage()
+        {
+            if (IsSidebarVisible)
+                ToggleSidebar.Image = Properties.Resources.application_sidebar_collapse;
+            else
+                ToggleSidebar.Image = Properties.Resources.application_sidebar_expand;
         }
     }
 }

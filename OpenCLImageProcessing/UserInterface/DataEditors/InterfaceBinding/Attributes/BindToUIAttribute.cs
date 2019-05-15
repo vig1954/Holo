@@ -17,14 +17,21 @@ namespace UserInterface.DataEditors.InterfaceBinding.Attributes
         public string DisplayGroup { get; }
         public int Order { get; }
 
-        public bool HideLabel { get; } // TODO: replace with label position? None / Row / Title
+        public UiLabelMode LabelMode { get; } // TODO: replace with label position? None / Row / Title
 
-        public BindToUIAttribute(string displayName = "", string displayGroup = "", bool hideLabel = false, [CallerLineNumber]int order = 0)
+        public BindToUIAttribute(string displayName = "", string displayGroup = "", UiLabelMode labelMode = UiLabelMode.Title, [CallerLineNumber]int order = 0)
         {
             DisplayName = displayName;
             DisplayGroup = displayGroup;
-            HideLabel = hideLabel;
+            LabelMode = labelMode;
             Order = order;
         }
+    }
+
+    public enum UiLabelMode
+    {
+        None,
+        Inline,
+        Title
     }
 }

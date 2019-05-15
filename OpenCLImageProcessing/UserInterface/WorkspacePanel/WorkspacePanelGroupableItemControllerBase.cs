@@ -27,6 +27,7 @@ namespace UserInterface.WorkspacePanel
 
         protected WorkspacePanelGroupableItemControllerBase(WorkspacePanelItem view) : base(view)
         {
+            view.IsShowInEditorButtonVisible = false;
         }
     }
 }

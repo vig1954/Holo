@@ -15,16 +15,25 @@ namespace UserInterface.DataEditors.InterfaceBinding
     public class InterfaceController : IInterfaceController
     {
         private Control _container;
-        private PropertyTableManager _propertyTableManager;
+        private IPropertyRenderer _propertyRenderer;
         private IBindingProviderFactory BindingProviderFactory { get; set; } = new BindingProviderFactory();
         private IBindableControlFactory BindableControlFactory { get; set; } = new BindableControlFactory();
 
         public IBindingProvider BindingProvider { get; private set; }
 
-        public InterfaceController(Control container)
+        public InterfaceController(Control container, IPropertyRenderer renderer = null)
         {
             _container = container;
-            _propertyTableManager = new PropertyTableManager();
+            _container.Resize += ContainerOnResize;
+            _propertyRenderer = renderer ?? new PropertyTableManager();
+        }
+
+        private void ContainerOnResize(object sender, EventArgs e)
+        {
+            foreach (var control in _container.Controls.Cast<Control>())
+            {
+                control.Width = _container.ClientSize.Width - _container.Padding.Left - _container.Padding.Right;
+            }
         }
 
         public void BindObjectToInterface(object target)
@@ -32,10 +41,10 @@ namespace UserInterface.DataEditors.InterfaceBinding
             BindingProvider = BindingProviderFactory.Get(target);
 
             _container.Controls.Clear();
-            var propertyTable = _propertyTableManager.Render(BindingProvider);
-            _container.Controls.Add(propertyTable);
+            var propertyContainer = _propertyRenderer.Render(BindingProvider);
+            _container.Controls.Add(propertyContainer);
 
-            propertyTable.Dock = DockStyle.Fill;
+            propertyContainer.Dock = DockStyle.Fill;
         }
     }
 }

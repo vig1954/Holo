@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using UserInterface.DataEditors.InterfaceBinding.Attributes;
 
 namespace UserInterface.DataEditors.InterfaceBinding.Controls
 {
@@ -7,7 +8,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
     {
         private MethodBinding _binding;
 
-        public bool HideLabel { get; } = true;
+        public UiLabelMode LabelMode => UiLabelMode.None;
         public IBinding Binding => _binding;
 
         public ButtonControl()

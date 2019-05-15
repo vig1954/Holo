@@ -34,7 +34,7 @@ namespace UserInterface.DataEditors.InterfaceBinding
             Synchronizer = new ValueBindingSynchronizer(this);
         }
         
-        public void SetValue(object value, object sender)
+        public virtual void SetValue(object value, object sender)
         {
             var target = _targetProvider.Target;
             _propertyInfo.SetValue(target, value);
@@ -42,7 +42,7 @@ namespace UserInterface.DataEditors.InterfaceBinding
             ValueUpdated?.InvokeExcludingTarget(new ValueUpdatedEventArgs(sender), sender);
         }
 
-        public object GetValue()
+        public virtual object GetValue()
         {
             var target = _targetProvider.Target;
             return _propertyInfo.GetValue(target);

@@ -31,6 +31,7 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.AddImageButton = new System.Windows.Forms.ToolStripButton();
             this.AddFolderButton = new System.Windows.Forms.ToolStripButton();
+            this.OpenCameraButton = new System.Windows.Forms.ToolStripButton();
             this.MainLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.toolStrip1.SuspendLayout();
@@ -43,7 +44,8 @@
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.AddImageButton,
-            this.AddFolderButton});
+            this.AddFolderButton,
+            this.OpenCameraButton});
             this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Table;
             this.toolStrip1.Location = new System.Drawing.Point(155, 0);
             this.toolStrip1.Name = "toolStrip1";
@@ -58,7 +60,7 @@
             this.AddImageButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.AddImageButton.Name = "AddImageButton";
             this.AddImageButton.Size = new System.Drawing.Size(36, 36);
-            this.AddImageButton.Text = "toolStripButton1";
+            this.AddImageButton.Text = "Открыть изображение";
             this.AddImageButton.Click += new System.EventHandler(this.AddImageButton_Click);
             // 
             // AddFolderButton
@@ -68,8 +70,18 @@
             this.AddFolderButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.AddFolderButton.Name = "AddFolderButton";
             this.AddFolderButton.Size = new System.Drawing.Size(36, 36);
-            this.AddFolderButton.Text = "Add Folder";
+            this.AddFolderButton.Text = "Добавить группу";
             this.AddFolderButton.Click += new System.EventHandler(this.AddFolderButton_Click);
+            // 
+            // OpenCameraButton
+            // 
+            this.OpenCameraButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.OpenCameraButton.Image = global::UserInterface.Properties.Resources.icons8_зеркальная_камера_40;
+            this.OpenCameraButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.OpenCameraButton.Name = "OpenCameraButton";
+            this.OpenCameraButton.Size = new System.Drawing.Size(36, 36);
+            this.OpenCameraButton.Text = "Камера";
+            this.OpenCameraButton.Click += new System.EventHandler(this.OpenCameraButton_Click);
             // 
             // MainLayoutPanel
             // 
@@ -109,5 +121,6 @@
         private System.Windows.Forms.FlowLayoutPanel MainLayoutPanel;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ToolStripButton AddFolderButton;
+        private System.Windows.Forms.ToolStripButton OpenCameraButton;
     }
 }

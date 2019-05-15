@@ -33,6 +33,7 @@
             this.btnSplitRight = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnNewWindow = new System.Windows.Forms.Button();
+            this.ToggleSidebar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // HeaderLabel
@@ -97,11 +98,24 @@
             this.btnNewWindow.Visible = false;
             this.btnNewWindow.Click += new System.EventHandler(this.btnNewWindow_Click);
             // 
+            // ToggleSidebar
+            // 
+            this.ToggleSidebar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ToggleSidebar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ToggleSidebar.Image = global::UserInterface.Properties.Resources.application_sidebar_collapse;
+            this.ToggleSidebar.Location = new System.Drawing.Point(358, 0);
+            this.ToggleSidebar.Name = "ToggleSidebar";
+            this.ToggleSidebar.Size = new System.Drawing.Size(24, 24);
+            this.ToggleSidebar.TabIndex = 5;
+            this.ToggleSidebar.UseVisualStyleBackColor = true;
+            this.ToggleSidebar.Click += new System.EventHandler(this.ToggleSidebar_Click);
+            // 
             // ContainerHeader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CausesValidation = false;
+            this.Controls.Add(this.ToggleSidebar);
             this.Controls.Add(this.btnNewWindow);
             this.Controls.Add(this.btnSplitBottom);
             this.Controls.Add(this.btnSplitRight);
@@ -123,5 +137,6 @@
         private System.Windows.Forms.Button btnSplitRight;
         private System.Windows.Forms.Button btnSplitBottom;
         private System.Windows.Forms.Button btnNewWindow;
+        private System.Windows.Forms.Button ToggleSidebar;
     }
 }

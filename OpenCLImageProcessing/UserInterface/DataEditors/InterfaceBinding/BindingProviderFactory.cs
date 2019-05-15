@@ -5,8 +5,10 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Windows.Forms;
 using Common;
 using UserInterface.DataEditors.InterfaceBinding.Attributes;
+using UserInterface.DataEditors.InterfaceBinding.BindingEvents;
 
 namespace UserInterface.DataEditors.InterfaceBinding
 {
@@ -28,13 +30,14 @@ namespace UserInterface.DataEditors.InterfaceBinding
         private class ObjectBindingProvider<TTarget> : IBindingProvider, IDisposable, IBindingTargetProvider, IBindingManager<TTarget> where TTarget : class
         {
             private IDictionary<MemberInfo, IBinding> _memberBindings;
+            private TTarget _target;
 
             public IBindingFactory BindingFactory { get; set; } = new BindingFactory();
-            public object Target { get; }
+            public object Target => _target;
 
             public ObjectBindingProvider(object target)
             {
-                Target = target;
+                _target = (TTarget)target;
 
                 var properties = target.GetType().GetProperties();
                 var bindingManagerProperty = properties.FirstOrDefault(p => p.PropertyType.IsAssignableFrom(typeof(IBindingManager<TTarget>)));
@@ -120,6 +123,21 @@ namespace UserInterface.DataEditors.InterfaceBinding
                 propertyBinding.SetValue(value, Target);
             }
 
+            public void SyncPropertyValue<TPropertyType>(Expression<Func<TTarget, TPropertyType>> propertyAccess)
+            {
+                if (GetBindingByMemberAccessExpression(propertyAccess) is PropertyBinding propertyBinding)
+                    propertyBinding.SetValue(propertyAccess.Compile()(_target), Target); // todo: возможно, нужно явно передавать sender
+                else
+                    throw new InvalidOperationException("Property not found.");
+            }
+
+            public void SyncPropertyValue(string propertyName)
+            {
+                var propertyInfo = Target.GetType().GetProperty(propertyName);
+                var propertyBinding = (PropertyBinding) _memberBindings[propertyInfo];
+                propertyBinding.SetValue(propertyInfo.GetValue(Target), Target);
+            }
+
             public void RaiseMemberBindingEvent<TMemberType>(Expression<Func<TTarget, TMemberType>> memberAccess, BindingEvent @event)
             {
                 var binding = GetBindingByMemberAccessExpression(memberAccess);
@@ -151,6 +169,24 @@ namespace UserInterface.DataEditors.InterfaceBinding
 
                 return binding;
             }
+        }
+    }
+
+    public static class BindingManagerExtensions
+    {
+        public static void SetMemberControlEnabledState<TTarget, TMemberType>(this IBindingManager<TTarget> bindingManager, Expression<Func<TTarget, TMemberType>> memberAccess, bool enabled, object sender) where TTarget : class
+        {
+            bindingManager.RaiseMemberBindingEvent(memberAccess, new PerformBindableControlActionEvent(c => (c as Control).Enabled = enabled, sender));
+        }
+
+        public static void SetMethodControlEnabledState<TTarget>(this IBindingManager<TTarget> bindingManager, Expression<Action<TTarget>> methodCall, bool enabled, object sender) where TTarget : class
+        {
+            bindingManager.RaiseMethodBindingEvent(methodCall, new PerformBindableControlActionEvent(c => (c as Control).Enabled = enabled, sender));
+        }
+
+        public static void ModifyMethodControl<TTarget>(this IBindingManager<TTarget> bindingManager, Expression<Action<TTarget>> methodCall, Action<Control> modifyAction, object sender) where TTarget : class
+        {
+            bindingManager.RaiseMethodBindingEvent(methodCall, new PerformBindableControlActionEvent(c => modifyAction(c as Control), sender));
         }
     }
 }

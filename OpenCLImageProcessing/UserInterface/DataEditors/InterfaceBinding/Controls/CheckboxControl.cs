@@ -8,7 +8,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
     {
         private bool _suppressBindingStateChangedEventHandlerExecution = false;
         private IValueBinding _binding;
-        public bool HideLabel { get; private set; }
+        public UiLabelMode LabelMode => UiLabelMode.Inline;
         public IBinding Binding => _binding;
 
         public void SetBinding(IBinding binding)
@@ -16,8 +16,6 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
             _binding = BindingUtil.PrepareValueBinding(binding, _binding, BindingOnValueUpdated, new[] { typeof(bool) });
 
             SetCheckedState((bool)_binding.GetValue());
-
-            HideLabel = _binding.GetAttribute<BindToUIAttribute>().HideLabel;
         }
 
         private void BindingOnValueUpdated(ValueUpdatedEventArgs e)

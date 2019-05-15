@@ -16,20 +16,6 @@ namespace UserInterface.DataEditors.Tools
 {
     public class SelectionTool : ToolBase
     {
-        public enum SelectionEditAction
-        {
-            None,
-            Move,
-            ResizeNW,
-            ResizeNE,
-            ResizeSE,
-            ResizeSW,
-            ResizeN,
-            ResizeE,
-            ResizeS,
-            ResizeW
-        }
-
         public enum SelectionMode
         {
             Square512X512,
@@ -42,7 +28,7 @@ namespace UserInterface.DataEditors.Tools
 
         private ToolboxButtonInfo _buttonInfo;
 
-        private SelectionEditAction _currentSelectionEditAction = SelectionEditAction.None;
+        private SelectionUtil.SelectionEditAction _currentSelectionEditAction = SelectionUtil.SelectionEditAction.None;
         private ImageSelection _newSelection; // TODO: можно избавиться от этого
         private ImageSelection _currentSelection;
         private SelectionMode _currentSelectionMode = SelectionMode.Arbitrary2Nx2M;
@@ -110,48 +96,13 @@ namespace UserInterface.DataEditors.Tools
             }
             else
             {
-                var nw = new Vector2(_currentSelection.X0, _currentSelection.Y0);
-                var sw = new Vector2(_currentSelection.X0, _currentSelection.Y1);
-                var se = new Vector2(_currentSelection.X1, _currentSelection.Y1);
-                var ne = new Vector2(_currentSelection.X1, _currentSelection.Y0);
-
                 var cur = new Vector2(eventData.Args.X, eventData.Args.Y);
                 cur = _renderer.GetImageCoordinate(cur);
 
-                var editRadius = 5f;
-                var action = SelectionEditAction.None;
+                const float editRadius = 5f;
+                var action = SelectionUtil.ResolveSelectionEditAction(cur, _currentSelection, editRadius);
 
-                if (cur.InRadius(se, editRadius))
-                    action = SelectionEditAction.ResizeSE;
-                else if (cur.InRadius(ne, editRadius))
-                    action = SelectionEditAction.ResizeNE;
-                else if (cur.InRadius(nw, editRadius))
-                    action = SelectionEditAction.ResizeNW;
-                else if (cur.InRadius(sw, editRadius))
-                    action = SelectionEditAction.ResizeSW;
-                else if (cur.DistanceToSegment(nw, ne).Abs() < editRadius)
-                    action = SelectionEditAction.ResizeN;
-                else if (cur.DistanceToSegment(ne, se).Abs() < editRadius)
-                    action = SelectionEditAction.ResizeE;
-                else if (cur.DistanceToSegment(se, sw).Abs() < editRadius)
-                    action = SelectionEditAction.ResizeS;
-                else if (cur.DistanceToSegment(nw, sw).Abs() < editRadius)
-                    action = SelectionEditAction.ResizeW;
-                else if (_currentSelection.GetRectangle().ContainsPoint((int) cur.X, (int) cur.Y))
-                    action = SelectionEditAction.Move;
-
-                if (action == SelectionEditAction.ResizeNW || action == SelectionEditAction.ResizeSE)
-                    Cursor.Current = Cursors.SizeNWSE;
-                else if (action == SelectionEditAction.ResizeNE || action == SelectionEditAction.ResizeSW)
-                    Cursor.Current = Cursors.SizeNESW;
-                else if (action == SelectionEditAction.ResizeN || action == SelectionEditAction.ResizeS)
-                    Cursor.Current = Cursors.SizeNS;
-                else if (action == SelectionEditAction.ResizeW || action == SelectionEditAction.ResizeE)
-                    Cursor.Current = Cursors.SizeWE;
-                else if (action == SelectionEditAction.Move)
-                    Cursor.Current = Cursors.SizeAll;
-                else
-                    Cursor.Current = Cursors.Default;
+                Cursor.Current = SelectionUtil.ResolveCursor(action);
 
                 if (eventData.Event == MouseEventData.EventType.Down && eventData.Args.Button == MouseButtons.Left)
                 {
@@ -161,46 +112,14 @@ namespace UserInterface.DataEditors.Tools
 
                 if (eventData.Event == MouseEventData.EventType.Up && eventData.Args.Button == MouseButtons.Left)
                 {
-                    _currentSelectionEditAction = SelectionEditAction.None;
+                    _currentSelectionEditAction = SelectionUtil.SelectionEditAction.None;
                 }
 
                 if (eventData.Event == MouseEventData.EventType.Move && eventData.Args.Button == MouseButtons.Left)
                 {
-                    switch (_currentSelectionEditAction)
-                    {
-                        case SelectionEditAction.ResizeNW:
-                            _currentSelection.X0 = (int) cur.X;
-                            _currentSelection.Y0 = (int) cur.Y;
-                            break;
-                        case SelectionEditAction.ResizeSW:
-                            _currentSelection.X0 = (int) cur.X;
-                            _currentSelection.Y1 = (int) cur.Y;
-                            break;
-                        case SelectionEditAction.ResizeSE:
-                            _currentSelection.X1 = (int) cur.X;
-                            _currentSelection.Y1 = (int) cur.Y;
-                            break;
-                        case SelectionEditAction.ResizeNE:
-                            _currentSelection.X1 = (int) cur.X;
-                            _currentSelection.Y0 = (int) cur.Y;
-                            break;
-                        case SelectionEditAction.ResizeN:
-                            _currentSelection.Y0 = (int) cur.Y;
-                            break;
-                        case SelectionEditAction.ResizeS:
-                            _currentSelection.Y1 = (int) cur.Y;
-                            break;
-                        case SelectionEditAction.ResizeW:
-                            _currentSelection.X0 = (int) cur.X;
-                            break;
-                        case SelectionEditAction.ResizeE:
-                            _currentSelection.X1 = (int) cur.X;
-                            break;
-                        case SelectionEditAction.Move:
-                            _currentSelection.MoveBy(cur - _prevCoord);
-                            _prevCoord = cur;
-                            break;
-                    }
+                    SelectionUtil.ApplySelectionTransformation(action, cur, _prevCoord, _currentSelection);
+                    _prevCoord = cur;
+
 
                     _currentSelection.Width = _currentSelection.Width - _currentSelection.Width % 2;
                     _currentSelection.Height = _currentSelection.Height - _currentSelection.Height % 2;
@@ -227,7 +146,7 @@ namespace UserInterface.DataEditors.Tools
         public override void PopulateToolstrip(ToolStrip toolStrip)
         {
             _selectionDropdown = new ToolStripComboBox("Selection");
-            _selectionDropdown.Items.AddRange(new[] { _newSelection }.Concat(AvailableSelections).Select(s => (object) s).ToArray());
+            _selectionDropdown.Items.AddRange(new[] {_newSelection}.Concat(AvailableSelections).Select(s => (object) s).ToArray());
             _selectionDropdown.DropDownStyle = ComboBoxStyle.DropDownList;
             _selectionDropdown.SelectedItem = _currentSelection;
             _selectionDropdown.SelectedIndexChanged += (sender, args) =>

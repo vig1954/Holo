@@ -15,13 +15,13 @@ using UserInterface.DataEditors.InterfaceBinding.BindingEvents;
 
 namespace Camera
 {
-    public class PhaseShiftDeviceControllerAdapter
+    public class LowLevelPhaseShiftDeviceControllerAdapter
     {
         private const short ZeroPhaseShiftValue = 0x2000;
         private bool _phaseShiftDeviceConnected = false;
-        private PhaseShiftDeviceController _inner;
+        private rab1.PhaseShiftDeviceController _inner;
 
-        public IBindingManager<PhaseShiftDeviceControllerAdapter> BindingManager { get; set; }
+        public IBindingManager<LowLevelPhaseShiftDeviceControllerAdapter> BindingManager { get; set; }
 
         [BindToUI, ValueCollection(ValueCollectionProviderPropertyName = nameof(PortNames))]
         public string PortName { get; set; }
@@ -32,7 +32,7 @@ namespace Camera
         [BindToUI]
         public int Shift { get; set; }
 
-        public PhaseShiftDeviceControllerAdapter()
+        public LowLevelPhaseShiftDeviceControllerAdapter()
         {
             PortNames = new ObservableCollection<string>();
             UpdatePortNames();
@@ -49,7 +49,7 @@ namespace Camera
         {
             if (!_phaseShiftDeviceConnected && !PortName.IsNullOrEmpty())
             {
-                _inner = new PhaseShiftDeviceController(PortName);
+                _inner = new rab1.PhaseShiftDeviceController(PortName);
                 _inner.Initialize();
                 _phaseShiftDeviceConnected = true;
 
@@ -105,7 +105,7 @@ namespace Camera
             ToggleConnectAndDisconnectButtons(true);
         }
 
-        ~PhaseShiftDeviceControllerAdapter()
+        ~LowLevelPhaseShiftDeviceControllerAdapter()
         {
             _inner?.Dispose();
             _inner = null;

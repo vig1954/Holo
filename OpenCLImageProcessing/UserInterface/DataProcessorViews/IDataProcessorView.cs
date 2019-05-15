@@ -9,10 +9,13 @@ namespace UserInterface.DataProcessorViews
 {
     public interface IDataProcessorView: IDisposable
     {
+        event Action OnValueUpdated;
+
+        bool AutoCompute { get; set; }
+        IReadOnlyCollection<DataProcessorParameterBase> Parameters { get; }
         DataProcessorInfo Info { get; }
 
         event Action<IImageHandler> OnImageCreate;
-        event Action OnUpdated;
         void Initialize();
         void Compute();
 

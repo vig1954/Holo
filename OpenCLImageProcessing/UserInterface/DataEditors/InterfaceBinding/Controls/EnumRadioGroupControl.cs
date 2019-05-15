@@ -12,7 +12,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
         private IValueBinding _binding;
 
         public Enum _value;
-        public bool HideLabel { get; private set; }
+        public UiLabelMode LabelMode { get; private set; }
         public IBinding Binding => _binding;
 
         public void SetBinding(IBinding binding)
@@ -20,7 +20,7 @@ namespace UserInterface.DataEditors.InterfaceBinding.Controls
             _binding = BindingUtil.PrepareValueBinding(binding, _binding, BindingValueUpdated, t => t.IsEnum);
 
             UpdateRadioButtons(_binding.ValueType);
-            HideLabel = _binding.GetAttribute<BindToUIAttribute>().HideLabel;
+            LabelMode = _binding.GetAttribute<BindToUIAttribute>().LabelMode;
             SetValue((Enum)_binding.GetValue());
         }
 
