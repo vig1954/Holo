@@ -249,7 +249,7 @@ namespace rab1
                 {
 
                   double x = zArrayDescriptor[regComplex * 4 + k1].array[i, j]; // * Math.Cos(fzrad1);
-                  double y = zArrayDescriptor[regComplex * 4 + k2].array[i, j]; // * Math.Sin(fzrad2);
+                    double y = zArrayDescriptor[regComplex * 4 + k2].array[i, j]; // * Math.Cos(Math.Abs(fzrad2 - fzrad1)); 
 
                   if (x > max_x) max_x = x;    if (x < min_x) min_x = x;
                   if (y > max_y) max_y = y;    if (y < min_y) min_y = y;
@@ -265,8 +265,8 @@ namespace rab1
                 for (int j = n_begin; j < n_end; j++)
             {
         
-                double xx = zArrayDescriptor[regComplex * 4 + k1].array[i, j] * Math.Cos(fzrad1);
-                double yy = zArrayDescriptor[regComplex * 4 + k2].array[i, j] * Math.Sin(fzrad2);
+                double xx = zArrayDescriptor[regComplex * 4 + k1].array[i, j];
+                double yy = zArrayDescriptor[regComplex * 4 + k2].array[i, j] * Math.Sin(Math.Abs(fzrad2-fzrad1));
                 int x = (int) ( (xx - min_x) * (nn-1) / (max_x - min_x)  );
                 int y = (int) ( (yy - min_y) * (nn-1) / (max_y - min_y)  );
                 //if (x < 0 || x > 255) { MessageBox.Show(" x " + x); continue; }
