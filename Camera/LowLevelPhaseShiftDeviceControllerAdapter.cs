@@ -73,12 +73,12 @@ namespace Camera
 
             if (_phaseShiftDeviceConnected)
             {
-                BindingManager.SetPropertyValue(a => a.Shift, shift);
+                BindingManager?.SetPropertyValue(a => a.Shift, shift);
                 _inner.SetShift((short) ((short) shift + ZeroPhaseShiftValue));
             }
         }
         
-        public async Task SetShift(int shiftValue, float delay, bool compensateHysteresis)
+        public async Task SetShift(int shiftValue, float delay, bool compensateHysteresis = false)
         {
             if (!_phaseShiftDeviceConnected)
                 return;
@@ -97,7 +97,7 @@ namespace Camera
         [BindToUI]
         public void Disconnect()
         {
-            BindingManager.SetPropertyValue(c => c.PortName, null);
+            BindingManager?.SetPropertyValue(c => c.PortName, null);
             _inner?.Dispose();
             _inner = null;
             _phaseShiftDeviceConnected = false;
@@ -113,6 +113,9 @@ namespace Camera
 
         private void ToggleConnectAndDisconnectButtons(bool connect)
         {
+            if (BindingManager == null)
+                return;
+
             BindingManager.RaiseMethodBindingEvent(a => a.Connect(), new PerformBindableControlActionEvent(c => (c as Control).Enabled = connect, this));
             BindingManager.RaiseMethodBindingEvent(a => a.Disconnect(), new PerformBindableControlActionEvent(c => (c as Control).Enabled = !connect, this));
         }

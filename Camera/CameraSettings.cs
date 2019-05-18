@@ -47,9 +47,14 @@ namespace Camera
 
         public void Save(string cameraKey)
         {
-            SessionValues.Set(BuildPropertyKey(cameraKey, nameof(AvMode)), AvMode.Value, this);
-            SessionValues.Set(BuildPropertyKey(cameraKey, nameof(TvMode)), TvMode.Value, this);
-            SessionValues.Set(BuildPropertyKey(cameraKey, nameof(IsoMode)), IsoMode.Value, this);
+            if (AvMode != null)
+                SessionValues.Set(BuildPropertyKey(cameraKey, nameof(AvMode)), AvMode.Value, this);
+
+            if (TvMode != null)
+                SessionValues.Set(BuildPropertyKey(cameraKey, nameof(TvMode)), TvMode.Value, this);
+
+            if (IsoMode != null)
+                SessionValues.Set(BuildPropertyKey(cameraKey, nameof(IsoMode)), IsoMode.Value, this);
         }
 
         public void Load() => Load(GetCameraKey());

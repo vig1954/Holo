@@ -187,6 +187,17 @@ namespace Camera
 
         private void TogglePhaseShiftDevice()
         {
+            if (LowLevelPhaseShiftDeviceController.Connected)
+            {
+                LowLevelPhaseShiftDeviceController.Disconnect();
+                BindingManager.ModifyMethodControl(c => c.TogglePhaseShiftDeviceUiAction(), c => c.Text = "Подключить", this);
+            }
+            else
+            {
+                LowLevelPhaseShiftDeviceController.PortName = PhaseShiftDevicePort;
+                LowLevelPhaseShiftDeviceController.Connect();
+                BindingManager.ModifyMethodControl(c => c.TogglePhaseShiftDeviceUiAction(), c => c.Text = "Отключить", this);
+            }
         }
 
         private Bitmap ExtractSelection(Bitmap bitmap)

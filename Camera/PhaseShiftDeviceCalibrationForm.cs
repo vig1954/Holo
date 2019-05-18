@@ -49,8 +49,11 @@ namespace Camera
             if (!_captureSamples)
                 return;
 
-            if (_currentEvaluation == null || sampleData.Length != _currentEvaluation.Sample.BufferSize)
+            if (_currentEvaluation == null || sampleData.Length != _currentEvaluation.Sample.BufferSize || _shiftParameterValue != _currentEvaluation.Sample.PhaseShiftDeviceParameterValue)
             {
+                if (_evaluationToPreview == _currentEvaluation)
+                    _evaluationToPreview = null;
+
                 _currentEvaluation = new SampleEvaluation(new Sample(_shiftParameterValue, sampleData.Length, _bufferCount));
                 _currentEvaluationView.SampleEvaluation = _currentEvaluation;
                 CapturedSamplesList.Refresh();

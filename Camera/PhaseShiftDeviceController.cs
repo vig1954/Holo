@@ -34,7 +34,7 @@ namespace Camera
         public int ShiftValue4 { get => _shiftValues[3]; set => _shiftValues[3] = value; }
 
         [BindToUI("Время установления сдвига, мс")]
-        public int ShiftDelay { get; set; } = 100;
+        public int ShiftDelay { get; set; } = 1000;
 
         public async void ExecuteStep(int stepNumber)
         {

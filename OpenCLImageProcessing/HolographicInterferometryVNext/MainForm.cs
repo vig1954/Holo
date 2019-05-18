@@ -72,7 +72,7 @@ namespace HolographicInterferometryVNext
             Singleton.Get<ImageSeriesRepository>().ItemAdded += imageSeries =>
             {
                 imageSeries.AddDataProcessor(DataProcessorViewCreator.For(typeof(Psi),nameof(Psi.Psi4)).Create());
-                //imageSeries.AddDataProcessor(DataProcessorViewCreator.For(typeof(Fourier),nameof(Fourier.Transform)).Create());
+                imageSeries.AddDataProcessor(DataProcessorViewCreator.For(typeof(Fourier),nameof(Fourier.Transform)).Create());
 
                 workspacePanel1.AddSeries(imageSeries);
             };
