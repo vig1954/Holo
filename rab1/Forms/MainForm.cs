@@ -898,7 +898,6 @@ namespace rab1
         {
             var dialog1 = new SaveFileDialog();
             dialog1.InitialDirectory = string_dialog;
-            //dialog1.Filter = "Bitmap(*.bmp)|*.bmp";
             dialog1.Filter = "(*.JPG)|*.JPG|(*.bmp)|*.bmp";
 
             if (dialog1.ShowDialog() == DialogResult.OK)
@@ -944,7 +943,7 @@ namespace rab1
         {
             var dialog1 = new SaveFileDialog();
             dialog1.InitialDirectory = string_dialog;
-            dialog1.Filter = "Bitmap(*.bmp)|*.bmp";
+            dialog1.Filter = "(*.JPG)|*.JPG|(*.bmp)|*.bmp";
             string str1;
 
             progressBar1.Visible = true;
@@ -961,28 +960,32 @@ namespace rab1
                     string_dialog = dialog1.FileName;
                     string str = string_dialog;
 
-                  
+                    PictureBox[] array = new PictureBox[]
+                    {
+                        pictureBoxArray[8],
+                        pictureBoxArray[9],
+                        pictureBoxArray[10],
+                        pictureBoxArray[11]
+                    };
 
-                    str1 = str.Replace(".", "9.");
-                    Bitmap newBitmap = new Bitmap(pictureBox9.Image);
-                    newBitmap.Save(str1, System.Drawing.Imaging.ImageFormat.Bmp);
-                    progressBar1.PerformStep();
+                    int count = array.Length;
+                    Bitmap newBitmap = null;
 
-                    str1 = str.Replace(".", "10.");
-                    newBitmap = new Bitmap(pictureBox10.Image);
-                    newBitmap.Save(str1, System.Drawing.Imaging.ImageFormat.Bmp);
-                    progressBar1.PerformStep();
+                    for (int k = 0; k < count; k++)
+                    {
+                        PictureBox pictureBox = array[k];
+                        newBitmap = new Bitmap(pictureBox.Image);
+                        int num = k + 9;
 
-                    str1 = str.Replace(".", "11.");
-                    newBitmap = new Bitmap(pictureBox11.Image);
-                    newBitmap.Save(str1, System.Drawing.Imaging.ImageFormat.Bmp);
-                    progressBar1.PerformStep();
+                        string directory = Path.GetDirectoryName(dialog1.FileName);
+                        string fileName = Path.GetFileNameWithoutExtension(dialog1.FileName);
+                        string extension = Path.GetExtension(dialog1.FileName);
+                        string filePath = Path.Combine(directory, fileName + num.ToString() + extension);
 
-                    str1 = str.Replace(".", "12.");
-                    newBitmap = new Bitmap(pictureBox12.Image);
-                    newBitmap.Save(str1, System.Drawing.Imaging.ImageFormat.Bmp);
-                    progressBar1.PerformStep();
-
+                        newBitmap.Save(filePath);
+                        progressBar1.PerformStep();
+                    }
+                    
                     GC.Collect();
                     GC.WaitForPendingFinalizers();
                 }
