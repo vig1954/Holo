@@ -898,38 +898,31 @@ namespace rab1
         {
             var dialog1 = new SaveFileDialog();
             dialog1.InitialDirectory = string_dialog;
-            dialog1.Filter = "Bitmap(*.bmp)|*.bmp";
+            //dialog1.Filter = "Bitmap(*.bmp)|*.bmp";
+            dialog1.Filter = "(*.JPG)|*.JPG|(*.bmp)|*.bmp";
 
             if (dialog1.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    Bitmap newBitmap = new Bitmap(pictureBox1.Image);
-                    newBitmap.Save(dialog1.FileName + "1.bmp");
-                    dialog1.InitialDirectory = dialog1.FileName;
-                    string_dialog = dialog1.FileName;
+                    int count = 8;
 
-                    newBitmap = new Bitmap(pictureBox2.Image);
-                    newBitmap.Save(dialog1.FileName + "2.bmp");
+                    Bitmap newBitmap = null;
 
-                    newBitmap = new Bitmap(pictureBox3.Image);
-                    newBitmap.Save(dialog1.FileName + "3.bmp");
+                    for (int k = 0; k < count; k++)
+                    {
+                        PictureBox pictureBox = pictureBoxArray[k];
+                        newBitmap = new Bitmap(pictureBox.Image);
+                        int num = k + 1;
 
-                    newBitmap = new Bitmap(pictureBox4.Image);
-                    newBitmap.Save(dialog1.FileName + "4.bmp");
+                        string directory = Path.GetDirectoryName(dialog1.FileName);
+                        string fileName = Path.GetFileNameWithoutExtension(dialog1.FileName);
+                        string extension = Path.GetExtension(dialog1.FileName);
+                        string filePath = Path.Combine(directory, fileName + num.ToString() + extension);
 
-                    newBitmap = new Bitmap(pictureBox5.Image);
-                    newBitmap.Save(dialog1.FileName + "5.bmp");
-
-                    newBitmap = new Bitmap(pictureBox6.Image);
-                    newBitmap.Save(dialog1.FileName + "6.bmp");
-
-                    newBitmap = new Bitmap(pictureBox7.Image);
-                    newBitmap.Save(dialog1.FileName + "7.bmp");
-
-                    newBitmap = new Bitmap(pictureBox8.Image);
-                    newBitmap.Save(dialog1.FileName + "8.bmp");
-
+                        newBitmap.Save(filePath);
+                    }
+                    
                     GC.Collect();
                     GC.WaitForPendingFinalizers();
                 }
