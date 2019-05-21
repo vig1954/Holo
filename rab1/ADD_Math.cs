@@ -14,7 +14,7 @@ namespace rab1
 
     class ADD_Math
     {
-        public static VisualRegImageDelegate VisualRegImage      = null;  // Визувлизация одного кадра от 0 до 11
+        public static VisualRegImageDelegate VisualRegImage      = null;  // Визуализация одного кадра от 0 до 11
         public static VisualRegImageDelegate ComplexPictureImage = null;  // Визуализация одного комплексного массива ( от 0 до 2)
 
 

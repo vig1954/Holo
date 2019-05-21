@@ -528,14 +528,14 @@ namespace rab1.Forms
             int ny = zArray.height;
 
             ZArrayDescriptor zArray_res = new ZArrayDescriptor(nx, ny);
-
+            double a;
 
             for (int i = 0; i < nx; i++)                                          // Строка 
                 for (int j = 0; j < ny; j++)
                 {
-                    if (i < x0) { zArray_res.array[i, j] = zArray.array[i, j]; continue; }
-                    double a = zArray.array[i, j];
-                    if (a > gr) { a = a - 2 * Math.PI; }
+                    a = zArray.array[i, j];
+                    if (i > x0) { if (a > gr) { a = a - 2 * Math.PI; } }
+                    
                     zArray_res.array[i, j] = a;
                 }
 
@@ -554,16 +554,15 @@ namespace rab1.Forms
             int ny = zArray.height;
 
             ZArrayDescriptor zArray_res = new ZArrayDescriptor(nx, ny);
+            double a;
 
-
-            for (int i = 0; i < nx; i++)                                          // Строка 
-                for (int j = 0; j < ny; j++)
-                {
-                    if (i > x0) { zArray_res.array[i, j] = zArray.array[i, j]; continue; }
-                    double a = zArray.array[i, j];
-                    if (a < gr)  { a = a + 2 * Math.PI; }
+            for (int j = 0; j < ny; j++)
+                for (int i = 0; i < nx; i++)                                          // Строка 
+                 {
+                    a = zArray.array[i, j];
+                    if (i > x0) { if (a < gr) { a = a + 2 * Math.PI; } }
                     zArray_res.array[i, j] = a;
-                }
+                 }
 
 
             return zArray_res;

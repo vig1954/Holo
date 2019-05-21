@@ -15,8 +15,13 @@ public delegate void DelegatSdvg();
 
 namespace rab1.Forms
 {
+   
     public partial class PSI : Form
     {
+
+        public delegate void VisualRegImageDelegate(int k);
+        public static VisualRegImageDelegate VisualRegImage = null;      // Визуализация одного кадра от 0 до 11
+
         public event DelegatPSI    OnPSI;
         public event DelegatLis    OnPSI1;
         public event DelegatSdvg   OnPSI_Carre;
@@ -150,6 +155,56 @@ namespace rab1.Forms
             textBox8.Text = Convert.ToString(5 * n);
             textBox9.Text = Convert.ToString(6 * n);
             textBox10.Text = Convert.ToString(7 * n);
+        }
+        /// <summary>
+        /// cos от разности фаз + фазовый сдвиг => 0,1,2,3,4 .....
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button8_Click(object sender, EventArgs e)
+        {
+            if (Form1.zArrayDescriptor[0] == null) { MessageBox.Show("PSI zArrayDescriptor[" + 0 + "] == NULL"); return; }
+            if (Form1.zArrayDescriptor[1] == null) { MessageBox.Show("PSI zArrayDescriptor[" + 1 + "] == NULL"); return; }
+
+            int nx = Form1.zArrayDescriptor[0].width;
+            int ny = Form1.zArrayDescriptor[0].height;
+
+            ZArrayDescriptor fz1 = new ZArrayDescriptor(nx, ny);
+            ZArrayDescriptor fz2 = new ZArrayDescriptor(nx, ny);
+           
+
+            for (int i = 0; i < nx; i++)
+                for (int j = 0; j < ny; j++)
+                {
+                    fz1.array[i , j] = Form1.zArrayDescriptor[0].array[i, j];
+                    fz2.array[i , j] = Form1.zArrayDescriptor[1].array[i, j];
+                }
+
+            n_sdv = Convert.ToInt32(textBox11.Text);
+            double[] fzrad = new double[n_sdv];
+
+            fz[0] = Convert.ToDouble(textBox1.Text);
+            fz[1] = Convert.ToDouble(textBox2.Text);
+            fz[2] = Convert.ToDouble(textBox3.Text);
+            fz[3] = Convert.ToDouble(textBox4.Text);
+            fz[4] = Convert.ToDouble(textBox7.Text);
+            fz[5] = Convert.ToDouble(textBox8.Text);
+            fz[6] = Convert.ToDouble(textBox9.Text);
+            fz[7] = Convert.ToDouble(textBox10.Text);
+
+            for (int i = 0; i < n_sdv; i++) fzrad[i] = Math.PI * fz[i] / 180.0;
+
+            for (int k = 0; k < n_sdv; k++)
+            {
+              ZArrayDescriptor rez = new ZArrayDescriptor(nx, ny);
+             for (int i = 0; i < nx; i++)
+              for (int j = 0; j < ny; j++)
+                {          
+                   rez.array[i, j] = Math.Cos(fz1.array[i,j] - fz2.array[i,j] + fzrad[k]);
+                }
+              Form1.zArrayDescriptor[k] = rez;
+              VisualRegImage(k);
+            }
         }
     }
 }

@@ -82,7 +82,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(52, 20);
             this.textBox2.TabIndex = 11;
-            this.textBox2.Text = "4000";
+            this.textBox2.Text = "0";
             // 
             // label1
             // 

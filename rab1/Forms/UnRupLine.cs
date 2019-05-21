@@ -17,12 +17,12 @@ namespace rab1.Forms
     {
         private static double gr1 = -2.1;
         private static double gr2 = -2.1;
-        private static int x0 = 4000;
+        private static int x0 = 0;
 
         public event DelegatUnrupLine OnUnrupLine;
         public event DelegatUnrupLine OnUnrupLinePlus;
         public event DelegatUnrup2pi  OnUnrupLine2pi;
-        public event DelegatUnrup2pi OnUnrupLine2pi_L;
+        public event DelegatUnrup2pi  OnUnrupLine2pi_L;
 
         public UnRupLine()
         {
@@ -37,10 +37,12 @@ namespace rab1.Forms
             x0  = Convert.ToInt32(textBox2.Text);
             gr1 = Convert.ToDouble(textBox4.Text);
             OnUnrupLine(x0, gr1);
+            //Form1.zArrayPicture = Unrup.Unrup_LinePluss(Form1.zArrayPicture, x0, gr);
+            //Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
             Close();
         }
 
-        private void button2_Click(object sender, EventArgs e)  // Если меньше (убывание)
+        private void button2_Click(object sender, EventArgs e)  // Если меньше (убывание) +6.28
         {
             x0 = Convert.ToInt32(textBox2.Text);
             gr2 = Convert.ToDouble(textBox1.Text);

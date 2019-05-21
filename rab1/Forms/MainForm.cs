@@ -74,6 +74,8 @@ namespace rab1
             };
 
             ADD_Math.VisualRegImage      = this.Vizual_regImage;
+            PSI.VisualRegImage           = this.Vizual_regImage;
+
             CorrectBr.VisualRegImage     = this.Vizual_regImage;
             CorrectBr.TakePhoto12        = this.FastTakePhoto;
             CorrectBr.TakePhoto          = this.FastTakePhoto;
