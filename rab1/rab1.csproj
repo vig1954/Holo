@@ -112,6 +112,12 @@
     <Compile Include="Forms\CorrectBr.Designer.cs">
       <DependentUpon>CorrectBr.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Form_Filtr.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Form_Filtr.Designer.cs">
+      <DependentUpon>Form_Filtr.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Graph3D.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -303,6 +309,9 @@
     <EmbeddedResource Include="Forms\Complex_form.resx" />
     <EmbeddedResource Include="Forms\CorrectBr.resx">
       <DependentUpon>CorrectBr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Form_Filtr.resx">
+      <DependentUpon>Form_Filtr.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Graph3D.resx">
       <DependentUpon>Graph3D.cs</DependentUpon>

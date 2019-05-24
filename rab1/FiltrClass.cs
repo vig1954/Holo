@@ -319,7 +319,7 @@ namespace rab1
 
             int max = w1; if (h1 > max) max = h1;
 
-            double[] k_x = new double[max];
+            double[] k_x  = new double[max];
             double[] k_x1 = new double[max];
             double r1 = 0;
 
@@ -348,8 +348,10 @@ namespace rab1
                 k_cntr = 1;
                 for (int ik = k; ik > 0; ik /= 2)
                 {
-                    if (k_cntr == 1) { for (int i = ik; i < w1 - ik; i++)   k_x1[i] = (k_x[i - ik] + k_x[i]*2 + k_x[i + ik])/4;      k_cntr = 2; }
-                    else { for (int i = ik; i < w1 - ik; i++)               k_x[i] = (k_x1[i - ik] + k_x1[i]*2 + k_x1[i + ik])/4;    k_cntr = 1; }
+                    if (k_cntr == 1)
+                         { for (int i = ik; i < w1 - ik; i++)   k_x1[i] = (k_x[i - ik] + k_x[i]*2 + k_x[i + ik])/4;      k_cntr = 2; }
+                    else
+                         { for (int i = ik; i < w1 - ik; i++)   k_x[i]  = (k_x1[i - ik] + k_x1[i]*2 + k_x1[i + ik])/4;   k_cntr = 1; }
                 }
                 for (int i = 0; i < w1; i++)
                 {

@@ -75,8 +75,9 @@ namespace rab1
 
             ADD_Math.VisualRegImage      = this.Vizual_regImage;
             PSI.VisualRegImage           = this.Vizual_regImage;
-
             CorrectBr.VisualRegImage     = this.Vizual_regImage;
+            Form_Filtr.VisualRegImage    = this.Vizual_regImage;
+
             CorrectBr.TakePhoto12        = this.FastTakePhoto;
             CorrectBr.TakePhoto          = this.FastTakePhoto;
             //ADD_Cmplx.VisualRegImage = this.Vizual_regImage;
@@ -1137,6 +1138,18 @@ namespace rab1
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Фильтрация нескольких кадров
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void фильтрацияНесколькихКадровToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form_Filtr FLT = new Form_Filtr();
+
+            FLT.Show();
+        }
+
         // ------------------------------  Сглаживание
         private void сглаживаниеToolStripMenuItem1_Click(object sender, EventArgs e)
         {

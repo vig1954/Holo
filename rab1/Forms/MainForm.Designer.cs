@@ -132,6 +132,7 @@
             this.коррекцияГаммаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.графикToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox8 = new System.Windows.Forms.PictureBox();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
@@ -212,7 +213,7 @@
             this.button9 = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
-            this.dToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.фильтрацияНесколькихКадровToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox01)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -730,6 +731,7 @@
             // Фильтр
             // 
             this.Фильтр.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.фильтрацияНесколькихКадровToolStripMenuItem,
             this.сглаживаниеToolStripMenuItem1,
             this.сглаживаниеToolStripMenuItem,
             this.медианныйToolStripMenuItem,
@@ -1146,9 +1148,16 @@
             // dToolStripMenuItem
             // 
             this.dToolStripMenuItem.Name = "dToolStripMenuItem";
-            this.dToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.dToolStripMenuItem.Size = new System.Drawing.Size(87, 22);
             this.dToolStripMenuItem.Text = "3D";
             this.dToolStripMenuItem.Click += new System.EventHandler(this.dToolStripMenuItem_Click);
+            // 
+            // dToolStripMenuItem1
+            // 
+            this.dToolStripMenuItem1.Name = "dToolStripMenuItem1";
+            this.dToolStripMenuItem1.Size = new System.Drawing.Size(87, 22);
+            this.dToolStripMenuItem1.Text = "2D";
+            this.dToolStripMenuItem1.Click += new System.EventHandler(this.dToolStripMenuItem1_Click);
             // 
             // pictureBox8
             // 
@@ -1965,12 +1974,12 @@
             this.vScrollBar2.TabIndex = 115;
             this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar2_Scroll);
             // 
-            // dToolStripMenuItem1
+            // фильтрацияНесколькихКадровToolStripMenuItem
             // 
-            this.dToolStripMenuItem1.Name = "dToolStripMenuItem1";
-            this.dToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.dToolStripMenuItem1.Text = "2D";
-            this.dToolStripMenuItem1.Click += new System.EventHandler(this.dToolStripMenuItem1_Click);
+            this.фильтрацияНесколькихКадровToolStripMenuItem.Name = "фильтрацияНесколькихКадровToolStripMenuItem";
+            this.фильтрацияНесколькихКадровToolStripMenuItem.Size = new System.Drawing.Size(390, 22);
+            this.фильтрацияНесколькихКадровToolStripMenuItem.Text = "Фильтрация нескольких кадров";
+            this.фильтрацияНесколькихКадровToolStripMenuItem.Click += new System.EventHandler(this.фильтрацияНесколькихКадровToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -2262,6 +2271,7 @@
         private System.Windows.Forms.ToolStripMenuItem коррекцияГаммаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fastTakePhotoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem фильтрацияНесколькихКадровToolStripMenuItem;
     }
 }
 
