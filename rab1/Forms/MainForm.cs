@@ -3000,7 +3000,7 @@ namespace rab1
         
         private int GetPictureBoxIndex(PictureTakenEventArgs args)
         {
-            return args.Number - 1;
+            return (args.StartImageNumber - 1) + (args.Number - 1);
             
             /*
             int index = 1;

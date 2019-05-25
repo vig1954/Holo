@@ -15,6 +15,7 @@ namespace rab1
     {
         private SDKHandler CameraHandler = null;
 
+        private short startImageNumber = 0;
         private short currentImageNumber = 0;
         private short groupNumber = 0;
         private ColorModeEnum colorMode = ColorModeEnum.Gray;
@@ -41,6 +42,7 @@ namespace rab1
                 PictureTakenEventArgs eventArgs = new PictureTakenEventArgs()
                 {
                     Image = bitmap,
+                    StartImageNumber = startImageNumber,
                     Number = number,
                     GroupNumber = groupNumber,
                     ColorMode = colorMode
@@ -99,7 +101,8 @@ namespace rab1
             int delay = 1000;
             ShowBackgroundWindow(fromImageNumber);
             Thread.Sleep(delay);
-                        
+
+            this.startImageNumber = 1;
             this.currentImageNumber = toImageNumber;
 
             //Transfer image to computer

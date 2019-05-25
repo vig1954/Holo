@@ -48,6 +48,7 @@ namespace rab1
         short groupNumber = 3;
 
         ImageForm imageForm = null;
+        short startImageNumber = 0;
         short currentImageNumber = 0;
         float imageOffsetX = 0;
         float imageOffsetStep = 0;
@@ -113,6 +114,7 @@ namespace rab1
             phaseShiftStepTextBox.Text = "100";
             DelayTextBox.Text = "1500";
             ShiftsCountTextBox.Text = "4";
+            startImageNumberTextBox.Text = "1";
         }
         
         private void InitColorModes()
@@ -209,6 +211,7 @@ namespace rab1
                 PictureTakenEventArgs eventArgs = new PictureTakenEventArgs()
                 {
                     Image = bitmap,
+                    StartImageNumber = startImageNumber,
                     Number = number,
                     GroupNumber = groupNumber,
                     PhaseShiftValue = currentPhaseShiftValue,
@@ -696,9 +699,11 @@ namespace rab1
         private void TakeImagesSeriesPhoto()
         {
             seriesType = TakePhotoSeriesTypeEnum.ImageSeries;
-
+                        
             currentImageNumber = 1;
             imageOffsetX = 0;
+
+            startImageNumber = short.Parse(startImageNumberTextBox.Text);
             delay = int.Parse(DelayTextBox.Text);
                         
             takeNextPhoto = true;
