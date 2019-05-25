@@ -76,6 +76,7 @@
             this.button13 = new System.Windows.Forms.Button();
             this.button14 = new System.Windows.Forms.Button();
             this.button15 = new System.Windows.Forms.Button();
+            this.button16 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -483,7 +484,7 @@
             // 
             // SaveWedgeButton
             // 
-            this.SaveWedgeButton.Location = new System.Drawing.Point(636, 654);
+            this.SaveWedgeButton.Location = new System.Drawing.Point(814, 725);
             this.SaveWedgeButton.Name = "SaveWedgeButton";
             this.SaveWedgeButton.Size = new System.Drawing.Size(140, 23);
             this.SaveWedgeButton.TabIndex = 79;
@@ -493,7 +494,7 @@
             // 
             // LoadWedgeButton
             // 
-            this.LoadWedgeButton.Location = new System.Drawing.Point(801, 654);
+            this.LoadWedgeButton.Location = new System.Drawing.Point(646, 725);
             this.LoadWedgeButton.Name = "LoadWedgeButton";
             this.LoadWedgeButton.Size = new System.Drawing.Size(151, 23);
             this.LoadWedgeButton.TabIndex = 80;
@@ -538,11 +539,26 @@
             this.button15.UseVisualStyleBackColor = false;
             this.button15.Click += new System.EventHandler(this.button15_Click);
             // 
+            // button16
+            // 
+            this.button16.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.button16.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.button16.Location = new System.Drawing.Point(636, 631);
+            this.button16.Name = "button16";
+            this.button16.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.button16.Size = new System.Drawing.Size(316, 46);
+            this.button16.TabIndex = 84;
+            this.button16.Text = "Клин 16  =>1\r\nКлин 256 =>2";
+            this.button16.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button16.UseVisualStyleBackColor = false;
+            this.button16.Click += new System.EventHandler(this.button16_Click);
+            // 
             // CorrectBr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(964, 768);
+            this.Controls.Add(this.button16);
             this.Controls.Add(this.button15);
             this.Controls.Add(this.button14);
             this.Controls.Add(this.button13);
@@ -646,5 +662,6 @@
         private System.Windows.Forms.Button button13;
         private System.Windows.Forms.Button button14;
         private System.Windows.Forms.Button button15;
+        private System.Windows.Forms.Button button16;
     }
 }

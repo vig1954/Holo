@@ -529,10 +529,7 @@ namespace rab1.Forms
         }
         public double[] InterpolateClin(double[] clin)
         {
-            if (clin == null)
-            {
-                return null;
-            }
+            if (clin == null)  { return null;  }
 
             double[] resClin = clin;
 
@@ -873,7 +870,43 @@ namespace rab1.Forms
         {
             LoadWedge();
         }
+        /// <summary>
+        /// Клин 16 => 1 Клин 256 => 2
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button16_Click(object sender, EventArgs e)
+        {
+            int nx = 3996;
+            int ny = 2160;
+           
+            double[] am16 = Clin(cl, 16, nx);
+            double[] am256 = Clin(cl, 64, nx);
+            int nx1 = am256.GetLength(0);             //MessageBox.Show("Клин " + nx1);
 
-      
+            double maxw = int.MinValue;                                            // Поиск максимального
+            double minw = int.MaxValue;                                            // Поиск минимального
+            for (int i = 0; i < nx1; i++)
+             {
+                if (am256[i] > maxw) maxw = am256[i];
+                if (am256[i] < minw) minw = am256[i];
+             }
+
+            //for (int i = 0; i < nx1; i++) { am256[i] = (am256[i]) * 255 / (maxw); }
+
+            ZArrayDescriptor cmpl16  = new ZArrayDescriptor(nx, ny);
+            ZArrayDescriptor cmpl256 = new ZArrayDescriptor(nx, ny);
+
+            for (int i = 0; i < nx; i++)
+              for (int j = 0; j < ny; j++)
+                 {
+                    cmpl16.array[i,j]   = am16[i];
+                    cmpl256.array[i, j] = am256[i];
+                }
+            Form1.zArrayDescriptor[0] = cmpl16;
+            Form1.zArrayDescriptor[1] = cmpl256;
+            VisualRegImage(0);
+            VisualRegImage(1);
+        }
     }
 }

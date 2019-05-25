@@ -126,7 +126,7 @@ namespace rab1.Forms
            
           
              N_line = (int)X[0].y; if (N_line < 0) N_line = 0; if (N_line > w1) N_line = w1;    // Координаты графика из Form1
-             MessageBox.Show("Graphic2D N_line = " + N_line);
+             //MessageBox.Show("Graphic2D N_line = " + N_line);
              //N_line = 512;
 
             for (int i = 0; i < 4; i++)                                                           // 4 массива для графиков

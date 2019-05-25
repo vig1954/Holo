@@ -275,7 +275,6 @@ namespace rab1.Forms
             fzrad[7] = Math.PI * Convert.ToDouble(textBox16.Text) / 180.0;
 
             CorrectBr correctBr = new CorrectBr();
-
             double[] interpolatedClin = correctBr.InterpolateClin(clin);
             
             OnModelSin1(fzrad, N_sdv, N_urovn, gamma, N_pol, kr, Nx, Ny, noise, interpolatedClin);
