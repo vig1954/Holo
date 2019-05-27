@@ -63,11 +63,11 @@ namespace rab1.Forms
         //double[] cl = { 1,  2,  3,  4,  5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  26,  27,  28, 29,   30,  31, 32 };
         //double[] cl = { 0,  1,  2,  3,  4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  26,  27, 28,   29,  30, 31 };
         //double[] cl = { 7, 15, 23, 31, 39,  47,  55,  63,  71,  79,  87,  95, 103, 111, 119, 127, 135, 143, 151, 159, 167, 175, 183, 191, 199, 207, 215, 223, 231, 239, 247, 255 };
-        // double[] cl = { 0, 15, 47, 63, 79, 95, 111, 127, 143, 159,  175, 191, 207, 223, 239, 255 };
+         
 
 
-           double[] cl = { 35, 50, 58, 65, 72, 78, 85, 94, 100, 108, 118, 132, 149, 168, 192, 255 };    //Правильные значения
-        // double[] cl = { 16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 174, 190, 206, 222, 238, 255   };
+         double[] cl = { 35, 50, 58, 65, 72, 78, 85, 94, 100, 108, 118, 132, 149, 168, 192, 255 };    //Правильные значения
+         
 
         
 
@@ -442,14 +442,14 @@ namespace rab1.Forms
             Form1.zArrayDescriptor[k12 - 1] = cmpl;
             VisualRegImage(k12 - 1);
             // ----------------------------------------------------------------------------------- Обратный клин
-            ZArrayDescriptor cmpl1 = new ZArrayDescriptor(Nx1, ny);
-            for (int i = 0; i < nx; i++)
-                for (int j = 0; j < ny; j++)
-                { cmpl1.array[i + dx, j] = am[nx-1-i]; }
+          //  ZArrayDescriptor cmpl1 = new ZArrayDescriptor(Nx1, ny);
+          //  for (int i = 0; i < nx; i++)
+          //      for (int j = 0; j < ny; j++)
+          //      { cmpl1.array[i + dx, j] = am[nx-1-i]; }
 
-            cmpl1 = Model_Sinus.Intens(0, 256, dx, cmpl1);     // Белая и черная полоса по краям
-            Form1.zArrayDescriptor[k12 - 1 + 1] = cmpl1;
-            VisualRegImage(k12 - 1 + 1);
+          //  cmpl1 = Model_Sinus.Intens(0, 256, dx, cmpl1);     // Белая и черная полоса по краям
+          //  Form1.zArrayDescriptor[k12 - 1 + 1] = cmpl1;
+          //  VisualRegImage(k12 - 1 + 1);
 
         }
 
@@ -460,38 +460,37 @@ namespace rab1.Forms
             double[] cl1 = new double[nx1];
             for (int i = 0; i < nx1; i++) cl1[i] = cl[i];
 
+            int nx2 = nx / 16;
+
             double[] am = new double[nx];
             int nsd = 0;
             switch (kv)
             {
-                case 16: for (int i = 0; i < nx; i++) { am[i] = cl1[i / 256]; } break;    // 4096
+                case 16: for (int i = 0; i < nx; i++) { am[i] = cl1[i / nx2]; } break;    // 
                 case 32:
                     cl1 = MasX2(cl1);
+                    nx2 = nx / 32;
                     nsd = nx / 32;
-                    for (int i = 0; i < nx; i++) { am[i] = cl1[i / 128]; }
-                    am = Strerch(am, nsd);
                     break;  // 4096-128
                 case 64:
                     cl1 = MasX2(cl1); cl1 = MasX2(cl1);
+                    nx2 = nx / 64;
                     nsd = nx / 32 + nx / 64;
-                    for (int i = 0; i < nx; i++) { am[i] = cl1[i / 64]; }
-                    am = Strerch(am, nsd);
                     break;
                 case 128:
                     cl1 = MasX2(cl1); cl1 = MasX2(cl1); cl1 = MasX2(cl1);
+                    nx2 = nx / 128;
                     nsd = nx / 32 + nx / 64 + nx / 128;
-                    for (int i = 0; i < nx; i++) { am[i] = cl1[i / 32]; }
-                    am = Strerch(am, nsd);
                     break;
                 case 256:
                     cl1 = MasX2(cl1); cl1 = MasX2(cl1); cl1 = MasX2(cl1); cl1 = MasX2(cl1);
+                    nx2 = nx / 256;
                     nsd = nx / 32 + nx / 64 + nx / 128 + nx / 256;
-                    for (int i = 0; i < nx; i++) { am[i] = cl1[i / 16]; }
-                    am = Strerch(am, nsd);
                     break;
-                default:  return null;
+                default: return null;
             }
-
+            for (int i = 0; i < nx; i++) { am[i] = cl1[i / nx2]; }
+            am = Strerch(am, nsd);
             return am;
 
         }
@@ -877,36 +876,26 @@ namespace rab1.Forms
         /// <param name="e"></param>
         private void button16_Click(object sender, EventArgs e)
         {
-            int nx = 3996;
+            int nx = 3840;
             int ny = 2160;
+            //double[] cl = { 16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 174, 190, 206, 222, 238, 255 };
+
+            int k1 = 8;
+            for (int k = 0; k < 5; k++)
+            {
+                k1 = k1 * 2;
+                double[] am = Clin(cl, k1, nx);
+                ZArrayDescriptor cmpl = new ZArrayDescriptor(nx, ny);
+                for (int i = 0; i < nx; i++) for (int j = 0; j < ny; j++) {  cmpl.array[i,j]   = am[i];  }
+                Form1.zArrayDescriptor[k] = cmpl;
+                VisualRegImage(k);
+            }
+
            
-            double[] am16 = Clin(cl, 16, nx);
-            double[] am256 = Clin(cl, 64, nx);
-            int nx1 = am256.GetLength(0);             //MessageBox.Show("Клин " + nx1);
 
-            double maxw = int.MinValue;                                            // Поиск максимального
-            double minw = int.MaxValue;                                            // Поиск минимального
-            for (int i = 0; i < nx1; i++)
-             {
-                if (am256[i] > maxw) maxw = am256[i];
-                if (am256[i] < minw) minw = am256[i];
-             }
-
-            //for (int i = 0; i < nx1; i++) { am256[i] = (am256[i]) * 255 / (maxw); }
-
-            ZArrayDescriptor cmpl16  = new ZArrayDescriptor(nx, ny);
-            ZArrayDescriptor cmpl256 = new ZArrayDescriptor(nx, ny);
-
-            for (int i = 0; i < nx; i++)
-              for (int j = 0; j < ny; j++)
-                 {
-                    cmpl16.array[i,j]   = am16[i];
-                    cmpl256.array[i, j] = am256[i];
-                }
-            Form1.zArrayDescriptor[0] = cmpl16;
-            Form1.zArrayDescriptor[1] = cmpl256;
-            VisualRegImage(0);
-            VisualRegImage(1);
         }
+        
+       
+
     }
 }
