@@ -22,8 +22,12 @@ public delegate void ModelExp(double g, int N);
 
 namespace rab1.Forms
 {
+
     public partial class Model_Sin : Form
     {
+        public delegate void VisualRegImageDelegate(int k);
+        public static VisualRegImageDelegate VisualRegImage = null;    // Визуализация одного кадра от 0 до 11 из main
+
         public event ModelSinG_kr OnModelSin;
         public event ModelSinG_Picture OnModelSin1;
        // public event ModelSinG_kr OnModelSin8;
@@ -46,7 +50,7 @@ namespace rab1.Forms
         private static int    kr = 0;                    // Разрядить нулями (0 - не разряжать, 1 - через 1)
         private static int    Nx = 4096;                 // Размер массива
         private static int    Ny = 2160;                 // Размер массива
-        private static double noise = 0.1;               // Шум от амплитуды
+        private static double noise = 0;               // Шум от амплитуды
 
         private double[] clin = { 35, 50, 58, 65, 72, 78, 85, 94, 100, 108, 118, 132, 149, 168, 192, 255 };  // Клин для исправления нелинейности
 
@@ -111,10 +115,103 @@ namespace rab1.Forms
                 fzrad[5] = Math.PI * Convert.ToDouble(textBox14.Text) / 180.0;
                 fzrad[6] = Math.PI * Convert.ToDouble(textBox15.Text) / 180.0;
                 fzrad[7] = Math.PI * Convert.ToDouble(textBox16.Text) / 180.0;
-                                        
-                OnModelSin1(fzrad, N_sdv, N_urovn, gamma, N_pol, kr, Nx, Ny, noise, null);
-                Close();
+
+            //OnModelSin1(fzrad, N_sdv, N_urovn, gamma, N_pol, kr, Nx, Ny, noise, null);
+            for (int i = 0; i < N_sdv; i++)
+               {
+                  Form1.zArrayDescriptor[Form1.regComplex * 4 + i] = Model_Sinus.Sinus1(fzrad[i], N_urovn, N_pol, gamma, kr, Nx, Ny, noise, null);
+                  VisualRegImage(Form1.regComplex * 4 + i);
+               }
+            Close();
           
+        }
+       
+        /// <summary>
+        /// Синусоиды с учетом клина
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ModelSinByClinButton_Click(object sender, EventArgs e)
+        {
+            double[] fzrad = new double[8];
+
+            gamma = Convert.ToDouble(textBox5.Text);
+            N_pol = Convert.ToDouble(textBox6.Text);     // Число точек на полоссу
+            N_urovn = Convert.ToDouble(textBox8.Text);   // Амплитуда
+            kr = Convert.ToInt32(textBox9.Text);         // Разрядка нулями
+            Nx = Convert.ToInt32(textBox10.Text);
+            Ny = Convert.ToInt32(textBox12.Text);
+            noise = Convert.ToDouble(textBox11.Text);
+            N_sdv = Convert.ToInt32(textBox17.Text);     // Число сдвигов
+
+            if (N_sdv > 8) MessageBox.Show("Число сдвигов больше 8", "Message", MessageBoxButtons.OK);
+
+
+            fzrad = new double[8];
+
+            fzrad[0] = Math.PI * Convert.ToDouble(textBox1.Text) / 180.0;   // Фаза в радианах  
+            fzrad[1] = Math.PI * Convert.ToDouble(textBox2.Text) / 180.0;
+            fzrad[2] = Math.PI * Convert.ToDouble(textBox3.Text) / 180.0;
+            fzrad[3] = Math.PI * Convert.ToDouble(textBox4.Text) / 180.0;
+
+            fzrad[4] = Math.PI * Convert.ToDouble(textBox13.Text) / 180.0;
+            fzrad[5] = Math.PI * Convert.ToDouble(textBox14.Text) / 180.0;
+            fzrad[6] = Math.PI * Convert.ToDouble(textBox15.Text) / 180.0;
+            fzrad[7] = Math.PI * Convert.ToDouble(textBox16.Text) / 180.0;
+
+            CorrectBr correctBr = new CorrectBr();
+            double[] interpolatedClin = correctBr.InterpolateClin(clin);
+
+            //OnModelSin1(fzrad, N_sdv, N_urovn, gamma, N_pol, kr, Nx, Ny, noise, interpolatedClin);
+            for (int i = 0; i < N_sdv; i++)
+            {     
+               Form1.zArrayDescriptor[Form1.regComplex * 4 + i] = Model_Sinus.Sinus1(fzrad[i], N_urovn, N_pol, gamma, kr, Nx, Ny, noise, interpolatedClin);
+               VisualRegImage(Form1.regComplex * 4 + i);
+            }
+            Close();
+        }
+        /// <summary>
+        /// Загрузка клина из файла
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void loadClinButton_Click(object sender, EventArgs e)
+        {
+            LoadWedge();
+        }
+
+        private void LoadWedge()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "(*.txt)|*.txt";
+            openFileDialog.DefaultExt = "txt";
+
+            DialogResult dialogResult = openFileDialog.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+                string filePath = openFileDialog.FileName;
+                if (!string.IsNullOrEmpty(filePath))
+                {
+                    List<double> valuesList = new List<double>();
+                    using (FileStream fs = File.OpenRead(filePath))
+                    {
+                        using (StreamReader sr = new StreamReader(fs))
+                        {
+                            while (!sr.EndOfStream)
+                            {
+                                string stringValue = sr.ReadLine();
+                                if (!string.IsNullOrEmpty(stringValue))
+                                {
+                                    valuesList.Add(double.Parse(stringValue));
+                                }
+                            }
+                        }
+                    }
+
+                    clin = valuesList.ToArray();
+                    MessageBox.Show("Клин загружен (cl)");
+                }
+            }
         }
 
         private void button7_Click(object sender, EventArgs e)     // В текущий комплексный массив exp(-iw)
@@ -203,83 +300,7 @@ namespace rab1.Forms
          
         }
 
-        private void loadClinButton_Click(object sender, EventArgs e)
-        {
-            LoadWedge();
-        }
-
-        private void LoadWedge()
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "(*.txt)|*.txt";
-            openFileDialog.DefaultExt = "txt";
-
-            DialogResult dialogResult = openFileDialog.ShowDialog();
-            if (dialogResult == DialogResult.OK)
-            {
-                string filePath = openFileDialog.FileName;
-                if (!string.IsNullOrEmpty(filePath))
-                {
-                    List<double> valuesList = new List<double>();
-                    using (FileStream fs = File.OpenRead(filePath))
-                    {
-                        using (StreamReader sr = new StreamReader(fs))
-                        {
-                            while (!sr.EndOfStream)
-                            {
-                                string stringValue = sr.ReadLine();
-                                if (!string.IsNullOrEmpty(stringValue))
-                                {
-                                    valuesList.Add(double.Parse(stringValue));
-                                }
-                            }
-                        }
-                    }
-
-                    clin = valuesList.ToArray();
-                    MessageBox.Show("Клин загружен (cl)");
-                }
-            }
-        }
-/// <summary>
-/// Синусоиды с учетом клина
-/// </summary>
-/// <param name="sender"></param>
-/// <param name="e"></param>
-        private void ModelSinByClinButton_Click(object sender, EventArgs e)
-        {
-            double[] fzrad = new double[8];
-
-            gamma = Convert.ToDouble(textBox5.Text);
-            N_pol = Convert.ToDouble(textBox6.Text);     // Число точек на полоссу
-            N_urovn = Convert.ToDouble(textBox8.Text);   // Амплитуда
-            kr = Convert.ToInt32(textBox9.Text);         // Разрядка нулями
-            Nx = Convert.ToInt32(textBox10.Text);
-            Ny = Convert.ToInt32(textBox12.Text);
-            noise = Convert.ToDouble(textBox11.Text);
-            N_sdv = Convert.ToInt32(textBox17.Text);     // Число сдвигов
-
-            if (N_sdv > 8) MessageBox.Show("Число сдвигов больше 8", "Message", MessageBoxButtons.OK);
-
-
-            fzrad = new double[8];
-
-            fzrad[0] = Math.PI * Convert.ToDouble(textBox1.Text) / 180.0;   // Фаза в радианах  
-            fzrad[1] = Math.PI * Convert.ToDouble(textBox2.Text) / 180.0;
-            fzrad[2] = Math.PI * Convert.ToDouble(textBox3.Text) / 180.0;
-            fzrad[3] = Math.PI * Convert.ToDouble(textBox4.Text) / 180.0;
-
-            fzrad[4] = Math.PI * Convert.ToDouble(textBox13.Text) / 180.0;
-            fzrad[5] = Math.PI * Convert.ToDouble(textBox14.Text) / 180.0;
-            fzrad[6] = Math.PI * Convert.ToDouble(textBox15.Text) / 180.0;
-            fzrad[7] = Math.PI * Convert.ToDouble(textBox16.Text) / 180.0;
-
-            CorrectBr correctBr = new CorrectBr();
-            double[] interpolatedClin = correctBr.InterpolateClin(clin);
-            
-            OnModelSin1(fzrad, N_sdv, N_urovn, gamma, N_pol, kr, Nx, Ny, noise, interpolatedClin);
-            Close();
-        }
+      
 
         /*
        private void button2_Click(object sender, EventArgs e)

@@ -77,6 +77,7 @@ namespace rab1
             PSI.VisualRegImage           = this.Vizual_regImage;
             CorrectBr.VisualRegImage     = this.Vizual_regImage;
             Form_Filtr.VisualRegImage    = this.Vizual_regImage;
+            Model_Sin.VisualRegImage     = this.Vizual_regImage;
 
             CorrectBr.TakePhoto12        = this.FastTakePhoto;
             CorrectBr.TakePhoto          = this.FastTakePhoto;

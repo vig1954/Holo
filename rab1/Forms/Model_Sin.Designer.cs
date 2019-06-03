@@ -255,7 +255,7 @@
             this.textBox11.Name = "textBox11";
             this.textBox11.Size = new System.Drawing.Size(46, 20);
             this.textBox11.TabIndex = 25;
-            this.textBox11.Text = "0,1";
+            this.textBox11.Text = "0";
             // 
             // label8
             // 
@@ -368,7 +368,7 @@
             this.ModelSinByClinButton.Name = "ModelSinByClinButton";
             this.ModelSinByClinButton.Size = new System.Drawing.Size(248, 45);
             this.ModelSinByClinButton.TabIndex = 38;
-            this.ModelSinByClinButton.Text = "Синусоиды с фазовым свдигом (период в точках) Коррекция клином";
+            this.ModelSinByClinButton.Text = "Синусоиды с фазовым сдвигом (период в точках) Коррекция клином";
             this.ModelSinByClinButton.UseVisualStyleBackColor = true;
             this.ModelSinByClinButton.Click += new System.EventHandler(this.ModelSinByClinButton_Click);
             // 

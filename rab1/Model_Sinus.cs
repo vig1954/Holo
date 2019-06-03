@@ -87,7 +87,7 @@ namespace rab1.Forms
 
             int NX = Nx * kr1;
             int NY = Ny * kr1;
-            //MessageBox.Show(" nx " + NX + " a " + a + " noise " + noise);
+            //MessageBox.Show(" n_polos " + n_polos);
 
             ZArrayDescriptor cmpl = new ZArrayDescriptor(NX, NY);      // Результирующий фронт
 
@@ -99,53 +99,39 @@ namespace rab1.Forms
             // a = (a - min) * 2.0 * Math.PI / (max - min);   -pi +pi
 
             double[] sn = new double[NX];
+
             for (int i = 0; i < NX; i += kr1)
             {
                 double v = a * (Math.Sin(2.0 * Math.PI * i / n_polos + fz) + 1.0) / 2.0;          // синусоида от 0 до 1
-                if (clinArray != null)
-                {
-                    sn[i] = CorrectValueByClin(v, clinArray);
-                }
-                else
-                {
-                    sn[i] = v;
-                }
+                sn[i] = CorrectBr.CorrectValueByClin(v, clinArray);   
             }
-
-            double max = double.MinValue;
-            double min = double.MaxValue;
+          
+           // double max = double.MinValue;
+           //  double min = double.MaxValue;
 
             for (int j = 0; j < NY; j++)
               for (int i = 0; i < NX; i += kr1)
                 {
                     double fz1 = sn[i];                                                             // синусоида от 0 до 1
                     double fa = (0.5 - rnd.NextDouble()) * a * noise;                               //rnd.NextDouble() 0-1  
-                    fz1 = fz1 + fa;
-                    double s = Math.Pow(fz1, gamma);                                                // Гамма искажения
+                    double s = fz1 + fa;
+                    //double s = Math.Pow(fz1, gamma);                                                // Гамма искажения
                     //double s = fz1;
-                    if (s > max) max = s;  if (s < min) min = s;
+                    //if (s > max) max = s;  if (s < min) min = s;
                     cmpl.array[i, j] = s;
                 }
-            double maxmin = max - min;
+            //double maxmin = max - min;
 
-            for (int j = 0; j < NY; j++)
-                for (int i = 0; i < NX; i += kr1)
-                {
-                    cmpl.array[i, j] = (cmpl.array[i, j] - min) * a / maxmin;
-                }
+            //for (int j = 0; j < NY; j++)
+            //    for (int i = 0; i < NX; i += kr1)
+            //    {
+            //        cmpl.array[i, j] = (cmpl.array[i, j] - min) * a / maxmin;
+            //    }
 
 
             return cmpl;
         }
-        public static double CorrectValueByClin(double idealSinusValue, double[] clinArray)
-        {
-            double clinArrayCount = 240;
-            double idealCount = 255;
-
-            int value = Convert.ToInt32(idealSinusValue * clinArrayCount / idealCount);
-            double resValue = clinArray[value];
-            return resValue;
-        }
+       
         // ---------------------------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Моделирование клина интенсивности
