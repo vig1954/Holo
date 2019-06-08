@@ -105,6 +105,10 @@ namespace rab1.Forms
         /// <param name="e"></param>       
         private void button3_Click(object sender, EventArgs e)   
             {
+            if (checkBox1.Checked == true) { k[0] = 1; } else { k[0] = 0; }
+            if (checkBox2.Checked == true) { k[1] = 1; } else { k[1] = 0; }
+            if (checkBox3.Checked == true) { k[2] = 1; } else { k[2] = 0; }
+            if (checkBox4.Checked == true) { k[3] = 1; } else { k[3] = 0; }
 
             int[] wid = new int[4];
             for (int i = 0; i < 4; i++)

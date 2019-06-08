@@ -2853,41 +2853,61 @@ namespace rab1
             PSIForm.OnPSI   += FormPSI;              // PSI амплитуда и фаза =>  (8,9,10,11)
             PSIForm.OnPSI1  += FormPSI1;             // PSI  фазы (regComplex) -> в Главное  окно
             PSIForm.OnPSI_Carre += FormPSI_Carre;    // PSI Carre фазы (1,2,3,4) -> в Главное  окно
+            PSIForm.OnPSI5 += FormPSI5;              // PSI  фазы (regComplex) -> в Главное  окно
+            PSIForm.OnPSI7 += FormPSI7;             
+            PSIForm.OnPSI6 += FormPSI6;            
 
             PSIForm.OnIMAX  += FormIMAX;             // Квантование (8,9,10,11)
             PSIForm.OnIMAX1 += FormIMAX1;            // Квантование одного кадра
             //PSIForm.OnMaska += FormMaska;            // Наложение маски
-            PSIForm.OnSdvg   += FormSdvg;              // Фигуры Лиссажу
+            PSIForm.OnSdvg   += FormSdvg;              // Carre угол
 
             PSIForm.Show();
         }
 
-        private void FormSdvg()
-        {
-            zArrayPicture = FazaClass.ATAN_Sdvg(zArrayDescriptor, regComplex);
-            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
-            //zArrayDescriptor[5] = FazaClass.ATAN_Sdvg(zArrayDescriptor, regComplex);
-            //Vizual_regImage(5);
 
-        }
-        private void FormPSI(double[] fz, double am)
-        {
-            zComplex[1] = ATAN_PSI.ATAN_891011(zArrayDescriptor, progressBar1, fz, am);
-            Complex_pictureBox(1);
-
-        }
         private void FormPSI1(double[] fz)
         {
 
             zArrayPicture = ATAN_PSI.ATAN(zArrayDescriptor, regComplex, fz);
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
         }
+        private void FormPSI5(double[] fz)
+        {
 
+            zArrayPicture = ATAN_PSI.ATAN5(zArrayDescriptor, regComplex, fz);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        }
+        private void FormPSI6(double[] fz)
+        {
+
+            zArrayPicture = ATAN_PSI.ATAN6(zArrayDescriptor, regComplex, fz);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        }
+        private void FormPSI7(double[] fz)
+        {
+            zArrayPicture = ATAN_PSI.ATAN7(zArrayDescriptor, regComplex, fz);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        }
         private void FormPSI_Carre()
         {
             zArrayPicture = ATAN_PSI.ATAN_Faza_Carre(zArrayDescriptor, regComplex, progressBar1);
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
         }
+
+        private void FormSdvg()                                     // Угол по формуле Carre
+        {
+            zArrayPicture = ATAN_PSI.ATAN_Sdvg(zArrayDescriptor, regComplex);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        }
+
+
+        private void FormPSI(double[] fz, double am)
+        {
+            zComplex[1] = ATAN_PSI.ATAN_891011(zArrayDescriptor, progressBar1, fz, am);
+            Complex_pictureBox(1);
+        }
+      
 
         private void FormIMAX(int imax)
         {
@@ -3348,7 +3368,10 @@ namespace rab1
             return string.Format("{0} {1}", x, y);
         }
 
-      
+        private void pSIToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
 
         private void LoadCoordinates()
         {

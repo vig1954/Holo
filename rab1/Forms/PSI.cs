@@ -24,6 +24,9 @@ namespace rab1.Forms
 
         public event DelegatPSI    OnPSI;
         public event DelegatLis    OnPSI1;
+        public event DelegatLis    OnPSI5;
+        public event DelegatLis    OnPSI6;
+        public event DelegatLis    OnPSI7;
         public event DelegatSdvg   OnPSI_Carre;
         public event DelegatIMAX   OnIMAX;
         public event DelegatIMAX   OnIMAX1;
@@ -98,7 +101,7 @@ namespace rab1.Forms
             Close();
         }
 
-        private void button4_Click(object sender, EventArgs e)  // PSI  regCpmplex -> Главное окно
+        private void button4_Click(object sender, EventArgs e)  // PSI (Основная формула) regCpmplex -> Главное окно
         {
 
             n_sdv = Convert.ToInt32(textBox11.Text);
@@ -113,11 +116,13 @@ namespace rab1.Forms
             fz[6] = Convert.ToDouble(textBox9.Text); 
             fz[7] = Convert.ToDouble(textBox10.Text);
 
-            for (int i=0; i<n_sdv; i++) fzrad[i] = Math.PI * fz[i] / 180.0;
+            for (int i=0; i < n_sdv; i++) fzrad[i] = Math.PI * fz[i] / 180.0;
+
+            //Form1.zArrayPicture = ATAN_PSI.ATAN(Form1.zArrayDescriptor, Form1.regComplex, fz);
+            //Vizual.Vizual_Picture(Form1.zArrayPicture, Form1.pictureBox01);
 
             OnPSI1(fzrad);
             Close();
-
         }
         private void button5_Click(object sender, EventArgs e) // PSI Carre regCpmplex -> Главное окно
         { 
@@ -125,6 +130,72 @@ namespace rab1.Forms
             Close();
         }
 
+         private void button9_Click(object sender, EventArgs e) // 5-точечный regCpmplex -> Главное окно
+        {
+            int n = 5;
+            double[] fzrad = new double[n];
+
+            fz[0] = Convert.ToDouble(textBox1.Text);
+            fz[1] = Convert.ToDouble(textBox2.Text);
+            fz[2] = Convert.ToDouble(textBox3.Text);
+            fz[3] = Convert.ToDouble(textBox4.Text);
+            fz[4] = Convert.ToDouble(textBox7.Text);
+            //fz[5] = Convert.ToDouble(textBox8.Text);
+            //fz[6] = Convert.ToDouble(textBox9.Text);
+            //fz[7] = Convert.ToDouble(textBox10.Text);
+
+            for (int i = 0; i < n; i++) fzrad[i] = Math.PI * fz[i] / 180.0;
+
+            //Form1.zArrayPicture = ATAN_PSI.ATAN(Form1.zArrayDescriptor, Form1.regComplex, fz);
+            //Vizual.Vizual_Picture(Form1.zArrayPicture, Form1.pictureBox01);
+
+            OnPSI5(fzrad);
+            Close();
+        }
+        private void button11_Click(object sender, EventArgs e)
+        {
+            int n = 6;
+            double[] fzrad = new double[n];
+
+            fz[0] = Convert.ToDouble(textBox1.Text);
+            fz[1] = Convert.ToDouble(textBox2.Text);
+            fz[2] = Convert.ToDouble(textBox3.Text);
+            fz[3] = Convert.ToDouble(textBox4.Text);
+            fz[4] = Convert.ToDouble(textBox7.Text);
+            fz[5] = Convert.ToDouble(textBox8.Text);
+            fz[6] = Convert.ToDouble(textBox9.Text);
+            //fz[7] = Convert.ToDouble(textBox10.Text);
+
+            for (int i = 0; i < n; i++) fzrad[i] = Math.PI * fz[i] / 180.0;
+
+            //Form1.zArrayPicture = ATAN_PSI.ATAN(Form1.zArrayDescriptor, Form1.regComplex, fz);
+            //Vizual.Vizual_Picture(Form1.zArrayPicture, Form1.pictureBox01);
+
+            OnPSI6(fzrad);
+            Close();
+        }
+        private void button10_Click(object sender, EventArgs e)  // 7-точечный regCpmplex -> Главное окно
+        {
+            int n = 7;
+            double[] fzrad = new double[n];
+
+            fz[0] = Convert.ToDouble(textBox1.Text);
+            fz[1] = Convert.ToDouble(textBox2.Text);
+            fz[2] = Convert.ToDouble(textBox3.Text);
+            fz[3] = Convert.ToDouble(textBox4.Text);
+            fz[4] = Convert.ToDouble(textBox7.Text);
+            fz[5] = Convert.ToDouble(textBox8.Text);
+            fz[6] = Convert.ToDouble(textBox9.Text);
+            //fz[7] = Convert.ToDouble(textBox10.Text);
+
+            for (int i = 0; i < n; i++) fzrad[i] = Math.PI * fz[i] / 180.0;
+
+            //Form1.zArrayPicture = ATAN_PSI.ATAN(Form1.zArrayDescriptor, Form1.regComplex, fz);
+            //Vizual.Vizual_Picture(Form1.zArrayPicture, Form1.pictureBox01);
+
+            OnPSI7(fzrad);
+            Close();
+        }
         /*      private void button5_Click(object sender, EventArgs e)  // Наложение маски
                {
                    km1 = Convert.ToInt32(textBox13.Text);
@@ -206,5 +277,7 @@ namespace rab1.Forms
               VisualRegImage(k);
             }
         }
+
+      
     }
 }

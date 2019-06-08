@@ -79,6 +79,7 @@
             this.manageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fastTakePhotoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Фильтр = new System.Windows.Forms.ToolStripMenuItem();
+            this.фильтрацияНесколькихКадровToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сглаживаниеToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.сглаживаниеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.медианныйToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -213,7 +214,6 @@
             this.button9 = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
-            this.фильтрацияНесколькихКадровToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox01)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -753,6 +753,13 @@
             this.Фильтр.Text = "Фильтр";
             this.Фильтр.Click += new System.EventHandler(this.Фильтр_Click);
             // 
+            // фильтрацияНесколькихКадровToolStripMenuItem
+            // 
+            this.фильтрацияНесколькихКадровToolStripMenuItem.Name = "фильтрацияНесколькихКадровToolStripMenuItem";
+            this.фильтрацияНесколькихКадровToolStripMenuItem.Size = new System.Drawing.Size(390, 22);
+            this.фильтрацияНесколькихКадровToolStripMenuItem.Text = "Фильтрация нескольких кадров";
+            this.фильтрацияНесколькихКадровToolStripMenuItem.Click += new System.EventHandler(this.фильтрацияНесколькихКадровToolStripMenuItem_Click);
+            // 
             // сглаживаниеToolStripMenuItem1
             // 
             this.сглаживаниеToolStripMenuItem1.Name = "сглаживаниеToolStripMenuItem1";
@@ -936,6 +943,7 @@
             this.pSIToolStripMenuItem.Name = "pSIToolStripMenuItem";
             this.pSIToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.pSIToolStripMenuItem.Text = "PSI";
+            this.pSIToolStripMenuItem.Click += new System.EventHandler(this.pSIToolStripMenuItem_Click);
             // 
             // pSIToolStripMenuItem1
             // 
@@ -1973,13 +1981,6 @@
             this.vScrollBar2.Size = new System.Drawing.Size(16, 279);
             this.vScrollBar2.TabIndex = 115;
             this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar2_Scroll);
-            // 
-            // фильтрацияНесколькихКадровToolStripMenuItem
-            // 
-            this.фильтрацияНесколькихКадровToolStripMenuItem.Name = "фильтрацияНесколькихКадровToolStripMenuItem";
-            this.фильтрацияНесколькихКадровToolStripMenuItem.Size = new System.Drawing.Size(390, 22);
-            this.фильтрацияНесколькихКадровToolStripMenuItem.Text = "Фильтрация нескольких кадров";
-            this.фильтрацияНесколькихКадровToolStripMenuItem.Click += new System.EventHandler(this.фильтрацияНесколькихКадровToolStripMenuItem_Click);
             // 
             // Form1
             // 

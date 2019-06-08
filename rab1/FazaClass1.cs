@@ -333,39 +333,7 @@ namespace rab1
 
 
 
-        public static ZArrayDescriptor ATAN_Sdvg(ZArrayDescriptor[] zArrayDescriptor,  int regComplex)
-        {
-            int w1 = zArrayDescriptor[regComplex * 4].width;
-            int h1 = zArrayDescriptor[regComplex * 4].height;
-            ZArrayDescriptor cmpl = new ZArrayDescriptor(w1, h1);        // Массив для углов
-            double  s1=0, s=0, n=0;
-            double kf = 2 * 180 / Math.PI;
-            for (int j = 0; j < h1; j++)
-            {
-                //double s = 0;
-                for (int i = 0; i < w1; i++)
-                {
-                    double a1 = zArrayDescriptor[regComplex * 4].array[i, j];
-                    double a2 = zArrayDescriptor[regComplex * 4 + 1].array[i, j];
-                    double a3 = zArrayDescriptor[regComplex * 4 + 2].array[i, j];
-                    double a4 = zArrayDescriptor[regComplex * 4 + 3].array[i, j];
-                    double ch = 3 * (a2 - a3) - (a1 - a4);
-                    double zn = (a1 - a4) + (a2 - a3);
-                    double b = Math.Sqrt(Math.Abs(ch / zn));
-                    
-                    b =  Math.Atan(b) * kf;
-                    if (Double.IsNaN(b)) { b = 0; n = n - 1; }
-                    cmpl.array[i, j] = b;
-                    n = n + 1;
-                    s = s + b;
-                }
-                
-                
-            }
-            s1 = s1 + s / (h1 * w1);
-            MessageBox.Show("Средний угол = "+ s1);
-            return cmpl;
-        }
+      
 
 /*
         public static ZArrayDescriptor ATAN_Gr9101112(ZArrayDescriptor[] zArrayDescriptor, double[] fz)   // Фигура Лиссажу 9,10,11,12  => zArrayPicture
