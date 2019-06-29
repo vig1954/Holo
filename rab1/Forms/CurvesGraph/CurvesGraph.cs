@@ -18,16 +18,11 @@ namespace rab1
 {
     public partial class CurvesGraph : Form
     {
-        private VisualPolynomial //transmissionBright,
-                                            transmissionR,
-                                            transmissionG,
-                                            transmissionB,
-                                            currentTrans;
-        private int[] transmR,
-                          transmG,
-                          transmB;
+        private VisualPolynomial transmission, currentTrans;
+        private int[] transm;
         private double prevPoint = double.NaN;
-        private Pain_t_Core headquarters;
+
+        public event EventHandler ApplyCurve;
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
@@ -63,7 +58,6 @@ namespace rab1
             if (this.prevPoint is double.NaN || this.IsNotAtPictureBox(e.X, e.Y))
                 return;
             this.prevPoint = this.currentTrans.ReplacePoint(this.prevPoint, x, y);
-            //this.prevPoint = this.currentTrans.IsTherePointNearly(x, y, 3d, 3d);
             this.pictureBox1.Invalidate();
             this.RefreshData();
         }
@@ -87,94 +81,27 @@ namespace rab1
 
         private void RefreshData()
         {
-            switch (this.comboBox1.SelectedIndex)
-            {
-                case 0:
-                    {
-                        this.transmR = this.transmissionR.GetIntArr();
-                        break;
-                    }
-                case 1:
-                    {
-                        this.transmG = this.transmissionG.GetIntArr();
-                        break;
-                    }
-                case 2:
-                    {
-                        this.transmB = this.transmissionB.GetIntArr();
-                        break;
-                    }
-                default:
-                    {
-                        this.transmR = this.transmissionR.GetIntArr();
-                        break;
-                    }
-            }
+            this.transm = this.transmission.GetIntArr();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.timer.Enabled = false;
-            this.headquarters.Draw();
-            this.Close();
+           this.Close();
         }
 
         private void btnApply_Click(object sender, EventArgs e)
         {
-            this.timer.Enabled = false;
-            this.Enabled = false;
-            this.headquarters.ApplyTransRGB(this.transmR, this.transmG, this.transmB);
-            this.Close();
-        }
-
-        private void timer_Tick(object sender, EventArgs e)
-        {
-            this.headquarters.TryOnTransRGB(this.transmR, this.transmG, this.transmB);
-        }
+            if (this.ApplyCurve != null)
+            {
+                this.ApplyCurve(this, new EventArgs());
+            }
+        }   
 
         private void CurvesGraph_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.timer.Enabled = false;
-            this.headquarters.Draw();
+            
         }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var index = this.comboBox1.SelectedIndex;
-            switch (index)
-            {
-                /*
-                case 0:
-                    {
-                        this.currentTrans = this.transmissionBright;
-                        break;
-                    }
-                    */
-                case 0:
-                    {
-                        this.currentTrans = this.transmissionR;
-                        break;
-                    }
-                case 1:
-                    {
-                        this.currentTrans = this.transmissionG;
-                        break;
-                    }
-                case 2:
-                    {
-                        this.currentTrans = this.transmissionB;
-                        break;
-                    }
-                default:
-                    {
-                        this.currentTrans = this.transmissionR;
-                        break;
-                    }
-            }
-            this.currentTrans.SetActive();
-            this.pictureBox1.Invalidate();
-        }
-
+                
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
             if (MouseButtons.Right != e.Button) 
@@ -195,23 +122,20 @@ namespace rab1
         {
             var bmp = new Bitmap(this.pictureBox1.Width, this.pictureBox1.Height);
             this.pictureBox1.Image = bmp;
-            //this.transmissionBright = new VisualPolynomial(0, 255, 0, 255, 256, 0d, 255d, bmp);
-            this.transmissionR = new VisualPolynomial(0, 255, 0, 255, 256, 0d, 255d, bmp);
-            this.transmissionG = new VisualPolynomial(0, 255, 0, 255, 256, 0d, 255d, bmp);
-            this.transmissionB = new VisualPolynomial(0, 255, 0, 255, 256, 0d, 255d, bmp);
-            this.currentTrans = this.transmissionR;
-            this.transmissionR.SetActive();
-            this.transmR = this.transmissionR.GetIntArr();
-            this.transmG = this.transmissionG.GetIntArr();
-            this.transmB = this.transmissionB.GetIntArr();
-            this.comboBox1.SelectedIndex = 0;
-            this.timer.Enabled = true;
+            this.transmission = new VisualPolynomial(0, 255, 0, 255, 256, 0d, 255d, bmp);
+            this.currentTrans = this.transmission;
+            this.transmission.SetActive();
+            this.transm = this.transmission.GetIntArr();
         }
 
-        public CurvesGraph(Pain_t_Core core)
+        public CurvesGraph()
         {
-            this.headquarters = core;
             InitializeComponent();
+        }
+
+        public int[] GetRecodingArray()
+        {
+            return this.transm;
         }
     }
 }

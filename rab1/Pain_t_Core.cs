@@ -317,6 +317,8 @@ namespace rab1
                 this.resultBmp.UnlockBits(data);
             }
             this.outPort.Invalidate();
+            
+            //this.outPort.Refresh();
         }
         public void ApplyTransRGB(int[] transmR, int[] transmG, int[] transmB)
         {

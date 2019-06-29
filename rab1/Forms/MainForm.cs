@@ -24,10 +24,11 @@ namespace rab1
         
 // -----------------------------------------------------------------------------------------------------------
         Image[] img = new Image[12];
-        public static ZArrayDescriptor[]   zArrayDescriptor = new ZArrayDescriptor[12];     // Иконки справа
-        public static ZArrayDescriptor     zArrayPicture    = new ZArrayDescriptor();            // Массив для главного окна
-        public static ZComplexDescriptor[] zComplex         = new ZComplexDescriptor[3];
-        public PictureBox[]                pictureBoxArray   = null;
+        public static ZArrayDescriptor[] zArrayDescriptor = new ZArrayDescriptor[12];     // Иконки справа
+        public static ZArrayDescriptor zArrayPicture = new ZArrayDescriptor();            // Массив для главного окна
+        public static ZArrayDescriptor zArrayPictureOriginal = new ZArrayDescriptor(); 
+        public PictureBox[] pictureBoxArray = null;
+        public static ZComplexDescriptor[] zComplex = new ZComplexDescriptor[3];
         
         public static int regImage = 0;                           // Номер изображения (0-11)
         public static int regComplex = 0;                         // Номер Complex (0-3)
@@ -3393,10 +3394,34 @@ namespace rab1
 
         private void криваяПерекодированияToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Bitmap bitmap = pictureBox01.Image as Bitmap;
-            this.core.SetImage(bitmap);
-            this.core.FillPixChanelArrs();
-            (new CurvesGraph(this.core)).Show();
+            zArrayPictureOriginal = new ZArrayDescriptor(zArrayPicture);
+            CurvesGraph curvesGraph = new CurvesGraph();
+            curvesGraph.ApplyCurve += CurvesGraph_ApplyCurve;
+            curvesGraph.Show();
+        }
+
+        private void CurvesGraph_ApplyCurve(object sender, EventArgs e)
+        {
+            CurvesGraph curvesGraph = sender as CurvesGraph;
+            if (sender != null)
+            {
+                int[] recodingArray = curvesGraph.GetRecodingArray();
+
+                int width = zArrayPicture.width;
+                int height = zArrayPicture.height;
+
+                for (int j = 0; j < width; j++)
+                {
+                    for (int i = 0; i < height; i++)
+                    {
+                        int oldValue = Convert.ToInt32(zArrayPictureOriginal.array[j, i]);
+                        int newValue = recodingArray[oldValue];
+                        zArrayPicture.array[j, i] = newValue;
+                    }
+                }
+
+                Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+            }
         }
 
         private void LoadCoordinates()
