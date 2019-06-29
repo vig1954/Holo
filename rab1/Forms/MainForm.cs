@@ -722,6 +722,9 @@ namespace rab1
             if (zArrayPicture != null) Vizual.Vizual_Picture(zArrayPicture, pictureBox01);     // Отображение на pictureBox01
                                                                                                //zArrayPicture.Double_Picture(pictureBox01);
                                                                                                // Отображение на pictureBox01
+
+            zArrayPictureOriginal = new ZArrayDescriptor(zArrayPicture);
+
         }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void SAVEToolStripMenuItem_Click(object sender, EventArgs e)  // Сохранить файл из pictureBox01 в графический файл
@@ -3394,7 +3397,8 @@ namespace rab1
 
         private void криваяПерекодированияToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            zArrayPictureOriginal = new ZArrayDescriptor(zArrayPicture);
+            //zArrayPictureOriginal = new ZArrayDescriptor(zArrayPicture);
+
             CurvesGraph curvesGraph = new CurvesGraph();
             curvesGraph.ApplyCurve += CurvesGraph_ApplyCurve;
             curvesGraph.Show();
