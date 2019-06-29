@@ -28,8 +28,8 @@ namespace rab1.Forms
         public delegate void VisualRegImageDelegate(int k);
         public static VisualRegImageDelegate VisualRegImage = null;    // Визуализация одного кадра от 0 до 11 из main
 
-        public event ModelSinG_kr OnModelSin;
-        public event ModelSinG_Picture OnModelSin1;
+       // public event ModelSinG_kr OnModelSin;
+       // public event ModelSinG_Picture OnModelSin1;
        // public event ModelSinG_kr OnModelSin8;
         public event ModelSinG    OnModelWB;
         public event ModelSinD    OnModel_Dithering;
@@ -69,9 +69,10 @@ namespace rab1.Forms
             textBox17.Text    = Convert.ToString(N_sdv);
         }
 
-        private void button1_Click(object sender, EventArgs e)                             // Смоделировать 4 синусоиды с N_pol полосами
+        private void button1_Click(object sender, EventArgs e)                             // Смоделировать 4(8) синусоиды с N_pol полосами
         {
-            double[] fzrad = new double[4];
+            double[] fzrad = new double[8];
+
             fz[0] = Convert.ToDouble(textBox1.Text); fzrad[0] = Math.PI * fz[0] / 180.0;   // Фаза в радианах  
             fz[1] = Convert.ToDouble(textBox2.Text); fzrad[1] = Math.PI * fz[1] / 180.0;
             fz[2] = Convert.ToDouble(textBox3.Text); fzrad[2] = Math.PI * fz[2] / 180.0;
@@ -83,8 +84,28 @@ namespace rab1.Forms
             Nx = Convert.ToInt32(textBox10.Text);
             Ny = Convert.ToInt32(textBox12.Text);
             noise = Convert.ToDouble(textBox11.Text);
+            N_sdv = Convert.ToInt32(textBox17.Text);   // Число сдвигов
 
-            OnModelSin(fzrad, N_urovn, gamma, N_pol, kr, Nx, Ny, noise);
+            if (N_sdv > 8) MessageBox.Show("Число сдвигов больше 8", "Message", MessageBoxButtons.OK);
+
+            fzrad[0] = Math.PI * Convert.ToDouble(textBox1.Text) / 180.0;   // Фаза в радианах  
+            fzrad[1] = Math.PI * Convert.ToDouble(textBox2.Text) / 180.0;
+            fzrad[2] = Math.PI * Convert.ToDouble(textBox3.Text) / 180.0;
+            fzrad[3] = Math.PI * Convert.ToDouble(textBox4.Text) / 180.0;
+
+            fzrad[4] = Math.PI * Convert.ToDouble(textBox13.Text) / 180.0;
+            fzrad[5] = Math.PI * Convert.ToDouble(textBox14.Text) / 180.0;
+            fzrad[6] = Math.PI * Convert.ToDouble(textBox15.Text) / 180.0;
+            fzrad[7] = Math.PI * Convert.ToDouble(textBox16.Text) / 180.0;
+
+            for (int i = 0; i < N_sdv; i++)
+            {
+                Form1.zArrayDescriptor[Form1.regComplex * 4 + i] = Model_Sinus.Sinus(fzrad[i], N_urovn, N_pol, gamma, kr, Nx, Ny, noise);
+                VisualRegImage(Form1.regComplex * 4 + i);
+            }
+            Close();
+            //OnModelSin(fzrad, N_urovn, gamma, N_pol, kr, Nx, Ny, noise);
+           
             Close();
         }
 

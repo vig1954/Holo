@@ -23,6 +23,9 @@ namespace rab1.Forms
 
     public partial class FrenelForm : Form
     {
+        public delegate void VisualRegImageDelegate(int k);
+        public static VisualRegImageDelegate Complex_pictureBox = null;      // Визуализация одного кадра от 0 до 11
+
         public event FrenelF  OnFrenel;
         public event FrenelF OnFrenelN;            // Френель с четным количеством точек
         public event FrenelF OnFrenelN_CUDA;       // Френель CUDA
@@ -54,7 +57,9 @@ namespace rab1.Forms
         private static int X1 = 602;
         private static int Y1 = 600;
         private static int N = 2048;
-       
+        private static int sdvig = 0;
+        private static int DX = 20;
+
         private static double[] fz = { 0.0, 90.0, 180.0, 270.0 };
 
         public FrenelForm()
@@ -70,6 +75,9 @@ namespace rab1.Forms
             textBox8.Text = Convert.ToString(N);
             textBox9.Text = Convert.ToString(X1);
             textBox10.Text = Convert.ToString(Y1);
+
+            textBox11.Text = Convert.ToString(sdvig);  // Сдвиг в Фурье по строкам
+            textBox12.Text = Convert.ToString(DX);     // Оставить DX точек 
 
             textBox13.Text = Convert.ToString(fz[0]);
             textBox14.Text = Convert.ToString(fz[1]);
@@ -149,6 +157,36 @@ namespace rab1.Forms
            OnFurie_N();
            Close();
        }
+
+        /// <summary>
+        /// Преобразование Фурье из главного окна (Real) с количеством точек 2**M по строкам в k2 (Complex)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button15_Click(object sender, EventArgs e)
+        {
+            k1 = Convert.ToInt32(textBox4.Text);
+            sdvig = Convert.ToInt32(textBox11.Text);                        // Сдвиг по строкам
+            Form1.zComplex[k1] = FurieN.BPF_Real(Form1.zArrayPicture, sdvig);
+            Complex_pictureBox(k1);
+            Close();
+        }
+        /// <summary>
+        /// Ограничение числа точек. Обратное проебразование Фурье
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button16_Click(object sender, EventArgs e)
+        {
+            k1 = Convert.ToInt32(textBox4.Text);
+            k2 = Convert.ToInt32(textBox5.Text);
+            sdvig = Convert.ToInt32(textBox11.Text);                        // Сдвиг по строкам
+            DX = Convert.ToInt32(textBox12.Text);
+            Form1.zComplex[k2] = FurieN.Inverse_BPF(k1, sdvig, DX);
+            Complex_pictureBox(k2);
+            Close();
+        }
+
 
         private void button7_Click(object sender, EventArgs e)   // Фурье (CUDA) из главного окна
         {
@@ -280,6 +318,6 @@ namespace rab1.Forms
             Close();
         }
 
-     
+      
     }
 }

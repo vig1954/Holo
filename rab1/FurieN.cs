@@ -112,7 +112,7 @@ namespace rab1
         {
             int nx = zarray.width;
             int ny = zarray.height;
-            //int nx = 5120;
+            // int nx = 5120;
             // int ny = 3328;
             ZComplexDescriptor resultArray = new ZComplexDescriptor(nx, ny);
 
@@ -155,7 +155,7 @@ namespace rab1
         }
          //----------------------------------------------------------------------------------------------------------------------------------------
 
-            public static ZComplexDescriptor BPF2(ZComplexDescriptor zarray)
+         public static ZComplexDescriptor BPF2(ZComplexDescriptor zarray)
          {
             int nx = zarray.width;
             int ny = zarray.height;
@@ -331,6 +331,80 @@ namespace rab1
             }
 
             return resultArray;
+        }
+        /// <summary>
+        /// BPF от реального массива по строкам
+        /// </summary>
+        /// <param name="zarray"></param>
+        /// <param name="sdvig"></param>   Сдвиг 
+        /// <returns></returns>
+        public static ZComplexDescriptor BPF_Real(ZArrayDescriptor zarray, int sdvig)
+        {
+            int nx = zarray.width;
+            int ny = zarray.height;
+
+            int m = 1;
+            int nn = 2;
+            for (int i = 1; ; i++) { nn = nn * 2; if (nn > nx) { m = i; break; } }
+            int n = Convert.ToInt32(Math.Pow(2.0, m));                                  // N=2**m
+
+
+            // MessageBox.Show("nx: " + nx  + "   m: " + m + "   n: " + n);
+
+            //Complex[] array_exp = P_EXP(m + 1);                             // Экспонента для BPF
+            //int[] array_inv = Invers(m, nx);                                // Инверсия элементов массива для БПФ
+
+            Complex[] Array = new Complex[n];                                // Выходной массив 
+            Complex[] ArrayX = new Complex[n];                               // Комплексный массив экспоненты сдвига 
+
+            for (int i = 0; i < n; i++)
+               {
+                double a = 2 * Math.PI * sdvig * i / n;
+                ArrayX[i] = new Complex(Math.Cos(a), -Math.Sin(a));
+               }
+            
+            ZComplexDescriptor resultArray = new ZComplexDescriptor(n, ny);  // Re=zArrayPicture Im=0
+            for (int j = 0; j < ny; j++)                             
+             {
+                for (int i = 0; i < n; i++) { Array[i] = new Complex(zarray.array[i, j], 0.0); }
+                for (int i = 0; i < n; i++) { Array[i] = Array[i]* ArrayX[i]; }
+                //Array = BPF_Q(Array, m, array_exp, array_inv);
+                Array = Furie.GetFourierTransform(Array, m);
+                for (int i = 0; i < n; i++) resultArray.array[i, j] = Array[i];
+             }   
+
+            return resultArray;
+
+        }
+
+        public static ZComplexDescriptor Inverse_BPF(int k2, int sdvig, int DX)
+        {
+            if (Form1.zComplex[k2] == null) { MessageBox.Show("FurieN zComplex[k2] == NULL"); return null; }
+            int nx = Form1.zComplex[k2].width;
+            int ny = Form1.zComplex[k2].height;
+
+            Complex[] Array = new Complex[nx];
+            int m = 1;
+            int nn = 2;
+            for (int i = 1; ; i++) { nn = nn * 2; if (nn > nx) { m = i; break; } }
+            int n = Convert.ToInt32(Math.Pow(2.0, m));                                  // N=2**m
+
+
+             MessageBox.Show("nx: " + nx  + "   m: " + m );
+
+            ZComplexDescriptor resultArray = new ZComplexDescriptor(nx, ny);  // Re=zArrayPicture Im=0
+            for (int j = 0; j < ny; j++)
+            {
+                for (int i = 0;     i < DX; i++) { Array[i] = Form1.zComplex[k2].array[i, j]; }
+                for (int i = nx-DX; i < nx; i++) { Array[i] = Form1.zComplex[k2].array[i, j]; }
+
+                //Array = BPF_Q(Array, m, array_exp, array_inv);
+                Array = Furie.GetInverseFourierTransform(Array, m);
+                for (int i = 0; i < nx; i++) resultArray.array[i, j] = Array[i];
+            }
+
+            return resultArray;
+
         }
 
 
