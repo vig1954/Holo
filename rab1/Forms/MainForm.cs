@@ -62,6 +62,9 @@ namespace rab1
         private double initialScaleRatio = 1;
         private double afterRemovingScaleRatio = 1;
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        Pain_t_Core core;
+
         public Form1()
         {
             InitializeComponent();
@@ -715,7 +718,8 @@ namespace rab1
         {
             zArrayPicture = File_Helper.loadImage();
             if (zArrayPicture != null) Vizual.Vizual_Picture(zArrayPicture, pictureBox01);     // Отображение на pictureBox01
-                                                                                               //zArrayPicture.Double_Picture(pictureBox01);                                  // Отображение на pictureBox01
+                                                                                               //zArrayPicture.Double_Picture(pictureBox01);
+                                                                                               // Отображение на pictureBox01
         }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void SAVEToolStripMenuItem_Click(object sender, EventArgs e)  // Сохранить файл из pictureBox01 в графический файл
@@ -3315,7 +3319,12 @@ namespace rab1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            this.core = new Pain_t_Core(this.pictureBox01);
+            this.core.FirstColor = Color.Black;
+            this.core.SecondColor = Color.White;
+            this.core.BrushColor = this.core.FirstColor;
+            this.core.BrushWidth = 1;
+            this.core.BindPipetteBufColor(true);
         }
 
         private void сохранитьТочкиToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3371,6 +3380,14 @@ namespace rab1
         private void pSIToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void криваяПерекодированияToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Bitmap bitmap = pictureBox01.Image as Bitmap;
+            this.core.SetImage(bitmap);
+            this.core.FillPixChanelArrs();
+            (new CurvesGraph(this.core)).Show();
         }
 
         private void LoadCoordinates()

@@ -36,9 +36,9 @@ namespace rab1
 
         GTool tool = GTool.Brush;
         bool drag = false;
-        GUK.AbstractTool curTool;
-        GUK.GBrush gBrush;
-        GUK.GPipette gPipette;
+        AbstractTool curTool;
+        GBrush gBrush;
+        GPipette gPipette;
         private Color firstColor, secondColor;
         public Color FirstColor
         {
@@ -273,6 +273,19 @@ namespace rab1
             this.Draw();
             return this.layers.Count != 0;
         }
+
+        public bool SetImage(Bitmap bitmap)
+        {
+            this.resultBmp = bitmap;
+            this.outPort.Image = this.resultBmp;
+            this.graphics = Graphics.FromImage(this.resultBmp);
+            this.layers.Clear();
+            this.layers.Add(new ImageLayer(this.resultBmp));
+            this.SplitActiveLayers();
+            this.Draw();
+            return this.layers.Count != 0;
+        }
+
         public void SaveImage()
         {
             this.SplitActiveLayers();
@@ -390,12 +403,12 @@ namespace rab1
         {
             this.firstColor = Color.FromArgb(0, 0, 0);
             this.secondColor = Color.FromArgb(255, 255, 255);
-            this.gBrush = new GUK.GBrush(graphics);
+            this.gBrush = new GBrush(graphics);
             this.gBrush.pen.Color = this.firstColor;
             this.gBrush.pen.SetLineCap(System.Drawing.Drawing2D.LineCap.Round,
                                                      System.Drawing.Drawing2D.LineCap.Round,
                                                      System.Drawing.Drawing2D.DashCap.Flat);
-            this.gPipette = new GUK.GPipette(new Bitmap(1, 1), ref this.firstColor);
+            this.gPipette = new GPipette(new Bitmap(1, 1), ref this.firstColor);
         }
 
     }

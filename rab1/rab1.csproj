@@ -112,6 +112,12 @@
     <Compile Include="Forms\CorrectBr.Designer.cs">
       <DependentUpon>CorrectBr.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\CurvesGraph\CurvesGraph.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CurvesGraph\CurvesGraph.Designer.cs">
+      <DependentUpon>CurvesGraph.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Form_Filtr.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -157,9 +163,12 @@
     <Compile Include="FurieN.cs" />
     <Compile Include="GammaCorrection.cs" />
     <Compile Include="GroupItem.cs" />
+    <Compile Include="ImageLayer.cs" />
     <Compile Include="ImageSaveItem.cs" />
     <Compile Include="ImsgeSaveModeEnum.cs" />
+    <Compile Include="Pain_t_Core.cs" />
     <Compile Include="PhaseShiftDeviceController.cs" />
+    <Compile Include="Polynomial.cs" />
     <Compile Include="Rot.cs" />
     <Compile Include="Forms\UnrupForm1.cs">
       <SubType>Form</SubType>
@@ -168,6 +177,8 @@
       <DependentUpon>UnrupForm1.cs</DependentUpon>
     </Compile>
     <Compile Include="TakePhotoSeiesType.cs" />
+    <Compile Include="Tools.cs" />
+    <Compile Include="VisualPolynomial.cs" />
     <Compile Include="ZArrayDescriptor.cs" />
     <Compile Include="ZIntDescriptor.cs" />
     <Compile Include="Unrup.cs" />
@@ -309,6 +320,15 @@
     <EmbeddedResource Include="Forms\Complex_form.resx" />
     <EmbeddedResource Include="Forms\CorrectBr.resx">
       <DependentUpon>CorrectBr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CurvesGraph\CurvesGraph.asa-TZ.resx">
+      <DependentUpon>CurvesGraph.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CurvesGraph\CurvesGraph.resx">
+      <DependentUpon>CurvesGraph.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CurvesGraph\CurvesGraph.rwk.resx">
+      <DependentUpon>CurvesGraph.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Form_Filtr.resx">
       <DependentUpon>Form_Filtr.cs</DependentUpon>

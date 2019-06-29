@@ -1,4 +1,4 @@
-﻿namespace PT_Coursework01_byGUK
+﻿namespace rab1
 {
     partial class CurvesGraph
     {
@@ -44,8 +44,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.pictureBox1.BackgroundImage = global::PT_Coursework01_byGUK.SourcesFileGUK.Setka_v_Fotoshope__3_;
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.Window;
             resources.ApplyResources(this.pictureBox1, "pictureBox1");
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;
@@ -83,7 +82,6 @@
             // 
             // labelArrow
             // 
-            this.labelArrow.Image = global::PT_Coursework01_byGUK.SourcesFileGUK.стрелочка;
             resources.ApplyResources(this.labelArrow, "labelArrow");
             this.labelArrow.Name = "labelArrow";
             // 
