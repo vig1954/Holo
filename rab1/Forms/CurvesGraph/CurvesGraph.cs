@@ -23,6 +23,7 @@ namespace rab1
         private double prevPoint = double.NaN;
 
         public event EventHandler ApplyCurve;
+        public event EventHandler ApplyCurveAll;
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
@@ -133,9 +134,27 @@ namespace rab1
             InitializeComponent();
         }
 
+        private void btnApplyAll_Click(object sender, EventArgs e)
+        {
+            if (this.ApplyCurveAll != null)
+            {
+                this.ApplyCurveAll(this, new EventArgs());
+            }
+        }
+
         public int[] GetRecodingArray()
         {
             return this.transm;
+        }
+
+        public int GetStartImageNumber()
+        {
+            return int.Parse(txtStartImageNumber.Text);
+        }
+
+        public int GetEndImageNumber()
+        {
+            return int.Parse(txtEndImageNumber.Text);
         }
     }
 }

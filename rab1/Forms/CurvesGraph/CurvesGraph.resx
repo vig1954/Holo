@@ -145,7 +145,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>10</value>
   </data>
   <data name="labelFrom.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -172,7 +172,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;labelFrom.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>9</value>
   </data>
   <data name="labelTo.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -202,7 +202,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;labelTo.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>8</value>
   </data>
   <data name="labelArrow.Location" type="System.Drawing.Point, System.Drawing">
     <value>184, 414</value>
@@ -223,13 +223,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;labelArrow.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>7</value>
   </data>
   <data name="labelHint1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="labelHint1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 495</value>
+    <value>12, 444</value>
   </data>
   <data name="labelHint1.Size" type="System.Drawing.Size, System.Drawing">
     <value>135, 26</value>
@@ -251,13 +251,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;labelHint1.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>6</value>
   </data>
   <data name="btnApply.Location" type="System.Drawing.Point, System.Drawing">
-    <value>299, 495</value>
+    <value>288, 508</value>
   </data>
   <data name="btnApply.Size" type="System.Drawing.Size, System.Drawing">
-    <value>97, 39</value>
+    <value>111, 39</value>
   </data>
   <data name="btnApply.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -275,13 +275,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnApply.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>5</value>
   </data>
   <data name="btnCancel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>168, 495</value>
+    <value>182, 508</value>
   </data>
   <data name="btnCancel.Size" type="System.Drawing.Size, System.Drawing">
     <value>97, 39</value>
@@ -302,6 +302,108 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnCancel.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="btnApplyAll.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnApplyAll.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 508</value>
+  </data>
+  <data name="btnApplyAll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 39</value>
+  </data>
+  <data name="btnApplyAll.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="btnApplyAll.Text" xml:space="preserve">
+    <value>Применить ко всем</value>
+  </data>
+  <data name="&gt;&gt;btnApplyAll.Name" xml:space="preserve">
+    <value>btnApplyAll</value>
+  </data>
+  <data name="&gt;&gt;btnApplyAll.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnApplyAll.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnApplyAll.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="txtStartImageNumber.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 484</value>
+  </data>
+  <data name="txtStartImageNumber.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 20</value>
+  </data>
+  <data name="txtStartImageNumber.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="txtStartImageNumber.Text" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;txtStartImageNumber.Name" xml:space="preserve">
+    <value>txtStartImageNumber</value>
+  </data>
+  <data name="&gt;&gt;txtStartImageNumber.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtStartImageNumber.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;txtStartImageNumber.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="txtEndImageNumber.Location" type="System.Drawing.Point, System.Drawing">
+    <value>81, 484</value>
+  </data>
+  <data name="txtEndImageNumber.Size" type="System.Drawing.Size, System.Drawing">
+    <value>43, 20</value>
+  </data>
+  <data name="txtEndImageNumber.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="txtEndImageNumber.Text" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;txtEndImageNumber.Name" xml:space="preserve">
+    <value>txtEndImageNumber</value>
+  </data>
+  <data name="&gt;&gt;txtEndImageNumber.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtEndImageNumber.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;txtEndImageNumber.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>65, 487</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>10, 13</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

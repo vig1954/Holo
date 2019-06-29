@@ -3397,11 +3397,42 @@ namespace rab1
 
         private void криваяПерекодированияToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //zArrayPictureOriginal = new ZArrayDescriptor(zArrayPicture);
-
             CurvesGraph curvesGraph = new CurvesGraph();
             curvesGraph.ApplyCurve += CurvesGraph_ApplyCurve;
+            curvesGraph.ApplyCurveAll += CurvesGraph_ApplyCurveAll;
             curvesGraph.Show();
+        }
+
+        private void CurvesGraph_ApplyCurveAll(object sender, EventArgs e)
+        {
+            CurvesGraph curvesGraph = sender as CurvesGraph;
+            if (sender != null)
+            {
+                int[] recodingArray = curvesGraph.GetRecodingArray();
+                int startImageIndex = curvesGraph.GetStartImageNumber() - 1;
+                int endImageIndex = curvesGraph.GetEndImageNumber() - 1;
+
+                for (int k = startImageIndex; k <= endImageIndex; k++)
+                {
+                    ZArrayDescriptor arrayDescr = zArrayDescriptor[k];
+                    if (arrayDescr == null) continue;
+
+                    int width = arrayDescr.width;
+                    int height = arrayDescr.height;
+
+                    for (int j = 0; j < width; j++)
+                    {
+                        for (int i = 0; i < height; i++)
+                        {
+                            int oldValue = Convert.ToInt32(arrayDescr.array[j, i]);
+                            int newValue = recodingArray[oldValue];
+                            arrayDescr.array[j, i] = newValue;
+                        }
+                    }
+
+                    Vizual.Vizual_Picture(arrayDescr, pictureBoxArray[k]);
+                }
+            }
         }
 
         private void CurvesGraph_ApplyCurve(object sender, EventArgs e)

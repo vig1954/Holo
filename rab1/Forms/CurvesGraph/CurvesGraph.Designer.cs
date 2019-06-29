@@ -36,6 +36,10 @@
             this.labelHint1 = new System.Windows.Forms.Label();
             this.btnApply = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.btnApplyAll = new System.Windows.Forms.Button();
+            this.txtStartImageNumber = new System.Windows.Forms.TextBox();
+            this.txtEndImageNumber = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -90,11 +94,37 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // btnApplyAll
+            // 
+            resources.ApplyResources(this.btnApplyAll, "btnApplyAll");
+            this.btnApplyAll.Name = "btnApplyAll";
+            this.btnApplyAll.UseVisualStyleBackColor = true;
+            this.btnApplyAll.Click += new System.EventHandler(this.btnApplyAll_Click);
+            // 
+            // txtStartImageNumber
+            // 
+            resources.ApplyResources(this.txtStartImageNumber, "txtStartImageNumber");
+            this.txtStartImageNumber.Name = "txtStartImageNumber";
+            // 
+            // txtEndImageNumber
+            // 
+            resources.ApplyResources(this.txtEndImageNumber, "txtEndImageNumber");
+            this.txtEndImageNumber.Name = "txtEndImageNumber";
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
             // CurvesGraph
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.txtEndImageNumber);
+            this.Controls.Add(this.txtStartImageNumber);
+            this.Controls.Add(this.btnApplyAll);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnApply);
             this.Controls.Add(this.labelHint1);
@@ -126,5 +156,9 @@
         private System.Windows.Forms.Label labelHint1;
         private System.Windows.Forms.Button btnApply;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnApplyAll;
+        private System.Windows.Forms.TextBox txtStartImageNumber;
+        private System.Windows.Forms.TextBox txtEndImageNumber;
+        private System.Windows.Forms.Label label1;
     }
 }
