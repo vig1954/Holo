@@ -347,6 +347,7 @@ namespace rab1.Forms
 
                     double fz1 = 2*(i2-i4);              
                     double fz2 = i1-2*i3+i5;
+                    //double fi = Math.Atan2(fz1, fz2);
                     double fi = Math.Atan2(fz1, fz2) - Math.PI / 2;
                     if (fi < -Math.PI) fi = fi + 2 * Math.PI;
                     faza.array[i, j] = fi;
@@ -428,8 +429,47 @@ namespace rab1.Forms
 
             return faza;
         }
+        /// <summary>
+        /// 8 точечный алгоритм
+        /// </summary>
+        /// <param name="zArray"></param>
+        /// <param name="regComplex"></param>
+        /// <param name="fz"></param>
+        /// <returns></returns>
+        public static ZArrayDescriptor ATAN8(ZArrayDescriptor[] zArray, int regComplex, double[] fz) // regComplex   ->    Главное окно
+        {
 
+            int w1 = zArray[regComplex * 4].width;
+            int h1 = zArray[regComplex * 4].height;
 
+            ZArrayDescriptor faza = new ZArrayDescriptor(w1, h1);
+
+            int n_sdv = fz.Length;                                                       // Число фазовых сдвигов
+            //MessageBox.Show(" fz.Length= " + n );
+
+            for (int i = 0; i < w1; i++)
+            {
+                for (int j = 0; j < h1; j++)
+                {
+                    double i1 = zArray[regComplex * 4].array[i, j];
+                    double i2 = zArray[regComplex * 4 + 1].array[i, j];
+                    double i3 = zArray[regComplex * 4 + 2].array[i, j];
+                    double i4 = zArray[regComplex * 4 + 3].array[i, j];
+                    double i5 = zArray[regComplex * 4 + 4].array[i, j];
+                    double i6 = zArray[regComplex * 4 + 5].array[i, j];
+                    double i7 = zArray[regComplex * 4 + 6].array[i, j];
+                    double i8 = zArray[regComplex * 4 + 7].array[i, j];
+
+                    double fz1 = 5 * i2 - 15 * i4 + 11* i6 - i8;
+                    double fz2 = i1 - 11 * i3 + 15 * i5 - 5 * i7;
+                    double fi = Math.Atan2(fz1, fz2) - Math.PI / 2;
+                    if (fi < -Math.PI) fi = fi + 2 * Math.PI;
+                    faza.array[i, j] = fi;
+                }
+            }
+
+            return faza;
+        }
 
         public static ZComplexDescriptor ATAN_8_11(int k1, int k2, int k3, int k4, ZArrayDescriptor[] zArrayPicture,  double[] fzz, double amplit = 255)
         {

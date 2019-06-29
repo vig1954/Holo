@@ -72,6 +72,12 @@
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
+            this.button15 = new System.Windows.Forms.Button();
+            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.button16 = new System.Windows.Forms.Button();
+            this.label16 = new System.Windows.Forms.Label();
+            this.textBox12 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // button1
@@ -175,7 +181,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(236, 241);
+            this.button2.Location = new System.Drawing.Point(236, 197);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(297, 23);
             this.button2.TabIndex = 12;
@@ -185,7 +191,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(579, 241);
+            this.button3.Location = new System.Drawing.Point(579, 197);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(232, 23);
             this.button3.TabIndex = 13;
@@ -195,9 +201,9 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(41, 609);
+            this.button4.Location = new System.Drawing.Point(41, 565);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(392, 23);
+            this.button4.Size = new System.Drawing.Size(460, 23);
             this.button4.TabIndex = 14;
             this.button4.Text = "Преобразование Фурье с четным количеством точек из главного окна";
             this.button4.UseVisualStyleBackColor = true;
@@ -205,7 +211,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(43, 285);
+            this.button5.Location = new System.Drawing.Point(43, 241);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(508, 36);
             this.button5.TabIndex = 15;
@@ -217,7 +223,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(601, 339);
+            this.label7.Location = new System.Drawing.Point(601, 295);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(14, 13);
             this.label7.TabIndex = 16;
@@ -226,7 +232,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(680, 339);
+            this.label8.Location = new System.Drawing.Point(680, 295);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(14, 13);
             this.label8.TabIndex = 17;
@@ -234,21 +240,21 @@
             // 
             // textBox6
             // 
-            this.textBox6.Location = new System.Drawing.Point(579, 314);
+            this.textBox6.Location = new System.Drawing.Point(579, 270);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(75, 20);
             this.textBox6.TabIndex = 18;
             // 
             // textBox7
             // 
-            this.textBox7.Location = new System.Drawing.Point(660, 314);
+            this.textBox7.Location = new System.Drawing.Point(660, 270);
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(62, 20);
             this.textBox7.TabIndex = 19;
             // 
             // textBox8
             // 
-            this.textBox8.Location = new System.Drawing.Point(731, 369);
+            this.textBox8.Location = new System.Drawing.Point(731, 325);
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(67, 20);
             this.textBox8.TabIndex = 20;
@@ -256,7 +262,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(745, 403);
+            this.label9.Location = new System.Drawing.Point(745, 359);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(15, 13);
             this.label9.TabIndex = 21;
@@ -274,7 +280,7 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(474, 609);
+            this.button7.Location = new System.Drawing.Point(579, 565);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(286, 23);
             this.button7.TabIndex = 23;
@@ -284,7 +290,7 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(43, 241);
+            this.button8.Location = new System.Drawing.Point(43, 197);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(171, 23);
             this.button8.TabIndex = 24;
@@ -304,11 +310,11 @@
             // 
             // button10
             // 
-            this.button10.Location = new System.Drawing.Point(236, 197);
+            this.button10.Location = new System.Drawing.Point(41, 604);
             this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(361, 23);
+            this.button10.Size = new System.Drawing.Size(574, 23);
             this.button10.TabIndex = 27;
-            this.button10.Text = "Преобразование Фурье с четным количеством точек по строкам";
+            this.button10.Text = "Преобразование Фурье с четным количеством точек по строкам из k1 в k2 (Complex)";
             this.button10.UseVisualStyleBackColor = true;
             this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
@@ -365,7 +371,7 @@
             // 
             // button12
             // 
-            this.button12.Location = new System.Drawing.Point(43, 560);
+            this.button12.Location = new System.Drawing.Point(43, 516);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(508, 23);
             this.button12.TabIndex = 40;
@@ -375,7 +381,7 @@
             // 
             // textBox17
             // 
-            this.textBox17.Location = new System.Drawing.Point(579, 562);
+            this.textBox17.Location = new System.Drawing.Point(579, 518);
             this.textBox17.Name = "textBox17";
             this.textBox17.Size = new System.Drawing.Size(62, 20);
             this.textBox17.TabIndex = 41;
@@ -402,7 +408,7 @@
             // 
             // button13
             // 
-            this.button13.Location = new System.Drawing.Point(43, 327);
+            this.button13.Location = new System.Drawing.Point(43, 283);
             this.button13.Name = "button13";
             this.button13.Size = new System.Drawing.Size(508, 36);
             this.button13.TabIndex = 44;
@@ -413,7 +419,7 @@
             // 
             // button14
             // 
-            this.button14.Location = new System.Drawing.Point(43, 369);
+            this.button14.Location = new System.Drawing.Point(43, 325);
             this.button14.Name = "button14";
             this.button14.Size = new System.Drawing.Size(508, 156);
             this.button14.TabIndex = 45;
@@ -423,14 +429,14 @@
             // 
             // textBox9
             // 
-            this.textBox9.Location = new System.Drawing.Point(579, 424);
+            this.textBox9.Location = new System.Drawing.Point(579, 380);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(75, 20);
             this.textBox9.TabIndex = 46;
             // 
             // textBox10
             // 
-            this.textBox10.Location = new System.Drawing.Point(660, 424);
+            this.textBox10.Location = new System.Drawing.Point(660, 380);
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(62, 20);
             this.textBox10.TabIndex = 47;
@@ -438,7 +444,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(601, 456);
+            this.label12.Location = new System.Drawing.Point(601, 412);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(20, 13);
             this.label12.TabIndex = 48;
@@ -447,17 +453,78 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(680, 456);
+            this.label14.Location = new System.Drawing.Point(680, 412);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(20, 13);
             this.label14.TabIndex = 49;
             this.label14.Text = "Y1";
             // 
+            // button15
+            // 
+            this.button15.Location = new System.Drawing.Point(43, 642);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(572, 23);
+            this.button15.TabIndex = 50;
+            this.button15.Text = "Преобразование Фурье из главного окна (Real) с количеством точек 2**M по строкам " +
+    "в k1 (Complex)";
+            this.button15.UseVisualStyleBackColor = true;
+            this.button15.Click += new System.EventHandler(this.button15_Click);
+            // 
+            // textBox11
+            // 
+            this.textBox11.Location = new System.Drawing.Point(802, 640);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(26, 20);
+            this.textBox11.TabIndex = 51;
+            this.textBox11.Text = "0";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(657, 647);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(52, 13);
+            this.label15.TabIndex = 52;
+            this.label15.Text = "Сдвиг на";
+            // 
+            // button16
+            // 
+            this.button16.Location = new System.Drawing.Point(43, 671);
+            this.button16.Name = "button16";
+            this.button16.Size = new System.Drawing.Size(572, 23);
+            this.button16.TabIndex = 53;
+            this.button16.Text = "Оставить +-DX точек Обратное преобразование Фурье k1 => k2";
+            this.button16.UseVisualStyleBackColor = true;
+            this.button16.Click += new System.EventHandler(this.button16_Click);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(657, 676);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(22, 13);
+            this.label16.TabIndex = 55;
+            this.label16.Text = "DX";
+            // 
+            // textBox12
+            // 
+            this.textBox12.Location = new System.Drawing.Point(802, 673);
+            this.textBox12.Name = "textBox12";
+            this.textBox12.Size = new System.Drawing.Size(26, 20);
+            this.textBox12.TabIndex = 54;
+            this.textBox12.Text = "20";
+            // 
             // FrenelForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(808, 656);
+            this.ClientSize = new System.Drawing.Size(903, 755);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.textBox12);
+            this.Controls.Add(this.button16);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.textBox11);
+            this.Controls.Add(this.button15);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.textBox10);
@@ -554,5 +621,11 @@
         private System.Windows.Forms.TextBox textBox10;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Button button15;
+        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Button button16;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox textBox12;
     }
 }

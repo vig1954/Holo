@@ -81,6 +81,7 @@ namespace rab1
             CorrectBr.VisualRegImage     = this.Vizual_regImage;
             Form_Filtr.VisualRegImage    = this.Vizual_regImage;
             Model_Sin.VisualRegImage     = this.Vizual_regImage;
+            FrenelForm.Complex_pictureBox = this.Complex_pictureBox;
 
             CorrectBr.TakePhoto12        = this.FastTakePhoto;
             CorrectBr.TakePhoto          = this.FastTakePhoto;
@@ -1672,7 +1673,7 @@ namespace rab1
             FrForm.OnFurie               += FurComplex;
             FrForm.OnFurieM              += FurComplexM;
             FrForm.OnFurie_N             += FurComplex_N;
-            FrForm.OnFurie_2Line         += FurComplex_2Line;
+            FrForm.OnFurie_2Line         += FurComplex_2Line;   // Из k1 => k2 (Complex) по строкам
             FrForm.OnFurie_CUDA          += FurComplex_CUDA;
             FrForm.OnFurie_CUDA_CMPLX    += FurComplex_CUDA1;   // Фурье CUDA из к1 в k2
             FrForm.OnFurie_NXY           += FurComplex_NXY;     // Фурье   с задаваемым количеством точек из k1 => k2
@@ -2438,8 +2439,8 @@ namespace rab1
         private void моделированиеToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Model_Sin ModelForm = new Model_Sin();
-            ModelForm.OnModelSin          += FormModel_Sin;             // Задается число полос
-            ModelForm.OnModelSin1         += FormModel_Sin1;            // Задается число точек в периоде
+            //ModelForm.OnModelSin          += FormModel_Sin;             // Задается число полос
+            //ModelForm.OnModelSin1         += FormModel_Sin1;            // Задается число точек в периоде
             //ModelForm.OnModelSin8         += FormModel_Sin8;
             ModelForm.OnModelWB           += FormModel_WB;
             ModelForm.OnModel_Dithering   += FormModel_Dithering;
@@ -2486,23 +2487,23 @@ namespace rab1
             zComplex[regComplex] = Model_Sinus.Exponenta(g,N);
             Complex_pictureBox(regComplex);
         }
-        private void FormModel_Sin(double[] fz, double amp, double gamma, double n_pol, int kr, int Nx, int Ny, double noise)       // Модель sin c фазовым сдвигом   kr - разреживание нулями
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                zArrayDescriptor[regComplex*4+i] = Model_Sinus.Sinus(fz[i], amp, n_pol, gamma, kr, Nx, Ny, noise);
-                Vizual_regImage(regComplex * 4 + i);
-            }         
-        }
+       // private void FormModel_Sin(double[] fz, double amp, double gamma, double n_pol, int kr, int Nx, int Ny, double noise)       // Модель sin c фазовым сдвигом   kr - разреживание нулями
+       // {
+       //     for (int i = 0; i < 4; i++)
+       //     {
+       //         zArrayDescriptor[regComplex*4+i] = Model_Sinus.Sinus(fz[i], amp, n_pol, gamma, kr, Nx, Ny, noise);
+       //         Vizual_regImage(regComplex * 4 + i);
+       //     }         
+       // }
 
-        private void FormModel_Sin1(double[] fz, int N_sdv, double amp, double gamma, double n_pol, int kr, int Nx, int Ny, double noise, double[] clin = null)       // Модель sin c фазовым сдвигом
-        {
-            for (int i = 0; i < N_sdv; i++)
-            {
-                zArrayDescriptor[regComplex * 4 + i] = Model_Sinus.Sinus1(fz[i], amp, n_pol, gamma, kr, Nx, Ny, noise, clin);
-                Vizual_regImage(regComplex * 4 + i);
-            }
-        }
+        //private void FormModel_Sin1(double[] fz, int N_sdv, double amp, double gamma, double n_pol, int kr, int Nx, int Ny, double noise, double[] clin = null)       // Модель sin c фазовым сдвигом
+        //{
+         //   for (int i = 0; i < N_sdv; i++)
+        //    {
+        //        zArrayDescriptor[regComplex * 4 + i] = Model_Sinus.Sinus1(fz[i], amp, n_pol, gamma, kr, Nx, Ny, noise, clin);
+        //        Vizual_regImage(regComplex * 4 + i);
+        //    }
+       // }
 
         //private void FormModel_Sin8(double[] fz, double amp, double gamma, double n_pol, int kr, int Nx, int Ny, double noise)       // Модель sin c фазовым сдвигом
         //{
@@ -2857,9 +2858,10 @@ namespace rab1
             PSIForm.OnPSI   += FormPSI;              // PSI амплитуда и фаза =>  (8,9,10,11)
             PSIForm.OnPSI1  += FormPSI1;             // PSI  фазы (regComplex) -> в Главное  окно
             PSIForm.OnPSI_Carre += FormPSI_Carre;    // PSI Carre фазы (1,2,3,4) -> в Главное  окно
-            PSIForm.OnPSI5 += FormPSI5;              // PSI  фазы (regComplex) -> в Главное  окно
-            PSIForm.OnPSI7 += FormPSI7;             
-            PSIForm.OnPSI6 += FormPSI6;            
+            PSIForm.OnPSI5 += FormPSI5;              // PSI  фазы (regComplex) -> в Главное  окно     
+            PSIForm.OnPSI6 += FormPSI6;
+            PSIForm.OnPSI7 += FormPSI7;
+            PSIForm.OnPSI8 += FormPSI8;
 
             PSIForm.OnIMAX  += FormIMAX;             // Квантование (8,9,10,11)
             PSIForm.OnIMAX1 += FormIMAX1;            // Квантование одного кадра
@@ -2893,6 +2895,13 @@ namespace rab1
             zArrayPicture = ATAN_PSI.ATAN7(zArrayDescriptor, regComplex, fz);
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
         }
+
+        private void FormPSI8(double[] fz)
+        {
+            zArrayPicture = ATAN_PSI.ATAN8(zArrayDescriptor, regComplex, fz);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        }
+
         private void FormPSI_Carre()
         {
             zArrayPicture = ATAN_PSI.ATAN_Faza_Carre(zArrayDescriptor, regComplex, progressBar1);
