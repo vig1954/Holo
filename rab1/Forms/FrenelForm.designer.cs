@@ -78,6 +78,7 @@
             this.button16 = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
             this.textBox12 = new System.Windows.Forms.TextBox();
+            this.button17 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -514,11 +515,23 @@
             this.textBox12.TabIndex = 54;
             this.textBox12.Text = "20";
             // 
+            // button17
+            // 
+            this.button17.Location = new System.Drawing.Point(43, 700);
+            this.button17.Name = "button17";
+            this.button17.Size = new System.Drawing.Size(572, 23);
+            this.button17.TabIndex = 56;
+            this.button17.Text = "Устранение эффекта Гибса Оставить +-DX точек Обратное преобразование Фурье k1 => " +
+    "k2";
+            this.button17.UseVisualStyleBackColor = true;
+            this.button17.Click += new System.EventHandler(this.button17_Click);
+            // 
             // FrenelForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(903, 755);
+            this.Controls.Add(this.button17);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.textBox12);
             this.Controls.Add(this.button16);
@@ -627,5 +640,6 @@
         private System.Windows.Forms.Button button16;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.Button button17;
     }
 }

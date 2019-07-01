@@ -50,8 +50,8 @@ namespace rab1.Forms
         private  static double xm = 7;
         private  static double lm = 0.5;
         private  static double dm = 135;
-        private static int k1 = 1;
-        private static int k2 = 0;
+        private static int k1 = 0;
+        private static int k2 = 1;
         private static int X = 600;
         private static int Y = 600;
         private static int X1 = 602;
@@ -186,8 +186,21 @@ namespace rab1.Forms
             Complex_pictureBox(k2);
             Close();
         }
-
-
+        /// <summary>
+        /// Ограничение числа точек. Устранение эффекта Гибса.Обратное преобразование Фурье
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button17_Click(object sender, EventArgs e)
+        {
+            k1 = Convert.ToInt32(textBox4.Text);
+            k2 = Convert.ToInt32(textBox5.Text);
+            sdvig = Convert.ToInt32(textBox11.Text);                        // Сдвиг по строкам
+            DX = Convert.ToInt32(textBox12.Text);
+            //Form1.zComplex[k2] = FurieN.Inverse1_BPF(k1, sdvig, DX);
+            Complex_pictureBox(k2);
+            Close();
+        }
         private void button7_Click(object sender, EventArgs e)   // Фурье (CUDA) из главного окна
         {
             OnFurie_CUDA();
@@ -318,6 +331,6 @@ namespace rab1.Forms
             Close();
         }
 
-      
+       
     }
 }

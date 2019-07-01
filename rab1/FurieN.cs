@@ -404,10 +404,38 @@ namespace rab1
             }
 
             return resultArray;
-
         }
 
+        public static ZComplexDescriptor Inverse1_BPF(int k2, int sdvig, int DX)
+        {
+            if (Form1.zComplex[k2] == null) { MessageBox.Show("FurieN zComplex[k2] == NULL"); return null; }
+            int nx = Form1.zComplex[k2].width;
+            int ny = Form1.zComplex[k2].height;
 
+            Complex[] Array = new Complex[nx];
+          
+
+            int m = 1;
+            int nn = 2;
+            for (int i = 1; ; i++) { nn = nn * 2; if (nn > nx) { m = i; break; } }
+            int n = Convert.ToInt32(Math.Pow(2.0, m));                                  // N=2**m
+
+            Complex[] Array1 = new Complex[nx];
+            for (int i = nx - DX; i < nx; i++) { Array1[i] = new Complex(Math.Cos(255), -Math.Sin(255)); }
+            for (int i = nx - DX; i < nx; i++) { Array1[i] = new Complex(Math.Cos(255), -Math.Sin(255)); }
+            //Array1 = Furie.GetFourierTransform(Array1, m);
+
+            ZComplexDescriptor resultArray = new ZComplexDescriptor(nx, ny);  // Re=zArrayPicture Im=0
+            for (int j = 0; j < ny; j++)
+            {
+
+                Array = Furie.GetFourierTransform(Array1, m);
+                //Array = Furie.GetInverseFourierTransform(Array1, m);
+                for (int i = 0; i < nx; i++) resultArray.array[i, j] = Array[i];
+            }
+
+            return resultArray;
+        }
         //----------------------------------------------------------------------------------------------
         //                     a =    i/(lambda*d) *exp(-i2pid/lambda)
         //                    
