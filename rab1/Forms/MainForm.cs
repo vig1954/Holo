@@ -3397,12 +3397,12 @@ namespace rab1
 
         private void криваяПерекодированияToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CurvesGraph curvesGraph = new CurvesGraph();
-            curvesGraph.ApplyCurve += CurvesGraph_ApplyCurve;
-            curvesGraph.ApplyCurveAll += CurvesGraph_ApplyCurveAll;
-            curvesGraph.Show();
+           // CurvesGraph curvesGraph = new CurvesGraph();
+           // curvesGraph.ApplyCurve += CurvesGraph_ApplyCurve;
+           // curvesGraph.ApplyCurveAll += CurvesGraph_ApplyCurveAll;
+           // curvesGraph.Show();
         }
-       
+ /*      
                 private void CurvesGraph_ApplyCurveAll(object sender, EventArgs e)
                 {
                     CurvesGraph curvesGraph = sender as CurvesGraph;
@@ -3460,7 +3460,7 @@ namespace rab1
                                 }
                                   
         }
-
+*/
         private void LoadCoordinates()
         {
             string x1, y1;
