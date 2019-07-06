@@ -197,7 +197,7 @@ namespace rab1.Forms
             k2 = Convert.ToInt32(textBox5.Text);
             sdvig = Convert.ToInt32(textBox11.Text);                        // Сдвиг по строкам
             DX = Convert.ToInt32(textBox12.Text);
-            //Form1.zComplex[k2] = FurieN.Inverse1_BPF(k1, sdvig, DX);
+            Form1.zComplex[k2] = FurieN.Inverse1_BPF(k1, sdvig, DX);
             Complex_pictureBox(k2);
             Close();
         }

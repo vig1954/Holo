@@ -379,11 +379,9 @@ namespace rab1
 
         public static ZComplexDescriptor Inverse_BPF(int k2, int sdvig, int DX)
         {
-            if (Form1.zComplex[k2] == null) { MessageBox.Show("FurieN zComplex[k2] == NULL"); return null; }
-            int nx = Form1.zComplex[k2].width;
-            int ny = Form1.zComplex[k2].height;
+            int nx = 4096;
+            int ny = 200;
 
-            Complex[] Array = new Complex[nx];
             int m = 1;
             int nn = 2;
             for (int i = 1; ; i++) { nn = nn * 2; if (nn > nx) { m = i; break; } }
@@ -392,48 +390,61 @@ namespace rab1
 
              MessageBox.Show("nx: " + nx  + "   m: " + m );
 
+            Complex[] Array = new Complex[nx];
+            //for (int i = 0; i < DX; i++) { Array[i] = new Complex(1, 0); }
+            //for (int i = nx - DX; i < nx; i++) { Array[i] = new Complex(1, 0); }
+
+            for (int i = 0; i < DX; i++) { Array[i] = new Complex(DX - i, 0); }
+            for (int i = nx - DX, k = 0; i < nx; i++, k++) { Array[i] = new Complex(k, 0); }
+            for (int i = 0; i < DX; i++) { Array[i] = Array[i] / DX; }
+            for (int i = nx - DX; i < nx; i++) { Array[i] = Array[i] / DX; }
+
+        
+            Array = Furie.GetInverseFourierTransform(Array, m);
+
             ZComplexDescriptor resultArray = new ZComplexDescriptor(nx, ny);  // Re=zArrayPicture Im=0
             for (int j = 0; j < ny; j++)
             {
-                for (int i = 0;     i < DX; i++) { Array[i] = Form1.zComplex[k2].array[i, j]; }
-                for (int i = nx-DX; i < nx; i++) { Array[i] = Form1.zComplex[k2].array[i, j]; }
-
-                //Array = BPF_Q(Array, m, array_exp, array_inv);
-                Array = Furie.GetInverseFourierTransform(Array, m);
                 for (int i = 0; i < nx; i++) resultArray.array[i, j] = Array[i];
             }
 
             return resultArray;
         }
 
-        public static ZComplexDescriptor Inverse1_BPF(int k2, int sdvig, int DX)
+        public static ZComplexDescriptor Inverse1_BPF(int k1, int sdvig, int DX)
         {
-            if (Form1.zComplex[k2] == null) { MessageBox.Show("FurieN zComplex[k2] == NULL"); return null; }
-            int nx = Form1.zComplex[k2].width;
-            int ny = Form1.zComplex[k2].height;
-
-            Complex[] Array = new Complex[nx];
-          
+            if (Form1.zComplex[k1] == null) { MessageBox.Show("FurieN zComplex[k2] == NULL"); return null; }
+            int nx = Form1.zComplex[k1].width;
+            int ny = Form1.zComplex[k1].height;
+            //int nx = 4096;
+            // int ny = 200;
+            //int DX1 = 20; //102
 
             int m = 1;
             int nn = 2;
             for (int i = 1; ; i++) { nn = nn * 2; if (nn > nx) { m = i; break; } }
             int n = Convert.ToInt32(Math.Pow(2.0, m));                                  // N=2**m
 
-            Complex[] Array1 = new Complex[nx];
-            for (int i = nx - DX; i < nx; i++) { Array1[i] = new Complex(Math.Cos(255), -Math.Sin(255)); }
-            for (int i = nx - DX; i < nx; i++) { Array1[i] = new Complex(Math.Cos(255), -Math.Sin(255)); }
-            //Array1 = Furie.GetFourierTransform(Array1, m);
+            Complex[] ArrayX = new Complex[nx];
+            Complex[] Array  = new Complex[nx];
+         
+            for (int i = 0; i < DX; i++)                    { ArrayX[i] = new Complex(DX-i, 0); }
+            for (int i = nx - DX,  k = 0; i < nx; i++, k++) {  ArrayX[i] = new Complex(k, 0); }
+            for (int i = 0; i < DX; i++)       { ArrayX[i] = ArrayX[i] / DX; }
+            for (int i = nx - DX; i < nx; i++) { ArrayX[i] = ArrayX[i] / DX; }
+          
+
+            //for (int i = 0; i < DX; i++) { ArrayX[i] = new Complex(1, 0); }
+            //for (int i = nx - DX; i < nx; i++) { ArrayX[i] = new Complex(1, 0); }
 
             ZComplexDescriptor resultArray = new ZComplexDescriptor(nx, ny);  // Re=zArrayPicture Im=0
             for (int j = 0; j < ny; j++)
             {
-
-                Array = Furie.GetFourierTransform(Array1, m);
-                //Array = Furie.GetInverseFourierTransform(Array1, m);
+                for (int i = 0; i < nx; i++) { Array[i] = Form1.zComplex[k1].array[i, j] * ArrayX[i]; }
+                Array = Furie.GetInverseFourierTransform(Array, m);
                 for (int i = 0; i < nx; i++) resultArray.array[i, j] = Array[i];
             }
-
+           
             return resultArray;
         }
         //----------------------------------------------------------------------------------------------
