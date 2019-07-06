@@ -28,26 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CurvesGraph));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.labelFrom = new System.Windows.Forms.Label();
             this.labelTo = new System.Windows.Forms.Label();
             this.labelArrow = new System.Windows.Forms.Label();
-            this.labelHint1 = new System.Windows.Forms.Label();
             this.btnApply = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnApplyAll = new System.Windows.Forms.Button();
             this.txtStartImageNumber = new System.Windows.Forms.TextBox();
             this.txtEndImageNumber = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.SystemColors.Window;
-            resources.ApplyResources(this.pictureBox1, "pictureBox1");
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(430, 430);
+            this.pictureBox1.TabIndex = 10;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
             this.pictureBox1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDoubleClick);
@@ -58,76 +57,86 @@
             // 
             // labelFrom
             // 
-            resources.ApplyResources(this.labelFrom, "labelFrom");
             this.labelFrom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelFrom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.labelFrom.Location = new System.Drawing.Point(228, 458);
             this.labelFrom.Name = "labelFrom";
+            this.labelFrom.Size = new System.Drawing.Size(74, 23);
+            this.labelFrom.TabIndex = 9;
             // 
             // labelTo
             // 
-            resources.ApplyResources(this.labelTo, "labelTo");
             this.labelTo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelTo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.labelTo.Location = new System.Drawing.Point(344, 458);
             this.labelTo.Name = "labelTo";
+            this.labelTo.Size = new System.Drawing.Size(86, 23);
+            this.labelTo.TabIndex = 8;
             // 
             // labelArrow
             // 
-            resources.ApplyResources(this.labelArrow, "labelArrow");
+            this.labelArrow.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelArrow.Location = new System.Drawing.Point(309, 457);
             this.labelArrow.Name = "labelArrow";
-            // 
-            // labelHint1
-            // 
-            resources.ApplyResources(this.labelHint1, "labelHint1");
-            this.labelHint1.Name = "labelHint1";
+            this.labelArrow.Size = new System.Drawing.Size(30, 24);
+            this.labelArrow.TabIndex = 7;
+            this.labelArrow.Text = "->";
             // 
             // btnApply
             // 
-            resources.ApplyResources(this.btnApply, "btnApply");
+            this.btnApply.Location = new System.Drawing.Point(228, 500);
             this.btnApply.Name = "btnApply";
+            this.btnApply.Size = new System.Drawing.Size(75, 23);
+            this.btnApply.TabIndex = 5;
+            this.btnApply.Text = "Применить";
             this.btnApply.UseVisualStyleBackColor = true;
             this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
             // btnCancel
             // 
-            resources.ApplyResources(this.btnCancel, "btnCancel");
+            this.btnCancel.Location = new System.Drawing.Point(355, 500);
             this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 4;
+            this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnApplyAll
             // 
-            resources.ApplyResources(this.btnApplyAll, "btnApplyAll");
+            this.btnApplyAll.Location = new System.Drawing.Point(12, 500);
             this.btnApplyAll.Name = "btnApplyAll";
+            this.btnApplyAll.Size = new System.Drawing.Size(134, 23);
+            this.btnApplyAll.TabIndex = 3;
+            this.btnApplyAll.Text = "Применить ко всем";
             this.btnApplyAll.UseVisualStyleBackColor = true;
             this.btnApplyAll.Click += new System.EventHandler(this.btnApplyAll_Click);
             // 
             // txtStartImageNumber
             // 
-            resources.ApplyResources(this.txtStartImageNumber, "txtStartImageNumber");
+            this.txtStartImageNumber.Location = new System.Drawing.Point(12, 461);
             this.txtStartImageNumber.Name = "txtStartImageNumber";
+            this.txtStartImageNumber.Size = new System.Drawing.Size(62, 20);
+            this.txtStartImageNumber.TabIndex = 2;
             // 
             // txtEndImageNumber
             // 
-            resources.ApplyResources(this.txtEndImageNumber, "txtEndImageNumber");
+            this.txtEndImageNumber.Location = new System.Drawing.Point(80, 461);
             this.txtEndImageNumber.Name = "txtEndImageNumber";
-            // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
+            this.txtEndImageNumber.Size = new System.Drawing.Size(66, 20);
+            this.txtEndImageNumber.TabIndex = 1;
             // 
             // CurvesGraph
             // 
-            resources.ApplyResources(this, "$this");
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(437, 535);
             this.Controls.Add(this.txtEndImageNumber);
             this.Controls.Add(this.txtStartImageNumber);
             this.Controls.Add(this.btnApplyAll);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnApply);
-            this.Controls.Add(this.labelHint1);
             this.Controls.Add(this.labelArrow);
             this.Controls.Add(this.labelTo);
             this.Controls.Add(this.labelFrom);
@@ -153,12 +162,10 @@
         private System.Windows.Forms.Label labelFrom;
         private System.Windows.Forms.Label labelTo;
         private System.Windows.Forms.Label labelArrow;
-        private System.Windows.Forms.Label labelHint1;
         private System.Windows.Forms.Button btnApply;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnApplyAll;
         private System.Windows.Forms.TextBox txtStartImageNumber;
         private System.Windows.Forms.TextBox txtEndImageNumber;
-        private System.Windows.Forms.Label label1;
     }
 }
