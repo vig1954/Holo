@@ -3403,62 +3403,62 @@ namespace rab1
             curvesGraph.Show();
         }
        
-                private void CurvesGraph_ApplyCurveAll(object sender, EventArgs e)
+        private void CurvesGraph_ApplyCurveAll(object sender, EventArgs e)
+        {
+            CurvesGraph curvesGraph = sender as CurvesGraph;
+            if (sender != null)
+            {
+                int[] recodingArray = curvesGraph.GetRecodingArray();
+                int startImageIndex = curvesGraph.GetStartImageNumber() - 1;
+                int endImageIndex = curvesGraph.GetEndImageNumber() - 1;
+
+                for (int k = startImageIndex; k <= endImageIndex; k++)
                 {
-                    CurvesGraph curvesGraph = sender as CurvesGraph;
-                    if (sender != null)
+                    ZArrayDescriptor arrayDescr = zArrayDescriptor[k];
+                    if (arrayDescr == null) continue;
+
+                    int width = arrayDescr.width;
+                    int height = arrayDescr.height;
+
+                    for (int j = 0; j < width; j++)
                     {
-                        int[] recodingArray = curvesGraph.GetRecodingArray();
-                        int startImageIndex = curvesGraph.GetStartImageNumber() - 1;
-                        int endImageIndex = curvesGraph.GetEndImageNumber() - 1;
-
-                        for (int k = startImageIndex; k <= endImageIndex; k++)
+                        for (int i = 0; i < height; i++)
                         {
-                            ZArrayDescriptor arrayDescr = zArrayDescriptor[k];
-                            if (arrayDescr == null) continue;
+                            int oldValue = Convert.ToInt32(arrayDescr.array[j, i]);
+                            int newValue = recodingArray[oldValue];
+                            arrayDescr.array[j, i] = newValue;
+                        }
+                    }
 
-                            int width = arrayDescr.width;
-                            int height = arrayDescr.height;
+                    Vizual.Vizual_Picture(arrayDescr, pictureBoxArray[k]);
+                }
+            }
+            
+        }
+
+        private void CurvesGraph_ApplyCurve(object sender, EventArgs e)
+        {
+                 CurvesGraph curvesGraph = sender as CurvesGraph;
+                        if (sender != null)
+                        {
+                            int[] recodingArray = curvesGraph.GetRecodingArray();
+
+                            int width = zArrayPicture.width;
+                            int height = zArrayPicture.height;
 
                             for (int j = 0; j < width; j++)
                             {
                                 for (int i = 0; i < height; i++)
                                 {
-                                    int oldValue = Convert.ToInt32(arrayDescr.array[j, i]);
+                                    int oldValue = Convert.ToInt32(zArrayPictureOriginal.array[j, i]);
                                     int newValue = recodingArray[oldValue];
-                                    arrayDescr.array[j, i] = newValue;
+                                    zArrayPicture.array[j, i] = newValue;
                                 }
                             }
 
-                            Vizual.Vizual_Picture(arrayDescr, pictureBoxArray[k]);
+                            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
                         }
-                    }
-                    
-                }
-
-                private void CurvesGraph_ApplyCurve(object sender, EventArgs e)
-                {
-                         CurvesGraph curvesGraph = sender as CurvesGraph;
-                                if (sender != null)
-                                {
-                                    int[] recodingArray = curvesGraph.GetRecodingArray();
-
-                                    int width = zArrayPicture.width;
-                                    int height = zArrayPicture.height;
-
-                                    for (int j = 0; j < width; j++)
-                                    {
-                                        for (int i = 0; i < height; i++)
-                                        {
-                                            int oldValue = Convert.ToInt32(zArrayPictureOriginal.array[j, i]);
-                                            int newValue = recodingArray[oldValue];
-                                            zArrayPicture.array[j, i] = newValue;
-                                        }
-                                    }
-
-                                    Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
-                                }
-                                  
+                          
         }
 
         private void LoadCoordinates()
