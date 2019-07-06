@@ -44,8 +44,8 @@ namespace rab1.Forms
         private static int k13 = 1;   // Перенос по 4 вешественных файла
         private static int k14 = 3;
 
-       
-
+        private static int k15 = 1;
+        private static double k16 = 0;
 
 
         public ADD_Cmplx()
@@ -67,8 +67,8 @@ namespace rab1.Forms
 
             textBox13.Text = Convert.ToString(k13);  // Перенос по 4 вещественных картинки
             textBox14.Text = Convert.ToString(k14);
-
-          
+            textBox15.Text = Convert.ToString(k15);
+            textBox16.Text = Convert.ToString(k16);
         }
 
 
@@ -274,6 +274,18 @@ namespace rab1.Forms
             k14 = Convert.ToInt32(textBox14.Text);
             ADD_Math.Send_C4(k13, k14);     // Переслать 4 вещественных файла
             //On_Send_double(k13, k14);     // Переслать 4 вещественных файла
+            Close();
+        }
+        /// <summary>
+        /// Сложить массив с числом
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button1_Click(object sender, EventArgs e)
+        {
+            k15 = Convert.ToInt32(textBox15.Text);
+            k16 = Convert.ToDouble(textBox16.Text);
+            ADD_Math.Add_Double(k15, k16);     // Переслать 4 вещественных файла
             Close();
         }
 

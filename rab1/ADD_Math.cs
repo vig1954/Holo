@@ -651,7 +651,24 @@ namespace rab1
             Form1.zArrayPicture = a;
 
         }
+        public static void Add_Double(int k15, double k16)             // Сложить массив с числом
+        {
+            k15--;                    // Массив 1 ->  0
 
+           
+            if (Form1.zArrayDescriptor[k15] == null) { MessageBox.Show(" Add_Double zArrayDescriptor [" + k15 + "] == NULL"); return; }
+           
+            int nx = Form1.zArrayDescriptor[k15].width;
+            int ny = Form1.zArrayDescriptor[k15].height;
+
+            for (int i = 0; i < nx; i++)
+                for (int j = 0; j < ny; j++)
+                {
+                    Form1.zArrayDescriptor[k15].array[i, j] = Form1.zArrayDescriptor[k15].array[i, j] + k16;
+                   
+                }
+            VisualRegImage(k15);
+        }
         //-------------------------------------------------------------------------------------------------------------------------------
     }
 }

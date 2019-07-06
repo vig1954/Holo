@@ -84,6 +84,10 @@
             this.label21 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.textBox15 = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.textBox16 = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -592,11 +596,50 @@
             this.progressBar1.Size = new System.Drawing.Size(692, 23);
             this.progressBar1.TabIndex = 70;
             // 
+            // textBox15
+            // 
+            this.textBox15.Location = new System.Drawing.Point(390, 453);
+            this.textBox15.Name = "textBox15";
+            this.textBox15.Size = new System.Drawing.Size(29, 20);
+            this.textBox15.TabIndex = 71;
+            this.textBox15.Text = "1";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(425, 456);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(13, 13);
+            this.label20.TabIndex = 72;
+            this.label20.Text = "+";
+            // 
+            // textBox16
+            // 
+            this.textBox16.Location = new System.Drawing.Point(449, 453);
+            this.textBox16.Name = "textBox16";
+            this.textBox16.Size = new System.Drawing.Size(70, 20);
+            this.textBox16.TabIndex = 73;
+            this.textBox16.Text = "0";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(535, 449);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(185, 26);
+            this.button1.TabIndex = 74;
+            this.button1.Text = "Сложить массив с числом";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // ADD_Cmplx
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(750, 522);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.textBox16);
+            this.Controls.Add(this.label20);
+            this.Controls.Add(this.textBox15);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.label22);
             this.Controls.Add(this.label21);
@@ -717,5 +760,9 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.TextBox textBox15;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.TextBox textBox16;
+        private System.Windows.Forms.Button button1;
     }
 }
