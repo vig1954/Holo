@@ -99,7 +99,6 @@ R:\Программы\Holo\EDSDKLib\bin\Debug\EDSDKLib.dll
 R:\Программы\Holo\EDSDKLib\bin\Debug\EDSDKLib.pdb
 R:\Программы\Holo\EDSDKLib\obj\x86\Debug\EDSDKLib.dll
 R:\Программы\Holo\EDSDKLib\obj\x86\Debug\EDSDKLib.pdb
-R:\Программы\Holo\EDSDKLib\obj\x86\Debug\EDSDKLib.csprojAssemblyReference.cache
 R:\Программы\Holo\EDSDKLib\obj\x86\Debug\EDSDKLib.csproj.CoreCompileInputs.cache
 D:\Programm\Holo\EDSDKLib\bin\Debug\DppCore.dll
 D:\Programm\Holo\EDSDKLib\bin\Debug\DppCoreSub.dll
