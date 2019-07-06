@@ -391,8 +391,8 @@ namespace rab1
              MessageBox.Show("nx: " + nx  + "   m: " + m );
 
             Complex[] Array = new Complex[nx];
-            //for (int i = 0; i < DX; i++) { Array[i] = new Complex(1, 0); }
-            //for (int i = nx - DX; i < nx; i++) { Array[i] = new Complex(1, 0); }
+            for (int i = 0; i < DX; i++) { Array[i] = new Complex(1, 0); }
+            for (int i = nx - DX; i < nx; i++) { Array[i] = new Complex(1, 0); }
 
             for (int i = 0; i < DX; i++) { Array[i] = new Complex(DX - i, 0); }
             for (int i = nx - DX, k = 0; i < nx; i++, k++) { Array[i] = new Complex(k, 0); }
@@ -428,14 +428,14 @@ namespace rab1
             Complex[] ArrayX = new Complex[nx];
             Complex[] Array  = new Complex[nx];
          
-            for (int i = 0; i < DX; i++)                    { ArrayX[i] = new Complex(DX-i, 0); }
-            for (int i = nx - DX,  k = 0; i < nx; i++, k++) {  ArrayX[i] = new Complex(k, 0); }
-            for (int i = 0; i < DX; i++)       { ArrayX[i] = ArrayX[i] / DX; }
-            for (int i = nx - DX; i < nx; i++) { ArrayX[i] = ArrayX[i] / DX; }
+            //for (int i = 0; i < DX; i++)                    { ArrayX[i] = new Complex(DX-i, 0); }
+            //for (int i = nx - DX,  k = 0; i < nx; i++, k++) {  ArrayX[i] = new Complex(k, 0); }
+            //for (int i = 0; i < DX; i++)       { ArrayX[i] = ArrayX[i] / DX; }
+           // for (int i = nx - DX; i < nx; i++) { ArrayX[i] = ArrayX[i] / DX; }
           
 
-            //for (int i = 0; i < DX; i++) { ArrayX[i] = new Complex(1, 0); }
-            //for (int i = nx - DX; i < nx; i++) { ArrayX[i] = new Complex(1, 0); }
+            for (int i = 0; i < DX; i++) { ArrayX[i] = new Complex(1, 0); }
+            for (int i = nx - DX; i < nx; i++) { ArrayX[i] = new Complex(1, 0); }
 
             ZComplexDescriptor resultArray = new ZComplexDescriptor(nx, ny);  // Re=zArrayPicture Im=0
             for (int j = 0; j < ny; j++)
