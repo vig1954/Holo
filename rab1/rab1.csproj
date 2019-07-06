@@ -324,6 +324,9 @@
     <EmbeddedResource Include="Forms\CurvesGraph\CurvesGraph.asa-TZ.resx">
       <DependentUpon>CurvesGraph.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CurvesGraph\CurvesGraph.resx">
+      <DependentUpon>CurvesGraph.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Form_Filtr.resx">
       <DependentUpon>Form_Filtr.cs</DependentUpon>
     </EmbeddedResource>

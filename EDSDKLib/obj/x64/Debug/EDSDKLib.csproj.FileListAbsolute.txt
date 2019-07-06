@@ -56,7 +56,6 @@ D:\Projects\Holo\EDSDKLib\bin\x64\Debug\EDSDKLib.pdb
 D:\Projects\Holo\EDSDKLib\obj\x64\Debug\EDSDKLib.csproj.CoreCompileInputs.cache
 D:\Projects\Holo\EDSDKLib\obj\x64\Debug\EDSDKLib.dll
 D:\Projects\Holo\EDSDKLib\obj\x64\Debug\EDSDKLib.pdb
-D:\Projects\Holo\EDSDKLib\obj\x64\Debug\EDSDKLib.csprojAssemblyReference.cache
 R:\Программы\Holo\EDSDKLib\bin\x64\Debug\DppCore.dll
 R:\Программы\Holo\EDSDKLib\bin\x64\Debug\DppCoreSub.dll
 R:\Программы\Holo\EDSDKLib\bin\x64\Debug\DppMath.dll
