@@ -3438,21 +3438,18 @@ namespace rab1
                     }
                 }
                 
+
+                //4 изображени - первое состояние (без нагрузки)
                 int regComplex = 0;
                 ZArrayDescriptor zArray1 = ATAN_PSI.ATAN(transformedArray, regComplex, phaseShifts);
 
+                //4 изображения - второе состояние (с нагрузкой)
                 regComplex = 1;
                 ZArrayDescriptor zArray2 = ATAN_PSI.ATAN(transformedArray, regComplex, phaseShifts);
-
-                PictureBox picBox1 = pictureBoxArray[10];
-                PictureBox picBox2 = pictureBoxArray[11];
-
-                Vizual.Vizual_Picture(zArray1, picBox1);
-                Vizual.Vizual_Picture(zArray1, picBox2);
                 
                 int nx = zArray1.width;
                 int ny = zArray1.height;
-
+                                
                 for (int k = 0, imageIndex = 8; k < phaseShifts.Length; k++, imageIndex++)
                 {
                     ZArrayDescriptor rez = new ZArrayDescriptor(nx, ny);
@@ -3462,9 +3459,10 @@ namespace rab1
                         {
                             rez.array[i, j] = Math.Cos(zArray1.array[i, j] - zArray2.array[i, j] + phaseShifts[k]);
                         }
-                        zArrayDescriptor[imageIndex] = rez;
-                        PictureBox picBox = pictureBoxArray[imageIndex];
                     }
+
+                    zArrayDescriptor[imageIndex] = rez;
+                    Vizual.Vizual_Picture(zArrayDescriptor[imageIndex], pictureBoxArray[imageIndex]);
                 }
             }
         }
