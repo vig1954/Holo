@@ -171,21 +171,7 @@ namespace rab1.Forms
             Complex_pictureBox(k1);
             Close();
         }
-        /// <summary>
-        /// Ограничение числа точек. Обратное проебразование Фурье
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button16_Click(object sender, EventArgs e)
-        {
-            k1 = Convert.ToInt32(textBox4.Text);
-            k2 = Convert.ToInt32(textBox5.Text);
-            sdvig = Convert.ToInt32(textBox11.Text);                        // Сдвиг по строкам
-            DX = Convert.ToInt32(textBox12.Text);
-            Form1.zComplex[k2] = FurieN.Inverse_BPF(k1, sdvig, DX);
-            Complex_pictureBox(k2);
-            Close();
-        }
+        
         /// <summary>
         /// Ограничение числа точек. Устранение эффекта Гибса.Обратное преобразование Фурье
         /// </summary>
@@ -193,11 +179,20 @@ namespace rab1.Forms
         /// <param name="e"></param>
         private void button17_Click(object sender, EventArgs e)
         {
-            k1 = Convert.ToInt32(textBox4.Text);
+            //k1 = Convert.ToInt32(textBox4.Text);
             k2 = Convert.ToInt32(textBox5.Text);
             sdvig = Convert.ToInt32(textBox11.Text);                        // Сдвиг по строкам
             DX = Convert.ToInt32(textBox12.Text);
-            Form1.zComplex[k2] = FurieN.Inverse1_BPF(k1, sdvig, DX);
+            Form1.zComplex[k2] = FurieN.Inverse1_BPF(sdvig, DX);
+            Complex_pictureBox(k2);
+            Close();
+        }
+        private void button16_Click(object sender, EventArgs e)
+        {
+            k2 = Convert.ToInt32(textBox5.Text);
+            sdvig = Convert.ToInt32(textBox11.Text);                        // Сдвиг по строкам
+            DX = Convert.ToInt32(textBox12.Text);
+            Form1.zComplex[k2] = FurieN.Inverse2_BPF(sdvig, DX);
             Complex_pictureBox(k2);
             Close();
         }
@@ -331,6 +326,6 @@ namespace rab1.Forms
             Close();
         }
 
-       
+        
     }
 }

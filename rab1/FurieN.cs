@@ -57,13 +57,13 @@ namespace rab1
              return array_exp2;
          }
 
-        //
+        ///           Одномерное преобразование БПФ с произвольным числом точек
         //            Complex[] array_exp   - экспоненты для обычного БПФ
         //            int[] array_inv       - инверсия для обычного БПФ
         //            Complex[,] array_exp2 - экспонента для 2 этапа БПФ с произвольным количеством точек
         //
         //
-        public static Complex[] BPF_N(Complex[] array, int n, int m, int l, int t, Complex[] array_exp, Complex[,] array_exp2, int[] array_inv)   // Одномерное преобразование БПФ с произвольным числом точек
+        public static Complex[] BPF_N(Complex[] array, int n, int m, int l, int t, Complex[] array_exp, Complex[,] array_exp2, int[] array_inv)   
         {
             
             // ----------------------------------------------------------1 - этап
@@ -410,39 +410,52 @@ namespace rab1
 
             return resultArray;
         }
-
-        public static ZComplexDescriptor Inverse1_BPF(int k1, int sdvig, int DX)
+/// <summary>
+/// 1)В области Фурье сдвиг на -sdvig в центр, 
+/// 2)вырезаем область частот от DX до -DX по треугольнику, 
+/// 3)обратное преобразование Фурье
+/// </summary>
+/// <param name="sdvig"></param>
+/// <param name="DX"></param>
+/// <returns></returns>
+        public static ZComplexDescriptor Inverse1_BPF(int sdvig, int DX)
         {
             //if (Form1.zComplex[k1] == null) { MessageBox.Show("FurieN zComplex[k2] == NULL"); return null; }
-
            
-            int nx = Form1.zArrayPicture.width;
-            if (nx % 2 != 0) nx = nx - 1;                            // n - должно быть четным
-            int ny = 50;
-         
-            nx = 4874;
+
+            //int nx = Form1.zArrayPicture.width;
+            //if (nx % 2 != 0) nx = nx - 1;                            // n - должно быть четным
+            //int ny = 50;
+            //nx = 4874;
+
+            int nx = 4096;
+            int ny = 200;
+            int m = 1;
+            int nn = 2;
+            for (int i = 1; ; i++) { nn = nn * 2; if (nn > nx) { m = i; break; } }
+            int n = Convert.ToInt32(Math.Pow(2.0, m));                                  // N=2**m
 
             Complex[] ArrayX = new Complex[nx];                               // Комплексный массив экспоненты сдвига 
             Complex[] Array = new Complex[nx];
             Complex[] ArrayY = new Complex[nx];
 
+           
             ZComplexDescriptor resultArray = new ZComplexDescriptor(nx, ny);  // Re=zArrayPicture Im=0
+
             for (int i = 0; i < nx; i++)
             {
                 double a = 2 * Math.PI * sdvig * i / nx;
                 ArrayX[i] = new Complex(Math.Cos(a), -Math.Sin(a));
             }
 
-            for (int j = 0; j < ny; j++)                                        // Преобразование Фурье
+            for (int j = 0; j < ny; j++)                                        // Преобразование Фурье с сдвигом в центр
             {
                 for (int i = 0; i < nx; i++) { Array[i] = new Complex(Form1.zArrayPicture.array[i, j], 0.0); }
-                for (int i = 0; i < nx; i++) { resultArray.array[i, j] = Array[i] * ArrayX[i]; }
-                
+                for (int i = 0; i < nx; i++) { Array[i] = Array[i] * ArrayX[i]; }
+                Array = Furie.GetFourierTransform(Array, m);
+                for (int i = 0; i < nx; i++) { resultArray.array[i, j] = Array[i]; }
             }
-            MessageBox.Show("0 BPF2_Line(resultArray): ");
-            resultArray = BPF2_Line(resultArray);
-            MessageBox.Show("1 BPF2_Line(resultArray): ");
-/*
+          
             for (int i = 0; i < DX; i++)                    { ArrayY[i] = new Complex(DX-i, 0); }
             for (int i = nx - DX,  k = 0; i < nx; i++, k++) { ArrayY[i] = new Complex(k, 0);    }
             for (int i = 0; i < DX; i++)                    { ArrayY[i] = ArrayY[i] / DX;       }
@@ -451,14 +464,73 @@ namespace rab1
             
             for (int j = 0; j < ny; j++)
             {
-                for (int i = 0; i < nx; i++) { resultArray.array[i,j] = resultArray.array[i, j] * ArrayY[i]; }
-                //Array = Furie.GetInverseFourierTransform(Array, m);
-                
-               
-                //for (int i = 0; i < nx; i++) resultArray.array[i, j] = Array[i];
+                for (int i = 0; i < nx; i++) { Array[i] = resultArray.array[i, j] * ArrayY[i]; }
+                Array = Furie.GetInverseFourierTransform(Array, m);
+                for (int i = 0; i < nx; i++) resultArray.array[i, j] = Array[i];
             }
-            resultArray = BPF2_Line(resultArray); MessageBox.Show("2 BPF2_Line(resultArray): ");
-*/
+
+            return resultArray;
+        }
+        public static ZComplexDescriptor Inverse2_BPF(int sdvig, int DX)
+        {
+            //if (Form1.zComplex[k1] == null) { MessageBox.Show("FurieN zComplex[k2] == NULL"); return null; }
+
+
+            //int nx = Form1.zArrayPicture.width;
+            //if (nx % 2 != 0) nx = nx - 1;                            // n - должно быть четным
+            //int ny = 50;
+            //nx = 4874;
+
+            int nx = 4096;
+            int ny = 200;
+            int m = 1;
+            int nn = 2;
+            for (int i = 1; ; i++) { nn = nn * 2; if (nn > nx) { m = i; break; } }
+            int n = Convert.ToInt32(Math.Pow(2.0, m));                                  // N=2**m
+
+            Complex[] ArrayX = new Complex[nx];                               // Комплексный массив экспоненты сдвига 
+            Complex[] Array = new Complex[nx];
+            
+
+
+            ZComplexDescriptor resultArray = new ZComplexDescriptor(nx, ny);  // Re=zArrayPicture Im=0
+
+           // for (int i = 0; i < nx; i++)
+           // {
+           //     double a = 2 * Math.PI * sdvig * i / nx;
+           //     ArrayX[i] = new Complex(Math.Cos(a), -Math.Sin(a));
+           // }
+
+            for (int j = 0; j < ny; j++)                                        // Преобразование Фурье
+            {
+                for (int i = 0; i < nx; i++) { Array[i] = new Complex(Form1.zArrayPicture.array[i, j], 0.0); }
+                //for (int i = 0; i < nx; i++) { Array[i] = Array[i] * ArrayX[i]; }
+                Array = Furie.GetFourierTransform(Array, m);
+                for (int i = 0; i < nx; i++) { resultArray.array[i, j] = Array[i]; }
+            }
+
+            Complex[] ArrayY = new Complex[nx];
+            for (int i = sdvig, j = 0; i < sdvig + DX; i++, j++) { ArrayY[i] = new Complex(DX - j, DX - j); }
+            for (int i = sdvig, j = 0; i > sdvig - DX; i--, j++) { ArrayY[i] = new Complex(DX - j, DX - j); }
+
+            //for (int i = sdvig, j = 0; i < sdvig + DX; i++, j++) { ArrayY[nx-i] = new Complex(DX - j, DX - j); }
+            //for (int i = sdvig, j = 0; i > sdvig - DX; i--, j++) { ArrayY[nx-i] = new Complex(DX - j, DX - j); }
+
+            //for (int i = nx - DX, k = 0; i < nx; i++, k++) { ArrayY[i] = new Complex(k, 0); }
+            //for (int i = 0; i < DX; i++) { ArrayY[i] = ArrayY[i] / DX; }
+            //for (int i = nx - DX; i < nx; i++) { ArrayY[i] = ArrayY[i] / DX; }
+
+            //for (int i = 4004; i < 4028; i++) { ArrayY[i] = new Complex(1, 0); }
+            //for (int i = nx - DX; i < nx; i++) { Array[i] = new Complex(1, 0); }
+
+            for (int j = 0; j < ny; j++)
+            {
+                for (int i = 0; i < nx; i++) { Array[i] = resultArray.array[i, j] * ArrayY[i]; }
+                //for (int i = 0; i < nx; i++) { Array[i] = resultArray.array[i, j] ; }
+                Array = Furie.GetInverseFourierTransform(Array, m);
+                for (int i = 0; i < nx; i++) resultArray.array[i, j] = Array[i];
+            }
+
             return resultArray;
         }
         //----------------------------------------------------------------------------------------------

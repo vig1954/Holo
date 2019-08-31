@@ -75,10 +75,10 @@
             this.button15 = new System.Windows.Forms.Button();
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.button16 = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
             this.textBox12 = new System.Windows.Forms.TextBox();
             this.button17 = new System.Windows.Forms.Button();
+            this.button16 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -488,16 +488,6 @@
             this.label15.TabIndex = 52;
             this.label15.Text = "Сдвиг на";
             // 
-            // button16
-            // 
-            this.button16.Location = new System.Drawing.Point(43, 671);
-            this.button16.Name = "button16";
-            this.button16.Size = new System.Drawing.Size(572, 23);
-            this.button16.TabIndex = 53;
-            this.button16.Text = "Оставить +-DX точек Обратное преобразование Фурье k1 => k2";
-            this.button16.UseVisualStyleBackColor = true;
-            this.button16.Click += new System.EventHandler(this.button16_Click);
-            // 
             // label16
             // 
             this.label16.AutoSize = true;
@@ -517,24 +507,37 @@
             // 
             // button17
             // 
-            this.button17.Location = new System.Drawing.Point(43, 700);
+            this.button17.Location = new System.Drawing.Point(40, 704);
             this.button17.Name = "button17";
-            this.button17.Size = new System.Drawing.Size(572, 23);
+            this.button17.Size = new System.Drawing.Size(331, 59);
             this.button17.TabIndex = 56;
-            this.button17.Text = "Устранение эффекта Гибса Оставить +-DX точек Обратное преобразование Фурье k1 => " +
-    "k2";
+            this.button17.Text = "1) Прямое БПФ (4096х200) со сдвигом (- Сдвиг на) в центр\r\n2) Обратное БПФ с вырез" +
+    "анием треугольником (DX)  => k2";
+            this.button17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button17.UseVisualStyleBackColor = true;
             this.button17.Click += new System.EventHandler(this.button17_Click);
+            // 
+            // button16
+            // 
+            this.button16.Location = new System.Drawing.Point(377, 704);
+            this.button16.Name = "button16";
+            this.button16.Size = new System.Drawing.Size(334, 59);
+            this.button16.TabIndex = 57;
+            this.button16.Text = "Прямое БПФ (4096х200) \r\nВырезание треугольником (-DX +DX)   с центром (сдвиг на) " +
+    "\r\nОбратное БПФ с вырезанием треугольником => k2";
+            this.button16.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button16.UseVisualStyleBackColor = true;
+            this.button16.Click += new System.EventHandler(this.button16_Click);
             // 
             // FrenelForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(903, 755);
+            this.ClientSize = new System.Drawing.Size(903, 806);
+            this.Controls.Add(this.button16);
             this.Controls.Add(this.button17);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.textBox12);
-            this.Controls.Add(this.button16);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.textBox11);
             this.Controls.Add(this.button15);
@@ -637,9 +640,9 @@
         private System.Windows.Forms.Button button15;
         private System.Windows.Forms.TextBox textBox11;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Button button16;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox textBox12;
         private System.Windows.Forms.Button button17;
+        private System.Windows.Forms.Button button16;
     }
 }
