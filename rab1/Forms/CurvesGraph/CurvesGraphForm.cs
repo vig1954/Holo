@@ -25,6 +25,19 @@ namespace rab1
         public event EventHandler ApplyCurve;
         public event EventHandler ApplyCurveAll;
         public event EventHandler ApplyPhaseDifferenceCalculation;
+                      
+        private void SetInitialValues()
+        {
+            double phaseShift1 = 0;
+            double phaseShift2 = 45;
+            double phaseShift3 = 90;
+            double phaseShift4 = 135;
+
+            txtPhaseShift1.Text = phaseShift1.ToString();
+            txtPhaseShift2.Text = phaseShift2.ToString();
+            txtPhaseShift3.Text = phaseShift3.ToString();
+            txtPhaseShift4.Text = phaseShift4.ToString();
+        }
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
@@ -133,6 +146,7 @@ namespace rab1
         public CurvesGraph()
         {
             InitializeComponent();
+            SetInitialValues();
         }
 
         private void btnApplyAll_Click(object sender, EventArgs e)
