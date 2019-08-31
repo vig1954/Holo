@@ -37,6 +37,12 @@
             this.btnApplyAll = new System.Windows.Forms.Button();
             this.txtStartImageNumber = new System.Windows.Forms.TextBox();
             this.txtEndImageNumber = new System.Windows.Forms.TextBox();
+            this.btnApplyPhaseDifferenceCalculation = new System.Windows.Forms.Button();
+            this.txtPhaseShift4 = new System.Windows.Forms.TextBox();
+            this.txtPhaseShift3 = new System.Windows.Forms.TextBox();
+            this.txtPhaseShift2 = new System.Windows.Forms.TextBox();
+            this.txtPhaseShift1 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -59,7 +65,7 @@
             // 
             this.labelFrom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelFrom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.labelFrom.Location = new System.Drawing.Point(228, 458);
+            this.labelFrom.Location = new System.Drawing.Point(229, 438);
             this.labelFrom.Name = "labelFrom";
             this.labelFrom.Size = new System.Drawing.Size(74, 23);
             this.labelFrom.TabIndex = 9;
@@ -68,7 +74,7 @@
             // 
             this.labelTo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelTo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.labelTo.Location = new System.Drawing.Point(344, 458);
+            this.labelTo.Location = new System.Drawing.Point(344, 438);
             this.labelTo.Name = "labelTo";
             this.labelTo.Size = new System.Drawing.Size(86, 23);
             this.labelTo.TabIndex = 8;
@@ -76,7 +82,7 @@
             // labelArrow
             // 
             this.labelArrow.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelArrow.Location = new System.Drawing.Point(309, 457);
+            this.labelArrow.Location = new System.Drawing.Point(309, 438);
             this.labelArrow.Name = "labelArrow";
             this.labelArrow.Size = new System.Drawing.Size(30, 24);
             this.labelArrow.TabIndex = 7;
@@ -84,7 +90,7 @@
             // 
             // btnApply
             // 
-            this.btnApply.Location = new System.Drawing.Point(228, 500);
+            this.btnApply.Location = new System.Drawing.Point(228, 464);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(75, 23);
             this.btnApply.TabIndex = 5;
@@ -94,7 +100,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(355, 500);
+            this.btnCancel.Location = new System.Drawing.Point(355, 464);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 4;
@@ -104,7 +110,7 @@
             // 
             // btnApplyAll
             // 
-            this.btnApplyAll.Location = new System.Drawing.Point(12, 500);
+            this.btnApplyAll.Location = new System.Drawing.Point(9, 462);
             this.btnApplyAll.Name = "btnApplyAll";
             this.btnApplyAll.Size = new System.Drawing.Size(134, 23);
             this.btnApplyAll.TabIndex = 3;
@@ -114,24 +120,77 @@
             // 
             // txtStartImageNumber
             // 
-            this.txtStartImageNumber.Location = new System.Drawing.Point(12, 461);
+            this.txtStartImageNumber.Location = new System.Drawing.Point(9, 436);
             this.txtStartImageNumber.Name = "txtStartImageNumber";
             this.txtStartImageNumber.Size = new System.Drawing.Size(62, 20);
             this.txtStartImageNumber.TabIndex = 2;
             // 
             // txtEndImageNumber
             // 
-            this.txtEndImageNumber.Location = new System.Drawing.Point(80, 461);
+            this.txtEndImageNumber.Location = new System.Drawing.Point(80, 436);
             this.txtEndImageNumber.Name = "txtEndImageNumber";
             this.txtEndImageNumber.Size = new System.Drawing.Size(66, 20);
             this.txtEndImageNumber.TabIndex = 1;
+            // 
+            // btnApplyPhaseDifferenceCalculation
+            // 
+            this.btnApplyPhaseDifferenceCalculation.Location = new System.Drawing.Point(228, 509);
+            this.btnApplyPhaseDifferenceCalculation.Name = "btnApplyPhaseDifferenceCalculation";
+            this.btnApplyPhaseDifferenceCalculation.Size = new System.Drawing.Size(202, 39);
+            this.btnApplyPhaseDifferenceCalculation.TabIndex = 11;
+            this.btnApplyPhaseDifferenceCalculation.Text = "Разность фаз (вычисление)";
+            this.btnApplyPhaseDifferenceCalculation.UseVisualStyleBackColor = true;
+            this.btnApplyPhaseDifferenceCalculation.Click += new System.EventHandler(this.btnApplyPhaseDifferenceCalculation_Click);
+            // 
+            // txtPhaseShift4
+            // 
+            this.txtPhaseShift4.Location = new System.Drawing.Point(145, 528);
+            this.txtPhaseShift4.Name = "txtPhaseShift4";
+            this.txtPhaseShift4.Size = new System.Drawing.Size(40, 20);
+            this.txtPhaseShift4.TabIndex = 15;
+            // 
+            // txtPhaseShift3
+            // 
+            this.txtPhaseShift3.Location = new System.Drawing.Point(99, 528);
+            this.txtPhaseShift3.Name = "txtPhaseShift3";
+            this.txtPhaseShift3.Size = new System.Drawing.Size(40, 20);
+            this.txtPhaseShift3.TabIndex = 14;
+            // 
+            // txtPhaseShift2
+            // 
+            this.txtPhaseShift2.Location = new System.Drawing.Point(53, 528);
+            this.txtPhaseShift2.Name = "txtPhaseShift2";
+            this.txtPhaseShift2.Size = new System.Drawing.Size(40, 20);
+            this.txtPhaseShift2.TabIndex = 13;
+            // 
+            // txtPhaseShift1
+            // 
+            this.txtPhaseShift1.Location = new System.Drawing.Point(7, 528);
+            this.txtPhaseShift1.Name = "txtPhaseShift1";
+            this.txtPhaseShift1.Size = new System.Drawing.Size(40, 20);
+            this.txtPhaseShift1.TabIndex = 12;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 506);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(94, 13);
+            this.label1.TabIndex = 16;
+            this.label1.Text = "Фазовые сдвиги";
             // 
             // CurvesGraph
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(437, 535);
+            this.ClientSize = new System.Drawing.Size(436, 558);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.txtPhaseShift4);
+            this.Controls.Add(this.txtPhaseShift3);
+            this.Controls.Add(this.txtPhaseShift2);
+            this.Controls.Add(this.txtPhaseShift1);
+            this.Controls.Add(this.btnApplyPhaseDifferenceCalculation);
             this.Controls.Add(this.txtEndImageNumber);
             this.Controls.Add(this.txtStartImageNumber);
             this.Controls.Add(this.btnApplyAll);
@@ -167,5 +226,11 @@
         private System.Windows.Forms.Button btnApplyAll;
         private System.Windows.Forms.TextBox txtStartImageNumber;
         private System.Windows.Forms.TextBox txtEndImageNumber;
+        private System.Windows.Forms.Button btnApplyPhaseDifferenceCalculation;
+        private System.Windows.Forms.TextBox txtPhaseShift4;
+        private System.Windows.Forms.TextBox txtPhaseShift3;
+        private System.Windows.Forms.TextBox txtPhaseShift2;
+        private System.Windows.Forms.TextBox txtPhaseShift1;
+        private System.Windows.Forms.Label label1;
     }
 }

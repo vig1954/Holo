@@ -3400,9 +3400,75 @@ namespace rab1
            CurvesGraph curvesGraph = new CurvesGraph();
            curvesGraph.ApplyCurve += CurvesGraph_ApplyCurve;
            curvesGraph.ApplyCurveAll += CurvesGraph_ApplyCurveAll;
+           curvesGraph.ApplyPhaseDifferenceCalculation += CurvesGraph_ApplyPhaseDifferenceCalculation; 
            curvesGraph.Show();
         }
-       
+
+        private void CurvesGraph_ApplyPhaseDifferenceCalculation(object sender, EventArgs e)
+        {
+            CurvesGraph curvesGraph = sender as CurvesGraph;
+            if (sender != null)
+            {
+                int[] recodingArray = curvesGraph.GetRecodingArray();
+                double[] phaseShifts = curvesGraph.GetPhaseShifts();
+
+                ZArrayDescriptor[] transformedArray = new ZArrayDescriptor[12];
+
+                int startImageIndex = 0;
+                int endImageIndex = 7;
+
+                int width = zArrayDescriptor[0].width;
+                int height = zArrayDescriptor[0].height;
+                                             
+                for (int k = startImageIndex; k <= endImageIndex; k++)
+                {
+                    transformedArray[k] = new ZArrayDescriptor(width, height);
+
+                    ZArrayDescriptor arrayDescr = zArrayDescriptor[k];
+                    if (arrayDescr == null) continue;
+                                        
+                    for (int j = 0; j < width; j++)
+                    {
+                        for (int i = 0; i < height; i++)
+                        {
+                            int oldValue = Convert.ToInt32(arrayDescr.array[j, i]);
+                            int newValue = recodingArray[oldValue];
+                            transformedArray[k].array[j, i] = newValue;
+                        }
+                    }
+                }
+                
+                int regComplex = 0;
+                ZArrayDescriptor zArray1 = ATAN_PSI.ATAN(transformedArray, regComplex, phaseShifts);
+
+                regComplex = 1;
+                ZArrayDescriptor zArray2 = ATAN_PSI.ATAN(transformedArray, regComplex, phaseShifts);
+
+                PictureBox picBox1 = pictureBoxArray[10];
+                PictureBox picBox2 = pictureBoxArray[11];
+
+                Vizual.Vizual_Picture(zArray1, picBox1);
+                Vizual.Vizual_Picture(zArray1, picBox2);
+                
+                int nx = zArray1.width;
+                int ny = zArray1.height;
+
+                for (int k = 0, imageIndex = 8; k < phaseShifts.Length; k++, imageIndex++)
+                {
+                    ZArrayDescriptor rez = new ZArrayDescriptor(nx, ny);
+                    for (int i = 0; i < nx; i++)
+                    {
+                        for (int j = 0; j < ny; j++)
+                        {
+                            rez.array[i, j] = Math.Cos(zArray1.array[i, j] - zArray2.array[i, j] + phaseShifts[k]);
+                        }
+                        zArrayDescriptor[imageIndex] = rez;
+                        PictureBox picBox = pictureBoxArray[imageIndex];
+                    }
+                }
+            }
+        }
+
         private void CurvesGraph_ApplyCurveAll(object sender, EventArgs e)
         {
             CurvesGraph curvesGraph = sender as CurvesGraph;

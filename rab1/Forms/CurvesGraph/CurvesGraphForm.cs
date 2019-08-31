@@ -24,6 +24,7 @@ namespace rab1
 
         public event EventHandler ApplyCurve;
         public event EventHandler ApplyCurveAll;
+        public event EventHandler ApplyPhaseDifferenceCalculation;
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
@@ -152,9 +153,33 @@ namespace rab1
             return int.Parse(txtStartImageNumber.Text);
         }
 
+        private void btnApplyPhaseDifferenceCalculation_Click(object sender, EventArgs e)
+        {
+            if (ApplyPhaseDifferenceCalculation != null)
+            {
+                ApplyPhaseDifferenceCalculation(this, new EventArgs());
+            }
+        }
+
         public int GetEndImageNumber()
         {
             return int.Parse(txtEndImageNumber.Text);
+        }
+
+        public double[] GetPhaseShifts()
+        {
+            int phaseShiftCount = 4;
+
+            double[] phaseShiftArray = new double[phaseShiftCount];
+
+            phaseShiftArray[0] = Convert.ToDouble(txtPhaseShift1.Text);
+            phaseShiftArray[1] = Convert.ToDouble(txtPhaseShift2.Text);
+            phaseShiftArray[2] = Convert.ToDouble(txtPhaseShift3.Text);
+            phaseShiftArray[3] = Convert.ToDouble(txtPhaseShift4.Text);
+
+            for (int i = 0; i < phaseShiftCount; i++) phaseShiftArray[i] = Math.PI * phaseShiftArray[i] / 180.0;
+
+            return phaseShiftArray;
         }
     }
 }
