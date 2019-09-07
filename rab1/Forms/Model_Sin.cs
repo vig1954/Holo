@@ -321,9 +321,57 @@ namespace rab1.Forms
          
         }
 
-      
+        private void button2_Click(object sender, EventArgs e)
+        {
+            SetCustomShifts();
+        }
 
-        /*
+        private void SetCustomShifts()
+        {
+            //double[] phaseShiftsInRadians = new double[] 
+            //    { 0, Math.PI, Math.PI / 3, -(Math.PI / 3) };
+            //double[] phaseShiftsInRadians = new double[] 
+            //    { 3 * Math.PI / 2, 5 * Math.PI / 2, 11 * Math.PI / 6, 7 * Math.PI / 6 };
+
+            //double[] phaseShiftsInRadians = new double[] 
+            //    { 0, Math.PI, Math.PI / 3, 5 * Math.PI / 3, Math.PI, 2 * Math.PI, 4 * Math.PI / 3, 2 * Math.PI / 3 };
+
+            double[] phaseShiftsInRadians = new double[]
+                { Math.PI / 2, 3 * Math.PI / 2, 5 * Math.PI / 6, 13 * Math.PI / 6, 3 * Math.PI / 2, 5 * Math.PI / 2, 11 * Math.PI / 6, 7 * Math.PI / 6 };
+
+
+            double[] phaseShiftsInDegrees = new double[phaseShiftsInRadians.Length];
+
+            for (int k = 0; k < phaseShiftsInRadians.Length; k++)
+            {
+                double valueInRadians = phaseShiftsInRadians[k];
+                double valueInDegrees = valueInRadians * 180 / Math.PI;
+                phaseShiftsInDegrees[k] = valueInDegrees;
+            }
+            
+            if (phaseShiftsInDegrees.Length == 4)
+            {
+                textBox1.Text = phaseShiftsInDegrees[0].ToString();
+                textBox2.Text = phaseShiftsInDegrees[1].ToString();
+                textBox3.Text = phaseShiftsInDegrees[2].ToString();
+                textBox4.Text = phaseShiftsInDegrees[3].ToString();
+            }
+
+            if (phaseShiftsInDegrees.Length == 8)
+            {
+                textBox1.Text = phaseShiftsInDegrees[0].ToString();
+                textBox2.Text = phaseShiftsInDegrees[1].ToString();
+                textBox3.Text = phaseShiftsInDegrees[2].ToString();
+                textBox4.Text = phaseShiftsInDegrees[3].ToString();
+
+                textBox13.Text = phaseShiftsInDegrees[4].ToString();
+                textBox14.Text = phaseShiftsInDegrees[5].ToString();
+                textBox15.Text = phaseShiftsInDegrees[6].ToString();
+                textBox16.Text = phaseShiftsInDegrees[7].ToString();
+            }
+        }
+
+       /*
        private void button2_Click(object sender, EventArgs e)
        {
            N_urovn = Convert.ToDouble(textBox8.Text);   // Число уровней
