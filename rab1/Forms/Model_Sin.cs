@@ -146,9 +146,33 @@ namespace rab1.Forms
             Close();
           
         }
-       
+        /// <summary>
+        /// Синусоиды с 256 фазовыми сдвигами
+        /// Число повторений в "Разрядить нулями" => kr
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button2_Click(object sender, EventArgs e)
+        {
+            
+            N_pol = Convert.ToDouble(textBox6.Text);   // Число точек на полоссу
+          
+            kr = Convert.ToInt32(textBox9.Text);    // Разрядка нулями
+            Nx = Convert.ToInt32(textBox10.Text);
+          
+           
+            if (kr == 0) { MessageBox.Show("Число повторений равно 0"); return; }
+         
+            
+                Form1.zArrayDescriptor[Form1.regComplex * 4 ] = Model_Sinus.Sinus2(N_pol, kr,  Nx);
+              
+                VisualRegImage(Form1.regComplex * 4 );
+           
+            Close();
+        }
         /// <summary>
         /// Синусоиды с учетом клина
+        
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -166,7 +190,7 @@ namespace rab1.Forms
             N_sdv = Convert.ToInt32(textBox17.Text);     // Число сдвигов
 
             if (N_sdv > 8) MessageBox.Show("Число сдвигов больше 8", "Message", MessageBoxButtons.OK);
-
+          
 
             fzrad = new double[8];
 
@@ -321,7 +345,9 @@ namespace rab1.Forms
          
         }
 
-      
+       
+
+
 
         /*
        private void button2_Click(object sender, EventArgs e)
