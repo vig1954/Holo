@@ -127,7 +127,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(12, 204);
+            this.button4.Location = new System.Drawing.Point(12, 309);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(248, 23);
             this.button4.TabIndex = 9;
@@ -145,7 +145,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(12, 244);
+            this.button5.Location = new System.Drawing.Point(12, 349);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(248, 37);
             this.button5.TabIndex = 12;
@@ -189,7 +189,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(12, 294);
+            this.button6.Location = new System.Drawing.Point(12, 399);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(248, 34);
             this.button6.TabIndex = 18;
@@ -365,7 +365,7 @@
             // 
             // ModelSinByClinButton
             // 
-            this.ModelSinByClinButton.Location = new System.Drawing.Point(12, 334);
+            this.ModelSinByClinButton.Location = new System.Drawing.Point(12, 439);
             this.ModelSinByClinButton.Name = "ModelSinByClinButton";
             this.ModelSinByClinButton.Size = new System.Drawing.Size(248, 45);
             this.ModelSinByClinButton.TabIndex = 38;
@@ -375,11 +375,20 @@
             // 
             // button2
             // 
+<<<<<<< HEAD
             this.button2.Location = new System.Drawing.Point(336, 41);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(64, 23);
             this.button2.TabIndex = 39;
             this.button2.Text = "Сдвиги";
+=======
+            this.button2.Location = new System.Drawing.Point(12, 204);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(248, 56);
+            this.button2.TabIndex = 39;
+            this.button2.Text = "Синусоиды с 256 фазовыми сдвигами\r\n (размер периода  в точках)\r\nЧмсло повторений " +
+    "в \"Разрядить нулями\"";
+>>>>>>> c71515092ffc6d443c9dab0edaad9f3a394366bc
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -387,7 +396,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+<<<<<<< HEAD
             this.ClientSize = new System.Drawing.Size(497, 388);
+=======
+            this.ClientSize = new System.Drawing.Size(497, 537);
+>>>>>>> c71515092ffc6d443c9dab0edaad9f3a394366bc
             this.Controls.Add(this.button2);
             this.Controls.Add(this.ModelSinByClinButton);
             this.Controls.Add(this.loadClinButton);
