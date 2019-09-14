@@ -133,5 +133,16 @@ namespace rab1.Forms
                 }
             }
         }
+
+        private void buttonSelectOutputFile_Click(object sender, EventArgs e)
+        {
+            var dialog = new SaveFileDialog();
+            dialog.Filter = "(*.JPG)|*.JPG|(*.bmp)|*.bmp";
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                textBoxOutputFile.Text = dialog.FileName;
+            }
+        }
     }
 }

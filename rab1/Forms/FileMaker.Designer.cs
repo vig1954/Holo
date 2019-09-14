@@ -41,6 +41,7 @@
             this.buttonOk = new System.Windows.Forms.Button();
             this.textBoxOutputFile = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.buttonSelectOutputFile = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBoxDirectory1
@@ -153,11 +154,22 @@
             this.label5.TabIndex = 12;
             this.label5.Text = "Output file:";
             // 
+            // buttonSelectOutputFile
+            // 
+            this.buttonSelectOutputFile.Location = new System.Drawing.Point(506, 173);
+            this.buttonSelectOutputFile.Name = "buttonSelectOutputFile";
+            this.buttonSelectOutputFile.Size = new System.Drawing.Size(75, 23);
+            this.buttonSelectOutputFile.TabIndex = 13;
+            this.buttonSelectOutputFile.Text = "Select";
+            this.buttonSelectOutputFile.UseVisualStyleBackColor = true;
+            this.buttonSelectOutputFile.Click += new System.EventHandler(this.buttonSelectOutputFile_Click);
+            // 
             // FileMaker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(593, 253);
+            this.Controls.Add(this.buttonSelectOutputFile);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.textBoxOutputFile);
             this.Controls.Add(this.buttonOk);
@@ -193,5 +205,6 @@
         private System.Windows.Forms.Button buttonOk;
         private System.Windows.Forms.TextBox textBoxOutputFile;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button buttonSelectOutputFile;
     }
 }
