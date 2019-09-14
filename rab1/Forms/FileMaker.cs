@@ -64,7 +64,7 @@ namespace rab1.Forms
             for (int k = 0; k < fileList1.Count; k++)
             {
                 string filePath = fileList1[k];
-                Bitmap img = new Bitmap(firstFile);
+                Bitmap img = new Bitmap(filePath);
                 for (int y = startRowIndex; y <= endRowIndex; y++)
                 {
                     for (int x = 0; x < width; x++)
@@ -79,7 +79,7 @@ namespace rab1.Forms
             for (int k = 0; k < fileList2.Count; k++)
             {
                 string filePath = fileList2[k];
-                Bitmap img = new Bitmap(firstFile);
+                Bitmap img = new Bitmap(filePath);
                 for (int y = startRowIndex; y <= endRowIndex; y++)
                 {
                     for (int x = 0; x < width; x++)
