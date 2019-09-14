@@ -64,6 +64,7 @@
             this.loadClinButton = new System.Windows.Forms.Button();
             this.ModelSinByClinButton = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.button100 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -233,7 +234,7 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(318, 307);
+            this.button7.Location = new System.Drawing.Point(317, 305);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(167, 23);
             this.button7.TabIndex = 23;
@@ -373,14 +374,23 @@
             this.ModelSinByClinButton.UseVisualStyleBackColor = true;
             this.ModelSinByClinButton.Click += new System.EventHandler(this.ModelSinByClinButton_Click);
             // 
-            // button2
+            // button100
             // 
+            this.button100.Location = new System.Drawing.Point(336, 41);
+            this.button100.Name = "button3";
+            this.button100.Size = new System.Drawing.Size(64, 23);
+            this.button100.TabIndex = 39;
+            this.button100.Text = "Сдвиги";
+            this.button100.Click += new System.EventHandler(this.button100_Click);
+
+            //button2
+
             this.button2.Location = new System.Drawing.Point(12, 204);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(248, 56);
             this.button2.TabIndex = 39;
-            this.button2.Text = "Синусоиды с 256 фазовыми сдвигами\r\n (размер периода  в точках)\r\nЧмсло повторений " +
-    "в \"Разрядить нулями\"";
+            this.button2.Text = "Синусоиды с 256 фазовыми сдвигами\r\n (размер периода  в точках)\r\nЧмсло повторений " + "в \"Разрядить нулями\"";
+
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -388,7 +398,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+                       
             this.ClientSize = new System.Drawing.Size(497, 537);
+
             this.Controls.Add(this.button2);
             this.Controls.Add(this.ModelSinByClinButton);
             this.Controls.Add(this.loadClinButton);
@@ -432,6 +444,11 @@
 
         }
 
+        private void Button100_Click(object sender, System.EventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
+
         #endregion
 
         private System.Windows.Forms.Button button1;
@@ -470,5 +487,6 @@
         private System.Windows.Forms.Button loadClinButton;
         private System.Windows.Forms.Button ModelSinByClinButton;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button100;
     }
 }

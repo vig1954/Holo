@@ -317,12 +317,12 @@ __kernel void freshnelGenerateInnerMultipliers(__global float2 *dst, float lambd
 	dst[x] = (float2)(cos(k), sin(k));
 }
 
-__kernel void flatWavefront(float alpha, float amplitude, __read_write image2d_t output)
-{
-    int2 coord = (int2)(get_global_id(0), get_global_id(1));
-    float phase = coord.x * sin(alpha);
-    write_imagef(output, coord, (float4)(amplitude * cos(phase), amplitude * sin(phase), 0, 0));
-}
+//__kernel void flatWavefront(float alpha, float amplitude, __read_only image2d_t output)
+//{
+//    int2 coord = (int2)(get_global_id(0), get_global_id(1));
+//    float phase = coord.x * sin(alpha);
+//    write_imagef(output, coord, (float4)(amplitude * cos(phase), amplitude * sin(phase), 0, 0));
+//}
 
 __kernel void sphericWavefront(__write_only image2d_t output, float lambda, float d, float dx, float dy, float alphaX, float alphaY, float amplitude)
 {
