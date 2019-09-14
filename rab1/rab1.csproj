@@ -118,6 +118,12 @@
     <Compile Include="Forms\CurvesGraph\CurvesGraphForm.Designer.cs">
       <DependentUpon>CurvesGraphForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FileMaker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FileMaker.Designer.cs">
+      <DependentUpon>FileMaker.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Form_Filtr.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -324,6 +330,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\CurvesGraph\CurvesGraphForm.resx">
       <DependentUpon>CurvesGraphForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FileMaker.resx">
+      <DependentUpon>FileMaker.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Form_Filtr.resx">
       <DependentUpon>Form_Filtr.cs</DependentUpon>

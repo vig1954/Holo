@@ -96,6 +96,7 @@
             this.генерацияМассиваСоСдвигомНаПловинуПикселяToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.увеличениеМассиваВ2РазаПростымПовторениемToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.неВГраницах0ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.криваяПерекодированияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.фазаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.моделированиеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.моделированиеФазыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -214,7 +215,7 @@
             this.button9 = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
-            this.криваяПерекодированияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fileMakerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox01)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -592,7 +593,8 @@
             this.сохранить8КадровToolStripMenuItem,
             this.сохранить4Кадра9101112ToolStripMenuItem,
             this.сохранитьТочкиToolStripMenuItem,
-            this.загрузитьТочкиToolStripMenuItem});
+            this.загрузитьТочкиToolStripMenuItem,
+            this.fileMakerToolStripMenuItem});
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
             this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.файлToolStripMenuItem.Text = "Файл";
@@ -873,6 +875,13 @@
             this.неВГраницах0ToolStripMenuItem.Size = new System.Drawing.Size(420, 22);
             this.неВГраницах0ToolStripMenuItem.Text = "Не в границах => 0";
             this.неВГраницах0ToolStripMenuItem.Click += new System.EventHandler(this.неВГраницах0ToolStripMenuItem_Click);
+            // 
+            // криваяПерекодированияToolStripMenuItem
+            // 
+            this.криваяПерекодированияToolStripMenuItem.Name = "криваяПерекодированияToolStripMenuItem";
+            this.криваяПерекодированияToolStripMenuItem.Size = new System.Drawing.Size(420, 22);
+            this.криваяПерекодированияToolStripMenuItem.Text = "Кривая перекодирования";
+            this.криваяПерекодированияToolStripMenuItem.Click += new System.EventHandler(this.криваяПерекодированияToolStripMenuItem_Click);
             // 
             // фазаToolStripMenuItem
             // 
@@ -1984,12 +1993,12 @@
             this.vScrollBar2.TabIndex = 115;
             this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar2_Scroll);
             // 
-            // криваяПерекодированияToolStripMenuItem
+            // fileMakerToolStripMenuItem
             // 
-            this.криваяПерекодированияToolStripMenuItem.Name = "криваяПерекодированияToolStripMenuItem";
-            this.криваяПерекодированияToolStripMenuItem.Size = new System.Drawing.Size(420, 22);
-            this.криваяПерекодированияToolStripMenuItem.Text = "Кривая перекодирования";
-            this.криваяПерекодированияToolStripMenuItem.Click += new System.EventHandler(this.криваяПерекодированияToolStripMenuItem_Click);
+            this.fileMakerToolStripMenuItem.Name = "fileMakerToolStripMenuItem";
+            this.fileMakerToolStripMenuItem.Size = new System.Drawing.Size(320, 22);
+            this.fileMakerToolStripMenuItem.Text = "File maker";
+            this.fileMakerToolStripMenuItem.Click += new System.EventHandler(this.fileMakerToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -2283,6 +2292,7 @@
         private System.Windows.Forms.ToolStripMenuItem dToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem фильтрацияНесколькихКадровToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem криваяПерекодированияToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fileMakerToolStripMenuItem;
     }
 }
 

@@ -3524,6 +3524,12 @@ namespace rab1
             }
         }
 
+        private void fileMakerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FileMaker fileMaker = new FileMaker();
+            fileMaker.Show();
+        }
+
         private void LoadCoordinates()
         {
             string x1, y1;
