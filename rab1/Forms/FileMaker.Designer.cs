@@ -83,6 +83,7 @@
             this.buttonSelectDirectory1.TabIndex = 4;
             this.buttonSelectDirectory1.Text = "Select";
             this.buttonSelectDirectory1.UseVisualStyleBackColor = true;
+            this.buttonSelectDirectory1.Click += new System.EventHandler(this.buttonSelectDirectory1_Click);
             // 
             // buttonSelectDirectory2
             // 
@@ -92,6 +93,7 @@
             this.buttonSelectDirectory2.TabIndex = 5;
             this.buttonSelectDirectory2.Text = "Select";
             this.buttonSelectDirectory2.UseVisualStyleBackColor = true;
+            this.buttonSelectDirectory2.Click += new System.EventHandler(this.buttonSelectDirectory2_Click);
             // 
             // textBoxStartRowNumber
             // 

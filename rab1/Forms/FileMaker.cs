@@ -33,7 +33,7 @@ namespace rab1.Forms
 
             int width;
             int height;
-                        
+
             int startRowNumber = int.Parse(this.textBoxStartRowNumber.Text);
             int endRowNumber = int.Parse(this.textBoxEndRowNumber.Text);
 
@@ -51,7 +51,7 @@ namespace rab1.Forms
 
             IList<string> fileList1 = filePaths1.OrderBy(x => x).Take(filesCount).ToList();
             IList<string> fileList2 = filePaths2.OrderBy(x => x).Take(filesCount).ToList();
-                                   
+
             string firstFile = fileList1.FirstOrDefault();
 
             Bitmap bitmap = new Bitmap(firstFile);
@@ -106,6 +106,32 @@ namespace rab1.Forms
         {
             this.MakeFile();
             this.Close();
+        }
+
+        private void buttonSelectDirectory1_Click(object sender, EventArgs e)
+        {
+            using (var fbd = new FolderBrowserDialog())
+            {
+                DialogResult result = fbd.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    textBoxDirectory1.Text = fbd.SelectedPath;
+                }
+            }
+        }
+
+        private void buttonSelectDirectory2_Click(object sender, EventArgs e)
+        {
+            using (var fbd = new FolderBrowserDialog())
+            {
+                DialogResult result = fbd.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    textBoxDirectory2.Text = fbd.SelectedPath;
+                }
+            }
         }
     }
 }
