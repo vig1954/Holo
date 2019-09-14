@@ -341,12 +341,10 @@ namespace rab1.Forms
             textBox13.Text = Convert.ToString(4*n);
             textBox14.Text = Convert.ToString(5*n);
             textBox15.Text = Convert.ToString(6*n);
-            textBox16.Text = Convert.ToString(7*n);
-         
+            textBox16.Text = Convert.ToString(7*n); 
         }
 
-<<<<<<< HEAD
-        private void button2_Click(object sender, EventArgs e)
+        private void button100_Click(object sender, EventArgs e)
         {
             SetCustomShifts();
         }
@@ -395,11 +393,6 @@ namespace rab1.Forms
                 textBox16.Text = phaseShiftsInDegrees[7].ToString();
             }
         }
-=======
-       
-
-
->>>>>>> c71515092ffc6d443c9dab0edaad9f3a394366bc
 
        /*
        private void button2_Click(object sender, EventArgs e)
@@ -412,7 +405,8 @@ namespace rab1.Forms
 
            Close();
        }
-*/
+       */
+
         //       private void button9_Click(object sender, EventArgs e) // Полосы поверх изображения
         //        {
         //            int N_p = Convert.ToInt32(textBox6.Text);
