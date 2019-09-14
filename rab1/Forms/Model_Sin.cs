@@ -161,7 +161,7 @@ namespace rab1.Forms
             Nx = Convert.ToInt32(textBox10.Text);
           
            
-            if (kr == 0) { MessageBox.Show("Число повторений равно 0"); return; }
+            //if (kr == 0) { MessageBox.Show("Число повторений равно 0"); return; }
          
             
                 Form1.zArrayDescriptor[Form1.regComplex * 4 ] = Model_Sinus.Sinus2(N_pol, kr,  Nx);

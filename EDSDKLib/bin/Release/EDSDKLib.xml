@@ -9,9 +9,59 @@
             Handles the Canon SDK
             </summary>
         </member>
+        <member name="P:EDSDKLib.SDKHandler.MainCamera">
+            <summary>
+            The used camera
+            </summary>
+        </member>
+        <member name="P:EDSDKLib.SDKHandler.CameraSessionOpen">
+            <summary>
+            States if a session with the MainCamera is opened
+            </summary>
+        </member>
+        <member name="P:EDSDKLib.SDKHandler.IsLiveViewOn">
+            <summary>
+            States if the live view is on or not
+            </summary>
+        </member>
+        <member name="P:EDSDKLib.SDKHandler.IsFilming">
+            <summary>
+            States if camera is recording or not
+            </summary>
+        </member>
+        <member name="P:EDSDKLib.SDKHandler.ImageSaveDirectory">
+            <summary>
+            Directory to where photos will be saved
+            </summary>
+        </member>
+        <member name="P:EDSDKLib.SDKHandler.Evf_ZoomRect">
+            <summary>
+            The focus and zoom border rectangle for live view (set after first use of live view)
+            </summary>
+        </member>
+        <member name="P:EDSDKLib.SDKHandler.Evf_ZoomPosition">
+            <summary>
+            The focus and zoom border position of the live view (set after first use of live view)
+            </summary>
+        </member>
+        <member name="P:EDSDKLib.SDKHandler.Evf_ImagePosition">
+            <summary>
+            The cropping position of the enlarged live view image (set after first use of live view)
+            </summary>
+        </member>
+        <member name="P:EDSDKLib.SDKHandler.Evf_CoordinateSystem">
+            <summary>
+            The live view coordinate system (set after first use of live view)
+            </summary>
+        </member>
         <member name="F:EDSDKLib.SDKHandler.IsCoordSystemSet">
             <summary>
             States if the Evf_CoordinateSystem is already set
+            </summary>
+        </member>
+        <member name="P:EDSDKLib.SDKHandler.Error">
+            <summary>
+            Handles errors that happen with the SDK
             </summary>
         </member>
         <member name="F:EDSDKLib.SDKHandler.DownloadVideo">
@@ -32,6 +82,31 @@
         <member name="F:EDSDKLib.SDKHandler.LVoff">
             <summary>
             If true, the live view will be shut off completely. If false, live view will go back to the camera.
+            </summary>
+        </member>
+        <member name="E:EDSDKLib.SDKHandler.CameraAdded">
+            <summary>
+            Fires if a camera is added
+            </summary>
+        </member>
+        <member name="E:EDSDKLib.SDKHandler.ProgressChanged">
+            <summary>
+            Fires if any process reports progress
+            </summary>
+        </member>
+        <member name="E:EDSDKLib.SDKHandler.LiveViewUpdated">
+            <summary>
+            Fires if the live view image has been updated
+            </summary>
+        </member>
+        <member name="E:EDSDKLib.SDKHandler.CameraHasShutdown">
+            <summary>
+            If the camera is disconnected or shuts down, this event is fired
+            </summary>
+        </member>
+        <member name="E:EDSDKLib.SDKHandler.ImageDownloaded">
+            <summary>
+            If an image is downloaded, this event fires with the downloaded image.
             </summary>
         </member>
         <member name="M:EDSDKLib.SDKHandler.#ctor">
@@ -105,9 +180,16 @@
             <param name="inContext">...</param>
             <returns>An EDSDK errorcode</returns>
         </member>
-        <member name="M:EDSDKLib.SDKHandler.DownloadImage(System.IntPtr,System.String)">
+        <member name="M:EDSDKLib.SDKHandler.DownloadImageToDirectory(System.IntPtr,System.String)">
             <summary>
             Downloads an image to given directory
+            </summary>
+            <param name="ObjectPointer">Pointer to the object. Get it from the SDKObjectEvent.</param>
+            <param name="directory">Path to where the image will be saved to</param>
+        </member>
+        <member name="M:EDSDKLib.SDKHandler.DownloadImageToMemory(System.IntPtr)">
+            <summary>
+            Downloads an image
             </summary>
             <param name="ObjectPointer">Pointer to the object. Get it from the SDKObjectEvent.</param>
             <param name="directory">Path to where the image will be saved to</param>
@@ -317,91 +399,10 @@
             <param name="val">Value</param>
             <returns>A bool created from the value</returns>
         </member>
-        <member name="P:EDSDKLib.SDKHandler.MainCamera">
-            <summary>
-            The used camera
-            </summary>
-        </member>
-        <member name="P:EDSDKLib.SDKHandler.CameraSessionOpen">
-            <summary>
-            States if a session with the MainCamera is opened
-            </summary>
-        </member>
-        <member name="P:EDSDKLib.SDKHandler.IsLiveViewOn">
-            <summary>
-            States if the live view is on or not
-            </summary>
-        </member>
-        <member name="P:EDSDKLib.SDKHandler.IsFilming">
-            <summary>
-            States if camera is recording or not
-            </summary>
-        </member>
-        <member name="P:EDSDKLib.SDKHandler.ImageSaveDirectory">
-            <summary>
-            Directory to where photos will be saved
-            </summary>
-        </member>
-        <member name="P:EDSDKLib.SDKHandler.Evf_ZoomRect">
-            <summary>
-            The focus and zoom border rectangle for live view (set after first use of live view)
-            </summary>
-        </member>
-        <member name="P:EDSDKLib.SDKHandler.Evf_ZoomPosition">
-            <summary>
-            The focus and zoom border position of the live view (set after first use of live view)
-            </summary>
-        </member>
-        <member name="P:EDSDKLib.SDKHandler.Evf_ImagePosition">
-            <summary>
-            The cropping position of the enlarged live view image (set after first use of live view)
-            </summary>
-        </member>
-        <member name="P:EDSDKLib.SDKHandler.Evf_CoordinateSystem">
-            <summary>
-            The live view coordinate system (set after first use of live view)
-            </summary>
-        </member>
-        <member name="P:EDSDKLib.SDKHandler.Error">
-            <summary>
-            Handles errors that happen with the SDK
-            </summary>
-        </member>
-        <member name="E:EDSDKLib.SDKHandler.CameraAdded">
-            <summary>
-            Fires if a camera is added
-            </summary>
-        </member>
-        <member name="E:EDSDKLib.SDKHandler.ProgressChanged">
-            <summary>
-            Fires if any process reports progress
-            </summary>
-        </member>
-        <member name="E:EDSDKLib.SDKHandler.LiveViewUpdated">
-            <summary>
-            Fires if the live view image has been updated
-            </summary>
-        </member>
-        <member name="E:EDSDKLib.SDKHandler.CameraHasShutdown">
-            <summary>
-            If the camera is disconnected or shuts down, this event is fired
-            </summary>
-        </member>
-        <member name="E:EDSDKLib.SDKHandler.ImageDownloaded">
-            <summary>
-            If an image is downloaded, this event fires with the downloaded image.
-            </summary>
-        </member>
         <member name="T:EDSDKLib.Camera">
             <summary>
             A container for camera related information
             </summary>
-        </member>
-        <member name="M:EDSDKLib.Camera.#ctor(System.IntPtr)">
-            <summary>
-            Creates a new instance of the Camera class
-            </summary>
-            <param name="Reference">Pointer to the SDK camera object</param>
         </member>
         <member name="P:EDSDKLib.Camera.Ref">
             <summary>
@@ -417,6 +418,12 @@
             <summary>
             Handles errors that happen with the SDK
             </summary>
+        </member>
+        <member name="M:EDSDKLib.Camera.#ctor(System.IntPtr)">
+            <summary>
+            Creates a new instance of the Camera class
+            </summary>
+            <param name="Reference">Pointer to the SDK camera object</param>
         </member>
         <member name="T:EDSDKLib.CameraValues">
             <summary>
@@ -470,25 +477,6 @@
             A storage for a camera filesystem entry
             </summary>
         </member>
-        <member name="M:EDSDKLib.CameraFileEntry.#ctor(System.String,System.Boolean)">
-            <summary>
-            Creates a new instance of the CameraFileEntry class
-            </summary>
-            <param name="Name">Name of this entry</param>
-            <param name="IsFolder">True if this entry is a folder, false otherwise</param>
-        </member>
-        <member name="M:EDSDKLib.CameraFileEntry.AddSubEntries(EDSDKLib.CameraFileEntry[])">
-            <summary>
-            Adds subentries (subfolders) to this entry
-            </summary>
-            <param name="Entries">the entries to add</param>
-        </member>
-        <member name="M:EDSDKLib.CameraFileEntry.AddThumb(System.Drawing.Bitmap)">
-            <summary>
-            Adds a thumbnail to this entry
-            </summary>
-            <param name="Thumbnail">The thumbnail to add</param>
-        </member>
         <member name="P:EDSDKLib.CameraFileEntry.Name">
             <summary>
             Name of this entry
@@ -509,6 +497,25 @@
             Subentries of this entry (i.e. subfolders)
             </summary>
         </member>
+        <member name="M:EDSDKLib.CameraFileEntry.#ctor(System.String,System.Boolean)">
+            <summary>
+            Creates a new instance of the CameraFileEntry class
+            </summary>
+            <param name="Name">Name of this entry</param>
+            <param name="IsFolder">True if this entry is a folder, false otherwise</param>
+        </member>
+        <member name="M:EDSDKLib.CameraFileEntry.AddSubEntries(EDSDKLib.CameraFileEntry[])">
+            <summary>
+            Adds subentries (subfolders) to this entry
+            </summary>
+            <param name="Entries">the entries to add</param>
+        </member>
+        <member name="M:EDSDKLib.CameraFileEntry.AddThumb(System.Drawing.Bitmap)">
+            <summary>
+            Adds a thumbnail to this entry
+            </summary>
+            <param name="Thumbnail">The thumbnail to add</param>
+        </member>
         <member name="T:EDSDKLib.STAThread">
             <summary>
             Helper class to create or run code on STA threads
@@ -517,6 +524,11 @@
         <member name="F:EDSDKLib.STAThread.ExecLock">
             <summary>
             The object that is used to lock the live view thread
+            </summary>
+        </member>
+        <member name="P:EDSDKLib.STAThread.IsSTAThread">
+            <summary>
+            States if the calling thread is an STA thread or not
             </summary>
         </member>
         <member name="F:EDSDKLib.STAThread.main">
@@ -578,16 +590,6 @@
             </summary>
             <param name="func">The SDK command</param>
             <returns>the return value of the function</returns>
-        </member>
-        <member name="P:EDSDKLib.STAThread.IsSTAThread">
-            <summary>
-            States if the calling thread is an STA thread or not
-            </summary>
-        </member>
-        <member name="F:EDSDKLib.EDSDK.DLLPath">
-            <summary>
-            Path to the EDSDK DLL
-            </summary>
         </member>
     </members>
 </doc>

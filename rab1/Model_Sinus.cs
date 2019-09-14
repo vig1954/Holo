@@ -75,8 +75,7 @@ namespace rab1.Forms
         /// <param name="fz"></param>           фазовый сдвиг полос
         /// <param name="a"></param>            амплитуда
         /// <param name="n_polos"></param>      размер полосы в точках
-        /// <param name="gamma"></param>        гамма искажения
-        /// <param name="kr"></param>           разрядка нулями для моделирования сверхразрешения (0 - нет разрядки)
+        /// <param name="gamma"></param>        гамма искажения        
         /// <param name="Nx"></param>           размер по X
         /// <param name="Ny"></param>           размер по Y
         /// <param name="noise"></param>        шум в долях амплитуды (0,1)*a
@@ -136,37 +135,39 @@ namespace rab1.Forms
         /// Моделирование синусоидальной картины с заданным в точках размером полос 
         /// c фазовыми сдвинами от 0 до 256 с числом повторений в kr
         /// </summary>
-        /// <param name="fz"></param>           фазовый сдвиг полос
-        /// <param name="a"></param>            амплитуда
+      
+      
         /// <param name="n_polos"></param>      размер полосы в точках
-        /// <param name="gamma"></param>        гамма искажения
+       
         /// <param name="kr"></param>           разрядка нулями для моделирования сверхразрешения (0 - нет разрядки)
         /// <param name="Nx"></param>           размер по X
-        /// <param name="Ny"></param>           размер по Y
-        /// <param name="noise"></param>        шум в долях амплитуды (0,1)*a
+        
         /// <returns></returns>
         public static ZArrayDescriptor Sinus2(double n_polos, int kr, int Nx)
         {
 
             int kr1 = kr + 1;
             int NX = Nx;
-            int NY = 256*kr1;
+            int NY = 0;
             int j = 0;
             double a = 256;        // Амплитуда
             double fz = 0;
+            double Pi3 = 3 * Math.PI;
             double Pi2 = 2 * Math.PI;
             //MessageBox.Show(" n_polos " + n_polos);
 
             double[] sn = new double[NX];
-           
-            ZArrayDescriptor cmpl = new ZArrayDescriptor(NX, NY+kr1);      // Результирующий фронт 
+            for (fz = 0; fz <= Pi3; fz = fz + Pi2 / 256) { NY++; }
 
-            for (fz = 0, j=0; fz <= Pi2; fz=fz+Pi2/256, j=j+kr1)
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(NX, NY+1);      // Результирующий фронт 
+
+            for (fz = 0, j=0; fz <= Pi3; fz=fz+Pi2/256, j=j+1)
             {
-                for (int i = 0; i < NX; i++) { sn[i] = a * (Math.Sin(2.0 * Math.PI * i / n_polos + fz) + 1.0) / 2.0; }        // синусоида от 0 до 1  
-                for (int k = 0; k < kr; k++)
-                     { for (int i = 0; i < NX; i++) { cmpl.array[i, j + k] = sn[i]; } }
-                for (int i = 0; i < NX; i++) { cmpl.array[i, j + kr] = 0; }
+                for (int i = 0; i < NX; i++) { sn[i] = a * (Math.Sin(2.0 * Math.PI * i / n_polos + fz) + 1.0) / 2.0; }        // синусоида от 0 до 1 
+                for (int i = 0; i < NX; i++) { cmpl.array[i, j] = sn[i]; }
+                //for (int k = 0; k < kr; k++)
+                //     {  }
+                //for (int i = 0; i < NX; i++) { cmpl.array[i, j + kr] = 0; }
 
             }
             
