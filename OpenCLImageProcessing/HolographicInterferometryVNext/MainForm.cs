@@ -71,8 +71,14 @@ namespace HolographicInterferometryVNext
         {
             Singleton.Get<ImageSeriesRepository>().ItemAdded += imageSeries =>
             {
-                imageSeries.AddDataProcessor(DataProcessorViewCreator.For(typeof(Psi),nameof(Psi.Psi4)).Create());
-                imageSeries.AddDataProcessor(DataProcessorViewCreator.For(typeof(Fourier),nameof(Fourier.Transform)).Create());
+                var psi4Processor = DataProcessorViewCreator.For(typeof(Psi),nameof(Psi.Psi4)).Create();
+                imageSeries.AddDataProcessor(psi4Processor);
+
+                var freshnelProcessor = DataProcessorViewCreator.For(typeof(Freshnel),nameof(Freshnel.Transform)).Create();
+                imageSeries.AddDataProcessor(freshnelProcessor);
+
+                DataProcessorViewRepository.Add(psi4Processor);
+                DataProcessorViewRepository.Add(freshnelProcessor);
 
                 workspacePanel1.AddSeries(imageSeries);
             };

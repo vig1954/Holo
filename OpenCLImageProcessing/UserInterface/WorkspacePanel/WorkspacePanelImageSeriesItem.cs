@@ -31,6 +31,7 @@ namespace UserInterface.WorkspacePanel
         public void AddDataProcessor(IDataProcessorView dataProcessorView)
         {
             Series.AddDataProcessor(dataProcessorView);
+            ResizeMe();
         }
 
         private void SetSeries(UserInterface.ImageSeries.ImageSeries series)
@@ -51,6 +52,7 @@ namespace UserInterface.WorkspacePanel
                 AddDataProcessorView(dataProcessor, skipResizing: true);
             }
 
+            ResizeMe();
             ResizeFlowLayoutPanel1Controls();
         }
 
@@ -71,6 +73,12 @@ namespace UserInterface.WorkspacePanel
         private void FlowLayoutPanel1OnResize(object sender, EventArgs e)
         {
             ResizeFlowLayoutPanel1Controls();
+        }
+
+        private void ResizeMe()
+        {
+            var totalHeight = flowLayoutPanel1.Controls[flowLayoutPanel1.Controls.Count - 1].Bottom;
+            Height = totalHeight + 40;
         }
 
         private void ResizeFlowLayoutPanel1Controls()

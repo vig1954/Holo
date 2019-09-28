@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using Infrastructure;
 using Processing;
+using UserInterface.DataProcessorViews;
 
 namespace UserInterface.Utility
 {
@@ -20,6 +21,8 @@ namespace UserInterface.Utility
             InitializeComponent();
 
             var imageHandlers = Singleton.Get<ImageHandlerRepository>().Get(predicate);
+            imageHandlers = imageHandlers.Concat(Singleton.Get<DataProcessorViewRepository>().GetAll().Where(p => p is IImageHandler)
+                .Cast<IImageHandler>().Where(predicate)).ToArray();
 
             foreach (var imageHandler in imageHandlers)
             {

@@ -12,7 +12,7 @@ namespace Camera
     {
         private const int MaximumStepCount = 4;
 
-        private int[] _shiftValues = new int[CameraInputView.SeriesLength];
+        private int[] _shiftValues;
         private LowLevelPhaseShiftDeviceControllerAdapter LowLevelPhaseShiftController => Singleton.Get<LowLevelPhaseShiftDeviceControllerAdapter>();
         
         [BindToUI]
@@ -35,6 +35,13 @@ namespace Camera
 
         [BindToUI("Время установления сдвига, мс")]
         public int ShiftDelay { get; set; } = 1000;
+
+        public PhaseShiftDeviceController()
+        {
+            _shiftValues = new int[CameraInputView.SeriesLength];
+            // hack
+            _shiftValues = new int[] {5000, 4000, 3000, 2000};
+        }
 
         public async void ExecuteStep(int stepNumber)
         {
