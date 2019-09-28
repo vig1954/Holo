@@ -231,22 +231,12 @@ namespace rab1
                 else
                 {
                     //Save bitmap
-                    string fileName = string.Format("{0}.jpg", currentPhaseShiftValue.ToString());
+                    string fileName = string.Format("{0}.jpg", currentImageNumber.ToString());
                     string filePath = Path.Combine(frames256Directory, fileName);
 
                     Bitmap image = new Bitmap(bitmap);
                     image.Save(filePath);
-
-                    /*
-                    this.Invoke
-                    (
-                        (MethodInvoker)delegate
-                        {
-                            bitmap.Save(filePath);
-                        }
-                    );
-                    */
-
+                   
                 }
             }
 
@@ -752,6 +742,7 @@ namespace rab1
             seriesType = TakePhotoSeriesTypeEnum.ImageSeries;
             is256Frames = true;
 
+            currentPhaseShiftNumber = 1;
             currentPhaseShiftValue = 0;
             phaseShiftStep = Math.Round(360.0 / 256.0, 2); //45
             currentImageNumber = 1;
