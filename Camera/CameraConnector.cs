@@ -23,6 +23,9 @@ namespace Camera
         public event Action<EDSDKLib.Camera> ActiveCameraSelected;
         public event Action<Bitmap> LiveViewUpdated;
         public event Action<Bitmap> ImageDownloaded;
+        public event Action<IEnumerable<EDSDKLib.Camera>> AvailableCamerasUpdated;
+        public event Action SessionOpened;
+        public event Action SessionClosed;
 
         public EDSDKLib.Camera ActiveCamera => _activeCamera;
         public ObservableCollection<CameraUIntSetting> AvailableAvModes = new ObservableCollection<CameraUIntSetting>();
@@ -185,6 +188,8 @@ namespace Camera
             {
                 AvailableCameras.Add(camera);
             }
+
+            AvailableCamerasUpdated?.Invoke(AvailableCameras);
         }
 
         private void CameraImageDownloaded(Bitmap bmp)

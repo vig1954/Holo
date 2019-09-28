@@ -19,7 +19,7 @@ namespace UserInterface.DataEditors
             RegisterEvents(root);
         }
 
-        public void Add(DataEditorView where, Orientation orientation)
+        public DataEditorView Add(DataEditorView where, Orientation orientation)
         {
             var parent = where.Parent;
             if (parent == null)
@@ -56,6 +56,8 @@ namespace UserInterface.DataEditors
 
             RegisterEvents(newEditor);
             newEditor.SplitEnabled = true;
+
+            return newEditor;
         }
 
         public void Remove(DataEditorView what)
