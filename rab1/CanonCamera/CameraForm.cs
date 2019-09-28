@@ -234,6 +234,9 @@ namespace rab1
                     string fileName = string.Format("{0}.jpg", currentPhaseShiftValue.ToString());
                     string filePath = Path.Combine(frames256Directory, fileName);
 
+                    Bitmap image = new Bitmap(bitmap);
+                    image.Save(filePath);
+
                     /*
                     this.Invoke
                     (
@@ -243,6 +246,7 @@ namespace rab1
                         }
                     );
                     */
+
                 }
             }
 
