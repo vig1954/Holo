@@ -41,6 +41,8 @@
             this.FocusNear2Button = new System.Windows.Forms.Button();
             this.FocusNear3Button = new System.Windows.Forms.Button();
             this.SettingsGroupBox = new System.Windows.Forms.GroupBox();
+            this.stratImageNumberLabel = new System.Windows.Forms.Label();
+            this.startImageNumberTextBox = new System.Windows.Forms.TextBox();
             this.ShiftsCountLabel = new System.Windows.Forms.Label();
             this.ShiftsCountTextBox = new System.Windows.Forms.TextBox();
             this.backGroundWindowButton = new System.Windows.Forms.Button();
@@ -84,8 +86,8 @@
             this.SaveFolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.LiveViewPicBox = new System.Windows.Forms.PictureBox();
             this.LiveViewGroupBox = new System.Windows.Forms.GroupBox();
-            this.startImageNumberTextBox = new System.Windows.Forms.TextBox();
-            this.stratImageNumberLabel = new System.Windows.Forms.Label();
+            this.frames256Button = new System.Windows.Forms.Button();
+            this.frames256DirectoryTextBox = new System.Windows.Forms.TextBox();
             this.InitGroupBox.SuspendLayout();
             this.SettingsGroupBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -112,13 +114,13 @@
             this.CameraListBox.FormattingEnabled = true;
             this.CameraListBox.Location = new System.Drawing.Point(6, 44);
             this.CameraListBox.Name = "CameraListBox";
-            this.CameraListBox.Size = new System.Drawing.Size(121, 43);
+            this.CameraListBox.Size = new System.Drawing.Size(121, 134);
             this.CameraListBox.TabIndex = 6;
             // 
             // SessionButton
             // 
             this.SessionButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.SessionButton.Location = new System.Drawing.Point(6, 91);
+            this.SessionButton.Location = new System.Drawing.Point(6, 185);
             this.SessionButton.Name = "SessionButton";
             this.SessionButton.Size = new System.Drawing.Size(84, 23);
             this.SessionButton.TabIndex = 7;
@@ -142,9 +144,9 @@
             this.InitGroupBox.Controls.Add(this.CameraListBox);
             this.InitGroupBox.Controls.Add(this.SessionLabel);
             this.InitGroupBox.Controls.Add(this.SessionButton);
-            this.InitGroupBox.Location = new System.Drawing.Point(12, 44);
+            this.InitGroupBox.Location = new System.Drawing.Point(12, 11);
             this.InitGroupBox.Name = "InitGroupBox";
-            this.InitGroupBox.Size = new System.Drawing.Size(135, 120);
+            this.InitGroupBox.Size = new System.Drawing.Size(135, 214);
             this.InitGroupBox.TabIndex = 9;
             this.InitGroupBox.TabStop = false;
             this.InitGroupBox.Text = "Init";
@@ -153,7 +155,7 @@
             // 
             this.RefreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.RefreshButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RefreshButton.Location = new System.Drawing.Point(98, 91);
+            this.RefreshButton.Location = new System.Drawing.Point(98, 185);
             this.RefreshButton.Name = "RefreshButton";
             this.RefreshButton.Size = new System.Drawing.Size(31, 23);
             this.RefreshButton.TabIndex = 9;
@@ -229,6 +231,8 @@
             // 
             // SettingsGroupBox
             // 
+            this.SettingsGroupBox.Controls.Add(this.frames256DirectoryTextBox);
+            this.SettingsGroupBox.Controls.Add(this.frames256Button);
             this.SettingsGroupBox.Controls.Add(this.stratImageNumberLabel);
             this.SettingsGroupBox.Controls.Add(this.startImageNumberTextBox);
             this.SettingsGroupBox.Controls.Add(this.ShiftsCountLabel);
@@ -261,10 +265,26 @@
             this.SettingsGroupBox.Location = new System.Drawing.Point(153, 12);
             this.SettingsGroupBox.MinimumSize = new System.Drawing.Size(407, 158);
             this.SettingsGroupBox.Name = "SettingsGroupBox";
-            this.SettingsGroupBox.Size = new System.Drawing.Size(837, 158);
+            this.SettingsGroupBox.Size = new System.Drawing.Size(837, 213);
             this.SettingsGroupBox.TabIndex = 11;
             this.SettingsGroupBox.TabStop = false;
             this.SettingsGroupBox.Text = "Settings";
+            // 
+            // stratImageNumberLabel
+            // 
+            this.stratImageNumberLabel.AutoSize = true;
+            this.stratImageNumberLabel.Location = new System.Drawing.Point(666, 56);
+            this.stratImageNumberLabel.Name = "stratImageNumberLabel";
+            this.stratImageNumberLabel.Size = new System.Drawing.Size(89, 13);
+            this.stratImageNumberLabel.TabIndex = 30;
+            this.stratImageNumberLabel.Text = "Start image num.:";
+            // 
+            // startImageNumberTextBox
+            // 
+            this.startImageNumberTextBox.Location = new System.Drawing.Point(759, 53);
+            this.startImageNumberTextBox.Name = "startImageNumberTextBox";
+            this.startImageNumberTextBox.Size = new System.Drawing.Size(71, 20);
+            this.startImageNumberTextBox.TabIndex = 29;
             // 
             // ShiftsCountLabel
             // 
@@ -296,9 +316,9 @@
             // takeSeriesFromPictureBoxesButton
             // 
             this.takeSeriesFromPictureBoxesButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.takeSeriesFromPictureBoxesButton.Location = new System.Drawing.Point(737, 100);
+            this.takeSeriesFromPictureBoxesButton.Location = new System.Drawing.Point(676, 132);
             this.takeSeriesFromPictureBoxesButton.Name = "takeSeriesFromPictureBoxesButton";
-            this.takeSeriesFromPictureBoxesButton.Size = new System.Drawing.Size(95, 50);
+            this.takeSeriesFromPictureBoxesButton.Size = new System.Drawing.Size(154, 45);
             this.takeSeriesFromPictureBoxesButton.TabIndex = 25;
             this.takeSeriesFromPictureBoxesButton.Text = "Take Series From 1,2,3,4";
             this.takeSeriesFromPictureBoxesButton.UseVisualStyleBackColor = true;
@@ -318,7 +338,7 @@
             this.groupBox1.Controls.Add(this.phaseShiftSerialPortComboBox);
             this.groupBox1.Location = new System.Drawing.Point(434, 16);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(226, 138);
+            this.groupBox1.Size = new System.Drawing.Size(226, 137);
             this.groupBox1.TabIndex = 24;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Phase shift";
@@ -517,7 +537,7 @@
             this.takeSeriesPhotoButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.takeSeriesPhotoButton.Location = new System.Drawing.Point(676, 100);
             this.takeSeriesPhotoButton.Name = "takeSeriesPhotoButton";
-            this.takeSeriesPhotoButton.Size = new System.Drawing.Size(55, 52);
+            this.takeSeriesPhotoButton.Size = new System.Drawing.Size(154, 26);
             this.takeSeriesPhotoButton.TabIndex = 10;
             this.takeSeriesPhotoButton.Text = "Take Series";
             this.takeSeriesPhotoButton.UseVisualStyleBackColor = true;
@@ -719,34 +739,35 @@
             this.LiveViewGroupBox.Controls.Add(this.FocusNear2Button);
             this.LiveViewGroupBox.Controls.Add(this.FocusNear1Button);
             this.LiveViewGroupBox.Controls.Add(this.FocusFar3Button);
-            this.LiveViewGroupBox.Location = new System.Drawing.Point(12, 175);
+            this.LiveViewGroupBox.Location = new System.Drawing.Point(12, 231);
             this.LiveViewGroupBox.Name = "LiveViewGroupBox";
             this.LiveViewGroupBox.Size = new System.Drawing.Size(978, 697);
             this.LiveViewGroupBox.TabIndex = 12;
             this.LiveViewGroupBox.TabStop = false;
             this.LiveViewGroupBox.Text = "Live view";
             // 
-            // startImageNumberTextBox
+            // frames256Button
             // 
-            this.startImageNumberTextBox.Location = new System.Drawing.Point(759, 53);
-            this.startImageNumberTextBox.Name = "startImageNumberTextBox";
-            this.startImageNumberTextBox.Size = new System.Drawing.Size(71, 20);
-            this.startImageNumberTextBox.TabIndex = 29;
+            this.frames256Button.Location = new System.Drawing.Point(434, 185);
+            this.frames256Button.Name = "frames256Button";
+            this.frames256Button.Size = new System.Drawing.Size(226, 23);
+            this.frames256Button.TabIndex = 31;
+            this.frames256Button.Text = "256 frames";
+            this.frames256Button.UseVisualStyleBackColor = true;
+            this.frames256Button.Click += new System.EventHandler(this.frames256Button_Click);
             // 
-            // stratImageNumberLabel
+            // frames256DirectoryTextBox
             // 
-            this.stratImageNumberLabel.AutoSize = true;
-            this.stratImageNumberLabel.Location = new System.Drawing.Point(666, 56);
-            this.stratImageNumberLabel.Name = "stratImageNumberLabel";
-            this.stratImageNumberLabel.Size = new System.Drawing.Size(89, 13);
-            this.stratImageNumberLabel.TabIndex = 30;
-            this.stratImageNumberLabel.Text = "Start image num.:";
+            this.frames256DirectoryTextBox.Location = new System.Drawing.Point(434, 159);
+            this.frames256DirectoryTextBox.Name = "frames256DirectoryTextBox";
+            this.frames256DirectoryTextBox.Size = new System.Drawing.Size(226, 20);
+            this.frames256DirectoryTextBox.TabIndex = 32;
             // 
             // CameraForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1000, 882);
+            this.ClientSize = new System.Drawing.Size(1000, 936);
             this.Controls.Add(this.LiveViewGroupBox);
             this.Controls.Add(this.SettingsGroupBox);
             this.Controls.Add(this.InitGroupBox);
@@ -831,6 +852,8 @@
         private System.Windows.Forms.TextBox ShiftsCountTextBox;
         private System.Windows.Forms.Label stratImageNumberLabel;
         private System.Windows.Forms.TextBox startImageNumberTextBox;
+        private System.Windows.Forms.Button frames256Button;
+        private System.Windows.Forms.TextBox frames256DirectoryTextBox;
     }
 }
 

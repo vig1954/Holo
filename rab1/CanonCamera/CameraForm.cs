@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Linq;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 using rab1.Forms;
 
@@ -21,10 +23,10 @@ namespace rab1
         TakePhotoSeriesTypeEnum seriesType = TakePhotoSeriesTypeEnum.Uknown;
 
         PhaseShiftDeviceController phaseShiftDeviceController = null;
-        short phaseShiftStep = 0;
+        double phaseShiftStep = 0;
         short phaseShiftCount = 0;
         short currentPhaseShiftNumber = 0;
-        short currentPhaseShiftValue = 0;
+        double currentPhaseShiftValue = 0;
         short zeroPhaseShiftValue = 0x2000;
         int delay = 0;
         bool takeNextPhoto = false;
@@ -57,6 +59,9 @@ namespace rab1
         int imageHeight = 0;
 
         IList<Image> seriesImagesList = null;
+
+        bool is256Frames = false;
+        string frames256Directory = null;
 
         #endregion
 
@@ -207,18 +212,38 @@ namespace rab1
                 {
                     number = currentPhaseShiftNumber;
                 }
-                
-                PictureTakenEventArgs eventArgs = new PictureTakenEventArgs()
-                {
-                    Image = bitmap,
-                    StartImageNumber = startImageNumber,
-                    Number = number,
-                    GroupNumber = groupNumber,
-                    PhaseShiftValue = currentPhaseShiftValue,
-                    ColorMode = colorMode
-                };
 
-                PictureTaken(eventArgs);
+                if (!is256Frames)
+                {
+
+                    PictureTakenEventArgs eventArgs = new PictureTakenEventArgs()
+                    {
+                        Image = bitmap,
+                        StartImageNumber = startImageNumber,
+                        Number = number,
+                        GroupNumber = groupNumber,
+                        PhaseShiftValue = Convert.ToInt16(currentPhaseShiftValue),
+                        ColorMode = colorMode
+                    };
+
+                    PictureTaken(eventArgs);
+                }
+                else
+                {
+                    //Save bitmap
+                    string fileName = string.Format("{0}.jpg", currentPhaseShiftValue.ToString());
+                    string filePath = Path.Combine(frames256Directory, fileName);
+
+                    /*
+                    this.Invoke
+                    (
+                        (MethodInvoker)delegate
+                        {
+                            bitmap.Save(filePath);
+                        }
+                    );
+                    */
+                }
             }
 
             TryTakeNextPhoto();
@@ -260,6 +285,12 @@ namespace rab1
                 if (seriesType == TakePhotoSeriesTypeEnum.ImageSeries)
                 {
                     currentImageNumber++;
+
+                    if (is256Frames)
+                    {
+                        currentPhaseShiftValue += phaseShiftStep;
+                    }
+
                     if (currentImageNumber == GetMaxImagesCount())
                     {
                         takeNextPhoto = false;
@@ -293,7 +324,7 @@ namespace rab1
                     {
                         Image = Evf_Bmp,
                         PhaseShiftNumber = currentPhaseShiftNumber,
-                        PhaseShiftValue = currentPhaseShiftValue,
+                        PhaseShiftValue = Convert.ToInt16(currentPhaseShiftValue),
                         ColorMode = colorMode
                     };
 
@@ -690,6 +721,7 @@ namespace rab1
         private void TakePhaseShiftsSeriesPhoto()
         {
             seriesType = TakePhotoSeriesTypeEnum.PhaseShifts;
+            is256Frames = false;
 
             InitPhaseShiftParameters();
             takeNextPhoto = true;
@@ -699,13 +731,37 @@ namespace rab1
         private void TakeImagesSeriesPhoto()
         {
             seriesType = TakePhotoSeriesTypeEnum.ImageSeries;
-                        
+            is256Frames = false;
+            
             currentImageNumber = 1;
             imageOffsetX = 0;
 
             startImageNumber = short.Parse(startImageNumberTextBox.Text);
             delay = int.Parse(DelayTextBox.Text);
                         
+            takeNextPhoto = true;
+            SetImageAndTakePhoto();
+        }
+
+        private void Take256Images()
+        {
+            seriesType = TakePhotoSeriesTypeEnum.ImageSeries;
+            is256Frames = true;
+
+            currentPhaseShiftValue = 0;
+            phaseShiftStep = Math.Round(360.0 / 256.0, 2); //45
+            currentImageNumber = 1;
+            imageOffsetX = 0;
+
+            startImageNumber = short.Parse(startImageNumberTextBox.Text);
+            delay = int.Parse(DelayTextBox.Text);
+
+            frames256Directory = frames256DirectoryTextBox.Text;
+            if (!Directory.Exists(frames256Directory))
+            {
+                Directory.CreateDirectory(frames256Directory);
+            }
+
             takeNextPhoto = true;
             SetImageAndTakePhoto();
         }
@@ -725,19 +781,36 @@ namespace rab1
 
         private void SetImage()
         {
-            imageForm.SetImage(MainForm.GetImageFromPictureBox(currentImageNumber));
+            if (is256Frames)
+            {
+                double phaseShiftInRadians = Math.PI * currentPhaseShiftValue / 180.0;
+                Image image = GenerateImage(phaseShiftInRadians);
+
+                imageForm.SetImage(image);
+            }
+            else
+            {
+                imageForm.SetImage(MainForm.GetImageFromPictureBox(currentImageNumber));
+            }
         }
         
         private int GetMaxImagesCount()
         {
-            return int.Parse(ShiftsCountTextBox.Text);
+            if (is256Frames)
+            {
+                return 256;
+            }
+            else
+            {
+                return int.Parse(ShiftsCountTextBox.Text);
+            }
         }
 
         private void ExecutePhaseShift()
         {
             if (phaseShiftDeviceController != null)
             {
-                phaseShiftDeviceController.SetShift(currentPhaseShiftValue);
+                phaseShiftDeviceController.SetShift(Convert.ToInt16(currentPhaseShiftValue));
                 //currentPhaseShiftLabel.Text = currentPhaseShiftValue.ToString();
             }
 
@@ -871,5 +944,56 @@ namespace rab1
             this.imageForm = null;
         }
         */
+
+        private Image GenerateImage(double phaseShift)
+        {
+            Image resImage = null;
+
+            int width = 4096;
+            int height = 2160;
+
+            double pointsPerStripCount = 256;
+            double maxIntensity = 255;
+            double gamma = 1;
+            double noise = 0;
+
+            int kr = 0;
+
+            ZArrayDescriptor resArray = Model_Sinus.Sinus1(phaseShift, maxIntensity, pointsPerStripCount, gamma, kr, width, height, noise);
+
+            resImage = CreateImageFromArrayDescriptor(resArray);
+
+            return resImage;
+        }
+
+        private void frames256Button_Click(object sender, EventArgs e)
+        {
+            Take256Images();
+        }
+
+        private Image CreateImageFromArrayDescriptor(ZArrayDescriptor zArrayDescriptor)
+        {
+            int width = zArrayDescriptor.width;
+            int height = zArrayDescriptor.height;
+
+            Bitmap bitmap = new Bitmap(width, height);
+            BitmapData bitmapData = ImageProcessor.getBitmapData(bitmap);
+
+            int intensity = 0;
+
+            for (int j = 0; j < width; j++)
+            {
+                for (int i = 0; i < height; i++)
+                {
+                    intensity = Convert.ToInt32(zArrayDescriptor.array[j, i]);
+
+                    Color color = Color.FromArgb(intensity, intensity, intensity);
+                    ImageProcessor.setPixel(bitmapData, j, i, color);
+                }
+            }
+            
+            bitmap.UnlockBits(bitmapData);
+            return bitmap;
+        }
     }
 }
