@@ -21,61 +21,30 @@ namespace Camera
         private bool _phaseShiftDeviceConnected = false;
         private rab1.PhaseShiftDeviceController _inner;
 
-        public IBindingManager<LowLevelPhaseShiftDeviceControllerAdapter> BindingManager { get; set; }
-
-        [BindToUI, ValueCollection(ValueCollectionProviderPropertyName = nameof(PortNames))]
-        public string PortName { get; set; }
-        public ObservableCollection<string> PortNames { get; }
+        public string PortName { get; private set; }
 
         public bool Connected => _phaseShiftDeviceConnected;
 
-        [BindToUI]
         public int Shift { get; set; }
 
-        public LowLevelPhaseShiftDeviceControllerAdapter()
-        {
-            PortNames = new ObservableCollection<string>();
-            UpdatePortNames();
-        }
-
-        public void UpdatePortNames()
-        {
-            PortNames.Clear();
-            PortNames.AddRange(SerialPort.GetPortNames());
-        }
-
-        [BindToUI]
-        public void Connect()
+        public void Connect(string portName)
         {
             if (!_phaseShiftDeviceConnected && !PortName.IsNullOrEmpty())
             {
+                PortName = portName;
                 _inner = new rab1.PhaseShiftDeviceController(PortName);
                 _inner.Initialize();
                 _phaseShiftDeviceConnected = true;
-
-                ToggleConnectAndDisconnectButtons(false);
             }
         }
-
-        [OnBindedPropertyChanged(nameof(Shift))]
-        public void OnShiftUpdated(ValueUpdatedEventArgs e)
-        {
-            if (e.Sender == this)
-                return;
-
-            SetShift(Shift);
-        }
-
+        
         public void SetShift(int shift)
         {
             if (shift < 0 || shift > short.MaxValue - ZeroPhaseShiftValue)
                 throw new InvalidOperationException();
 
             if (_phaseShiftDeviceConnected)
-            {
-                BindingManager?.SetPropertyValue(a => a.Shift, shift);
                 _inner.SetShift((short) ((short) shift + ZeroPhaseShiftValue));
-            }
         }
         
         public async Task SetShift(int shiftValue, float delay, bool compensateHysteresis = false)
@@ -97,27 +66,16 @@ namespace Camera
         [BindToUI]
         public void Disconnect()
         {
-            BindingManager?.SetPropertyValue(c => c.PortName, null);
             _inner?.Dispose();
             _inner = null;
             _phaseShiftDeviceConnected = false;
-
-            ToggleConnectAndDisconnectButtons(true);
+            PortName = null;
         }
 
         ~LowLevelPhaseShiftDeviceControllerAdapter()
         {
             _inner?.Dispose();
             _inner = null;
-        }
-
-        private void ToggleConnectAndDisconnectButtons(bool connect)
-        {
-            if (BindingManager == null)
-                return;
-
-            BindingManager.RaiseMethodBindingEvent(a => a.Connect(), new PerformBindableControlActionEvent(c => (c as Control).Enabled = connect, this));
-            BindingManager.RaiseMethodBindingEvent(a => a.Disconnect(), new PerformBindableControlActionEvent(c => (c as Control).Enabled = !connect, this));
         }
     }
 }

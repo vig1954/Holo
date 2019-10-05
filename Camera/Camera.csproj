@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CameraConnector.cs" />
+    <Compile Include="CameraImageProvider.cs" />
     <Compile Include="CameraInputView.cs" />
     <Compile Include="CameraInputViewForm.cs">
       <SubType>Form</SubType>

@@ -22,7 +22,17 @@ namespace Camera
         private Mode _mode;
         private Segment _segment;
 
-        public Segment Segment => _segment;
+        public Segment Segment
+        {
+            get => _segment;
+            set
+            {
+                if (_mode == Mode.None)
+                    _segment = value;
+                else
+                    throw new InvalidOperationException("Cant assign segment in edit mode.");
+            }
+        }
 
         public event Action<Segment> OnSegmentUpdated;
 
@@ -89,7 +99,7 @@ namespace Camera
         {
             _mode = Mode.None;
         }
-        
+
         private Mode ResolveMode(PointF cursor, Segment segment)
         {
             if (GeometryUtil.InRadius(_segment.P0, cursor, _toggleModeRadius))

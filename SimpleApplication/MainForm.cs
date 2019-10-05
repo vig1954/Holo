@@ -5,12 +5,16 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO.Ports;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Camera;
+using HolographicInterferometryVNext;
 using Infrastructure;
+using Processing;
 using Processing.Computing;
 using UserInterface.DataEditors;
 using UserInterface.DataProcessorViews;
@@ -18,11 +22,15 @@ using UserInterface.ImageSeries;
 
 namespace SimpleApplication
 {
-    public partial class MainForm : Form
+    public partial class MainForm : Form, IImageSeriesProvider
     {
+        private const string ComPortIsDisabledString = "Выкл";
+
+        private readonly CameraImageProvider CameraImageProvider = new CameraImageProvider();
         private readonly Size SeriesSize = new Size(512, 512);
 
-        private CameraInputView _cameraInputView;
+        // private CameraInputView _cameraInputView; // todo: use series controller instead of this
+        private SeriesController _seriesController;
         private PhaseShiftDeviceController _phaseShiftDeviceController;
         private PictureBoxController _pictureBoxController;
         private RectangleSelectionTool _rectangleSelectionTool;
@@ -31,53 +39,90 @@ namespace SimpleApplication
         private DataEditorView _secondSeriesView;
         private ImageSeries _firstSeries;
         private ImageSeries _secondSeries;
+        private PsdCalibrationForm _psdCalibrationForm;
 
         private CameraConnector CameraConnector => Singleton.Get<CameraConnector>();
+        private LowLevelPhaseShiftDeviceControllerAdapter LowLevelPhaseShiftController => Singleton.Get<LowLevelPhaseShiftDeviceControllerAdapter>();
+
+        public ImageSeries ImageSeries { get; set; }
 
         public MainForm()
         {
             InitializeComponent();
+
+            Singleton.Register(new OpenClSourcesProvider());
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
             _phaseShiftDeviceController = new PhaseShiftDeviceController();
-            _cameraInputView = new CameraInputView(_phaseShiftDeviceController);
+            _seriesController = new SeriesController(this, CameraImageProvider, _phaseShiftDeviceController);
 
-            _cameraInputView.LiveViewImageUpdated += CameraInputViewOnLiveViewImageUpdated;
+            CameraImageProvider.LiveViewImageUpdated += CameraImageProviderOnLiveViewImageUpdated;
 
             CameraConnector.AvailableCamerasUpdated += CameraConnectorOnAvailableCamerasUpdated;
             CameraConnector.SessionOpened += CameraConnectorOnSessionOpened;
             CameraConnector.SessionClosed += CameraConnectorOnSessionClosed;
 
             _rectangleSelectionTool = new RectangleSelectionTool {FixedSize = SeriesSize};
-            
+            _rectangleSelectionTool.OnRectangleUpdated += rect => CameraImageProvider.LiveViewSelection = rect;
+            CameraImageProvider.LiveViewSelection = _rectangleSelectionTool.Rectangle;
+
+
             _pictureBoxController = new PictureBoxController(LiveView);
             _pictureBoxController.SetTool(_rectangleSelectionTool);
 
             LiveView.Paint += LiveViewOnPaint;
 
             _dataEditorManager = new DataEditorManager(PhaseDifferenceView);
-            _firstSeriesView = _dataEditorManager.Add(PhaseDifferenceView, Orientation.Vertical);
-            _secondSeriesView = _dataEditorManager.Add(_firstSeriesView, Orientation.Horizontal);
+            _firstSeriesView = _dataEditorManager.Add(PhaseDifferenceView, Orientation.Horizontal);
+            _firstSeriesView.CloseEnabled = false;
+            _firstSeriesView.SplitEnabled = false;
+
+            _secondSeriesView = _dataEditorManager.Add(_firstSeriesView, Orientation.Vertical);
+            _secondSeriesView.CloseEnabled = false;
+            _secondSeriesView.SplitEnabled = false;
 
             _firstSeries = new ImageSeries(SeriesSize, "Серия 1");
-            var firstSeriesPsi4Processor = DataProcessorViewCreator.For(typeof(Psi),nameof(Psi.Psi4)).Create();
-            var firstSeriesFreshnelProcessor = DataProcessorViewCreator.For(typeof(Freshnel),nameof(Freshnel.Transform)).Create();
+            var firstSeriesPsi4Processor = DataProcessorViewCreator.For(typeof(Psi), nameof(Psi.Psi4)).Create();
+            var firstSeriesFreshnelProcessor = DataProcessorViewCreator.For(typeof(Freshnel), nameof(Freshnel.Transform)).Create();
 
             _firstSeries.AddDataProcessor(firstSeriesPsi4Processor);
             _firstSeries.AddDataProcessor(firstSeriesFreshnelProcessor);
-            _firstSeriesView.SetData(firstSeriesFreshnelProcessor);
+            firstSeriesFreshnelProcessor.OnValueUpdated += () =>
+            {
+                if (!_firstSeriesView.HasData)
+                {
+                    _firstSeriesView.SetData((IImageHandler) firstSeriesFreshnelProcessor.GetOutputValues().Single());
+                }
+            };
 
             _secondSeries = new ImageSeries(SeriesSize, "Серия 2");
-            var secondSeriesPsi4Processor = DataProcessorViewCreator.For(typeof(Psi),nameof(Psi.Psi4)).Create();
-            var secondSeriesFreshnelProcessor = DataProcessorViewCreator.For(typeof(Freshnel),nameof(Freshnel.Transform)).Create();
+            var secondSeriesPsi4Processor = DataProcessorViewCreator.For(typeof(Psi), nameof(Psi.Psi4)).Create();
+            var secondSeriesFreshnelProcessor = DataProcessorViewCreator.For(typeof(Freshnel), nameof(Freshnel.Transform)).Create();
 
             _secondSeries.AddDataProcessor(secondSeriesPsi4Processor);
             _secondSeries.AddDataProcessor(secondSeriesFreshnelProcessor);
-            _secondSeriesView.SetData(secondSeriesFreshnelProcessor);
+            secondSeriesFreshnelProcessor.OnValueUpdated += () =>
+            {
+                if (!_secondSeriesView.HasData)
+                {
+                    _secondSeriesView.SetData((IImageHandler) secondSeriesFreshnelProcessor.GetOutputValues().Single());
+                }
+            };
+
+            CameraConnectorOnAvailableCamerasUpdated(CameraConnector.AvailableCameras);
+
+            
+            SerialPortNames.Items.Add(ComPortIsDisabledString);
+            foreach (var portName in SerialPort.GetPortNames())
+            {
+                SerialPortNames.Items.Add(portName);
+            }
+
+            _psdCalibrationForm = new PsdCalibrationForm(_phaseShiftDeviceController);
         }
-        
+
         private void CameraConnectorOnSessionClosed()
         {
             cameraStatusLabel.Text = "Камера не подключена";
@@ -90,14 +135,15 @@ namespace SimpleApplication
 
         private void CameraConnectorOnAvailableCamerasUpdated(IEnumerable<EDSDKLib.Camera> availableCameras)
         {
-            if (availableCameras.Any())
+            if (availableCameras.Any() && CameraConnector.ActiveCamera == null)
             {
-                _cameraInputView.Camera = availableCameras.First();
+                CameraConnector.SetActiveCamera(availableCameras.First());
             }
         }
-        private void CameraInputViewOnLiveViewImageUpdated()
+
+        private void CameraImageProviderOnLiveViewImageUpdated()
         {
-            _pictureBoxController.SetImage(_cameraInputView.LiveViewImage, true);
+            _pictureBoxController.SetImage(CameraImageProvider.LiveViewImage, true);
         }
 
         private void LiveViewOnPaint(object sender, PaintEventArgs e)
@@ -109,12 +155,77 @@ namespace SimpleApplication
 
         private void CaptureFirstSeriesButton_Click(object sender, EventArgs e)
         {
-            _cameraInputView.ImageSeries = _firstSeries;
+            _seriesController.StartCapturing();
+            ImageSeries = _firstSeries;
         }
 
         private void CaptureSecondSeriesButton_Click(object sender, EventArgs e)
         {
+            _seriesController.StartCapturing();
+            ImageSeries = _secondSeries;
+        }
 
+        private void SerialPortNames_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var portName = (string) SerialPortNames.SelectedValue;
+            if (portName == ComPortIsDisabledString)
+            {
+                if (LowLevelPhaseShiftController.Connected)
+                {
+                    LowLevelPhaseShiftController.Disconnect();
+                    psdStatusLabel.Text = "Пьезокерамика - не подключена";
+                }
+            }
+            else
+            {
+                LowLevelPhaseShiftController.Connect(portName);
+                psdStatusLabel.Text = $"Пьезокерамика - {portName}";
+            }
+        }
+
+        private void psdValue1_ValueChanged(object sender, EventArgs e)
+        {
+            _phaseShiftDeviceController.ShiftValue1 = (int) psdValue1.Value;
+        }
+
+        private void psdValue2_ValueChanged(object sender, EventArgs e)
+        {
+            _phaseShiftDeviceController.ShiftValue2 = (int) psdValue2.Value;
+        }
+
+        private void psdValue3_ValueChanged(object sender, EventArgs e)
+        {
+            _phaseShiftDeviceController.ShiftValue3 = (int) psdValue3.Value;
+        }
+
+        private void psdValue4_ValueChanged(object sender, EventArgs e)
+        {
+            _phaseShiftDeviceController.ShiftValue4 = (int) psdValue4.Value;
+        }
+
+        private void psiValues1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void numericUpDown3_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CalibrationButton_Click(object sender, EventArgs e)
+        {
+            _psdCalibrationForm.Show();
         }
     }
 }

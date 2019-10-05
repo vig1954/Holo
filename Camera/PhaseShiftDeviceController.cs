@@ -16,7 +16,7 @@ namespace Camera
         private LowLevelPhaseShiftDeviceControllerAdapter LowLevelPhaseShiftController => Singleton.Get<LowLevelPhaseShiftDeviceControllerAdapter>();
         
         [BindToUI]
-        public int ShiftStep { get; set; } = 400;
+        public int ShiftStep { get; set; } = 800;
         
         [BindToUI]
         public bool UseShiftValues { get; set; }
@@ -40,7 +40,7 @@ namespace Camera
         {
             _shiftValues = new int[CameraInputView.SeriesLength];
             // hack
-            _shiftValues = new int[] {5000, 4000, 3000, 2000};
+            _shiftValues = new int[] {200, 1000, 1800, 2600};
         }
 
         public async void ExecuteStep(int stepNumber)

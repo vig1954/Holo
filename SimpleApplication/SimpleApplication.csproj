@@ -55,9 +55,6 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="UserInterface">
-      <HintPath>..\OpenCLImageProcessing\UserInterface\obj\Debug\UserInterface.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainForm.cs">
@@ -68,6 +65,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PsdCalibrationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PsdCalibrationForm.Designer.cs">
+      <DependentUpon>PsdCalibrationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SegmentSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SegmentSelectionForm.Designer.cs">
+      <DependentUpon>SegmentSelectionForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -81,6 +90,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="PsdCalibrationForm.resx">
+      <DependentUpon>PsdCalibrationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SegmentSelectionForm.resx">
+      <DependentUpon>SegmentSelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -107,6 +122,10 @@
       <Project>{95da8cf5-cae9-436d-a07e-74e83dcab0f8}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenCLImageProcessing\HolographicInterferometryVNext\HolographicInterferometryVNext.csproj">
+      <Project>{797e1e01-ab9f-44c7-a16b-f1b560e40c8a}</Project>
+      <Name>HolographicInterferometryVNext</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenCLImageProcessing\Infrastructure\Infrastructure.csproj">
       <Project>{d414b285-3781-4f76-af5f-59caff56a96d}</Project>
       <Name>Infrastructure</Name>
@@ -114,6 +133,10 @@
     <ProjectReference Include="..\OpenCLImageProcessing\Processing\Processing.csproj">
       <Project>{39221112-49e4-49b9-a8ed-d63243fb0bdc}</Project>
       <Name>Processing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenCLImageProcessing\UserInterface\UserInterface.csproj">
+      <Project>{6724fe34-e163-49e0-9646-1a2896fbed54}</Project>
+      <Name>UserInterface</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

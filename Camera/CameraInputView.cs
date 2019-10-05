@@ -2,28 +2,27 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Infrastructure;
 using Processing;
 using UserInterface.DataEditors.InterfaceBinding;
 using UserInterface.DataEditors.InterfaceBinding.Attributes;
-using UserInterface.DataEditors.Tools;
 using UserInterface.ImageSeries;
 
 namespace Camera
 {
-    public class CameraInputView : IImageSeriesProvider, IImageProvider
+    public class CameraInputView : IImageSeriesProvider
     {
         public const int SeriesLength = 4;
 
         private readonly ImageHandler[] _imageHandlers = new ImageHandler[SeriesLength];
         private readonly Bitmap[] _images = new Bitmap[SeriesLength];
         private readonly SeriesController _seriesController;
+        private readonly CameraImageProvider CameraImageProvider = new CameraImageProvider();
 
-        private TaskCompletionSource<Bitmap> _captureImageTaskCompletionSource;
 
         private CameraConnector CameraConnector => Singleton.Get<CameraConnector>();
 
@@ -35,13 +34,16 @@ namespace Camera
 
         public IBindingManager<CameraInputView> BindingManager { get; set; }
 
-        public Bitmap LiveViewImage { get; private set; }
+        public Bitmap LiveViewImage => CameraImageProvider.LiveViewImage;
         public event Action LiveViewImageUpdated;
         public event Action CaptureStarted;
         public event Action CaptureFinished;
-        public event Action<Bitmap> ImageCaptured;
-        public Rectangle? LiveViewSelection;
-        public Rectangle? FullSizeSelection;
+
+        public Rectangle? LiveViewSelection
+        {
+            get => CameraImageProvider.LiveViewSelection;
+            set => CameraImageProvider.LiveViewSelection = value;
+        }
 
         [BindToUI("Камера", "Камера", UiLabelMode.None), ValueCollection(ValueCollectionProviderPropertyName = nameof(AvailableCameras), AllowDefaultValue = true, DefaultValueDisplayText = "[Камера не выбрана]")]
         public EDSDKLib.Camera Camera
@@ -63,8 +65,7 @@ namespace Camera
         [BindToUI("Начать захват", "Захват")]
         public void ToggleCaptureUiAction() => ToggleCapture();
 
-        [BindToUI("Захват с LV", "Захват")] 
-        public bool CaptureFromLiveView { get; set; } = true;
+        [BindToUI("Захват с LV", "Захват")] public bool CaptureFromLiveView { get; set; } = true;
 
         [BindToUI("Тестовый снимок", "Захват - тест")]
         public void TestShotUiAction() => TestShot();
@@ -75,7 +76,7 @@ namespace Camera
         [BindToUI("Порт", "Пьезокерамика"), ValueCollection(ValueCollectionProviderPropertyName = nameof(PortNames), AllowDefaultValue = true, DefaultValueDisplayText = "[Порт не выбран]")]
         public string PhaseShiftDevicePort { get; set; }
 
-        public ObservableCollection<string> PortNames => LowLevelPhaseShiftDeviceController.PortNames;
+        public ObservableCollection<string> PortNames { get; }
 
         [BindToUI("Подключить", "Пьезокерамика")]
         public void TogglePhaseShiftDeviceUiAction() => TogglePhaseShiftDevice();
@@ -83,31 +84,17 @@ namespace Camera
         public CameraInputView(PhaseShiftDeviceController phaseShiftDeviceController)
         {
             PhaseShiftDeviceSettingsController = phaseShiftDeviceController;
-            _seriesController = new SeriesController(this, this, PhaseShiftDeviceSettingsController);
+            _seriesController = new SeriesController(this, CameraImageProvider, PhaseShiftDeviceSettingsController);
 
             CameraConnector.ActiveCameraSelected += camera =>
             {
-                BindingManager.SetPropertyValue(c => c.Camera, camera);
+                BindingManager?.SetPropertyValue(c => c.Camera, camera);
                 CameraSettings.Load();
             };
 
-            CameraConnector.LiveViewUpdated += CameraConnector_LiveViewUpdated;
-            CameraConnector.ImageDownloaded += CameraConnector_ImageDownloaded;
-        }
+            CameraImageProvider.LiveViewImageUpdated += () => LiveViewImageUpdated?.Invoke();
 
-        public Task<Bitmap> CaptureImage()
-        {
-            if (_captureImageTaskCompletionSource != null && !_captureImageTaskCompletionSource.Task.IsCompleted)
-                throw new InvalidOperationException();
-
-            _captureImageTaskCompletionSource = new TaskCompletionSource<Bitmap>();
-
-            ImageCaptured += OnCaptureImageFinished;
-
-            if (!CaptureFromLiveView)
-                CameraConnector.TakePhoto();
-
-            return _captureImageTaskCompletionSource.Task;
+            PortNames = new ObservableCollection<string>(SerialPort.GetPortNames());
         }
 
         public void Shutdown()
@@ -115,25 +102,50 @@ namespace Camera
             _seriesController.StopCapturing();
         }
 
-        private void OnCaptureImageFinished(Bitmap bitmap)
+        public async void StartCapture()
         {
-            ImageCaptured -= OnCaptureImageFinished;
+            if (_seriesController.CaptureImages)
+                return;
 
-            _captureImageTaskCompletionSource.SetResult(ExtractSelection(bitmap));
+            BindingManager.SetMemberControlEnabledState(ci => ci.Camera, false, this);
+            BindingManager.SetMemberControlEnabledState(ci => ci.ImageSeries, false, this);
+            BindingManager.SetMemberControlEnabledState(ci => ci.CaptureFromLiveView, false, this);
+            BindingManager.SetMethodControlEnabledState(ci => ci.TestShotUiAction(), false, this);
+            BindingManager.ModifyMethodControl(c => c.ToggleCaptureUiAction(), c => c.Text = "Остановить захват",
+                this);
+
+
+            if (ImageSeries == null)
+            {
+                var testImage = await CameraImageProvider.CaptureImage(); // todo: store image size for cameras
+
+                var imageSeries = new ImageSeries(testImage.Size, $"Серия {SeriesRepository.Count + 1}");
+                AvailableImageSeries.Add(imageSeries);
+
+                BindingManager.SetPropertyValue(c => c.ImageSeries, imageSeries);
+            }
+
+            _seriesController.StartCapturing();
+            CaptureStarted?.Invoke();
         }
 
-        private void CameraConnector_ImageDownloaded(Bitmap bitmap)
+        public void StopCapture()
         {
-            ImageCaptured?.Invoke(bitmap);
+            if (!_seriesController.CaptureImages)
+                return;
+
+            _seriesController.StopCapturing();
+
+            BindingManager.SetMemberControlEnabledState(ci => ci.Camera, true, this);
+            BindingManager.SetMemberControlEnabledState(ci => ci.ImageSeries, true, this);
+            BindingManager.SetMemberControlEnabledState(ci => ci.CaptureFromLiveView, true, this);
+            BindingManager.SetMethodControlEnabledState(ci => ci.TestShotUiAction(), true, this);
+            BindingManager.ModifyMethodControl(c => c.ToggleCaptureUiAction(), c => c.Text = "Начать захват", this);
+
+
+            CaptureFinished?.Invoke();
         }
 
-        private void CameraConnector_LiveViewUpdated(Bitmap bitmap)
-        {
-            LiveViewImage = bitmap;
-            LiveViewImageUpdated?.Invoke();
-
-            ImageCaptured?.Invoke(bitmap);
-        }
 
         private void OpenCameraSettingsForm()
         {
@@ -144,40 +156,15 @@ namespace Camera
             cameraSettingsForm.Show();
         }
 
-        private async void ToggleCapture()
+        private void ToggleCapture()
         {
             if (!_seriesController.CaptureImages)
             {
-                BindingManager.SetMemberControlEnabledState(ci => ci.Camera, false, this);
-                BindingManager.SetMemberControlEnabledState(ci => ci.ImageSeries, false, this);
-                BindingManager.SetMemberControlEnabledState(ci => ci.CaptureFromLiveView, false, this);
-                BindingManager.SetMethodControlEnabledState(ci => ci.TestShotUiAction(), false, this);
-                BindingManager.ModifyMethodControl(c => c.ToggleCaptureUiAction(), c => c.Text = "Остановить захват", this);
-
-                if (ImageSeries == null)
-                {
-                    var testImage = await CaptureImage(); // todo: store image size for cameras
-
-                    var imageSeries = new ImageSeries(testImage.Size, $"Серия {SeriesRepository.Count + 1}"); 
-                    AvailableImageSeries.Add(imageSeries);
-
-                    BindingManager.SetPropertyValue(c => c.ImageSeries, imageSeries);
-                }
-
-                _seriesController.StartCapturing();
-                CaptureStarted?.Invoke();
+                StartCapture();
             }
             else
             {
-                _seriesController.StopCapturing();
-                
-                BindingManager.SetMemberControlEnabledState(ci => ci.Camera, true, this);
-                BindingManager.SetMemberControlEnabledState(ci => ci.ImageSeries, true, this);
-                BindingManager.SetMemberControlEnabledState(ci => ci.CaptureFromLiveView, true, this);
-                BindingManager.SetMethodControlEnabledState(ci => ci.TestShotUiAction(), true, this);
-                BindingManager.ModifyMethodControl(c => c.ToggleCaptureUiAction(), c => c.Text = "Начать захват", this);
-
-                CaptureFinished?.Invoke();
+                StopCapture();
             }
         }
 
@@ -194,18 +181,9 @@ namespace Camera
             }
             else
             {
-                LowLevelPhaseShiftDeviceController.PortName = PhaseShiftDevicePort;
-                LowLevelPhaseShiftDeviceController.Connect();
+                LowLevelPhaseShiftDeviceController.Connect(PhaseShiftDevicePort);
                 BindingManager.ModifyMethodControl(c => c.TogglePhaseShiftDeviceUiAction(), c => c.Text = "Отключить", this);
             }
-        }
-
-        private Bitmap ExtractSelection(Bitmap bitmap)
-        {
-            if (CaptureFromLiveView)
-                return LiveViewSelection.HasValue ? SelectionUtil.ExtractSelection(bitmap, LiveViewSelection.Value) : bitmap;
-                
-            return FullSizeSelection.HasValue ? SelectionUtil.ExtractSelection(bitmap, FullSizeSelection.Value) : bitmap;
         }
     }
 }
