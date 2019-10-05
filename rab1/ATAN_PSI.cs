@@ -300,18 +300,16 @@ namespace rab1.Forms
                     double i4 = zArray[regComplex * 4 + 3].array[i, j];
 
                     double i23 = i2 - i3;
-                    double i14 = i2 - i3;
+                    double i14 = i1 - i4;
                     int zsn = Math.Sign(-i23);  
                     //int zcn = Math.Sign((i2+i3) - (i1+i4));
 
-                    double sn = Math.Sqrt(   (i14 + i23)*(i23+ i23 + i23 - i14)  ) ;
+                    double sn = Math.Sqrt( Math.Abs((i14 + i23)*(3*i23 - i14))  ) ;
                     double cn = (i2+i3)-(i1+i4);
 
-
-
-                    //faza.array[i, j] = 2 * Math.PI - (Math.Atan2(zsn * sn, cn) + Math.PI);
-                    double  fi = Math.Atan2(zsn*sn, cn) + Math.PI / 4;
-                    if (fi > Math.PI) fi = fi - 2*Math.PI;
+                    double fi = Math.Atan2(zsn * sn, cn);
+                    fi = Math.Atan2(zsn*sn, cn) - 3* Math.PI /  4;
+                    if (fi < -Math.PI) fi = fi + 2*Math.PI;
                     faza.array[i, j] = fi;
                 }
                 progressBar1.PerformStep();
