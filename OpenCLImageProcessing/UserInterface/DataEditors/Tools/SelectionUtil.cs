@@ -134,7 +134,7 @@ namespace UserInterface.DataEditors.Tools
 
         public static Bitmap ExtractSelection(Bitmap image, Rectangle selection)
         {
-            var result = new Bitmap(selection.Width, selection.Height);
+            var result = new Bitmap(selection.Width, selection.Height, image.PixelFormat);
             var graphics = Graphics.FromImage(result);
             graphics.DrawImage(image, new Rectangle(Point.Empty, selection.Size), selection, GraphicsUnit.Pixel);
 

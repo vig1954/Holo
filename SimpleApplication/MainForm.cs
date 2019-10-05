@@ -26,8 +26,8 @@ namespace SimpleApplication
     {
         private const string ComPortIsDisabledString = "Выкл";
 
-        private readonly CameraImageProvider CameraImageProvider = new CameraImageProvider();
-        private readonly Size SeriesSize = new Size(512, 512);
+        private readonly CameraImageProvider _cameraImageProvider = new CameraImageProvider();
+        private readonly Size _seriesSize = new Size(512, 512);
 
         // private CameraInputView _cameraInputView; // todo: use series controller instead of this
         private SeriesController _seriesController;
@@ -49,24 +49,24 @@ namespace SimpleApplication
         public MainForm()
         {
             InitializeComponent();
-
-            Singleton.Register(new OpenClSourcesProvider());
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            _phaseShiftDeviceController = new PhaseShiftDeviceController();
-            _seriesController = new SeriesController(this, CameraImageProvider, _phaseShiftDeviceController);
+            _cameraImageProvider.CaptureFromLiveView = true;
 
-            CameraImageProvider.LiveViewImageUpdated += CameraImageProviderOnLiveViewImageUpdated;
+            _phaseShiftDeviceController = new PhaseShiftDeviceController();
+            _seriesController = new SeriesController(this, _cameraImageProvider, _phaseShiftDeviceController);
+
+            _cameraImageProvider.LiveViewImageUpdated += CameraImageProviderOnLiveViewImageUpdated;
 
             CameraConnector.AvailableCamerasUpdated += CameraConnectorOnAvailableCamerasUpdated;
             CameraConnector.SessionOpened += CameraConnectorOnSessionOpened;
             CameraConnector.SessionClosed += CameraConnectorOnSessionClosed;
 
-            _rectangleSelectionTool = new RectangleSelectionTool {FixedSize = SeriesSize};
-            _rectangleSelectionTool.OnRectangleUpdated += rect => CameraImageProvider.LiveViewSelection = rect;
-            CameraImageProvider.LiveViewSelection = _rectangleSelectionTool.Rectangle;
+            _rectangleSelectionTool = new RectangleSelectionTool {FixedSize = _seriesSize};
+            _rectangleSelectionTool.OnRectangleUpdated += rect => _cameraImageProvider.LiveViewSelection = rect;
+            _cameraImageProvider.LiveViewSelection = _rectangleSelectionTool.Rectangle;
 
 
             _pictureBoxController = new PictureBoxController(LiveView);
@@ -83,7 +83,7 @@ namespace SimpleApplication
             _secondSeriesView.CloseEnabled = false;
             _secondSeriesView.SplitEnabled = false;
 
-            _firstSeries = new ImageSeries(SeriesSize, "Серия 1");
+            _firstSeries = new ImageSeries(_seriesSize, "Серия 1");
             var firstSeriesPsi4Processor = DataProcessorViewCreator.For(typeof(Psi), nameof(Psi.Psi4)).Create();
             var firstSeriesFreshnelProcessor = DataProcessorViewCreator.For(typeof(Freshnel), nameof(Freshnel.Transform)).Create();
 
@@ -97,7 +97,7 @@ namespace SimpleApplication
                 }
             };
 
-            _secondSeries = new ImageSeries(SeriesSize, "Серия 2");
+            _secondSeries = new ImageSeries(_seriesSize, "Серия 2");
             var secondSeriesPsi4Processor = DataProcessorViewCreator.For(typeof(Psi), nameof(Psi.Psi4)).Create();
             var secondSeriesFreshnelProcessor = DataProcessorViewCreator.For(typeof(Freshnel), nameof(Freshnel.Transform)).Create();
 
@@ -143,7 +143,7 @@ namespace SimpleApplication
 
         private void CameraImageProviderOnLiveViewImageUpdated()
         {
-            _pictureBoxController.SetImage(CameraImageProvider.LiveViewImage, true);
+            _pictureBoxController.SetImage(_cameraImageProvider.LiveViewImage, true);
         }
 
         private void LiveViewOnPaint(object sender, PaintEventArgs e)
@@ -167,7 +167,7 @@ namespace SimpleApplication
 
         private void SerialPortNames_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var portName = (string) SerialPortNames.SelectedValue;
+            var portName = (string) SerialPortNames.SelectedItem;
             if (portName == ComPortIsDisabledString)
             {
                 if (LowLevelPhaseShiftController.Connected)

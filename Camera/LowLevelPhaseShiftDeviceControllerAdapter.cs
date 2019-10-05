@@ -29,7 +29,7 @@ namespace Camera
 
         public void Connect(string portName)
         {
-            if (!_phaseShiftDeviceConnected && !PortName.IsNullOrEmpty())
+            if (!_phaseShiftDeviceConnected && !portName.IsNullOrEmpty())
             {
                 PortName = portName;
                 _inner = new rab1.PhaseShiftDeviceController(PortName);

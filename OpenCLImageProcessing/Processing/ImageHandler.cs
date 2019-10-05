@@ -219,6 +219,13 @@ namespace Processing
 
         public void UpdateFromBitmap(Bitmap bmp)
         {
+            if (Width != bmp.Width || Height != bmp.Height)
+                throw new InvalidOperationException("Размеры изображений не совпадают.");
+
+            if (Format == ImageFormat.RGB && bmp.PixelFormat != System.Drawing.Imaging.PixelFormat.Format24bppRgb
+                || Format == ImageFormat.RGBA && bmp.PixelFormat != System.Drawing.Imaging.PixelFormat.Format32bppArgb)
+                throw new InvalidOperationException("Форматы изображений не совпадают.");
+
             if (Format != ImageFormat.Greyscale && PixelFormat != ImagePixelFormat.Byte)
                 throw new InvalidOperationException($"{nameof(ImageHandler)} имеет недопустимый формат пикселей: {PixelFormat}");
 

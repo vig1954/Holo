@@ -45,12 +45,19 @@ namespace SimpleApplication
         private void CameraConnectorOnLiveViewUpdated(Bitmap image)
         {
             _pictureBoxController.SetImage(image, true);
-            
+            _segmentSelectionTool.ImageLayoutInfo = _pictureBoxController.ImageLayout;
+        }
+
+        public new void Show()
+        {
+            CameraConnector.LiveViewUpdated += CameraConnectorOnLiveViewUpdated;
+
+            base.Show();
         }
 
         private void SegmentSelectionForm_Shown(object sender, EventArgs e)
         {
-            CameraConnector.LiveViewUpdated += CameraConnectorOnLiveViewUpdated;
+            
         }
 
         private void SegmentSelectionForm_FormClosing(object sender, FormClosingEventArgs e)

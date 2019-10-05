@@ -88,6 +88,7 @@ namespace Camera
         {
 //            try
 //            {
+            
                 _mainThreadContext = SynchronizationContext.Current;
 
                 _sdkHandler = new SDKHandler();

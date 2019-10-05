@@ -48,6 +48,8 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.SetReferenceButton = new System.Windows.Forms.Button();
+            this.RecordShiftLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Graph)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Shift)).BeginInit();
@@ -115,6 +117,7 @@
             this.Shift.Name = "Shift";
             this.Shift.Size = new System.Drawing.Size(121, 20);
             this.Shift.TabIndex = 4;
+            this.Shift.ValueChanged += new System.EventHandler(this.Shift_ValueChanged);
             // 
             // Minimum
             // 
@@ -166,6 +169,7 @@
             0,
             0,
             0});
+            this.Step.ValueChanged += new System.EventHandler(this.Step_ValueChanged);
             // 
             // label2
             // 
@@ -283,6 +287,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.RecordShiftLabel);
+            this.tabPage2.Controls.Add(this.SetReferenceButton);
             this.tabPage2.Controls.Add(this.trackBar1);
             this.tabPage2.Controls.Add(this.RecordList);
             this.tabPage2.Controls.Add(this.label1);
@@ -303,6 +309,25 @@
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
             // 
+            // SetReferenceButton
+            // 
+            this.SetReferenceButton.Location = new System.Drawing.Point(8, 84);
+            this.SetReferenceButton.Name = "SetReferenceButton";
+            this.SetReferenceButton.Size = new System.Drawing.Size(166, 23);
+            this.SetReferenceButton.TabIndex = 5;
+            this.SetReferenceButton.Text = "Задать опорное значение";
+            this.SetReferenceButton.UseVisualStyleBackColor = true;
+            this.SetReferenceButton.Click += new System.EventHandler(this.SetReferenceButton_Click);
+            // 
+            // RecordShiftLabel
+            // 
+            this.RecordShiftLabel.AutoSize = true;
+            this.RecordShiftLabel.Location = new System.Drawing.Point(217, 9);
+            this.RecordShiftLabel.Name = "RecordShiftLabel";
+            this.RecordShiftLabel.Size = new System.Drawing.Size(16, 13);
+            this.RecordShiftLabel.TabIndex = 6;
+            this.RecordShiftLabel.Text = "...";
+            // 
             // PsdCalibrationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -313,7 +338,6 @@
             this.Controls.Add(this.Graph);
             this.Name = "PsdCalibrationForm";
             this.Text = "Калибровка пьезокерамики";
-            this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PsdCalibrationForm_FormClosing);
             this.Shown += new System.EventHandler(this.PsdCalibrationForm_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.Graph)).EndInit();
@@ -355,5 +379,7 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.Button SetReferenceButton;
+        private System.Windows.Forms.Label RecordShiftLabel;
     }
 }
