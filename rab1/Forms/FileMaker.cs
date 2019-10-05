@@ -29,7 +29,7 @@ namespace rab1.Forms
 
         private void MakeFile()
         {
-            int filesCount = 8;
+            int filesCount = int.Parse(this.textBoxFilesCount.Text);
 
             int width;
             int height;
@@ -41,21 +41,28 @@ namespace rab1.Forms
             int endRowIndex = GetRowIndex(endRowNumber);
 
             int rowsCountPerFile = endRowNumber - startRowNumber + 1;
-            height = rowsCountPerFile * filesCount * 2;
 
             string directory1Path = this.textBoxDirectory1.Text;
             string directory2Path = this.textBoxDirectory2.Text;
 
             string[] filePaths1 = Directory.GetFiles(directory1Path);
-            string[] filePaths2 = Directory.GetFiles(directory2Path);
+            string[] filePaths2 = !string.IsNullOrEmpty(directory2Path) ? Directory.GetFiles(directory2Path) : null;
 
-            IList<string> fileList1 = filePaths1.OrderBy(x => x).Take(filesCount).ToList();
-            IList<string> fileList2 = filePaths2.OrderBy(x => x).Take(filesCount).ToList();
+            IList<string> fileList1 =
+                filePaths1.Select(x => new { FilePath = x, SequenceNumber = ExtractSequenceNumberFromFilePath(x) })
+                .OrderBy(x => x.SequenceNumber).Take(filesCount).Select(x => x.FilePath).ToList();
+                
+            IList<string> fileList2 = 
+                filePaths2 != null ?
+                filePaths1.Select(x => new { FilePath = x, SequenceNumber = ExtractSequenceNumberFromFilePath(x) })
+                .OrderBy(x => x.SequenceNumber).Take(filesCount).Select(x => x.FilePath).ToList() : null;
 
             string firstFile = fileList1.FirstOrDefault();
 
             Bitmap bitmap = new Bitmap(firstFile);
             width = bitmap.Width;
+
+            height = fileList2 != null ? rowsCountPerFile * filesCount * 2 : rowsCountPerFile * filesCount;
 
             Bitmap resBitmap = new Bitmap(width, height);
 
@@ -76,21 +83,23 @@ namespace rab1.Forms
                 }
             }
 
-            for (int k = 0; k < fileList2.Count; k++)
+            if (fileList2 != null)
             {
-                string filePath = fileList2[k];
-                Bitmap img = new Bitmap(filePath);
-                for (int y = startRowIndex; y <= endRowIndex; y++)
+                for (int k = 0; k < fileList2.Count; k++)
                 {
-                    for (int x = 0; x < width; x++)
+                    string filePath = fileList2[k];
+                    Bitmap img = new Bitmap(filePath);
+                    for (int y = startRowIndex; y <= endRowIndex; y++)
                     {
-                        Color pixel = img.GetPixel(x, y);
-                        resBitmap.SetPixel(x, row, pixel);
+                        for (int x = 0; x < width; x++)
+                        {
+                            Color pixel = img.GetPixel(x, y);
+                            resBitmap.SetPixel(x, row, pixel);
+                        }
+                        row++;
                     }
-                    row++;
                 }
             }
-
             string resFilePath = textBoxOutputFile.Text;
 
             resBitmap.Save(resFilePath);
@@ -144,5 +153,12 @@ namespace rab1.Forms
                 textBoxOutputFile.Text = dialog.FileName;
             }
         }
+        
+        private int ExtractSequenceNumberFromFilePath(string filePath)
+        {
+            string fielName = Path.GetFileNameWithoutExtension(filePath);
+            return int.Parse(fielName);
+        }
+      
     }
 }
