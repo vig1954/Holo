@@ -48,14 +48,8 @@ namespace rab1.Forms
             string[] filePaths1 = Directory.GetFiles(directory1Path);
             string[] filePaths2 = !string.IsNullOrEmpty(directory2Path) ? Directory.GetFiles(directory2Path) : null;
 
-            IList<string> fileList1 =
-                filePaths1.Select(x => new { FilePath = x, SequenceNumber = ExtractSequenceNumberFromFilePath(x) })
-                .OrderBy(x => x.SequenceNumber).Take(filesCount).Select(x => x.FilePath).ToList();
-                
-            IList<string> fileList2 = 
-                filePaths2 != null ?
-                filePaths1.Select(x => new { FilePath = x, SequenceNumber = ExtractSequenceNumberFromFilePath(x) })
-                .OrderBy(x => x.SequenceNumber).Take(filesCount).Select(x => x.FilePath).ToList() : null;
+            IList<string> fileList1 = SortFiles(filePaths1, filesCount);
+            IList<string> fileList2 =  filePaths2 != null ? SortFiles(filePaths2, filesCount) : null;
 
             string firstFile = fileList1.FirstOrDefault();
 
@@ -105,6 +99,12 @@ namespace rab1.Forms
             resBitmap.Save(resFilePath);
         }
 
+        private IList<string> SortFiles(IList<string> list, int filesCount)
+        {
+            return 
+                list.Select(x => new { FilePath = x, SequenceNumber = ExtractSequenceNumberFromFilePath(x) })
+                .OrderBy(x => x.SequenceNumber).Take(filesCount).Select(x => x.FilePath).ToList();
+        }
 
         private int GetRowIndex(int rowNumber)
         {

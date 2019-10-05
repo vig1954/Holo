@@ -62,6 +62,7 @@ namespace rab1
 
         bool is256Frames = false;
         string frames256Directory = null;
+        int count256Frames = 256 + 128; //384
 
         #endregion
 
@@ -744,7 +745,7 @@ namespace rab1
 
             currentPhaseShiftNumber = 1;
             currentPhaseShiftValue = 0;
-            phaseShiftStep = Math.Round(360.0 / 256.0, 2); //45
+            phaseShiftStep = Math.Round(360.0 / 256.0, 2);
             currentImageNumber = 1;
             imageOffsetX = 0;
 
@@ -793,7 +794,7 @@ namespace rab1
         {
             if (is256Frames)
             {
-                return 256;
+                return count256Frames;
             }
             else
             {
