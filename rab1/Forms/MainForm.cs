@@ -24,8 +24,8 @@ namespace rab1
         
 // -----------------------------------------------------------------------------------------------------------
         Image[] img = new Image[12];
-        public static ZArrayDescriptor[] zArrayDescriptor = new ZArrayDescriptor[12];     // Иконки справа
-        public static ZArrayDescriptor zArrayPicture = new ZArrayDescriptor();            // Массив для главного окна
+        public static ZArrayDescriptor[] zArrayDescriptor    = new ZArrayDescriptor[12];     // Иконки справа
+        public static ZArrayDescriptor zArrayPicture         = new ZArrayDescriptor();            // Массив для главного окна
         public static ZArrayDescriptor zArrayPictureOriginal = new ZArrayDescriptor(); 
         public PictureBox[] pictureBoxArray = null;
         public static ZComplexDescriptor[] zComplex = new ZComplexDescriptor[3];
@@ -82,12 +82,14 @@ namespace rab1
             CorrectBr.VisualRegImage     = this.Vizual_regImage;
             Form_Filtr.VisualRegImage    = this.Vizual_regImage;
             Model_Sin.VisualRegImage     = this.Vizual_regImage;
+
             FrenelForm.Complex_pictureBox = this.Complex_pictureBox;
+            ADD_Math.ComplexPictureImage  = this.Complex_pictureBox;
 
             CorrectBr.TakePhoto12        = this.FastTakePhoto;
             CorrectBr.TakePhoto          = this.FastTakePhoto;
             //ADD_Cmplx.VisualRegImage = this.Vizual_regImage;
-            ADD_Math.ComplexPictureImage = this.Complex_pictureBox;
+            
             
             
 
@@ -2860,9 +2862,12 @@ namespace rab1
         {
             PSI PSIForm = new PSI();
             PSIForm.OnPSI   += FormPSI;              // PSI амплитуда и фаза =>  (8,9,10,11)
-            PSIForm.OnPSI1  += FormPSI1;             // PSI  фазы (regComplex) -> в Главное  окно
+            PSIForm.OnPSI1  += FormPSI1;             // PSI  фазы (regComplex) -> в Главное  окно (Обощенная формула)
             PSIForm.OnPSI_Carre += FormPSI_Carre;    // PSI Carre фазы (1,2,3,4) -> в Главное  окно
-            PSIForm.OnPSI5 += FormPSI5;              // PSI  фазы (regComplex) -> в Главное  окно     
+
+            PSIForm.OnPSI3 += FormPSI3;             // PSI  фазы (regComplex) -> в Главное  окно  
+            PSIForm.OnPSI4 += FormPSI4;
+            PSIForm.OnPSI5 += FormPSI5;                
             PSIForm.OnPSI6 += FormPSI6;
             PSIForm.OnPSI7 += FormPSI7;
             PSIForm.OnPSI8 += FormPSI8;
@@ -2880,6 +2885,18 @@ namespace rab1
         {
 
             zArrayPicture = ATAN_PSI.ATAN(zArrayDescriptor, regComplex, fz);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        }
+        private void FormPSI3(double[] fz)
+        {
+
+            zArrayPicture = ATAN_PSI.ATAN_3(zArrayDescriptor, regComplex, fz);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        }
+        private void FormPSI4(double[] fz)
+        {
+
+            zArrayPicture = ATAN_PSI.ATAN_4(zArrayDescriptor, regComplex, fz);
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
         }
         private void FormPSI5(double[] fz)

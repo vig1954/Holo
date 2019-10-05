@@ -57,7 +57,7 @@ namespace rab1.Forms
               for (int j = 0; j < NY; j++)
                 {
                    
-                    double fz1 = a * (Math.Sin(kx * i * n_polos + fz) + 1) / 2;
+                    double fz1 = a * (Math.Sin(kx * i * n_polos - fz) + 1) / 2;
                     //double fz1 = a * (Math.Sin(2.0 * Math.PI * i  / n_polos + fz) + 1) / 2;
                     double fa = (0.5 - rnd.NextDouble()) * a * noise;   //rnd.NextDouble() 0-1  
                   
@@ -101,7 +101,7 @@ namespace rab1.Forms
 
             for (int i = 0; i < NX; i += kr1)
             {
-                double v = a * (Math.Sin(2.0 * Math.PI * i / n_polos + fz) + 1.0) / 2.0;          // синусоида от 0 до 1
+                double v = a * (Math.Sin(2.0 * Math.PI * i / n_polos - fz) + 1.0) / 2.0;          // синусоида от 0 до 1
                 sn[i] = CorrectBr.CorrectValueByClin(v, clinArray);   
             }
           

@@ -137,6 +137,8 @@ namespace rab1.Forms
                 k_sin[i] = Math.Sin(fz[i]);
                 k_cos[i] = Math.Cos(fz[i]);
             }
+            k_sin = Vector_orto(k_sin);  // Получение ортогональных векторов для синуса и косинуса
+            k_cos = Vector_orto(k_cos);
 
             for (int i = 0; i < w1; i++)
             {
@@ -144,9 +146,13 @@ namespace rab1.Forms
                 {
                     for (int ii = 0; ii < n_sdv; ii++) { i_sdv[ii] = zArrayPicture[regComplex * 4+ii].array[i, j]; }
 
-                    double[] v_sdv = Vector_orto(i_sdv);                // ------  Формула расшифровки фазы
-                    double fz1 = Vector_Mul(v_sdv, k_sin);              // +3 * Math.PI / 2;
-                    double fz2 = Vector_Mul(v_sdv, k_cos);
+                    //double[] v_sdv = Vector_orto(i_sdv);                // ------  Формула расшифровки фазы
+                    //double fz1 = Vector_Mul(v_sdv, k_sin);              // +3 * Math.PI / 2;
+                    //double fz2 = Vector_Mul(v_sdv, k_cos);
+                    //faza.array[i, j] = 2 * Math.PI - (Math.Atan2(fz1, fz2) + Math.PI);
+                    double fz1 = Vector_Mul(i_sdv, k_sin);              // +3 * Math.PI / 2;
+                    double fz2 = Vector_Mul(i_sdv, k_cos);
+                    faza.array[i, j] = Math.Atan2(fz2, fz1);
                     //faza.array[i, j] = 2 * Math.PI - (Math.Atan2(fz1, fz2) + Math.PI);
                     faza.array[i, j] = Math.Atan2(fz1, fz2);
                 }
@@ -315,7 +321,78 @@ namespace rab1.Forms
             progressBar1.Value = 1;
             return faza;
         }
+        /// <summary>
+        /// 3-точечный и 4-точечный алгоритмы
+        /// </summary>
+        /// <param name="zArray"></param>
+        /// <param name="regComplex"></param>
+        /// <param name="fz"></param>
+        /// <returns></returns>
+        public static ZArrayDescriptor ATAN_3(ZArrayDescriptor[] zArray, int regComplex, double[] fz) // regComplex   ->    Главное окно
+        {
 
+
+            int w1 = zArray[regComplex * 4].width;
+            int h1 = zArray[regComplex * 4].height;
+
+            ZArrayDescriptor faza = new ZArrayDescriptor(w1, h1);
+
+            int n_sdv = fz.Length;                                                       // Число фазовых сдвигов
+            //MessageBox.Show(" fz.Length= " + n );
+
+            for (int i = 0; i < w1; i++)
+            {
+                for (int j = 0; j < h1; j++)
+                {
+                    double i1 = zArray[regComplex * 4].array[i, j];
+                    double i2 = zArray[regComplex * 4 + 1].array[i, j];
+                    double i3 = zArray[regComplex * 4 + 2].array[i, j];
+                    
+
+                    double fz1 = i3 - i2;
+                    double fz2 = i1 - i2;
+                    double fi = Math.Atan2(fz2, fz1);
+                    //double fi = Math.Atan2(fz1, fz2) - Math.PI / 2;
+                    //if (fi < -Math.PI) fi = fi + 2 * Math.PI;
+                    faza.array[i, j] = fi;
+                }
+            }
+
+            return faza;
+        }
+        public static ZArrayDescriptor ATAN_4(ZArrayDescriptor[] zArray, int regComplex, double[] fz) // regComplex   ->    Главное окно
+        {
+
+
+            int w1 = zArray[regComplex * 4].width;
+            int h1 = zArray[regComplex * 4].height;
+
+            ZArrayDescriptor faza = new ZArrayDescriptor(w1, h1);
+
+            int n_sdv = fz.Length;                                                       // Число фазовых сдвигов
+            //MessageBox.Show(" fz.Length= " + n );
+
+            for (int i = 0; i < w1; i++)
+            {
+                for (int j = 0; j < h1; j++)
+                {
+                    double i1 = zArray[regComplex * 4].array[i, j];
+                    double i2 = zArray[regComplex * 4 + 1].array[i, j];
+                    double i3 = zArray[regComplex * 4 + 2].array[i, j];
+                    double i4 = zArray[regComplex * 4 + 3].array[i, j];
+                    
+
+                    double fz1 = i4 - i2;
+                    double fz2 = i1 - i3;
+                    double fi = Math.Atan2(fz2, fz1);
+                    //double fi = Math.Atan2(fz1, fz2) - Math.PI / 2;
+                    //if (fi < -Math.PI) fi = fi + 2 * Math.PI;
+                    faza.array[i, j] = fi;
+                }
+            }
+
+            return faza;
+        }
         /// <summary>
         /// Формула Харихарана
         /// </summary>
@@ -348,8 +425,8 @@ namespace rab1.Forms
                     double fz1 = 2*(i2-i4);              
                     double fz2 = i1-2*i3+i5;
                     //double fi = Math.Atan2(fz1, fz2);
-                    double fi = Math.Atan2(fz1, fz2) - Math.PI / 2;
-                    if (fi < -Math.PI) fi = fi + 2 * Math.PI;
+                    double fi = Math.Atan2(fz1, fz2) + Math.PI / 2;
+                    if (fi > Math.PI) fi = fi - 2 * Math.PI;
                     faza.array[i, j] = fi;
                 }
             }
@@ -381,8 +458,9 @@ namespace rab1.Forms
 
                     double fz1 = 3 * i2 - 4 * i4 + i6;
                     double fz2 = i1 - 4 * i3 + 3*i5;
-                    double fi = Math.Atan2(fz1, fz2) - Math.PI / 2;
-                    if (fi < -Math.PI) fi = fi + 2 * Math.PI;
+                    //double fi = Math.Atan2(fz1, fz2);
+                    double fi = Math.Atan2(fz1, fz2) + Math.PI / 2;
+                    if (fi > Math.PI) fi = fi - 2 * Math.PI;
                     faza.array[i, j] = fi;
                 }
             }
@@ -421,8 +499,9 @@ namespace rab1.Forms
 
                     double fz1 = 4 * i2 - 8*i4 + 4*i6;
                     double fz2 = i1 - 7 * i3 + 7*i5 - i7;
-                    double fi = Math.Atan2(fz1, fz2) - Math.PI / 2;
-                    if (fi < -Math.PI) fi = fi + 2 * Math.PI;
+                    double fi = Math.Atan2(fz1, fz2) + Math.PI / 2;
+                    if (fi > Math.PI) fi = fi - 2 * Math.PI; ;
+                 
                     faza.array[i, j] = fi;
                 }
             }
@@ -462,8 +541,8 @@ namespace rab1.Forms
 
                     double fz1 = 5 * i2 - 15 * i4 + 11* i6 - i8;
                     double fz2 = i1 - 11 * i3 + 15 * i5 - 5 * i7;
-                    double fi = Math.Atan2(fz1, fz2) - Math.PI / 2;
-                    if (fi < -Math.PI) fi = fi + 2 * Math.PI;
+                    double fi = Math.Atan2(fz1, fz2) + Math.PI / 2;
+                    if (fi > Math.PI) fi = fi - 2 * Math.PI; ;
                     faza.array[i, j] = fi;
                 }
             }

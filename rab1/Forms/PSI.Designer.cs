@@ -55,6 +55,8 @@
             this.button10 = new System.Windows.Forms.Button();
             this.button11 = new System.Windows.Forms.Button();
             this.button12 = new System.Windows.Forms.Button();
+            this.button13 = new System.Windows.Forms.Button();
+            this.button14 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -170,9 +172,9 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(237, 461);
+            this.button6.Location = new System.Drawing.Point(326, 461);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(392, 23);
+            this.button6.Size = new System.Drawing.Size(337, 23);
             this.button6.TabIndex = 23;
             this.button6.Text = "Угло сдвига по 4 (regComplex) =>  zArrayPicture";
             this.button6.UseVisualStyleBackColor = true;
@@ -182,7 +184,7 @@
             // 
             this.button5.Location = new System.Drawing.Point(24, 461);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(204, 23);
+            this.button5.Size = new System.Drawing.Size(296, 23);
             this.button5.TabIndex = 24;
             this.button5.Text = " Carre  (regComplex) ";
             this.button5.UseVisualStyleBackColor = true;
@@ -254,9 +256,9 @@
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(24, 321);
+            this.button9.Location = new System.Drawing.Point(24, 388);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(375, 23);
+            this.button9.Size = new System.Drawing.Size(296, 23);
             this.button9.TabIndex = 33;
             this.button9.Text = "5 точечный Харихаран (regComplex)  -> Главное окно\r\n";
             this.button9.UseVisualStyleBackColor = true;
@@ -264,9 +266,9 @@
             // 
             // button10
             // 
-            this.button10.Location = new System.Drawing.Point(24, 379);
+            this.button10.Location = new System.Drawing.Point(24, 426);
             this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(375, 23);
+            this.button10.Size = new System.Drawing.Size(296, 23);
             this.button10.TabIndex = 34;
             this.button10.Text = "7-точечный (regComplex) -> Главное окно";
             this.button10.UseVisualStyleBackColor = true;
@@ -274,9 +276,9 @@
             // 
             // button11
             // 
-            this.button11.Location = new System.Drawing.Point(24, 350);
+            this.button11.Location = new System.Drawing.Point(326, 388);
             this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(375, 23);
+            this.button11.Size = new System.Drawing.Size(337, 23);
             this.button11.TabIndex = 35;
             this.button11.Text = "6 точечный  -> Главное окно\r\n";
             this.button11.UseVisualStyleBackColor = true;
@@ -284,19 +286,41 @@
             // 
             // button12
             // 
-            this.button12.Location = new System.Drawing.Point(24, 408);
+            this.button12.Location = new System.Drawing.Point(326, 426);
             this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(375, 23);
+            this.button12.Size = new System.Drawing.Size(337, 23);
             this.button12.TabIndex = 36;
             this.button12.Text = "8-точечный (regComplex) -> Главное окно";
             this.button12.UseVisualStyleBackColor = true;
             this.button12.Click += new System.EventHandler(this.button12_Click);
+            // 
+            // button13
+            // 
+            this.button13.Location = new System.Drawing.Point(329, 350);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(337, 23);
+            this.button13.TabIndex = 38;
+            this.button13.Text = "4 точечный  -> Главное окно";
+            this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.button13_Click);
+            // 
+            // button14
+            // 
+            this.button14.Location = new System.Drawing.Point(27, 350);
+            this.button14.Name = "button14";
+            this.button14.Size = new System.Drawing.Size(296, 23);
+            this.button14.TabIndex = 37;
+            this.button14.Text = "3 точечный 0,120,240 (regComplex)  -> Главное окно";
+            this.button14.UseVisualStyleBackColor = true;
+            this.button14.Click += new System.EventHandler(this.button14_Click);
             // 
             // PSI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(687, 496);
+            this.Controls.Add(this.button13);
+            this.Controls.Add(this.button14);
             this.Controls.Add(this.button12);
             this.Controls.Add(this.button11);
             this.Controls.Add(this.button10);
@@ -360,5 +384,7 @@
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Button button13;
+        private System.Windows.Forms.Button button14;
     }
 }
