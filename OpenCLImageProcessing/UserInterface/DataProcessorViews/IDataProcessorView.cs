@@ -9,6 +9,8 @@ namespace UserInterface.DataProcessorViews
 {
     public interface IDataProcessorView: IDisposable
     {
+        DataProcessorParameterBase this[string parameterName] { get; }
+
         event Action OnValueUpdated;
 
         bool AutoCompute { get; set; }

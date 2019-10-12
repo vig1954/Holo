@@ -40,6 +40,11 @@ namespace SimpleApplication
         private ImageSeries _firstSeries;
         private ImageSeries _secondSeries;
         private PsdCalibrationForm _psdCalibrationForm;
+        private IDataProcessorView _firstSeriesPsi4Processor;
+        private IDataProcessorView _firstSeriesFreshnelProcessor;
+        private IDataProcessorView _secondSeriesPsi4Processor;
+        private IDataProcessorView _secondSeriesFreshnelProcessor;
+
 
         private CameraConnector CameraConnector => Singleton.Get<CameraConnector>();
         private LowLevelPhaseShiftDeviceControllerAdapter LowLevelPhaseShiftController => Singleton.Get<LowLevelPhaseShiftDeviceControllerAdapter>();
@@ -84,30 +89,30 @@ namespace SimpleApplication
             _secondSeriesView.SplitEnabled = false;
 
             _firstSeries = new ImageSeries(_seriesSize, "Серия 1");
-            var firstSeriesPsi4Processor = DataProcessorViewCreator.For(typeof(Psi), nameof(Psi.Psi4)).Create();
-            var firstSeriesFreshnelProcessor = DataProcessorViewCreator.For(typeof(Freshnel), nameof(Freshnel.Transform)).Create();
+            _firstSeriesPsi4Processor = DataProcessorViewCreator.For(typeof(Psi), nameof(Psi.Psi4)).Create();
+            _firstSeriesFreshnelProcessor = DataProcessorViewCreator.For(typeof(Freshnel), nameof(Freshnel.Transform)).Create();
 
-            _firstSeries.AddDataProcessor(firstSeriesPsi4Processor);
-            _firstSeries.AddDataProcessor(firstSeriesFreshnelProcessor);
-            firstSeriesFreshnelProcessor.OnValueUpdated += () =>
+            _firstSeries.AddDataProcessor(_firstSeriesPsi4Processor);
+            _firstSeries.AddDataProcessor(_firstSeriesFreshnelProcessor);
+            _firstSeriesFreshnelProcessor.OnValueUpdated += () =>
             {
                 if (!_firstSeriesView.HasData)
                 {
-                    _firstSeriesView.SetData((IImageHandler) firstSeriesFreshnelProcessor.GetOutputValues().Single());
+                    _firstSeriesView.SetData((IImageHandler) _firstSeriesFreshnelProcessor.GetOutputValues().Single());
                 }
             };
 
             _secondSeries = new ImageSeries(_seriesSize, "Серия 2");
-            var secondSeriesPsi4Processor = DataProcessorViewCreator.For(typeof(Psi), nameof(Psi.Psi4)).Create();
-            var secondSeriesFreshnelProcessor = DataProcessorViewCreator.For(typeof(Freshnel), nameof(Freshnel.Transform)).Create();
+            _secondSeriesPsi4Processor = DataProcessorViewCreator.For(typeof(Psi), nameof(Psi.Psi4)).Create();
+            _secondSeriesFreshnelProcessor = DataProcessorViewCreator.For(typeof(Freshnel), nameof(Freshnel.Transform)).Create();
 
-            _secondSeries.AddDataProcessor(secondSeriesPsi4Processor);
-            _secondSeries.AddDataProcessor(secondSeriesFreshnelProcessor);
-            secondSeriesFreshnelProcessor.OnValueUpdated += () =>
+            _secondSeries.AddDataProcessor(_secondSeriesPsi4Processor);
+            _secondSeries.AddDataProcessor(_secondSeriesFreshnelProcessor);
+            _secondSeriesFreshnelProcessor.OnValueUpdated += () =>
             {
                 if (!_secondSeriesView.HasData)
                 {
-                    _secondSeriesView.SetData((IImageHandler) secondSeriesFreshnelProcessor.GetOutputValues().Single());
+                    _secondSeriesView.SetData((IImageHandler) _secondSeriesFreshnelProcessor.GetOutputValues().Single());
                 }
             };
 
@@ -203,29 +208,51 @@ namespace SimpleApplication
             _phaseShiftDeviceController.ShiftValue4 = (int) psdValue4.Value;
         }
 
-        private void psiValues1_ValueChanged(object sender, EventArgs e)
+        private void psiValue1_ValueChanged(object sender, EventArgs e)
         {
-
+            SetPsi4Value(1, (float)psiValue1.Value);
+        }
+        
+        private void psiValue2_ValueChanged(object sender, EventArgs e)
+        {
+            SetPsi4Value(2, (float)psiValue2.Value);
         }
 
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        private void psiValue3_ValueChanged(object sender, EventArgs e)
         {
-
+            SetPsi4Value(3, (float)psiValue3.Value);
         }
 
-        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
+        private void psiValue4_ValueChanged(object sender, EventArgs e)
         {
-
+            SetPsi4Value(4, (float)psiValue4.Value);
         }
 
-        private void numericUpDown3_ValueChanged(object sender, EventArgs e)
+        private void SetPsi4Value(int index, float value)
         {
+            if (index < 1 || index > 4)
+                throw new InvalidOperationException($"{nameof(index)} должен быть в диапазоне от 1 до 4.");
 
+            _firstSeriesPsi4Processor["phaseShift" + index].SetValue(value, this);
+            _secondSeriesPsi4Processor["phaseShift" + index].SetValue(value, this);
         }
 
         private void CalibrationButton_Click(object sender, EventArgs e)
         {
+            _seriesController.StopCapturing();
             _psdCalibrationForm.Show();
+        }
+
+        private void freshnelDistance_ValueChanged(object sender, EventArgs e)
+        {
+            _firstSeriesFreshnelProcessor["distance"].SetValue((float) freshnelDistance.Value, this);
+            _secondSeriesFreshnelProcessor["distance"].SetValue((float) freshnelDistance.Value, this);
+        }
+
+        private void freshnelObjectSize_ValueChanged(object sender, EventArgs e)
+        {
+            _firstSeriesFreshnelProcessor["objectSize"].SetValue((float) freshnelObjectSize.Value, this);
+            _secondSeriesFreshnelProcessor["objectSize"].SetValue((float) freshnelObjectSize.Value, this);
         }
     }
 }

@@ -52,6 +52,15 @@ namespace Processing.Computing
             Singleton.Get<OpenClApplication>().ExecuteKernel("sum", output.Width, output.Height, image1.ComputeBuffer, image2.ComputeBuffer, output.ComputeBuffer);
         }
 
+        [DataProcessor("Вычитание", ProcessorGroups.Computing)]
+        public static void Extract(IImageHandler image1, IImageHandler image2, IImageHandler output)
+        {
+            if (!image1.SizeEquals(image2) || !image1.SizeEquals(output))
+                throw new InvalidOperationException("Изображения должны быть одинакового размера.");
+
+            Singleton.Get<OpenClApplication>().ExecuteKernel("extract", output.Width, output.Height, image1.ComputeBuffer, image2.ComputeBuffer, output.ComputeBuffer);
+        }
+
         [DataProcessor("Деление на число", ProcessorGroups.Computing)]
         public static void Divide(IImageHandler image, float num, IImageHandler output)
         {

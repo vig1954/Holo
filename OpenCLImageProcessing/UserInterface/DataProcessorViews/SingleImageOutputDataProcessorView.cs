@@ -27,6 +27,9 @@ namespace UserInterface.DataProcessorViews
         public DataProcessorInfo Info { get; }
 
         public event Action<IImageHandler> OnImageCreate;
+
+        public DataProcessorParameterBase this[string parameterName] => Parameters.Single(p => p.Name == parameterName);
+
         public event Action OnValueUpdated;
 
         public SingleImageOutputDataProcessorView(MethodInfo processorMethod) : base(processorMethod)
