@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO.Ports;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Camera;
-using HolographicInterferometryVNext;
 using Infrastructure;
 using Processing;
 using Processing.Computing;
@@ -47,7 +41,9 @@ namespace SimpleApplication
 
 
         private CameraConnector CameraConnector => Singleton.Get<CameraConnector>();
-        private LowLevelPhaseShiftDeviceControllerAdapter LowLevelPhaseShiftController => Singleton.Get<LowLevelPhaseShiftDeviceControllerAdapter>();
+
+        private LowLevelPhaseShiftDeviceControllerAdapter LowLevelPhaseShiftController =>
+            Singleton.Get<LowLevelPhaseShiftDeviceControllerAdapter>();
 
         public ImageSeries ImageSeries { get; set; }
 
@@ -79,6 +75,20 @@ namespace SimpleApplication
 
             LiveView.Paint += LiveViewOnPaint;
 
+//            var comparisonProcessor = DataProcessorViewCreator.For(typeof(ImageProcessing), nameof(ImageProcessing.Divide)).Create();
+            var comparisonProcessor = DataProcessorViewCreator.For(typeof(ImageProcessing), nameof(ImageProcessing.Extract)).Create();
+
+
+            comparisonProcessor["image1"].SetValue(_firstSeriesFreshnelProcessor, this);
+            comparisonProcessor["image2"].SetValue(_secondSeriesFreshnelProcessor, this);
+            comparisonProcessor.OnValueUpdated += () =>
+            {
+                if (!PhaseDifferenceView.HasData)
+                {
+                    PhaseDifferenceView.SetData((IImageHandler) comparisonProcessor.GetOutputValues().Single());
+                }
+            };
+
             _dataEditorManager = new DataEditorManager(PhaseDifferenceView);
             _firstSeriesView = _dataEditorManager.Add(PhaseDifferenceView, Orientation.Horizontal);
             _firstSeriesView.CloseEnabled = false;
@@ -90,35 +100,46 @@ namespace SimpleApplication
 
             _firstSeries = new ImageSeries(_seriesSize, "Серия 1");
             _firstSeriesPsi4Processor = DataProcessorViewCreator.For(typeof(Psi), nameof(Psi.Psi4)).Create();
-            _firstSeriesFreshnelProcessor = DataProcessorViewCreator.For(typeof(Freshnel), nameof(Freshnel.Transform)).Create();
+            _firstSeriesFreshnelProcessor =
+                DataProcessorViewCreator.For(typeof(Freshnel), nameof(Freshnel.Transform)).Create();
 
             _firstSeries.AddDataProcessor(_firstSeriesPsi4Processor);
             _firstSeries.AddDataProcessor(_firstSeriesFreshnelProcessor);
             _firstSeriesFreshnelProcessor.OnValueUpdated += () =>
             {
+                var imageHandler = (IImageHandler) _firstSeriesFreshnelProcessor.GetOutputValues().Single();
                 if (!_firstSeriesView.HasData)
                 {
-                    _firstSeriesView.SetData((IImageHandler) _firstSeriesFreshnelProcessor.GetOutputValues().Single());
+                    _firstSeriesView.SetData(imageHandler);
                 }
+
+                comparisonProcessor["image1"].SetValue(imageHandler, this);
+                comparisonProcessor.Compute();
             };
 
             _secondSeries = new ImageSeries(_seriesSize, "Серия 2");
             _secondSeriesPsi4Processor = DataProcessorViewCreator.For(typeof(Psi), nameof(Psi.Psi4)).Create();
-            _secondSeriesFreshnelProcessor = DataProcessorViewCreator.For(typeof(Freshnel), nameof(Freshnel.Transform)).Create();
+            _secondSeriesFreshnelProcessor =
+                DataProcessorViewCreator.For(typeof(Freshnel), nameof(Freshnel.Transform)).Create();
 
             _secondSeries.AddDataProcessor(_secondSeriesPsi4Processor);
             _secondSeries.AddDataProcessor(_secondSeriesFreshnelProcessor);
             _secondSeriesFreshnelProcessor.OnValueUpdated += () =>
             {
+                var imageHandler = (IImageHandler) _secondSeriesFreshnelProcessor.GetOutputValues().Single();
                 if (!_secondSeriesView.HasData)
                 {
-                    _secondSeriesView.SetData((IImageHandler) _secondSeriesFreshnelProcessor.GetOutputValues().Single());
+                    _secondSeriesView.SetData(imageHandler);
                 }
+
+                comparisonProcessor["image2"].SetValue(imageHandler, this);
+                comparisonProcessor.Compute();
             };
+
 
             CameraConnectorOnAvailableCamerasUpdated(CameraConnector.AvailableCameras);
 
-            
+
             SerialPortNames.Items.Add(ComPortIsDisabledString);
             foreach (var portName in SerialPort.GetPortNames())
             {
@@ -126,6 +147,16 @@ namespace SimpleApplication
             }
 
             _psdCalibrationForm = new PsdCalibrationForm(_phaseShiftDeviceController);
+
+            this.Closing += (o, args) =>
+            {
+                _seriesController.StopCapturing();
+
+                CameraConnector.SetActiveCamera(null);
+                LowLevelPhaseShiftController.Disconnect();
+
+                CameraConnector.Dispose();
+            };
         }
 
         private void CameraConnectorOnSessionClosed()
@@ -210,22 +241,22 @@ namespace SimpleApplication
 
         private void psiValue1_ValueChanged(object sender, EventArgs e)
         {
-            SetPsi4Value(1, (float)psiValue1.Value);
+            SetPsi4Value(1, (float) psiValue1.Value);
         }
-        
+
         private void psiValue2_ValueChanged(object sender, EventArgs e)
         {
-            SetPsi4Value(2, (float)psiValue2.Value);
+            SetPsi4Value(2, (float) psiValue2.Value);
         }
 
         private void psiValue3_ValueChanged(object sender, EventArgs e)
         {
-            SetPsi4Value(3, (float)psiValue3.Value);
+            SetPsi4Value(3, (float) psiValue3.Value);
         }
 
         private void psiValue4_ValueChanged(object sender, EventArgs e)
         {
-            SetPsi4Value(4, (float)psiValue4.Value);
+            SetPsi4Value(4, (float) psiValue4.Value);
         }
 
         private void SetPsi4Value(int index, float value)

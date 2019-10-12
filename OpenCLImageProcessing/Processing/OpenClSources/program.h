@@ -460,7 +460,7 @@ __kernel void sum(__read_only image2d_t input1, __read_only image2d_t input2, __
 	write_imagef(output, coord, (float4)(result.x, result.y, 0, 0));
 }
 
-__kernel void sum(__read_only image2d_t input1, __read_only image2d_t input2, __write_only image2d_t output)
+__kernel void extract(__read_only image2d_t input1, __read_only image2d_t input2, __write_only image2d_t output)
 {
 	int x = get_global_id(0);
 	int y = get_global_id(1);

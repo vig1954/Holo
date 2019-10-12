@@ -44,6 +44,21 @@ namespace SimpleApplication
 
         private void CameraConnectorOnLiveViewUpdated(Bitmap image)
         {
+            Action resize = () =>
+            {
+                this.ClientSize = image.Size;
+                this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            };
+
+            if (this.InvokeRequired)
+            {
+                Invoke(resize);
+            }
+            else
+            {
+                resize();
+            }
+            
             _pictureBoxController.SetImage(image, true);
             _segmentSelectionTool.ImageLayoutInfo = _pictureBoxController.ImageLayout;
         }

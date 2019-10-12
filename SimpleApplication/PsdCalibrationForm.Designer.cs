@@ -47,9 +47,10 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
-            this.SetReferenceButton = new System.Windows.Forms.Button();
             this.RecordShiftLabel = new System.Windows.Forms.Label();
+            this.SetReferenceButton = new System.Windows.Forms.Button();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.btnSelectData = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Graph)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Shift)).BeginInit();
@@ -84,6 +85,7 @@
             this.DataView.Size = new System.Drawing.Size(128, 128);
             this.DataView.TabIndex = 1;
             this.DataView.TabStop = false;
+            this.DataView.Click += new System.EventHandler(this.DataView_Click);
             this.DataView.Paint += new System.Windows.Forms.PaintEventHandler(this.DataView_Paint);
             this.DataView.DoubleClick += new System.EventHandler(this.DataView_DoubleClick);
             // 
@@ -300,14 +302,14 @@
             this.tabPage2.Text = "Просмотр";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // trackBar1
+            // RecordShiftLabel
             // 
-            this.trackBar1.Location = new System.Drawing.Point(8, 33);
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(397, 45);
-            this.trackBar1.TabIndex = 4;
-            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
-            this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
+            this.RecordShiftLabel.AutoSize = true;
+            this.RecordShiftLabel.Location = new System.Drawing.Point(217, 9);
+            this.RecordShiftLabel.Name = "RecordShiftLabel";
+            this.RecordShiftLabel.Size = new System.Drawing.Size(16, 13);
+            this.RecordShiftLabel.TabIndex = 6;
+            this.RecordShiftLabel.Text = "...";
             // 
             // SetReferenceButton
             // 
@@ -319,20 +321,32 @@
             this.SetReferenceButton.UseVisualStyleBackColor = true;
             this.SetReferenceButton.Click += new System.EventHandler(this.SetReferenceButton_Click);
             // 
-            // RecordShiftLabel
+            // trackBar1
             // 
-            this.RecordShiftLabel.AutoSize = true;
-            this.RecordShiftLabel.Location = new System.Drawing.Point(217, 9);
-            this.RecordShiftLabel.Name = "RecordShiftLabel";
-            this.RecordShiftLabel.Size = new System.Drawing.Size(16, 13);
-            this.RecordShiftLabel.TabIndex = 6;
-            this.RecordShiftLabel.Text = "...";
+            this.trackBar1.Location = new System.Drawing.Point(8, 33);
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(397, 45);
+            this.trackBar1.TabIndex = 4;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
+            // 
+            // btnSelectData
+            // 
+            this.btnSelectData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnSelectData.Location = new System.Drawing.Point(12, 439);
+            this.btnSelectData.Name = "btnSelectData";
+            this.btnSelectData.Size = new System.Drawing.Size(128, 23);
+            this.btnSelectData.TabIndex = 17;
+            this.btnSelectData.Text = "Выбрать срез";
+            this.btnSelectData.UseVisualStyleBackColor = true;
+            this.btnSelectData.Click += new System.EventHandler(this.btnSelectData_Click);
             // 
             // PsdCalibrationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 604);
+            this.Controls.Add(this.btnSelectData);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.DataView);
             this.Controls.Add(this.Graph);
@@ -381,5 +395,6 @@
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.Button SetReferenceButton;
         private System.Windows.Forms.Label RecordShiftLabel;
+        private System.Windows.Forms.Button btnSelectData;
     }
 }

@@ -319,6 +319,9 @@ namespace SimpleApplication
         {
             var record = GetSelectedRecord();
 
+            if (record == null)
+                return;
+
             _currentRecord = record;
             _pictureBoxController.SetImage(record.PreviewRegion, true);
             Graph.Refresh();
@@ -402,6 +405,16 @@ namespace SimpleApplication
             }
 
             public override string ToString() => Name;
+        }
+
+        private void btnSelectData_Click(object sender, EventArgs e)
+        {
+            _segmentSelectionForm.Show();
+        }
+
+        private void DataView_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
