@@ -215,5 +215,26 @@ namespace rab1
                 this.gr.FillEllipse(brush, x, y, 8, 8);
             }
         }
+        
+        public void SetPointsValues(double[] values)
+        {
+            this.points.Clear();
+
+            for (int k = 0; k < values.Length; k++)
+            {
+                double key = k * 16;
+                if (!this.points.ContainsKey(key))
+                {
+                    this.points.Add(key, values[k]);
+                }
+            }
+            
+            this.CalcVals();
+
+            this.Draw();
+            
+            //this.vals = values;
+            //this.Draw();
+        }
     }
 }

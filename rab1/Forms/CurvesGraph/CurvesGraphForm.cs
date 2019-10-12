@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.IO;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using rab1.Forms;
 
 /*
  * Самой же функцией является ограничение интерполяционного полинома 
@@ -178,6 +180,57 @@ namespace rab1
         public int GetEndImageNumber()
         {
             return int.Parse(txtEndImageNumber.Text);
+        }
+
+        private void btnClinLoad_Click(object sender, EventArgs e)
+        {
+            LoadWedge();
+        }
+
+        private void LoadWedge()
+        {
+            double[] clin = null;
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "(*.txt)|*.txt";
+            openFileDialog.DefaultExt = "txt";
+
+            DialogResult dialogResult = openFileDialog.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+                string filePath = openFileDialog.FileName;
+                if (!string.IsNullOrEmpty(filePath))
+                {
+                    List<double> valuesList = new List<double>();
+                    using (FileStream fs = File.OpenRead(filePath))
+                    {
+                        using (StreamReader sr = new StreamReader(fs))
+                        {
+                            while (!sr.EndOfStream)
+                            {
+                                string stringValue = sr.ReadLine();
+                                if (!string.IsNullOrEmpty(stringValue))
+                                {
+                                    valuesList.Add(double.Parse(stringValue));
+                                }
+                            }
+                        }
+                    }
+
+                    clin = valuesList.ToArray();
+
+                    //CorrectBr correctBr = new CorrectBr();
+                    //double[] interpolatedClin = correctBr.InterpolateClin(clin);
+
+                    double[] interpolatedClin = clin;
+
+                    this.transmission.SetPointsValues(interpolatedClin);
+                    this.RefreshData();
+
+                    this.pictureBox1.Invalidate();
+                    MessageBox.Show("Клин загружен (cl)");
+                }
+            }
         }
 
         public double[] GetPhaseShifts()

@@ -43,6 +43,7 @@
             this.txtPhaseShift2 = new System.Windows.Forms.TextBox();
             this.txtPhaseShift1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnClinLoad = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -134,9 +135,9 @@
             // 
             // btnApplyPhaseDifferenceCalculation
             // 
-            this.btnApplyPhaseDifferenceCalculation.Location = new System.Drawing.Point(228, 509);
+            this.btnApplyPhaseDifferenceCalculation.Location = new System.Drawing.Point(228, 528);
             this.btnApplyPhaseDifferenceCalculation.Name = "btnApplyPhaseDifferenceCalculation";
-            this.btnApplyPhaseDifferenceCalculation.Size = new System.Drawing.Size(202, 39);
+            this.btnApplyPhaseDifferenceCalculation.Size = new System.Drawing.Size(202, 23);
             this.btnApplyPhaseDifferenceCalculation.TabIndex = 11;
             this.btnApplyPhaseDifferenceCalculation.Text = "Разность фаз (вычисление)";
             this.btnApplyPhaseDifferenceCalculation.UseVisualStyleBackColor = true;
@@ -179,12 +180,23 @@
             this.label1.TabIndex = 16;
             this.label1.Text = "Фазовые сдвиги";
             // 
+            // btnClinLoad
+            // 
+            this.btnClinLoad.Location = new System.Drawing.Point(228, 496);
+            this.btnClinLoad.Name = "btnClinLoad";
+            this.btnClinLoad.Size = new System.Drawing.Size(202, 23);
+            this.btnClinLoad.TabIndex = 17;
+            this.btnClinLoad.Text = "Загрузить клин";
+            this.btnClinLoad.UseVisualStyleBackColor = true;
+            this.btnClinLoad.Click += new System.EventHandler(this.btnClinLoad_Click);
+            // 
             // CurvesGraph
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(436, 558);
+            this.Controls.Add(this.btnClinLoad);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtPhaseShift4);
             this.Controls.Add(this.txtPhaseShift3);
@@ -232,5 +244,6 @@
         private System.Windows.Forms.TextBox txtPhaseShift2;
         private System.Windows.Forms.TextBox txtPhaseShift1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnClinLoad;
     }
 }
