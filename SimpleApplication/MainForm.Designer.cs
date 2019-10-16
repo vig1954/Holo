@@ -29,9 +29,13 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.PhaseDifferenceView = new UserInterface.DataEditors.DataEditorView();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.LiveView = new System.Windows.Forms.PictureBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.freshnelObjectSize = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
+            this.freshnelDistance = new System.Windows.Forms.NumericUpDown();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.SerialPortNames = new System.Windows.Forms.ComboBox();
             this.CalibrationButton = new System.Windows.Forms.Button();
@@ -51,11 +55,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.cameraStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.psdStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.freshnelDistance = new System.Windows.Forms.NumericUpDown();
-            this.label4 = new System.Windows.Forms.Label();
-            this.freshnelObjectSize = new System.Windows.Forms.NumericUpDown();
+            this.PhaseDifferenceView = new UserInterface.DataEditors.DataEditorView();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -65,6 +65,9 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LiveView)).BeginInit();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.freshnelObjectSize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.freshnelDistance)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.psiValue4)).BeginInit();
@@ -76,9 +79,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.psdValue2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.psdValue1)).BeginInit();
             this.statusStrip1.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.freshnelDistance)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.freshnelObjectSize)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -97,17 +97,7 @@
             this.splitContainer1.Size = new System.Drawing.Size(1174, 601);
             this.splitContainer1.SplitterDistance = 768;
             this.splitContainer1.TabIndex = 0;
-            // 
-            // PhaseDifferenceView
-            // 
-            this.PhaseDifferenceView.Active = false;
-            this.PhaseDifferenceView.CloseEnabled = false;
-            this.PhaseDifferenceView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PhaseDifferenceView.Location = new System.Drawing.Point(0, 0);
-            this.PhaseDifferenceView.Name = "PhaseDifferenceView";
-            this.PhaseDifferenceView.Size = new System.Drawing.Size(768, 601);
-            this.PhaseDifferenceView.SplitEnabled = false;
-            this.PhaseDifferenceView.TabIndex = 0;
+            this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
             // 
             // splitContainer2
             // 
@@ -130,6 +120,7 @@
             this.splitContainer2.Size = new System.Drawing.Size(402, 601);
             this.splitContainer2.SplitterDistance = 213;
             this.splitContainer2.TabIndex = 0;
+            this.splitContainer2.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer2_SplitterMoved);
             // 
             // LiveView
             // 
@@ -140,6 +131,77 @@
             this.LiveView.Size = new System.Drawing.Size(402, 213);
             this.LiveView.TabIndex = 0;
             this.LiveView.TabStop = false;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.freshnelObjectSize);
+            this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Controls.Add(this.freshnelDistance);
+            this.groupBox3.Controls.Add(this.label3);
+            this.groupBox3.Location = new System.Drawing.Point(12, 195);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(378, 100);
+            this.groupBox3.TabIndex = 5;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Преобразование Френеля";
+            // 
+            // freshnelObjectSize
+            // 
+            this.freshnelObjectSize.DecimalPlaces = 2;
+            this.freshnelObjectSize.Location = new System.Drawing.Point(9, 74);
+            this.freshnelObjectSize.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.freshnelObjectSize.Name = "freshnelObjectSize";
+            this.freshnelObjectSize.Size = new System.Drawing.Size(64, 20);
+            this.freshnelObjectSize.TabIndex = 3;
+            this.freshnelObjectSize.Value = new decimal(new int[] {
+            635,
+            0,
+            0,
+            131072});
+            this.freshnelObjectSize.ValueChanged += new System.EventHandler(this.freshnelObjectSize_ValueChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 55);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(91, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Размер объекта";
+            // 
+            // freshnelDistance
+            // 
+            this.freshnelDistance.DecimalPlaces = 1;
+            this.freshnelDistance.Location = new System.Drawing.Point(9, 32);
+            this.freshnelDistance.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.freshnelDistance.Name = "freshnelDistance";
+            this.freshnelDistance.Size = new System.Drawing.Size(64, 20);
+            this.freshnelDistance.TabIndex = 1;
+            this.freshnelDistance.Value = new decimal(new int[] {
+            135,
+            0,
+            0,
+            0});
+            this.freshnelDistance.ValueChanged += new System.EventHandler(this.freshnelDistance_ValueChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 16);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(67, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Расстояние";
             // 
             // groupBox2
             // 
@@ -399,76 +461,16 @@
             this.psdStatusLabel.Size = new System.Drawing.Size(193, 19);
             this.psdStatusLabel.Text = "Пьезокерамика - не подключена";
             // 
-            // groupBox3
+            // PhaseDifferenceView
             // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Controls.Add(this.freshnelObjectSize);
-            this.groupBox3.Controls.Add(this.label4);
-            this.groupBox3.Controls.Add(this.freshnelDistance);
-            this.groupBox3.Controls.Add(this.label3);
-            this.groupBox3.Location = new System.Drawing.Point(12, 195);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(378, 100);
-            this.groupBox3.TabIndex = 5;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Преобразование Френеля";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 16);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(67, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Расстояние";
-            // 
-            // freshnelDistance
-            // 
-            this.freshnelDistance.DecimalPlaces = 1;
-            this.freshnelDistance.Location = new System.Drawing.Point(9, 32);
-            this.freshnelDistance.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.freshnelDistance.Name = "freshnelDistance";
-            this.freshnelDistance.Size = new System.Drawing.Size(64, 20);
-            this.freshnelDistance.TabIndex = 1;
-            this.freshnelDistance.Value = new decimal(new int[] {
-            135,
-            0,
-            0,
-            0});
-            this.freshnelDistance.ValueChanged += new System.EventHandler(this.freshnelDistance_ValueChanged);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 55);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(91, 13);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "Размер объекта";
-            // 
-            // freshnelObjectSize
-            // 
-            this.freshnelObjectSize.DecimalPlaces = 2;
-            this.freshnelObjectSize.Location = new System.Drawing.Point(9, 74);
-            this.freshnelObjectSize.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.freshnelObjectSize.Name = "freshnelObjectSize";
-            this.freshnelObjectSize.Size = new System.Drawing.Size(64, 20);
-            this.freshnelObjectSize.TabIndex = 3;
-            this.freshnelObjectSize.Value = new decimal(new int[] {
-            635,
-            0,
-            0,
-            131072});
-            this.freshnelObjectSize.ValueChanged += new System.EventHandler(this.freshnelObjectSize_ValueChanged);
+            this.PhaseDifferenceView.Active = false;
+            this.PhaseDifferenceView.CloseEnabled = false;
+            this.PhaseDifferenceView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PhaseDifferenceView.Location = new System.Drawing.Point(0, 0);
+            this.PhaseDifferenceView.Name = "PhaseDifferenceView";
+            this.PhaseDifferenceView.Size = new System.Drawing.Size(768, 601);
+            this.PhaseDifferenceView.SplitEnabled = false;
+            this.PhaseDifferenceView.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -479,7 +481,9 @@
             this.Controls.Add(this.splitContainer1);
             this.Name = "MainForm";
             this.Text = "Simple App";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.SizeChanged += new System.EventHandler(this.MainForm_SizeChanged);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -489,6 +493,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.LiveView)).EndInit();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.freshnelObjectSize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.freshnelDistance)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.psiValue4)).EndInit();
@@ -501,10 +509,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.psdValue1)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.freshnelDistance)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.freshnelObjectSize)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

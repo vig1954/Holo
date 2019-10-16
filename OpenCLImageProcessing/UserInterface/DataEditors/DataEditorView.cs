@@ -106,6 +106,8 @@ namespace UserInterface.DataEditors
 
         public void UpdateRendererTools()
         {
+            return;
+            // todo:
             tsTools.Items.Clear();
 
             var tools = _renderer.GetTools();

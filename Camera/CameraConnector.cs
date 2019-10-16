@@ -169,6 +169,7 @@ namespace Camera
             _sdkHandler.SetCapacity();
 
             _sessionOpened = true;
+            SessionOpened?.Invoke();
         }
 
         private void CloseSession()
@@ -180,6 +181,7 @@ namespace Camera
 
             _sessionOpened = false;
             //RefreshAvailableCameras();
+            SessionClosed?.Invoke();
         }
 
         private void RefreshAvailableCameras()

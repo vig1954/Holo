@@ -4,12 +4,14 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 
 namespace UserInterface.DataEditors
 {
     public class DataEditorManager
     {
         private List<DataEditorView> _editors = new List<DataEditorView>();
+        private Dictionary<int, SplitContainer> _editorsSplitContainers = new Dictionary<int, SplitContainer>();
 
         public DataEditorManager(DataEditorView root)
         {
@@ -40,6 +42,8 @@ namespace UserInterface.DataEditors
 
             splitContainer.Panel1.Controls.Add(where);
             where.Dock = DockStyle.Fill;
+
+            _editorsSplitContainers.Add(where.Id, splitContainer);
 
             var newEditor = new DataEditorView();
             splitContainer.Panel2.Controls.Add(newEditor);
@@ -80,6 +84,12 @@ namespace UserInterface.DataEditors
                 splitContainerParent.Controls.Add(otherEditor);
                 otherEditor.Dock = splitContainer.Dock;
 
+                if (_editorsSplitContainers.ContainsKey(otherEditor.Id))
+                    _editorsSplitContainers.Remove(otherEditor.Id);
+
+                if (_editorsSplitContainers.ContainsKey(what.Id))
+                    _editorsSplitContainers.Remove(what.Id);
+
                 _editors.Remove(what);
 
                 if (what.Active)
@@ -115,6 +125,40 @@ namespace UserInterface.DataEditors
             view.SplitRight += () => Add(view, Orientation.Vertical);
             view.SplitBottom += () => Add(view, Orientation.Horizontal);
             view.HeaderClicked += () => SetActive(view);
+        }
+
+        public string GetSettings()
+        {
+            var settings = new Settings
+            {
+                EditorsSplitterDistances =
+                    _editorsSplitContainers.ToDictionary(p => p.Key, p => p.Value.SplitterDistance)
+            };
+
+            return JsonConvert.SerializeObject(settings);
+        }
+
+        public void ApplySettings(string settingsJson, bool throwIfAny = false)
+        {
+            var settings = JsonConvert.DeserializeObject<Settings>(settingsJson);
+
+            foreach (var editorSplitterDistance in settings.EditorsSplitterDistances)
+            {
+                if (!_editorsSplitContainers.TryGetValue(editorSplitterDistance.Key, out var splitContainer))
+                {
+                    if (throwIfAny)
+                        throw new InvalidOperationException("Не удалось применить настройки");
+                    else
+                        return;
+                }
+
+                splitContainer.SplitterDistance = editorSplitterDistance.Value;
+            }
+        }
+
+        private class Settings
+        {
+            public Dictionary<int, int> EditorsSplitterDistances { get; set; }
         }
     }
 }

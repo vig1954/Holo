@@ -57,16 +57,16 @@
             // openTkControlContainer
             // 
             this.openTkControlContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.openTkControlContainer.Location = new System.Drawing.Point(1, 25);
+            this.openTkControlContainer.Location = new System.Drawing.Point(32, 25);
             this.openTkControlContainer.Name = "openTkControlContainer";
-            this.openTkControlContainer.Size = new System.Drawing.Size(513, 445);
+            this.openTkControlContainer.Size = new System.Drawing.Size(482, 445);
             this.openTkControlContainer.TabIndex = 2;
             // 
             // tsToolPanel
             // 
-            this.tsToolPanel.Location = new System.Drawing.Point(1, 0);
+            this.tsToolPanel.Location = new System.Drawing.Point(32, 0);
             this.tsToolPanel.Name = "tsToolPanel";
-            this.tsToolPanel.Size = new System.Drawing.Size(513, 25);
+            this.tsToolPanel.Size = new System.Drawing.Size(482, 25);
             this.tsToolPanel.TabIndex = 1;
             this.tsToolPanel.Text = "toolStrip1";
             // 
@@ -76,7 +76,7 @@
             this.tsTools.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Table;
             this.tsTools.Location = new System.Drawing.Point(0, 0);
             this.tsTools.Name = "tsTools";
-            this.tsTools.Size = new System.Drawing.Size(1, 470);
+            this.tsTools.Size = new System.Drawing.Size(32, 470);
             this.tsTools.TabIndex = 0;
             this.tsTools.Text = "toolStrip1";
             // 
@@ -84,10 +84,15 @@
             // 
             this.containerHeader1.Active = false;
             this.containerHeader1.BackColor = System.Drawing.Color.SteelBlue;
+            this.containerHeader1.CausesValidation = false;
+            this.containerHeader1.CloseEnabled = false;
             this.containerHeader1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.containerHeader1.IsSidebarVisible = false;
             this.containerHeader1.Location = new System.Drawing.Point(0, 0);
             this.containerHeader1.Name = "containerHeader1";
+            this.containerHeader1.NewWindowEnabled = false;
             this.containerHeader1.Size = new System.Drawing.Size(751, 24);
+            this.containerHeader1.SplitEnabled = false;
             this.containerHeader1.TabIndex = 0;
             // 
             // DataEditorView

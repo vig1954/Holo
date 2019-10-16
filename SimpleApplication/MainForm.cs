@@ -7,6 +7,7 @@ using System.IO.Ports;
 using System.Linq;
 using System.Windows.Forms;
 using Camera;
+using Common;
 using Infrastructure;
 using Processing;
 using Processing.Computing;
@@ -22,6 +23,8 @@ namespace SimpleApplication
 
         private readonly CameraImageProvider _cameraImageProvider = new CameraImageProvider();
         private readonly Size _seriesSize = new Size(512, 512);
+
+        private bool _isLoading = false;
 
         // private CameraInputView _cameraInputView; // todo: use series controller instead of this
         private SeriesController _seriesController;
@@ -76,7 +79,8 @@ namespace SimpleApplication
             LiveView.Paint += LiveViewOnPaint;
 
 //            var comparisonProcessor = DataProcessorViewCreator.For(typeof(ImageProcessing), nameof(ImageProcessing.Divide)).Create();
-            var comparisonProcessor = DataProcessorViewCreator.For(typeof(ImageProcessing), nameof(ImageProcessing.Extract)).Create();
+            var comparisonProcessor = DataProcessorViewCreator
+                .For(typeof(ImageProcessing), nameof(ImageProcessing.Extract)).Create();
 
 
             comparisonProcessor["image1"].SetValue(_firstSeriesFreshnelProcessor, this);
@@ -89,6 +93,8 @@ namespace SimpleApplication
                 }
             };
 
+            PhaseDifferenceView.CloseEnabled = false;
+
             _dataEditorManager = new DataEditorManager(PhaseDifferenceView);
             _firstSeriesView = _dataEditorManager.Add(PhaseDifferenceView, Orientation.Horizontal);
             _firstSeriesView.CloseEnabled = false;
@@ -97,6 +103,8 @@ namespace SimpleApplication
             _secondSeriesView = _dataEditorManager.Add(_firstSeriesView, Orientation.Vertical);
             _secondSeriesView.CloseEnabled = false;
             _secondSeriesView.SplitEnabled = false;
+
+            PhaseDifferenceView.SplitEnabled = false;
 
             _firstSeries = new ImageSeries(_seriesSize, "Серия 1");
             _firstSeriesPsi4Processor = DataProcessorViewCreator.For(typeof(Psi), nameof(Psi.Psi4)).Create();
@@ -157,6 +165,8 @@ namespace SimpleApplication
 
                 CameraConnector.Dispose();
             };
+
+            LoadSettings();
         }
 
         private void CameraConnectorOnSessionClosed()
@@ -222,41 +232,49 @@ namespace SimpleApplication
         private void psdValue1_ValueChanged(object sender, EventArgs e)
         {
             _phaseShiftDeviceController.ShiftValue1 = (int) psdValue1.Value;
+            UpdateSettings(s => s.Psd1 = _phaseShiftDeviceController.ShiftValue1);
         }
 
         private void psdValue2_ValueChanged(object sender, EventArgs e)
         {
             _phaseShiftDeviceController.ShiftValue2 = (int) psdValue2.Value;
+            UpdateSettings(s => s.Psd2 = _phaseShiftDeviceController.ShiftValue2);
         }
 
         private void psdValue3_ValueChanged(object sender, EventArgs e)
         {
             _phaseShiftDeviceController.ShiftValue3 = (int) psdValue3.Value;
+            UpdateSettings(s => s.Psd3 = _phaseShiftDeviceController.ShiftValue3);
         }
 
         private void psdValue4_ValueChanged(object sender, EventArgs e)
         {
             _phaseShiftDeviceController.ShiftValue4 = (int) psdValue4.Value;
+            UpdateSettings(s => s.Psd4 = _phaseShiftDeviceController.ShiftValue4);
         }
 
         private void psiValue1_ValueChanged(object sender, EventArgs e)
         {
             SetPsi4Value(1, (float) psiValue1.Value);
+            UpdateSettings(s => s.Psi1 = (float) psiValue1.Value);
         }
 
         private void psiValue2_ValueChanged(object sender, EventArgs e)
         {
             SetPsi4Value(2, (float) psiValue2.Value);
+            UpdateSettings(s => s.Psi1 = (float) psiValue1.Value);
         }
 
         private void psiValue3_ValueChanged(object sender, EventArgs e)
         {
             SetPsi4Value(3, (float) psiValue3.Value);
+            UpdateSettings(s => s.Psi1 = (float) psiValue1.Value);
         }
 
         private void psiValue4_ValueChanged(object sender, EventArgs e)
         {
             SetPsi4Value(4, (float) psiValue4.Value);
+            UpdateSettings(s => s.Psi1 = (float) psiValue1.Value);
         }
 
         private void SetPsi4Value(int index, float value)
@@ -278,12 +296,81 @@ namespace SimpleApplication
         {
             _firstSeriesFreshnelProcessor["distance"].SetValue((float) freshnelDistance.Value, this);
             _secondSeriesFreshnelProcessor["distance"].SetValue((float) freshnelDistance.Value, this);
+
+            UpdateSettings(s => s.FreshnelDistance = (float) freshnelDistance.Value);
         }
 
         private void freshnelObjectSize_ValueChanged(object sender, EventArgs e)
         {
             _firstSeriesFreshnelProcessor["objectSize"].SetValue((float) freshnelObjectSize.Value, this);
             _secondSeriesFreshnelProcessor["objectSize"].SetValue((float) freshnelObjectSize.Value, this);
+
+            UpdateSettings(s => s.FreshnelObjectSize = (float) freshnelObjectSize.Value);
+        }
+
+        private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
+        {
+            UpdateSettings(s => s.Splitter1Distance = splitContainer1.SplitterDistance);
+        }
+
+        private void splitContainer2_SplitterMoved(object sender, SplitterEventArgs e)
+        {
+            UpdateSettings(s => s.Splitter2Distance = splitContainer2.SplitterDistance);
+        }
+
+        private void UpdateSettings(Action<Properties.Settings> modify)
+        {
+            if (_isLoading)
+                return;
+
+            modify(Properties.Settings.Default);
+            Properties.Settings.Default.Save();
+        }
+
+        private void MainForm_SizeChanged(object sender, EventArgs e)
+        {
+            UpdateSettings(s =>
+            {
+                s.FormSize = this.Size;
+                s.IsFormMaximized = this.WindowState == FormWindowState.Maximized;
+            });
+        }
+
+        private void LoadSettings()
+        {
+            _isLoading = true;
+
+            var s = Properties.Settings.Default;
+
+            this.Size = s.FormSize;
+            if (s.IsFormMaximized)
+                this.WindowState = FormWindowState.Maximized;
+
+            splitContainer1.SplitterDistance = s.Splitter1Distance;
+            splitContainer2.SplitterDistance = s.Splitter2Distance;
+
+            psiValue1.Value = (decimal) s.Psi1;
+            psiValue2.Value = (decimal) s.Psi2;
+            psiValue3.Value = (decimal) s.Psi3;
+            psiValue4.Value = (decimal) s.Psi4;
+
+            psdValue1.Value = s.Psd1;
+            psdValue2.Value = s.Psd2;
+            psdValue3.Value = s.Psd3;
+            psdValue4.Value = s.Psd4;
+
+            freshnelDistance.Value = (decimal) s.FreshnelDistance;
+            freshnelObjectSize.Value = (decimal) s.FreshnelObjectSize;
+
+            if (!s.DateEditorManagerSettings.IsNullOrEmpty())
+                _dataEditorManager.ApplySettings(s.DateEditorManagerSettings);
+
+            _isLoading = false;
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            UpdateSettings(s => s.DateEditorManagerSettings = _dataEditorManager.GetSettings());
         }
     }
 }
