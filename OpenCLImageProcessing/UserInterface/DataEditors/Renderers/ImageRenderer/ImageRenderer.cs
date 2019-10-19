@@ -7,6 +7,7 @@ using Infrastructure;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Processing;
+using UserInterface.DataEditors.InterfaceBinding;
 using UserInterface.DataEditors.InterfaceBinding.Attributes;
 using UserInterface.DataEditors.Renderers.Graphics;
 using UserInterface.DataEditors.Renderers.Shaders;
@@ -32,12 +33,32 @@ namespace UserInterface.DataEditors.Renderers.ImageRenderer
         private readonly List<IDrawable> _drawables = new List<IDrawable>();
 
         public IImageHandler ImageHandler => _imageHandler;
+
+        public IBindingManager<ImageRenderer> BindingManager { get; set; }
         
         [BindToUI(displayGroup: "View"), BindMembersToUI(HideProperty = true, MergeMembers = true)]
         public IDataRendererControlMode ControlMode => _controlMode;
         
         [BindToUI(displayGroup: "View"), BindMembersToUI(HideProperty = true, MergeMembers = true)]
         public IDataRendererViewMode ViewMode => _viewMode;
+
+        [BindToUI("Channel 1 Min", displayGroup: "View")]
+        public float FirstChannelMinValue { get; set; }
+
+        [BindToUI("Channel 1 Max", displayGroup: "View")]
+        public float FirstChannelMaxValue { get; set; }
+        
+        [BindToUI("Channel 2 Min", displayGroup: "View")]
+        public float SecondChannelMinValue { get; set; }
+
+        [BindToUI("Channel 2 Max", displayGroup: "View")]
+        public float SecondChannelMaxValue { get; set; }
+
+        [BindToUI("Auto Min Max", displayGroup: "View")]
+        public void AutoChannelValues()
+        {
+            UpdateShaderValuesRange();
+        }
 
         public Type DataType => typeof(IImageHandler);
 
@@ -93,7 +114,11 @@ namespace UserInterface.DataEditors.Renderers.ImageRenderer
 
         private void ImageHandlerImageUpdated(ImageUpdatedEventData obj)
         {
-            UpdateShaderValuesRange();
+            if (FirstChannelMinValue == FirstChannelMaxValue)
+                UpdateShaderValuesRange();
+            else
+                UpdateShaderValuesRangeFromPropreties();
+
             RequestUpdate();
 
             if (obj.ReloadControls)
@@ -232,12 +257,29 @@ namespace UserInterface.DataEditors.Renderers.ImageRenderer
                 return;
 
             var range1 = _imageHandler.GetValueRangeForChannel(0);
+            if (BindingManager != null)
+            {
+                BindingManager.SetPropertyValue(p => p.FirstChannelMinValue, range1.Min);
+                BindingManager.SetPropertyValue(p => p.FirstChannelMaxValue, range1.Max);
+            }
 
             var hasTwoChannels = _imageHandler.GetChannelsCount() == 2;
             var range2 = hasTwoChannels ? _imageHandler.GetValueRangeForChannel(1) : new FloatRange();
 
+            if (BindingManager != null)
+            {
+                BindingManager.SetPropertyValue(p => p.SecondChannelMinValue, range2.Min);
+                BindingManager.SetPropertyValue(p => p.SecondChannelMaxValue, range2.Max);
+            }
+
             _shader.SetValueRange(range1, range2);
             //Debug.WriteLine($"Image values range: {range1}; {range2}");
+        }
+
+        private void UpdateShaderValuesRangeFromPropreties()
+        {
+            _shader.SetValueRange(new FloatRange(FirstChannelMinValue, FirstChannelMaxValue),
+                new FloatRange(SecondChannelMinValue, SecondChannelMaxValue));
         }
     }
 }

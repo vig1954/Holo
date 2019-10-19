@@ -262,19 +262,19 @@ namespace SimpleApplication
         private void psiValue2_ValueChanged(object sender, EventArgs e)
         {
             SetPsi4Value(2, (float) psiValue2.Value);
-            UpdateSettings(s => s.Psi1 = (float) psiValue1.Value);
+            UpdateSettings(s => s.Psi2 = (float) psiValue2.Value);
         }
 
         private void psiValue3_ValueChanged(object sender, EventArgs e)
         {
             SetPsi4Value(3, (float) psiValue3.Value);
-            UpdateSettings(s => s.Psi1 = (float) psiValue1.Value);
+            UpdateSettings(s => s.Psi3 = (float) psiValue3.Value);
         }
 
         private void psiValue4_ValueChanged(object sender, EventArgs e)
         {
             SetPsi4Value(4, (float) psiValue4.Value);
-            UpdateSettings(s => s.Psi1 = (float) psiValue1.Value);
+            UpdateSettings(s => s.Psi4 = (float) psiValue4.Value);
         }
 
         private void SetPsi4Value(int index, float value)
@@ -294,10 +294,17 @@ namespace SimpleApplication
 
         private void freshnelDistance_ValueChanged(object sender, EventArgs e)
         {
-            _firstSeriesFreshnelProcessor["distance"].SetValue((float) freshnelDistance.Value, this);
-            _secondSeriesFreshnelProcessor["distance"].SetValue((float) freshnelDistance.Value, this);
+            UpdateFreshnelDistance();
 
             UpdateSettings(s => s.FreshnelDistance = (float) freshnelDistance.Value);
+        }
+
+        private void UpdateFreshnelDistance()
+        {
+            var distance = (float) (freshnelDistance.Value + FreshnelDistanceDecimals.Value / 10);
+
+            _firstSeriesFreshnelProcessor["distance"].SetValue(distance, this);
+            _secondSeriesFreshnelProcessor["distance"].SetValue(distance, this);
         }
 
         private void freshnelObjectSize_ValueChanged(object sender, EventArgs e)
@@ -346,9 +353,6 @@ namespace SimpleApplication
             if (s.IsFormMaximized)
                 this.WindowState = FormWindowState.Maximized;
 
-            splitContainer1.SplitterDistance = s.Splitter1Distance;
-            splitContainer2.SplitterDistance = s.Splitter2Distance;
-
             psiValue1.Value = (decimal) s.Psi1;
             psiValue2.Value = (decimal) s.Psi2;
             psiValue3.Value = (decimal) s.Psi3;
@@ -360,7 +364,18 @@ namespace SimpleApplication
             psdValue4.Value = s.Psd4;
 
             freshnelDistance.Value = (decimal) s.FreshnelDistance;
+            FreshnelDistanceDecimals.Value = (decimal) s.FreshnelDistanceDecimals;
             freshnelObjectSize.Value = (decimal) s.FreshnelObjectSize;
+
+            try
+            {
+                splitContainer1.SplitterDistance = s.Splitter1Distance;
+                splitContainer2.SplitterDistance = s.Splitter2Distance;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Произошла ошибка при загрузке настроек!", MessageBoxButtons.OK);
+            }
 
             if (!s.DateEditorManagerSettings.IsNullOrEmpty())
                 _dataEditorManager.ApplySettings(s.DateEditorManagerSettings);
@@ -371,6 +386,13 @@ namespace SimpleApplication
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             UpdateSettings(s => s.DateEditorManagerSettings = _dataEditorManager.GetSettings());
+        }
+
+        private void FreshnelDistanceDecimals_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateFreshnelDistance();
+
+            UpdateSettings(s => s.FreshnelDistanceDecimals = (float)FreshnelDistanceDecimals.Value);
         }
     }
 }

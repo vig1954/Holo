@@ -214,5 +214,17 @@ namespace SimpleApplication.Properties {
                 this["IsFormMaximized"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public float FreshnelDistanceDecimals {
+            get {
+                return ((float)(this["FreshnelDistanceDecimals"]));
+            }
+            set {
+                this["FreshnelDistanceDecimals"] = value;
+            }
+        }
     }
 }

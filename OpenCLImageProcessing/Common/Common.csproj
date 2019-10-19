@@ -79,6 +79,7 @@
     <Compile Include="Controls\SliderElements\SliderLine.cs" />
     <Compile Include="Controls\SliderElements\SliderMarking.cs" />
     <Compile Include="Controls\SliderElements\SliderPin.cs" />
+    <Compile Include="Debounce.cs" />
     <Compile Include="DebugLogger.cs" />
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="EnumerableExtensions.cs" />

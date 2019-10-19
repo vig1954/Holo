@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.PhaseDifferenceView = new UserInterface.DataEditors.DataEditorView();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.LiveView = new System.Windows.Forms.PictureBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -55,7 +56,8 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.cameraStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.psdStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.PhaseDifferenceView = new UserInterface.DataEditors.DataEditorView();
+            this.FreshnelDistanceDecimals = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -79,6 +81,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.psdValue2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.psdValue1)).BeginInit();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FreshnelDistanceDecimals)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -98,6 +101,17 @@
             this.splitContainer1.SplitterDistance = 768;
             this.splitContainer1.TabIndex = 0;
             this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
+            // 
+            // PhaseDifferenceView
+            // 
+            this.PhaseDifferenceView.Active = false;
+            this.PhaseDifferenceView.CloseEnabled = false;
+            this.PhaseDifferenceView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PhaseDifferenceView.Location = new System.Drawing.Point(0, 0);
+            this.PhaseDifferenceView.Name = "PhaseDifferenceView";
+            this.PhaseDifferenceView.Size = new System.Drawing.Size(768, 601);
+            this.PhaseDifferenceView.SplitEnabled = false;
+            this.PhaseDifferenceView.TabIndex = 0;
             // 
             // splitContainer2
             // 
@@ -136,6 +150,8 @@
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.FreshnelDistanceDecimals);
             this.groupBox3.Controls.Add(this.freshnelObjectSize);
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.freshnelDistance);
@@ -177,7 +193,6 @@
             // 
             // freshnelDistance
             // 
-            this.freshnelDistance.DecimalPlaces = 1;
             this.freshnelDistance.Location = new System.Drawing.Point(9, 32);
             this.freshnelDistance.Maximum = new decimal(new int[] {
             10000,
@@ -461,16 +476,27 @@
             this.psdStatusLabel.Size = new System.Drawing.Size(193, 19);
             this.psdStatusLabel.Text = "Пьезокерамика - не подключена";
             // 
-            // PhaseDifferenceView
+            // FreshnelDistanceDecimals
             // 
-            this.PhaseDifferenceView.Active = false;
-            this.PhaseDifferenceView.CloseEnabled = false;
-            this.PhaseDifferenceView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PhaseDifferenceView.Location = new System.Drawing.Point(0, 0);
-            this.PhaseDifferenceView.Name = "PhaseDifferenceView";
-            this.PhaseDifferenceView.Size = new System.Drawing.Size(768, 601);
-            this.PhaseDifferenceView.SplitEnabled = false;
-            this.PhaseDifferenceView.TabIndex = 0;
+            this.FreshnelDistanceDecimals.Location = new System.Drawing.Point(79, 32);
+            this.FreshnelDistanceDecimals.Maximum = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            this.FreshnelDistanceDecimals.Name = "FreshnelDistanceDecimals";
+            this.FreshnelDistanceDecimals.Size = new System.Drawing.Size(64, 20);
+            this.FreshnelDistanceDecimals.TabIndex = 4;
+            this.FreshnelDistanceDecimals.ValueChanged += new System.EventHandler(this.FreshnelDistanceDecimals_ValueChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(76, 16);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(53, 13);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "Десятые";
             // 
             // MainForm
             // 
@@ -509,6 +535,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.psdValue1)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FreshnelDistanceDecimals)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -544,6 +571,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown freshnelDistance;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.NumericUpDown FreshnelDistanceDecimals;
     }
 }
 
