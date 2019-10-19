@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
-public delegate void ModelFz(double n1, double n2, double noise);
-public delegate void ModelFz3(double n1, double n2, double n3, double n12, double n23, double noise);
+public delegate void ModelFz(double n1, double n2, double noise, double minIntensity);
+public delegate void ModelFz3(double n1, double n2, double n3, double n12, double n23, double noise, double minIntensity);
 public delegate void ModelFzS(int k1, int k2, int k3);
 
 namespace rab1.Forms
@@ -56,7 +56,9 @@ namespace rab1.Forms
             n2 = Convert.ToDouble(textBox5.Text);                       
             noise = Convert.ToDouble(textBox6.Text);
 
-            OnModelFz(n1, n2, noise);
+            double minIntensity = 0;
+
+            OnModelFz(n1, n2, noise, minIntensity);
             Close();
         }
 
@@ -65,7 +67,10 @@ namespace rab1.Forms
             n1 = Convert.ToDouble(textBox1.Text);
             n2 = Convert.ToDouble(textBox5.Text);
             noise = Convert.ToDouble(textBox6.Text);
-            OnModel_Sin_Fz(n1, n2, noise);
+
+            double minIntensity = 0;
+
+            OnModel_Sin_Fz(n1, n2, noise, minIntensity);
             Close();
         }
 
@@ -78,7 +83,9 @@ namespace rab1.Forms
             n12 = (double)(n1 * n2) / (Math.Abs(n1 - n2));  textBox10.Text = Convert.ToString(n12);
             n23 = (double)(n2 * n3) / (Math.Abs(n2 - n3));  textBox11.Text = Convert.ToString(n23);
 
-            OnModel_Sin_Fz3(n1, n2, n3, n12, n23, noise);
+            double minIntensity = 0;
+
+            OnModel_Sin_Fz3(n1, n2, n3, n12, n23, noise, minIntensity);
             Close();
         }
 

@@ -27,7 +27,8 @@ namespace rab1.Forms
     {
         public delegate void VisualRegImageDelegate(int k);
         public static VisualRegImageDelegate VisualRegImage = null;    // Визуализация одного кадра от 0 до 11 из main
-
+        public static VisualRegImageDelegate VisualRegImageAsRaw = null;
+        
        // public event ModelSinG_kr OnModelSin;
        // public event ModelSinG_Picture OnModelSin1;
        // public event ModelSinG_kr OnModelSin8;
@@ -123,6 +124,8 @@ namespace rab1.Forms
             noise       = Convert.ToDouble(textBox11.Text);
             N_sdv      = Convert.ToInt32(textBox17.Text);   // Число сдвигов
 
+            double minIntensity = Convert.ToInt32(textBoxMinIntensity.Text);
+
             if (N_sdv > 8) MessageBox.Show("Число сдвигов больше 8", "Message", MessageBoxButtons.OK);
 
             
@@ -141,8 +144,8 @@ namespace rab1.Forms
             //OnModelSin1(fzrad, N_sdv, N_urovn, gamma, N_pol, kr, Nx, Ny, noise, null);
             for (int i = 0; i < N_sdv; i++)
                {
-                  Form1.zArrayDescriptor[Form1.regComplex * 4 + i] = Model_Sinus.Sinus1(fzrad[i], N_urovn, N_pol, gamma, kr, Nx, Ny, noise, null);
-                  VisualRegImage(Form1.regComplex * 4 + i);
+                  Form1.zArrayDescriptor[Form1.regComplex * 4 + i] = Model_Sinus.Sinus1(fzrad[i], N_urovn, N_pol, gamma, kr, Nx, Ny, noise, minIntensity, null);
+                  VisualRegImageAsRaw(Form1.regComplex * 4 + i);
                }
             Close();
           
@@ -190,6 +193,8 @@ namespace rab1.Forms
             noise = Convert.ToDouble(textBox11.Text);
             N_sdv = Convert.ToInt32(textBox17.Text);     // Число сдвигов
 
+            double minIntensity = 0;
+
             if (N_sdv > 8) MessageBox.Show("Число сдвигов больше 8", "Message", MessageBoxButtons.OK);
           
 
@@ -211,7 +216,7 @@ namespace rab1.Forms
             //OnModelSin1(fzrad, N_sdv, N_urovn, gamma, N_pol, kr, Nx, Ny, noise, interpolatedClin);
             for (int i = 0; i < N_sdv; i++)
             {     
-               Form1.zArrayDescriptor[Form1.regComplex * 4 + i] = Model_Sinus.Sinus1(fzrad[i], N_urovn, N_pol, gamma, kr, Nx, Ny, noise, interpolatedClin);
+               Form1.zArrayDescriptor[Form1.regComplex * 4 + i] = Model_Sinus.Sinus1(fzrad[i], N_urovn, N_pol, gamma, kr, Nx, Ny, noise, minIntensity, interpolatedClin);
                VisualRegImage(Form1.regComplex * 4 + i);
             }
             Close();

@@ -89,7 +89,32 @@ namespace rab1.Forms
             }
         }
 
+        public static void Vizual_PictureAsRaw(ZArrayDescriptor zArrayDescriptor, PictureBox pictureBox)
+        {
+            int width = zArrayDescriptor.width;
+            int height = zArrayDescriptor.height;
 
+            if (width == 0 || height == 0) { MessageBox.Show("Vizual_Picture: width == 0 || height == 0"); return; }
+
+            Bitmap bmp2 = new Bitmap(width, height);
+            BitmapData data2 = ImageProcessor.getBitmapData(bmp2);
+                       
+            for (int j = 0; j < width; j++)
+            {
+                for (int i = 0; i < height; i++)
+                {
+                    int c;
+                    
+                    c = Convert.ToInt32(zArrayDescriptor.array[j, i]);
+                                        
+                    Color c1 = Color.FromArgb(c, c, c);
+                    ImageProcessor.setPixel(data2, j, i, c1);
+                }
+            }
+
+            pictureBox.Image = bmp2;
+            bmp2.UnlockBits(data2);
+        }
 
         // Рисование прямоугольника на форме  pictureBox01
 

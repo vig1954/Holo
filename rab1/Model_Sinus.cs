@@ -80,7 +80,19 @@ namespace rab1.Forms
         /// <param name="Ny"></param>           размер по Y
         /// <param name="noise"></param>        шум в долях амплитуды (0,1)*a
         /// <returns></returns>
-        public static ZArrayDescriptor Sinus1(double fz, double a, double n_polos, double gamma, int kr, int Nx, int Ny, double noise, double[] clinArray = null)
+        public static ZArrayDescriptor Sinus1
+        (
+            double fz,
+            double a,
+            double n_polos,
+            double gamma,
+            int kr,
+            int Nx,
+            int Ny,
+            double noise,
+            double minIntensity,
+            double[] clinArray = null
+        )
         {
             int kr1 = kr + 1;
 
@@ -97,11 +109,13 @@ namespace rab1.Forms
 
             // a = (a - min) * 2.0 * Math.PI / (max - min);   -pi +pi
 
+            double a1 = a - minIntensity; 
+            
             double[] sn = new double[NX];
 
             for (int i = 0; i < NX; i += kr1)
             {
-                double v = a * (Math.Sin(2.0 * Math.PI * i / n_polos - fz) + 1.0) / 2.0;          // синусоида от 0 до 1
+                double v = minIntensity + a1 * (Math.Sin(2.0 * Math.PI * i / n_polos - fz) + 1.0) / 2.0;          // синусоида от 0 до 1
                 sn[i] = CorrectBr.CorrectValueByClin(v, clinArray);   
             }
           

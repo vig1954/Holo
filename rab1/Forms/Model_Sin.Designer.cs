@@ -65,6 +65,8 @@
             this.ModelSinByClinButton = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button100 = new System.Windows.Forms.Button();
+            this.textBoxMinIntensity = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
@@ -234,7 +236,7 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(317, 305);
+            this.button7.Location = new System.Drawing.Point(319, 363);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(167, 23);
             this.button7.TabIndex = 23;
@@ -245,7 +247,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(281, 247);
+            this.label7.Location = new System.Drawing.Point(307, 280);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(119, 13);
             this.label7.TabIndex = 24;
@@ -253,7 +255,7 @@
             // 
             // textBox11
             // 
-            this.textBox11.Location = new System.Drawing.Point(439, 244);
+            this.textBox11.Location = new System.Drawing.Point(439, 277);
             this.textBox11.Name = "textBox11";
             this.textBox11.Size = new System.Drawing.Size(46, 20);
             this.textBox11.TabIndex = 25;
@@ -356,7 +358,7 @@
             // 
             // loadClinButton
             // 
-            this.loadClinButton.Location = new System.Drawing.Point(317, 356);
+            this.loadClinButton.Location = new System.Drawing.Point(319, 410);
             this.loadClinButton.Name = "loadClinButton";
             this.loadClinButton.Size = new System.Drawing.Size(168, 23);
             this.loadClinButton.TabIndex = 37;
@@ -374,33 +376,50 @@
             this.ModelSinByClinButton.UseVisualStyleBackColor = true;
             this.ModelSinByClinButton.Click += new System.EventHandler(this.ModelSinByClinButton_Click);
             // 
-            // button100
+            // button2
             // 
-            this.button100.Location = new System.Drawing.Point(336, 41);
-            this.button100.Name = "button3";
-            this.button100.Size = new System.Drawing.Size(64, 23);
-            this.button100.TabIndex = 39;
-            this.button100.Text = "Сдвиги";
-            this.button100.Click += new System.EventHandler(this.button100_Click);
-
-            //button2
-
             this.button2.Location = new System.Drawing.Point(12, 204);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(248, 56);
             this.button2.TabIndex = 39;
-            this.button2.Text = "Синусоиды с 256 фазовыми сдвигами\r\n (размер периода  в точках)\r\nЧмсло повторений " + "в \"Разрядить нулями\"";
-
+            this.button2.Text = "Синусоиды с 256 фазовыми сдвигами\r\n (размер периода  в точках)\r\nЧмсло повторений " +
+    "в \"Разрядить нулями\"";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button100
+            // 
+            this.button100.Location = new System.Drawing.Point(336, 41);
+            this.button100.Name = "button100";
+            this.button100.Size = new System.Drawing.Size(64, 23);
+            this.button100.TabIndex = 39;
+            this.button100.Text = "Сдвиги";
+            this.button100.Click += new System.EventHandler(this.button100_Click);
+            // 
+            // textBoxMinIntensity
+            // 
+            this.textBoxMinIntensity.Location = new System.Drawing.Point(439, 239);
+            this.textBoxMinIntensity.Name = "textBoxMinIntensity";
+            this.textBoxMinIntensity.Size = new System.Drawing.Size(46, 20);
+            this.textBoxMinIntensity.TabIndex = 40;
+            this.textBoxMinIntensity.Text = "0";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(316, 242);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(110, 13);
+            this.label10.TabIndex = 41;
+            this.label10.Text = "Мин. интенсивность";
             // 
             // Model_Sin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-                       
             this.ClientSize = new System.Drawing.Size(497, 537);
-
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.textBoxMinIntensity);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.ModelSinByClinButton);
             this.Controls.Add(this.loadClinButton);
@@ -488,5 +507,7 @@
         private System.Windows.Forms.Button ModelSinByClinButton;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button100;
+        private System.Windows.Forms.TextBox textBoxMinIntensity;
+        private System.Windows.Forms.Label label10;
     }
 }

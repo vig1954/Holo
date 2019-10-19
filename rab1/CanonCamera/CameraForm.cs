@@ -952,10 +952,11 @@ namespace rab1
             double maxIntensity = 255;
             double gamma = 1;
             double noise = 0;
+            double minIntensity = 0;
 
             int kr = 0;
 
-            ZArrayDescriptor resArray = Model_Sinus.Sinus1(phaseShift, maxIntensity, pointsPerStripCount, gamma, kr, width, height, noise);
+            ZArrayDescriptor resArray = Model_Sinus.Sinus1(phaseShift, maxIntensity, pointsPerStripCount, gamma, kr, width, height, noise, minIntensity);
 
             resImage = CreateImageFromArrayDescriptor(resArray);
 
