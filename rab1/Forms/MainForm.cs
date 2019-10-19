@@ -84,6 +84,8 @@ namespace rab1
             Model_Sin.VisualRegImage     = this.Vizual_regImage;
 
             FrenelForm.Complex_pictureBox = this.Complex_pictureBox;
+            FrenelForm.VisualRegImage     = this.Vizual_regImage; 
+
             ADD_Math.ComplexPictureImage  = this.Complex_pictureBox;
 
             CorrectBr.TakePhoto12        = this.FastTakePhoto;

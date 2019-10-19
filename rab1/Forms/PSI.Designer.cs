@@ -57,6 +57,7 @@
             this.button12 = new System.Windows.Forms.Button();
             this.button13 = new System.Windows.Forms.Button();
             this.button14 = new System.Windows.Forms.Button();
+            this.button15 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -248,9 +249,9 @@
             // 
             this.button8.Location = new System.Drawing.Point(439, 164);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(224, 43);
+            this.button8.Size = new System.Drawing.Size(224, 61);
             this.button8.TabIndex = 32;
-            this.button8.Text = "cos(1-2+fi) => i (0 - до числа фазовых сдвигов)";
+            this.button8.Text = "cos([0]-[1]+fi) =>[ i] \r\n(i от 0 - до числа фазовых сдвигов)\r\nзатем PSI ";
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
@@ -314,11 +315,22 @@
             this.button14.UseVisualStyleBackColor = true;
             this.button14.Click += new System.EventHandler(this.button14_Click);
             // 
+            // button15
+            // 
+            this.button15.Location = new System.Drawing.Point(24, 502);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(639, 23);
+            this.button15.TabIndex = 39;
+            this.button15.Text = "PSI  [0] до нагрузки [1] после (одна строка с фазовым сдвигом) фазы в [3] ";
+            this.button15.UseVisualStyleBackColor = true;
+            this.button15.Click += new System.EventHandler(this.button15_Click);
+            // 
             // PSI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(687, 496);
+            this.ClientSize = new System.Drawing.Size(687, 528);
+            this.Controls.Add(this.button15);
             this.Controls.Add(this.button13);
             this.Controls.Add(this.button14);
             this.Controls.Add(this.button12);
@@ -386,5 +398,6 @@
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.Button button13;
         private System.Windows.Forms.Button button14;
+        private System.Windows.Forms.Button button15;
     }
 }

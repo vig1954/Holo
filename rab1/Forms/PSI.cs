@@ -299,6 +299,7 @@ namespace rab1.Forms
             textBox9.Text = Convert.ToString(6 * n);
             textBox10.Text = Convert.ToString(7 * n);
         }
+        //------------------------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// cos от разности фаз + фазовый сдвиг => 0,1,2,3,4 .....
         /// </summary>
@@ -349,7 +350,166 @@ namespace rab1.Forms
               VisualRegImage(k);
             }
         }
+        //---------------------------------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// PSI 256 или более сдвигов по строке
+        /// zArrayDescriptor[0] до нагрузки => zArrayDescriptor[3]
+        /// zArrayDescriptor[1] после       => zArrayDescriptor[3]
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// 
 
-      
+        public static double[] Razn_faz(double[] res1, double[] res2, int nx, int ny)  // Разность двух фаз
+        {
+
+            int n_sdv = 4;
+            double[]  fzrad = new double[n_sdv];                                     
+            double[,] rezz  = new double[nx, n_sdv];
+            double[]  faza  = new double[nx];
+
+            for (int i = 0; i < n_sdv; i++) fzrad[i] = Math.PI * Math.PI * 90*i / 180.0;
+
+            for (int k = 0; k < n_sdv; k++)
+            {
+                for (int i = 0; i < nx; i++)
+                    for (int j = 0; j < ny; j++)
+                    {
+                        rezz[i, k] = Math.Cos(res1[i] - res2[i] + fzrad[k]);
+                    }
+            }
+            // MessageBox.Show("PSI 256 ");
+
+            // psi
+
+            double[] i_sdv = new double[n_sdv];
+            double[] k_sin = new double[n_sdv];
+            double[] k_cos = new double[n_sdv];
+
+
+            for (int i = 0; i < n_sdv; i++) { k_sin[i] = Math.Sin(fzrad[i]); k_cos[i] = Math.Cos(fzrad[i]); }
+            k_sin = ATAN_PSI.Vector_orto(k_sin); k_cos = ATAN_PSI.Vector_orto(k_cos);
+
+            for (int i = 0; i < nx; i++)
+            {
+                i_sdv[0] = rezz[i, 0];
+                i_sdv[1] = rezz[i, 1];
+                i_sdv[2] = rezz[i, 2];
+                i_sdv[3] = rezz[i, 3];
+                //double[] v_sdv = ATAN_PSI.Vector_orto(i_sdv);                // ------  Формула расшифровки фазы
+                double fz1 = ATAN_PSI.Vector_Mul(i_sdv, k_sin);
+                double fz2 = ATAN_PSI.Vector_Mul(i_sdv, k_cos);
+
+                faza[i] = Math.Atan2(fz1, fz2);
+            }
+
+            return faza;
+        }
+
+
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            if (Form1.zArrayDescriptor[0] == null) { MessageBox.Show("PSI 256 zArrayDescriptor[" + 0 + "] == NULL"); return; }
+            if (Form1.zArrayDescriptor[1] == null) { MessageBox.Show("PSI 256 zArrayDescriptor[" + 1 + "] == NULL"); return; }
+
+            int nx = Form1.zArrayDescriptor[0].width;
+            //int ny = Form1.zArrayDescriptor[0].height;
+            int ny = 256;
+
+
+            //ZArrayDescriptor fz2 = new ZArrayDescriptor(nx, ny);
+
+            ZArrayDescriptor rez = new ZArrayDescriptor(nx, 400);
+            double[] summ_sin = new double[nx];
+            double[] summ_cos = new double[nx];
+            double[] fzr = new double[ny];
+          
+           
+            double[] res1 = new double[nx];
+            double[] res2 = new double[nx];
+            double[] faza = new double[nx];
+
+
+            for (int j = 0; j < ny; j++) { int i = j; if (i >= 256) { i = i - 256; }  fzr[j] = 2*Math.PI * i / 256;  }
+
+
+            for (int i = 0; i < nx; i++)                                                           // До нагрузки
+            {
+                for (int j = 0; j < ny; j++)
+                {
+                    summ_sin[i] += Form1.zArrayDescriptor[0].array[i, j] * Math.Sin(fzr[j]);
+                    summ_cos[i] += Form1.zArrayDescriptor[0].array[i, j] * Math.Cos(fzr[j]);
+                 
+                }
+                res1[i]= Math.Atan2(summ_sin[i], summ_cos[i]);
+            }
+            for (int i = 0; i < nx; i++) for (int j = 0; j < 100; j++) {  rez.array[i, j] = res1[i];  } // -----------
+
+
+            for (int i = 0; i < nx; i++)                                                           // После нагрузки
+            {
+                for (int j = 0; j < ny; j++)
+                {
+                    summ_sin[i] += Form1.zArrayDescriptor[1].array[i, j] * Math.Sin(fzr[j]);
+                    summ_cos[i] += Form1.zArrayDescriptor[1].array[i, j] * Math.Cos(fzr[j]);
+                }
+                res2[i] = Math.Atan2(summ_sin[i], summ_cos[i]);
+            }
+            for (int i = 0; i < nx; i++) for (int j = 100; j < 200; j++) { rez.array[i, j] = res2[i]; } // --------------
+
+            //MessageBox.Show("SUB 256 ");
+
+            faza = Razn_faz(res1, res2, nx, ny);
+            for (int i = 0; i < nx; i++)  for (int j = 220; j < 300; j++) { rez.array[i, j] = faza[i];  }  //---------------
+
+            double fi;
+            for (int i = 0; i < nx; i++)                                       // 6- точечный алгоритм
+            {
+                
+                    double i1 = Form1.zArrayDescriptor[0].array[i, 0];
+                    double i2 = Form1.zArrayDescriptor[0].array[i, 63];
+                    double i3 = Form1.zArrayDescriptor[0].array[i, 64 * 2-1];
+                    double i4 = Form1.zArrayDescriptor[0].array[i, 64 * 3-1];
+                    double i5 = Form1.zArrayDescriptor[0].array[i, 64 * 4-1];
+                    double i6 = Form1.zArrayDescriptor[0].array[i, 64 * 5-1];
+
+                    double fz1 = 3 * i2 - 4 * i4 + i6;
+                    double fz2 = i1 - 4 * i3 + 3 * i5;
+                    //double fi = Math.Atan2(fz1, fz2);
+                    fi = Math.Atan2(fz1, fz2) + Math.PI / 2;
+                    if (fi > Math.PI) fi = fi - 2 * Math.PI;
+                   
+                    res1[i] = fi;
+            }
+
+            for (int i = 0; i < nx; i++)                                       // 6- точечный алгоритм
+            {
+
+                double i1 = Form1.zArrayDescriptor[1].array[i, 0];
+                double i2 = Form1.zArrayDescriptor[1].array[i, 63];
+                double i3 = Form1.zArrayDescriptor[1].array[i, 64 * 2-1];
+                double i4 = Form1.zArrayDescriptor[1].array[i, 64 * 3-1];
+                double i5 = Form1.zArrayDescriptor[1].array[i, 64 * 4-1];
+                double i6 = Form1.zArrayDescriptor[1].array[i, 64 * 5-1];
+
+                double fz1 = 3 * i2 - 4 * i4 + i6;
+                double fz2 = i1 - 4 * i3 + 3 * i5;
+                //double fi = Math.Atan2(fz1, fz2);
+                fi = Math.Atan2(fz1, fz2) + Math.PI / 2;
+                if (fi > Math.PI) fi = fi - 2 * Math.PI;
+
+                res2[i] = fi;
+            }
+            faza = Razn_faz(res1, res2, nx, ny);
+            for (int i = 0; i < nx; i++) for (int j = 320; j < 400; j++) { rez.array[i, j] = faza[i]; }
+
+
+
+            Form1.zArrayDescriptor[2] = rez;
+            VisualRegImage(2);
+            Close();
+        }
     }
 }

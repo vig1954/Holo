@@ -79,6 +79,7 @@
             this.textBox12 = new System.Windows.Forms.TextBox();
             this.button17 = new System.Windows.Forms.Button();
             this.button16 = new System.Windows.Forms.Button();
+            this.button18 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -529,11 +530,24 @@
             this.button16.UseVisualStyleBackColor = true;
             this.button16.Click += new System.EventHandler(this.button16_Click);
             // 
+            // button18
+            // 
+            this.button18.Location = new System.Drawing.Point(40, 773);
+            this.button18.Name = "button18";
+            this.button18.Size = new System.Drawing.Size(331, 59);
+            this.button18.TabIndex = 58;
+            this.button18.Text = "1) Прямое БПФ  по столбцам 2**М = 256 из k1 => k2\r\n2) Выделение 1 гармоники\r\n3) О" +
+    "братное преобразование";
+            this.button18.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button18.UseVisualStyleBackColor = true;
+            this.button18.Click += new System.EventHandler(this.button18_Click);
+            // 
             // FrenelForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(903, 806);
+            this.ClientSize = new System.Drawing.Size(903, 844);
+            this.Controls.Add(this.button18);
             this.Controls.Add(this.button16);
             this.Controls.Add(this.button17);
             this.Controls.Add(this.label16);
@@ -644,5 +658,6 @@
         private System.Windows.Forms.TextBox textBox12;
         private System.Windows.Forms.Button button17;
         private System.Windows.Forms.Button button16;
+        private System.Windows.Forms.Button button18;
     }
 }

@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Numerics;
 using System.Windows.Forms;
 
 public delegate void FrenelF(double xmax, double lambda, double d, int k1, int k2);
@@ -23,8 +24,11 @@ namespace rab1.Forms
 
     public partial class FrenelForm : Form
     {
+        public delegate void VisualRegComplexDelegate(int k);
+        public static VisualRegComplexDelegate Complex_pictureBox = null;      // Визуализация одного комплексного кадра от 0 до 3
+
         public delegate void VisualRegImageDelegate(int k);
-        public static VisualRegImageDelegate Complex_pictureBox = null;      // Визуализация одного кадра от 0 до 11
+        public static VisualRegImageDelegate VisualRegImage = null;         // Визуализация одного кадра от 0 до 11
 
         public event FrenelF  OnFrenel;
         public event FrenelF OnFrenelN;            // Френель с четным количеством точек
@@ -325,7 +329,42 @@ namespace rab1.Forms
             OnInterf_XY(fzrad, xm * 1000, lm, dm * 1000, X, Y, X1, Y1, N);
             Close();
         }
+        /// <summary>
+        /// Выделение первой гармоники по столбцам
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button18_Click(object sender, EventArgs e)
+        {
+            k1 = Convert.ToInt32(textBox4.Text);
+            k2 = Convert.ToInt32(textBox5.Text);
 
+            if (Form1.zArrayDescriptor[k1] == null) { MessageBox.Show("Furie 256 zArrayDescriptor[" + k1 + "] == NULL"); return; }
+          
+            int nx = Form1.zArrayDescriptor[k1].width;
+            //int ny = Form1.zArrayDescriptor[0].height;
+            int m = 8;
+            int ny = 256;
+            ZArrayDescriptor rez = new ZArrayDescriptor(nx, ny);  // Рабочий массив
+
+            Complex[] resultArray1 = new Complex[ny];
+            Complex[] resultArray2 = new Complex[ny]; for (int j = 0; j < ny; j++) { resultArray2[j] = new Complex(0.0, 0.0); }
+
+
+            for (int i = 0; i < nx; i++)    // Фаза == 0
+            {
+                for (int j = 0; j < ny; j++) { resultArray1[j] = new Complex(Form1.zArrayDescriptor[k1].array[i, j], 0.0); }
+                resultArray1 = Furie.GetFourierTransform(resultArray1, m);
+                resultArray2[1] = resultArray1[1];
+                resultArray2[ny-1] = resultArray1[ny - 1];
+                resultArray1 = Furie.GetInverseFourierTransform(resultArray2, m);
+                for (int j = 0; j < ny; j++) { rez.array[i,j] = resultArray1[j].Real; }  //resultArray1[j].Magnitude; 
+            }
+
+            Form1.zArrayDescriptor[k2] = rez;
+            VisualRegImage(k2);
+            Close();
         
+        }
     }
 }
