@@ -18,6 +18,12 @@ namespace rab1
 {
     public partial class CameraForm : Form
     {
+        #region Constants
+
+        private const int FRAMES_256_MIN_INTENSITY = 70;
+
+        #endregion
+
         #region Variables
 
         TakePhotoSeriesTypeEnum seriesType = TakePhotoSeriesTypeEnum.Uknown;
@@ -62,7 +68,7 @@ namespace rab1
 
         bool is256Frames = false;
         string frames256Directory = null;
-        int count256Frames = 256 + 128; //384
+        int count256Frames = 256 + 256; //512
 
         #endregion
 
@@ -952,7 +958,7 @@ namespace rab1
             double maxIntensity = 255;
             double gamma = 1;
             double noise = 0;
-            double minIntensity = 0;
+            double minIntensity = FRAMES_256_MIN_INTENSITY;
 
             int kr = 0;
 
