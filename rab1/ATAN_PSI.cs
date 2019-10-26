@@ -144,7 +144,7 @@ namespace rab1.Forms
             {
                 for (int j = 0; j < h1; j++)
                 {
-                    for (int ii = 0; ii < n_sdv; ii++) { i_sdv[ii] = zArrayPicture[regComplex * 4+ii].array[i, j]; }
+                    for (int ii = 0; ii < n_sdv; ii++) { i_sdv[ii] = zArrayPicture[regComplex * 4 + ii].array[i, j]; }
 
                     //double[] v_sdv = Vector_orto(i_sdv);                // ------  Формула расшифровки фазы
                     //double fz1 = Vector_Mul(v_sdv, k_sin);              // +3 * Math.PI / 2;
@@ -152,7 +152,7 @@ namespace rab1.Forms
                     //faza.array[i, j] = 2 * Math.PI - (Math.Atan2(fz1, fz2) + Math.PI);
                     double fz1 = Vector_Mul(i_sdv, k_sin);              // +3 * Math.PI / 2;
                     double fz2 = Vector_Mul(i_sdv, k_cos);
-                    faza.array[i, j] = Math.Atan2(fz2, fz1);
+                    //faza.array[i, j] = Math.Atan2(fz2, fz1);
                     //faza.array[i, j] = 2 * Math.PI - (Math.Atan2(fz1, fz2) + Math.PI);
                     faza.array[i, j] = Math.Atan2(fz1, fz2);
                 }

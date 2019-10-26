@@ -50,6 +50,7 @@
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pc1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -212,16 +213,16 @@
             // 
             this.button3.Location = new System.Drawing.Point(18, 12);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(239, 23);
+            this.button3.Size = new System.Drawing.Size(445, 23);
             this.button3.TabIndex = 36;
-            this.button3.Text = "Построить график";
+            this.button3.Text = "Построить график из файлов 0,1,2,3 X1 - координаты строки";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // checkBox4
             // 
             this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(409, 18);
+            this.checkBox4.Location = new System.Drawing.Point(646, 16);
             this.checkBox4.Name = "checkBox4";
             this.checkBox4.Size = new System.Drawing.Size(32, 17);
             this.checkBox4.TabIndex = 40;
@@ -232,7 +233,7 @@
             // checkBox3
             // 
             this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(371, 18);
+            this.checkBox3.Location = new System.Drawing.Point(608, 16);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(32, 17);
             this.checkBox3.TabIndex = 39;
@@ -243,7 +244,7 @@
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(333, 18);
+            this.checkBox2.Location = new System.Drawing.Point(570, 16);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(32, 17);
             this.checkBox2.TabIndex = 38;
@@ -256,7 +257,7 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Checked = true;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(295, 18);
+            this.checkBox1.Location = new System.Drawing.Point(532, 16);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(32, 17);
             this.checkBox1.TabIndex = 37;
@@ -265,11 +266,22 @@
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(18, 41);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(445, 23);
+            this.button4.TabIndex = 41;
+            this.button4.Text = "Построить график из центрального окна X1 X2 X3 X4 - координаты по строкам";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Graphic2D
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1130, 543);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.checkBox4);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.checkBox2);
@@ -324,5 +336,6 @@
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Button button4;
     }
 }

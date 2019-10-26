@@ -34,8 +34,8 @@ namespace rab1.Forms
         //private double[] buf_gl;           // Масштабированные значений (меняются от значения step)
         //private double[] buf1_gl;          // Истинные значения (меняются от значения step)
 
-         private int w;                     // Размер массива (меняются от значения step)
-         private int ww;                    // Размер массива (не меняются)
+         private static int w;                     // Размер массива (меняются от значения step)
+         private static int ww;                    // Размер массива (не меняются)
        
         int ixx = 0;                      //  Начальное значение (меняется ScrollBar)
         int step = 1;                     //  Шаг для уменьшения или увеличения графика
@@ -96,14 +96,15 @@ namespace rab1.Forms
            { CheckBox checkBox = (CheckBox)sender; if (checkBox.Checked == true) { k[2] = 1; } else { k[2] = 0; } }
         private void checkBox4_CheckedChanged(object sender, EventArgs e)
            { CheckBox checkBox = (CheckBox)sender; if (checkBox.Checked == true) { k[3] = 1; } else { k[3] = 0; } }
-        
+
         /// <summary>
-        /// Обработка кнопки "Построить график"
+        /// Обработка кнопки "Построить график из файлов расположенных в zArrayDescriptor[0], [1], [2], [3]"
         /// </summary>
         /// В Form1 должна быть установлена X1 - координаты графиков
         /// <param name="sender"></param>
         /// <param name="e"></param>       
-        private void button3_Click(object sender, EventArgs e)   
+
+        private void button3_Click(object sender, EventArgs e)                      // из файлов
             {
             if (checkBox1.Checked == true) { k[0] = 1; } else { k[0] = 0; }
             if (checkBox2.Checked == true) { k[1] = 1; } else { k[1] = 0; }
@@ -174,9 +175,69 @@ namespace rab1.Forms
 
                 Gr(ixx);
             }
+        /// <summary>
+        /// Обработка кнопки "Построить график из одного файла"
+        /// </summary>
+        /// В Form1 должна быть установлена X1, X2, X3, X4 - координаты графиков
+        /// <param name="sender"></param>
+        /// <param name="e"></param>       
+        private void button4_Click(object sender, EventArgs e)      // из центрального окна --------------------------
+        {
+            if (checkBox1.Checked == true) { k[0] = 1; } else { k[0] = 0; }
+            if (checkBox2.Checked == true) { k[1] = 1; } else { k[1] = 0; }
+            if (checkBox3.Checked == true) { k[2] = 1; } else { k[2] = 0; }
+            if (checkBox4.Checked == true) { k[3] = 1; } else { k[3] = 0; }
+
+            if (Form1.zArrayPicture == null) { MessageBox.Show("Graphic2D zArrayPicture == NULL"); return; }
+            int nx = Form1.zArrayPicture.width;
+            int ny = Form1.zArrayPicture.height;
+            ww = w = nx;                                                        // Глобальные размеры
+
+            // Глобальный размер
+
+            int N_line = 0;
+            Form1.Coords[] X = MainForm.GetCoordinates();
+
+            for (int i = 0; i < 4; i++)                                                           // 4 массива для графиков
+            {
+                if (k[i] != 1) continue;
+                N_line = (int)X[i].y; if (N_line < 0) N_line = 0; if (N_line > nx) N_line = ny;
+                buf[i] = new double[nx];
+                buf_gl[i] = new double[nx]; 
+                for (int j = 0; j < nx; j++) {  buf[i][j] = Form1.zArrayPicture.array[j, N_line];  }
+            }
+
+            for (int i = 0; i < 4; i++)                                                           // Определение максимума и минимума
+            {
+                if (k[i] != 1) continue;
+                for (int j = 0; j < nx; j++) { if (buf[i][j] > maxx) maxx = buf[i][j]; if (buf[i][j] < minx) minx = buf[i][j]; }
+            }
+
+            if (maxx == minx) { MessageBox.Show("max == min = " + Convert.ToString(maxx)); return; }
+            label3.Text = minx.ToString(); label9.Text = maxx.ToString();
+
+            for (int i = 0; i < 4; i++)                                                           // Переопределение массивов
+            {
+                if (k[i] != 1) continue;
+                for (int j = 0; j < nx; j++)
+                    {
+                        buf[i][j] = (buf[i][j] - minx) * 255 / (maxx - minx);
+                        buf_gl[i][j] = buf[i][j];
+                    }
+            }
 
 
-            private void Gr(int x)
+            //MessageBox.Show("n - "+ buf1.Length);
+            hScrollBar2.Minimum = 0;
+            hScrollBar2.Maximum = nx;
+            label6.Text = hScrollBar2.Minimum.ToString(); ;
+            label7.Text = hScrollBar2.Maximum.ToString(); ;
+            label8.Text = hScrollBar2.Value.ToString();
+            label13.Text = N_line.ToString();
+
+            Gr(ixx);
+        }
+        private void Gr(int x)
            {
             int x0 = 70;
             int hh = 256;                     //  Размер по оси Y
@@ -272,6 +333,8 @@ namespace rab1.Forms
             }
             ixx = 0;      Gr(ixx);
         }
+
+       
 
         private void button2_Click(object sender, EventArgs e) // >> Увеличение
         {

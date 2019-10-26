@@ -421,7 +421,7 @@ namespace rab1.Forms
 
             //ZArrayDescriptor fz2 = new ZArrayDescriptor(nx, ny);
 
-            ZArrayDescriptor rez = new ZArrayDescriptor(nx, 400);
+            ZArrayDescriptor rez = new ZArrayDescriptor(nx, 500);
             double[] summ_sin = new double[nx];
             double[] summ_cos = new double[nx];
             double[] fzr = new double[ny];
@@ -505,7 +505,26 @@ namespace rab1.Forms
             faza = Razn_faz(res1, res2, nx, ny);
             for (int i = 0; i < nx; i++) for (int j = 320; j < 400; j++) { rez.array[i, j] = faza[i]; }
 
+            for (int i = 0; i < nx; i++)                                       // 7- точечный алгоритм
+            {
 
+                double i1 = Form1.zArrayDescriptor[1].array[i, 0];
+                double i2 = Form1.zArrayDescriptor[1].array[i, 63];
+                double i3 = Form1.zArrayDescriptor[1].array[i, 64 * 2 - 1];
+                double i4 = Form1.zArrayDescriptor[1].array[i, 64 * 3 - 1];
+                double i5 = Form1.zArrayDescriptor[1].array[i, 64 * 4 - 1];
+                double i6 = Form1.zArrayDescriptor[1].array[i, 64 * 5 - 1];
+                double i7 = Form1.zArrayDescriptor[1].array[i, 64 * 6 - 1];
+
+                double fz1 = 4 * i2 - 8 * i4 + 4 * i6;
+                double fz2 = i1 - 7 * i3 + 7 * i5 - i7;
+                fi = Math.Atan2(fz1, fz2) + Math.PI / 2;
+                if (fi > Math.PI) fi = fi - 2 * Math.PI; ;
+
+                res2[i] = fi;
+            }
+            faza = Razn_faz(res1, res2, nx, ny);
+            for (int i = 0; i < nx; i++) for (int j = 420; j < 500; j++) { rez.array[i, j] = faza[i]; }
 
             Form1.zArrayDescriptor[2] = rez;
             VisualRegImage(2);
