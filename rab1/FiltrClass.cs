@@ -326,20 +326,18 @@ namespace rab1
             for (int i = 0; i < w1; i++)    // По строкам
             {
                 for (int j = 0; j < h1; j++) { k_x[j] = amp.array[i,j]; }
+
                 k_cntr = 1;
-                for (int ik = k; ik > 0; ik /= 2)
+                for (int ik = k; ik > 0; ik /= 2)  // Шаг 5 2 1
                 {
                     if (k_cntr == 1) 
                        { for (int j = ik; j < h1 - ik; j++)   k_x1[j] = (k_x[j - ik] + k_x[j]*2 + k_x[j + ik])/ 4 ; k_cntr = 2; }
                     else 
                        { for (int j = ik; j < h1 - ik; j++)   k_x[j] = (k_x1[j - ik] + k_x1[j]*2 + k_x1[j + ik])/4; k_cntr = 1; }
                 }
-                for (int j = 0; j < h1; j++)
-                {
-                    if (k_cntr == 1) r1 = k_x[j]; else r1 = k_x1[j];
-                    res_array.array[i, j] = r1;
-                }
-               
+
+                for (int j = 0; j < h1; j++) { if (k_cntr == 1) res_array.array[i, j] = k_x[j]; else res_array.array[i, j] = k_x1[j]; }
+
             }
 
             for (int j = 0; j < h1; j++)   // По столбцам
@@ -353,17 +351,23 @@ namespace rab1
                     else
                          { for (int i = ik; i < w1 - ik; i++)   k_x[i]  = (k_x1[i - ik] + k_x1[i]*2 + k_x1[i + ik])/4;   k_cntr = 1; }
                 }
-                for (int i = 0; i < w1; i++)
-                {
-                    if (k_cntr == 1) r1 = k_x[i]; else r1 = k_x1[i];
-                    res_array.array[i, j] = r1; ;
-                }
-            }
-          //  for (int j = 0; j < h1; j++)
-          //      for (int i = 0; i < w1; i++)
-          //      { res_array.array[i, j] = amp.array[i, j] - res_array.array[i, j]; }
 
-               
+                for (int i = 0; i < w1; i++) { if (k_cntr == 1) res_array.array[i, j] = k_x[i]; else res_array.array[i, j] = k_x1[i]; }
+                           
+            }
+
+            int k1= k+k / 2;
+            for (int i = 0; i < w1; i++)                             // Рамка
+            {
+                for (int j = 0; j < k1; j++) { res_array.array[i, j] = res_array.array[i, k1]; }
+                for (int j = h1 - k1; j < h1; j++) { res_array.array[i, j] = res_array.array[i, h1 - k1-1]; }
+            }
+            for (int j = 0; j < h1; j++)
+            {
+                for (int i = 0; i < k1; i++)     { res_array.array[i, j] = res_array.array[k1, j]; }
+                for (int i = w1-k1; i < w1; i++) { res_array.array[i, j] = res_array.array[w1-k1-1, j]; }
+            }
+
             return res_array;
         }
        public static ZArrayDescriptor Filt_smothing(ZArrayDescriptor amp, int k_filt)  // Удаление низких частот
