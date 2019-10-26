@@ -176,6 +176,7 @@
     <Compile Include="PhaseShiftDeviceController.cs" />
     <Compile Include="PhaseShiftParameters.cs" />
     <Compile Include="Polynomial.cs" />
+    <Compile Include="RecodingHelper.cs" />
     <Compile Include="Rot.cs" />
     <Compile Include="Forms\UnrupForm1.cs">
       <SubType>Form</SubType>
