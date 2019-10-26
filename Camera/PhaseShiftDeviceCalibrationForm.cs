@@ -17,7 +17,7 @@ namespace Camera
         private const int _bufferCount = 30;
 
         private PlotDrawer _plotDrawer;
-        private PhaseShiftDeviceController _phaseShiftDeviceController;
+        private PhaseShiftDeviceView _phaseShiftDeviceController;
         private IFloatArrayDataProvider _dataProvider;
         private short _shiftParameterValue;
         private bool _captureSamples;
@@ -26,7 +26,7 @@ namespace Camera
         private SampleEvaluation _evaluationToPreview;
         private SampleEvaluation _zeroEvaluation;
 
-        public PhaseShiftDeviceCalibrationForm(PhaseShiftDeviceController phaseShiftDeviceController, IFloatArrayDataProvider dataProvider)
+        public PhaseShiftDeviceCalibrationForm(PhaseShiftDeviceView phaseShiftDeviceController, IFloatArrayDataProvider dataProvider)
         {
             InitializeComponent();
 

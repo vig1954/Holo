@@ -45,6 +45,15 @@
             this.label2 = new System.Windows.Forms.Label();
             this.PortDropdown = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.Byte1Text = new System.Windows.Forms.TextBox();
+            this.Byte2Text = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.WriteRawBytesButton = new System.Windows.Forms.Button();
+            this.PsdResponse = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -74,6 +83,15 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.label11);
+            this.splitContainer1.Panel2.Controls.Add(this.label10);
+            this.splitContainer1.Panel2.Controls.Add(this.PsdResponse);
+            this.splitContainer1.Panel2.Controls.Add(this.WriteRawBytesButton);
+            this.splitContainer1.Panel2.Controls.Add(this.label9);
+            this.splitContainer1.Panel2.Controls.Add(this.label8);
+            this.splitContainer1.Panel2.Controls.Add(this.Byte2Text);
+            this.splitContainer1.Panel2.Controls.Add(this.Byte1Text);
+            this.splitContainer1.Panel2.Controls.Add(this.label7);
             this.splitContainer1.Panel2.Controls.Add(this.ToggleAutoStepping);
             this.splitContainer1.Panel2.Controls.Add(this.label6);
             this.splitContainer1.Panel2.Controls.Add(this.label5);
@@ -291,6 +309,88 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Пьезокерамика";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(12, 85);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(121, 13);
+            this.label7.TabIndex = 13;
+            this.label7.Text = "Запись без обработки";
+            // 
+            // Byte1Text
+            // 
+            this.Byte1Text.Location = new System.Drawing.Point(172, 82);
+            this.Byte1Text.Name = "Byte1Text";
+            this.Byte1Text.Size = new System.Drawing.Size(67, 20);
+            this.Byte1Text.TabIndex = 14;
+            this.Byte1Text.Text = "20";
+            this.Byte1Text.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Byte1Text_KeyUp);
+            // 
+            // Byte2Text
+            // 
+            this.Byte2Text.Location = new System.Drawing.Point(269, 82);
+            this.Byte2Text.Name = "Byte2Text";
+            this.Byte2Text.Size = new System.Drawing.Size(67, 20);
+            this.Byte2Text.TabIndex = 15;
+            this.Byte2Text.Text = "00";
+            this.Byte2Text.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Byte2Text_KeyUp);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(169, 66);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(36, 13);
+            this.label8.TabIndex = 16;
+            this.label8.Text = "byte 1";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(266, 66);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(36, 13);
+            this.label9.TabIndex = 17;
+            this.label9.Text = "byte 2";
+            // 
+            // WriteRawBytesButton
+            // 
+            this.WriteRawBytesButton.Location = new System.Drawing.Point(342, 80);
+            this.WriteRawBytesButton.Name = "WriteRawBytesButton";
+            this.WriteRawBytesButton.Size = new System.Drawing.Size(75, 23);
+            this.WriteRawBytesButton.TabIndex = 18;
+            this.WriteRawBytesButton.Text = "->";
+            this.WriteRawBytesButton.UseVisualStyleBackColor = true;
+            this.WriteRawBytesButton.Click += new System.EventHandler(this.WriteRawBytesButton_Click);
+            // 
+            // PsdResponse
+            // 
+            this.PsdResponse.AutoSize = true;
+            this.PsdResponse.Location = new System.Drawing.Point(423, 85);
+            this.PsdResponse.Name = "PsdResponse";
+            this.PsdResponse.Size = new System.Drawing.Size(43, 13);
+            this.PsdResponse.TabIndex = 19;
+            this.PsdResponse.Text = "[Ответ]";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(151, 85);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(18, 13);
+            this.label10.TabIndex = 20;
+            this.label10.Text = "0x";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(248, 85);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(18, 13);
+            this.label11.TabIndex = 21;
+            this.label11.Text = "0x";
+            // 
             // CalibrationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -334,6 +434,15 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button ToggleAutoStepping;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox Byte2Text;
+        private System.Windows.Forms.TextBox Byte1Text;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button WriteRawBytesButton;
+        private System.Windows.Forms.Label PsdResponse;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
     }
 }
 

@@ -19,7 +19,7 @@ namespace SimpleApplication
 {
     public partial class PsdCalibrationForm : Form
     {
-        private readonly PhaseShiftDeviceController _phaseShiftDeviceController;
+        private readonly PhaseShiftDeviceView _phaseShiftDeviceController;
         private readonly SegmentSelectionTool _segmentSelectionTool = new SegmentSelectionTool();
         private readonly SegmentSelectionForm _segmentSelectionForm = new SegmentSelectionForm();
 
@@ -56,7 +56,7 @@ namespace SimpleApplication
         private SampleEvaluation _liveViewSampleEvaluation;
 
 
-        public PsdCalibrationForm(PhaseShiftDeviceController phaseShiftDeviceController)
+        public PsdCalibrationForm(PhaseShiftDeviceView phaseShiftDeviceController)
         {
             InitializeComponent();
 

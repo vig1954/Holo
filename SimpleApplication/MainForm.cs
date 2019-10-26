@@ -28,7 +28,7 @@ namespace SimpleApplication
 
         // private CameraInputView _cameraInputView; // todo: use series controller instead of this
         private SeriesController _seriesController;
-        private PhaseShiftDeviceController _phaseShiftDeviceController;
+        private PhaseShiftDeviceView _phaseShiftDeviceController;
         private PictureBoxController _pictureBoxController;
         private RectangleSelectionTool _rectangleSelectionTool;
         private DataEditorManager _dataEditorManager;
@@ -59,7 +59,9 @@ namespace SimpleApplication
         {
             _cameraImageProvider.CaptureFromLiveView = true;
 
-            _phaseShiftDeviceController = new PhaseShiftDeviceController();
+            _phaseShiftDeviceController = new PhaseShiftDeviceView();
+            _phaseShiftDeviceController.UseShiftValues = true;
+
             _seriesController = new SeriesController(this, _cameraImageProvider, _phaseShiftDeviceController);
 
             _cameraImageProvider.LiveViewImageUpdated += CameraImageProviderOnLiveViewImageUpdated;
@@ -359,9 +361,16 @@ namespace SimpleApplication
             psiValue4.Value = (decimal) s.Psi4;
 
             psdValue1.Value = s.Psd1;
+            _phaseShiftDeviceController.ShiftValue1 = s.Psd1;
+
             psdValue2.Value = s.Psd2;
+            _phaseShiftDeviceController.ShiftValue2 = s.Psd2;
+
             psdValue3.Value = s.Psd3;
+            _phaseShiftDeviceController.ShiftValue3 = s.Psd3;
+
             psdValue4.Value = s.Psd4;
+            _phaseShiftDeviceController.ShiftValue4 = s.Psd4;
 
             freshnelDistance.Value = (decimal) s.FreshnelDistance;
             FreshnelDistanceDecimals.Value = (decimal) s.FreshnelDistanceDecimals;
@@ -378,7 +387,16 @@ namespace SimpleApplication
             }
 
             if (!s.DateEditorManagerSettings.IsNullOrEmpty())
-                _dataEditorManager.ApplySettings(s.DateEditorManagerSettings);
+            {
+                try
+                {
+                    _dataEditorManager.ApplySettings(s.DateEditorManagerSettings);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Несмертельная ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
 
             _isLoading = false;
         }

@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO.Ports;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using Common;
-using rab1;
-using UserInterface.DataEditors.InterfaceBinding;
 using UserInterface.DataEditors.InterfaceBinding.Attributes;
-using UserInterface.DataEditors.InterfaceBinding.BindingEvents;
 
 namespace Camera
 {
@@ -19,7 +12,9 @@ namespace Camera
     {
         private const short ZeroPhaseShiftValue = 0x2000;
         private bool _phaseShiftDeviceConnected = false;
-        private rab1.PhaseShiftDeviceController _inner;
+        private PhaseShiftDeviceController _inner;
+
+        public event Action<string> PhaseShiftDeviceDataReceived;
 
         public string PortName { get; private set; }
 
@@ -32,12 +27,18 @@ namespace Camera
             if (!_phaseShiftDeviceConnected && !portName.IsNullOrEmpty())
             {
                 PortName = portName;
-                _inner = new rab1.PhaseShiftDeviceController(PortName);
+                _inner = new PhaseShiftDeviceController(PortName);
+                _inner.SerialPortDataRecieved += InnerOnSerialPortDataRecieved;
                 _inner.Initialize();
                 _phaseShiftDeviceConnected = true;
             }
         }
-        
+
+        private void InnerOnSerialPortDataRecieved(byte[] bytes, string s)
+        {
+            PhaseShiftDeviceDataReceived?.Invoke(s);
+        }
+
         public void SetShift(int shift)
         {
             if (shift < 0 || shift > short.MaxValue - ZeroPhaseShiftValue)
@@ -45,6 +46,11 @@ namespace Camera
 
             if (_phaseShiftDeviceConnected)
                 _inner.SetShift((short) ((short) shift + ZeroPhaseShiftValue));
+        }
+
+        public void WriteRawBytes(byte byte1, byte byte2)
+        {
+            _inner.WriteBytes(new[] {byte1, byte2});
         }
         
         public async Task SetShift(int shiftValue, float delay, bool compensateHysteresis = false)
@@ -63,9 +69,11 @@ namespace Camera
             await Task.Delay(TimeSpan.FromMilliseconds(delay));
         }
 
-        [BindToUI]
         public void Disconnect()
         {
+            if (_inner != null)
+                _inner.SerialPortDataRecieved -= InnerOnSerialPortDataRecieved;
+
             _inner?.Dispose();
             _inner = null;
             _phaseShiftDeviceConnected = false;

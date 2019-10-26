@@ -32,7 +32,7 @@ namespace Camera
         private RectangleSelectionTool _rectangleSelectionTool;
         private SegmentSelectionTool _segmentSelectionTool;
         private PictureBoxController _previewController;
-        private PhaseShiftDeviceController _phaseShiftDeviceController;
+        private PhaseShiftDeviceView _phaseShiftDeviceController;
 
         private int FixedSize = 512;
         private bool IsSelectionSizeLocked;
@@ -78,7 +78,7 @@ namespace Camera
             LoadSettings();
 
             _previewController = new PictureBoxController(Preview);
-            _phaseShiftDeviceController = new PhaseShiftDeviceController();
+            _phaseShiftDeviceController = new PhaseShiftDeviceView();
 
             _cameraInputView = new CameraInputView(_phaseShiftDeviceController);
             _cameraInputView.CaptureStarted += LockSelection;

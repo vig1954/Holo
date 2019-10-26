@@ -1,77 +1,158 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Infrastructure;
-using UserInterface.DataEditors.InterfaceBinding.Attributes;
 
 namespace Camera
 {
     public class PhaseShiftDeviceController
     {
-        private const int MaximumStepCount = 4;
+        public event Action<byte[], string> SerialPortDataRecieved;
 
-        private int[] _shiftValues;
-        private LowLevelPhaseShiftDeviceControllerAdapter LowLevelPhaseShiftController => Singleton.Get<LowLevelPhaseShiftDeviceControllerAdapter>();
-        
-        [BindToUI]
-        public int ShiftStep { get; set; } = 800;
-        
-        [BindToUI]
-        public bool UseShiftValues { get; set; }
-        
-        [BindToUI]
-        public int ShiftValue1 { get => _shiftValues[0]; set => _shiftValues[0] = value; }
-        
-        [BindToUI]
-        public int ShiftValue2 { get => _shiftValues[1]; set => _shiftValues[1] = value; }
-        
-        [BindToUI]
-        public int ShiftValue3 { get => _shiftValues[2]; set => _shiftValues[2] = value; }
-        
-        [BindToUI]
-        public int ShiftValue4 { get => _shiftValues[3]; set => _shiftValues[3] = value; }
+        private SerialPort serialPort;
 
-        [BindToUI("Время установления сдвига, мс")]
-        public int ShiftDelay { get; set; } = 1000;
-
-        public PhaseShiftDeviceController()
+        public PhaseShiftDeviceController(string portName)
         {
-            _shiftValues = new int[CameraInputView.SeriesLength];
-            // hack
-            _shiftValues = new int[] {200, 1000, 1800, 2600};
+            this.serialPort = new SerialPort(portName);
         }
 
-        public async void ExecuteStep(int stepNumber)
+        public void Initialize()
         {
-            if (!LowLevelPhaseShiftController.Connected)
-                return;
+            this.serialPort.BaudRate = 115200;
+            this.serialPort.DataReceived += new SerialDataReceivedEventHandler(this.SerialPort_DataReceived);
 
-            if (stepNumber >= MaximumStepCount)
-                throw new InvalidOperationException($"{nameof(stepNumber)} must be less than {nameof(MaximumStepCount)}");
+            this.serialPort.WriteTimeout = 500;
+            this.serialPort.Handshake = Handshake.None;
 
-            var shift = UseShiftValues ? _shiftValues[stepNumber] : stepNumber * ShiftStep;
-            
-            await LowLevelPhaseShiftController.SetShift(shift, ShiftDelay);
+            this.serialPort.RtsEnable = true;
+            this.serialPort.DtrEnable = true;
+
+
+            this.serialPort.Open();
+
         }
 
-        public Task ExecuteStepAsync(int stepNumber)
+        private void SetBuffersSizes()
         {
-            if (!LowLevelPhaseShiftController.Connected)
-                return Task.Delay(TimeSpan.FromMilliseconds(100));
-
-            if (stepNumber >= MaximumStepCount)
-                throw new InvalidOperationException($"{nameof(stepNumber)} must be less than {nameof(MaximumStepCount)}");
-
-            var shift = UseShiftValues ? _shiftValues[stepNumber] : stepNumber * ShiftStep;
-            
-            return LowLevelPhaseShiftController.SetShift(shift, ShiftDelay);
+            this.serialPort.WriteBufferSize = 2;
+            this.serialPort.ReadBufferSize = 2;
         }
 
-        public Task SetShiftAsync(short shiftParameterValue, int delayInMilliseconds = 500)
+        private void DiscardBuffers()
         {
-            return LowLevelPhaseShiftController.SetShift(shiftParameterValue, delayInMilliseconds);
+            this.serialPort.DiscardOutBuffer();
+            this.serialPort.DiscardInBuffer();
+        }
+
+        public short SetShift(byte[] bytesValues)
+        {
+            if (bytesValues.Length != 2)
+            {
+                throw new Exception("Phase shift must contain 2 bytes");
+            }
+
+            this.serialPort.Write(bytesValues, 0, bytesValues.Length);
+            //this.serialPort.Write( new byte[] { 1 }, 0, 1 );
+
+            return 0;
+        }
+
+        public void WriteByte(byte value)
+        {
+            this.serialPort.Write(new byte[] { value }, 0, 1);
+        }
+
+        public void WriteBytes(byte[] values)
+        {
+            this.serialPort.Write(values, 0, values.Length);
+        }
+
+        public byte ReadByte()
+        {
+            return (byte)this.serialPort.ReadByte();
+        }
+
+        public byte[] ReadBytes(int count)
+        {
+            byte[] buffer = new byte[count];
+            this.serialPort.Read(buffer, 0, count);
+            return buffer;
+        }
+
+        // 0x20, 0x20 - 0x2f, 0x2f
+
+        public short SetShift(short value)
+        {
+            byte[] bytes = BitConverter.GetBytes(value);
+
+            byte byteOne = bytes[1];
+            byte byteTwo = bytes[0];
+
+            bytes = new byte[] { byteOne, byteTwo };
+
+            short response = this.SetShift(bytes);
+            return response;
+        }
+
+        public string PortName
+        {
+            get
+            {
+                return this.serialPort.PortName;
+            }
+            set
+            {
+                this.serialPort.PortName = value;
+            }
+        }
+
+        ~PhaseShiftDeviceController()
+        {
+            if (this.serialPort.IsOpen)
+            {
+                this.serialPort.Close();
+            }
+        }
+
+        public void Dispose()
+        {
+            if (this.serialPort.IsOpen)
+            {
+                this.serialPort.Close();
+            }
+        }
+
+        //-----------------------------------------------------------------------------------------
+        private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            SerialPort serialPort = sender as SerialPort;
+
+            if (serialPort.BytesToRead == 1)
+            {
+                int value = serialPort.ReadByte();
+                byte byteValue = Convert.ToByte(value);
+
+                SerialPortDataRecieved?.Invoke(new byte[]{byteValue}, $"Response: {byteValue:X}");
+            }
+            else if (serialPort.BytesToRead == 2)
+            {
+
+                int value1 = serialPort.ReadByte();
+                byte byteValue1 = Convert.ToByte(value1);
+
+                int value2 = serialPort.ReadByte();
+                byte byteValue2 = Convert.ToByte(value2);
+
+                SerialPortDataRecieved?.Invoke(new byte[] { byteValue1, byteValue2 }, $"Response: {byteValue1:X} {byteValue2:X}");
+            }
+            else
+            {
+                string data = serialPort.ReadExisting();
+
+                SerialPortDataRecieved?.Invoke(new byte[] {  }, $"Response: {data}");
+            }
         }
     }
 }

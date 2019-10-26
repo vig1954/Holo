@@ -26,7 +26,7 @@ namespace Camera
 
         private CameraConnector CameraConnector => Singleton.Get<CameraConnector>();
 
-        private PhaseShiftDeviceController PhaseShiftDeviceSettingsController { get; }
+        private PhaseShiftDeviceView PhaseShiftDeviceSettingsController { get; }
 
         private LowLevelPhaseShiftDeviceControllerAdapter LowLevelPhaseShiftDeviceController => Singleton.Get<LowLevelPhaseShiftDeviceControllerAdapter>();
         private ImageSeriesRepository SeriesRepository => Singleton.Get<ImageSeriesRepository>();
@@ -81,7 +81,7 @@ namespace Camera
         [BindToUI("Подключить", "Пьезокерамика")]
         public void TogglePhaseShiftDeviceUiAction() => TogglePhaseShiftDevice();
 
-        public CameraInputView(PhaseShiftDeviceController phaseShiftDeviceController)
+        public CameraInputView(PhaseShiftDeviceView phaseShiftDeviceController)
         {
             PhaseShiftDeviceSettingsController = phaseShiftDeviceController;
             _seriesController = new SeriesController(this, CameraImageProvider, PhaseShiftDeviceSettingsController);

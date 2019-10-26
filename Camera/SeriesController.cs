@@ -13,14 +13,14 @@ namespace Camera
     {
         private int _currentImageIndex;
         private readonly IImageSeriesProvider _seriesProvider;
-        private readonly PhaseShiftDeviceController _phaseShiftDeviceController;
+        private readonly PhaseShiftDeviceView _phaseShiftDeviceController;
         private readonly IImageProvider _imageProvider;
 
         private ImageSeries Series => _seriesProvider.ImageSeries;
 
         public bool CaptureImages { get; private set; }
 
-        public SeriesController(IImageSeriesProvider seriesProvider, IImageProvider imageProvider, PhaseShiftDeviceController phaseShiftDeviceController)
+        public SeriesController(IImageSeriesProvider seriesProvider, IImageProvider imageProvider, PhaseShiftDeviceView phaseShiftDeviceController)
         {
             _seriesProvider = seriesProvider;
             _imageProvider = imageProvider;

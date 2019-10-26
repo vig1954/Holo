@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,6 +61,18 @@ namespace PsdCalibration
             }
 
             TogglePhaseShiftControls(enabled: false, togglePortSelector: false, toggleSteppingControls: true);
+
+            LowLevelPhaseShiftController.PhaseShiftDeviceDataReceived += LowLevelPhaseShiftControllerOnPhaseShiftDeviceDataReceived;
+        }
+
+        private void LowLevelPhaseShiftControllerOnPhaseShiftDeviceDataReceived(string s)
+        {
+            Action action = () => PsdResponse.Text = $"[{DateTime.Now:hh:mm:ss}] {s}";
+
+            if (PsdResponse.InvokeRequired)
+                PsdResponse.Invoke(action);
+            else
+                action();
         }
 
         private void SaveNumericValues()
@@ -138,6 +151,9 @@ namespace PsdCalibration
             CurrentPsdValue.Enabled = enabled;
             EndPsdValue.Enabled = enabled;
             StartPsdValue.Enabled = enabled;
+            Byte1Text.Enabled = enabled;
+            Byte2Text.Enabled = enabled;
+            WriteRawBytesButton.Enabled = enabled;
 
             if (togglePortSelector)
                 PortDropdown.Enabled = enabled;
@@ -264,6 +280,36 @@ namespace PsdCalibration
             }
 
             return children;
+        }
+
+        private void Byte1Text_KeyUp(object sender, KeyEventArgs e)
+        {
+            var valid = TryParseByte(Byte1Text.Text, out _);
+
+            Byte1Text.BackColor = valid ? Color.White : Color.Orange;
+        }
+
+        private void Byte2Text_KeyUp(object sender, KeyEventArgs e)
+        {
+            var valid = TryParseByte(Byte2Text.Text, out _);
+
+            Byte2Text.BackColor = valid ? Color.White : Color.Orange;
+        }
+
+        private void WriteRawBytesButton_Click(object sender, EventArgs e)
+        {
+            if (!TryParseByte(Byte1Text.Text, out var byte1))
+                return;
+
+            if (!TryParseByte(Byte2Text.Text, out var byte2))
+                return;
+
+            LowLevelPhaseShiftController.WriteRawBytes(byte1, byte2);
+        }
+
+        private bool TryParseByte(string text, out byte result)
+        {
+            return byte.TryParse(text, NumberStyles.AllowHexSpecifier, null, out result);
         }
     }
 }
