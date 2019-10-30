@@ -888,7 +888,16 @@ namespace rab1
         }
 
         // Корректировка по углу
-        public static ZArrayDescriptor Correct(ZArrayDescriptor zArrayPicture, double L, double d, double d1, int num)
+        /// <summary>
+        /// num -номер строки
+        /// </summary>
+        /// <param name="zArrayPicture"></param>
+        /// <param name="L"></param>
+        /// <param name="d"></param>
+        /// <param name="d1"></param>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        public static ZArrayDescriptor Correct(ZArrayDescriptor zArrayPicture, double L, double d, double d1, double x_max)
         {
             int w1 = zArrayPicture.width;
             int h1 = zArrayPicture.height;
@@ -900,104 +909,24 @@ namespace rab1
             //double max = double.MinValue;
             //double min = double.MaxValue;
 
-            //double t = 104;
-
-            double x1 = 0;                                                      // Убрать линейный тренд
-            double x2 = w1 - 1;
-            double y1 = zArrayPicture.array[0, num];
-            double y2 = zArrayPicture.array[w1 - 1, num];
-           
+            //double f1 = Math.Atan(L / d);               
+            //double f2 = Math.Atan((L-x_max) / (d - d1));
+        
+            double f1 = Math.Atan((L ) / d);
+            double f2 = Math.Atan(L / (d + d1));
+            MessageBox.Show(" f1 = " + f1 * 180 / Math.PI + " f2= " + f2 * 180 / Math.PI + " градусов ");
 
             for (int j = 0; j < h1; j++)                                        // Скорректировать высоты
                 for (int i = 0; i < w1; i++)
-                    {
-                         double xi = i * d1 / w1;
-                         double f = Math.Atan(L / (d - xi));
-                                //double ac = zArrayPicture.array[i, j] + Math.PI;
-                        
-                         double ac1 = zArrayPicture.array[i, j];
-                         double y = (i - x1) * (y2 - y1) / (x2 - x1) + y1;
-                         double ac = ac1 - y;             // Убрать линейный тренд
-                         double h  = ac * Math.Sin(f);
-                         double dx = ac * Math.Cos(f);
-                         double dx1 = ac1+dx;
-                         int ix =(int) ( (dx1 - y1) * w1 / (y2 - y1) ) ;
-                         //int ix = i + di;
-                         if (ix < w1 && ix > 0) zArray.array[ix, j] = h;
-
-                    //zArray.array[i, j] = dx;
-                   }
-
-            //MessageBox.Show(" max = " + max + " min = " + min);
-            //MessageBox.Show(" t = " + t);
-
-
-
-
-
-
-            /* 
-             for (int i = 0; i < w1; i++)
-                {
-                    double xi = i * d1 / w1;
-                    double f  = Math.Atan(L / (d - xi));
-                    double ac = zArrayPicture.array[i, 170];
-                    double h  = ac * Math.Sin(f);
-                    if (h > max) max = h;
-                    if (h < min) min = h;
-                }
-
-            double max1 = double.MinValue;
-            double min1 = double.MaxValue;
-            for (int i = 0; i < w1; i++)
-            {
-                double xi = i * d1 / w1;
-                double f = Math.Atan(L / (d - xi));
-                double ac = zArrayPicture.array[i, 170];
-                double h = ac * Math.Sin(f);
-                h = (h - min) * x_max / (max - min);
-                double dx = h / Math.Tan(f);
-                if (dx > max1) max1 = dx;
-                if (dx < min1) min1 = dx;
-            }
-            MessageBox.Show(" max dx = " + max1 + " min dx= " + min1);
-
-            for (int j = 0; j < h1; j++)
-            {
-                for (int i = 0; i < w1; i++) zArray.array[i, j] = -1;
-                for (int i = 0; i < w1; i++)
-                {
-
-                    double xi = i * d1 / w1;
-
-                    double f = Math.Atan(L / (d - xi));
+                 {
                     double ac = zArrayPicture.array[i, j];
-                    double h = ac * Math.Sin(f);
-                    h = (h - min) * x_max / (max - min);
-                    double dx = h / Math.Tan(f);
-                    double x = xi + dx;
-                    int ix = (int)Math.Round(x * w1 / d1);
-                    //int ix = (int)(x * w1 / d1);
-                    if (ix < w1 && ix > 0) zArray.array[ix, j] = h;
-
+                    f2 = Math.Atan((L) / (d + i*d1/w1));
+                    //zArray.array[i, j] = ac * Math.Sin(f2 * i / w1 + f1);
+                    zArray.array[i, j] = ac*Math.Sin(f2);
+                    // zArray.array[i, j] = ac * ( 1 + Math.Sin( (f2-f1)*i/w1) );               
                 }
 
-                for (int i = 0; i < w1; i++)
-                {
-                    if (zArray.array[i, j] == -1)
-                    {
-                        int i1 = i;
-                        while (i1 >= 1)
-                            {
-                                       i1--;
-                                       if (zArray.array[i1, j] != -1) { zArray.array[i, j] = zArray.array[i1, j]; break; }
-                            }
-                    }
-
-                }
-
-        }
-*/
+    
 
             return zArray;
         }
@@ -1028,25 +957,44 @@ namespace rab1
 
             return zArray;
         }
-
-        public static ZArrayDescriptor CorrectX(ZArrayDescriptor zArrayPicture, double L, double d, double d1)
+        // Моделирование теоретического прогиба -----------------------------------------------------------------------------
+        /// <summary>
+        /// L     - размер балки
+        /// x_max - максимальное отклонение
+        /// </summary>
+        /// <param name="zArrayPicture"></param>
+        /// <param name="L"></param>
+        /// <param name="X_max"></param>
+        /// <returns></returns>
+        public static ZArrayDescriptor CorrectX(ZArrayDescriptor zArrayPicture,  double L, double x_max)
         {
+
             int w1 = zArrayPicture.width;
             int h1 = zArrayPicture.height;
 
             ZArrayDescriptor zArray = new ZArrayDescriptor(w1, h1);
 
+            L = L * 1e-3;
+            double L3 = L * L * L;
+            double IS = 5.194 * 1e-8;
+            double E = 7 * 1e9;
+            double P = 4.5;
+
+            double sigma = 0;
+            P = (6 * E * IS) * (x_max * 1e-3) /( 2 * L3);  // Определение P, если известен x_max
+            MessageBox.Show(" P = " + P);
+
+            double s = (P * L3 )/ (6 * E * IS);
+
             for (int j = 0; j < h1; j++)
-                for (int i = 0; i < w1; i++)
+                for (int i = 0; i <w1; i++)
                 {
-                    double ac = zArrayPicture.array[i, j];
-                    double x = i * d1 / w1;
-                    double f = Math.Atan(L / (d - x));
-                    double h = ac * Math.Cos(f);
-                    //double h = ac * Math.Sin(f);
-                    //int ih = (int)h;
-                    //zArray.array[i, j] = h-ih;
-                    zArray.array[i, j] = (int)(h * 100);
+                    double X = (w1-i) * L / (w1-1);
+                    sigma = X/L;
+                   
+                    double Y = s * (sigma*sigma*sigma - 3* sigma + 2);
+                  
+                    zArray.array[i, j] = Y;
                 }
 
 
@@ -1061,6 +1009,7 @@ namespace rab1
             ZArrayDescriptor zArray = new ZArrayDescriptor(w1, h1);
             double max = zArrayPicture.array[0, n];
             double min = zArrayPicture.array[0, n];
+
             for (int i = 0; i < w1; i++)
             {
                 double a = zArrayPicture.array[i, n];

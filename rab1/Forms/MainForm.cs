@@ -79,7 +79,7 @@ namespace rab1
 
             ADD_Math.VisualRegImage      = this.Vizual_regImage;
             PSI.VisualRegImage           = this.Vizual_regImage;
-            CorrectBr.VisualRegImage     = this.Vizual_regImage;
+            
             Form_Filtr.VisualRegImage    = this.Vizual_regImage;
             Model_Sin.VisualRegImage     = this.Vizual_regImage;
             Model_Sin.VisualRegImageAsRaw = this.Vizual_regImageAsRaw;
@@ -89,12 +89,13 @@ namespace rab1
 
             ADD_Math.ComplexPictureImage  = this.Complex_pictureBox;
 
+            CorrectBr.VisualRegImage     = this.Vizual_regImage;
             CorrectBr.TakePhoto12        = this.FastTakePhoto;
             CorrectBr.TakePhoto          = this.FastTakePhoto;
             //ADD_Cmplx.VisualRegImage = this.Vizual_regImage;
-            
-            
-            
+
+            Corr256.VisualRegImage = this.Vizual_regImage;
+
 
             relayout();
         }
@@ -3274,6 +3275,16 @@ namespace rab1
             Vizual_regImage(k1); Vizual_regImage(k2);
         }
 
+        /// <summary>
+        /// Коррекция по 256 сдвигам
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toolStripTextBox1_Click(object sender, EventArgs e)
+        {
+            Corr256 STR256 = new Corr256();
+            STR256.Show();
+        }
         private void моделированиеОстаткаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Structur STRUCTUR = new Structur();
@@ -3289,6 +3300,12 @@ namespace rab1
             STRUCTUR.Show();
         }
 
+        private void Correct(double L, double d, double d1, double x_max)    // Корректировка высот
+        {
+            zArrayPicture = Model_object.Correct(zArrayPicture, L, d, d1, x_max);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+
+        }
 
         private void Correct_Null()                    // Убрать нули
         {
@@ -3340,16 +3357,11 @@ namespace rab1
         }
 
 
-        private void Correct(double L, double d, double d1, int Number_line)    // Корректировка высот
-        {
-            zArrayPicture = Model_object.Correct(zArrayPicture, L,  d, d1, Number_line);
-            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+     
 
-        }
-
-        private void CorrectX(double L, double d, double d1)
+        private void CorrectX(double d1, double x_max)
         {
-            zArrayPicture = Model_object.CorrectX(zArrayPicture, L, d, d1);
+            zArrayPicture = Model_object.CorrectX(zArrayPicture, d1, x_max);
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
 
         }
@@ -3553,6 +3565,8 @@ namespace rab1
             FileMaker fileMaker = new FileMaker();
             fileMaker.Show();
         }
+
+       
 
         private void LoadCoordinates()
         {

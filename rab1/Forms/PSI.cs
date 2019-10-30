@@ -407,7 +407,11 @@ namespace rab1.Forms
             return faza;
         }
 
-
+/// <summary>
+/// PSI по одной строке
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
 
         private void button15_Click(object sender, EventArgs e)
         {
@@ -463,9 +467,9 @@ namespace rab1.Forms
 
             faza = Razn_faz(res1, res2, nx, ny);
             for (int i = 0; i < nx; i++)  for (int j = 220; j < 300; j++) { rez.array[i, j] = faza[i];  }  //---------------
-
+/*
             double fi;
-            for (int i = 0; i < nx; i++)                                       // 6- точечный алгоритм
+            for (int i = 0; i < nx; i++)                                       // 6- точечный алгоритм до нагрузки
             {
                 
                     double i1 = Form1.zArrayDescriptor[0].array[i, 0];
@@ -484,7 +488,7 @@ namespace rab1.Forms
                     res1[i] = fi;
             }
 
-            for (int i = 0; i < nx; i++)                                       // 6- точечный алгоритм
+            for (int i = 0; i < nx; i++)                                       // 6- точечный алгоритм после 
             {
 
                 double i1 = Form1.zArrayDescriptor[1].array[i, 0];
@@ -525,7 +529,7 @@ namespace rab1.Forms
             }
             faza = Razn_faz(res1, res2, nx, ny);
             for (int i = 0; i < nx; i++) for (int j = 420; j < 500; j++) { rez.array[i, j] = faza[i]; }
-
+*/
             Form1.zArrayDescriptor[2] = rez;
             VisualRegImage(2);
             Close();

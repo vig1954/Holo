@@ -11,7 +11,8 @@ using System.Windows.Forms;
 namespace rab1.Forms
 {
     public delegate void Correct(double L, double d, double d1);
-    public delegate void Correct1(double L, double d, double d1, int Number_line);
+    public delegate void Correct1(double L, double d, double d1, double x);
+    public delegate void CorrectX(double d1, double X_max);
     public delegate void Scale(double x, int n);
     public delegate void Sub();
     public delegate void Sub_Line(int num);
@@ -20,7 +21,7 @@ namespace rab1.Forms
     public partial class Structur : Form
     {
         public event Correct1 On_Corr;
-        public event Correct  On_CorrX;
+        public event CorrectX  On_CorrX;
         public event Scale    On_Scale;
         public event Sub      On_Sub;
         public event Sub      On_Sub_Cos;
@@ -46,7 +47,13 @@ namespace rab1.Forms
             textBox6.Text = Convert.ToString(x_max);
             textBox7.Text = Convert.ToString(Number_line);
         }
-
+        /// <summary>
+        /// L  - расстояние от  объекта до проектора
+        /// d  - расстояние от камеры до начала объекта
+        /// d1 - размер объекта
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private  void button2_Click(object sender, EventArgs e)  // Определить углы
         {
             d  = Convert.ToDouble(textBox1.Text);
@@ -60,23 +67,23 @@ namespace rab1.Forms
             Show();
         }
 
-        private void button1_Click(object sender, EventArgs e) // Скорректировать высоты
+        private void button1_Click(object sender, EventArgs e)            // Скорректировать высоты
         {
             d = Convert.ToDouble(textBox1.Text);
             L = Convert.ToDouble(textBox2.Text);
             d1 = Convert.ToDouble(textBox3.Text);
-            //x_max = Convert.ToDouble(textBox6.Text);            // Максимальное смещение
+            x_max = Convert.ToDouble(textBox6.Text);            // Максимальное смещение
             Number_line = Convert.ToInt32(textBox7.Text);         // Номер строки по которой проводится корректировка
-            On_Corr(L, d, d1, Number_line);
+            On_Corr(L, d, d1, x_max);
             Close();
         }
-
+        // Теоретический прогиб
         private void button3_Click(object sender, EventArgs e)
         {
-            d = Convert.ToDouble(textBox1.Text);
-            L = Convert.ToDouble(textBox2.Text);
-            d1 = Convert.ToDouble(textBox3.Text);
-            On_CorrX(L, d, d1);
+           
+            d1    = Convert.ToDouble(textBox3.Text);  // Размер балки
+            x_max = Convert.ToDouble(textBox6.Text);  // Максимальное отклонение
+            On_CorrX(d1, x_max);
             Close();
         }
 

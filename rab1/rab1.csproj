@@ -106,6 +106,12 @@
       <DependentUpon>ADD_Cmplx.cs</DependentUpon>
     </Compile>
     <Compile Include="CUDA_FFT.cs" />
+    <Compile Include="Forms\Corr256.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Corr256.Designer.cs">
+      <DependentUpon>Corr256.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\CorrectBr.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -326,6 +332,9 @@
       <DependentUpon>CompareForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Complex_form.resx" />
+    <EmbeddedResource Include="Forms\Corr256.resx">
+      <DependentUpon>Corr256.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\CorrectBr.resx">
       <DependentUpon>CorrectBr.cs</DependentUpon>
     </EmbeddedResource>

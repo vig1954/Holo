@@ -191,11 +191,11 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(289, 180);
+            this.button3.Location = new System.Drawing.Point(55, 305);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(265, 23);
+            this.button3.Size = new System.Drawing.Size(124, 47);
             this.button3.TabIndex = 18;
-            this.button3.Text = "Определить Х";
+            this.button3.Text = "Теоретический прогиб";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -227,7 +227,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(289, 249);
+            this.button4.Location = new System.Drawing.Point(289, 163);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(265, 49);
             this.button4.TabIndex = 22;
