@@ -133,6 +133,7 @@
             this.моделированиеОстаткаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.коррекцияНеравномерностиОсвещенияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.коррекцияГаммаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.графикToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -216,8 +217,6 @@
             this.button9 = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox01)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -1139,8 +1138,7 @@
             this.моделированиеОстаткаToolStripMenuItem,
             this.коррекцияНеравномерностиОсвещенияToolStripMenuItem,
             this.коррекцияГаммаToolStripMenuItem,
-            this.toolStripTextBox1,
-            this.toolStripMenuItem2});
+            this.toolStripTextBox1});
             this.структурирОсвещениеToolStripMenuItem.Name = "структурирОсвещениеToolStripMenuItem";
             this.структурирОсвещениеToolStripMenuItem.Size = new System.Drawing.Size(143, 20);
             this.структурирОсвещениеToolStripMenuItem.Text = "Структурир. освещение";
@@ -1165,6 +1163,13 @@
             this.коррекцияГаммаToolStripMenuItem.Size = new System.Drawing.Size(280, 22);
             this.коррекцияГаммаToolStripMenuItem.Text = "Коррекция гамма";
             this.коррекцияГаммаToolStripMenuItem.Click += new System.EventHandler(this.коррекцияГаммаToolStripMenuItem_Click);
+            // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 21);
+            this.toolStripTextBox1.Text = "Коррекция по 256 сдвигам";
+            this.toolStripTextBox1.Click += new System.EventHandler(this.toolStripTextBox1_Click);
             // 
             // графикToolStripMenuItem
             // 
@@ -2004,18 +2009,6 @@
             this.vScrollBar2.TabIndex = 115;
             this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar2_Scroll);
             // 
-            // toolStripTextBox1
-            // 
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 21);
-            this.toolStripTextBox1.Text = "Коррекция по 256 сдвигам";
-            this.toolStripTextBox1.Click += new System.EventHandler(this.toolStripTextBox1_Click);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(280, 22);
-            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2310,7 +2303,6 @@
         private System.Windows.Forms.ToolStripMenuItem криваяПерекодированияToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fileMakerToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
     }
 }
 
