@@ -21,6 +21,7 @@ namespace UserInterface.DataProcessorViews
         void Initialize();
         void Compute();
 
+        IEnumerable<DataProcessorParameterBase> GetOutputs();
         IEnumerable<object> GetOutputValues();
     }
 }

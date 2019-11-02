@@ -14,6 +14,7 @@ using Processing.Computing;
 using UserInterface.DataEditors;
 using UserInterface.DataProcessorViews;
 using UserInterface.ImageSeries;
+using UserInterface.WorkspacePanel.ImageSeries;
 
 namespace SimpleApplication
 {
@@ -41,8 +42,9 @@ namespace SimpleApplication
         private IDataProcessorView _firstSeriesFreshnelProcessor;
         private IDataProcessorView _secondSeriesPsi4Processor;
         private IDataProcessorView _secondSeriesFreshnelProcessor;
-
-
+        private AccumulatorInfo _firstAccumulator = new AccumulatorInfo();
+        private AccumulatorInfo _secondAccumulator = new AccumulatorInfo();
+        private bool _enableAccumulation;
         private CameraConnector CameraConnector => Singleton.Get<CameraConnector>();
 
         private LowLevelPhaseShiftDeviceControllerAdapter LowLevelPhaseShiftController =>
@@ -82,7 +84,7 @@ namespace SimpleApplication
 
 //            var comparisonProcessor = DataProcessorViewCreator.For(typeof(ImageProcessing), nameof(ImageProcessing.Divide)).Create();
             var comparisonProcessor = DataProcessorViewCreator
-                .For(typeof(ImageProcessing), nameof(ImageProcessing.Extract)).Create();
+                .For(typeof(ImageProcessing), nameof(ImageProcessing.ExtractWithAutoWeight)).Create();
 
 
             comparisonProcessor["image1"].SetValue(_firstSeriesFreshnelProcessor, this);
@@ -411,6 +413,89 @@ namespace SimpleApplication
             UpdateFreshnelDistance();
 
             UpdateSettings(s => s.FreshnelDistanceDecimals = (float)FreshnelDistanceDecimals.Value);
+        }
+
+        private void ToggleAccumulation_Click(object sender, EventArgs e)
+        {
+            if (_enableAccumulation)
+                DisableAccumulation();
+            else
+                EnableAccumulation();
+        }
+
+        private void EnableAccumulation()
+        {
+            ToggleAccumulation.Text = "Отключить накопление";
+
+            CreateAccumulatorIfNeeded(_firstAccumulator, _firstSeriesFreshnelProcessor, _firstSeriesView);
+            CreateAccumulatorIfNeeded(_secondAccumulator, _secondSeriesFreshnelProcessor, _secondSeriesView);
+
+            _enableAccumulation = true;
+        }
+
+        private void CreateAccumulatorIfNeeded(AccumulatorInfo accumulator, IDataProcessorView freshnelProcessor,
+            DataEditorView dataView)
+        {
+            accumulator.Initialized = false;
+
+            if (accumulator.DataProcessorView != null)
+                return;
+
+            accumulator.DataProcessorView = DataProcessorViewCreator.For(typeof(ImageProcessing), nameof(ImageProcessing.Accumulate)).Create();
+
+            freshnelProcessor.OnValueUpdated += () =>
+            {
+                InitOrUpdateAccumulator(accumulator, freshnelProcessor, dataView);
+            };
+        }
+
+        private void InitOrUpdateAccumulator(AccumulatorInfo accumulator, IDataProcessorView freshnelProcessor, DataEditorView dataView)
+        {
+            if (!_enableAccumulation)
+                return;
+
+            if (!accumulator.Initialized)
+            {
+                var freshnelOutput = (IImageHandler)freshnelProcessor.GetOutputValues().Single();
+                if (freshnelOutput == null)
+                    return;
+
+                accumulator.Accumulator = freshnelOutput.Duplicate();
+                accumulator.Counter = 1;
+
+                // accumulator.DataProcessorView["output"].SetValue(accumulator.Accumulator, this);
+                accumulator.DataProcessorView.GetOutputs().Single().SetValue(accumulator.Accumulator, this);
+                accumulator.DataProcessorView["input"].SetValue(freshnelOutput, this);
+
+                dataView.SetData(accumulator.Accumulator);
+
+                accumulator.Initialized = true;
+            }
+            else
+            {
+                accumulator.DataProcessorView["counter"].SetValue(accumulator.Counter, this);
+                accumulator.DataProcessorView.Compute();
+
+                accumulator.Counter++;
+            }
+        }
+
+        private void DisableAccumulation()
+        {
+            ToggleAccumulation.Text = "Включить накопление";
+
+            _firstSeriesView.SetData(null);
+            _secondSeriesView.SetData(null);
+
+            _enableAccumulation = false;
+        }
+
+        private class AccumulatorInfo
+        {
+            public float Counter { get; set; }
+            public bool Initialized { get; set; }
+            public IImageHandler Accumulator { get; set; }
+            public IDataProcessorView DataProcessorView { get; set; }
         }
     }
 }

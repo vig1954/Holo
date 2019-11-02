@@ -71,6 +71,11 @@ namespace UserInterface.DataProcessorViews
                 Compute();
         }
 
+        public IEnumerable<DataProcessorParameterBase> GetOutputs()
+        {
+            yield return Output;
+        }
+
         public IEnumerable<object> GetOutputValues()
         {
             yield return Output.GetValue();

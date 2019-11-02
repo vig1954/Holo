@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Common;
 using Infrastructure;
 using Processing.DataAttributes;
 using Processing.DataProcessors;
@@ -61,6 +62,33 @@ namespace Processing.Computing
             Singleton.Get<OpenClApplication>().ExecuteKernel("extract", output.Width, output.Height, image1.ComputeBuffer, image2.ComputeBuffer, output.ComputeBuffer);
         }
 
+        [DataProcessor("Вычитание с весами", ProcessorGroups.Computing)]
+        public static void ExtractWithAutoWeight(IImageHandler image1, IImageHandler image2, IImageHandler output)
+        {
+            if (!image1.SizeEquals(image2) || !image1.SizeEquals(output))
+                throw new InvalidOperationException("Изображения должны быть одинакового размера.");
+
+            var weight1 = 1 / GetRangeForImage(image1);
+            var weight2 = 1 / GetRangeForImage(image2);
+
+            Singleton.Get<OpenClApplication>().ExecuteKernel("extractWithWeight", output.Width, output.Height, image1.ComputeBuffer, image2.ComputeBuffer, weight1, weight2, output.ComputeBuffer);
+
+            float GetRangeForImage(IImageHandler image)
+            {
+                var range = image.GetValueRangeForChannel(0);
+
+                if (image.GetChannelsCount() > 1)
+                {
+                    var range1 = range;
+                    var range2 = image.GetValueRangeForChannel(1);
+
+                    range = new FloatRange((range1.Min + range2.Min) / 2, (range1.Max + range2.Max) / 2);
+                }
+
+                return range.Max - range.Min;
+            }
+        }
+
         [DataProcessor("Деление на число", ProcessorGroups.Computing)]
         public static void DivideByNumber(IImageHandler image, float num, IImageHandler output)
         {
@@ -95,7 +123,11 @@ namespace Processing.Computing
             if (!input.SizeEquals(output))
                 throw new InvalidOperationException("Изображения должны быть одинакового размера.");
 
-            Singleton.Get<OpenClApplication>().ExecuteKernel("sumWithWeight", output.Width, output.Height, input.ComputeBuffer, output.ComputeBuffer, output.ComputeBuffer, 1f, counter);
+//            var summ = 1 + counter;
+//            var inputWeight = 1 / summ;
+//            var outputWeight = 1 / counter;
+//            Singleton.Get<OpenClApplication>().ExecuteKernel("sumWithWeight", output.Width, output.Height, input.ComputeBuffer, output.ComputeBuffer, output.ComputeBuffer, inputWeight, outputWeight);
+            Singleton.Get<OpenClApplication>().ExecuteKernel("sumWithWeight", output.Width, output.Height, input.ComputeBuffer, output.ComputeBuffer, output.ComputeBuffer, 1f, 1f);
         }
     }
 }

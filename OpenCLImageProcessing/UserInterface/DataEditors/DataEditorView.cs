@@ -84,6 +84,12 @@ namespace UserInterface.DataEditors
             {
                 ToggleRightPanel(true);
 
+                if (data == null)
+                {
+                    SetRenderer(null);
+                    return;
+                }
+
                 var renderer = DataRendererUtil.GetRendererFor(data.GetType());
                 if (renderer == null)
                     return;
@@ -157,10 +163,12 @@ namespace UserInterface.DataEditors
         private void SetRenderer(IDataRenderer renderer)
         {
             Clear();
-            //if (_renderer != null && _renderer != renderer)
-            //    _renderer.OnUpdateRequest -= RendererOnUpdateRequest;
 
             _renderer = renderer;
+
+            if (_renderer == null)
+                return;
+
             renderer.Resize(_glControl.ClientSize);
 
             UpdateRendererControls();

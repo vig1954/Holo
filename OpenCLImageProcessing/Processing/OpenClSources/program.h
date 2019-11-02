@@ -478,6 +478,24 @@ __kernel void extract(__read_only image2d_t input1, __read_only image2d_t input2
 	write_imagef(output, coord, (float4)(result.x, result.y, 0, 0));
 }
 
+__kernel void extractWithWeight(__read_only image2d_t input1, __read_only image2d_t input2, float w1, float w2, __write_only image2d_t output)
+{
+	int x = get_global_id(0);
+	int y = get_global_id(1);
+	int2 coord = (int2)(x, y);
+
+	const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates
+         CLK_ADDRESS_CLAMP | //Clamp to zeros
+         CLK_FILTER_NEAREST; //Don't interpolate
+
+	float2 val1 = read_imagef(input1, smp, coord).xy;
+	float2 val2 = read_imagef(input2, smp, coord).xy;	
+
+	float2 result = val1 * w1 - val2 * w2;
+
+	write_imagef(output, coord, (float4)(result.x, result.y, 0, 0));
+}
+
 __kernel void sumWithWeight(__read_only image2d_t input1, __read_only image2d_t input2, __write_only image2d_t output, float weight1, float weight2)
 {
 	int x = get_global_id(0);
