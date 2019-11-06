@@ -48,6 +48,12 @@
             this.button4 = new System.Windows.Forms.Button();
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.button5 = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.textBox12 = new System.Windows.Forms.TextBox();
+            this.textBox13 = new System.Windows.Forms.TextBox();
+            this.button6 = new System.Windows.Forms.Button();
+            this.textBox14 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // button2
@@ -57,7 +63,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(380, 27);
             this.button2.TabIndex = 14;
-            this.button2.Text = "В [0] зарегистрированные синусоиды со сдвигом 256 => [1] идеальные";
+            this.button2.Text = "В [1] зарегистрированные синусоиды со сдвигом 256 => [2] идеальные";
             this.button2.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -80,7 +86,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(609, 12);
+            this.textBox2.Location = new System.Drawing.Point(647, 14);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(37, 20);
             this.textBox2.TabIndex = 20;
@@ -89,7 +95,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(565, 17);
+            this.label2.Location = new System.Drawing.Point(603, 19);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(19, 13);
             this.label2.TabIndex = 23;
@@ -125,7 +131,7 @@
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(609, 55);
+            this.textBox5.Location = new System.Drawing.Point(647, 57);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(37, 20);
             this.textBox5.TabIndex = 28;
@@ -134,7 +140,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(565, 60);
+            this.label4.Location = new System.Drawing.Point(603, 62);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(19, 13);
             this.label4.TabIndex = 30;
@@ -150,7 +156,7 @@
             // 
             // textBox7
             // 
-            this.textBox7.Location = new System.Drawing.Point(609, 96);
+            this.textBox7.Location = new System.Drawing.Point(647, 98);
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(37, 20);
             this.textBox7.TabIndex = 33;
@@ -171,7 +177,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(565, 103);
+            this.label3.Location = new System.Drawing.Point(603, 105);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(19, 13);
             this.label3.TabIndex = 35;
@@ -180,7 +186,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(565, 151);
+            this.label5.Location = new System.Drawing.Point(603, 153);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(19, 13);
             this.label5.TabIndex = 39;
@@ -216,7 +222,7 @@
             // 
             // textBox10
             // 
-            this.textBox10.Location = new System.Drawing.Point(609, 148);
+            this.textBox10.Location = new System.Drawing.Point(647, 154);
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(37, 20);
             this.textBox10.TabIndex = 40;
@@ -234,11 +240,71 @@
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(603, 195);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(19, 13);
+            this.label6.TabIndex = 46;
+            this.label6.Text = "=>";
+            // 
+            // textBox11
+            // 
+            this.textBox11.Location = new System.Drawing.Point(439, 195);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(37, 20);
+            this.textBox11.TabIndex = 45;
+            this.textBox11.Text = "1";
+            // 
+            // textBox12
+            // 
+            this.textBox12.Location = new System.Drawing.Point(482, 195);
+            this.textBox12.Name = "textBox12";
+            this.textBox12.Size = new System.Drawing.Size(37, 20);
+            this.textBox12.TabIndex = 44;
+            this.textBox12.Text = "2";
+            // 
+            // textBox13
+            // 
+            this.textBox13.Location = new System.Drawing.Point(536, 194);
+            this.textBox13.Name = "textBox13";
+            this.textBox13.Size = new System.Drawing.Size(37, 20);
+            this.textBox13.TabIndex = 43;
+            this.textBox13.Text = "3";
+            // 
+            // button6
+            // 
+            this.button6.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button6.Location = new System.Drawing.Point(27, 187);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(380, 38);
+            this.button6.TabIndex = 42;
+            this.button6.Text = "В [1] и [2] идеальные синусоиды в [3] фазовые поправки\r\n=> [4] и [4+1] синусоиды " +
+    "с поправками";
+            this.button6.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // textBox14
+            // 
+            this.textBox14.Location = new System.Drawing.Point(647, 194);
+            this.textBox14.Name = "textBox14";
+            this.textBox14.Size = new System.Drawing.Size(37, 20);
+            this.textBox14.TabIndex = 47;
+            this.textBox14.Text = "4";
+            // 
             // Corr256
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(696, 214);
+            this.ClientSize = new System.Drawing.Size(696, 320);
+            this.Controls.Add(this.textBox14);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.textBox11);
+            this.Controls.Add(this.textBox12);
+            this.Controls.Add(this.textBox13);
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.textBox10);
             this.Controls.Add(this.label5);
@@ -287,5 +353,11 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TextBox textBox10;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.TextBox textBox13;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.TextBox textBox14;
     }
 }

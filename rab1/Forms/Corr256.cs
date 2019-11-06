@@ -29,6 +29,10 @@ namespace rab1.Forms
         private static int k9 = 6;
         private static int k10 = 7;
 
+        private static int k11 = 1;
+        private static int k12 = 2;
+        private static int k13 = 3;
+        private static int k14 = 4;
 
         public Corr256()
         {
@@ -47,6 +51,10 @@ namespace rab1.Forms
             textBox9.Text = Convert.ToString(k9);     // Номер кадра
             textBox10.Text = Convert.ToString(k10);
 
+            textBox11.Text = Convert.ToString(k11);     // Номер кадра
+            textBox12.Text = Convert.ToString(k12);     // Номер кадра
+            textBox13.Text = Convert.ToString(k13);
+            textBox14.Text = Convert.ToString(k14);
         }
         /// <summary>
         /// Зарегистрированные синусоиды => идеальные
@@ -73,23 +81,25 @@ namespace rab1.Forms
             double[] fzr = new double[ny];
             double[] sn  = new double[ny];
 
-            double  max_s=0;
-            double  min_s=0;
-            double max;
-            double min;
-
-                for (int i = 0; i < nx; i++)                                                          
-                {
-                   max = double.MinValue; min = double.MaxValue;
-                   for (int j = 0; j < ny; j++)
-                    {
-                      double a = Form1.zArrayDescriptor[k1 - 1].array[i, j];
-                      if (a > max) max = a; if (a < min) min = a;
-                    }
-                   max_s += max; min_s += min;
-               }
-            max = max_s / nx; min = min_s / nx;
-            //MessageBox.Show("Max = " + max + "Min = " + min);
+            //double  max_s=0;
+            //double  min_s=0;
+            double max = double.MinValue; 
+            double min = double.MaxValue;
+            /*      
+                                    for (int i = 0; i < nx; i++)                                                          
+                                    {
+                                       //max = double.MinValue; min = double.MaxValue;
+                                       for (int j = 0; j < ny; j++)
+                                        {
+                                          double a = Form1.zArrayDescriptor[k1 - 1].array[i, j];
+                                          if (a > max) max = a; if (a < min) min = a;
+                                        }
+                                       //max_s += max; min_s += min;
+                                   }
+                                //max = max_s / nx; min = min_s / nx;
+           */
+            max = 255; min = 0;
+            MessageBox.Show("Max = " + max + "Min = " + min);
 
             for (int j = 0; j < ny; j++) { int i = j; if (i >= 256) { i = i - 256; } fzr[i] = 2 * Math.PI * i / 256; }
 
@@ -120,6 +130,96 @@ namespace rab1.Forms
             VisualRegImage(k2 - 1);
           //  Close();
         }
+/// <summary>
+/// Синусоиды с поправками
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
+        private void button6_Click(object sender, EventArgs e)
+        {
+            k11 = Convert.ToInt32(textBox11.Text);
+            k12 = Convert.ToInt32(textBox12.Text);
+            k13 = Convert.ToInt32(textBox13.Text);
+            k14 = Convert.ToInt32(textBox14.Text);
+
+
+            if (Form1.zArrayDescriptor[k1 - 1] == null) { MessageBox.Show("Corr256 zArrayDescriptor[" + (k1 - 1) + "] == NULL"); return; }
+
+            int nx = Form1.zArrayDescriptor[k1 - 1].width;
+            int ny = 256;
+
+           
+
+            double max = double.MinValue;
+            double min = double.MaxValue;
+
+            for (int i = 0; i < nx; i++)
+            {
+                for (int j = 0; j < ny; j++)
+                {
+                    double a = Form1.zArrayDescriptor[k11 - 1].array[i, j];
+                    if (a > max) max = a; if (a < min) min = a;
+                    a = Form1.zArrayDescriptor[k12 - 1].array[i, j];
+                    if (a > max) max = a; if (a < min) min = a;
+                }
+            }
+
+            double[] summ_sin = new double[nx];
+            double[] summ_cos = new double[nx];
+            double[] sn = new double[ny];
+            double[] s1 = new double[nx];
+            double[] s2 = new double[nx];
+            double[] fzr = new double[ny];
+
+            for (int j = 0; j < ny; j++) { int i = j; if (i >= 256) { i = i - 256; } fzr[i] = 2 * Math.PI * i / 256; }
+
+            for (int i = 0; i < nx; i++)                                                           // До нагрузки
+            {
+                for (int j = 0; j < ny; j++)
+                {
+                    summ_sin[i] += Form1.zArrayDescriptor[k11 - 1].array[i, j] * Math.Sin(fzr[j]);
+                    summ_cos[i] += Form1.zArrayDescriptor[k11 - 1].array[i, j] * Math.Cos(fzr[j]);
+                }
+                s2[i] = Math.Atan2(summ_cos[i], summ_sin[i]);
+            }
+
+            ZArrayDescriptor rez1 = new ZArrayDescriptor(nx, ny);
+
+            for (int i = 0; i < nx; i++) s1[i] = Form1.zArrayDescriptor[k13 - 1].array[i, 50];
+
+            for (int i = 0; i < nx; i++)
+            {
+                for (int k = 0; k < ny; k++) { sn[k] = (max - min) * (Math.Sin(2.0 * Math.PI * k / 256 + s1[i]+ s2[i]) + 1.0) / 2.0 + min; }
+                for (int j = 0; j < ny; j++) rez1.array[i, j] = sn[j];
+            }
+
+            Form1.zArrayDescriptor[k14 - 1] = rez1;
+
+            ZArrayDescriptor rez2 = new ZArrayDescriptor(nx, ny);
+
+            for (int i = 0; i < nx; i++)                                                           // После нагрузки
+            {
+                for (int j = 0; j < ny; j++)
+                {
+                    summ_sin[i] += Form1.zArrayDescriptor[k12 - 1].array[i, j] * Math.Sin(fzr[j]);
+                    summ_cos[i] += Form1.zArrayDescriptor[k12 - 1].array[i, j] * Math.Cos(fzr[j]);
+                }
+                s2[i] = Math.Atan2(summ_cos[i], summ_sin[i]);
+            }
+
+            for (int i = 0; i < nx; i++) s1[i] = Form1.zArrayDescriptor[k13 - 1].array[i, 150];
+
+            for (int i = 0; i < nx; i++)
+            {
+                for (int k = 0; k < ny; k++) { sn[k] = (max - min) * (Math.Sin(2.0 * Math.PI * k / 256 + s1[i]+  s2[i]) + 1.0) / 2.0 + min; }
+                for (int j = 0; j < ny; j++) rez2.array[i, j] = sn[j];
+            }
+
+            Form1.zArrayDescriptor[k14 - 1 +1 ] = rez2;
+            VisualRegImage(k14 - 1);
+            VisualRegImage(k14 );
+        }
+
         /// <summary>
         /// Гистограмм 256 значений (256х256)
         /// </summary>
