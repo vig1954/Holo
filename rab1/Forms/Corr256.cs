@@ -98,7 +98,7 @@ namespace rab1.Forms
                                    }
                                 //max = max_s / nx; min = min_s / nx;
            */
-            max = 255; min = 0;
+            max = 245; min = 0;
             MessageBox.Show("Max = " + max + "Min = " + min);
 
             for (int j = 0; j < ny; j++) { int i = j; if (i >= 256) { i = i - 256; } fzr[i] = 2 * Math.PI * i / 256; }
