@@ -56,7 +56,7 @@
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(52, 20);
             this.textBox4.TabIndex = 8;
-            this.textBox4.Text = "-2.1";
+            this.textBox4.Text = "2.0";
             // 
             // textBox1
             // 
@@ -64,7 +64,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(52, 20);
             this.textBox1.TabIndex = 9;
-            this.textBox1.Text = "6.4";
+            this.textBox1.Text = "2.0";
             // 
             // button2
             // 
@@ -96,7 +96,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(598, 72);
+            this.label2.Location = new System.Drawing.Point(600, 38);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(105, 13);
             this.label2.TabIndex = 13;
@@ -105,7 +105,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(598, 40);
+            this.label3.Location = new System.Drawing.Point(600, 75);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(119, 13);
             this.label3.TabIndex = 14;

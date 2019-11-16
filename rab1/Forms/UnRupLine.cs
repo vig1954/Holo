@@ -15,8 +15,8 @@ namespace rab1.Forms
 {
     public partial class UnRupLine : Form
     {
-        private static double gr1 = -2.1;
-        private static double gr2 = -2.1;
+        private static double gr1 = 2.0;
+        private static double gr2 = 2.0;
         private static int x0 = 0;
 
         public event DelegatUnrupLine OnUnrupLine;
