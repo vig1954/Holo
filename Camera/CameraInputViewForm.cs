@@ -268,7 +268,9 @@ namespace Camera
             }
             else
             {
-                _previewController.SetTool(ToggleSegmentSelection.Checked ? _segmentSelectionTool : null);
+                ToggleRectangleSelectionTool.Checked = true;
+
+                _previewController.SetTool(null);
                 _cameraInputView.LiveViewSelection = null;
                 SelectionSizeLabel.Text = "";
             }

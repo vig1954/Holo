@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Windows.Forms;
@@ -46,6 +47,7 @@ namespace SimpleApplication
         private AccumulatorInfo _secondAccumulator = new AccumulatorInfo();
         private bool _enableAccumulation;
         private CameraConnector CameraConnector => Singleton.Get<CameraConnector>();
+        private CameraSettingsForm _cameraSettingsForm = new CameraSettingsForm(new CameraSettings());
 
         private LowLevelPhaseShiftDeviceControllerAdapter LowLevelPhaseShiftController =>
             Singleton.Get<LowLevelPhaseShiftDeviceControllerAdapter>();
@@ -148,9 +150,7 @@ namespace SimpleApplication
                 comparisonProcessor.Compute();
             };
 
-
             CameraConnectorOnAvailableCamerasUpdated(CameraConnector.AvailableCameras);
-
 
             SerialPortNames.Items.Add(ComPortIsDisabledString);
             foreach (var portName in SerialPort.GetPortNames())
@@ -309,6 +309,12 @@ namespace SimpleApplication
 
             _firstSeriesFreshnelProcessor["distance"].SetValue(distance, this);
             _secondSeriesFreshnelProcessor["distance"].SetValue(distance, this);
+
+            if (UpdateBoth.Checked)
+            {
+                _firstSeriesFreshnelProcessor.Compute();
+                _secondSeriesFreshnelProcessor.Compute();
+            }
         }
 
         private void freshnelObjectSize_ValueChanged(object sender, EventArgs e)
@@ -316,6 +322,11 @@ namespace SimpleApplication
             _firstSeriesFreshnelProcessor["objectSize"].SetValue((float) freshnelObjectSize.Value, this);
             _secondSeriesFreshnelProcessor["objectSize"].SetValue((float) freshnelObjectSize.Value, this);
 
+            if (UpdateBoth.Checked)
+            {
+                _firstSeriesFreshnelProcessor.Compute();
+                _secondSeriesFreshnelProcessor.Compute();
+            }
             UpdateSettings(s => s.FreshnelObjectSize = (float) freshnelObjectSize.Value);
         }
 
@@ -496,6 +507,69 @@ namespace SimpleApplication
             public bool Initialized { get; set; }
             public IImageHandler Accumulator { get; set; }
             public IDataProcessorView DataProcessorView { get; set; }
+        }
+
+        private void CameraSettingsButton_Click(object sender, EventArgs e)
+        {
+            _cameraSettingsForm.Show();
+        }
+
+        private void SaveData_Click(object sender, EventArgs e)
+        {
+            _seriesController.StopCapturing();
+
+            var result = folderBrowserDialog1.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                var directory = new DirectoryInfo(folderBrowserDialog1.SelectedPath);
+                var now = DateTime.Now;
+                var saveDirectory =
+                    directory.CreateSubdirectory(
+                        $"{now.Day}-{now.Month}-{now.Year} {now.Hour:00}-{now.Minute:00}-{now.Second:00}");
+
+                var counter = 1;
+                if (_firstSeries.Inputs.All(i => i.Ready))
+                {
+                    foreach (var input in _firstSeries.Inputs)
+                    {
+                        using (var stream = File.Create(Path.Combine(saveDirectory.FullName, $"series1-{counter++}.bin")))
+                        {
+                            input.Save(stream);
+                        }
+                    }
+                }
+
+                if (_secondSeries.Inputs.All(i => i.Ready))
+                {
+                    counter = 1;
+                    foreach (var input in _secondSeries.Inputs)
+                    {
+                        using (var stream = File.Create(Path.Combine(saveDirectory.FullName, $"series2-{counter++}.bin")))
+                        {
+                            input.Save(stream);
+                        }
+                    }
+                }
+
+                if (_firstSeriesFreshnelProcessor.GetOutputValues().Single() is ImageHandler firstFreshnelOutput)
+                {
+                    using (var stream = File.Create(Path.Combine(saveDirectory.FullName, "freshnel1.bin")))
+                    {
+                        firstFreshnelOutput.Save(stream);
+                    }
+                }
+
+                if (_secondSeriesFreshnelProcessor.GetOutputValues().Single() is ImageHandler secondFreshnelOutput)
+                {
+                    using (var stream = File.Create(Path.Combine(saveDirectory.FullName, "freshnel2.bin")))
+                    {
+                        secondFreshnelOutput.Save(stream);
+                    }
+                }
+            }
+
+
+            _seriesController.StartCapturing();
         }
     }
 }

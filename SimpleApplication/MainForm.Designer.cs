@@ -32,7 +32,9 @@
             this.PhaseDifferenceView = new UserInterface.DataEditors.DataEditorView();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.LiveView = new System.Windows.Forms.PictureBox();
+            this.CameraSettingsButton = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.ToggleAccumulation = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.FreshnelDistanceDecimals = new System.Windows.Forms.NumericUpDown();
             this.freshnelObjectSize = new System.Windows.Forms.NumericUpDown();
@@ -58,7 +60,9 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.cameraStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.psdStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.ToggleAccumulation = new System.Windows.Forms.Button();
+            this.UpdateBoth = new System.Windows.Forms.CheckBox();
+            this.SaveData = new System.Windows.Forms.Button();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -127,6 +131,8 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.SaveData);
+            this.splitContainer2.Panel2.Controls.Add(this.CameraSettingsButton);
             this.splitContainer2.Panel2.Controls.Add(this.groupBox3);
             this.splitContainer2.Panel2.Controls.Add(this.groupBox2);
             this.splitContainer2.Panel2.Controls.Add(this.groupBox1);
@@ -147,10 +153,21 @@
             this.LiveView.TabIndex = 0;
             this.LiveView.TabStop = false;
             // 
+            // CameraSettingsButton
+            // 
+            this.CameraSettingsButton.Location = new System.Drawing.Point(287, 3);
+            this.CameraSettingsButton.Name = "CameraSettingsButton";
+            this.CameraSettingsButton.Size = new System.Drawing.Size(136, 23);
+            this.CameraSettingsButton.TabIndex = 6;
+            this.CameraSettingsButton.Text = "Настройки камеры";
+            this.CameraSettingsButton.UseVisualStyleBackColor = true;
+            this.CameraSettingsButton.Click += new System.EventHandler(this.CameraSettingsButton_Click);
+            // 
             // groupBox3
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.UpdateBoth);
             this.groupBox3.Controls.Add(this.ToggleAccumulation);
             this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Controls.Add(this.FreshnelDistanceDecimals);
@@ -164,6 +181,17 @@
             this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Преобразование Френеля";
+            // 
+            // ToggleAccumulation
+            // 
+            this.ToggleAccumulation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ToggleAccumulation.Location = new System.Drawing.Point(297, 55);
+            this.ToggleAccumulation.Name = "ToggleAccumulation";
+            this.ToggleAccumulation.Size = new System.Drawing.Size(75, 39);
+            this.ToggleAccumulation.TabIndex = 6;
+            this.ToggleAccumulation.Text = "Включить накопление";
+            this.ToggleAccumulation.UseVisualStyleBackColor = true;
+            this.ToggleAccumulation.Click += new System.EventHandler(this.ToggleAccumulation_Click);
             // 
             // label5
             // 
@@ -500,16 +528,26 @@
             this.psdStatusLabel.Size = new System.Drawing.Size(193, 19);
             this.psdStatusLabel.Text = "Пьезокерамика - не подключена";
             // 
-            // ToggleAccumulation
+            // UpdateBoth
             // 
-            this.ToggleAccumulation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ToggleAccumulation.Location = new System.Drawing.Point(297, 55);
-            this.ToggleAccumulation.Name = "ToggleAccumulation";
-            this.ToggleAccumulation.Size = new System.Drawing.Size(75, 39);
-            this.ToggleAccumulation.TabIndex = 6;
-            this.ToggleAccumulation.Text = "Включить накопление";
-            this.ToggleAccumulation.UseVisualStyleBackColor = true;
-            this.ToggleAccumulation.Click += new System.EventHandler(this.ToggleAccumulation_Click);
+            this.UpdateBoth.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.UpdateBoth.AutoSize = true;
+            this.UpdateBoth.Location = new System.Drawing.Point(243, 12);
+            this.UpdateBoth.Name = "UpdateBoth";
+            this.UpdateBoth.Size = new System.Drawing.Size(129, 17);
+            this.UpdateBoth.TabIndex = 7;
+            this.UpdateBoth.Text = "Обновить обе серии";
+            this.UpdateBoth.UseVisualStyleBackColor = true;
+            // 
+            // SaveData
+            // 
+            this.SaveData.Location = new System.Drawing.Point(255, 301);
+            this.SaveData.Name = "SaveData";
+            this.SaveData.Size = new System.Drawing.Size(135, 35);
+            this.SaveData.TabIndex = 7;
+            this.SaveData.Text = "Сохранить данные";
+            this.SaveData.UseVisualStyleBackColor = true;
+            this.SaveData.Click += new System.EventHandler(this.SaveData_Click);
             // 
             // MainForm
             // 
@@ -587,6 +625,10 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.NumericUpDown FreshnelDistanceDecimals;
         private System.Windows.Forms.Button ToggleAccumulation;
+        private System.Windows.Forms.Button CameraSettingsButton;
+        private System.Windows.Forms.CheckBox UpdateBoth;
+        private System.Windows.Forms.Button SaveData;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     }
 }
 

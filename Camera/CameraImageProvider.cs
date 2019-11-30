@@ -37,8 +37,6 @@ namespace Camera
 
             _captureImageTaskCompletionSource = new TaskCompletionSource<Bitmap>();
 
-            ImageCaptured += OnCaptureImageFinished;
-
             if (!CaptureFromLiveView)
                 CameraConnector.TakePhoto();
 
@@ -48,6 +46,9 @@ namespace Camera
         private void CameraConnector_ImageDownloaded(Bitmap bitmap)
         {
             ImageCaptured?.Invoke(bitmap);
+
+            if (_captureImageTaskCompletionSource != null && !_captureImageTaskCompletionSource.Task.IsCompleted && !CaptureFromLiveView)
+                OnCaptureImageFinished(bitmap);
         }
 
         private void CameraConnector_LiveViewUpdated(Bitmap bitmap)
@@ -56,12 +57,13 @@ namespace Camera
             LiveViewImageUpdated?.Invoke();
 
             ImageCaptured?.Invoke(bitmap);
+
+            if (_captureImageTaskCompletionSource != null && !_captureImageTaskCompletionSource.Task.IsCompleted && CaptureFromLiveView)
+                OnCaptureImageFinished(bitmap);
         }
 
         private void OnCaptureImageFinished(Bitmap bitmap)
         {
-            ImageCaptured -= OnCaptureImageFinished;
-
             _captureImageTaskCompletionSource.SetResult(ExtractSelection(bitmap));
         }
 

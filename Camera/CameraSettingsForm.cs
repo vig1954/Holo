@@ -30,13 +30,20 @@ namespace Camera
             _interfaceController = new InterfaceController(panel1, new PropertyListManager());
             _interfaceController.BindObjectToInterface(_cameraSettings);
 
+            
+
             _cameraSettings.SyncCameraSettings();
             _cameraSettings.Load();
         }
 
         private void CameraSettingsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _cameraSettings.Save();
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                _cameraSettings.Save();
+                this.Hide();
+                e.Cancel = true;
+            }
         }
     }
 }

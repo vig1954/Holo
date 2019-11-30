@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Cloo;
@@ -61,6 +63,9 @@ namespace Processing
 
     public class ImageHandler : IImageHandler, IDisposable
     {
+        private const int FormatId = 1995;
+        private const int FormatVersion = 1;
+
         protected Dictionary<string, object> _tags { get; set; } = new Dictionary<string, object>();
 
         protected byte[] Data;
@@ -439,6 +444,67 @@ namespace Processing
         {
             FreeComputingDevice();
         }
+
+        public void Save(Stream stream)
+        {
+            using (var writer = new BinaryWriter(stream))
+            {
+                writer.Write(FormatId);
+                writer.Write(FormatVersion);
+                writer.Write((int)Format);
+                writer.Write((int)PixelFormat);
+                writer.Write(Width);
+                writer.Write(Height);
+                writer.Write(Data.Length);
+                writer.Write(Data);
+            }
+        }
+
+        public static ImageHandler FromStream(Stream stream)
+        {
+            ImageFormat format;
+            ImagePixelFormat pixelFormat;
+            int width;
+            int height;
+            byte[] data;
+
+            using (var reader = new BinaryReader(stream))
+            {
+                var formatId = reader.ReadInt32();
+                if (formatId != FormatId)
+                    throw new NotSupportedException();
+
+                var formatVersion = reader.ReadInt32();
+                if (formatVersion != FormatVersion)
+                    throw new NotSupportedException();
+
+                format = (ImageFormat) reader.ReadInt32();
+                pixelFormat = (ImagePixelFormat) reader.ReadInt32();
+                width = reader.ReadInt32();
+                height = reader.ReadInt32();
+                var dataLength = reader.ReadInt32();
+                data = reader.ReadBytes(dataLength);
+            }
+
+            var imageHandler = new ImageHandler
+            {
+                Data = data,
+                PixelFormat = pixelFormat,
+                Format = format,
+                Width = width,
+                Height = height
+            };
+
+            Singleton.Get<ImageHandlerRepository>().Add(imageHandler);
+            
+               var title = "Image " + Singleton.Get<ImageHandlerRepository>().GetAll().Count;
+
+            imageHandler._tags.Add(ImageHandlerTagKeys.Title, title);
+            imageHandler._tags.Add(ImageHandlerTagKeys.Thumbnail, Utils.ThumbnailGenerator.Generate(imageHandler));
+            imageHandler.Update();
+
+            return imageHandler;
+        } 
     }
 
     internal class SizeInBytesAttribute : Attribute
