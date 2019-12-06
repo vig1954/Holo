@@ -422,6 +422,7 @@ namespace rab1.Forms
 
                     double fz1 = 2*(i2-i4);              
                     double fz2 = i1-2*i3+i5;
+                    //double fi = Math.Atan2(i1-128, i2-128);
                     //double fi = Math.Atan2(fz1, fz2);
                     double fi = Math.Atan2(fz1, fz2) + Math.PI / 2;
                     if (fi > Math.PI) fi = fi - 2 * Math.PI;
