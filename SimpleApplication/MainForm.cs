@@ -205,14 +205,28 @@ namespace SimpleApplication
 
         private void CaptureFirstSeriesButton_Click(object sender, EventArgs e)
         {
-            _seriesController.StartCapturing();
-            ImageSeries = _firstSeries;
+            if (ImageSeries == _firstSeries && _seriesController.CaptureImages)
+            {
+                _seriesController.StopCapturing();
+            }
+            else
+            {
+                _seriesController.StartCapturing();
+                ImageSeries = _firstSeries;
+            }
         }
 
         private void CaptureSecondSeriesButton_Click(object sender, EventArgs e)
         {
-            _seriesController.StartCapturing();
-            ImageSeries = _secondSeries;
+            if (ImageSeries == _secondSeries && _seriesController.CaptureImages)
+            {
+                _seriesController.StopCapturing();
+            }
+            else
+            {
+                _seriesController.StartCapturing();
+                ImageSeries = _secondSeries;
+            }
         }
 
         private void SerialPortNames_SelectedIndexChanged(object sender, EventArgs e)
@@ -570,6 +584,16 @@ namespace SimpleApplication
 
 
             _seriesController.StartCapturing();
+        }
+
+        private void ShowFunctions_Click(object sender, EventArgs e)
+        {
+            var frm = new PhaseDisambiguationNaiveForm(new Dictionary<string, ImageHandler>
+            {
+                ["Преобразование Френеля над первой серией"] = _firstSeriesFreshnelProcessor.GetOutputValues().Single() as ImageHandler,
+                ["Преобразование Френеля над второй серией"] = _secondSeriesFreshnelProcessor.GetOutputValues().Single() as ImageHandler,
+                ["Разность над преобразованиями"] = _secondSeriesFreshnelProcessor.GetOutputValues().Single() as ImageHandler,
+            });
         }
     }
 }

@@ -175,7 +175,7 @@ namespace Processing
 
             var kernelName = "copyImageToBuffer";
             if (channelCount > 1)
-                kernelName = kernelName + "2";
+                kernelName = kernelName + "XY";
 
             app.Acquire(this);
 
@@ -194,6 +194,43 @@ namespace Processing
 
             app.Release(this);
         }
+
+        public float[] ReadPhaseFromComputingDevice() => ReadFromComputingDevice("Phase");
+        public float[] ReadAmplitudeFromComputingDevice() => ReadFromComputingDevice("Amplitude");
+        public float[] ReadRealFromComputingDevice() => ReadFromComputingDevice("Real");
+        public float[] ReadImaginativeFromComputingDevice() => ReadFromComputingDevice("Imaginative");
+
+        private float[] ReadFromComputingDevice(string kernelPostfix)
+        {
+            var channelCount = this.GetChannelsCount();
+            if (PixelFormat == ImagePixelFormat.Byte || channelCount == 1)
+                throw new NotImplementedException();
+
+            var app = Singleton.Get<OpenClApplication>();
+            var data = new float[Width * Height];
+            var kernelName = "copyImageToBuffer" + kernelPostfix;
+
+            app.Acquire(this);
+
+            unsafe
+            {
+                fixed (float* dp = data)
+                {
+                    int bufferSize = Width * Height * channelCount;
+                    var computeBuffer = new ComputeBuffer<float>(app.ComputeContext, ComputeMemoryFlags.None, bufferSize);
+
+                    app.ExecuteKernel(kernelName, Width, Height, this, computeBuffer);
+
+                    app.Queue.Read(computeBuffer, true, 0, bufferSize, (IntPtr)dp, null);
+                }
+            }
+
+            app.Release(this);
+
+            return data;
+        }
+
+        
 
         public IImageHandler ExtractSelection(ImageSelection selection)
         {

@@ -251,7 +251,7 @@ __kernel void copyImageToBuffer(__read_only image2d_t img, __global float* buffe
 	buffer[coord.x + coord.y * w] = read_imagef(img, smp, coord).x;
 }
 
-__kernel void copyImageToBuffer2(__read_only image2d_t img, __global float2* buffer)
+__kernel void copyImageToBufferXY(__read_only image2d_t img, __global float2* buffer)
 {
 	const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates
          CLK_ADDRESS_CLAMP | //Clamp to zeros
@@ -261,6 +261,54 @@ __kernel void copyImageToBuffer2(__read_only image2d_t img, __global float2* buf
 	int w = get_global_size(0);
 
 	buffer[coord.x + coord.y * w] = read_imagef(img, smp, coord).xy;
+}
+
+__kernel void copyImageToBufferPhase(__read_only image2d_t img, __global float* buffer)
+{
+	const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates
+         CLK_ADDRESS_CLAMP | //Clamp to zeros
+         CLK_FILTER_NEAREST; //Don't interpolate
+    
+	int2 coord = (int2)(get_global_id(0), get_global_id(1));
+	int w = get_global_size(0);
+
+	buffer[coord.x + coord.y * w] = phase(read_imagef(img, smp, coord).xy);
+}
+
+__kernel void copyImageToBufferAmplitude(__read_only image2d_t img, __global float* buffer)
+{
+	const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates
+         CLK_ADDRESS_CLAMP | //Clamp to zeros
+         CLK_FILTER_NEAREST; //Don't interpolate
+    
+	int2 coord = (int2)(get_global_id(0), get_global_id(1));
+	int w = get_global_size(0);
+
+	buffer[coord.x + coord.y * w] = amplitude(read_imagef(img, smp, coord).xy);
+}
+
+__kernel void copyImageToBufferReal(__read_only image2d_t img, __global float* buffer)
+{
+	const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates
+         CLK_ADDRESS_CLAMP | //Clamp to zeros
+         CLK_FILTER_NEAREST; //Don't interpolate
+    
+	int2 coord = (int2)(get_global_id(0), get_global_id(1));
+	int w = get_global_size(0);
+
+	buffer[coord.x + coord.y * w] = read_imagef(img, smp, coord).x;
+}
+
+__kernel void copyImageToBufferImaginative(__read_only image2d_t img, __global float* buffer)
+{
+	const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | //Natural coordinates
+         CLK_ADDRESS_CLAMP | //Clamp to zeros
+         CLK_FILTER_NEAREST; //Don't interpolate
+    
+	int2 coord = (int2)(get_global_id(0), get_global_id(1));
+	int w = get_global_size(0);
+
+	buffer[coord.x + coord.y * w] = read_imagef(img, smp, coord).y;
 }
 
 __kernel void transpose_img(__read_only image2d_t input, __write_only image2d_t output)
