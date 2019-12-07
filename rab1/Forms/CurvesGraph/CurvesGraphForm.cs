@@ -23,7 +23,8 @@ namespace rab1
         private VisualPolynomial transmission, currentTrans;
         private int[] transm;
         private double prevPoint = double.NaN;
-
+                
+        public event EventHandler ApplyCurveForRow;
         public event EventHandler ApplyCurve;
         public event EventHandler ApplyCurveAll;
         public event EventHandler ApplyPhaseDifferenceCalculation;
@@ -62,7 +63,7 @@ namespace rab1
                 this.currentTrans.AddPoint(x, y);
                 this.RefreshData();
             }
-            this.pictureBox1.Invalidate();
+                        
             return;
         }
 
@@ -75,7 +76,7 @@ namespace rab1
             if (this.prevPoint is double.NaN || this.IsNotAtPictureBox(e.X, e.Y))
                 return;
             this.prevPoint = this.currentTrans.ReplacePoint(this.prevPoint, x, y);
-            this.pictureBox1.Invalidate();
+                      
             this.RefreshData();
         }
 
@@ -99,6 +100,12 @@ namespace rab1
         private void RefreshData()
         {
             this.transm = this.transmission.GetIntArr();
+            this.pictureBox1.Invalidate();
+
+            if (this.ApplyCurveForRow != null)
+            {
+                this.ApplyCurveForRow(this, new EventArgs());
+            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -131,7 +138,7 @@ namespace rab1
                 this.currentTrans.DeletePoint(pointNearClick);
                 this.RefreshData();
             }
-            this.pictureBox1.Invalidate();
+            
             return;
         }
 
@@ -226,12 +233,12 @@ namespace rab1
 
                     this.transmission.SetPointsValues(interpolatedClin);
                     this.RefreshData();
-
-                    this.pictureBox1.Invalidate();
+                                       
                     MessageBox.Show("Клин загружен (cl)");
                 }
             }
         }
+            
 
         public double[] GetPhaseShifts()
         {
@@ -247,6 +254,15 @@ namespace rab1
             for (int i = 0; i < phaseShiftCount; i++) phaseShiftArray[i] = Math.PI * phaseShiftArray[i] / 180.0;
 
             return phaseShiftArray;
+        }
+
+        public int RowNumber
+        {
+            get
+            {
+                int row = int.Parse(txtRowNumber.Text);
+                return row;
+            }
         }
     }
 }
