@@ -64,7 +64,9 @@ namespace rab1
         private double afterRemovingScaleRatio = 1;
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        Pain_t_Core core;
+        Graphic curvesGraphic = null;
+        CurvesGraph curvesGraph = null;
+        Pain_t_Core core = null;
 
         public Form1()
         {
@@ -3434,12 +3436,42 @@ namespace rab1
         }
 
         private void криваяПерекодированияToolStripMenuItem_Click(object sender, EventArgs e)
+        {            
+            this.curvesGraph = new CurvesGraph();
+            this.curvesGraph.ApplyCurveForRow += CurvesGraph_ApplyCurveForRow;             
+            this.curvesGraph.ApplyCurve += CurvesGraph_ApplyCurve;
+            this.curvesGraph.ApplyCurveAll += CurvesGraph_ApplyCurveAll;
+            this.curvesGraph.ApplyPhaseDifferenceCalculation += CurvesGraph_ApplyPhaseDifferenceCalculation;
+
+            this.curvesGraphic = new Graphic(0, 0, null);
+
+            this.curvesGraph.Show();
+            this.curvesGraphic.Show();
+        }
+
+        private void CurvesGraph_ApplyCurveForRow(object sender, EventArgs e)
         {
-           CurvesGraph curvesGraph = new CurvesGraph();
-           curvesGraph.ApplyCurve += CurvesGraph_ApplyCurve;
-           curvesGraph.ApplyCurveAll += CurvesGraph_ApplyCurveAll;
-           curvesGraph.ApplyPhaseDifferenceCalculation += CurvesGraph_ApplyPhaseDifferenceCalculation; 
-           curvesGraph.Show();
+            CurvesGraph curvesGraph = sender as CurvesGraph;
+            if (sender != null)
+            {
+                int row = curvesGraph.RowNumber;
+                int width = zArrayPicture.width;
+
+                int[] recodingArray = curvesGraph.GetRecodingArray();
+                double[] resArray = new double[width];             
+                
+                for (int j = 0; j < width; j++)
+                {
+                    int oldValue = Convert.ToInt32(zArrayPictureOriginal.array[j, row]);
+                    int newValue = recodingArray[oldValue];
+                    resArray[j] = newValue;
+                }
+
+                if (curvesGraphic != null)
+                {
+                    curvesGraphic.DrawGraph(width, row, resArray);
+                }
+            }
         }
 
         private void CurvesGraph_ApplyPhaseDifferenceCalculation(object sender, EventArgs e)

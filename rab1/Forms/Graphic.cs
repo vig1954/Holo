@@ -31,12 +31,13 @@ namespace rab1.Forms
         double maxx = double.MinValue;
         double minx = double.MaxValue;
         Graphics grBack;
-
-        
+               
        
         static int k = 0;  // Для рисования зеленой линии, двигающейся по y
         static int xc = 0; // 
         static int yc = 0; // 
+
+
 
 
         //  w1 - размер массива
@@ -45,13 +46,24 @@ namespace rab1.Forms
         public Graphic(int w1, int wxy, double[] buf)
         {
             InitializeComponent();
-            w  = w1;
+            InitGraph(w1, wxy, buf);
+        }
+        
+        public void DrawGraph(int width, int row, double[] array)
+        {
+            InitGraph(width, row, array);
+        }
+
+        private void InitGraph(int w1, int wxy, double[] buf)
+        {
+
+            w = w1;
             ww = w1;
 
-            buf_gl  = new double[w1];                                // Масштабированные значений
+            buf_gl = new double[w1];                                // Масштабированные значений
             buf1_gl = new double[w1];                                // Истинные значения
-            bf_gl   = new double[w1];                                // Масштабированные значений
-            bf1_gl  = new double[w1];                                // Истинные значения
+            bf_gl = new double[w1];                                // Масштабированные значений
+            bf1_gl = new double[w1];                                // Истинные значения
 
             hScrollBar2.Minimum = 0;                                 //    hScrollBar2
             hScrollBar2.Maximum = w1;
@@ -62,29 +74,30 @@ namespace rab1.Forms
 
             pc1.BackColor = Color.White;                              // PictureBox pc1 - белый фон
             pc1.Location = new System.Drawing.Point(0, 8);
-          
+
             pc1.SizeMode = PictureBoxSizeMode.StretchImage;
             pc1.BorderStyle = BorderStyle.Fixed3D;
-            
-          
+
+
             Bitmap btmBack = new Bitmap(pc1.Width, hh + 64);           //изображение  
-            grBack = Graphics.FromImage(btmBack);       
+            grBack = Graphics.FromImage(btmBack);
             pc1.BackgroundImage = btmBack;
 
             for (int i = 0; i < w1; i++) { double b = buf[i]; buf1_gl[i] = b; if (b < minx) minx = b; if (b > maxx) maxx = b; buf1_gl[i] = b; }
             if (maxx == minx) { MessageBox.Show("max == min = " + Convert.ToString(maxx)); return; }
             label3.Text = minx.ToString();
             label9.Text = maxx.ToString();
-           
-            for (int i = 0; i < w1; i ++) { buf_gl[i] = (buf[i] - minx) * hh / (maxx - minx); }
 
-            for (int i = 0; i < w1; i++) { bf_gl[i]  = buf_gl[i];  }
+            for (int i = 0; i < w1; i++) { buf_gl[i] = (buf[i] - minx) * hh / (maxx - minx); }
+
+            for (int i = 0; i < w1; i++) { bf_gl[i] = buf_gl[i]; }
             for (int i = 0; i < w1; i++) { bf1_gl[i] = buf1_gl[i]; }
             ixx = 0;
 
             Gr(ixx);
         }
-        
+
+
         // --------------График 
         //
         //
@@ -142,14 +155,13 @@ namespace rab1.Forms
             
 
  //           grBack.DrawLine(p3, x0, 0, x0, h + 9);                                                                     // Значение координаты
-
-            
+             
             for (int i = 0; i < w - 1 - x; i++)
-                        {
-                            int y1 =(int) (h - buf_gl[i + x]);
-                            int y2 =(int) (h - buf_gl[i + 1 + x]);
-                            grBack.DrawLine(p2, i + x0, y1, i + 1 + x0, y2);
-                        }
+            {
+                int y1 =(int) (h - buf_gl[i + x]);
+                int y2 =(int) (h - buf_gl[i + 1 + x]);
+                grBack.DrawLine(p2, i + x0, y1, i + 1 + x0, y2);
+            }
             
             pc1.Refresh();
 
