@@ -96,6 +96,8 @@ namespace rab1
 
             Corr256.VisualRegImage = this.Vizual_regImage;
 
+            Teorema1.VisualComplex = this.Complex_pictureBox;
+
 
             relayout();
         }
@@ -3565,8 +3567,16 @@ namespace rab1
             FileMaker fileMaker = new FileMaker();
             fileMaker.Show();
         }
-
-       
+/// <summary>
+/// Теорема Котельникова
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
+        private void теоремаКотельниковаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Teorema1 Teor1 = new Teorema1();
+            Teor1.Show();
+        }
 
         private void LoadCoordinates()
         {
