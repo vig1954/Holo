@@ -21,15 +21,15 @@ namespace rab1
 
     public partial class Form1 : Form
     {
-        
-// -----------------------------------------------------------------------------------------------------------
+
+        // -----------------------------------------------------------------------------------------------------------
         Image[] img = new Image[12];
-        public static ZArrayDescriptor[] zArrayDescriptor    = new ZArrayDescriptor[12];     // Иконки справа
-        public static ZArrayDescriptor zArrayPicture         = new ZArrayDescriptor();            // Массив для главного окна
-        public static ZArrayDescriptor zArrayPictureOriginal = new ZArrayDescriptor(); 
+        public static ZArrayDescriptor[] zArrayDescriptor = new ZArrayDescriptor[12];     // Иконки справа
+        public static ZArrayDescriptor zArrayPicture = new ZArrayDescriptor();            // Массив для главного окна
+        public static ZArrayDescriptor zArrayPictureOriginal = new ZArrayDescriptor();
         public PictureBox[] pictureBoxArray = null;
         public static ZComplexDescriptor[] zComplex = new ZComplexDescriptor[3];
-        
+
         public static int regImage = 0;                           // Номер изображения (0-11)
         public static int regComplex = 0;                         // Номер Complex (0-3)
 
@@ -44,11 +44,11 @@ namespace rab1
         string string_dialog; // = "D:\\Студенты\\Эксперимент";       
 
 
-        
+
 
         int cursorMode = 0;
         Point downPoint;
-       
+
 
 
         private delegate void SetControlPropertyThreadSafeDelegate(Control control, string propertyName, object propertyValue);
@@ -79,31 +79,36 @@ namespace rab1
                 pictureBox1, pictureBox2, pictureBox3, pictureBox4, pictureBox5, pictureBox6, pictureBox7, pictureBox8, pictureBox9, pictureBox10, pictureBox11, pictureBox12
             };
 
-            ADD_Math.VisualRegImage      = this.Vizual_regImage;
-            PSI.VisualRegImage           = this.Vizual_regImage;
-            
-            Form_Filtr.VisualRegImage    = this.Vizual_regImage;
-            Model_Sin.VisualRegImage     = this.Vizual_regImage;
+            ADD_Math.VisualRegImage = this.Vizual_regImage;
+            PSI.VisualRegImage = this.Vizual_regImage;
+
+            Form_Filtr.VisualRegImage = this.Vizual_regImage;
+            Model_Sin.VisualRegImage = this.Vizual_regImage;
             Model_Sin.VisualRegImageAsRaw = this.Vizual_regImageAsRaw;
 
             FrenelForm.Complex_pictureBox = this.Complex_pictureBox;
-            FrenelForm.VisualRegImage     = this.Vizual_regImage; 
+            FrenelForm.VisualRegImage = this.Vizual_regImage;
 
-            ADD_Math.ComplexPictureImage  = this.Complex_pictureBox;
+            ADD_Math.ComplexPictureImage = this.Complex_pictureBox;
 
-            CorrectBr.VisualRegImage     = this.Vizual_regImage;
-            CorrectBr.TakePhoto12        = this.FastTakePhoto;
-            CorrectBr.TakePhoto          = this.FastTakePhoto;
+            CorrectBr.VisualRegImage = this.Vizual_regImage;
+            CorrectBr.TakePhoto12 = this.FastTakePhoto;
+            CorrectBr.TakePhoto = this.FastTakePhoto;
             //ADD_Cmplx.VisualRegImage = this.Vizual_regImage;
 
             Corr256.VisualRegImage = this.Vizual_regImage;
 
             Teorema1.VisualComplex = this.Complex_pictureBox;
-
+            Teorema1.VisualArray   = this.Vizual_Picture_Array;
 
             relayout();
         }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private void Vizual_Picture_Array()  // Визуадизация главного окна
+            {
+                Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+            }
         private void imageTaken(Image newImage)
         {
             //изображение получено

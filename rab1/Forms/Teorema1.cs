@@ -12,10 +12,12 @@ using System.Windows.Forms;
 namespace rab1.Forms
 {
     public delegate void VisualComplexDelegate(int k);
+    public delegate void VisualArrayDelegate();
     public partial class Teorema1 : Form
     {
 
-        public static VisualRegImageDelegate VisualComplex = null;
+        public static VisualComplexDelegate VisualComplex = null;
+        public static VisualArrayDelegate   VisualArray = null;
 
         private static int Number_kadr     = 1;
         private static int Number_Pont_Rec = 1024;
@@ -90,13 +92,13 @@ namespace rab1.Forms
             int nx = Number_Pont;
             int ny = 100;
 
-            double fz = 0, a1 = 1;
+            double a1 = 1;
             ZArrayDescriptor cmpl = new ZArrayDescriptor(nx, ny);
 
             for (int i = 0; i < nx; i++)
                 for (int j = 0; j < ny; j++)
                    { //cmpl.array[i, j] = a1 * (Math.Sin(2.0 * Math.PI * i / Number_Period - fz) + 1.0) / 2.0;     // Число точек
-                     cmpl.array[i, j] = a1 * (Math.Sin(2.0 * Math.PI * i * Number_Period / nx - fz) + 1.0) / 2.0;  // Число периодов
+                     cmpl.array[i, j] = a1 * (Math.Sin(2.0 * Math.PI * i * Number_Period / nx ) + 1.0) / 2.0;  
                 }
             Form1.zComplex[regComplex] = new ZComplexDescriptor(nx, ny);
             Form1.zComplex[regComplex] = new ZComplexDescriptor(cmpl);  // амплитуда = cmpl, фаза - (прежняя) нулевая
@@ -104,10 +106,45 @@ namespace rab1.Forms
 
         }
 /// <summary>
-/// Умножение на прямоугольник
+/// 3 синусоиды
 /// </summary>
 /// <param name="sender"></param>
 /// <param name="e"></param>
+        private void button8_Click(object sender, EventArgs e)
+        {
+            Number_Period = Convert.ToInt32(textBox6.Text);
+            int Number_Period1 = Number_Period / 2;
+            int Number_Period2 = 1;
+            k3 = Convert.ToInt32(textBox7.Text);
+            int regComplex = k3 - 1;
+            Number_Pont = Convert.ToInt32(textBox3.Text);
+
+            int nx = Number_Pont;
+            int ny = 100;
+            
+
+            double a1 = 1;
+            a1 = a1 / 3;
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(nx, ny);
+
+            for (int i = 0; i < nx; i++)
+                for (int j = 0; j < ny; j++)
+                { 
+                    cmpl.array[i, j] = a1 *( (Math.Sin(2.0 * Math.PI * i * Number_Period / nx) + 1.0) / 2.0 +
+                                             (Math.Sin(2.0 * Math.PI * i * Number_Period1 / nx) + 1.0) / 2.0 +
+                                             (Math.Sin(2.0 * Math.PI * i * Number_Period2 /  nx) + 1.0) / 2.0
+                                            ) ;
+                }
+            Form1.zComplex[regComplex] = new ZComplexDescriptor(nx, ny);
+            Form1.zComplex[regComplex] = new ZComplexDescriptor(cmpl);  // амплитуда = cmpl, фаза - (прежняя) нулевая
+            VisualComplex(regComplex);
+
+        }
+        /// <summary>
+        /// Умножение на прямоугольник
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void button5_Click(object sender, EventArgs e)
         {
@@ -127,7 +164,7 @@ namespace rab1.Forms
 
             ZComplexDescriptor cmpl = new ZComplexDescriptor(nx, ny);
             for (int i = 0; i < nx; i++)
-                for (int j = 0; j < ny; j++)
+               for (int j = 0; j < ny; j++)
                     { if (array[i] > 0 ) cmpl.array[i, j] = Form1.zComplex[regComplex].array[i, j];                 }
 
             Form1.zComplex[regComplex] = cmpl;
@@ -213,5 +250,68 @@ namespace rab1.Forms
             Form1.zComplex[k1 - 1] = cmpl;
             VisualComplex(k1 - 1);
         }
+        /// <summary>
+        /// Интерполяция по Котельникову
+        /// в [k5] непрерывная функция
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// 
+        private double Sinc(double x, double dx, int n, int N_Sinc)
+        {
+            double sc = 0;
+            //double d = (Math.PI / dx) *(x - (n - N_Sinc / 2)*dx);
+            double d = (Math.PI / dx) * (x - n  * dx);
+            //double d = (nx / dx) * (n - N_Sinc / 2);
+            if (d != 0) sc = Math.Sin(d) / d; else sc = 1;
+            //f_Sinc[n] = Math.Abs(sc);
+           return sc;
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            k5 = Convert.ToInt32(textBox9.Text);
+            dx = Convert.ToInt32(textBox10.Text);
+            int nx = Form1.zComplex[k5 - 1].width;
+            int ny = Form1.zComplex[k5 - 1].height;
+
+            //nx = 128;
+
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(nx, ny);
+
+            
+            
+            double[] f_Sinc   = new double[nx];
+
+            int N_Sinc = nx/dx;
+            int nx1 = nx + N_Sinc;
+            double[] f = new double[nx1];
+            double[] f_interp = new double[nx1];
+
+            for (int i = 0; i < nx; i++) { f[i] = Form1.zComplex[k1 - 1].array[i, ny / 2].Magnitude; }
+
+            for (int x = 0; x < nx; x++)
+              {
+                  double s = 0;
+                  for (int n = 0; n < N_Sinc; n++)
+                    { 
+                       s += f[n*dx] * Sinc(x, dx, n, N_Sinc);
+                    }
+                  f_interp[x] = s;
+   
+              }
+                        
+            for (int i = 0; i < nx; i++)
+                  for (int j = 0; j < ny; j++)
+                    cmpl.array[i, j] = f_interp[i];
+        
+
+            Form1.zArrayPicture = cmpl;
+
+            VisualArray();
+            Close();
+        }
+
+        
     }
 }

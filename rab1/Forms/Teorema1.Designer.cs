@@ -49,6 +49,8 @@
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox10 = new System.Windows.Forms.TextBox();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
@@ -160,7 +162,7 @@
             this.button4.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button4.Location = new System.Drawing.Point(23, 63);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(244, 21);
+            this.button4.Size = new System.Drawing.Size(79, 21);
             this.button4.TabIndex = 22;
             this.button4.Text = "Синусоида";
             this.button4.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -226,7 +228,7 @@
             // 
             // textBox9
             // 
-            this.textBox9.Location = new System.Drawing.Point(299, 145);
+            this.textBox9.Location = new System.Drawing.Point(299, 163);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(37, 20);
             this.textBox9.TabIndex = 29;
@@ -235,7 +237,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(362, 149);
+            this.label4.Location = new System.Drawing.Point(362, 167);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(22, 13);
             this.label4.TabIndex = 30;
@@ -243,17 +245,43 @@
             // 
             // textBox10
             // 
-            this.textBox10.Location = new System.Drawing.Point(453, 141);
+            this.textBox10.Location = new System.Drawing.Point(450, 160);
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(37, 20);
             this.textBox10.TabIndex = 31;
             this.textBox10.Text = "8";
+            // 
+            // button7
+            // 
+            this.button7.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button7.Location = new System.Drawing.Point(25, 186);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(244, 37);
+            this.button7.TabIndex = 32;
+            this.button7.Text = "Интерполяция по Котельникову\r\nв главное окно zArrayPicture";
+            this.button7.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // button8
+            // 
+            this.button8.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button8.Location = new System.Drawing.Point(127, 62);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(140, 21);
+            this.button8.TabIndex = 33;
+            this.button8.Text = "3 cинусоиды";
+            this.button8.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // Teorema1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button8);
+            this.Controls.Add(this.button7);
             this.Controls.Add(this.textBox10);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.textBox9);
@@ -305,5 +333,7 @@
         private System.Windows.Forms.TextBox textBox9;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBox10;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
     }
 }
