@@ -217,6 +217,7 @@
             this.button9 = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
+            this.теоремаКотельниковаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox01)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -927,7 +928,8 @@
             this.фурьеToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.фурьеToolStripMenuItem1,
             this.интерференцияПлоскихВолнToolStripMenuItem,
-            this.интерференцияСферическихВолнToolStripMenuItem});
+            this.интерференцияСферическихВолнToolStripMenuItem,
+            this.теоремаКотельниковаToolStripMenuItem});
             this.фурьеToolStripMenuItem.Name = "фурьеToolStripMenuItem";
             this.фурьеToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
             this.фурьеToolStripMenuItem.Text = "Голография";
@@ -2009,6 +2011,13 @@
             this.vScrollBar2.TabIndex = 115;
             this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar2_Scroll);
             // 
+            // теоремаКотельниковаToolStripMenuItem
+            // 
+            this.теоремаКотельниковаToolStripMenuItem.Name = "теоремаКотельниковаToolStripMenuItem";
+            this.теоремаКотельниковаToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
+            this.теоремаКотельниковаToolStripMenuItem.Text = "Теорема Котельникова";
+            this.теоремаКотельниковаToolStripMenuItem.Click += new System.EventHandler(this.теоремаКотельниковаToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2303,6 +2312,7 @@
         private System.Windows.Forms.ToolStripMenuItem криваяПерекодированияToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fileMakerToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
+        private System.Windows.Forms.ToolStripMenuItem теоремаКотельниковаToolStripMenuItem;
     }
 }
 
