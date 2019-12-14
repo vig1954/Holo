@@ -204,6 +204,43 @@ namespace rab1.Forms
 
             return faza;
         }
+
+        public static double[] ATAN(double[][] arrays, int regComplex, double[] fz)
+        {
+            int w1 = arrays[regComplex * 4].Length;
+            
+            double[] faza = new double[w1];
+
+            int n_sdv = fz.Length;      // Число фазовых сдвигов
+            
+            double[] i_sdv = new double[n_sdv];
+            double[] k_sin = new double[n_sdv];
+            double[] k_cos = new double[n_sdv];
+
+            for (int i = 0; i < n_sdv; i++)
+            {
+                k_sin[i] = Math.Sin(fz[i]);
+                k_cos[i] = Math.Cos(fz[i]);
+            }
+            k_sin = Vector_orto(k_sin);  // Получение ортогональных векторов для синуса и косинуса
+            k_cos = Vector_orto(k_cos);
+
+            for (int i = 0; i < w1; i++)
+            {
+                for (int ii = 0; ii < n_sdv; ii++)
+                {
+                    i_sdv[ii] = arrays[regComplex * 4 + ii][i];
+                }
+
+                double fz1 = Vector_Mul(i_sdv, k_sin);
+                double fz2 = Vector_Mul(i_sdv, k_cos);
+                    
+                faza[i] = Math.Atan2(fz1, fz2);
+            }
+
+            return faza;
+        }
+
         /// <summary>
         ///  Угол по формуле Carre
         /// </summary>

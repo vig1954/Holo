@@ -47,6 +47,7 @@
             this.txtRowNumber = new System.Windows.Forms.TextBox();
             this.lblRowNumber = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.cbPhaseDifferenceCalculationForRow = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -177,7 +178,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 544);
+            this.label1.Location = new System.Drawing.Point(12, 541);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(94, 13);
             this.label1.TabIndex = 16;
@@ -185,7 +186,7 @@
             // 
             // btnClinLoad
             // 
-            this.btnClinLoad.Location = new System.Drawing.Point(208, 530);
+            this.btnClinLoad.Location = new System.Drawing.Point(208, 497);
             this.btnClinLoad.Name = "btnClinLoad";
             this.btnClinLoad.Size = new System.Drawing.Size(222, 23);
             this.btnClinLoad.TabIndex = 17;
@@ -195,7 +196,7 @@
             // 
             // txtRowNumber
             // 
-            this.txtRowNumber.Location = new System.Drawing.Point(102, 497);
+            this.txtRowNumber.Location = new System.Drawing.Point(101, 494);
             this.txtRowNumber.Name = "txtRowNumber";
             this.txtRowNumber.Size = new System.Drawing.Size(85, 20);
             this.txtRowNumber.TabIndex = 19;
@@ -203,7 +204,7 @@
             // lblRowNumber
             // 
             this.lblRowNumber.AutoSize = true;
-            this.lblRowNumber.Location = new System.Drawing.Point(16, 500);
+            this.lblRowNumber.Location = new System.Drawing.Point(10, 497);
             this.lblRowNumber.Name = "lblRowNumber";
             this.lblRowNumber.Size = new System.Drawing.Size(79, 13);
             this.lblRowNumber.TabIndex = 20;
@@ -218,12 +219,23 @@
             this.label2.TabIndex = 21;
             this.label2.Text = "-";
             // 
+            // cbPhaseDifferenceCalculationForRow
+            // 
+            this.cbPhaseDifferenceCalculationForRow.AutoSize = true;
+            this.cbPhaseDifferenceCalculationForRow.Location = new System.Drawing.Point(212, 532);
+            this.cbPhaseDifferenceCalculationForRow.Name = "cbPhaseDifferenceCalculationForRow";
+            this.cbPhaseDifferenceCalculationForRow.Size = new System.Drawing.Size(213, 17);
+            this.cbPhaseDifferenceCalculationForRow.TabIndex = 22;
+            this.cbPhaseDifferenceCalculationForRow.Text = "Вычислять разность фаз для строки";
+            this.cbPhaseDifferenceCalculationForRow.UseVisualStyleBackColor = true;
+            // 
             // CurvesGraph
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(436, 594);
+            this.Controls.Add(this.cbPhaseDifferenceCalculationForRow);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lblRowNumber);
             this.Controls.Add(this.txtRowNumber);
@@ -279,5 +291,6 @@
         private System.Windows.Forms.TextBox txtRowNumber;
         private System.Windows.Forms.Label lblRowNumber;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox cbPhaseDifferenceCalculationForRow;
     }
 }

@@ -23,10 +23,11 @@ namespace rab1
         private VisualPolynomial transmission, currentTrans;
         private int[] transm;
         private double prevPoint = double.NaN;
-                
+                        
         public event EventHandler ApplyCurveForRow;
         public event EventHandler ApplyCurve;
         public event EventHandler ApplyCurveAll;
+        public event EventHandler ApplyPhaseDifferenceCalculationForRow;
         public event EventHandler ApplyPhaseDifferenceCalculation;
                       
         private void SetInitialValues()
@@ -106,6 +107,11 @@ namespace rab1
             {
                 this.ApplyCurveForRow(this, new EventArgs());
             }
+            
+            if (this.cbPhaseDifferenceCalculationForRow.Checked && this.ApplyPhaseDifferenceCalculationForRow != null)
+            {
+                this.ApplyPhaseDifferenceCalculationForRow(this, new EventArgs());
+            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -178,10 +184,12 @@ namespace rab1
 
         private void btnApplyPhaseDifferenceCalculation_Click(object sender, EventArgs e)
         {
+            
             if (ApplyPhaseDifferenceCalculation != null)
             {
                 ApplyPhaseDifferenceCalculation(this, new EventArgs());
             }
+            
         }
 
         public int GetEndImageNumber()

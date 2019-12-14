@@ -64,6 +64,7 @@ namespace rab1
         private double afterRemovingScaleRatio = 1;
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        Graphic phaseDifferenceGraphic = null;
         Graphic curvesGraphic = null;
         CurvesGraph curvesGraph = null;
         Pain_t_Core core = null;
@@ -3439,12 +3440,75 @@ namespace rab1
             this.curvesGraph.ApplyCurveForRow += CurvesGraph_ApplyCurveForRow;             
             this.curvesGraph.ApplyCurve += CurvesGraph_ApplyCurve;
             this.curvesGraph.ApplyCurveAll += CurvesGraph_ApplyCurveAll;
+            this.curvesGraph.ApplyPhaseDifferenceCalculationForRow += CurvesGraph_ApplyPhaseDifferenceCalculationForRow;
             this.curvesGraph.ApplyPhaseDifferenceCalculation += CurvesGraph_ApplyPhaseDifferenceCalculation;
-
+                        
             this.curvesGraphic = new Graphic(0, 0, null);
+            this.phaseDifferenceGraphic = new Graphic(0, 0, null);
 
             this.curvesGraph.Show();
             this.curvesGraphic.Show();
+            this.phaseDifferenceGraphic.Show();
+        }
+
+        private void CurvesGraph_ApplyPhaseDifferenceCalculationForRow(object sender, EventArgs e)
+        {
+            CurvesGraph curvesGraph = sender as CurvesGraph;
+            if (sender != null)
+            {
+                int row = curvesGraph.RowNumber;
+                int[] recodingArray = curvesGraph.GetRecodingArray();
+                double[] phaseShifts = curvesGraph.GetPhaseShifts();
+
+                double[][] transformedArray = new double[8][];
+
+                int startImageIndex = 0;
+                int endImageIndex = 7;
+
+                int width = zArrayDescriptor[0].width;
+                
+                for (int k = startImageIndex; k <= endImageIndex; k++)
+                {
+                    transformedArray[k] = new double[width];
+
+                    ZArrayDescriptor arrayDescr = zArrayDescriptor[k];
+                    if (arrayDescr == null) continue;
+
+                    for (int j = 0; j < width; j++)
+                    {
+                        int oldValue = Convert.ToInt32(arrayDescr.array[j, row]);
+                        int newValue = recodingArray[oldValue];
+                        transformedArray[k][j] = newValue;
+                    }
+                }
+
+                //4 изображени - первое состояние (без нагрузки)
+                int regComplex = 0;
+                double[] array1 = ATAN_PSI.ATAN(transformedArray, regComplex, phaseShifts);
+
+                //4 изображения - второе состояние (с нагрузкой)
+                regComplex = 1;
+                double[] array2 = ATAN_PSI.ATAN(transformedArray, regComplex, phaseShifts);
+
+                int nx = array1.Length;
+
+                double[][] resArray = new double[4][];
+
+                for (int k = 0, index = 0; k < phaseShifts.Length; k++, index++)
+                {
+                    double[] result = new double[nx];
+                    for (int i = 0; i < nx; i++)
+                    {
+                        result[i] = Math.Cos(array1[i] - array2[i] + phaseShifts[k]);
+                    }
+
+                    resArray[index] = result;
+                }
+
+                double[] finalResult = ATAN_PSI.ATAN(resArray, 0, phaseShifts);
+
+                phaseDifferenceGraphic.DrawGraph(width, 0, finalResult);
+            }
         }
 
         private void CurvesGraph_ApplyCurveForRow(object sender, EventArgs e)
