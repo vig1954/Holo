@@ -39,7 +39,7 @@ namespace rab1
                     return z_array;
                     
                 }
-                catch (Exception ex) { MessageBox.Show("class File_Helper Ошибка при чтении изображения" + ex.Message); return null; }
+                catch (Exception ex) { System.Windows.Forms.MessageBox.Show("class File_Helper Ошибка при чтении изображения" + ex.Message); return null; }
             }
             return null;
         }
@@ -57,7 +57,7 @@ namespace rab1
                 return z_array;
                 
             }
-                catch (Exception ex) { MessageBox.Show("class File_Helper loadImage_from_File Ошибка при чтении изображения" + ex.Message); return null; }
+                catch (Exception ex) { System.Windows.Forms.MessageBox.Show("class File_Helper loadImage_from_File Ошибка при чтении изображения" + ex.Message); return null; }
             
            
         }
@@ -81,7 +81,7 @@ namespace rab1
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(" Ошибка при записи файла " + ex.Message);
+                    System.Windows.Forms.MessageBox.Show(" Ошибка при записи файла " + ex.Message);
                 }
             }
 
@@ -109,7 +109,7 @@ namespace rab1
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Ошибка при записи файла double : " + ex.Message);
+                    System.Windows.Forms.MessageBox.Show("Ошибка при записи файла double : " + ex.Message);
                 }
             }
         }
@@ -139,7 +139,7 @@ namespace rab1
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Ошибка при чтении файла double  :" + ex.Message);
+                    System.Windows.Forms.MessageBox.Show("Ошибка при чтении файла double  :" + ex.Message);
                     return null;
                 }
             }
@@ -170,7 +170,7 @@ namespace rab1
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Ошибка при записи файла complex : " + ex.Message);
+                    System.Windows.Forms.MessageBox.Show("Ошибка при записи файла complex : " + ex.Message);
                 }
             }
         }
@@ -200,7 +200,7 @@ namespace rab1
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Ошибка при чтении файла double  :" + ex.Message);
+                    System.Windows.Forms.MessageBox.Show("Ошибка при чтении файла double  :" + ex.Message);
                     return null;
                 }
             }
@@ -208,7 +208,7 @@ namespace rab1
             return null;
         }
 
-//---------------------------------------------------------------------------------------------------------- END
+        //---------------------------------------------------------------------------------------------------------- END
 
     }
 }

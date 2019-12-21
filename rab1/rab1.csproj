@@ -69,10 +69,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\ClassLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Swordfish.WPF.Charts">
+      <HintPath>..\Library\Swordfish.WPF.Charts.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Windows.Presentation" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -81,10 +89,13 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ADD_Math.cs" />
     <Compile Include="ATAN_PSI.cs" />
+    <Compile Include="AxesInfo.cs" />
     <Compile Include="CameraController.cs" />
     <Compile Include="CanonCamera\CameraForm.cs">
       <SubType>Form</SubType>
@@ -98,6 +109,7 @@
     <Compile Include="ColorItem.cs" />
     <Compile Include="ColorModeEnum.cs" />
     <Compile Include="ControlExtensions.cs" />
+    <Compile Include="DependencyPropertyInfo.cs" />
     <Compile Include="File_Change_Size.cs" />
     <Compile Include="Forms\ADD_Cmplx.cs">
       <SubType>Form</SubType>
@@ -106,6 +118,9 @@
       <DependentUpon>ADD_Cmplx.cs</DependentUpon>
     </Compile>
     <Compile Include="CUDA_FFT.cs" />
+    <Compile Include="Forms\ChartControl\SwordfishXYLineChartControl.xaml.cs">
+      <DependentUpon>SwordfishXYLineChartControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Corr256.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,6 +157,7 @@
     <Compile Include="Forms\Graph3D.Designer.cs">
       <DependentUpon>Graph3D.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\GraphFormHost.cs" />
     <Compile Include="Forms\Graphic2D.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -180,13 +196,18 @@
     </Compile>
     <Compile Include="FurieN.cs" />
     <Compile Include="GammaCorrection.cs" />
+    <Compile Include="GraphInfo.cs" />
     <Compile Include="GroupItem.cs" />
+    <Compile Include="HelperWPF.cs" />
     <Compile Include="ImageLayer.cs" />
     <Compile Include="ImageSaveItem.cs" />
     <Compile Include="ImsgeSaveModeEnum.cs" />
+    <Compile Include="OS.cs" />
     <Compile Include="Pain_t_Core.cs" />
     <Compile Include="PhaseShiftDeviceController.cs" />
     <Compile Include="PhaseShiftParameters.cs" />
+    <Compile Include="PlaneManager.cs" />
+    <Compile Include="Point2D.cs" />
     <Compile Include="Polynomial.cs" />
     <Compile Include="RecodingHelper.cs" />
     <Compile Include="Rot.cs" />
@@ -471,6 +492,12 @@
       <Project>{aeb0a485-01fc-4111-818c-e81434a388f1}</Project>
       <Name>EDSDKLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Forms\ChartControl\SwordfishXYLineChartControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

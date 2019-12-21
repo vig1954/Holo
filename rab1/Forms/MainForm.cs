@@ -282,14 +282,42 @@ namespace rab1
                     xx = pdgn_scale(w_max, h_max, rx, ry, xx, yy, 1);
                     yy = pdgn_scale(w_max, h_max, rx, ry, xx, yy, 2);
                 }
-               
+
 
                 if (radioButton22.Checked != true)                                      // по X
                 {
                     double[] buf = new double[zArrayPicture.width];
                     buf = Graphic_util.Graph_x(zArrayPicture, yy);
-                    Graphic graphic_x = new Graphic(zArrayPicture.width, yy, buf);
-                    graphic_x.Show();
+
+                    if (cbAltChart.Checked)
+                    {
+                        GraphFormHost graphFormHost = new GraphFormHost();
+                        IList<GraphInfo> graphCollection = new List<GraphInfo>();
+
+                        Point2D[] graphPoints = new Point2D[zArrayPicture.width];
+                        for (int j = 0; j < buf.Length; j++)
+                        {
+                            graphPoints[j] = new Point2D(j, buf[j]);
+                        }
+
+                        GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Red, graphPoints, true);
+                        graphCollection.Add(graphInfo);
+
+                        graphFormHost.GraphInfoCollection = graphCollection;
+
+                        Form form = new Form();
+                        form.Height = 300;
+                        form.Width = 900;
+                        graphFormHost.Dock = DockStyle.Fill;
+                        form.Controls.Add(graphFormHost);
+                        form.Show();
+                    }
+                    else
+                    {
+                        
+                        Graphic graphic_x = new Graphic(zArrayPicture.width, yy, buf);
+                        graphic_x.Show();
+                    }
                 }
                 else                                                                     // по Y
                 {
@@ -3489,7 +3517,7 @@ namespace rab1
                     }
                 }
 
-                //4 изображени - первое состояние (без нагрузки)
+                //4 изображения - первое состояние (без нагрузки)
                 int regComplex = 0;
                 double[] array1 = ATAN_PSI.ATAN(transformedArray, regComplex, phaseShifts);
 
