@@ -64,10 +64,15 @@ namespace rab1
         private double afterRemovingScaleRatio = 1;
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        GraphFormHost phaseDifferenceGrphFormHost = null;
+        Form phaseDifferenceAltGraphicForm = null;
+
         Graphic phaseDifferenceGraphic = null;
         Graphic curvesGraphic = null;
         CurvesGraph curvesGraph = null;
         Pain_t_Core core = null;
+
+
 
         public Form1()
         {
@@ -3481,9 +3486,19 @@ namespace rab1
             this.curvesGraphic = new Graphic(0, 0, null);
             this.phaseDifferenceGraphic = new Graphic(0, 0, null);
 
+            /*
+            this.phaseDifferenceAltGraphicForm = new Form();
+            this.phaseDifferenceGraphFormHost = new GraphFormHost();
+            this.phaseDifferenceAltGraphicForm.Width = 800;
+            this.phaseDifferenceAltGraphicForm.Height = 400;
+            formHost.Dock = DockStyle.Fill;
+            this.phaseDifferenceAltGraphicForm.Controls.Add(this.PhaseDifferenceGraphFormHost);
+            */
+
             this.curvesGraph.Show();
             this.curvesGraphic.Show();
             this.phaseDifferenceGraphic.Show();
+            //this.phaseDifferenceAltGraphicForm.Show();
         }
 
         private void CurvesGraph_ApplyPhaseDifferenceCalculationForRow(object sender, EventArgs e)
@@ -3543,6 +3558,21 @@ namespace rab1
                 double[] finalResult = ATAN_PSI.ATAN(resArray, 0, phaseShifts);
 
                 phaseDifferenceGraphic.DrawGraph(width, 0, finalResult);
+
+                /*
+                IList<GraphInfo> graphCollection = new List<GraphInfo>();
+
+                Point2D[] graphPoints = new Point2D[zArrayPicture.width];
+                for (int j = 0; j < finalResult.Length; j++)
+                {
+                    graphPoints[j] = new Point2D(j, finalResult[j]);
+                }
+
+                GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Red, graphPoints, true);
+                graphCollection.Add(graphInfo);
+
+                graphFormHost.GraphInfoCollection = graphCollection;
+                */
             }
         }
 

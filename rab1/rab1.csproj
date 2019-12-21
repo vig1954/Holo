@@ -118,6 +118,12 @@
       <DependentUpon>ADD_Cmplx.cs</DependentUpon>
     </Compile>
     <Compile Include="CUDA_FFT.cs" />
+    <Compile Include="Forms\AltGraphicForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AltGraphicForm.Designer.cs">
+      <DependentUpon>AltGraphicForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ChartControl\SwordfishXYLineChartControl.xaml.cs">
       <DependentUpon>SwordfishXYLineChartControl.xaml</DependentUpon>
     </Compile>
