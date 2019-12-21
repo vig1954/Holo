@@ -175,6 +175,38 @@ namespace rab1.Forms
           
             VisualComplex(regComplex);
         }
+
+        /// <summary>
+        /// Оставить точки, ограниченные прямоугольником
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            k4 = Convert.ToInt32(textBox8.Text);
+            Number_Pont_Rec = Convert.ToInt32(textBox2.Text);
+            Number_Pont = Convert.ToInt32(textBox3.Text);
+            int regComplex = k4 - 1;
+
+            int nx = Number_Pont;
+            int ny = 100;
+            int x0 = Number_Pont / 2 - Number_Pont_Rec / 2;
+
+
+            ZComplexDescriptor cmpl = new ZComplexDescriptor(Number_Pont_Rec, ny);
+            for (int i = 0; i < Number_Pont_Rec; i++)
+                for (int j = 0; j < ny; j++)
+                {  cmpl.array[i, j] = Form1.zComplex[regComplex].array[x0 + i, j]; }
+
+            Form1.zComplex[regComplex] = cmpl;
+            Number_Pont = Number_Pont_Rec;
+
+            VisualComplex(regComplex);
+        }
+
+
+
         /// <summary>
         /// Фурье по строке 
         /// </summary>
@@ -296,7 +328,7 @@ namespace rab1.Forms
             double[] f = new double[nx1];
             double[] f_interp = new double[nx1];
 
-            for (int i = 0; i < nx; i++) { f[i] = Form1.zComplex[k1 - 1].array[i, ny / 2].Magnitude; }
+            for (int i = 0; i < nx; i++) { f[i] = Form1.zComplex[k5 - 1].array[i, ny / 2].Magnitude; }
 
             for (int x = 0; x < nx; x++)
               {
@@ -326,8 +358,8 @@ namespace rab1.Forms
 /// <param name="e"></param>
         private void button9_Click(object sender, EventArgs e)
         {
-            Number_Pont_Rec = Convert.ToInt32(textBox2.Text);
-            int n = Number_Pont_Rec;
+           
+            
             dx = Convert.ToInt32(textBox10.Text);
             //int N_Sinc = Number_Pont_Rec / dx;    // 1024/64=16
             k1 = Convert.ToInt32(textBox4.Text);  // Из первого окна
@@ -336,49 +368,58 @@ namespace rab1.Forms
             int nx = Form1.zComplex[k5 - 1].width;
             int ny = Form1.zComplex[k5 - 1].height;
 
-            Complex[] c  = new Complex[Number_Pont_Rec];
-            Complex[] c1 = new Complex[Number_Pont_Rec];
+            Complex[] c  = new Complex[nx];
+            Complex[] c1 = new Complex[nx];
 
-            int x0 = nx / 2 - Number_Pont_Rec / 2;
-            for (int i = 0; i < Number_Pont_Rec; i+=dx) c[i] = Form1.zComplex[k1 - 1].array[x0 + i, ny / 2];
+          //  int x0 = nx / 2 - Number_Pont_Rec / 2;
+            for (int i = 0; i < nx; i++) c[i] = Form1.zComplex[k1 - 1].array[i, ny / 2];
 
-            int m = Furie.PowerOfTwo(n);                                       // nx=2**m
-            c1 = Furie.GetFourierTransform(c, m);                              // Фурье
+            int m = Furie.PowerOfTwo(nx);                                       // nx=2**m
+            c1 = Furie.GetFourierTransform(c, m);                               // Фурье
 
-            int Pi_dx = n / dx;
+            int Pi_dx = nx / dx;
             
-            Complex[] array = new Complex[Number_Pont_Rec];
-            for (int i = 0; i < Pi_dx/2; i++) { array[i] = c1[i]; }                                                     // Один спектр
-            for (int i = Number_Pont_Rec - Pi_dx / 2; i < Number_Pont_Rec; i++) { array[i] = c1[i]; }
+            Complex[] array = new Complex[nx];
+            for (int i = 0; i < Pi_dx/2; i++)         { array[i] = c1[i]; }                                                     // Один спектр
+            for (int i = nx - Pi_dx / 2; i < nx; i++) { array[i] = c1[i]; }
 
-            x0 = n / 2 - Pi_dx / 2;
-            int x1 = n / 2 + Pi_dx / 2;
 
+            //int x1 = n / 2 + Pi_dx / 2;
             //for (int i = x0; i < x1; i++) { array[i] = c1[i]; }                                                       // Один спектр
-            //for (int i = 0; i < n; i++)   { c1[i] = new Complex(0.0, 0.0);  }
+
+
+              for (int i = 0; i < nx; i++)   { c1[i] = new Complex(0.0, 0.0);  }
             //for (int i = 0; i < Pi_dx; i++) array[i * dx] = c1[x0 + i];                                               // Расширение на Number_Pont_Rec
             //for (int i = 0; i < Pi_dx/2; i++) array[i * dx] = c1[x0 + i];
+             // for (int i = 0;    i < Pi_dx / 2;  i++) { c1[i * dx] = array[i];         }                                              
+             // for (int i = nx/2; i < nx;         i++) { c1[i]      = c1[nx - i]; }
+            /*
+                        double[] f = new double[nx];
+                                   double[] f_interp = new double[nx];
+                                   //for (int i = 0; i < n; i++) f[i] = c1[i].Magnitude;
+                                   for (int i = 0; i < nx; i++) f[i] = array[i].Magnitude;
+                        dx = 1;
+                                   int N_Sinc = nx / dx;
 
-            /*           
-                       double[] f = new double[n];
-                       double[] f_interp = new double[n];
-                       //for (int i = 0; i < n; i++) f[i] = c1[i].Magnitude;
-                       for (int i = 0; i < n; i++) f[i] = array[i].Magnitude;
+                                               for (int x = 0; x < nx; x++)
+                                               {
+                                                   double s = 0;
+                                                   for (int nn = 0; nn < N_Sinc; nn++)
+                                                   {
+                                                       s += f[nn * dx] * Sinc(x, dx, nn);
+                                                   }
+                                                   f_interp[x] = s;
+                                               }
 
-                       int N_Sinc = n / dx;
+                                   for (int i = 0; i < nx; i++) array[i] = new  Complex(f_interp[i], 0.0);
+              */
+            /*
+                        for (int i = 0;      i < nx;        i++) { array[i] = new Complex(0.0, 0.0); }     // Сжатие (обратное)
+                        for (int i = 0;      i < Pi_dx / 2; i++) { array[i] = c1[i*dx]; }
+                        for (int i = nx / 2; i < nx;        i++) { array[i] = array[nx-i]; }
 
-                                   for (int x = 0; x < n; x++)
-                                   {
-                                       double s = 0;
-                                       for (int nn = 0; nn < N_Sinc; nn++)
-                                       {
-                                           s += f[nn * dx] * Sinc(x, dx, nn);
-                                       }
-                                       f_interp[x] = s;
-                                   }
+*/
 
-                       for (int i = 0; i < n; i++) array[i] = new  Complex(f_interp[i], 0.0);
-           */
             //int n = N_Sinc * dx;
 
             //MessageBox.Show(" N_Sinc= " + N_Sinc + " n = " + n + " m = " + m + " dx = " + dx);
@@ -387,29 +428,31 @@ namespace rab1.Forms
 
             //for (int i = 0; i < Number_Pont_Rec; i++) c2[i*dx]=c1[i];
 
+          
+                        Form1.zComplex[k2-1] = new ZComplexDescriptor(nx, ny);
+                        for (int i = 0; i < nx; i++)
+                            for (int j = 0; j < ny; j++)
+                                Form1.zComplex[k2-1].array[i, j] = array[i];
+                        VisualComplex(k2 - 1);
 
-            Form1.zComplex[k2-1] = new ZComplexDescriptor(n, ny);
-            for (int i = 0; i < n; i++)
-                for (int j = 0; j < ny; j++)
-                    Form1.zComplex[k2-1].array[i, j] = array[i];
-            VisualComplex(k2 - 1);
+            /*
+                        c1 = Furie.GetInverseFourierTransform(array, m);
 
-/*
-            c1 = Furie.GetInverseFourierTransform(array, m);
+                        Form1.zComplex[k2] = new ZComplexDescriptor(n, ny);
 
-            Form1.zComplex[k2] = new ZComplexDescriptor(n, ny);
+                        //x0 = nx / 2 - n / 2;
 
-            //x0 = nx / 2 - n / 2;
+                        x0 = 0;
+                        //MessageBox.Show(" x0= " + x0 );
+                        for (int i = 0; i < n; i++)
+                            for (int j = 0; j < ny; j++)
+                                Form1.zComplex[k2].array[i, j] = c1[i];
 
-            x0 = 0;
-            //MessageBox.Show(" x0= " + x0 );
-            for (int i = 0; i < n; i++)
-                for (int j = 0; j < ny; j++)
-                    Form1.zComplex[k2].array[i, j] = c1[i];
 
-           
-            VisualComplex(k2);
-*/
+                        VisualComplex(k2);
+            */
         }
+
+
     }
 }
