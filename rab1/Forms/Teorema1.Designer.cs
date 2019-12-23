@@ -54,6 +54,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.button9 = new System.Windows.Forms.Button();
             this.button10 = new System.Windows.Forms.Button();
+            this.button11 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
@@ -97,7 +98,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(511, 52);
+            this.label1.Location = new System.Drawing.Point(511, 24);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(68, 13);
             this.label1.TabIndex = 15;
@@ -105,7 +106,7 @@
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(617, 48);
+            this.textBox3.Location = new System.Drawing.Point(524, 48);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(37, 20);
             this.textBox3.TabIndex = 16;
@@ -114,7 +115,7 @@
             // button1
             // 
             this.button1.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button1.Location = new System.Drawing.Point(20, 316);
+            this.button1.Location = new System.Drawing.Point(23, 368);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(141, 21);
             this.button1.TabIndex = 17;
@@ -125,7 +126,7 @@
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(294, 336);
+            this.textBox4.Location = new System.Drawing.Point(297, 388);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(37, 20);
             this.textBox4.TabIndex = 18;
@@ -134,7 +135,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(360, 339);
+            this.label2.Location = new System.Drawing.Point(363, 391);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(19, 13);
             this.label2.TabIndex = 19;
@@ -142,7 +143,7 @@
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(405, 336);
+            this.textBox5.Location = new System.Drawing.Point(408, 388);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(37, 20);
             this.textBox5.TabIndex = 20;
@@ -151,7 +152,7 @@
             // button3
             // 
             this.button3.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button3.Location = new System.Drawing.Point(167, 316);
+            this.button3.Location = new System.Drawing.Point(170, 368);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(97, 21);
             this.button3.TabIndex = 21;
@@ -289,7 +290,7 @@
             // button9
             // 
             this.button9.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button9.Location = new System.Drawing.Point(20, 355);
+            this.button9.Location = new System.Drawing.Point(23, 407);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(244, 21);
             this.button9.TabIndex = 35;
@@ -310,11 +311,24 @@
             this.button10.UseVisualStyleBackColor = true;
             this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
+            // button11
+            // 
+            this.button11.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button11.Location = new System.Drawing.Point(25, 287);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(244, 37);
+            this.button11.TabIndex = 37;
+            this.button11.Text = "Интерполяция c ограниченной решеткой Дирака";
+            this.button11.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
+            // 
             // Teorema1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(667, 458);
+            this.ClientSize = new System.Drawing.Size(576, 458);
+            this.Controls.Add(this.button11);
             this.Controls.Add(this.button10);
             this.Controls.Add(this.button9);
             this.Controls.Add(this.label6);
@@ -376,5 +390,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button button11;
     }
 }

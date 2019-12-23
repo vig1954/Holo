@@ -287,25 +287,79 @@ namespace rab1.Forms
             Form1.zComplex[k5 - 1] = cmpl;
             VisualComplex(k5 - 1);
         }
+      
+        private double Sinc(double x, double dx, int n)
+        {
+            double sc = 0;
+           
+            double d = (Math.PI / dx) * (x - n  * dx);
+            if (d != 0) sc = Math.Sin(d) / d; else sc = 1;
+           
+           return sc;
+        }
+        private double[] Svrtk_Sinc(double[] f, int dx, int nx)
+        {
+
+            int N_Sinc = nx / dx;
+            int nx1 = nx + N_Sinc;
+            double[] f_interp = new double[nx1];
+
+            for (int x = 0; x < nx1; x++)
+            {
+                double s = 0;
+                for (int n = 0; n < N_Sinc; n++)
+                {
+                    s += f[n * dx] * Sinc(x, dx, n);
+                }
+                f_interp[x] = s ;
+
+            }
+            return f_interp;
+        }
+
+        private double SinS(double x, int dx, int n, int nx)
+        {
+            double sc = 0;
+            double Pi_dx_N = Math.PI / (nx * dx);
+            double Pi_dx   = Math.PI /  dx;
+
+
+            double d  = Math.Sin(2*Pi_dx_N * (x - n * dx));
+            double d1 = Math.Sin(Pi_dx * (x - n * dx));
+
+            if (d != 0) sc = 2*d1 / d; else sc = nx;
+         
+            return sc / nx;
+        }
+
+       
+        private double[] Svrtk_SinS(double[] f, int dx, int nx)
+        {
+
+            int N_Sinc = nx / dx;
+            int nx1 = nx + N_Sinc;
+            double[] f_interp = new double[nx1];
+
+            for (int x = 0; x < nx1; x++)
+            {
+                double s = 0;
+                for (int n = 0; n < N_Sinc; n++)
+                {
+                    s += f[n * dx] * SinS(x, dx, n, nx);
+                }
+                f_interp[x] = s;
+
+            }
+            return f_interp;
+        }
         /// <summary>
-        /// Интерполяция по Котельникову
+        /// Интерполяция с ограниченной решеткой Дирака
         /// в [k5] непрерывная функция
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// 
-        private double Sinc(double x, double dx, int n)
-        {
-            double sc = 0;
-            //double d = (Math.PI / dx) *(x - (n - N_Sinc / 2)*dx);
-            double d = (Math.PI / dx) * (x - n  * dx);
-            //double d = (nx / dx) * (n - N_Sinc / 2);
-            if (d != 0) sc = Math.Sin(d) / d; else sc = 1;
-            //f_Sinc[n] = Math.Abs(sc);
-           return sc;
-        }
-
-        private void button7_Click(object sender, EventArgs e)
+        private void button11_Click(object sender, EventArgs e)
         {
             k5 = Convert.ToInt32(textBox9.Text);
             dx = Convert.ToInt32(textBox10.Text);
@@ -319,28 +373,68 @@ namespace rab1.Forms
 
             ZArrayDescriptor cmpl = new ZArrayDescriptor(nx, ny);
 
-            
-            
-            double[] f_Sinc   = new double[nx];
+            int N_Sinc = nx / dx;
+            int nx1 = nx + N_Sinc;
+            double[] f = new double[nx1];
+            double[] f_interp = new double[nx1];
 
+            for (int i = 0; i < nx; i++) { f[i] = Form1.zComplex[k5 - 1].array[i, ny / 2].Magnitude; }
+         
+
+            f_interp = Svrtk_SinS(f, dx, nx);  // --------------------------------------------------------------
+
+            for (int i = 0; i < nx; i++)
+                for (int j = 0; j < ny; j++)
+                    cmpl.array[i, j] = f_interp[i];
+
+
+            Form1.zArrayPicture = cmpl;
+
+            VisualArray();
+            Close();
+        }
+        /// <summary>
+        /// Интерполяция по Котельникову
+        /// в [k5] непрерывная функция
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// 
+        private void button7_Click(object sender, EventArgs e)
+        {
+            k5 = Convert.ToInt32(textBox9.Text);
+            dx = Convert.ToInt32(textBox10.Text);
+            //Number_Sinc = Convert.ToInt32(textBox11.Text);
+
+
+            int nx = Form1.zComplex[k5 - 1].width;
+            int ny = Form1.zComplex[k5 - 1].height;
+
+            //nx = 128;
+
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(nx, ny);
+            
             int N_Sinc = nx/dx;
             int nx1 = nx + N_Sinc;
             double[] f = new double[nx1];
             double[] f_interp = new double[nx1];
 
             for (int i = 0; i < nx; i++) { f[i] = Form1.zComplex[k5 - 1].array[i, ny / 2].Magnitude; }
+            /*
+                        for (int x = 0; x < nx; x++)
+                          {
+                              double s = 0;
+                              for (int n = 0; n < N_Sinc; n++)
+                                { 
+                                   s += f[n*dx] * Sinc(x, dx, n);
+                                }
+                              f_interp[x] = s;
 
-            for (int x = 0; x < nx; x++)
-              {
-                  double s = 0;
-                  for (int n = 0; n < N_Sinc; n++)
-                    { 
-                       s += f[n*dx] * Sinc(x, dx, n);
-                    }
-                  f_interp[x] = s;
-   
-              }
-                        
+                          }
+             */
+
+            f_interp = Svrtk_Sinc(f, dx, nx);
+
             for (int i = 0; i < nx; i++)
                   for (int j = 0; j < ny; j++)
                     cmpl.array[i, j] = f_interp[i];
@@ -453,6 +547,6 @@ namespace rab1.Forms
             */
         }
 
-
+     
     }
 }
