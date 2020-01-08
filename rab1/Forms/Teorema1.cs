@@ -261,11 +261,12 @@ namespace rab1.Forms
 
             c1 = Furie.GetInverseFourierTransform(c, m);
 
-
+            double d2 = Math.Sqrt(dx);
             Form1.zComplex[k2 - 1] = new ZComplexDescriptor(nx, ny);
             for (int i = 0; i < nx; i++)
                 for (int j = 0; j < ny; j++)
-                    Form1.zComplex[k2 - 1].array[i, j] = dx*c1[i];
+                    //Form1.zComplex[k2 - 1].array[i, j] = dx*c1[i];
+                      Form1.zComplex[k2 - 1].array[i, j] = d2*c1[i];
 
             VisualComplex(k2 - 1);
             //Close();
@@ -496,14 +497,15 @@ namespace rab1.Forms
             //MessageBox.Show("nxd = " + nxd +" m = " + m);
             cd = Furie.GetFourierTransform(cd, m);                               // Фурье
 
-            int n = nx * dx;
-            Complex[] array = new Complex[n];
-            array[n/2] = cd[0];
+           
+            Complex[] array = new Complex[nx];
+            array[nx/2] = cd[0];
             for (int i = 1;  i < nxd / 2;  i++)  // Расширение на dx  сдвиг в центр
             {
-                array[n / 2 + i*dx] = cd[i];
-                array[n / 2 - i*dx] = cd[nxd-i];
-
+                //array[nx / 2 + i*dx] = cd[i];
+                //array[nx / 2 - i*dx] = cd[nxd-i];
+                array[nx / 2 + i ] = cd[i];
+                array[nx / 2 - i ] = cd[nxd - i];
             }
 
  /*            array[i * dx] = cd[i];                 // Расширение на dx
@@ -514,8 +516,8 @@ namespace rab1.Forms
             for (int i = 0; i < n/2; i++)  c[i]       = array[n/2 + i ];
 */
            
-            Form1.zComplex[k2 - 1] = new ZComplexDescriptor(n, ny);
-            for (int i = 0; i < n; i++)
+            Form1.zComplex[k2 - 1] = new ZComplexDescriptor(nx, ny);
+            for (int i = 0; i < nx; i++)
                 for (int j = 0; j < ny; j++)
                     Form1.zComplex[k2 - 1].array[i, j] = array[i];
 
