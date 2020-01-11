@@ -296,30 +296,10 @@ namespace rab1
 
                     if (cbAltChart.Checked)
                     {
-                        GraphFormHost graphFormHost = new GraphFormHost();
-                        IList<GraphInfo> graphCollection = new List<GraphInfo>();
-
-                        Point2D[] graphPoints = new Point2D[zArrayPicture.width];
-                        for (int j = 0; j < buf.Length; j++)
-                        {
-                            graphPoints[j] = new Point2D(j, buf[j]);
-                        }
-
-                        GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Black, graphPoints, true);
-                        graphCollection.Add(graphInfo);
-
-                        graphFormHost.GraphInfoCollection = graphCollection;
-
-                        Form form = new Form();
-                        form.Height = 300;
-                        form.Width = 900;
-                        graphFormHost.Dock = DockStyle.Fill;
-                        form.Controls.Add(graphFormHost);
-                        form.Show();
+                        ShowAltGraphic(buf);
                     }
                     else
                     {
-                        
                         Graphic graphic_x = new Graphic(zArrayPicture.width, yy, buf);
                         graphic_x.Show();
                     }
@@ -328,8 +308,16 @@ namespace rab1
                 {
                     double[] buf1 = new double[zArrayPicture.height];
                     buf1 = Graphic_util.Graph_y(zArrayPicture, xx);
-                    Graphic graphic_y = new Graphic(zArrayPicture.height, xx, buf1);
-                    graphic_y.Show();
+
+                    if (cbAltChart.Checked)
+                    {
+                        ShowAltGraphic(buf1);
+                    }
+                    else
+                    {
+                        Graphic graphic_y = new Graphic(zArrayPicture.height, xx, buf1);
+                        graphic_y.Show();
+                    }
                 }
                 pictureBox01.Invalidate();
 
@@ -339,6 +327,31 @@ namespace rab1
 
 
         }
+        //--------------------------------------------------------------
+        private void ShowAltGraphic(double[] buf)
+        {
+            GraphFormHost graphFormHost = new GraphFormHost();
+            IList<GraphInfo> graphCollection = new List<GraphInfo>();
+
+            Point2D[] graphPoints = new Point2D[buf.Length];
+            for (int j = 0; j < buf.Length; j++)
+            {
+                graphPoints[j] = new Point2D(j, buf[j]);
+            }
+
+            GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Black, graphPoints, true);
+            graphCollection.Add(graphInfo);
+
+            graphFormHost.GraphInfoCollection = graphCollection;
+
+            Form form = new Form();
+            form.Height = 300;
+            form.Width = 900;
+            graphFormHost.Dock = DockStyle.Fill;
+            form.Controls.Add(graphFormHost);
+            form.Show();
+        }
+
         //  -----------------------------------------------------------      График 3D
         private void dToolStripMenuItem_Click(object sender, EventArgs e)
         {
