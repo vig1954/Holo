@@ -291,7 +291,43 @@ namespace rab1.Forms
             Form1.zComplex[k5 - 1] = cmpl;
             VisualComplex(k5 - 1);
         }
-      
+/// <summary>
+///  SinC => Главное окно
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
+        private void button15_Click(object sender, EventArgs e)
+        {
+            Number_Pont = Convert.ToInt32(textBox3.Text);       // Общее число точек
+            Number_Pont_Rec = Convert.ToInt32(textBox2.Text);   // Число точек в прямоугольнике
+            int N = Number_Pont_Rec;
+            int nx = Number_Pont;
+            int ny = 100;
+
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(nx, ny);
+            for (int i = 0; i < nx; i++)
+                for (int y = 0; y < ny; y++)
+                {
+                    double x = 2*Math.PI * i / nx;
+                    cmpl.array[i, y] = Sinc1(x, N, nx);
+                }
+
+            Form1.zArrayPicture = cmpl;
+
+            VisualArray();
+
+        }
+
+        private double Sinc1(double x, int n, int nx)
+        {
+            double sc = 0;
+
+            double d = n*(x - Math.PI) /(2.0);
+            if (d != 0) sc = Math.Sin(d) / d; else sc = 1;
+
+            return sc;
+        }
+
         private double Sinc(double x, double dx, int n)
         {
             double sc = 0;
@@ -559,5 +595,45 @@ namespace rab1.Forms
                     Form1.zComplex[k6 - 1].array[i, j] =c[i];
             VisualComplex(k6 - 1);
         }
+/// <summary>
+///  Дискретная свертка
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
+        private void button14_Click(object sender, EventArgs e)
+        {
+            k1 = Convert.ToInt32(textBox4.Text);  // Из первого окна  f1
+            k2 = Convert.ToInt32(textBox5.Text);  // Из второго       f2
+
+            int nx = Form1.zArrayDescriptor[k1 - 1].width;
+            int ny = Form1.zArrayDescriptor[k1 - 1].height;
+
+            int M = nx;
+            int N = Form1.zArrayDescriptor[k2 - 1].width;
+
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(M + N - 1, ny);
+            double[] rez = new double[M + N - 1];
+            double[] x = new double[M];
+            double[] h = new double[N];
+
+            for (int i = 0; i < M; i++) x[i] = Form1.zArrayDescriptor[k1 - 1].array[i, ny / 2];
+            for (int i = 0; i < N; i++) h[i] = Form1.zArrayDescriptor[k2 - 1].array[i, ny / 2];
+
+            for (int i = 0; i < N + M - 1; i++)
+            {
+                for (int j = 0; j < M; j++) { if (i - j >= 0 && i - j < N)  rez[i] += x[i - j] * h[j];  }
+            }
+
+            for (int i = 0; i < M+N-1; i++)
+                for (int j = 0; j < ny; j++)
+                    cmpl.array[i, j] = rez[i];
+
+            Form1.zArrayPicture = cmpl;
+
+            VisualArray();
+
+        }
+
+        
     }
 }
