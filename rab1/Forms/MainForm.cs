@@ -63,16 +63,15 @@ namespace rab1
         private double initialScaleRatio = 1;
         private double afterRemovingScaleRatio = 1;
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        GraphFormHost phaseDifferenceGrphFormHost = null;
+                
+        GraphFormHost phaseDifferenceGraphFormHost = null;
         Form phaseDifferenceAltGraphicForm = null;
 
-        Graphic phaseDifferenceGraphic = null;
-        Graphic curvesGraphic = null;
+        GraphFormHost curvesGraphFormHost = null;
+        Form curvesAltGraphicForm = null;
+
         CurvesGraph curvesGraph = null;
         Pain_t_Core core = null;
-
-
 
         public Form1()
         {
@@ -3495,23 +3494,25 @@ namespace rab1
             this.curvesGraph.ApplyCurveAll += CurvesGraph_ApplyCurveAll;
             this.curvesGraph.ApplyPhaseDifferenceCalculationForRow += CurvesGraph_ApplyPhaseDifferenceCalculationForRow;
             this.curvesGraph.ApplyPhaseDifferenceCalculation += CurvesGraph_ApplyPhaseDifferenceCalculation;
-                        
-            this.curvesGraphic = new Graphic(0, 0, null);
-            this.phaseDifferenceGraphic = new Graphic(0, 0, null);
 
-            /*
+            this.curvesAltGraphicForm = new Form();
+            this.curvesGraphFormHost = new GraphFormHost();
+            this.curvesAltGraphicForm.Width = 800;
+            this.curvesAltGraphicForm.Height = 400;
+            this.curvesGraphFormHost.Dock = DockStyle.Fill;
+            this.curvesAltGraphicForm.Controls.Add(this.curvesGraphFormHost);
+
             this.phaseDifferenceAltGraphicForm = new Form();
             this.phaseDifferenceGraphFormHost = new GraphFormHost();
             this.phaseDifferenceAltGraphicForm.Width = 800;
             this.phaseDifferenceAltGraphicForm.Height = 400;
-            formHost.Dock = DockStyle.Fill;
-            this.phaseDifferenceAltGraphicForm.Controls.Add(this.PhaseDifferenceGraphFormHost);
-            */
-
+            this.phaseDifferenceGraphFormHost.Dock = DockStyle.Fill;
+            this.phaseDifferenceAltGraphicForm.Controls.Add(this.phaseDifferenceGraphFormHost);
+            
             this.curvesGraph.Show();
-            this.curvesGraphic.Show();
-            this.phaseDifferenceGraphic.Show();
-            //this.phaseDifferenceAltGraphicForm.Show();
+
+            this.curvesAltGraphicForm.Show();
+            this.phaseDifferenceAltGraphicForm.Show();
         }
 
         private void CurvesGraph_ApplyPhaseDifferenceCalculationForRow(object sender, EventArgs e)
@@ -3569,10 +3570,7 @@ namespace rab1
                 }
 
                 double[] finalResult = ATAN_PSI.ATAN(resArray, 0, phaseShifts);
-
-                phaseDifferenceGraphic.DrawGraph(width, 0, finalResult);
-
-                /*
+                                                
                 IList<GraphInfo> graphCollection = new List<GraphInfo>();
 
                 Point2D[] graphPoints = new Point2D[zArrayPicture.width];
@@ -3581,11 +3579,10 @@ namespace rab1
                     graphPoints[j] = new Point2D(j, finalResult[j]);
                 }
 
-                GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Red, graphPoints, true);
+                GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Black, graphPoints, true);
                 graphCollection.Add(graphInfo);
 
-                graphFormHost.GraphInfoCollection = graphCollection;
-                */
+                this.phaseDifferenceGraphFormHost.GraphInfoCollection = graphCollection;
             }
         }
 
@@ -3607,10 +3604,18 @@ namespace rab1
                     resArray[j] = newValue;
                 }
 
-                if (curvesGraphic != null)
+                IList<GraphInfo> graphCollection = new List<GraphInfo>();
+
+                Point2D[] graphPoints = new Point2D[zArrayPicture.width];
+                for (int j = 0; j < resArray.Length; j++)
                 {
-                    curvesGraphic.DrawGraph(width, row, resArray);
+                    graphPoints[j] = new Point2D(j, resArray[j]);
                 }
+
+                GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Black, graphPoints, true);
+                graphCollection.Add(graphInfo);
+
+                this.curvesGraphFormHost.GraphInfoCollection = graphCollection;
             }
         }
 
