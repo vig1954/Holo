@@ -71,7 +71,7 @@ namespace rab1 {
         //-------------------------------------------------------------------------------------------------------
         //Настройки по умолчанию
         private void SetDefaultSettings() {
-            this.Title = "SwordfishGraph";
+            this.Title = "Graphic";
             this.xyLineChart.XAxisLabel = "X";
             this.xyLineChart.YAxisLabel = "Y";
         }
