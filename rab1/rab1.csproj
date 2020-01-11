@@ -91,6 +91,9 @@
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="ZedGraph">
+      <HintPath>..\Library\ZedGraph.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ADD_Math.cs" />
@@ -126,6 +129,9 @@
     </Compile>
     <Compile Include="Forms\ChartControl\SwordfishXYLineChartControl.xaml.cs">
       <DependentUpon>SwordfishXYLineChartControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ChartControl\ZedGraphChartControl.xaml.cs">
+      <DependentUpon>ZedGraphChartControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Corr256.cs">
       <SubType>Form</SubType>
@@ -227,6 +233,7 @@
     <Compile Include="Tools.cs" />
     <Compile Include="VisualPolynomial.cs" />
     <Compile Include="ZArrayDescriptor.cs" />
+    <Compile Include="ZedGraphInfo.cs" />
     <Compile Include="ZIntDescriptor.cs" />
     <Compile Include="Unrup.cs" />
     <Compile Include="Forms\UnrupForm.cs">
@@ -504,6 +511,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Forms\ChartControl\ZedGraphChartControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
