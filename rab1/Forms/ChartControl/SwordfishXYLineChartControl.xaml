@@ -7,6 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <SwordfishCharts:XYLineChart x:Name="xyLineChart" RenderTransformOrigin="0.5,0.5"/>
+        <SwordfishCharts:XYLineChart x:Name="xyLineChart" RenderTransformOrigin="0.5,0.5" Background="White"/>
     </Grid>
 </UserControl>
