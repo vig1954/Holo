@@ -305,7 +305,7 @@ namespace rab1
                             graphPoints[j] = new Point2D(j, buf[j]);
                         }
 
-                        GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Red, graphPoints, true);
+                        GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Black, graphPoints, true);
                         graphCollection.Add(graphInfo);
 
                         graphFormHost.GraphInfoCollection = graphCollection;
