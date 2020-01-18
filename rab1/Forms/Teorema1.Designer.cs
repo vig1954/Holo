@@ -61,6 +61,7 @@
             this.button13 = new System.Windows.Forms.Button();
             this.button14 = new System.Windows.Forms.Button();
             this.button15 = new System.Windows.Forms.Button();
+            this.button16 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
@@ -158,11 +159,11 @@
             // button3
             // 
             this.button3.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button3.Location = new System.Drawing.Point(172, 456);
+            this.button3.Location = new System.Drawing.Point(306, 456);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(97, 21);
             this.button3.TabIndex = 21;
-            this.button3.Text = "ОБПФ";
+            this.button3.Text = "ОБПФ * dx";
             this.button3.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
@@ -194,7 +195,7 @@
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(37, 20);
             this.textBox6.TabIndex = 24;
-            this.textBox6.Text = "2";
+            this.textBox6.Text = "8";
             // 
             // textBox7
             // 
@@ -259,7 +260,7 @@
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(37, 20);
             this.textBox10.TabIndex = 31;
-            this.textBox10.Text = "64";
+            this.textBox10.Text = "32";
             // 
             // button7
             // 
@@ -276,7 +277,7 @@
             // button8
             // 
             this.button8.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button8.Location = new System.Drawing.Point(127, 62);
+            this.button8.Location = new System.Drawing.Point(127, 63);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(140, 21);
             this.button8.TabIndex = 33;
@@ -334,9 +335,9 @@
             this.button12.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button12.Location = new System.Drawing.Point(27, 551);
             this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(244, 27);
+            this.button12.Size = new System.Drawing.Size(276, 27);
             this.button12.TabIndex = 38;
-            this.button12.Text = "Фурье только от дискретных значений";
+            this.button12.Text = "Сжатие дискретных значений, Фурье, растяжение";
             this.button12.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button12.UseVisualStyleBackColor = true;
             this.button12.Click += new System.EventHandler(this.button12_Click);
@@ -394,11 +395,24 @@
             this.button15.UseVisualStyleBackColor = true;
             this.button15.Click += new System.EventHandler(this.button15_Click);
             // 
+            // button16
+            // 
+            this.button16.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button16.Location = new System.Drawing.Point(184, 456);
+            this.button16.Name = "button16";
+            this.button16.Size = new System.Drawing.Size(97, 21);
+            this.button16.TabIndex = 44;
+            this.button16.Text = "ОБПФ";
+            this.button16.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button16.UseVisualStyleBackColor = true;
+            this.button16.Click += new System.EventHandler(this.button16_Click);
+            // 
             // Teorema1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(583, 688);
+            this.Controls.Add(this.button16);
             this.Controls.Add(this.button15);
             this.Controls.Add(this.button14);
             this.Controls.Add(this.button13);
@@ -474,5 +488,6 @@
         private System.Windows.Forms.Button button13;
         private System.Windows.Forms.Button button14;
         private System.Windows.Forms.Button button15;
+        private System.Windows.Forms.Button button16;
     }
 }

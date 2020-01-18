@@ -24,8 +24,8 @@ namespace rab1.Forms
         private static int Number_Pont     = 2048;
         //private static int Number_Sinc     = 2048;
 
-        private static int Number_Period   = 2;
-        private static int dx = 64;   // Шаг дискретизации
+        private static int Number_Period   = 8;
+        private static int dx = 32;   // Шаг дискретизации
 
         private static int k1 = 1;
         private static int k2 = 2;
@@ -118,9 +118,12 @@ namespace rab1.Forms
 /// <param name="e"></param>
         private void button8_Click(object sender, EventArgs e)
         {
-            Number_Period = Convert.ToInt32(textBox6.Text);
-            int Number_Period1 = Number_Period / 2;
-            int Number_Period2 = 1;
+            double Period  = 8; // 7.2;
+            double Period1 = 4; // 3.3;
+            double Period2 = 1;
+            //double Period =  7.2;
+            //double Period1 = 3.3;
+            //double Period2 = 1;
             k3 = Convert.ToInt32(textBox7.Text);
             int regComplex = k3 - 1;
             Number_Pont = Convert.ToInt32(textBox3.Text);
@@ -136,9 +139,9 @@ namespace rab1.Forms
             for (int i = 0; i < nx; i++)
                 for (int j = 0; j < ny; j++)
                 { 
-                    cmpl.array[i, j] = a1 *( (Math.Sin(2.0 * Math.PI * i * Number_Period / nx) + 1.0) / 2.0 +
-                                             (Math.Sin(2.0 * Math.PI * i * Number_Period1 / nx) + 1.0) / 2.0 +
-                                             (Math.Sin(2.0 * Math.PI * i * Number_Period2 /  nx) + 1.0) / 2.0
+                    cmpl.array[i, j] = a1 *( (Math.Sin(2.0 * Math.PI * i * Period / nx) + 1.0) / 2.0 +
+                                             (Math.Sin(2.0 * Math.PI * i * Period1 / nx) + 1.0) / 2.0 +
+                                             (Math.Sin(2.0 * Math.PI * i * Period2 /  nx) + 1.0) / 2.0
                                             ) ;
                 }
             Form1.zComplex[regComplex] = new ZComplexDescriptor(nx, ny);
@@ -241,7 +244,11 @@ namespace rab1.Forms
             VisualComplex(k2-1);
             //Close();
         }
-
+/// <summary>
+/// Обратное БПФ * sqrt(dx)
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
         private void button3_Click(object sender, EventArgs e)
         {
             k1 = Convert.ToInt32(textBox4.Text);
@@ -271,11 +278,44 @@ namespace rab1.Forms
             VisualComplex(k2 - 1);
             //Close();
         }
-/// <summary>
-/// Дискретизация
-/// </summary>
-/// <param name="sender"></param>
-/// <param name="e"></param>
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            k1 = Convert.ToInt32(textBox4.Text);
+            k2 = Convert.ToInt32(textBox5.Text);
+            dx = Convert.ToInt32(textBox10.Text);
+
+            int nx = Form1.zComplex[k1 - 1].width;
+            int ny = Form1.zComplex[k1 - 1].height;
+
+            int m = Furie.PowerOfTwo(nx);                                       // nx=2**m
+            //MessageBox.Show(" m = " + m + " nx = " + nx + " ny = " + ny);
+
+            Complex[] c = new Complex[nx];
+            Complex[] c1 = new Complex[nx];
+
+            for (int i = 0; i < nx; i++) c[i] = Form1.zComplex[k1 - 1].array[i, ny / 2];
+
+            c1 = Furie.GetInverseFourierTransform(c, m);
+
+            double d2 = 1; // Math.Sqrt(dx);
+            Form1.zComplex[k2 - 1] = new ZComplexDescriptor(nx, ny);
+            for (int i = 0; i < nx; i++)
+                for (int j = 0; j < ny; j++)
+                    //Form1.zComplex[k2 - 1].array[i, j] = dx*c1[i];
+                    Form1.zComplex[k2 - 1].array[i, j] = d2 * c1[i];
+
+            VisualComplex(k2 - 1);
+            //Close();
+        }
+
+
+
+        /// <summary>
+        /// Дискретизация
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button6_Click(object sender, EventArgs e)
         {
             k5 = Convert.ToInt32(textBox9.Text);
@@ -299,17 +339,21 @@ namespace rab1.Forms
         private void button15_Click(object sender, EventArgs e)
         {
             Number_Pont = Convert.ToInt32(textBox3.Text);       // Общее число точек
-            Number_Pont_Rec = Convert.ToInt32(textBox2.Text);   // Число точек в прямоугольнике
-            int N = Number_Pont_Rec;
+            dx = Convert.ToInt32(textBox10.Text);
+            double N = dx;
             int nx = Number_Pont;
             int ny = 100;
 
             ZArrayDescriptor cmpl = new ZArrayDescriptor(nx, ny);
+            double sc = 0;
             for (int i = 0; i < nx; i++)
                 for (int y = 0; y < ny; y++)
                 {
-                    double x = 2*Math.PI * i / nx;
-                    cmpl.array[i, y] = Sinc1(x, N, nx);
+                    //double x = 2*Math.PI * i / nx;
+                    double x = i;
+                    double d = Math.PI * (x - nx/2) / dx;
+                    if (d != 0) sc = Math.Sin(d) / d; else sc = 1;
+                    cmpl.array[i, y] = sc;
                 }
 
             Form1.zArrayPicture = cmpl;
@@ -317,17 +361,17 @@ namespace rab1.Forms
             VisualArray();
 
         }
-
+/*
         private double Sinc1(double x, int n, int nx)
         {
             double sc = 0;
 
-            double d = n*(x - Math.PI) /(2.0);
+            double d = n * (x - Math.PI)/(2.0);
             if (d != 0) sc = Math.Sin(d) / d; else sc = 1;
 
             return sc;
         }
-
+*/
         private double Sinc(double x, double dx, int n)
         {
             double sc = 0;
@@ -564,7 +608,7 @@ namespace rab1.Forms
         private void button13_Click(object sender, EventArgs e)
         {
             dx = Convert.ToInt32(textBox10.Text);
-            k2 = Convert.ToInt32(textBox5.Text);  // Из второго
+            k2 = Convert.ToInt32(textBox5.Text);   // Из второго
             k6 = Convert.ToInt32(textBox11.Text);  // В третье фурье
 
             int nx = Form1.zComplex[k1 - 1].width;
@@ -626,7 +670,7 @@ namespace rab1.Forms
 
             for (int i = 0; i < M+N-1; i++)
                 for (int j = 0; j < ny; j++)
-                    cmpl.array[i, j] = rez[i];
+                    cmpl.array[i, j] = rez[i]/32;
 
             Form1.zArrayPicture = cmpl;
 
