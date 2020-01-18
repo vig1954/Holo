@@ -149,6 +149,43 @@ namespace rab1.Forms
             VisualComplex(regComplex);
 
         }
+
+
+        private void button17_Click(object sender, EventArgs e)
+        {
+            //double Period = 8; // 7.2;
+            //double Period1 = 4; // 3.3;
+            //double Period2 = 1;
+            double Period =  7.2;
+            double Period1 = 3.3;
+            double Period2 = 1;
+            k3 = Convert.ToInt32(textBox7.Text);
+            int regComplex = k3 - 1;
+            Number_Pont = Convert.ToInt32(textBox3.Text);
+
+            int nx = Number_Pont;
+            int ny = 100;
+
+
+            double a1 = 1;
+            a1 = a1 / 3;
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(nx, ny);
+
+            for (int i = 0; i < nx; i++)
+                for (int j = 0; j < ny; j++)
+                {
+                    cmpl.array[i, j] = a1 * ((Math.Sin(2.0 * Math.PI * i * Period / nx) + 1.0) / 2.0 +
+                                             (Math.Sin(2.0 * Math.PI * i * Period1 / nx) + 1.0) / 2.0 +
+                                             (Math.Sin(2.0 * Math.PI * i * Period2 / nx) + 1.0) / 2.0
+                                            );
+                }
+            Form1.zComplex[regComplex] = new ZComplexDescriptor(nx, ny);
+            Form1.zComplex[regComplex] = new ZComplexDescriptor(cmpl);  // амплитуда = cmpl, фаза - (прежняя) нулевая
+            VisualComplex(regComplex);
+
+        }
+
+
         /// <summary>
         /// Умножение на прямоугольник
         /// </summary>
@@ -559,9 +596,9 @@ namespace rab1.Forms
         private void button12_Click(object sender, EventArgs e)
         {
             dx = Convert.ToInt32(textBox10.Text);
-            k1 = Convert.ToInt32(textBox4.Text);  // Из первого окна
-            k2 = Convert.ToInt32(textBox5.Text);  // Во второе фурье
-           
+            k1 = Convert.ToInt32(textBox4.Text);   // Из первого окна
+            k2 = Convert.ToInt32(textBox5.Text);   // Во второе фурье
+            k6 = Convert.ToInt32(textBox11.Text);  // В третье фурье
 
             int nx = Form1.zComplex[k1 - 1].width;
             int ny = Form1.zComplex[k1 - 1].height;
@@ -570,6 +607,7 @@ namespace rab1.Forms
                                    
             
             Complex[] cd    = new Complex[nxd];
+            
 
             for (int i = 0; i < nxd; i++) cd[i] = Form1.zComplex[k1 - 1].array[i*dx, ny / 2];
 
@@ -577,7 +615,14 @@ namespace rab1.Forms
             //MessageBox.Show("nxd = " + nxd +" m = " + m);
             cd = Furie.GetFourierTransform(cd, m);                               // Фурье
 
-           
+            ZComplexDescriptor rez1 = new ZComplexDescriptor(nxd, ny);
+            for (int i = 0; i < nxd; i++)
+                for (int j = 0; j < ny; j++)
+                    rez1.array[i, j] = cd[i];
+
+            Form1.zComplex[k6 - 1] = rez1;
+            VisualComplex(k6 - 1);
+
             Complex[] array = new Complex[nx];
             array[nx/2] = cd[0];
             for (int i = 1;  i < nxd / 2;  i++)  // Расширение на dx  сдвиг в центр
@@ -588,20 +633,21 @@ namespace rab1.Forms
                 array[nx / 2 - i ] = cd[nxd - i];
             }
 
- /*            array[i * dx] = cd[i];                 // Расширение на dx
-            for (int i = nxd-1, j=n-1-dx; i > nxd / 2;  i--, j-=dx) array[ j ] =    cd[i];
+            /*            array[i * dx] = cd[i];                 // Расширение на dx
+                       for (int i = nxd-1, j=n-1-dx; i > nxd / 2;  i--, j-=dx) array[ j ] =    cd[i];
 
-            Complex[] c = new Complex[n];
-            for (int i = 0; i < n/2; i++)  c[i + n/2] = array[i];                      // Циклический сдвиг вправо
-            for (int i = 0; i < n/2; i++)  c[i]       = array[n/2 + i ];
-*/
-           
-            Form1.zComplex[k2 - 1] = new ZComplexDescriptor(nx, ny);
+                       Complex[] c = new Complex[n];
+                       for (int i = 0; i < n/2; i++)  c[i + n/2] = array[i];                      // Циклический сдвиг вправо
+                       for (int i = 0; i < n/2; i++)  c[i]       = array[n/2 + i ];
+           */
+
+            ZComplexDescriptor rez2 = new ZComplexDescriptor(nx, ny);
             for (int i = 0; i < nx; i++)
                 for (int j = 0; j < ny; j++)
-                    Form1.zComplex[k2 - 1].array[i, j] = array[i];
+                    rez2.array[i, j] = array[i];
 
-            VisualComplex(k2 - 1);
+            Form1.zComplex[k2 - 1] = rez2;
+           VisualComplex(k2 - 1);
            
         }
 
@@ -670,7 +716,7 @@ namespace rab1.Forms
 
             for (int i = 0; i < M+N-1; i++)
                 for (int j = 0; j < ny; j++)
-                    cmpl.array[i, j] = rez[i]/32;
+                    cmpl.array[i, j] = rez[i];
 
             Form1.zArrayPicture = cmpl;
 
