@@ -33,7 +33,8 @@ namespace rab1.Forms
         private static int k4 = 1;   // Для синусоиды умноженной на прямоугольник
         private static int k5 = 1;   // Для дискретизации
 
-        private static int k6 = 3;   // Для дискретизации
+        private static int k6 = 3;      // Для дискретизации
+        private static int Step0 = 0;   // Смешение при дискретизации
 
         public Teorema1()
         {
@@ -50,6 +51,7 @@ namespace rab1.Forms
             textBox10.Text = Convert.ToString(dx);
 
             textBox11.Text = Convert.ToString(k6);
+            textBox12.Text = Convert.ToString(Step0);        // Смешение при дискретизации
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -355,15 +357,16 @@ namespace rab1.Forms
         /// <param name="e"></param>
         private void button6_Click(object sender, EventArgs e)
         {
-            k5 = Convert.ToInt32(textBox9.Text);
-            dx = Convert.ToInt32(textBox10.Text);
+            k5    = Convert.ToInt32(textBox9.Text);
+            dx    = Convert.ToInt32(textBox10.Text);
+            Step0 = Convert.ToInt32(textBox12.Text);
 
             int nx = Form1.zComplex[k5 - 1].width;
             int ny = Form1.zComplex[k5 - 1].height;
             ZComplexDescriptor cmpl = new ZComplexDescriptor(nx, ny);
             for (int i = 0; i < nx; i=i+dx)
                 for (int j = 0; j < ny; j++)
-                    cmpl.array[i, j] = Form1.zComplex[k5 - 1].array[i, j];
+                    cmpl.array[i + Step0, j] = Form1.zComplex[k5 - 1].array[i+Step0, j];
 
             Form1.zComplex[k5 - 1] = cmpl;
             VisualComplex(k5 - 1);
@@ -589,16 +592,17 @@ namespace rab1.Forms
         }
 /// <summary>
 ///                 БПФ  и  Растяжение
-///                 Исходный массив - непрерывный  => Дискретизация => БПФ => растяжение => Перенос в центр
+///                 Исходный массив - непрерывный  => Дискретизация со сдвигом => БПФ => растяжение => Перенос в центр
 /// </summary>
 /// <param name="sender"></param>
 /// <param name="e"></param>
         private void button12_Click(object sender, EventArgs e)
         {
             dx = Convert.ToInt32(textBox10.Text);
-            k1 = Convert.ToInt32(textBox4.Text);   // Из первого окна
-            k2 = Convert.ToInt32(textBox5.Text);   // Во второе фурье
-            k6 = Convert.ToInt32(textBox11.Text);  // В третье фурье
+            k1 = Convert.ToInt32(textBox4.Text);      // Из первого окна
+            k2 = Convert.ToInt32(textBox5.Text);      // Во второе фурье
+            k6 = Convert.ToInt32(textBox11.Text);     // В третье фурье
+            Step0 = Convert.ToInt32(textBox12.Text);  // Сдвиг при дискретизации
 
             int nx = Form1.zComplex[k1 - 1].width;
             int ny = Form1.zComplex[k1 - 1].height;
@@ -609,10 +613,10 @@ namespace rab1.Forms
             Complex[] cd    = new Complex[nxd];
             
 
-            for (int i = 0; i < nxd; i++) cd[i] = Form1.zComplex[k1 - 1].array[i*dx, ny / 2];
+            for (int i = 0; i < nxd; i++) cd[i] = Form1.zComplex[k1 - 1].array[i*dx+Step0, ny / 2];
 
             int m = Furie.PowerOfTwo(nxd);                                       // nx=2**m
-            //MessageBox.Show("nxd = " + nxd +" m = " + m);
+            MessageBox.Show("nxd = " + nxd +" m = " + m);
             cd = Furie.GetFourierTransform(cd, m);                               // Фурье
 
             ZComplexDescriptor rez1 = new ZComplexDescriptor(nxd, ny);
@@ -642,6 +646,7 @@ namespace rab1.Forms
            */
 
             ZComplexDescriptor rez2 = new ZComplexDescriptor(nx, ny);
+          
             for (int i = 0; i < nx; i++)
                 for (int j = 0; j < ny; j++)
                     rez2.array[i, j] = array[i];

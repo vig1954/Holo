@@ -63,6 +63,8 @@
             this.button15 = new System.Windows.Forms.Button();
             this.button16 = new System.Windows.Forms.Button();
             this.button17 = new System.Windows.Forms.Button();
+            this.textBox12 = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBox1
@@ -336,9 +338,9 @@
             this.button12.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button12.Location = new System.Drawing.Point(23, 585);
             this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(276, 27);
+            this.button12.Size = new System.Drawing.Size(361, 27);
             this.button12.TabIndex = 38;
-            this.button12.Text = "Сжатие дискретных значений, Фурье, растяжение";
+            this.button12.Text = "Дискретизация, сжатие дискретных значений, Фурье, растяжение";
             this.button12.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button12.UseVisualStyleBackColor = true;
             this.button12.Click += new System.EventHandler(this.button12_Click);
@@ -346,7 +348,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(467, 572);
+            this.label7.Location = new System.Drawing.Point(469, 536);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(19, 13);
             this.label7.TabIndex = 39;
@@ -354,7 +356,7 @@
             // 
             // textBox11
             // 
-            this.textBox11.Location = new System.Drawing.Point(512, 569);
+            this.textBox11.Location = new System.Drawing.Point(514, 533);
             this.textBox11.Name = "textBox11";
             this.textBox11.Size = new System.Drawing.Size(37, 20);
             this.textBox11.TabIndex = 40;
@@ -420,11 +422,30 @@
             this.button17.UseVisualStyleBackColor = true;
             this.button17.Click += new System.EventHandler(this.button17_Click);
             // 
+            // textBox12
+            // 
+            this.textBox12.Location = new System.Drawing.Point(401, 295);
+            this.textBox12.Name = "textBox12";
+            this.textBox12.Size = new System.Drawing.Size(37, 20);
+            this.textBox12.TabIndex = 47;
+            this.textBox12.Text = "0";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(343, 298);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(41, 13);
+            this.label8.TabIndex = 46;
+            this.label8.Text = "Step0=";
+            // 
             // Teorema1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(583, 688);
+            this.Controls.Add(this.textBox12);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.button17);
             this.Controls.Add(this.button16);
             this.Controls.Add(this.button15);
@@ -504,5 +525,7 @@
         private System.Windows.Forms.Button button15;
         private System.Windows.Forms.Button button16;
         private System.Windows.Forms.Button button17;
+        private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.Label label8;
     }
 }
