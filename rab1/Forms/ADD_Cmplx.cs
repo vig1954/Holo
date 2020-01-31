@@ -47,6 +47,7 @@ namespace rab1.Forms
         private static int k15 = 1;
         private static double k16 = 0;
 
+      
 
         public ADD_Cmplx()
         {
@@ -69,6 +70,8 @@ namespace rab1.Forms
             textBox14.Text = Convert.ToString(k14);
             textBox15.Text = Convert.ToString(k15);
             textBox16.Text = Convert.ToString(k16);
+
+            
         }
 
 
@@ -286,6 +289,30 @@ namespace rab1.Forms
             k15 = Convert.ToInt32(textBox15.Text);
             k16 = Convert.ToDouble(textBox16.Text);
             ADD_Math.Add_Double(k15, k16);     // Переслать 4 вещественных файла
+            Close();
+        }
+/// <summary>
+/// Разделить на число
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
+        private void button22_Click(object sender, EventArgs e)
+        {
+            k15 = Convert.ToInt32(textBox15.Text);
+            k16 = Convert.ToDouble(textBox16.Text);
+            ADD_Math.Div_Double(k15, k16);     // Переслать 4 вещественных файла
+            Close();
+        }
+/// <summary>
+/// Умножить на число
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
+        private void button23_Click(object sender, EventArgs e)
+        {
+            k15 = Convert.ToInt32(textBox15.Text);
+            k16 = Convert.ToDouble(textBox16.Text);
+            ADD_Math.Mul_Double(k15, k16);     // Переслать 4 вещественных файла
             Close();
         }
 

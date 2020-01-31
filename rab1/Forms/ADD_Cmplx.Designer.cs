@@ -88,6 +88,9 @@
             this.label20 = new System.Windows.Forms.Label();
             this.textBox16 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.button22 = new System.Windows.Forms.Button();
+            this.label23 = new System.Windows.Forms.Label();
+            this.button23 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -591,7 +594,7 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(28, 487);
+            this.progressBar1.Location = new System.Drawing.Point(28, 580);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(692, 23);
             this.progressBar1.TabIndex = 70;
@@ -631,11 +634,42 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // button22
+            // 
+            this.button22.Location = new System.Drawing.Point(535, 517);
+            this.button22.Name = "button22";
+            this.button22.Size = new System.Drawing.Size(185, 26);
+            this.button22.TabIndex = 77;
+            this.button22.Text = "Разделить на число";
+            this.button22.UseVisualStyleBackColor = true;
+            this.button22.Click += new System.EventHandler(this.button22_Click);
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(425, 488);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(0, 13);
+            this.label23.TabIndex = 75;
+            // 
+            // button23
+            // 
+            this.button23.Location = new System.Drawing.Point(535, 485);
+            this.button23.Name = "button23";
+            this.button23.Size = new System.Drawing.Size(185, 26);
+            this.button23.TabIndex = 78;
+            this.button23.Text = "Умножить на число";
+            this.button23.UseVisualStyleBackColor = true;
+            this.button23.Click += new System.EventHandler(this.button23_Click);
+            // 
             // ADD_Cmplx
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(750, 522);
+            this.ClientSize = new System.Drawing.Size(750, 630);
+            this.Controls.Add(this.button23);
+            this.Controls.Add(this.button22);
+            this.Controls.Add(this.label23);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox16);
             this.Controls.Add(this.label20);
@@ -764,5 +798,8 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.TextBox textBox16;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button22;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Button button23;
     }
 }
