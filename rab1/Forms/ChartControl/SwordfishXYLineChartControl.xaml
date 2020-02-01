@@ -9,6 +9,7 @@
     <DockPanel>
         <StackPanel x:Name="toolPanel" DockPanel.Dock="Top" HorizontalAlignment="Center" Orientation="Horizontal">
             <CheckBox x:Name="showPointsCheckBox" Margin="5">Show points</CheckBox>
+            <CheckBox x:Name="dashCheckBox" Margin="5">Dash</CheckBox>
             <CheckBox x:Name="showLinesCheckBox" Margin="5">Show lines</CheckBox>
             <Button x:Name="redrawChartButton" Margin="5">Refresh</Button>
         </StackPanel>
