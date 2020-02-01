@@ -71,9 +71,6 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Swordfish.WPF.Charts">
-      <HintPath>..\Library\Swordfish.WPF.Charts.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
@@ -109,6 +106,37 @@
     <Compile Include="CanonCamera\LiveViewUpdatedHandler.cs" />
     <Compile Include="CanonCamera\PictureTakenHandler.cs" />
     <Compile Include="CanonSdkProvider.cs" />
+    <Compile Include="Chart\AdornerCursorCoordinateDrawer.cs" />
+    <Compile Include="Chart\ChartControl.cs" />
+    <Compile Include="Chart\ChartControl2.cs" />
+    <Compile Include="Chart\ChartPrimitive.cs" />
+    <Compile Include="Chart\ChartPrimitiveEventLine.cs" />
+    <Compile Include="Chart\ChartPrimitiveHBar.cs" />
+    <Compile Include="Chart\ChartPrimitiveLineSegments.cs" />
+    <Compile Include="Chart\ChartPrimitiveXY.cs" />
+    <Compile Include="Chart\ChartUtilities.cs" />
+    <Compile Include="Chart\ClosestPointPicker.cs" />
+    <Compile Include="Chart\ColorLabel.xaml.cs">
+      <DependentUpon>ColorLabel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Chart\CopyToClipboard.xaml.cs">
+      <DependentUpon>CopyToClipboard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Chart\CursorCoordinateCanvas.cs" />
+    <Compile Include="Chart\GridLabel.cs" />
+    <Compile Include="Chart\GridLine.cs" />
+    <Compile Include="Chart\GridLineCanvas.cs" />
+    <Compile Include="Chart\GridLineOverride.cs" />
+    <Compile Include="Chart\GridLineSpacings.cs" />
+    <Compile Include="Chart\IChartRendererWPF.cs" />
+    <Compile Include="Chart\LineAndPloygon.cs" />
+    <Compile Include="Chart\PanZoomCalculator.cs" />
+    <Compile Include="Chart\PlotRenderer.cs" />
+    <Compile Include="Chart\PointSelectedArgs.cs" />
+    <Compile Include="Chart\Range.cs" />
+    <Compile Include="Chart\ResultsPlottingUtilities.cs" />
+    <Compile Include="Chart\TypeSwitch.cs" />
+    <Compile Include="Chart\UniformWrapPanel.cs" />
     <Compile Include="ColorItem.cs" />
     <Compile Include="ColorModeEnum.cs" />
     <Compile Include="ControlExtensions.cs" />
@@ -507,6 +535,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Chart\ColorLabel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Chart\CopyToClipboard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Forms\ChartControl\SwordfishXYLineChartControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

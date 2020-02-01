@@ -11,7 +11,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Swordfish.WPF.Charts;
+
+//using Swordfish.WPF.Charts;
+using Swordfish.NET.Charts;
 
 using ZedGraph;
 

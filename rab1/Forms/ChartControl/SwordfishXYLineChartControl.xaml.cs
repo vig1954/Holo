@@ -11,7 +11,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Swordfish.WPF.Charts;
+
+//using Swordfish.WPF.Charts;
+using Swordfish.NET.Charts;
 
 namespace rab1 {
     /// <summary>
@@ -66,14 +68,53 @@ namespace rab1 {
         public SwordfishXYLineChartControl() {
             InitializeComponent();
             this.SetDefaultSettings();
+            this.SetHandlers();
         }
         //-------------------------------------------------------------------------------------------------------
+        private void SetHandlers()
+        {
+            this.redrawChartButton.Click += RedrawChartButton_Click;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        private void RedrawChart()
+        {
+            ChartPrimitive chartPrimitive = this.xyLineChart.Primitives.FirstOrDefault();
+            if (chartPrimitive != null)
+            {
+                ChartPrimitiveXY chartPrimitiveXY = chartPrimitive as ChartPrimitiveXY;
+                if (chartPrimitiveXY != null)
+                {
+                    chartPrimitiveXY.ShowPoints = this.showPointsCheckBox.IsChecked.Value;
+                    chartPrimitiveXY.PointColor = Colors.Red;
+                    
+                    if (this.showLinesCheckBox.IsChecked.Value)
+                    {
+                        chartPrimitiveXY.LineThickness = 1;
+                    }
+                    else
+                    {
+                        chartPrimitiveXY.LineThickness = 0;
+                    }
+
+                    this.xyLineChart.RedrawPlotLines();
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------
+        private void RedrawChartButton_Click(object sender, RoutedEventArgs e)
+        {
+            RedrawChart();
+        }
         //-------------------------------------------------------------------------------------------------------
         //Настройки по умолчанию
         private void SetDefaultSettings() {
             this.Title = "Graphic";
-            this.xyLineChart.XAxisLabel = "X";
-            this.xyLineChart.YAxisLabel = "Y";
+
+            this.showLinesCheckBox.IsChecked = true;
+            this.showPointsCheckBox.IsChecked = false;
+
+            //this.xyLineChart.XAxisLabel = "X";
+            //this.xyLineChart.YAxisLabel = "Y";
         }
         //-------------------------------------------------------------------------------------------------------
         //-------------------------------------------------------------------------------------------------------
@@ -91,17 +132,21 @@ namespace rab1 {
         //Нарисовать график
         private void DrawChart( double[] xValues, double[] yValues, Color color, string chartName, bool isClean ) {
             if ( isClean ) {
-                this.xyLineChart.Primitives.Clear();
+                this.xyLineChart.Reset();
             }
-            ChartPrimitive chartPrimitive = new ChartPrimitive();
-            chartPrimitive.Color = color;
+
+            ChartPrimitiveXY chartPrimitive = this.xyLineChart.CreateXY();
+            chartPrimitive.LegendColor = color;
+            chartPrimitive.LineColor = color;
             chartPrimitive.Label = chartName;
+            chartPrimitive.LineThickness = 1;
+
             for ( int index = 0; index < xValues.Length; index++ ) {
                 double x = xValues[ index ];
                 double y = yValues[ index ];
                 chartPrimitive.AddPoint( x, y );
             }
-            this.xyLineChart.Primitives.Add( chartPrimitive );
+            this.xyLineChart.AddPrimitive(chartPrimitive);
             this.xyLineChart.RedrawPlotLines();
         }
         //-------------------------------------------------------------------------------------------------------
@@ -112,7 +157,8 @@ namespace rab1 {
             if ( graphInfoCollection == null ) {
                 return;
             }
-            chartControl.xyLineChart.Primitives.Clear();
+                        
+            chartControl.xyLineChart.Reset();
 
             for ( int index = 0; index < graphInfoCollection.Count; index++ ) {
                 GraphInfo graphInfo = graphInfoCollection[ index ];
@@ -130,8 +176,9 @@ namespace rab1 {
             if ( axesInfo == null ) {
                 return;
             }
-            chartControl.xyLineChart.XAxisLabel = axesInfo.AxisTitleX;
-            chartControl.xyLineChart.YAxisLabel = axesInfo.AxisTitleY;
+
+            //chartControl.xyLineChart.XAxisLabel = axesInfo.AxisTitleX;
+            //chartControl.xyLineChart.YAxisLabel = axesInfo.AxisTitleY;
         }
         //-------------------------------------------------------------------------------------------------------
         //-------------------------------------------------------------------------------------------------------
