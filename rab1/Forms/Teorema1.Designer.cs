@@ -65,6 +65,9 @@
             this.button17 = new System.Windows.Forms.Button();
             this.textBox12 = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.button18 = new System.Windows.Forms.Button();
+            this.textBox13 = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBox1
@@ -233,16 +236,16 @@
             this.button6.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button6.Location = new System.Drawing.Point(19, 237);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(244, 21);
+            this.button6.Size = new System.Drawing.Size(154, 35);
             this.button6.TabIndex = 28;
-            this.button6.Text = "Дискретизация";
+            this.button6.Text = "Идеальная дискретизация";
             this.button6.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // textBox9
             // 
-            this.textBox9.Location = new System.Drawing.Point(293, 255);
+            this.textBox9.Location = new System.Drawing.Point(289, 282);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(37, 20);
             this.textBox9.TabIndex = 29;
@@ -251,7 +254,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(356, 259);
+            this.label4.Location = new System.Drawing.Point(405, 286);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(28, 13);
             this.label4.TabIndex = 30;
@@ -259,7 +262,7 @@
             // 
             // textBox10
             // 
-            this.textBox10.Location = new System.Drawing.Point(401, 255);
+            this.textBox10.Location = new System.Drawing.Point(450, 282);
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(37, 20);
             this.textBox10.TabIndex = 31;
@@ -424,7 +427,7 @@
             // 
             // textBox12
             // 
-            this.textBox12.Location = new System.Drawing.Point(401, 295);
+            this.textBox12.Location = new System.Drawing.Point(450, 322);
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(37, 20);
             this.textBox12.TabIndex = 47;
@@ -433,17 +436,49 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(343, 298);
+            this.label8.Location = new System.Drawing.Point(392, 325);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(41, 13);
             this.label8.TabIndex = 46;
             this.label8.Text = "Step0=";
+            // 
+            // button18
+            // 
+            this.button18.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button18.Location = new System.Drawing.Point(184, 237);
+            this.button18.Name = "button18";
+            this.button18.Size = new System.Drawing.Size(187, 35);
+            this.button18.TabIndex = 48;
+            this.button18.Text = "Дискретизация прямоугольными импульсами";
+            this.button18.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button18.UseVisualStyleBackColor = true;
+            this.button18.Click += new System.EventHandler(this.button18_Click);
+            // 
+            // textBox13
+            // 
+            this.textBox13.Location = new System.Drawing.Point(451, 241);
+            this.textBox13.Name = "textBox13";
+            this.textBox13.Size = new System.Drawing.Size(37, 20);
+            this.textBox13.TabIndex = 50;
+            this.textBox13.Text = "30";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(406, 245);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(19, 13);
+            this.label9.TabIndex = 49;
+            this.label9.Text = "t =";
             // 
             // Teorema1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(583, 688);
+            this.Controls.Add(this.textBox13);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.button18);
             this.Controls.Add(this.textBox12);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.button17);
@@ -527,5 +562,8 @@
         private System.Windows.Forms.Button button17;
         private System.Windows.Forms.TextBox textBox12;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button button18;
+        private System.Windows.Forms.TextBox textBox13;
+        private System.Windows.Forms.Label label9;
     }
 }

@@ -26,6 +26,7 @@ namespace rab1.Forms
 
         private static int Number_Period   = 8;
         private static int dx = 32;   // Шаг дискретизации
+        private static int t  = 30;   // Размер прямоугольного импульса
 
         private static int k1 = 1;
         private static int k2 = 2;
@@ -35,6 +36,8 @@ namespace rab1.Forms
 
         private static int k6 = 3;      // Для дискретизации
         private static int Step0 = 0;   // Смешение при дискретизации
+
+     
 
         public Teorema1()
         {
@@ -52,6 +55,7 @@ namespace rab1.Forms
 
             textBox11.Text = Convert.ToString(k6);
             textBox12.Text = Convert.ToString(Step0);        // Смешение при дискретизации
+            textBox13.Text = Convert.ToString(t);        // Размер прямоугольного импульса
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -348,8 +352,6 @@ namespace rab1.Forms
             //Close();
         }
 
-
-
         /// <summary>
         /// Дискретизация
         /// </summary>
@@ -357,7 +359,7 @@ namespace rab1.Forms
         /// <param name="e"></param>
         private void button6_Click(object sender, EventArgs e)
         {
-            k5    = Convert.ToInt32(textBox9.Text);
+            k5    = Convert.ToInt32(textBox9.Text);   // Номер кадра
             dx    = Convert.ToInt32(textBox10.Text);
             Step0 = Convert.ToInt32(textBox12.Text);
 
@@ -371,11 +373,43 @@ namespace rab1.Forms
             Form1.zComplex[k5 - 1] = cmpl;
             VisualComplex(k5 - 1);
         }
-/// <summary>
-///  SinC => Главное окно
-/// </summary>
-/// <param name="sender"></param>
-/// <param name="e"></param>
+        /// <summary>
+        /// Дискретизация прямоугольного импульсами
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button18_Click(object sender, EventArgs e)
+        {
+            k5 = Convert.ToInt32(textBox9.Text);      // Номер кадра
+            dx = Convert.ToInt32(textBox10.Text);
+            //Step0 = Convert.ToInt32(textBox12.Text);
+            t = Convert.ToInt32(textBox13.Text);      // Размер прямоугольного импульса
+
+            int nx = Form1.zComplex[k5 - 1].width;
+            int ny = Form1.zComplex[k5 - 1].height;
+            ZComplexDescriptor cmpl = new ZComplexDescriptor(nx, ny);
+
+            double[] c = new double[nx];
+            double[] c1 = new double[nx];
+            for (int i = 0; i < nx; i++)  c[i] = Form1.zComplex[k5 - 1].array[i, ny/2].Magnitude; 
+            int dxt= (dx-t)/2;
+            for (int i = 0; i < nx; i = i + dx) for (int j = 0; j < t; j++) c1[i] += c[i + j + dxt];
+            //MessageBox.Show("-------------------------------- ");
+
+            for (int i = 0; i < nx; i++)
+              for (int j = 0; j < ny; j++)
+                cmpl.array[i,  j] = new Complex(c1[i]/t, 0.0);
+
+            Form1.zComplex[k5 - 1] = cmpl;
+            VisualComplex(k5 - 1);
+        }
+
+
+        /// <summary>
+        ///  SinC => Главное окно
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button15_Click(object sender, EventArgs e)
         {
             Number_Pont = Convert.ToInt32(textBox3.Text);       // Общее число точек
@@ -575,14 +609,14 @@ namespace rab1.Forms
 
             for (int i = 0; i < nx; i++) c[i] = Form1.zComplex[k1 - 1].array[i, ny / 2];
 
-            int m = Furie.PowerOfTwo(nx);                                       // nx=2**m
-            c1 = Furie.GetFourierTransform(c, m);                               // Фурье
+           // int m = Furie.PowerOfTwo(nx);                                       // nx=2**m
+           // c1 = Furie.GetFourierTransform(c, m);                               // Фурье
 
             int Pi_dx = nx / dx;
             
             Complex[] array = new Complex[nx];
-            for (int i = 0; i < Pi_dx/2; i++)         { array[i] = c1[i]; }     // Выделение одного спектра
-            for (int i = nx - Pi_dx / 2; i < nx; i++) { array[i] = c1[i]; }
+            for (int i = 0; i < Pi_dx/2; i++)         { array[i] = c[i]; }     // Выделение одного спектра
+            for (int i = nx - Pi_dx / 2; i < nx; i++) { array[i] = c[i]; }
         
             Form1.zComplex[k2-1] = new ZComplexDescriptor(nx, ny);
             for (int i = 0; i < nx; i++)
@@ -734,6 +768,6 @@ namespace rab1.Forms
 
         }
 
-        
+       
     }
 }
