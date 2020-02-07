@@ -68,6 +68,8 @@
             this.button18 = new System.Windows.Forms.Button();
             this.textBox13 = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
+            this.button19 = new System.Windows.Forms.Button();
+            this.button20 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
@@ -202,6 +204,7 @@
             this.textBox6.Size = new System.Drawing.Size(37, 20);
             this.textBox6.TabIndex = 24;
             this.textBox6.Text = "8";
+            this.textBox6.TextChanged += new System.EventHandler(this.textBox6_TextChanged);
             // 
             // textBox7
             // 
@@ -315,7 +318,7 @@
             // button10
             // 
             this.button10.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button10.Location = new System.Drawing.Point(21, 177);
+            this.button10.Location = new System.Drawing.Point(21, 164);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(244, 21);
             this.button10.TabIndex = 36;
@@ -341,7 +344,7 @@
             this.button12.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button12.Location = new System.Drawing.Point(23, 585);
             this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(361, 27);
+            this.button12.Size = new System.Drawing.Size(376, 27);
             this.button12.TabIndex = 38;
             this.button12.Text = "Дискретизация, сжатие дискретных значений, Фурье, растяжение";
             this.button12.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -380,11 +383,11 @@
             // button14
             // 
             this.button14.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button14.Location = new System.Drawing.Point(21, 629);
+            this.button14.Location = new System.Drawing.Point(21, 668);
             this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(244, 23);
+            this.button14.Size = new System.Drawing.Size(363, 23);
             this.button14.TabIndex = 42;
-            this.button14.Text = "Дискретная свертка => Главное окно";
+            this.button14.Text = "Дискретная свертка из1 и 2 окон => Главное окно";
             this.button14.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button14.UseVisualStyleBackColor = true;
             this.button14.Click += new System.EventHandler(this.button14_Click);
@@ -394,7 +397,7 @@
             this.button15.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button15.Location = new System.Drawing.Point(23, 374);
             this.button15.Name = "button15";
-            this.button15.Size = new System.Drawing.Size(244, 37);
+            this.button15.Size = new System.Drawing.Size(244, 30);
             this.button15.TabIndex = 43;
             this.button15.Text = "Sinc (wN/2) => Главное окно";
             this.button15.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -471,11 +474,37 @@
             this.label9.TabIndex = 49;
             this.label9.Text = "t =";
             // 
+            // button19
+            // 
+            this.button19.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button19.Location = new System.Drawing.Point(21, 191);
+            this.button19.Name = "button19";
+            this.button19.Size = new System.Drawing.Size(244, 21);
+            this.button19.TabIndex = 51;
+            this.button19.Text = "Оставить точки вне прямоугольника";
+            this.button19.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button19.UseVisualStyleBackColor = true;
+            this.button19.Click += new System.EventHandler(this.button19_Click);
+            // 
+            // button20
+            // 
+            this.button20.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button20.Location = new System.Drawing.Point(23, 618);
+            this.button20.Name = "button20";
+            this.button20.Size = new System.Drawing.Size(376, 24);
+            this.button20.TabIndex = 52;
+            this.button20.Text = "Добавление боковых лепестков из [1] к одиночному пику [2]  => в [3]";
+            this.button20.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button20.UseVisualStyleBackColor = true;
+            this.button20.Click += new System.EventHandler(this.button20_Click);
+            // 
             // Teorema1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(583, 688);
+            this.ClientSize = new System.Drawing.Size(583, 770);
+            this.Controls.Add(this.button20);
+            this.Controls.Add(this.button19);
             this.Controls.Add(this.textBox13);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.button18);
@@ -565,5 +594,7 @@
         private System.Windows.Forms.Button button18;
         private System.Windows.Forms.TextBox textBox13;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button button19;
+        private System.Windows.Forms.Button button20;
     }
 }

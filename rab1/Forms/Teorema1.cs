@@ -24,7 +24,7 @@ namespace rab1.Forms
         private static int Number_Pont     = 2048;
         //private static int Number_Sinc     = 2048;
 
-        private static int Number_Period   = 8;
+        private static double Number_Period   = 8;
         private static int dx = 32;   // Шаг дискретизации
         private static int t  = 30;   // Размер прямоугольного импульса
 
@@ -96,7 +96,7 @@ namespace rab1.Forms
         /// <param name="e"></param>
         private void button4_Click(object sender, EventArgs e)
         {
-            Number_Period = Convert.ToInt32(textBox6.Text);
+            Number_Period = Convert.ToDouble(textBox6.Text);
             k3 = Convert.ToInt32(textBox7.Text);
             int regComplex = k3 - 1;
             Number_Pont = Convert.ToInt32(textBox3.Text);
@@ -236,7 +236,7 @@ namespace rab1.Forms
             k4 = Convert.ToInt32(textBox8.Text);
             Number_Pont_Rec = Convert.ToInt32(textBox2.Text);
             Number_Pont = Convert.ToInt32(textBox3.Text);
-            int regComplex = k4 - 1;
+           
 
             int nx = Number_Pont;
             int ny = 100;
@@ -253,6 +253,98 @@ namespace rab1.Forms
 
             VisualComplex(k4 - 1);
         }
+        /// <summary>
+        /// Оставить точки, вне прямоугольника
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
+        private void button19_Click(object sender, EventArgs e)
+        {
+            k4 = Convert.ToInt32(textBox8.Text);                    // Номер окна
+            Number_Pont_Rec = Convert.ToInt32(textBox2.Text);       // Размер прямоугольника
+            Number_Pont = Convert.ToInt32(textBox3.Text);           // Общее число точек
+
+            int nx = Number_Pont;
+            int ny = 100;
+            int x0 = Number_Pont_Rec / 2;
+            int x1 = nx  - Number_Pont_Rec / 2;
+
+            ZComplexDescriptor cmpl = new ZComplexDescriptor(nx, ny);
+            for (int i = x0+1; i < x1; i++)
+                for (int j = 0; j < ny; j++)
+                  { cmpl.array[i, j] = Form1.zComplex[k4 - 1].array[i, j]; }
+
+           
+            Form1.zComplex[k4 - 1] = cmpl;
+            
+
+            VisualComplex(k4 - 1);
+        }
+
+        /// <summary>
+        /// Добавление боковых лепестков  из 1 и 2 => центральное окно
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
+        private void button20_Click(object sender, EventArgs e)
+        {
+            k1 = Convert.ToInt32(textBox4.Text);       // Боковые лепестки (вещественный)
+            k2 = Convert.ToInt32(textBox5.Text);       // Одиночный спектр (вещественный)
+            k6 = Convert.ToInt32(textBox11.Text);       // Одиночный спектр (вещественный)
+
+            Number_Pont_Rec = Convert.ToInt32(textBox2.Text);       // Размер прямоугольника
+            Number_Pont = Convert.ToInt32(textBox3.Text);           // Общее число точек
+            int nx = Number_Pont;
+            int ny = 100;
+            int x0 = Number_Pont_Rec / 2;
+            int x1 = nx - Number_Pont_Rec / 2;
+
+            Complex[] a = new Complex[nx];                                              // Переписываем одиночный пик
+            for (int i = 0; i < nx; i++) a[i] = Form1.zComplex[k2 - 1].array[i, ny / 2];
+            Complex [] b = new Complex[nx];                                             // Переписываем лепестки (приведенные к 1)
+            for (int i = 0; i < nx; i++) b[i] = Form1.zComplex[k1 - 1].array[i, ny / 2];
+                      
+            double min = double.MaxValue;                                               // Max и Min боковых лепестков
+            double max = double.MinValue;
+
+            for (int i = 0; i < nx; i++)
+            {
+                if (min > b[i].Magnitude) min = b[i].Magnitude;
+                if (max < b[i].Magnitude) max = b[i].Magnitude;
+            }
+
+            double min1 = a[x0+1 ].Magnitude;
+
+            //double min1 = double.MaxValue;                                               //Min одиночного пика
+            //for (int i = 0; i < nx; i++) { if (min1 > a[i].Magnitude) min1 = a[i].Magnitude; }
+
+            MessageBox.Show("max = " + max + " min = " + min + " minpik = " + min1);
+
+            for (int i = 0; i < nx; i++) { b[i] = (b[i] - min)*min1 / (max - min); }
+
+            for (int i = x0 + 1; i < x1; i++) a[i] = b[i];                                 // Переписываем одиночный пик + боковые лепестки
+
+
+            ZComplexDescriptor cmpl = new ZComplexDescriptor(nx, ny);
+
+            for (int i = 0; i < nx; i++)                
+                for (int j = 0; j < ny; j++)
+                    cmpl.array[i, j] = a[i];
+
+           
+            
+
+           
+
+            Form1.zComplex[k6 - 1] = cmpl;
+
+
+            VisualComplex(k6 - 1);
+        }
+
+   
 
 
 
@@ -413,8 +505,10 @@ namespace rab1.Forms
         private void button15_Click(object sender, EventArgs e)
         {
             Number_Pont = Convert.ToInt32(textBox3.Text);       // Общее число точек
-            dx = Convert.ToInt32(textBox10.Text);
-            double N = dx;
+            Number_Pont_Rec = Convert.ToInt32(textBox2.Text);  // Число точек в прямоугольнике
+         
+            //dx = Convert.ToInt32(textBox10.Text);
+            double N = Number_Pont_Rec;
             int nx = Number_Pont;
             int ny = 100;
 
@@ -425,7 +519,7 @@ namespace rab1.Forms
                 {
                     //double x = 2*Math.PI * i / nx;
                     double x = i;
-                    double d = Math.PI * (x - nx/2) / dx;
+                    double d = N * (x - nx/2) / 2;
                     if (d != 0) sc = Math.Sin(d) / d; else sc = 1;
                     cmpl.array[i, y] = sc;
                 }
@@ -655,40 +749,27 @@ namespace rab1.Forms
             for (int i = 0; i < nx; i++) st[i] = new Complex(Math.Cos(p2*i), Math.Sin(p2 * i));        // Сдвиг на Step
 
             int m = Furie.PowerOfTwo(nxd);                                       // nx=2**m
-            MessageBox.Show("nxd = " + nxd +" m = " + m);
             cd = Furie.GetFourierTransform(cd, m);                               // Фурье
 
-          //  ZComplexDescriptor rez1 = new ZComplexDescriptor(nxd, ny);          // Вывод в 3-е окно
-          //  for (int i = 0; i < nxd; i++)
-          //      for (int j = 0; j < ny; j++)
-          //          rez1.array[i, j] = cd[i];
-         //   Form1.zComplex[k6 - 1] = rez1;
-         //   VisualComplex(k6 - 1);
+            //  ZComplexDescriptor rez1 = new ZComplexDescriptor(nxd, ny);          // Вывод в 3-е окно
+            //  for (int i = 0; i < nxd; i++)
+            //      for (int j = 0; j < ny; j++)
+            //          rez1.array[i, j] = cd[i];
+            //   Form1.zComplex[k6 - 1] = rez1;
+            //   VisualComplex(k6 - 1);
+            //MessageBox.Show("--nxd = " + nxd + " m = " + m);
 
-            int nx2 = nx * 1;
-            Complex[] array = new Complex[nx2];
-            array[nx2/2] = cd[0];
-            for (int i = 1;  i < nxd / 2;  i++)  // Расширение на dx  сдвиг в центр
-            {
-                //array[nx / 2 + i*dx] = cd[i];
-                //array[nx / 2 - i*dx] = cd[nxd-i];
-                array[nx2 / 2 + i ] = cd[i] ;
-                array[nx2 / 2 - i ] = cd[nxd - i];
-            }
+            Complex[] array = new Complex[nx];
+                  
+            for (int i = 0; i < nxd / 2; i++)       { array[i] = cd[i]; }            // Выделение одного спектра
+            for (int i = nx - nxd / 2, j = nxd/2; i < nx; i++, j++) { array[i] = cd[j]; }
 
-            /*            array[i * dx] = cd[i];                 // Расширение на dx
-                       for (int i = nxd-1, j=n-1-dx; i > nxd / 2;  i--, j-=dx) array[ j ] =    cd[i];
-
-                       Complex[] c = new Complex[n];
-                       for (int i = 0; i < n/2; i++)  c[i + n/2] = array[i];                      // Циклический сдвиг вправо
-                       for (int i = 0; i < n/2; i++)  c[i]       = array[n/2 + i ];
-           */
-
-            ZComplexDescriptor rez2 = new ZComplexDescriptor(nx2, ny);
+            //MessageBox.Show("++nxd = " + nxd +" m = " + m);
+            ZComplexDescriptor rez2 = new ZComplexDescriptor(nx, ny);
           
-            for (int i = 0; i < nx2; i++)
+            for (int i = 0; i < nx; i++)
                 for (int j = 0; j < ny; j++)
-                    rez2.array[i, j] = array[i] * st[i];
+                    rez2.array[i, j] = array[i] * st[i];  // Сдвиг на Step0
 
             Form1.zComplex[k2 - 1] = rez2;
            VisualComplex(k2 - 1);
@@ -768,6 +849,11 @@ namespace rab1.Forms
 
         }
 
-       
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        
     }
 }
