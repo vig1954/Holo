@@ -505,7 +505,7 @@ namespace rab1.Forms
         private void button15_Click(object sender, EventArgs e)
         {
             Number_Pont = Convert.ToInt32(textBox3.Text);       // Общее число точек
-            Number_Pont_Rec = Convert.ToInt32(textBox2.Text);  // Число точек в прямоугольнике
+            Number_Pont_Rec = Convert.ToInt32(textBox2.Text);   // Число точек в прямоугольнике
          
             //dx = Convert.ToInt32(textBox10.Text);
             double N = Number_Pont_Rec;
