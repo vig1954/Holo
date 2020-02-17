@@ -89,6 +89,38 @@ namespace rab1.Forms
 
             //Close();
         }
+/// <summary>
+///  Набор прямоугольных испульсов 
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
+        private void button22_Click(object sender, EventArgs e)
+        {
+            Number_kadr = Convert.ToInt32(textBox1.Text);
+            dx = Convert.ToInt32(textBox10.Text);
+            t = Convert.ToInt32(textBox13.Text);      // Размер прямоугольного импульса
+
+            int nx = Number_Pont;
+            int ny = 100;
+
+            double[] c = new double[nx];
+
+            int dxt = (dx - t) / 2;
+            for (int i = 0; i < nx; i = i + dx)  for (int j = 0; j < t; j++) c[i+j] = 255;
+
+            ZComplexDescriptor cmpl = new ZComplexDescriptor(nx, ny);
+
+            for (int i = 0; i < nx; i++)
+                for (int j = 0; j < ny; j++)
+                {
+                    cmpl.array[i, j] = new Complex(c[i],0.0);
+                }
+            Form1.zComplex[Number_kadr-1] = cmpl;
+            VisualComplex(Number_kadr - 1);
+
+        }
+
+
         /// <summary>
         /// Синусоида
         /// </summary>
@@ -505,10 +537,37 @@ namespace rab1.Forms
         private void button15_Click(object sender, EventArgs e)
         {
             Number_Pont = Convert.ToInt32(textBox3.Text);       // Общее число точек
-            Number_Pont_Rec = Convert.ToInt32(textBox2.Text);   // Число точек в прямоугольнике
-         
-            //dx = Convert.ToInt32(textBox10.Text);
-            double N = Number_Pont_Rec;
+            t = Convert.ToInt32(textBox13.Text);                // 
+           
+            int nx = Number_Pont;
+            int ny = 100;
+
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(nx, ny);
+            double sc = 0;
+            for (int i = 0; i < nx; i++)
+              for (int y = 0; y < ny; y++)
+                {
+                    double x = (2*Math.PI * i) / nx;
+                    //double x = i;
+                    double d = t * (x - Math.PI) / 2;
+                    if (d != 0) sc = Math.Sin(d) / d; else sc = 1;
+                    cmpl.array[i, y] = Math.Abs(sc);
+                }
+
+            Form1.zArrayPicture = cmpl;
+            VisualArray();
+
+        }
+        /// <summary>
+        /// SINC => w*pi/t
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button23_Click(object sender, EventArgs e)
+        {
+            Number_Pont = Convert.ToInt32(textBox3.Text);       // Общее число точек
+            t = Convert.ToInt32(textBox13.Text);                // 
+
             int nx = Number_Pont;
             int ny = 100;
 
@@ -517,29 +576,67 @@ namespace rab1.Forms
             for (int i = 0; i < nx; i++)
                 for (int y = 0; y < ny; y++)
                 {
-                    //double x = 2*Math.PI * i / nx;
-                    double x = i;
-                    double d = N * (x - nx/2) / 2;
+                    double x = (2*Math.PI * i) / nx;
+                    double d = x* Math.PI/t;
+                    //double d = (d - Math.PI);
                     if (d != 0) sc = Math.Sin(d) / d; else sc = 1;
-                    cmpl.array[i, y] = sc;
+                    cmpl.array[i, y] = Math.Abs(sc);
                 }
 
             Form1.zArrayPicture = cmpl;
-
             VisualArray();
-
         }
-/*
-        private double Sinc1(double x, int n, int nx)
+
+        /// <summary>
+        ///  SinC => для прямоугольных функций
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button21_Click(object sender, EventArgs e)
         {
-            double sc = 0;
+            Number_Pont = Convert.ToInt32(textBox3.Text);       // Общее число точек
+            t = Convert.ToInt32(textBox13.Text);                // Число точек в прямоугольнике
+            dx = Convert.ToInt32(textBox10.Text);
 
-            double d = n * (x - Math.PI)/(2.0);
-            if (d != 0) sc = Math.Sin(d) / d; else sc = 1;
+            int nx = Number_Pont;
+            int ny = 100;
 
-            return sc;
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(nx, ny);
+            double sc = 0, sc1 = 0;
+
+            double N = nx / dx;
+
+            for (int i = 0; i < nx; i++)
+                for (int y = 0; y < ny; y++)
+                {
+                    double w = (2 * Math.PI * (i - nx/2)) / nx;   
+                    
+                    double d = t * w / 2;                if (d != 0)  sc  = Math.Sin(d) / d;            else sc = 1;
+                   
+                    double d1 = Math.Sin( w* dx / (2)); if (d1 != 0) sc1 = Math.Sin(w *N *dx / (2)  ) / d1; else sc1 = N;
+
+                    // Math.Sin(w * N * dx / (2 ))
+                    // Math.Sin(w * dx / (2))
+
+                    cmpl.array[i, y] = Math.Abs(sc*sc1/N);
+                    //cmpl.array[i, y] = sc1;
+                }
+
+            Form1.zArrayPicture = cmpl;
+            VisualArray();
         }
-*/
+
+        /*
+                private double Sinc1(double x, int n, int nx)
+                {
+                    double sc = 0;
+
+                    double d = n * (x - Math.PI)/(2.0);
+                    if (d != 0) sc = Math.Sin(d) / d; else sc = 1;
+
+                    return sc;
+                }
+        */
         private double Sinc(double x, double dx, int n)
         {
             double sc = 0;
@@ -854,6 +951,6 @@ namespace rab1.Forms
 
         }
 
-        
+     
     }
 }

@@ -70,11 +70,14 @@
             this.label9 = new System.Windows.Forms.Label();
             this.button19 = new System.Windows.Forms.Button();
             this.button20 = new System.Windows.Forms.Button();
+            this.button21 = new System.Windows.Forms.Button();
+            this.button22 = new System.Windows.Forms.Button();
+            this.button23 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(297, 25);
+            this.textBox1.Location = new System.Drawing.Point(295, 63);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(37, 20);
             this.textBox1.TabIndex = 13;
@@ -84,7 +87,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(354, 25);
+            this.label5.Location = new System.Drawing.Point(352, 63);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(70, 26);
             this.label5.TabIndex = 12;
@@ -104,7 +107,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(451, 24);
+            this.textBox2.Location = new System.Drawing.Point(449, 62);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(37, 20);
             this.textBox2.TabIndex = 14;
@@ -113,7 +116,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(511, 24);
+            this.label1.Location = new System.Drawing.Point(509, 62);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(68, 13);
             this.label1.TabIndex = 15;
@@ -121,7 +124,7 @@
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(524, 48);
+            this.textBox3.Location = new System.Drawing.Point(522, 86);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(37, 20);
             this.textBox3.TabIndex = 16;
@@ -191,7 +194,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(354, 71);
+            this.label3.Location = new System.Drawing.Point(352, 109);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(90, 13);
             this.label3.TabIndex = 23;
@@ -199,7 +202,7 @@
             // 
             // textBox6
             // 
-            this.textBox6.Location = new System.Drawing.Point(450, 68);
+            this.textBox6.Location = new System.Drawing.Point(448, 106);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(37, 20);
             this.textBox6.TabIndex = 24;
@@ -208,7 +211,7 @@
             // 
             // textBox7
             // 
-            this.textBox7.Location = new System.Drawing.Point(297, 63);
+            this.textBox7.Location = new System.Drawing.Point(295, 101);
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(37, 20);
             this.textBox7.TabIndex = 25;
@@ -397,9 +400,9 @@
             this.button15.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button15.Location = new System.Drawing.Point(23, 374);
             this.button15.Name = "button15";
-            this.button15.Size = new System.Drawing.Size(244, 30);
+            this.button15.Size = new System.Drawing.Size(163, 23);
             this.button15.TabIndex = 43;
-            this.button15.Text = "Sinc (wN/2) => Главное окно";
+            this.button15.Text = "Sinc (wt/2) => Главное окно";
             this.button15.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button15.UseVisualStyleBackColor = true;
             this.button15.Click += new System.EventHandler(this.button15_Click);
@@ -498,11 +501,50 @@
             this.button20.UseVisualStyleBackColor = true;
             this.button20.Click += new System.EventHandler(this.button20_Click);
             // 
+            // button21
+            // 
+            this.button21.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button21.Location = new System.Drawing.Point(200, 374);
+            this.button21.Name = "button21";
+            this.button21.Size = new System.Drawing.Size(199, 23);
+            this.button21.TabIndex = 53;
+            this.button21.Text = "Sinc (wt/2)Sinc(Nwdx/2) /Sinc(wdx/2) ";
+            this.button21.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button21.UseVisualStyleBackColor = true;
+            this.button21.Click += new System.EventHandler(this.button21_Click);
+            // 
+            // button22
+            // 
+            this.button22.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button22.Location = new System.Drawing.Point(295, 24);
+            this.button22.Name = "button22";
+            this.button22.Size = new System.Drawing.Size(264, 21);
+            this.button22.TabIndex = 54;
+            this.button22.Text = "Прямоугольные импульсы  в комплексный массив";
+            this.button22.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button22.UseVisualStyleBackColor = true;
+            this.button22.Click += new System.EventHandler(this.button22_Click);
+            // 
+            // button23
+            // 
+            this.button23.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button23.Location = new System.Drawing.Point(414, 374);
+            this.button23.Name = "button23";
+            this.button23.Size = new System.Drawing.Size(163, 23);
+            this.button23.TabIndex = 55;
+            this.button23.Text = "Sinc (wPi/t) => Главное окно";
+            this.button23.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button23.UseVisualStyleBackColor = true;
+            this.button23.Click += new System.EventHandler(this.button23_Click);
+            // 
             // Teorema1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(583, 770);
+            this.Controls.Add(this.button23);
+            this.Controls.Add(this.button22);
+            this.Controls.Add(this.button21);
             this.Controls.Add(this.button20);
             this.Controls.Add(this.button19);
             this.Controls.Add(this.textBox13);
@@ -596,5 +638,8 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button button19;
         private System.Windows.Forms.Button button20;
+        private System.Windows.Forms.Button button21;
+        private System.Windows.Forms.Button button22;
+        private System.Windows.Forms.Button button23;
     }
 }
