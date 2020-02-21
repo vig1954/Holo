@@ -231,7 +231,7 @@ namespace rab1.Forms
             k6 = Convert.ToInt32(textBox6.Text);
             k7 = Convert.ToInt32(textBox7.Text);
             k8 = Convert.ToInt32(textBox8.Text);
-            ADD_Math.Mul_D(k6, k7, k8, progressBar1);
+            ADD_Math.Mul_D(k6, k7, k8);
             //On_MulD(k6, k7, k8);
             Close();
         }

@@ -73,6 +73,8 @@
             this.button21 = new System.Windows.Forms.Button();
             this.button22 = new System.Windows.Forms.Button();
             this.button23 = new System.Windows.Forms.Button();
+            this.button24 = new System.Windows.Forms.Button();
+            this.button25 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
@@ -133,7 +135,7 @@
             // button1
             // 
             this.button1.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button1.Location = new System.Drawing.Point(21, 490);
+            this.button1.Location = new System.Drawing.Point(21, 534);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(141, 21);
             this.button1.TabIndex = 17;
@@ -144,7 +146,7 @@
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(286, 530);
+            this.textBox4.Location = new System.Drawing.Point(286, 574);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(37, 20);
             this.textBox4.TabIndex = 18;
@@ -153,7 +155,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(352, 533);
+            this.label2.Location = new System.Drawing.Point(352, 577);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(19, 13);
             this.label2.TabIndex = 19;
@@ -161,7 +163,7 @@
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(397, 530);
+            this.textBox5.Location = new System.Drawing.Point(397, 574);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(37, 20);
             this.textBox5.TabIndex = 20;
@@ -170,11 +172,11 @@
             // button3
             // 
             this.button3.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button3.Location = new System.Drawing.Point(302, 490);
+            this.button3.Location = new System.Drawing.Point(302, 534);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(97, 21);
+            this.button3.Size = new System.Drawing.Size(111, 21);
             this.button3.TabIndex = 21;
-            this.button3.Text = "ОБПФ * dx";
+            this.button3.Text = "ОБПФ * SQRT( dx)";
             this.button3.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
@@ -240,7 +242,7 @@
             // button6
             // 
             this.button6.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button6.Location = new System.Drawing.Point(19, 237);
+            this.button6.Location = new System.Drawing.Point(23, 244);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(154, 35);
             this.button6.TabIndex = 28;
@@ -251,7 +253,7 @@
             // 
             // textBox9
             // 
-            this.textBox9.Location = new System.Drawing.Point(289, 282);
+            this.textBox9.Location = new System.Drawing.Point(293, 289);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(37, 20);
             this.textBox9.TabIndex = 29;
@@ -260,7 +262,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(405, 286);
+            this.label4.Location = new System.Drawing.Point(409, 293);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(28, 13);
             this.label4.TabIndex = 30;
@@ -268,7 +270,7 @@
             // 
             // textBox10
             // 
-            this.textBox10.Location = new System.Drawing.Point(450, 282);
+            this.textBox10.Location = new System.Drawing.Point(454, 289);
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(37, 20);
             this.textBox10.TabIndex = 31;
@@ -277,7 +279,7 @@
             // button7
             // 
             this.button7.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button7.Location = new System.Drawing.Point(21, 278);
+            this.button7.Location = new System.Drawing.Point(25, 285);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(244, 37);
             this.button7.TabIndex = 32;
@@ -301,7 +303,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(507, 241);
+            this.label6.Location = new System.Drawing.Point(511, 248);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(0, 13);
             this.label6.TabIndex = 34;
@@ -309,7 +311,7 @@
             // button9
             // 
             this.button9.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button9.Location = new System.Drawing.Point(21, 529);
+            this.button9.Location = new System.Drawing.Point(21, 573);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(244, 39);
             this.button9.TabIndex = 35;
@@ -333,7 +335,7 @@
             // button11
             // 
             this.button11.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button11.Location = new System.Drawing.Point(21, 321);
+            this.button11.Location = new System.Drawing.Point(25, 328);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(244, 37);
             this.button11.TabIndex = 37;
@@ -345,7 +347,7 @@
             // button12
             // 
             this.button12.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button12.Location = new System.Drawing.Point(23, 585);
+            this.button12.Location = new System.Drawing.Point(23, 629);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(376, 27);
             this.button12.TabIndex = 38;
@@ -357,7 +359,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(469, 536);
+            this.label7.Location = new System.Drawing.Point(469, 580);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(19, 13);
             this.label7.TabIndex = 39;
@@ -365,7 +367,7 @@
             // 
             // textBox11
             // 
-            this.textBox11.Location = new System.Drawing.Point(514, 533);
+            this.textBox11.Location = new System.Drawing.Point(514, 577);
             this.textBox11.Name = "textBox11";
             this.textBox11.Size = new System.Drawing.Size(37, 20);
             this.textBox11.TabIndex = 40;
@@ -374,7 +376,7 @@
             // button13
             // 
             this.button13.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button13.Location = new System.Drawing.Point(23, 445);
+            this.button13.Location = new System.Drawing.Point(23, 489);
             this.button13.Name = "button13";
             this.button13.Size = new System.Drawing.Size(244, 27);
             this.button13.TabIndex = 41;
@@ -386,9 +388,9 @@
             // button14
             // 
             this.button14.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button14.Location = new System.Drawing.Point(21, 668);
+            this.button14.Location = new System.Drawing.Point(27, 423);
             this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(363, 23);
+            this.button14.Size = new System.Drawing.Size(548, 23);
             this.button14.TabIndex = 42;
             this.button14.Text = "Дискретная свертка из1 и 2 окон => Главное окно";
             this.button14.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -398,7 +400,7 @@
             // button15
             // 
             this.button15.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button15.Location = new System.Drawing.Point(23, 374);
+            this.button15.Location = new System.Drawing.Point(27, 381);
             this.button15.Name = "button15";
             this.button15.Size = new System.Drawing.Size(163, 23);
             this.button15.TabIndex = 43;
@@ -410,7 +412,7 @@
             // button16
             // 
             this.button16.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button16.Location = new System.Drawing.Point(180, 490);
+            this.button16.Location = new System.Drawing.Point(180, 534);
             this.button16.Name = "button16";
             this.button16.Size = new System.Drawing.Size(97, 21);
             this.button16.TabIndex = 44;
@@ -433,7 +435,7 @@
             // 
             // textBox12
             // 
-            this.textBox12.Location = new System.Drawing.Point(450, 322);
+            this.textBox12.Location = new System.Drawing.Point(454, 329);
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(37, 20);
             this.textBox12.TabIndex = 47;
@@ -442,7 +444,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(392, 325);
+            this.label8.Location = new System.Drawing.Point(396, 332);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(41, 13);
             this.label8.TabIndex = 46;
@@ -451,7 +453,7 @@
             // button18
             // 
             this.button18.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button18.Location = new System.Drawing.Point(184, 237);
+            this.button18.Location = new System.Drawing.Point(188, 244);
             this.button18.Name = "button18";
             this.button18.Size = new System.Drawing.Size(187, 35);
             this.button18.TabIndex = 48;
@@ -462,7 +464,7 @@
             // 
             // textBox13
             // 
-            this.textBox13.Location = new System.Drawing.Point(451, 241);
+            this.textBox13.Location = new System.Drawing.Point(455, 248);
             this.textBox13.Name = "textBox13";
             this.textBox13.Size = new System.Drawing.Size(37, 20);
             this.textBox13.TabIndex = 50;
@@ -471,7 +473,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(406, 245);
+            this.label9.Location = new System.Drawing.Point(410, 252);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(19, 13);
             this.label9.TabIndex = 49;
@@ -492,11 +494,12 @@
             // button20
             // 
             this.button20.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button20.Location = new System.Drawing.Point(23, 618);
+            this.button20.Location = new System.Drawing.Point(23, 672);
             this.button20.Name = "button20";
-            this.button20.Size = new System.Drawing.Size(376, 24);
+            this.button20.Size = new System.Drawing.Size(376, 34);
             this.button20.TabIndex = 52;
-            this.button20.Text = "Добавление боковых лепестков из [1] к одиночному пику [2]  => в [3]";
+            this.button20.Text = "Добавление боковых лепестков из [1] к одиночному пику [2]  => в [3]\r\nМассивы комп" +
+    "лексные";
             this.button20.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button20.UseVisualStyleBackColor = true;
             this.button20.Click += new System.EventHandler(this.button20_Click);
@@ -504,7 +507,7 @@
             // button21
             // 
             this.button21.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button21.Location = new System.Drawing.Point(200, 374);
+            this.button21.Location = new System.Drawing.Point(204, 381);
             this.button21.Name = "button21";
             this.button21.Size = new System.Drawing.Size(199, 23);
             this.button21.TabIndex = 53;
@@ -528,7 +531,7 @@
             // button23
             // 
             this.button23.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button23.Location = new System.Drawing.Point(414, 374);
+            this.button23.Location = new System.Drawing.Point(418, 381);
             this.button23.Name = "button23";
             this.button23.Size = new System.Drawing.Size(163, 23);
             this.button23.TabIndex = 55;
@@ -537,11 +540,37 @@
             this.button23.UseVisualStyleBackColor = true;
             this.button23.Click += new System.EventHandler(this.button23_Click);
             // 
+            // button24
+            // 
+            this.button24.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button24.Location = new System.Drawing.Point(430, 534);
+            this.button24.Name = "button24";
+            this.button24.Size = new System.Drawing.Size(129, 21);
+            this.button24.TabIndex = 56;
+            this.button24.Text = "ОБПФ * dx сдвиг dx/2";
+            this.button24.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button24.UseVisualStyleBackColor = true;
+            this.button24.Click += new System.EventHandler(this.button24_Click);
+            // 
+            // button25
+            // 
+            this.button25.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button25.Location = new System.Drawing.Point(23, 724);
+            this.button25.Name = "button25";
+            this.button25.Size = new System.Drawing.Size(376, 34);
+            this.button25.TabIndex = 57;
+            this.button25.Text = "Масштабирование одиночного пика с Sinc(wt/2)    [1] => [2]\r\nМассивы комплексные";
+            this.button25.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button25.UseVisualStyleBackColor = true;
+            this.button25.Click += new System.EventHandler(this.button25_Click);
+            // 
             // Teorema1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(583, 770);
+            this.Controls.Add(this.button25);
+            this.Controls.Add(this.button24);
             this.Controls.Add(this.button23);
             this.Controls.Add(this.button22);
             this.Controls.Add(this.button21);
@@ -641,5 +670,7 @@
         private System.Windows.Forms.Button button21;
         private System.Windows.Forms.Button button22;
         private System.Windows.Forms.Button button23;
+        private System.Windows.Forms.Button button24;
+        private System.Windows.Forms.Button button25;
     }
 }

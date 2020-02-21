@@ -322,15 +322,16 @@ namespace rab1.Forms
 
         private void button20_Click(object sender, EventArgs e)
         {
-            k1 = Convert.ToInt32(textBox4.Text);       // Боковые лепестки (вещественный)
-            k2 = Convert.ToInt32(textBox5.Text);       // Одиночный спектр (вещественный)
-            k6 = Convert.ToInt32(textBox11.Text);       // Одиночный спектр (вещественный)
+            k1 = Convert.ToInt32(textBox4.Text);       // Боковые лепестки 
+            k2 = Convert.ToInt32(textBox5.Text);       // Одиночный спектр 
+            k6 = Convert.ToInt32(textBox11.Text);      // Одиночный спектр 
 
-            Number_Pont_Rec = Convert.ToInt32(textBox2.Text);       // Размер прямоугольника
+            dx = Convert.ToInt32(textBox10.Text);       // Размер прямоугольника = dx
             Number_Pont = Convert.ToInt32(textBox3.Text);           // Общее число точек
             int nx = Number_Pont;
             int ny = 100;
-            int x0 = Number_Pont_Rec / 2;
+
+            int x0 = dx / 2;
             int x1 = nx - Number_Pont_Rec / 2;
 
             Complex[] a = new Complex[nx];                                              // Переписываем одиночный пик
@@ -349,7 +350,7 @@ namespace rab1.Forms
 
             double min1 = a[x0+1 ].Magnitude;
 
-            //double min1 = double.MaxValue;                                               //Min одиночного пика
+            //double min1 = double.MaxValue;                                               // Min одиночного пика
             //for (int i = 0; i < nx; i++) { if (min1 > a[i].Magnitude) min1 = a[i].Magnitude; }
 
             MessageBox.Show("max = " + max + " min = " + min + " minpik = " + min1);
@@ -366,13 +367,7 @@ namespace rab1.Forms
                     cmpl.array[i, j] = a[i];
 
            
-            
-
-           
-
             Form1.zComplex[k6 - 1] = cmpl;
-
-
             VisualComplex(k6 - 1);
         }
 
@@ -401,7 +396,7 @@ namespace rab1.Forms
 
             for (int i = 0; i < nx; i++) c[i] = Form1.zComplex[k1 - 1].array[i, ny/2];
 
-            c1 = Furie.GetFourierTransform(c, m);
+            c1 = Furie.GetFourierTransform(c, m);     // /sqrt(nx)
            
             Form1.zComplex[k2-1] = new ZComplexDescriptor(nx, ny);
             for (int i = 0; i < nx; i++)
@@ -445,6 +440,42 @@ namespace rab1.Forms
             VisualComplex(k2 - 1);
             //Close();
         }
+        /// <summary>
+        /// Обратное БПФ * dx со сдвигом на dx/2
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button24_Click(object sender, EventArgs e)
+        {
+            k1 = Convert.ToInt32(textBox4.Text);
+            k2 = Convert.ToInt32(textBox5.Text);
+            dx = Convert.ToInt32(textBox10.Text);
+
+            int nx = Form1.zComplex[k1 - 1].width;
+            int ny = Form1.zComplex[k1 - 1].height;
+
+            int m = Furie.PowerOfTwo(nx);                                       // nx=2**m
+            //MessageBox.Show(" m = " + m + " nx = " + nx + " ny = " + ny);
+
+            Complex[] c = new Complex[nx];
+            Complex[] c1 = new Complex[nx];
+
+            double d2 = dx;
+            double w = 2*Math.PI/nx;
+            for (int i = 0; i < nx; i++) c1[i] = new Complex(Math.Cos(i*w*d2 / 2), Math.Sin(i * w * d2 / 2)); 
+            for (int i = 0; i < nx; i++) c[i] = Form1.zComplex[k1 - 1].array[i, ny / 2]*c1[i];
+
+            c1 = Furie.GetInverseFourierTransform(c, m);
+
+           
+            Form1.zComplex[k2 - 1] = new ZComplexDescriptor(nx, ny);
+            for (int i = 0; i < nx; i++)
+                for (int j = 0; j < ny; j++)
+                    Form1.zComplex[k2 - 1].array[i, j] = d2 * c1[i];
+
+            VisualComplex(k2 - 1);
+        }
+
 
         private void button16_Click(object sender, EventArgs e)
         {
@@ -576,9 +607,10 @@ namespace rab1.Forms
             for (int i = 0; i < nx; i++)
                 for (int y = 0; y < ny; y++)
                 {
-                    double x = (2*Math.PI * i) / nx;
-                    double d = x* Math.PI/t;
-                    //double d = (d - Math.PI);
+                    //double x = (2*Math.PI * i) / nx;
+                    //double d = x* Math.PI/t;
+                    double d = (i-nx/2) * Math.PI / t;
+                   
                     if (d != 0) sc = Math.Sin(d) / d; else sc = 1;
                     cmpl.array[i, y] = Math.Abs(sc);
                 }
@@ -950,7 +982,56 @@ namespace rab1.Forms
         {
 
         }
+        ///     Масштабирование одиночного пика
+        private void button25_Click(object sender, EventArgs e)
+        {
+            k1 = Convert.ToInt32(textBox4.Text);       // Массив с одиночным пиком
+            k2 = Convert.ToInt32(textBox5.Text);       // Результат
+            t = Convert.ToInt32(textBox13.Text);       // Размер прямоугольника = t
 
-     
+            int nx = Form1.zArrayDescriptor[k1 - 1].width;
+            int ny = Form1.zArrayDescriptor[k1 - 1].height;
+
+            //int nx = 2048;
+            //int ny = 100;
+
+            int x0 = nx / 2 - Number_Pont_Rec / 2;
+            Complex[] a = new Complex[nx];
+            Complex[] c = new Complex[nx];
+
+            for (int i = x0; i < x0 + t; i++) { a[i] = new Complex(1,0); }  // Прямоугольник размером t 
+
+          
+            c = Furie.GetFourierTransform(a, Furie.PowerOfTwo(nx));
+            //MessageBox.Show(" m = " + m + " nx = " + nx + " ny = " + ny);
+            Complex d = new Complex(Math.Sqrt(2), 0);
+            for (int i = 0; i < nx; i++) { c[i] = c[i] * d; };
+
+            for (int i = 0; i < nx; i++)
+                for (int j = 0; j < ny; j++)
+                    a[i] = Form1.zComplex[k1 - 1].array[i, j];
+
+            Complex[] c1 = new Complex[nx];
+            for (int i = 0; i < t; i++)     { c1[i] = a[i] / c[i].Magnitude; };
+            for (int i = nx-t; i < nx; i++) { c1[i] = a[i] / c[i].Magnitude; };
+
+            for (int i = 0; i < nx; i++)
+            {
+                if (c1[i].Magnitude > 1) c1[i] = new Complex(1, 0);
+                if (c1[i].Magnitude < 0) c1[i] = new Complex(0, 0);
+
+            }
+
+            ZComplexDescriptor cmpl = new ZComplexDescriptor(nx, ny);
+
+            for (int i = 0; i < nx; i++)
+                for (int j = 0; j < ny; j++)
+                    cmpl.array[i, j] = c1[i];
+
+            Form1.zComplex[k2 - 1] = cmpl;
+            VisualComplex(k2 - 1);
+
+            //Close();
+        }
     }
 }

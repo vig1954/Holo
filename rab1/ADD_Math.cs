@@ -421,7 +421,7 @@ namespace rab1
             ComplexPictureImage(k5);
         }
 
-        public static void Mul_D(int k3, int k4, int k5, ProgressBar progressBar1)             // Умножить два вещественных массива (Транспонировать не надо)
+        public static void Mul_D(int k3, int k4, int k5)             // Умножить два вещественных массива 
         {
             k3--; k4--; k5--;                                  // Массив 1 ->  0
 
@@ -438,33 +438,15 @@ namespace rab1
 
             if ((nx != nx1) || (ny != ny1)) { MessageBox.Show("Mul_C Размеры массивов не согласованы"); return; }
 
-            ZArrayDescriptor a = new ZArrayDescriptor(nx, nx);         // Результирующая матрица
-            ZArrayDescriptor b = new ZArrayDescriptor(ny, nx);
+            
+            ZArrayDescriptor b = new ZArrayDescriptor(nx, ny);
 
             for (int i = 0; i < nx; i++)                                    // Транспонирование второго массива
                 for (int j = 0; j < ny; j++)
-                    b.array[j, i] = Form1.zArrayDescriptor[k3].array[i, j];
+                    b.array[i, j] = Form1.zArrayDescriptor[k3].array[i, j]* Form1.zArrayDescriptor[k4].array[i, j];
 
-            progressBar1.Visible = true;
-            progressBar1.Minimum = 1;
-            progressBar1.Maximum = nx;
-            progressBar1.Value = 1;
-            progressBar1.Step = 1;
 
-          
-            for (int i = 0; i < nx; i++)
-            {
-                for (int j = 0; j < nx; j++)
-                {
-                   double s = 0;
-                    for (int y = 0; y < ny; y++)
-                        s += b.array[y, j] * Form1.zArrayDescriptor[k4].array[i, y];  // Строка на столбец
-                    a.array[i, j] = s;
-                }
-                progressBar1.PerformStep();
-            }
-            progressBar1.Value = 1;
-            Form1.zArrayDescriptor[k5] = a;
+            Form1.zArrayDescriptor[k5] = b;
             VisualRegImage(k5);
         }
 
