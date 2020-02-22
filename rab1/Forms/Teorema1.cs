@@ -537,7 +537,7 @@ namespace rab1.Forms
         {
             k5 = Convert.ToInt32(textBox9.Text);      // Номер кадра
             dx = Convert.ToInt32(textBox10.Text);
-            //Step0 = Convert.ToInt32(textBox12.Text);
+            Step0 = Convert.ToInt32(textBox12.Text);
             t = Convert.ToInt32(textBox13.Text);      // Размер прямоугольного импульса
 
             int nx = Form1.zComplex[k5 - 1].width;
@@ -547,13 +547,13 @@ namespace rab1.Forms
             double[] c = new double[nx];
             double[] c1 = new double[nx];
             for (int i = 0; i < nx; i++)  c[i] = Form1.zComplex[k5 - 1].array[i, ny/2].Magnitude; 
-            int dxt= (dx-t)/2;
-            for (int i = 0; i < nx; i = i + dx) for (int j = 0; j < t; j++) c1[i] += c[i + j + dxt];
-            //MessageBox.Show("-------------------------------- ");
+            int dxt = (dx-t)/2;
+            for (int i = 0; i < (nx - Step0 - t - dxt); i = i + dx) for (int j = 0; j < t; j++) c1[i] += c[i + j + dxt + Step0];
+            MessageBox.Show("----------------------------------------------------------- ");
 
-            for (int i = 0; i < nx; i++)
+            for (int i = 0; i < nx - dx / 2 - Step0; i++)
               for (int j = 0; j < ny; j++)
-                cmpl.array[i,  j] = new Complex(c1[i]/t, 0.0);
+                cmpl.array[i + dx/2 + Step0,  j] = new Complex(c1[i]/t, 0.0);
 
             Form1.zComplex[k5 - 1] = cmpl;
             VisualComplex(k5 - 1);
@@ -1032,6 +1032,31 @@ namespace rab1.Forms
             VisualComplex(k2 - 1);
 
             //Close();
+        }
+/// <summary>
+/// Объединение дискретных значений
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
+        private void button26_Click(object sender, EventArgs e)
+        {
+            k1 = Convert.ToInt32(textBox4.Text);       // 1
+            k2 = Convert.ToInt32(textBox5.Text);       // 2
+           
+
+            int nx = Form1.zArrayDescriptor[k1 - 1].width;
+            int ny = Form1.zArrayDescriptor[k1 - 1].height;
+
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(nx, ny);
+
+            for (int i = 0; i < nx; i++)
+                for (int j = 0; j < ny; j++)
+                    cmpl.array[i, j] = Form1.zArrayDescriptor[k1 - 1].array[i, j] + Form1.zArrayDescriptor[k2 - 1].array[i, j];
+
+            Form1.zArrayPicture = cmpl;
+
+            VisualArray();
+
         }
     }
 }

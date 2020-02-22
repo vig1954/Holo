@@ -75,6 +75,7 @@
             this.button23 = new System.Windows.Forms.Button();
             this.button24 = new System.Windows.Forms.Button();
             this.button25 = new System.Windows.Forms.Button();
+            this.button26 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
@@ -378,7 +379,7 @@
             this.button13.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button13.Location = new System.Drawing.Point(23, 489);
             this.button13.Name = "button13";
-            this.button13.Size = new System.Drawing.Size(244, 27);
+            this.button13.Size = new System.Drawing.Size(101, 27);
             this.button13.TabIndex = 41;
             this.button13.Text = "Сжатие и ОБПФ";
             this.button13.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -564,11 +565,24 @@
             this.button25.UseVisualStyleBackColor = true;
             this.button25.Click += new System.EventHandler(this.button25_Click);
             // 
+            // button26
+            // 
+            this.button26.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button26.Location = new System.Drawing.Point(188, 489);
+            this.button26.Name = "button26";
+            this.button26.Size = new System.Drawing.Size(371, 27);
+            this.button26.TabIndex = 58;
+            this.button26.Text = "Объединение дискретных значений => Главное окно";
+            this.button26.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button26.UseVisualStyleBackColor = true;
+            this.button26.Click += new System.EventHandler(this.button26_Click);
+            // 
             // Teorema1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(583, 770);
+            this.Controls.Add(this.button26);
             this.Controls.Add(this.button25);
             this.Controls.Add(this.button24);
             this.Controls.Add(this.button23);
@@ -672,5 +686,6 @@
         private System.Windows.Forms.Button button23;
         private System.Windows.Forms.Button button24;
         private System.Windows.Forms.Button button25;
+        private System.Windows.Forms.Button button26;
     }
 }
