@@ -25,6 +25,16 @@ namespace rab1.Forms
 
     public partial class Model_Sin : Form
     {
+        #region Constants
+
+        private const int WEDGE_MIN_INTENSITY_VALUE = 60;
+        private const int WEDGE_MAX_INTENSITY_VALUE = 220;
+
+        private const int WEDGE_M1 = 167;
+        private const int WEDGE_M2 = 241;
+
+        #endregion
+
         public delegate void VisualRegImageDelegate(int k);
         public static VisualRegImageDelegate VisualRegImage = null;    // Визуализация одного кадра от 0 до 11 из main
         public static VisualRegImageDelegate VisualRegImageAsRaw = null;
@@ -400,18 +410,131 @@ namespace rab1.Forms
             }
         }
 
-       /*
-       private void button2_Click(object sender, EventArgs e)
-       {
-           N_urovn = Convert.ToDouble(textBox8.Text);   // Число уровней
-           Nx = Convert.ToInt32(textBox10.Text);
-           Ny = Convert.ToInt32(textBox12.Text);
-           gamma = Convert.ToDouble(textBox5.Text);
-           OnModel_Intensity(N_urovn, Nx, Ny, gamma);
+        private void wedgeTwoButton_Click(object sender, EventArgs e)
+        {
+            GenerateWedgeTwo();
+        }
 
-           Close();
-       }
-       */
+        private void wedgeOneButton_Click(object sender, EventArgs e)
+        {
+            GenerateWedgeOne();
+        }
+
+        private void GenerateWedgeOne()
+        {
+            ZArrayDescriptor arrayDescriptor = GenerateWedge(WEDGE_M1, 6000, 200);
+            Form1.zArrayDescriptor[0] = arrayDescriptor;
+            VisualRegImage(0);
+        }
+
+        private void GenerateWedgeTwo()
+        {
+            ZArrayDescriptor arrayDescriptor = GenerateWedge(WEDGE_M2, 6000, 200);
+            Form1.zArrayDescriptor[1] = arrayDescriptor;
+            VisualRegImage(1);
+        }
+        
+        private ZArrayDescriptor GenerateWedge(int mValue, int width, int height)
+        {
+            ZArrayDescriptor arrayDescriptor = new ZArrayDescriptor(width, height);
+
+            Interval<double> interval1 = new Interval<double>(0, mValue);
+            Interval<double> interval2 = new Interval<double>(WEDGE_MIN_INTENSITY_VALUE, WEDGE_MAX_INTENSITY_VALUE);
+                        
+            RealIntervalTransform intervalTransform = new RealIntervalTransform(interval1, interval2);
+
+            int[] array = new int[mValue + 1];
+            for (int m = 0; m <= mValue; m++)
+            {
+                array[m] = Convert.ToInt32(intervalTransform.TransformToFinishIntervalValue(m));
+            }
+
+            int k = width / (array.Length - 2);
+
+            for (int x = 0; x < width - 1; x++)
+            {
+                int i = x / k;
+                for (int y = 0; y < height - 1; y++)
+                {
+                    arrayDescriptor.array[x, y] = array[i];
+                }
+            }
+
+            return arrayDescriptor;
+        }
+        
+        private void MakeDecisionTableForWedge()
+        {
+            ZArrayDescriptor array1 = Form1.zArrayDescriptor[0];
+            ZArrayDescriptor array2 = Form1.zArrayDescriptor[1];
+
+            int width = array1.width;
+            int height = array1.height;
+
+            Interval<double> intensityInterval = new Interval<double>(0, 255);
+
+            Interval<double> interval1 = new Interval<double>(0, WEDGE_M1);
+            Interval<double> interval2 = new Interval<double>(0, WEDGE_M2);
+
+            RealIntervalTransform transform1 = new RealIntervalTransform(intensityInterval, interval1);
+            RealIntervalTransform transform2 = new RealIntervalTransform(intensityInterval, interval2);
+
+            List<Point2D> pointsList = new List<Point2D>();
+            
+            for (int x = 0; x < width - 1; x++)
+            {
+                for (int y = 0; y < height - 1; y++)
+                {
+                    double intensity1 = array1.array[x, y];
+                    double intensity2 = array2.array[x, y];
+
+                    int b1 = Convert.ToInt32(transform1.TransformToFinishIntervalValue(intensity1));
+                    int b2 = Convert.ToInt32(transform2.TransformToFinishIntervalValue(intensity1));
+
+                    pointsList.Add(new Point2D(b1, b2));
+                }
+            }
+
+            ShowGraphic(pointsList);
+        }
+
+        private void ShowGraphic(List<Point2D> pointsList)
+        {
+            GraphFormHost graphFormHost = new GraphFormHost();
+            IList<GraphInfo> graphCollection = new List<GraphInfo>();
+
+            Point2D[] graphPoints = pointsList.ToArray();
+            
+            GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Black, graphPoints, true);
+            graphCollection.Add(graphInfo);
+
+            graphFormHost.GraphInfoCollection = graphCollection;
+
+            Form form = new Form();
+            form.Height = 300;
+            form.Width = 900;
+            graphFormHost.Dock = DockStyle.Fill;
+            form.Controls.Add(graphFormHost);
+            form.Show();
+        }
+
+        private void makeDecisionTableButton_Click(object sender, EventArgs e)
+        {
+            MakeDecisionTableForWedge();
+        }
+
+        /*
+        private void button2_Click(object sender, EventArgs e)
+        {
+            N_urovn = Convert.ToDouble(textBox8.Text);   // Число уровней
+            Nx = Convert.ToInt32(textBox10.Text);
+            Ny = Convert.ToInt32(textBox12.Text);
+            gamma = Convert.ToDouble(textBox5.Text);
+            OnModel_Intensity(N_urovn, Nx, Ny, gamma);
+
+            Close();
+        }
+        */
 
         //       private void button9_Click(object sender, EventArgs e) // Полосы поверх изображения
         //        {

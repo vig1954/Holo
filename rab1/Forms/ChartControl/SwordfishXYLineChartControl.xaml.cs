@@ -88,7 +88,7 @@ namespace rab1 {
                     chartPrimitiveXY.PointColor = Colors.Red;
 
                     chartPrimitive.IsDashed = this.dashCheckBox.IsChecked.Value;
-
+                                        
                     if (this.showLinesCheckBox.IsChecked.Value)
                     {
                         chartPrimitiveXY.LineThickness = 1;
