@@ -20,20 +20,53 @@ namespace rab1
         private void BuildTableButton_Click(object sender, EventArgs e)
         {
             int m1 = int.Parse(ValueM1TextBox.Text);
-            int m2 = int.Parse(ValueM1TextBox.Text);
+            int m2 = int.Parse(ValueM2TextBox.Text);
 
-            BuildTable(m1, m2);
+            int range = int.Parse(RangeTextBox.Text);
+
+            BuildTable(m1, m2, range);
         }
 
-        private void BuildTable(int m1, int m2)
+        private void BuildTable(int m1, int m2, int range)
         {
-            for (int n1 = 0; n1 < m1; n1++)
+            int M1 = m2;
+            int M2 = m1;
+
+            int N1 = CalculateN(M1, m1);
+            int N2 = CalculateN(M2, m2);
+
+            Dictionary<int, Point2D> pointsDictionary = new Dictionary<int, Point2D>();
+            
+            for (int b1 = 0; b1 < m1; b1++)
             {
-                for (int n2 = 0; n2 < m2; n2++)
+                for (int b2 = 0; b2 < m2; b2++)
                 {
-                    
+                    int value = (M1 * N1 * b1 + M2 * N2 * b2) % (m1 * m2);
+                    if (value <= range)
+                    {
+                        Point2D point = new Point2D(b1, b2);
+                        pointsDictionary.Add(value, point);
+                    }
                 }
             }
+
+            pointsDictionary = pointsDictionary.OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
+
+            List<Point2D> pointsList = pointsDictionary.Select(x => x.Value).ToList();
+
+            ShowGraphic(pointsList);
+        }
+
+        private int CalculateN(int M, int m)
+        {
+            int n = 1;
+            int value = (M * n) % m;
+            while(value != 1)
+            {
+                n++;
+                value = (M * n) % m;
+            }
+            return n;
         }
 
         private void ValueM1TextBox_TextChanged(object sender, EventArgs e)
@@ -45,7 +78,7 @@ namespace rab1
         {
             CalculateMaxRange();
         }
-
+                     
         private void CalculateMaxRange()
         {
             int m1;
@@ -56,6 +89,26 @@ namespace rab1
                 int maxRange = m1 * m2;
                 MaxRangeValueLabel.Text = maxRange.ToString();
             }
+        }
+
+        private void ShowGraphic(List<Point2D> pointsList)
+        {
+            GraphFormHost graphFormHost = new GraphFormHost();
+            IList<GraphInfo> graphCollection = new List<GraphInfo>();
+
+            Point2D[] graphPoints = pointsList.ToArray();
+
+            GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Black, graphPoints, true);
+            graphCollection.Add(graphInfo);
+
+            graphFormHost.GraphInfoCollection = graphCollection;
+
+            Form form = new Form();
+            form.Height = 300;
+            form.Width = 900;
+            graphFormHost.Dock = DockStyle.Fill;
+            form.Controls.Add(graphFormHost);
+            form.Show();
         }
     }
 }

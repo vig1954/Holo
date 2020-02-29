@@ -147,6 +147,7 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.cbAltChart = new System.Windows.Forms.CheckBox();
             this.radioButton22 = new System.Windows.Forms.RadioButton();
             this.radioButton18 = new System.Windows.Forms.RadioButton();
             this.radioButton17 = new System.Windows.Forms.RadioButton();
@@ -218,7 +219,7 @@
             this.button9 = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
-            this.cbAltChart = new System.Windows.Forms.CheckBox();
+            this.extensionTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox01)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -994,7 +995,8 @@
             this.таблицаToolStripMenuItem,
             this.разверткаToolStripMenuItem1,
             this.устраненияФонаПо3ТочкамToolStripMenuItem,
-            this.toolStripMenuItem1});
+            this.toolStripMenuItem1,
+            this.extensionTableToolStripMenuItem});
             this.разверткаToolStripMenuItem.Name = "разверткаToolStripMenuItem";
             this.разверткаToolStripMenuItem.Size = new System.Drawing.Size(73, 20);
             this.разверткаToolStripMenuItem.Text = "Развертка";
@@ -1330,6 +1332,16 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(547, 29);
             this.panel2.TabIndex = 47;
+            // 
+            // cbAltChart
+            // 
+            this.cbAltChart.AutoSize = true;
+            this.cbAltChart.Location = new System.Drawing.Point(496, 6);
+            this.cbAltChart.Name = "cbAltChart";
+            this.cbAltChart.Size = new System.Drawing.Size(37, 17);
+            this.cbAltChart.TabIndex = 7;
+            this.cbAltChart.Text = "alt";
+            this.cbAltChart.UseVisualStyleBackColor = true;
             // 
             // radioButton22
             // 
@@ -2020,15 +2032,12 @@
             this.vScrollBar2.TabIndex = 115;
             this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar2_Scroll);
             // 
-            // cbAltChart
+            // extensionTableToolStripMenuItem
             // 
-            this.cbAltChart.AutoSize = true;
-            this.cbAltChart.Location = new System.Drawing.Point(496, 6);
-            this.cbAltChart.Name = "cbAltChart";
-            this.cbAltChart.Size = new System.Drawing.Size(37, 17);
-            this.cbAltChart.TabIndex = 7;
-            this.cbAltChart.Text = "alt";
-            this.cbAltChart.UseVisualStyleBackColor = true;
+            this.extensionTableToolStripMenuItem.Name = "extensionTableToolStripMenuItem";
+            this.extensionTableToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
+            this.extensionTableToolStripMenuItem.Text = "Extension table";
+            this.extensionTableToolStripMenuItem.Click += new System.EventHandler(this.extensionTableToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -2326,6 +2335,7 @@
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
         private System.Windows.Forms.ToolStripMenuItem теоремаКотельниковаToolStripMenuItem;
         private System.Windows.Forms.CheckBox cbAltChart;
+        private System.Windows.Forms.ToolStripMenuItem extensionTableToolStripMenuItem;
     }
 }
 

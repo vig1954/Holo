@@ -3755,6 +3755,12 @@ namespace rab1
             Teor1.Show();
         }
 
+        private void extensionTableToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RangeExtensionModelForm form = new RangeExtensionModelForm();
+            form.Show();
+        }
+
         private void LoadCoordinates()
         {
             string x1, y1;
