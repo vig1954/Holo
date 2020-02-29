@@ -26,7 +26,7 @@ namespace rab1.Forms
 
         private static double Number_Period   = 8;
         private static int dx = 32;   // Шаг дискретизации
-        private static int t  = 30;   // Размер прямоугольного импульса
+        private static int t  = 32;   // Размер прямоугольного импульса
 
         private static int k1 = 1;
         private static int k2 = 2;
@@ -529,7 +529,7 @@ namespace rab1.Forms
             VisualComplex(k5 - 1);
         }
         /// <summary>
-        /// Дискретизация прямоугольного импульсами
+        /// Дискретизация прямоугольными импульсами
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -546,14 +546,35 @@ namespace rab1.Forms
 
             double[] c = new double[nx];
             double[] c1 = new double[nx];
-            for (int i = 0; i < nx; i++)  c[i] = Form1.zComplex[k5 - 1].array[i, ny/2].Magnitude; 
-            int dxt = (dx-t)/2;
-            for (int i = 0; i < (nx - Step0 - t - dxt); i = i + dx) for (int j = 0; j < t; j++) c1[i] += c[i + j + dxt + Step0];
-            MessageBox.Show("----------------------------------------------------------- ");
+            for (int i = 0; i < nx; i++)  c[i] = Form1.zComplex[k5 - 1].array[i, ny/2].Magnitude;
+            int dx2 = dx / 2;
+            //int dxt = (dx-t)/2;
+            //for (int i = 0; i < (nx - Step0 - t - dxt); i = i + dx) for (int j = 0; j < t; j++) c1[i] += c[i + j + dxt + Step0];
+            //for (int i = dx2 + Step0; i < nx-t/2-Step0; i = i + dx) for (int j = i-t/2; j < i+t/2; j++) c1[i] += c[j ];
+            int num = 0;
+            for (int i = 0; i < nx; i = i + dx)
+            {
+                int k = i + dx2 + Step0; //if (k >= nx) break;
+                int s = 0;
+                num++;
+                //num=i;
+                for (int j = k - t / 2; j < k + t / 2; j++)
+                {
+                    if (j >= nx) break;
+                    c1[i] += c[j];
+                    s++;
+                }
+                c[i] /= s;
+            }
+            MessageBox.Show("---- " + num);  // Число дискретов
 
-            for (int i = 0; i < nx - dx / 2 - Step0; i++)
-              for (int j = 0; j < ny; j++)
-                cmpl.array[i + dx/2 + Step0,  j] = new Complex(c1[i]/t, 0.0);
+            //for (int i = 0; i < nx - dx / 2 - Step0; i++)
+            //  for (int j = 0; j < ny; j++)
+            //    cmpl.array[i + dx/2 + Step0,  j] = new Complex(c1[i]/t, 0.0);
+
+            for (int i = 0; i < nx ; i++)
+                for (int j = 0; j < ny; j++)
+                    cmpl.array[i , j] = new Complex(c1[i], 0.0);
 
             Form1.zComplex[k5 - 1] = cmpl;
             VisualComplex(k5 - 1);
@@ -875,7 +896,7 @@ namespace rab1.Forms
             double p2 = 2*Math.PI*Step0 / nx;
            
             for (int i = 0; i < nxd; i++) cd[i] = Form1.zComplex[k1 - 1].array[i*dx+Step0, ny / 2];
-            for (int i = 0; i < nx; i++) st[i] = new Complex(Math.Cos(p2*i), Math.Sin(p2 * i));        // Сдвиг на Step
+            for (int i = 0; i < nx; i++)  st[i] = new Complex(Math.Cos(p2*i), Math.Sin(p2 * i));        // Сдвиг на Step
 
             int m = Furie.PowerOfTwo(nxd);                                       // nx=2**m
             cd = Furie.GetFourierTransform(cd, m);                               // Фурье
@@ -1056,6 +1077,45 @@ namespace rab1.Forms
             Form1.zArrayPicture = cmpl;
 
             VisualArray();
+
+        }
+/// <summary>
+/// Объединение комплексных массивов 1+2 => 3
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
+        private void button27_Click(object sender, EventArgs e)
+        {
+            k1 = Convert.ToInt32(textBox4.Text);       // 1
+            k2 = Convert.ToInt32(textBox5.Text);       // 2
+            k6 = Convert.ToInt32(textBox11.Text);      // 3
+            dx = Convert.ToInt32(textBox10.Text);
+          
+            int nx = Form1.zComplex[k1 - 1].width;
+            int ny = Form1.zComplex[k1 - 1].height;
+
+            ZComplexDescriptor cmpl1 = new ZComplexDescriptor(nx, ny);
+            //ZComplexDescriptor cmpl2 = new ZComplexDescriptor(nx, ny);
+
+            int Pi_dx = nx / dx;
+
+            Complex[] array = new Complex[nx];
+            /*
+                        for (int i = 0, i1 = 0; i < Pi_dx/2 ;    i++, i1+=2)   { array[i1] = Form1.zComplex[k1 - 1].array[i , ny/2];  }
+                        for (int i = nx - Pi_dx/2, i1 = nx - Pi_dx; i < nx; i++, i1 += 2) { array[i1] = Form1.zComplex[k1 - 1].array[i, ny / 2]; }
+
+                        for (int i = 0, i1 = 1; i < Pi_dx / 2; i++, i1 += 2)                { array[i1] = Form1.zComplex[k2 - 1].array[i, ny / 2]; }
+                        for (int i = nx - Pi_dx / 2, i1 = nx - Pi_dx+1; i < nx; i++, i1 += 2) { array[i1] = Form1.zComplex[k2 - 1].array[i, ny/2]; }
+            */
+            for (int i = 0; i < nx; i++) { array[i] = Form1.zComplex[k1 - 1].array[i, ny / 2];  }
+            for (int i = 0; i < nx; i++) { array[i] += Form1.zComplex[k2 - 1].array[i, ny / 2]; }
+
+            for (int i = 0; i < nx; i++)
+                for (int j = 0; j < ny; j++)
+                    cmpl1.array[i, j] = array[i]/2;
+            
+            Form1.zComplex[k6 - 1] = cmpl1;
+            VisualComplex(k6 - 1);
 
         }
     }
