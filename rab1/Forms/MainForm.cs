@@ -1332,22 +1332,39 @@ namespace rab1
 
         // -------------------------------  
         // -------------------------------  Сверхразрешение
-        // ----- Разряжение массива нулями
+        // ----- Разряжение массива нулями 101010
         private void разряжениеМассиваНулямиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.FiltDialog(this.Decim0);
+            this.FiltDialog(this.Decim10);
         }     
-        private void Decim0(object sender, EventArgs e)
+        private void Decim10(object sender, EventArgs e)
         {
             if (tb1_filt.Text != "") k_filt = Convert.ToInt32(tb1_filt.Text);
-
-            
-            zArrayPicture = FiltrClass.Decim(zArrayDescriptor[regImage],k_filt);
+            zArrayPicture = FiltrClass.Decim10(zArrayPicture, k_filt);
             //zArrayPicture.Double_Picture(pictureBox01);
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
             f_filt.Close();
         }
 
+
+        private void разряжениеМассиваНулями10ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.FiltDialog(this.Decim01);
+        }
+
+        // -------------------------------  
+        // -------------------------------  
+        // ----- Разряжение массива нулями 010101
+        private void Decim01(object sender, EventArgs e)
+        {
+            if (tb1_filt.Text != "") k_filt = Convert.ToInt32(tb1_filt.Text);
+
+
+            zArrayPicture = FiltrClass.Decim10(zArrayPicture, k_filt);
+            //zArrayPicture.Double_Picture(pictureBox01);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+            f_filt.Close();
+        }
 
         private void добвлениеМассиваПовторениемЗначенийToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -3760,6 +3777,8 @@ namespace rab1
             RangeExtensionModelForm form = new RangeExtensionModelForm();
             form.Show();
         }
+
+       
 
         private void LoadCoordinates()
         {

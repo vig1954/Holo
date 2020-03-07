@@ -12,29 +12,52 @@ namespace rab1
     public class FiltrClass
     {
 
-
-        public static ZArrayDescriptor Decim(ZArrayDescriptor amp,int  k)
+/// <summary>
+/// Добавление нулей между значениями 01010101
+/// </summary>
+/// <param name="amp"></param>
+/// <param name="k"></param>
+/// <returns></returns>
+        public static ZArrayDescriptor Decim01(ZArrayDescriptor amp, int  k)
         {
+           
             int w1 = amp.width;
             int h1 = amp.height;
+            k++;
             int w2 = k * w1;
             int h2 = h1;
-            ZArrayDescriptor res_array = new ZArrayDescriptor(w2, h2);
+            MessageBox.Show(" 01 k = " + k  + " 01 w2 = " + w2);
+            ZArrayDescriptor res_array = new ZArrayDescriptor(w2, h1);
 
-            for (int i = 0; i < w2; i += k)
-                for (int j = 0; j < h2; j++)
-                {
-                    res_array.array[i, j] = amp.array[i/k, j];
-                }
+            for (int i = 0; i < w2-1; i += k)
+               for (int j = 0; j < h1; j++)
+                   {  res_array.array[i+1, j] = amp.array[i/k, j]; }
             return res_array;
 
         }
 
+        public static ZArrayDescriptor Decim10(ZArrayDescriptor amp, int k)
+        {
+           
+            int w1 = amp.width;
+            int h1 = amp.height;
+            k++;
+            int w2 = k * w1;
+            int h2 = h1;
+            MessageBox.Show(" 10 k = " + k + " w2 = " + w2);
+            ZArrayDescriptor res_array = new ZArrayDescriptor(w2, h1);
 
+            for (int i = 0; i < w2; i+=k)
+                for (int j = 0; j < h1; j++)
+                { res_array.array[i , j] = amp.array[i/k, j]; }
+            return res_array;
+
+        }
         public static ZArrayDescriptor Decim1(ZArrayDescriptor amp, int k)
         {
             int w1 = amp.width;
             int h1 = amp.height;
+            k++;
             int w2 = k * w1;
             int h2 = h1;
             ZArrayDescriptor res_array = new ZArrayDescriptor(w2, h2);

@@ -315,6 +315,41 @@ namespace rab1.Forms
         }
 
         /// <summary>
+        /// Добавить точки по краям
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
+        private void button28_Click(object sender, EventArgs e)
+        {
+            
+            Number_Pont_Rec = Convert.ToInt32(textBox2.Text);       // Размер прямоугольника
+
+
+            int nx = Form1.zArrayPicture.width;
+            int ny = Form1.zArrayPicture.height;
+
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(nx + Number_Pont_Rec, ny);
+            int x0 = Number_Pont_Rec / 2;
+
+            double [] a = new double[nx];
+            double [] b = new double[nx + Number_Pont_Rec];
+
+            for (int i = 0; i < nx; i++) a[i] = Form1.zArrayPicture.array[i, ny/2];
+
+            for (int i = 0; i < x0; i++)     b[i] = 0;
+            for (int i = x0; i < x0+nx; i++) b[i] = a[i-x0];
+            for (int i = x0 + nx; i < x0 + nx + x0; i++) b[i] = 0;
+
+            for (int i = 0; i < nx + Number_Pont_Rec; i++)
+                for (int j = 0; j < ny; j++)
+                    cmpl.array[i, j] = b[i];
+
+            Form1.zArrayPicture = cmpl;
+            VisualArray();
+        }
+
+        /// <summary>
         /// Добавление боковых лепестков  из 1 и 2 => центральное окно
         /// </summary>
         /// <param name="sender"></param>
@@ -1118,5 +1153,7 @@ namespace rab1.Forms
             VisualComplex(k6 - 1);
 
         }
+
+       
     }
 }
