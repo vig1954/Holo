@@ -3201,7 +3201,18 @@ namespace rab1
             }
             return image;
         }
-        
+
+        public Image GetMainImageFromPictureBox()
+        {
+            Image image = null;
+            PictureBox picBox = this.pictureBox01;
+            if (picBox != null)
+            {
+                image = picBox.Image;
+            }
+            return image;
+        }
+
         public Coords[] GetCoordinates()
         {
             Coords[] X = new Coords[4];

@@ -863,6 +863,23 @@ namespace rab1
             this.imageForm.SetImage(this.MainForm.GetImageFromPictureBox(imageNumber));
         }
 
+        private void ShowBackgroundFromMainImage()
+        {
+            Screen currentScreen = Screen.FromControl(this);
+            Screen targetScreen = Screen.AllScreens.FirstOrDefault(s => !s.Equals(currentScreen)) ?? currentScreen;
+
+            Point location = new Point();
+            location.X = targetScreen.WorkingArea.Left;
+            location.Y = targetScreen.WorkingArea.Top;
+
+            this.imageForm = new ImageForm();
+            this.imageForm.StartPosition = FormStartPosition.Manual;
+            this.imageForm.Location = location;
+            this.imageForm.WindowState = FormWindowState.Maximized;
+            this.imageForm.Show();
+            this.imageForm.SetImage(this.MainForm.GetMainImageFromPictureBox());
+        }
+
         private void takeSeriesFromPictureBoxesButton_Click(object sender, EventArgs e)
         {
             TakeImagesSeriesPhoto();
@@ -972,6 +989,11 @@ namespace rab1
         private void frames256Button_Click(object sender, EventArgs e)
         {
             Take256Images();
+        }
+
+        private void backGroundFromMainPicture_Click(object sender, EventArgs e)
+        {
+            ShowBackgroundFromMainImage();
         }
 
         private Image CreateImageFromArrayDescriptor(ZArrayDescriptor zArrayDescriptor)

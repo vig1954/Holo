@@ -41,6 +41,8 @@
             this.FocusNear2Button = new System.Windows.Forms.Button();
             this.FocusNear3Button = new System.Windows.Forms.Button();
             this.SettingsGroupBox = new System.Windows.Forms.GroupBox();
+            this.frames256DirectoryTextBox = new System.Windows.Forms.TextBox();
+            this.frames256Button = new System.Windows.Forms.Button();
             this.stratImageNumberLabel = new System.Windows.Forms.Label();
             this.startImageNumberTextBox = new System.Windows.Forms.TextBox();
             this.ShiftsCountLabel = new System.Windows.Forms.Label();
@@ -86,8 +88,7 @@
             this.SaveFolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.LiveViewPicBox = new System.Windows.Forms.PictureBox();
             this.LiveViewGroupBox = new System.Windows.Forms.GroupBox();
-            this.frames256Button = new System.Windows.Forms.Button();
-            this.frames256DirectoryTextBox = new System.Windows.Forms.TextBox();
+            this.backGroundFromMainPicture = new System.Windows.Forms.Button();
             this.InitGroupBox.SuspendLayout();
             this.SettingsGroupBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -231,6 +232,7 @@
             // 
             // SettingsGroupBox
             // 
+            this.SettingsGroupBox.Controls.Add(this.backGroundFromMainPicture);
             this.SettingsGroupBox.Controls.Add(this.frames256DirectoryTextBox);
             this.SettingsGroupBox.Controls.Add(this.frames256Button);
             this.SettingsGroupBox.Controls.Add(this.stratImageNumberLabel);
@@ -269,6 +271,23 @@
             this.SettingsGroupBox.TabIndex = 11;
             this.SettingsGroupBox.TabStop = false;
             this.SettingsGroupBox.Text = "Settings";
+            // 
+            // frames256DirectoryTextBox
+            // 
+            this.frames256DirectoryTextBox.Location = new System.Drawing.Point(434, 159);
+            this.frames256DirectoryTextBox.Name = "frames256DirectoryTextBox";
+            this.frames256DirectoryTextBox.Size = new System.Drawing.Size(226, 20);
+            this.frames256DirectoryTextBox.TabIndex = 32;
+            // 
+            // frames256Button
+            // 
+            this.frames256Button.Location = new System.Drawing.Point(434, 185);
+            this.frames256Button.Name = "frames256Button";
+            this.frames256Button.Size = new System.Drawing.Size(226, 23);
+            this.frames256Button.TabIndex = 31;
+            this.frames256Button.Text = "256 frames";
+            this.frames256Button.UseVisualStyleBackColor = true;
+            this.frames256Button.Click += new System.EventHandler(this.frames256Button_Click);
             // 
             // stratImageNumberLabel
             // 
@@ -746,22 +765,16 @@
             this.LiveViewGroupBox.TabStop = false;
             this.LiveViewGroupBox.Text = "Live view";
             // 
-            // frames256Button
+            // backGroundFromMainPicture
             // 
-            this.frames256Button.Location = new System.Drawing.Point(434, 185);
-            this.frames256Button.Name = "frames256Button";
-            this.frames256Button.Size = new System.Drawing.Size(226, 23);
-            this.frames256Button.TabIndex = 31;
-            this.frames256Button.Text = "256 frames";
-            this.frames256Button.UseVisualStyleBackColor = true;
-            this.frames256Button.Click += new System.EventHandler(this.frames256Button_Click);
-            // 
-            // frames256DirectoryTextBox
-            // 
-            this.frames256DirectoryTextBox.Location = new System.Drawing.Point(434, 159);
-            this.frames256DirectoryTextBox.Name = "frames256DirectoryTextBox";
-            this.frames256DirectoryTextBox.Size = new System.Drawing.Size(226, 20);
-            this.frames256DirectoryTextBox.TabIndex = 32;
+            this.backGroundFromMainPicture.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.backGroundFromMainPicture.Location = new System.Drawing.Point(675, 183);
+            this.backGroundFromMainPicture.Name = "backGroundFromMainPicture";
+            this.backGroundFromMainPicture.Size = new System.Drawing.Size(156, 23);
+            this.backGroundFromMainPicture.TabIndex = 33;
+            this.backGroundFromMainPicture.Text = "Background from main";
+            this.backGroundFromMainPicture.UseVisualStyleBackColor = true;
+            this.backGroundFromMainPicture.Click += new System.EventHandler(this.backGroundFromMainPicture_Click);
             // 
             // CameraForm
             // 
@@ -854,6 +867,7 @@
         private System.Windows.Forms.TextBox startImageNumberTextBox;
         private System.Windows.Forms.Button frames256Button;
         private System.Windows.Forms.TextBox frames256DirectoryTextBox;
+        private System.Windows.Forms.Button backGroundFromMainPicture;
     }
 }
 
