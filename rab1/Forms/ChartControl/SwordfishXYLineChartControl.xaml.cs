@@ -132,7 +132,16 @@ namespace rab1 {
         //-------------------------------------------------------------------------------------------------------
         //-------------------------------------------------------------------------------------------------------
         //Нарисовать график
-        private void DrawChart( double[] xValues, double[] yValues, Color color, string chartName, bool isClean ) {
+        private void DrawChart
+        ( 
+            double[] xValues,
+            double[] yValues,
+            Color color,
+            string chartName,
+            bool isLineVisible,
+            bool isPointsVisible,
+            bool isClean 
+        ) {
             if ( isClean ) {
                 this.xyLineChart.Reset();
             }
@@ -141,7 +150,8 @@ namespace rab1 {
             chartPrimitive.LegendColor = color;
             chartPrimitive.LineColor = color;
             chartPrimitive.Label = chartName;
-            chartPrimitive.LineThickness = 1;
+            chartPrimitive.LineThickness = isLineVisible ? 1 : 0;
+            chartPrimitive.ShowPoints = isPointsVisible;
 
             for ( int index = 0; index < xValues.Length; index++ ) {
                 double x = xValues[ index ];
@@ -167,7 +177,8 @@ namespace rab1 {
                 double[] xValues = PlaneManager.GetCoordinatesX( graphInfo.GraphPoints );
                 double[] yValues = PlaneManager.GetCoordinatesY( graphInfo.GraphPoints );
 
-                chartControl.DrawChart( xValues, yValues, graphInfo.GraphColor, graphInfo.GraphName, false );
+                chartControl.DrawChart
+                    ( xValues, yValues, graphInfo.GraphColor, graphInfo.GraphName, graphInfo.LineVisibility, graphInfo.PointsVisibility, false );
             }
         }
         //-------------------------------------------------------------------------------------------------------

@@ -338,7 +338,7 @@ namespace rab1
                 graphPoints[j] = new Point2D(j, buf[j]);
             }
 
-            GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Black, graphPoints, true);
+            GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Black, graphPoints, true, false);
             graphCollection.Add(graphInfo);
 
             graphFormHost.GraphInfoCollection = graphCollection;
@@ -3590,7 +3590,7 @@ namespace rab1
                     graphPoints[j] = new Point2D(j, finalResult[j]);
                 }
 
-                GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Black, graphPoints, true);
+                GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Black, graphPoints, true, false);
                 graphCollection.Add(graphInfo);
 
                 this.phaseDifferenceGraphFormHost.GraphInfoCollection = graphCollection;
@@ -3623,7 +3623,7 @@ namespace rab1
                     graphPoints[j] = new Point2D(j, resArray[j]);
                 }
 
-                GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Black, graphPoints, true);
+                GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Black, graphPoints, true, false);
                 graphCollection.Add(graphInfo);
 
                 this.curvesGraphFormHost.GraphInfoCollection = graphCollection;

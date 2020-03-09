@@ -488,6 +488,7 @@ namespace rab1.Forms
             return arrayDescriptor;
         }
         
+        /*
         private void MakeDecisionTableForWedge()
         {
             ZArrayDescriptor array1 = Form1.zArrayDescriptor[0];
@@ -520,19 +521,19 @@ namespace rab1.Forms
                 }
             }
 
-            ShowGraphic(pointsList);
-        }
+            bool lineVisibilibty = true;
+            bool pointsVisibility = false;
+            GraphInfo graphInfo = new GraphInfo("Graphic 1", System.Windows.Media.Colors.Green, pointsList.ToArray(), lineVisibilibty, pointsVisibility);
 
-        private void ShowGraphic(List<Point2D> pointsList)
+            IList<GraphInfo> graphList = new List<GraphInfo>() { graphInfo };
+
+            ShowGraphic(graphList);
+        }
+        */
+
+        private void ShowGraphic(IList<GraphInfo> graphCollection)
         {
             GraphFormHost graphFormHost = new GraphFormHost();
-            IList<GraphInfo> graphCollection = new List<GraphInfo>();
-
-            Point2D[] graphPoints = pointsList.ToArray();
-            
-            GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Black, graphPoints, true);
-            graphCollection.Add(graphInfo);
-
             graphFormHost.GraphInfoCollection = graphCollection;
 
             Form form = new Form();
@@ -542,12 +543,13 @@ namespace rab1.Forms
             form.Controls.Add(graphFormHost);
             form.Show();
         }
-
+        
+        /*
         private void makeDecisionTableButton_Click(object sender, EventArgs e)
         {
             MakeDecisionTableForWedge();
         }
-
+        */
         private void generateWedgeOneButton_Click(object sender, EventArgs e)
         {
             GenerateWedgeOne();
@@ -568,7 +570,9 @@ namespace rab1.Forms
             ZArrayDescriptor arrayDescriptor1 = Form1.zArrayDescriptor[0];
             ZArrayDescriptor arrayDescriptor2 = Form1.zArrayDescriptor[1];
 
-            Interval<double> intensityInterval = new Interval<double>(0, 255);
+            Interval<double> intensityInterval = new Interval<double>(10, 222);
+            //Interval<double> intensityInterval = new Interval<double>(0, 255);
+            //Interval<double> intensityInterval = new Interval<double>(WEDGE_MIN_INTENSITY_VALUE, WEDGE_MAX_INTENSITY_VALUE);
 
             Interval<double> interval1 = new Interval<double>(0, WEDGE_M1);
             Interval<double> interval2 = new Interval<double>(0, WEDGE_M2);
@@ -577,13 +581,14 @@ namespace rab1.Forms
             RealIntervalTransform transform2 = new RealIntervalTransform(intensityInterval, interval2);
 
             int width = arrayDescriptor1.width;
-            int height = 5;
+            
+            int startY = 0;
+            int height = 2;
 
             List<Point2D> pointsList = new List<Point2D>();
-
             for (int x = 0; x < width - 1; x++)
             {
-                for (int y = 0; y < height - 1; y++)
+                for (int y = startY; y < height - 1; y++)
                 {
                     double intensity1 = arrayDescriptor1.array[x, y];
                     double intensity2 = arrayDescriptor2.array[x, y];
@@ -595,7 +600,17 @@ namespace rab1.Forms
                 }
             }
 
-            ShowGraphic(pointsList);
+            RangeExtensionModelForm decisionTableForm = new RangeExtensionModelForm();
+
+            IList<Point2D> decisionTablePointsList = decisionTableForm.BuildTable(WEDGE_M1, WEDGE_M2, WEDGE_WIDTH);
+
+            GraphInfo idealGraphInfo =
+                new GraphInfo("Ideal graph", System.Windows.Media.Colors.Green, decisionTablePointsList.ToArray(), true, false);
+            
+            GraphInfo graph = new GraphInfo("Graphic", System.Windows.Media.Colors.Red, pointsList.ToArray(), false, true);
+            IList<GraphInfo> graphCollection = new List<GraphInfo>() { idealGraphInfo, graph };
+
+            ShowGraphic(graphCollection);
         }
 
         /*
