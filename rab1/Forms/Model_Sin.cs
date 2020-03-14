@@ -27,9 +27,10 @@ namespace rab1.Forms
     {
         #region Constants
 
-        private const int WEDGE_MIN_INTENSITY_VALUE = 40;
-        private const int WEDGE_MAX_INTENSITY_VALUE = 220;
-
+        private const int WEDGE_MIN_INTENSITY_VALUE = 60;
+        private const int WEDGE_MAX_INTENSITY_VALUE = 255;
+        
+        //M1 < M2 (For calculation wedge ratio)
         private const int WEDGE_M1 = 167;
         private const int WEDGE_M2 = 211;
 
@@ -425,7 +426,7 @@ namespace rab1.Forms
             int imageHeight = IMAGE_HEIGHT;
             int imageWidth = IMAGE_WIDTH;
 
-            ZArrayDescriptor arrayDescriptor = GenerateWedge(WEDGE_M1, width, imageHeight, imageWidth);
+            ZArrayDescriptor arrayDescriptor = GenerateWedge(WEDGE_M1, width, imageHeight, imageWidth, WEDGE_RATIO);
             Form1.zArrayDescriptor[0] = arrayDescriptor;
             VisualRegImage(0);
         }
@@ -436,33 +437,41 @@ namespace rab1.Forms
             int imageHeight = IMAGE_HEIGHT;
             int imageWidth = IMAGE_WIDTH;
 
-            ZArrayDescriptor arrayDescriptor = GenerateWedge(WEDGE_M2, width, imageHeight, imageWidth);
+            ZArrayDescriptor arrayDescriptor = GenerateWedge(WEDGE_M2, width, imageHeight, imageWidth, 1);
             Form1.zArrayDescriptor[1] = arrayDescriptor;
             VisualRegImage(1);
         }
         
-        private ZArrayDescriptor GenerateWedge(int mValue, int width, int imageHeight, int imageWidth)
+        private ZArrayDescriptor GenerateWedge(int mValue, int width, int imageHeight, int imageWidth, double? mRatio = null)
         {
             ZArrayDescriptor arrayDescriptor = new ZArrayDescriptor(imageWidth + BLACK_SIDE_WIDTH, imageHeight);
 
-            Interval<double> interval1 = new Interval<double>(0, mValue);
-            Interval<double> interval2 = new Interval<double>(WEDGE_MIN_INTENSITY_VALUE, WEDGE_MIN_INTENSITY_VALUE + mValue);
-                        
+            double maxIntensity = WEDGE_MAX_INTENSITY_VALUE;
+            if (mRatio.HasValue)
+            {
+                maxIntensity = mRatio.Value * (WEDGE_MAX_INTENSITY_VALUE - WEDGE_MIN_INTENSITY_VALUE) + WEDGE_MIN_INTENSITY_VALUE;
+            }
+
+            Interval<double> interval1 = new Interval<double>(0, mValue - 1);
+            Interval<double> interval2 = new Interval<double>(WEDGE_MIN_INTENSITY_VALUE, maxIntensity);
+
             RealIntervalTransform intervalTransform = new RealIntervalTransform(interval1, interval2);
 
             int[] array = new int[width];
-
             int currentValue = 0;
+
+            //Create wedge 0..m
             for (int j = 0; j < width; j++)
             {
-                if (currentValue >= mValue)
+                if (currentValue >= mValue - 1)
                 {
                     currentValue = 0;
                 }
                 array[j] = currentValue;
                 currentValue++;
             }
-
+                       
+            //Stretch wedge to image width
             int k = imageWidth / (array.Length) + 1;
             for (int x = 0; x < imageWidth - 1; x++)
             {
@@ -475,49 +484,6 @@ namespace rab1.Forms
 
             return arrayDescriptor;
         }
-        
-        /*
-        private void MakeDecisionTableForWedge()
-        {
-            ZArrayDescriptor array1 = Form1.zArrayDescriptor[0];
-            ZArrayDescriptor array2 = Form1.zArrayDescriptor[1];
-
-            int width = array1.width;
-            int height = array1.height;
-
-            Interval<double> intensityInterval = new Interval<double>(0, 255);
-
-            Interval<double> interval1 = new Interval<double>(0, WEDGE_M1);
-            Interval<double> interval2 = new Interval<double>(0, WEDGE_M2);
-
-            RealIntervalTransform transform1 = new RealIntervalTransform(intensityInterval, interval1);
-            RealIntervalTransform transform2 = new RealIntervalTransform(intensityInterval, interval2);
-
-            List<Point2D> pointsList = new List<Point2D>();
-            
-            for (int x = 0; x < width - 1; x++)
-            {
-                for (int y = 0; y < height - 1; y++)
-                {
-                    double intensity1 = array1.array[x, y];
-                    double intensity2 = array2.array[x, y];
-
-                    int b1 = Convert.ToInt32(transform1.TransformToFinishIntervalValue(intensity1));
-                    int b2 = Convert.ToInt32(transform2.TransformToFinishIntervalValue(intensity1));
-
-                    pointsList.Add(new Point2D(b1, b2));
-                }
-            }
-
-            bool lineVisibilibty = true;
-            bool pointsVisibility = false;
-            GraphInfo graphInfo = new GraphInfo("Graphic 1", System.Windows.Media.Colors.Green, pointsList.ToArray(), lineVisibilibty, pointsVisibility);
-
-            IList<GraphInfo> graphList = new List<GraphInfo>() { graphInfo };
-
-            ShowGraphic(graphList);
-        }
-        */
 
         private void ShowGraphic(IList<GraphInfo> graphCollection)
         {
@@ -559,14 +525,19 @@ namespace rab1.Forms
             ZArrayDescriptor arrayDescriptor2 = Form1.zArrayDescriptor[1];
 
             //Interval<double> intensityInterval = new Interval<double>(0, 255);
-            Interval<double> intensityInterval = new Interval<double>(10, 222);
-            //Interval<double> intensityInterval = new Interval<double>(WEDGE_MIN_INTENSITY_VALUE, WEDGE_MAX_INTENSITY_VALUE);
+            Interval<double> intensityInterval = new Interval<double>(30, 222);
+            
+            Interval<double> originInterval1 = new Interval<double>(45, 222);
+            Interval<double> originInterval2 = new Interval<double>(30, 222);
 
-            Interval<double> interval1 = new Interval<double>(0, WEDGE_M1);
-            Interval<double> interval2 = new Interval<double>(0, WEDGE_M2);
+            Interval<double> interval1 = new Interval<double>(0, WEDGE_M1 - 1);
+            Interval<double> interval2 = new Interval<double>(0, WEDGE_M2 - 1);
 
-            RealIntervalTransform transform1 = new RealIntervalTransform(intensityInterval, interval1);
-            RealIntervalTransform transform2 = new RealIntervalTransform(intensityInterval, interval2);
+            //RealIntervalTransform transform1 = new RealIntervalTransform(intensityInterval, interval1);
+            //RealIntervalTransform transform2 = new RealIntervalTransform(intensityInterval, interval2);
+
+            RealIntervalTransform transform1 = new RealIntervalTransform(originInterval1, interval1);
+            RealIntervalTransform transform2 = new RealIntervalTransform(originInterval2, interval2);
 
             int width = arrayDescriptor1.width;
             
