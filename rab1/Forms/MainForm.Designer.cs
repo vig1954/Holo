@@ -115,6 +115,7 @@
             this.разверткаToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.устраненияФонаПо3ТочкамToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.extensionTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.арифметикаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.арифметикаToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.изменитьРазмерToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -219,7 +220,8 @@
             this.button9 = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
-            this.extensionTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.graphicFrom2ImagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbAltChart2 = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox01)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -1030,6 +1032,13 @@
             this.toolStripMenuItem1.Text = "Развертка по строкам";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
+            // extensionTableToolStripMenuItem
+            // 
+            this.extensionTableToolStripMenuItem.Name = "extensionTableToolStripMenuItem";
+            this.extensionTableToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
+            this.extensionTableToolStripMenuItem.Text = "Extension table";
+            this.extensionTableToolStripMenuItem.Click += new System.EventHandler(this.extensionTableToolStripMenuItem_Click);
+            // 
             // арифметикаToolStripMenuItem
             // 
             this.арифметикаToolStripMenuItem.Name = "арифметикаToolStripMenuItem";
@@ -1187,7 +1196,8 @@
             // 
             this.графикToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dToolStripMenuItem,
-            this.dToolStripMenuItem1});
+            this.dToolStripMenuItem1,
+            this.graphicFrom2ImagesToolStripMenuItem});
             this.графикToolStripMenuItem.Name = "графикToolStripMenuItem";
             this.графикToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
             this.графикToolStripMenuItem.Text = "График";
@@ -1195,14 +1205,14 @@
             // dToolStripMenuItem
             // 
             this.dToolStripMenuItem.Name = "dToolStripMenuItem";
-            this.dToolStripMenuItem.Size = new System.Drawing.Size(88, 22);
+            this.dToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.dToolStripMenuItem.Text = "3D";
             this.dToolStripMenuItem.Click += new System.EventHandler(this.dToolStripMenuItem_Click);
             // 
             // dToolStripMenuItem1
             // 
             this.dToolStripMenuItem1.Name = "dToolStripMenuItem1";
-            this.dToolStripMenuItem1.Size = new System.Drawing.Size(88, 22);
+            this.dToolStripMenuItem1.Size = new System.Drawing.Size(194, 22);
             this.dToolStripMenuItem1.Text = "2D";
             this.dToolStripMenuItem1.Click += new System.EventHandler(this.dToolStripMenuItem1_Click);
             // 
@@ -1321,6 +1331,7 @@
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel2.Controls.Add(this.cbAltChart2);
             this.panel2.Controls.Add(this.cbAltChart);
             this.panel2.Controls.Add(this.radioButton22);
             this.panel2.Controls.Add(this.radioButton18);
@@ -1336,7 +1347,7 @@
             // cbAltChart
             // 
             this.cbAltChart.AutoSize = true;
-            this.cbAltChart.Location = new System.Drawing.Point(496, 6);
+            this.cbAltChart.Location = new System.Drawing.Point(453, 6);
             this.cbAltChart.Name = "cbAltChart";
             this.cbAltChart.Size = new System.Drawing.Size(37, 17);
             this.cbAltChart.TabIndex = 7;
@@ -1346,7 +1357,7 @@
             // radioButton22
             // 
             this.radioButton22.AutoSize = true;
-            this.radioButton22.Location = new System.Drawing.Point(443, 5);
+            this.radioButton22.Location = new System.Drawing.Point(401, 5);
             this.radioButton22.Name = "radioButton22";
             this.radioButton22.Size = new System.Drawing.Size(47, 17);
             this.radioButton22.TabIndex = 6;
@@ -1356,7 +1367,7 @@
             // radioButton18
             // 
             this.radioButton18.AutoSize = true;
-            this.radioButton18.Location = new System.Drawing.Point(249, 4);
+            this.radioButton18.Location = new System.Drawing.Point(203, 5);
             this.radioButton18.Name = "radioButton18";
             this.radioButton18.Size = new System.Drawing.Size(57, 17);
             this.radioButton18.TabIndex = 5;
@@ -1367,7 +1378,7 @@
             // radioButton17
             // 
             this.radioButton17.AutoSize = true;
-            this.radioButton17.Location = new System.Drawing.Point(170, 5);
+            this.radioButton17.Location = new System.Drawing.Point(138, 5);
             this.radioButton17.Name = "radioButton17";
             this.radioButton17.Size = new System.Drawing.Size(57, 17);
             this.radioButton17.TabIndex = 4;
@@ -1378,7 +1389,7 @@
             // radioButton16
             // 
             this.radioButton16.AutoSize = true;
-            this.radioButton16.Location = new System.Drawing.Point(96, 5);
+            this.radioButton16.Location = new System.Drawing.Point(73, 5);
             this.radioButton16.Name = "radioButton16";
             this.radioButton16.Size = new System.Drawing.Size(57, 17);
             this.radioButton16.TabIndex = 3;
@@ -1389,7 +1400,7 @@
             // radioButton15
             // 
             this.radioButton15.AutoSize = true;
-            this.radioButton15.Location = new System.Drawing.Point(328, 4);
+            this.radioButton15.Location = new System.Drawing.Point(286, 4);
             this.radioButton15.Name = "radioButton15";
             this.radioButton15.Size = new System.Drawing.Size(112, 17);
             this.radioButton15.TabIndex = 2;
@@ -1401,7 +1412,7 @@
             // 
             this.radioButton913.AutoSize = true;
             this.radioButton913.Checked = true;
-            this.radioButton913.Location = new System.Drawing.Point(24, 6);
+            this.radioButton913.Location = new System.Drawing.Point(13, 6);
             this.radioButton913.Name = "radioButton913";
             this.radioButton913.Size = new System.Drawing.Size(57, 17);
             this.radioButton913.TabIndex = 1;
@@ -2032,12 +2043,22 @@
             this.vScrollBar2.TabIndex = 115;
             this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar2_Scroll);
             // 
-            // extensionTableToolStripMenuItem
+            // graphicFrom2ImagesToolStripMenuItem
             // 
-            this.extensionTableToolStripMenuItem.Name = "extensionTableToolStripMenuItem";
-            this.extensionTableToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
-            this.extensionTableToolStripMenuItem.Text = "Extension table";
-            this.extensionTableToolStripMenuItem.Click += new System.EventHandler(this.extensionTableToolStripMenuItem_Click);
+            this.graphicFrom2ImagesToolStripMenuItem.Name = "graphicFrom2ImagesToolStripMenuItem";
+            this.graphicFrom2ImagesToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.graphicFrom2ImagesToolStripMenuItem.Text = "Graphic from 2 Images";
+            this.graphicFrom2ImagesToolStripMenuItem.Click += new System.EventHandler(this.graphicFrom2ImagesToolStripMenuItem_Click);
+            // 
+            // cbAltChart2
+            // 
+            this.cbAltChart2.AutoSize = true;
+            this.cbAltChart2.Location = new System.Drawing.Point(492, 6);
+            this.cbAltChart2.Name = "cbAltChart2";
+            this.cbAltChart2.Size = new System.Drawing.Size(32, 17);
+            this.cbAltChart2.TabIndex = 8;
+            this.cbAltChart2.Text = "2";
+            this.cbAltChart2.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -2336,6 +2357,8 @@
         private System.Windows.Forms.ToolStripMenuItem теоремаКотельниковаToolStripMenuItem;
         private System.Windows.Forms.CheckBox cbAltChart;
         private System.Windows.Forms.ToolStripMenuItem extensionTableToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem graphicFrom2ImagesToolStripMenuItem;
+        private System.Windows.Forms.CheckBox cbAltChart2;
     }
 }
 

@@ -295,7 +295,22 @@ namespace rab1
 
                     if (cbAltChart.Checked)
                     {
-                        ShowAltGraphic(buf);
+                        if (cbAltChart2.Checked)
+                        {
+                            ZArrayDescriptor arrayDescriptor1 = zArrayDescriptor[0];
+                            double[] buf1 = new double[arrayDescriptor1.width];
+                            buf1 = Graphic_util.Graph_x(arrayDescriptor1, yy);
+
+                            ZArrayDescriptor arrayDescriptor2 = zArrayDescriptor[1];
+                            double[] buf2 = new double[arrayDescriptor2.width];
+                            buf2 = Graphic_util.Graph_x(arrayDescriptor2, yy);
+
+                            ShowAltGraphic(buf1, buf2);
+                        }
+                        else
+                        {
+                            ShowAltGraphic(buf);
+                        }
                     }
                     else
                     {
@@ -324,22 +339,36 @@ namespace rab1
                 //ImageHelper.drawGraph(pictureBox01.Image, e.X, e.Y, currentScaleRatio);
             }
 
-
         }
         //--------------------------------------------------------------
-        private void ShowAltGraphic(double[] buf)
+        private void ShowAltGraphic(double[] buf1, double[] buf2 = null)
         {
             GraphFormHost graphFormHost = new GraphFormHost();
             IList<GraphInfo> graphCollection = new List<GraphInfo>();
 
-            Point2D[] graphPoints = new Point2D[buf.Length];
-            for (int j = 0; j < buf.Length; j++)
+            if (buf1 != null)
             {
-                graphPoints[j] = new Point2D(j, buf[j]);
+                Point2D[] graphPoints1 = new Point2D[buf1.Length];
+                for (int j = 0; j < buf1.Length; j++)
+                {
+                    graphPoints1[j] = new Point2D(j, buf1[j]);
+                }
+
+                GraphInfo graphInfo1 = new GraphInfo("Graphic 1", System.Windows.Media.Colors.Black, graphPoints1, true, false);
+                graphCollection.Add(graphInfo1);
             }
 
-            GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Black, graphPoints, true, false);
-            graphCollection.Add(graphInfo);
+            if (buf2 != null)
+            {
+                Point2D[] graphPoints2 = new Point2D[buf2.Length];
+                for (int j = 0; j < buf2.Length; j++)
+                {
+                    graphPoints2[j] = new Point2D(j, buf2[j]);
+                }
+
+                GraphInfo graphInfo2 = new GraphInfo("Graphic 2", System.Windows.Media.Colors.Red, graphPoints2, true, false);
+                graphCollection.Add(graphInfo2);
+            }
 
             graphFormHost.GraphInfoCollection = graphCollection;
 
@@ -3770,6 +3799,11 @@ namespace rab1
         {
             RangeExtensionModelForm form = new RangeExtensionModelForm();
             form.Show();
+        }
+
+        private void graphicFrom2ImagesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void LoadCoordinates()
