@@ -49,7 +49,7 @@ namespace rab1
 
             for (int i = 0; i < w2; i+=k)
                 for (int j = 0; j < h1; j++)
-                { res_array.array[i , j] = amp.array[i/k, j]; }
+                 { res_array.array[i , j] = amp.array[i/k, j]; }
             return res_array;
 
         }
@@ -132,7 +132,7 @@ namespace rab1
 
 
 
-        //  Усреднение 2х2 и генерация нового файла со сдвигом на половину пикселя
+        //  Усреднение 2х2 и генерация нового файла из 4 усредненных со сдвигом на половину пикселя
 
         public static ZArrayDescriptor ADD_razresh_2х2(ZArrayDescriptor amp)   // int kx, int ky - сдвиг массива точек
         {
@@ -179,7 +179,22 @@ namespace rab1
                 }
             return res_array;
         }
+        public static ZArrayDescriptor Filt_2(ZArrayDescriptor amp, int kx)   // int kx, int ky - сдвиг массива точек
+        {
 
+            int w1 = amp.width;
+            int h1 = amp.height;
+            int w2 = w1 / 2;
+            int h2 = h1 / 2;
+            ZArrayDescriptor res_array = new ZArrayDescriptor(w2, h2);
+
+            for (int i = 0; i < w1 - kx; i += 2)
+                for (int j = 0; j < h1; j++)
+                {
+                    res_array.array[i / 2, j / 2] =  (amp.array[i, j] + amp.array[i + kx, j])/2; 
+                }
+            return res_array;
+        }
         //  Усреднение 4х4 точек с уменьшением размера файла в 4 раза со сдвигом
 
         public static ZArrayDescriptor Filt_4х4(ZArrayDescriptor amp, int kx, int ky)   // int kx, int ky - сдвиг массива точек

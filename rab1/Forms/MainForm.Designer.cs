@@ -92,6 +92,7 @@
             this.массиваВ1234СоСдвигомНа12ПикселяToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.из1234НовыйМассивToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.из12НовыйМассивToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.усреднениеДвухТочекПоСтрокеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.усреднение2х2ТочекToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.уменьшениеМассиваВ2РазаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.генерацияМассиваСоСдвигомНаПловинуПикселяToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -130,6 +131,7 @@
             this.удалениеТрапеции4Массивов13ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сверхразрешениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.разряжениеМассиваНулямиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.разряжениеМассиваНулями10ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.добвлениеМассиваПовторениемЗначенийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.структурирОсвещениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.моделированиеОстаткаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -220,7 +222,7 @@
             this.button9 = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
-            this.разряжениеМассиваНулями10ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.разряжениеКомплексногоМассиваToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox01)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -758,6 +760,7 @@
             this.массиваВ1234СоСдвигомНа12ПикселяToolStripMenuItem,
             this.из1234НовыйМассивToolStripMenuItem,
             this.из12НовыйМассивToolStripMenuItem,
+            this.усреднениеДвухТочекПоСтрокеToolStripMenuItem,
             this.усреднение2х2ТочекToolStripMenuItem,
             this.уменьшениеМассиваВ2РазаToolStripMenuItem,
             this.генерацияМассиваСоСдвигомНаПловинуПикселяToolStripMenuItem,
@@ -852,6 +855,13 @@
             this.из12НовыйМассивToolStripMenuItem.Size = new System.Drawing.Size(390, 22);
             this.из12НовыйМассивToolStripMenuItem.Text = "Из 1,2 новый массив";
             this.из12НовыйМассивToolStripMenuItem.Click += new System.EventHandler(this.из12НовыйМассивToolStripMenuItem_Click);
+            // 
+            // усреднениеДвухТочекПоСтрокеToolStripMenuItem
+            // 
+            this.усреднениеДвухТочекПоСтрокеToolStripMenuItem.Name = "усреднениеДвухТочекПоСтрокеToolStripMenuItem";
+            this.усреднениеДвухТочекПоСтрокеToolStripMenuItem.Size = new System.Drawing.Size(390, 22);
+            this.усреднениеДвухТочекПоСтрокеToolStripMenuItem.Text = "Усреднение двух точек по строке";
+            this.усреднениеДвухТочекПоСтрокеToolStripMenuItem.Click += new System.EventHandler(this.усреднениеДвухТочекПоСтрокеToolStripMenuItem_Click);
             // 
             // усреднение2х2ТочекToolStripMenuItem
             // 
@@ -1134,7 +1144,8 @@
             this.сверхразрешениеToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.разряжениеМассиваНулямиToolStripMenuItem,
             this.разряжениеМассиваНулями10ToolStripMenuItem,
-            this.добвлениеМассиваПовторениемЗначенийToolStripMenuItem});
+            this.добвлениеМассиваПовторениемЗначенийToolStripMenuItem,
+            this.разряжениеКомплексногоМассиваToolStripMenuItem});
             this.сверхразрешениеToolStripMenuItem.Name = "сверхразрешениеToolStripMenuItem";
             this.сверхразрешениеToolStripMenuItem.Size = new System.Drawing.Size(111, 20);
             this.сверхразрешениеToolStripMenuItem.Text = "Сверхразрешение";
@@ -1145,6 +1156,13 @@
             this.разряжениеМассиваНулямиToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
             this.разряжениеМассиваНулямиToolStripMenuItem.Text = "Разряжение массива нулями 10";
             this.разряжениеМассиваНулямиToolStripMenuItem.Click += new System.EventHandler(this.разряжениеМассиваНулямиToolStripMenuItem_Click);
+            // 
+            // разряжениеМассиваНулями10ToolStripMenuItem
+            // 
+            this.разряжениеМассиваНулями10ToolStripMenuItem.Name = "разряжениеМассиваНулями10ToolStripMenuItem";
+            this.разряжениеМассиваНулями10ToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
+            this.разряжениеМассиваНулями10ToolStripMenuItem.Text = "Разряжение массива нулями 01";
+            this.разряжениеМассиваНулями10ToolStripMenuItem.Click += new System.EventHandler(this.разряжениеМассиваНулями10ToolStripMenuItem_Click);
             // 
             // добвлениеМассиваПовторениемЗначенийToolStripMenuItem
             // 
@@ -2041,12 +2059,12 @@
             this.vScrollBar2.TabIndex = 115;
             this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar2_Scroll);
             // 
-            // разряжениеМассиваНулями10ToolStripMenuItem
+            // разряжениеКомплексногоМассиваToolStripMenuItem
             // 
-            this.разряжениеМассиваНулями10ToolStripMenuItem.Name = "разряжениеМассиваНулями10ToolStripMenuItem";
-            this.разряжениеМассиваНулями10ToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
-            this.разряжениеМассиваНулями10ToolStripMenuItem.Text = "Разряжение массива нулями 01";
-            this.разряжениеМассиваНулями10ToolStripMenuItem.Click += new System.EventHandler(this.разряжениеМассиваНулями10ToolStripMenuItem_Click);
+            this.разряжениеКомплексногоМассиваToolStripMenuItem.Name = "разряжениеКомплексногоМассиваToolStripMenuItem";
+            this.разряжениеКомплексногоМассиваToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
+            this.разряжениеКомплексногоМассиваToolStripMenuItem.Text = "Разряжение комплексного массива";
+            this.разряжениеКомплексногоМассиваToolStripMenuItem.Click += new System.EventHandler(this.разряжениеКомплексногоМассиваToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -2346,6 +2364,8 @@
         private System.Windows.Forms.CheckBox cbAltChart;
         private System.Windows.Forms.ToolStripMenuItem extensionTableToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem разряжениеМассиваНулями10ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem усреднениеДвухТочекПоСтрокеToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem разряжениеКомплексногоМассиваToolStripMenuItem;
     }
 }
 

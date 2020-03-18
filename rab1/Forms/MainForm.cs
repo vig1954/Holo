@@ -106,6 +106,9 @@ namespace rab1
             Teorema1.VisualComplex = this.Complex_pictureBox;
             Teorema1.VisualArray   = this.Vizual_Picture_Array;
 
+            Super.VisualComplex = this.Complex_pictureBox;
+            Super.VisualArray = this.Vizual_Picture_Array;
+
             relayout();
         }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1288,6 +1291,13 @@ namespace rab1
             zArrayPicture = FiltrClass.Filt_Hologramm(amp);
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
         }
+        // -------------------------------  Усреднение 2 точек с уменьшением размера файла
+        private void усреднениеДвухТочекПоСтрокеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ZArrayDescriptor amp = new ZArrayDescriptor(zArrayPicture);
+            zArrayPicture = FiltrClass.Filt_2(amp, 1);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        }
 
         // -------------------------------  Усреднение 2х2 точек с уменьшением размера файла
         private void усреднение2х2ТочекToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1332,6 +1342,26 @@ namespace rab1
 
         // -------------------------------  
         // -------------------------------  Сверхразрешение
+        /// <summary>
+        /// Разряжение массива комплексных чисел
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
+        private void разряжениеКомплексногоМассиваToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Super SuperResoluton = new Super();
+
+            //FrForm.OnFrenel += FrComplex;
+
+
+
+            //FrForm.InversComplex += InversComplexM;
+            SuperResoluton.Show();
+        }
+
+
+
         // ----- Разряжение массива нулями 101010
         private void разряжениеМассиваНулямиToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1393,7 +1423,7 @@ namespace rab1
             zArrayDescriptor[1] = FiltrClass.Filt_2х2(amp, 1, 0);
             zArrayDescriptor[2] = FiltrClass.Filt_2х2(amp, 0, 1);
             zArrayDescriptor[3] = FiltrClass.Filt_2х2(amp, 1, 1);
-            Vizual_regImage(0); Vizual_regImage(1); Vizual_regImage(2); Vizual_regImage(3);             // Отображение
+            Vizual_regImage(0); Vizual_regImage(1); Vizual_regImage(2); Vizual_regImage(3);              // Отображение
         }
 
         // ----- 4 новых файла в четыре раза меньше в 1,2,3,4 
@@ -1456,7 +1486,7 @@ namespace rab1
               */
 
 
-            for (int i = 0; i < w2; i++) for (int j = 0; j < h2; j++) { res_array.array[i * 2, j] = zArrayDescriptor[0].array[i, j]; }
+            for (int i = 0; i < w2;     i++) for (int j = 0; j < h2; j++) { res_array.array[i * 2, j]     = zArrayDescriptor[0].array[i, j]; }
             for (int i = 0; i < w2 - 1; i++) for (int j = 0; j < h2; j++) { res_array.array[i * 2 + 1, j] = zArrayDescriptor[1].array[i, j]; }
 
 

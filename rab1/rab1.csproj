@@ -265,6 +265,12 @@
     <Compile Include="Forms\UnrupForm1.Designer.cs">
       <DependentUpon>UnrupForm1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Super.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Super.Designer.cs">
+      <DependentUpon>Super.cs</DependentUpon>
+    </Compile>
     <Compile Include="TakePhotoSeiesType.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="VisualPolynomial.cs" />
@@ -437,6 +443,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Structur.resx">
       <DependentUpon>Structur.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Super.resx">
+      <DependentUpon>Super.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Teorema1.resx">
       <DependentUpon>Teorema1.cs</DependentUpon>
