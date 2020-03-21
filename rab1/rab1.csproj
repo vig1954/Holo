@@ -243,6 +243,7 @@
     <Compile Include="ImageSaveItem.cs" />
     <Compile Include="ImsgeSaveModeEnum.cs" />
     <Compile Include="Interval.cs" />
+    <Compile Include="ModularArithmeticHelper.cs" />
     <Compile Include="OS.cs" />
     <Compile Include="Pain_t_Core.cs" />
     <Compile Include="PhaseShiftDeviceController.cs" />

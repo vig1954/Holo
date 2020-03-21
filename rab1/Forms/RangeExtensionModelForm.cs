@@ -35,45 +35,16 @@ namespace rab1
 
         public List<Point2D> BuildTable(int m1, int m2, int range)
         {
-            int M1 = m2;
-            int M2 = m1;
+            /*
+            ModularArithmeticHelper mah = new ModularArithmeticHelper(m1, m2);
 
-            int N1 = CalculateN(M1, m1);
-            int N2 = CalculateN(M2, m2);
+            int b1 = 0;
+            int b2 = 16;
 
-            Dictionary<int, Point2D> pointsDictionary = new Dictionary<int, Point2D>();
-            
-            for (int b1 = 0; b1 < m1; b1++)
-            {
-                for (int b2 = 0; b2 < m2; b2++)
-                {
-                    int value = (M1 * N1 * b1 + M2 * N2 * b2) % (m1 * m2);
-                    if (value <= range)
-                    {
-                        Point2D point = new Point2D(b1, b2);
-                        pointsDictionary.Add(value, point);
-                    }
-                }
-            }
+            int value = mah.CalculateValue(b1, b2);
+            */
 
-            pointsDictionary = pointsDictionary.OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
-
-            List<Point2D> pointsList = pointsDictionary.Select(x => x.Value).ToList();
-
-            return pointsList;
-              
-        }
-
-        private int CalculateN(int M, int m)
-        {
-            int n = 1;
-            int value = (M * n) % m;
-            while(value != 1)
-            {
-                n++;
-                value = (M * n) % m;
-            }
-            return n;
+            return ModularArithmeticHelper.BuildTable(m1, m2, range);
         }
 
         private void ValueM1TextBox_TextChanged(object sender, EventArgs e)
