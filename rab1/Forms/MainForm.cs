@@ -3250,7 +3250,18 @@ namespace rab1
             }
             return image;
         }
-        
+
+        public Image GetMainImageFromPictureBox()
+        {
+            Image image = null;
+            PictureBox picBox = this.pictureBox01;
+            if (picBox != null)
+            {
+                image = picBox.Image;
+            }
+            return image;
+        }
+
         public Coords[] GetCoordinates()
         {
             Coords[] X = new Coords[4];
@@ -3855,6 +3866,16 @@ namespace rab1
             }
         }
 
+        private void убратьГеометрическиеИскаженияToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ZArrayDescriptor inputArray = zArrayPicture;
+            double angleInDegrees = 85;
+
+            ZArrayDescriptor resArray = EliminateGeometricDistorsion(inputArray, angleInDegrees);
+            zArrayPicture = resArray;
+            Vizual.Vizual_Picture(resArray, pictureBox01);
+        }
+
         private void ExtractCoordinates(string formattedCoordinate, out string x, out string y)
         {
             x = null;
@@ -3919,6 +3940,39 @@ namespace rab1
 
             cameraController.FastTakePhoto(fromImageNumber, toImageNumber);
             cameraController.Dispose();
+        }
+
+        private ZArrayDescriptor EliminateGeometricDistorsion(ZArrayDescriptor inputArray, double angleInDegrees)
+        {
+            int w = inputArray.width;
+            int h = inputArray.height;
+
+            double angleInRadians = Math.PI * angleInDegrees / 180;
+            int maxs = 0;
+
+            for (int j = w - 1; j >= 0; j--)
+            {
+                int k = w - 1 - j;
+                int s = Convert.ToInt32(Math.Cos(angleInRadians) * k);
+                if (s > maxs)
+                {
+                    maxs = s;
+                }
+            }
+
+            ZArrayDescriptor resArray = new ZArrayDescriptor(maxs + 1, h);
+            
+            for (int j = w - 1; j >= 0; j--)
+            {
+                int k = w - 1 - j;
+                int s = Convert.ToInt32(Math.Cos(angleInRadians) * k);
+                for(int y = 0; y < h; y++)
+                {
+                    resArray.array[s, y] = inputArray.array[k, y];
+                }
+            }
+
+            return resArray; 
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

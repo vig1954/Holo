@@ -877,7 +877,7 @@ namespace rab1
             this.imageForm.Location = location;
             this.imageForm.WindowState = FormWindowState.Maximized;
             this.imageForm.Show();
- //           this.imageForm.SetImage(this.MainForm.GetMainImageFromPictureBox());
+            this.imageForm.SetImage(this.MainForm.GetMainImageFromPictureBox());
         }
 
         private void takeSeriesFromPictureBoxesButton_Click(object sender, EventArgs e)
