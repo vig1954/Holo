@@ -391,13 +391,13 @@ namespace rab1
 
             if ((nx != nx1) || (ny != ny1)) { MessageBox.Show("Mul_C Размеры массивов не согласованы"); return; }
 
-            ZComplexDescriptor a = new ZComplexDescriptor(nx, nx);         // Результирующая матрица
-            ZComplexDescriptor b = new ZComplexDescriptor(ny, nx);
+            //ZComplexDescriptor a = new ZComplexDescriptor(nx, nx);         // Результирующая матрица
+            ZComplexDescriptor b = new ZComplexDescriptor(nx, ny);
 
             for (int i = 0; i < nx; i++)                                    // Транспонирование второго массива
                 for (int j = 0; j < ny; j++)
-                    b.array[j, i] = Form1.zComplex[k3].array[i, j];
-
+                    b.array[i, j] = Form1.zComplex[k3].array[i, j]* Form1.zComplex[k4].array[i, j];
+/*
             progressBar1.Visible = true;
             progressBar1.Minimum = 1;
             progressBar1.Maximum = nx;
@@ -407,23 +407,21 @@ namespace rab1
             Complex s0 = new Complex(0, 0);
             for (int i = 0; i < nx; i++)
             {
-                for (int j = 0; j < nx; j++)
+                for (int j = 0; j < ny; j++)
                 {
-                    Complex s = s0;
-                    for (int y = 0; y < ny; y++)
-                        s += b.array[y, j] * Form1.zComplex[k4].array[i, y];  // Строка на столбец
-                    a.array[i, j] = s;
+                    Form1.zComplex[k3].array[i, j]= b.array[j, i]
                 }
                 progressBar1.PerformStep();
             }
             progressBar1.Value = 1;
-            Form1.zComplex[k5] = a;
+            */
+            Form1.zComplex[k5] = b;
             ComplexPictureImage(k5);
         }
 
         public static void Mul_D(int k3, int k4, int k5)             // Умножить два вещественных массива 
         {
-            k3--; k4--; k5--;                                  // Массив 1 ->  0
+            k3--; k4--; k5--;                                        // Массив 1 ->  0
 
             //MessageBox.Show("k3= " + k3 + " - k4= " + k4 + " = k5= " + k5);
 
@@ -441,9 +439,9 @@ namespace rab1
             
             ZArrayDescriptor b = new ZArrayDescriptor(nx, ny);
 
-            for (int i = 0; i < nx; i++)                                    // Транспонирование второго массива
+            for (int i = 0; i < nx; i++)                                   
                 for (int j = 0; j < ny; j++)
-                    b.array[i, j] = Form1.zArrayDescriptor[k3].array[i, j]* Form1.zArrayDescriptor[k4].array[i, j];
+                    b.array[i, j] = Form1.zArrayDescriptor[k3].array[i, j] * Form1.zArrayDescriptor[k4].array[i, j];
 
 
             Form1.zArrayDescriptor[k5] = b;
@@ -688,6 +686,30 @@ namespace rab1
                 }
             VisualRegImage(k15);
         }
+
+        public static void Diapazon(double a1, double a2)             // Привести к диапазону
+        {
+            if (Form1.zArrayDescriptor[Form1.regImage] == null) { MessageBox.Show("Diapazon zArrayDescriptor[" + Form1.regImage + "] == NULL"); return; }
+            int nx = Form1.zArrayDescriptor[Form1.regImage].width;
+            int ny = Form1.zArrayDescriptor[Form1.regImage].height;
+
+            //ZArrayDescriptor rez = new ZArrayDescriptor(nx, ny);
+
+            double min = SumClass.getMin(Form1.zArrayDescriptor[Form1.regImage]);
+            double max = SumClass.getMax(Form1.zArrayDescriptor[Form1.regImage]);
+
+            for (int i = 0; i < nx; i++)
+              for (int j = 0; j < ny; j++)
+                {
+                    double d = Form1.zArrayDescriptor[Form1.regImage].array[i, j];
+                    Form1.zArrayDescriptor[Form1.regImage].array[i, j] =(d-min)*(a2-a1)/(max-min) + a1 ;
+                }
+
+
+            VisualRegImage(Form1.regImage);
+        }
+
+
         //-------------------------------------------------------------------------------------------------------------------------------
     }
 }

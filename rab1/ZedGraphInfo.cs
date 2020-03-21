@@ -24,7 +24,7 @@ namespace rab1 {
         public ZedGraphInfo(
             string graphName, Color graphColor, Point2D[] graphPoints, bool lineVisibility,
             SymbolType zedGraphSymbolType, int zedGraphSymbolSize
-        ) : base ( graphName, graphColor, graphPoints, lineVisibility ) {
+        ) : base ( graphName, graphColor, graphPoints, lineVisibility, false ) {
             this.ZedGraphSymbolType = zedGraphSymbolType;
             this.ZedGraphSymbolSize = zedGraphSymbolSize;
         }

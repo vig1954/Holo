@@ -61,7 +61,6 @@
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.button12 = new System.Windows.Forms.Button();
-            this.button13 = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
@@ -71,8 +70,6 @@
             this.button15 = new System.Windows.Forms.Button();
             this.button16 = new System.Windows.Forms.Button();
             this.button17 = new System.Windows.Forms.Button();
-            this.button18 = new System.Windows.Forms.Button();
-            this.button19 = new System.Windows.Forms.Button();
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.textBox12 = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
@@ -91,6 +88,13 @@
             this.button22 = new System.Windows.Forms.Button();
             this.label23 = new System.Windows.Forms.Label();
             this.button23 = new System.Windows.Forms.Button();
+            this.button19 = new System.Windows.Forms.Button();
+            this.button18 = new System.Windows.Forms.Button();
+            this.button13 = new System.Windows.Forms.Button();
+            this.button24 = new System.Windows.Forms.Button();
+            this.textBox17 = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.textBox18 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -390,16 +394,6 @@
             this.button12.UseVisualStyleBackColor = true;
             this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
-            // button13
-            // 
-            this.button13.Location = new System.Drawing.Point(389, 323);
-            this.button13.Name = "button13";
-            this.button13.Size = new System.Drawing.Size(331, 36);
-            this.button13.TabIndex = 47;
-            this.button13.Text = "Транспонирование текущего кадра";
-            this.button13.UseVisualStyleBackColor = true;
-            this.button13.Click += new System.EventHandler(this.button13_Click);
-            // 
             // label13
             // 
             this.label13.AutoSize = true;
@@ -484,26 +478,6 @@
             this.button17.Text = "Умножить 2 массива";
             this.button17.UseVisualStyleBackColor = true;
             this.button17.Click += new System.EventHandler(this.button17_Click);
-            // 
-            // button18
-            // 
-            this.button18.Location = new System.Drawing.Point(389, 365);
-            this.button18.Name = "button18";
-            this.button18.Size = new System.Drawing.Size(331, 36);
-            this.button18.TabIndex = 57;
-            this.button18.Text = "Поворот на 180 гр. текущего кадра";
-            this.button18.UseVisualStyleBackColor = true;
-            this.button18.Click += new System.EventHandler(this.button18_Click);
-            // 
-            // button19
-            // 
-            this.button19.Location = new System.Drawing.Point(389, 407);
-            this.button19.Name = "button19";
-            this.button19.Size = new System.Drawing.Size(331, 34);
-            this.button19.TabIndex = 58;
-            this.button19.Text = "ABS(текущий кадр)";
-            this.button19.UseVisualStyleBackColor = true;
-            this.button19.Click += new System.EventHandler(this.button19_Click);
             // 
             // textBox11
             // 
@@ -594,14 +568,14 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(28, 580);
+            this.progressBar1.Location = new System.Drawing.Point(41, 634);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(692, 23);
             this.progressBar1.TabIndex = 70;
             // 
             // textBox15
             // 
-            this.textBox15.Location = new System.Drawing.Point(390, 453);
+            this.textBox15.Location = new System.Drawing.Point(405, 327);
             this.textBox15.Name = "textBox15";
             this.textBox15.Size = new System.Drawing.Size(29, 20);
             this.textBox15.TabIndex = 71;
@@ -610,7 +584,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(425, 456);
+            this.label20.Location = new System.Drawing.Point(440, 330);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(13, 13);
             this.label20.TabIndex = 72;
@@ -618,7 +592,7 @@
             // 
             // textBox16
             // 
-            this.textBox16.Location = new System.Drawing.Point(449, 453);
+            this.textBox16.Location = new System.Drawing.Point(464, 327);
             this.textBox16.Name = "textBox16";
             this.textBox16.Size = new System.Drawing.Size(70, 20);
             this.textBox16.TabIndex = 73;
@@ -626,7 +600,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(535, 449);
+            this.button1.Location = new System.Drawing.Point(550, 323);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(185, 26);
             this.button1.TabIndex = 74;
@@ -636,7 +610,7 @@
             // 
             // button22
             // 
-            this.button22.Location = new System.Drawing.Point(535, 517);
+            this.button22.Location = new System.Drawing.Point(550, 391);
             this.button22.Name = "button22";
             this.button22.Size = new System.Drawing.Size(185, 26);
             this.button22.TabIndex = 77;
@@ -647,14 +621,14 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(425, 488);
+            this.label23.Location = new System.Drawing.Point(440, 362);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(0, 13);
             this.label23.TabIndex = 75;
             // 
             // button23
             // 
-            this.button23.Location = new System.Drawing.Point(535, 485);
+            this.button23.Location = new System.Drawing.Point(550, 359);
             this.button23.Name = "button23";
             this.button23.Size = new System.Drawing.Size(185, 26);
             this.button23.TabIndex = 78;
@@ -662,11 +636,80 @@
             this.button23.UseVisualStyleBackColor = true;
             this.button23.Click += new System.EventHandler(this.button23_Click);
             // 
+            // button19
+            // 
+            this.button19.Location = new System.Drawing.Point(405, 514);
+            this.button19.Name = "button19";
+            this.button19.Size = new System.Drawing.Size(330, 34);
+            this.button19.TabIndex = 81;
+            this.button19.Text = "ABS(текущий кадр)";
+            this.button19.UseVisualStyleBackColor = true;
+            this.button19.Click += new System.EventHandler(this.button19_Click_1);
+            // 
+            // button18
+            // 
+            this.button18.Location = new System.Drawing.Point(404, 472);
+            this.button18.Name = "button18";
+            this.button18.Size = new System.Drawing.Size(331, 36);
+            this.button18.TabIndex = 80;
+            this.button18.Text = "Поворот на 180 гр. текущего кадра";
+            this.button18.UseVisualStyleBackColor = true;
+            // 
+            // button13
+            // 
+            this.button13.Location = new System.Drawing.Point(404, 430);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(331, 36);
+            this.button13.TabIndex = 79;
+            this.button13.Text = "Транспонирование текущего кадра";
+            this.button13.UseVisualStyleBackColor = true;
+            // 
+            // button24
+            // 
+            this.button24.Location = new System.Drawing.Point(404, 564);
+            this.button24.Name = "button24";
+            this.button24.Size = new System.Drawing.Size(329, 34);
+            this.button24.TabIndex = 82;
+            this.button24.Text = "Приведение к диапазону (текущий кадр)";
+            this.button24.UseVisualStyleBackColor = true;
+            this.button24.Click += new System.EventHandler(this.button24_Click);
+            // 
+            // textBox17
+            // 
+            this.textBox17.Location = new System.Drawing.Point(403, 604);
+            this.textBox17.Name = "textBox17";
+            this.textBox17.Size = new System.Drawing.Size(169, 20);
+            this.textBox17.TabIndex = 85;
+            this.textBox17.Text = "0";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(491, 611);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(0, 13);
+            this.label24.TabIndex = 84;
+            // 
+            // textBox18
+            // 
+            this.textBox18.Location = new System.Drawing.Point(578, 604);
+            this.textBox18.Name = "textBox18";
+            this.textBox18.Size = new System.Drawing.Size(155, 20);
+            this.textBox18.TabIndex = 83;
+            this.textBox18.Text = "255";
+            // 
             // ADD_Cmplx
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(750, 630);
+            this.ClientSize = new System.Drawing.Size(750, 669);
+            this.Controls.Add(this.textBox17);
+            this.Controls.Add(this.label24);
+            this.Controls.Add(this.textBox18);
+            this.Controls.Add(this.button24);
+            this.Controls.Add(this.button19);
+            this.Controls.Add(this.button18);
+            this.Controls.Add(this.button13);
             this.Controls.Add(this.button23);
             this.Controls.Add(this.button22);
             this.Controls.Add(this.label23);
@@ -685,8 +728,6 @@
             this.Controls.Add(this.label18);
             this.Controls.Add(this.textBox12);
             this.Controls.Add(this.textBox11);
-            this.Controls.Add(this.button19);
-            this.Controls.Add(this.button18);
             this.Controls.Add(this.button17);
             this.Controls.Add(this.button16);
             this.Controls.Add(this.button15);
@@ -696,7 +737,6 @@
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
-            this.Controls.Add(this.button13);
             this.Controls.Add(this.button12);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.button10);
@@ -771,7 +811,6 @@
         private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.Button button12;
-        private System.Windows.Forms.Button button13;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
@@ -781,8 +820,6 @@
         private System.Windows.Forms.Button button15;
         private System.Windows.Forms.Button button16;
         private System.Windows.Forms.Button button17;
-        private System.Windows.Forms.Button button18;
-        private System.Windows.Forms.Button button19;
         private System.Windows.Forms.TextBox textBox11;
         private System.Windows.Forms.TextBox textBox12;
         private System.Windows.Forms.Label label18;
@@ -801,5 +838,12 @@
         private System.Windows.Forms.Button button22;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Button button23;
+        private System.Windows.Forms.Button button19;
+        private System.Windows.Forms.Button button18;
+        private System.Windows.Forms.Button button13;
+        private System.Windows.Forms.Button button24;
+        private System.Windows.Forms.TextBox textBox17;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.TextBox textBox18;
     }
 }

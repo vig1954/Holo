@@ -33,13 +33,19 @@ namespace rab1
             get;
             set;
         }
+        public bool PointsVisibility
+        {
+            get;
+            set;
+        }
         //------------------------------------------------------------------------------------------------
-        public GraphInfo(string graphName, Color graphColor, Point2D[] graphPoints, bool lineVisibility)
+        public GraphInfo(string graphName, Color graphColor, Point2D[] graphPoints, bool lineVisibility, bool pointsVisibility)
         {
             this.GraphName = graphName;
             this.GraphColor = graphColor;
             this.GraphPoints = graphPoints;
             this.LineVisibility = lineVisibility;
+            this.PointsVisibility = pointsVisibility;
         }
         //------------------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------------------

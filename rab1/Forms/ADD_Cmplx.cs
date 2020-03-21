@@ -47,7 +47,8 @@ namespace rab1.Forms
         private static int k15 = 1;
         private static double k16 = 0;
 
-      
+        private static double k17 = 0;
+        private static double k18 = 255;
 
         public ADD_Cmplx()
         {
@@ -71,7 +72,8 @@ namespace rab1.Forms
             textBox15.Text = Convert.ToString(k15);
             textBox16.Text = Convert.ToString(k16);
 
-            
+            textBox17.Text = Convert.ToString(k17);
+            textBox18.Text = Convert.ToString(k18);
         }
 
 
@@ -210,13 +212,13 @@ namespace rab1.Forms
             Close();
         }
 
-        private void button19_Click(object sender, EventArgs e) // Абсолютное значение текущего массива
+        private void button19_Click_1(object sender, EventArgs e) // Абсолютное значение текущего массива
         {
             ADD_Math.ABS_D();
             //On_ABS();
             Close();
         }
-
+      
         private void button16_Click(object sender, EventArgs e) // Линейный коэффициент корреляции r-Пирсона
         {
             k6 = Convert.ToInt32(textBox6.Text);
@@ -279,40 +281,39 @@ namespace rab1.Forms
             //On_Send_double(k13, k14);     // Переслать 4 вещественных файла
             Close();
         }
-        /// <summary>
-        /// Сложить массив с числом
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button1_Click(object sender, EventArgs e)
+        
+        private void button1_Click(object sender, EventArgs e) // Сложить массив с числом
         {
             k15 = Convert.ToInt32(textBox15.Text);
             k16 = Convert.ToDouble(textBox16.Text);
             ADD_Math.Add_Double(k15, k16);     // Переслать 4 вещественных файла
             Close();
         }
-/// <summary>
-/// Разделить на число
-/// </summary>
-/// <param name="sender"></param>
-/// <param name="e"></param>
-        private void button22_Click(object sender, EventArgs e)
+
+        private void button22_Click(object sender, EventArgs e)   // Разделить на число
         {
             k15 = Convert.ToInt32(textBox15.Text);
             k16 = Convert.ToDouble(textBox16.Text);
             ADD_Math.Div_Double(k15, k16);     // Переслать 4 вещественных файла
             Close();
         }
-/// <summary>
-/// Умножить на число
-/// </summary>
-/// <param name="sender"></param>
-/// <param name="e"></param>
-        private void button23_Click(object sender, EventArgs e)
+
+        private void button23_Click(object sender, EventArgs e)   // Умножить на число
         {
             k15 = Convert.ToInt32(textBox15.Text);
             k16 = Convert.ToDouble(textBox16.Text);
             ADD_Math.Mul_Double(k15, k16);     // Переслать 4 вещественных файла
+            Close();
+        }
+
+      
+
+        private void button24_Click(object sender, EventArgs e)   // Приведение к диапазону
+        {
+            k17 = Convert.ToDouble(textBox17.Text);
+            k18 = Convert.ToDouble(textBox18.Text);
+
+            ADD_Math.Diapazon(k17, k18);     // Переслать 4 вещественных файла
             Close();
         }
 

@@ -28,10 +28,20 @@ namespace rab1.Forms
         #region Constants
 
         private const int WEDGE_MIN_INTENSITY_VALUE = 60;
-        private const int WEDGE_MAX_INTENSITY_VALUE = 220;
-
+        private const int WEDGE_MAX_INTENSITY_VALUE = 255;
+        
+        //M1 < M2 (For calculation wedge ratio)
         private const int WEDGE_M1 = 167;
-        private const int WEDGE_M2 = 241;
+        private const int WEDGE_M2 = 211;
+
+        private const int WEDGE_WIDTH = 850;
+
+        private const int IMAGE_WIDTH = 4096;
+        private const int IMAGE_HEIGHT = 2160;
+
+        private const int BLACK_SIDE_WIDTH = 50;
+
+        private readonly double WEDGE_RATIO = Convert.ToDouble(WEDGE_M1) / Convert.ToDouble(WEDGE_M2);
 
         #endregion
 
@@ -409,105 +419,75 @@ namespace rab1.Forms
                 textBox16.Text = phaseShiftsInDegrees[7].ToString();
             }
         }
-
-        private void wedgeTwoButton_Click(object sender, EventArgs e)
-        {
-            GenerateWedgeTwo();
-        }
-
-        private void wedgeOneButton_Click(object sender, EventArgs e)
-        {
-            GenerateWedgeOne();
-        }
-
+                
         private void GenerateWedgeOne()
         {
-            ZArrayDescriptor arrayDescriptor = GenerateWedge(WEDGE_M1, 6000, 200);
+            int width = WEDGE_WIDTH;
+            int imageHeight = IMAGE_HEIGHT;
+            int imageWidth = IMAGE_WIDTH;
+
+            ZArrayDescriptor arrayDescriptor = GenerateWedge(WEDGE_M1, width, imageHeight, imageWidth, WEDGE_RATIO);
             Form1.zArrayDescriptor[0] = arrayDescriptor;
             VisualRegImage(0);
         }
 
         private void GenerateWedgeTwo()
         {
-            ZArrayDescriptor arrayDescriptor = GenerateWedge(WEDGE_M2, 6000, 200);
+            int width = WEDGE_WIDTH;
+            int imageHeight = IMAGE_HEIGHT;
+            int imageWidth = IMAGE_WIDTH;
+
+            ZArrayDescriptor arrayDescriptor = GenerateWedge(WEDGE_M2, width, imageHeight, imageWidth, 1);
             Form1.zArrayDescriptor[1] = arrayDescriptor;
             VisualRegImage(1);
         }
         
-        private ZArrayDescriptor GenerateWedge(int mValue, int width, int height)
+        private ZArrayDescriptor GenerateWedge(int mValue, int width, int imageHeight, int imageWidth, double? mRatio = null)
         {
-            ZArrayDescriptor arrayDescriptor = new ZArrayDescriptor(width, height);
+            ZArrayDescriptor arrayDescriptor = new ZArrayDescriptor(imageWidth + BLACK_SIDE_WIDTH, imageHeight);
 
-            Interval<double> interval1 = new Interval<double>(0, mValue);
-            Interval<double> interval2 = new Interval<double>(WEDGE_MIN_INTENSITY_VALUE, WEDGE_MAX_INTENSITY_VALUE);
-                        
-            RealIntervalTransform intervalTransform = new RealIntervalTransform(interval1, interval2);
-
-            int[] array = new int[mValue + 1];
-            for (int m = 0; m <= mValue; m++)
+            double maxIntensity = WEDGE_MAX_INTENSITY_VALUE;
+            if (mRatio.HasValue)
             {
-                array[m] = Convert.ToInt32(intervalTransform.TransformToFinishIntervalValue(m));
+                maxIntensity = mRatio.Value * (WEDGE_MAX_INTENSITY_VALUE - WEDGE_MIN_INTENSITY_VALUE) + WEDGE_MIN_INTENSITY_VALUE;
             }
 
-            int k = width / (array.Length - 2);
+            Interval<double> interval1 = new Interval<double>(0, mValue - 1);
+            Interval<double> interval2 = new Interval<double>(WEDGE_MIN_INTENSITY_VALUE, maxIntensity);
 
-            for (int x = 0; x < width - 1; x++)
+            RealIntervalTransform intervalTransform = new RealIntervalTransform(interval1, interval2);
+
+            int[] array = new int[width];
+            int currentValue = 0;
+
+            //Create wedge 0..m
+            for (int j = 0; j < width; j++)
+            {
+                if (currentValue >= mValue - 1)
+                {
+                    currentValue = 0;
+                }
+                array[j] = currentValue;
+                currentValue++;
+            }
+                       
+            //Stretch wedge to image width
+            int k = imageWidth / (array.Length) + 1;
+            for (int x = 0; x < imageWidth - 1; x++)
             {
                 int i = x / k;
-                for (int y = 0; y < height - 1; y++)
+                for (int y = 0; y < imageHeight - 1; y++)
                 {
-                    arrayDescriptor.array[x, y] = array[i];
+                    arrayDescriptor.array[x, y] = intervalTransform.TransformToFinishIntervalValue(array[i]);
                 }
             }
 
             return arrayDescriptor;
         }
-        
-        private void MakeDecisionTableForWedge()
-        {
-            ZArrayDescriptor array1 = Form1.zArrayDescriptor[0];
-            ZArrayDescriptor array2 = Form1.zArrayDescriptor[1];
 
-            int width = array1.width;
-            int height = array1.height;
-
-            Interval<double> intensityInterval = new Interval<double>(0, 255);
-
-            Interval<double> interval1 = new Interval<double>(0, WEDGE_M1);
-            Interval<double> interval2 = new Interval<double>(0, WEDGE_M2);
-
-            RealIntervalTransform transform1 = new RealIntervalTransform(intensityInterval, interval1);
-            RealIntervalTransform transform2 = new RealIntervalTransform(intensityInterval, interval2);
-
-            List<Point2D> pointsList = new List<Point2D>();
-            
-            for (int x = 0; x < width - 1; x++)
-            {
-                for (int y = 0; y < height - 1; y++)
-                {
-                    double intensity1 = array1.array[x, y];
-                    double intensity2 = array2.array[x, y];
-
-                    int b1 = Convert.ToInt32(transform1.TransformToFinishIntervalValue(intensity1));
-                    int b2 = Convert.ToInt32(transform2.TransformToFinishIntervalValue(intensity1));
-
-                    pointsList.Add(new Point2D(b1, b2));
-                }
-            }
-
-            ShowGraphic(pointsList);
-        }
-
-        private void ShowGraphic(List<Point2D> pointsList)
+        private void ShowGraphic(IList<GraphInfo> graphCollection)
         {
             GraphFormHost graphFormHost = new GraphFormHost();
-            IList<GraphInfo> graphCollection = new List<GraphInfo>();
-
-            Point2D[] graphPoints = pointsList.ToArray();
-            
-            GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Black, graphPoints, true);
-            graphCollection.Add(graphInfo);
-
             graphFormHost.GraphInfoCollection = graphCollection;
 
             Form form = new Form();
@@ -517,10 +497,79 @@ namespace rab1.Forms
             form.Controls.Add(graphFormHost);
             form.Show();
         }
-
+        
+        /*
         private void makeDecisionTableButton_Click(object sender, EventArgs e)
         {
             MakeDecisionTableForWedge();
+        }
+        */
+        private void generateWedgeOneButton_Click(object sender, EventArgs e)
+        {
+            GenerateWedgeOne();
+        }
+
+        private void generateWedgeTwoButton_Click(object sender, EventArgs e)
+        {
+            GenerateWedgeTwo();
+        }
+
+        private void CalcWedgeIntensityDistributionButton_Click(object sender, EventArgs e)
+        {
+            CalcWedgeIntensityDistribution();
+        }
+
+        private void CalcWedgeIntensityDistribution()
+        {
+            ZArrayDescriptor arrayDescriptor1 = Form1.zArrayDescriptor[0];
+            ZArrayDescriptor arrayDescriptor2 = Form1.zArrayDescriptor[1];
+
+            //Interval<double> intensityInterval = new Interval<double>(0, 255);
+            Interval<double> intensityInterval = new Interval<double>(30, 222);
+            
+            Interval<double> originInterval1 = new Interval<double>(45, 222);
+            Interval<double> originInterval2 = new Interval<double>(30, 222);
+
+            Interval<double> interval1 = new Interval<double>(0, WEDGE_M1 - 1);
+            Interval<double> interval2 = new Interval<double>(0, WEDGE_M2 - 1);
+
+            //RealIntervalTransform transform1 = new RealIntervalTransform(intensityInterval, interval1);
+            //RealIntervalTransform transform2 = new RealIntervalTransform(intensityInterval, interval2);
+
+            RealIntervalTransform transform1 = new RealIntervalTransform(originInterval1, interval1);
+            RealIntervalTransform transform2 = new RealIntervalTransform(originInterval2, interval2);
+
+            int width = arrayDescriptor1.width;
+            
+            int startY = 0;
+            int height = 2;
+
+            List<Point2D> pointsList = new List<Point2D>();
+            for (int x = 0; x < width - 1; x++)
+            {
+                for (int y = startY; y < height - 1; y++)
+                {
+                    double intensity1 = arrayDescriptor1.array[x, y];
+                    double intensity2 = arrayDescriptor2.array[x, y];
+
+                    int b1 = Convert.ToInt32(transform1.TransformToFinishIntervalValue(intensity1));
+                    int b2 = Convert.ToInt32(transform2.TransformToFinishIntervalValue(intensity2));
+
+                    pointsList.Add(new Point2D(b1, b2));
+                }
+            }
+
+            RangeExtensionModelForm decisionTableForm = new RangeExtensionModelForm();
+
+            IList<Point2D> decisionTablePointsList = decisionTableForm.BuildTable(WEDGE_M1, WEDGE_M2, WEDGE_WIDTH);
+
+            GraphInfo idealGraphInfo =
+                new GraphInfo("Ideal graph", System.Windows.Media.Colors.Green, decisionTablePointsList.ToArray(), true, false);
+            
+            GraphInfo graph = new GraphInfo("Graphic", System.Windows.Media.Colors.Red, pointsList.ToArray(), false, true);
+            IList<GraphInfo> graphCollection = new List<GraphInfo>() { idealGraphInfo, graph };
+
+            ShowGraphic(graphCollection);
         }
 
         /*

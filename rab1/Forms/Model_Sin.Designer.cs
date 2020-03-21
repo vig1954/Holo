@@ -67,6 +67,9 @@
             this.button100 = new System.Windows.Forms.Button();
             this.textBoxMinIntensity = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.generateWedgeOneButton = new System.Windows.Forms.Button();
+            this.generateWedgeTwoButton = new System.Windows.Forms.Button();
+            this.CalcWedgeIntensityDistributionButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -413,11 +416,44 @@
             this.label10.TabIndex = 41;
             this.label10.Text = "Мин. интенсивность";
             // 
+            // generateWedgeOneButton
+            // 
+            this.generateWedgeOneButton.Location = new System.Drawing.Point(12, 502);
+            this.generateWedgeOneButton.Name = "generateWedgeOneButton";
+            this.generateWedgeOneButton.Size = new System.Drawing.Size(99, 23);
+            this.generateWedgeOneButton.TabIndex = 42;
+            this.generateWedgeOneButton.Text = "Wedge 1";
+            this.generateWedgeOneButton.UseVisualStyleBackColor = true;
+            this.generateWedgeOneButton.Click += new System.EventHandler(this.generateWedgeOneButton_Click);
+            // 
+            // generateWedgeTwoButton
+            // 
+            this.generateWedgeTwoButton.Location = new System.Drawing.Point(158, 502);
+            this.generateWedgeTwoButton.Name = "generateWedgeTwoButton";
+            this.generateWedgeTwoButton.Size = new System.Drawing.Size(102, 23);
+            this.generateWedgeTwoButton.TabIndex = 43;
+            this.generateWedgeTwoButton.Text = "Wedge 2";
+            this.generateWedgeTwoButton.UseVisualStyleBackColor = true;
+            this.generateWedgeTwoButton.Click += new System.EventHandler(this.generateWedgeTwoButton_Click);
+            // 
+            // CalcWedgeIntensityDistributionButton
+            // 
+            this.CalcWedgeIntensityDistributionButton.Location = new System.Drawing.Point(319, 502);
+            this.CalcWedgeIntensityDistributionButton.Name = "CalcWedgeIntensityDistributionButton";
+            this.CalcWedgeIntensityDistributionButton.Size = new System.Drawing.Size(166, 23);
+            this.CalcWedgeIntensityDistributionButton.TabIndex = 44;
+            this.CalcWedgeIntensityDistributionButton.Text = "Wedge intensity distribution";
+            this.CalcWedgeIntensityDistributionButton.UseVisualStyleBackColor = true;
+            this.CalcWedgeIntensityDistributionButton.Click += new System.EventHandler(this.CalcWedgeIntensityDistributionButton_Click);
+            // 
             // Model_Sin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(497, 537);
+            this.Controls.Add(this.CalcWedgeIntensityDistributionButton);
+            this.Controls.Add(this.generateWedgeTwoButton);
+            this.Controls.Add(this.generateWedgeOneButton);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.textBoxMinIntensity);
             this.Controls.Add(this.button2);
@@ -509,5 +545,8 @@
         private System.Windows.Forms.Button button100;
         private System.Windows.Forms.TextBox textBoxMinIntensity;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button generateWedgeOneButton;
+        private System.Windows.Forms.Button generateWedgeTwoButton;
+        private System.Windows.Forms.Button CalcWedgeIntensityDistributionButton;
     }
 }

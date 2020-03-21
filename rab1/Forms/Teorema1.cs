@@ -582,19 +582,18 @@ namespace rab1.Forms
             Complex[] c  = new Complex[nx];
             Complex[] c1 = new Complex[nx];
             for (int i = 0; i < nx; i++)  c[i] = Form1.zComplex[k5 - 1].array[i, ny/2];
-            int dx2 = dx / 2;
-            //int dxt = (dx-t)/2;
-            //for (int i = 0; i < (nx - Step0 - t - dxt); i = i + dx) for (int j = 0; j < t; j++) c1[i] += c[i + j + dxt + Step0];
-            //for (int i = dx2 + Step0; i < nx-t/2-Step0; i = i + dx) for (int j = i-t/2; j < i+t/2; j++) c1[i] += c[j ];
+            //int dx2 = dx / 2;
+            
             int num = 0;
             for (int i = 0; i < nx; i = i + dx)
             {
-                int k = i + dx2 + Step0; //if (k >= nx) break;
+                //int k = i + dx2 + Step0; //if (k >= nx) break;
                 int s = 0;
                 num++;
-                //num=i;
-                for (int j = k - t / 2; j < k + t / 2; j++)
+               
+                for (int j = i + Step0 - t / 2; j < i + Step0 + t / 2; j++)
                 {
+                    if (j <  0 ) continue;
                     if (j >= nx) break;
                     c1[i] += c[j];
                     s++;
@@ -603,13 +602,14 @@ namespace rab1.Forms
             }
             //MessageBox.Show("---- " + num);  // Число дискретов
 
-            //for (int i = 0; i < nx - dx / 2 - Step0; i++)
-            //  for (int j = 0; j < ny; j++)
-            //    cmpl.array[i + dx/2 + Step0,  j] = new Complex(c1[i]/t, 0.0);
 
             for (int i = 0; i < nx ; i++)
                 for (int j = 0; j < ny; j++)
-                    cmpl.array[i , j] = c1[i];
+                {
+                    int i1 = i + Step0; if (i1>=nx) break;
+                    cmpl.array[i1, j] = c1[i];
+                }
+                    
 
             Form1.zComplex[k5 - 1] = cmpl;
             VisualComplex(k5 - 1);

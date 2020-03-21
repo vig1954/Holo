@@ -24,10 +24,16 @@ namespace rab1
 
             int range = int.Parse(RangeTextBox.Text);
 
-            BuildTable(m1, m2, range);
+            IList<Point2D> pointsList = BuildTable(m1, m2, range);
+
+            GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Green, pointsList.ToArray(), true, false);
+
+            IList<GraphInfo> graphCollection = new List<GraphInfo>() { graphInfo };
+
+            ShowGraphic(graphCollection);
         }
 
-        private void BuildTable(int m1, int m2, int range)
+        public List<Point2D> BuildTable(int m1, int m2, int range)
         {
             int M1 = m2;
             int M2 = m1;
@@ -54,7 +60,8 @@ namespace rab1
 
             List<Point2D> pointsList = pointsDictionary.Select(x => x.Value).ToList();
 
-            ShowGraphic(pointsList);
+            return pointsList;
+              
         }
 
         private int CalculateN(int M, int m)
@@ -91,16 +98,9 @@ namespace rab1
             }
         }
 
-        private void ShowGraphic(List<Point2D> pointsList)
+        private void ShowGraphic(IList<GraphInfo> graphCollection)
         {
             GraphFormHost graphFormHost = new GraphFormHost();
-            IList<GraphInfo> graphCollection = new List<GraphInfo>();
-
-            Point2D[] graphPoints = pointsList.ToArray();
-
-            GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Black, graphPoints, true);
-            graphCollection.Add(graphInfo);
-
             graphFormHost.GraphInfoCollection = graphCollection;
 
             Form form = new Form();

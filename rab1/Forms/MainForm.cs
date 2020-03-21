@@ -332,6 +332,7 @@ namespace rab1
         //--------------------------------------------------------------
         private void ShowAltGraphic(double[] buf)
         {
+
             GraphFormHost graphFormHost = new GraphFormHost();
             IList<GraphInfo> graphCollection = new List<GraphInfo>();
 
@@ -341,7 +342,7 @@ namespace rab1
                 graphPoints[j] = new Point2D(j, buf[j]);
             }
 
-            GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Black, graphPoints, true);
+            GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Black, graphPoints, true, false);
             graphCollection.Add(graphInfo);
 
             graphFormHost.GraphInfoCollection = graphCollection;
@@ -352,6 +353,7 @@ namespace rab1
             graphFormHost.Dock = DockStyle.Fill;
             form.Controls.Add(graphFormHost);
             form.Show();
+            
         }
 
         //  -----------------------------------------------------------      График 3D
@@ -3626,7 +3628,7 @@ namespace rab1
                     graphPoints[j] = new Point2D(j, finalResult[j]);
                 }
 
-                GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Black, graphPoints, true);
+                GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Black, graphPoints, true, false);
                 graphCollection.Add(graphInfo);
 
                 this.phaseDifferenceGraphFormHost.GraphInfoCollection = graphCollection;
@@ -3659,7 +3661,7 @@ namespace rab1
                     graphPoints[j] = new Point2D(j, resArray[j]);
                 }
 
-                GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Black, graphPoints, true);
+                GraphInfo graphInfo = new GraphInfo("Graphic", System.Windows.Media.Colors.Black, graphPoints, true, false);
                 graphCollection.Add(graphInfo);
 
                 this.curvesGraphFormHost.GraphInfoCollection = graphCollection;
