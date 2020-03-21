@@ -116,7 +116,7 @@ namespace rab1.Forms
             for (int i = 0; i < NX; i += kr1)
             {
                 double v = minIntensity + a1 * (Math.Sin(2.0 * Math.PI * i / n_polos - fz) + 1.0) / 2.0;          // синусоида от 0 до 1
-                sn[i] = CorrectBr.CorrectValueByClin(v, clinArray);
+                sn[i] = CorrectBr.CorrectValueByClin(v, clinArray, 255);
             }
           
            // double max = double.MinValue;

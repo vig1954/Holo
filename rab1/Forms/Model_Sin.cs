@@ -473,7 +473,9 @@ namespace rab1.Forms
 
             CorrectBr correctBr = new CorrectBr();
             double[] interpolatedClin = correctBr.InterpolateClin(clin);
-            
+
+            int qq = Convert.ToInt32(maxIntensity);
+
             //Stretch wedge to image width
             int k = imageWidth / (array.Length) + 1;
             for (int x = 0; x < imageWidth - 1; x++)
@@ -482,7 +484,8 @@ namespace rab1.Forms
                 for (int y = 0; y < imageHeight - 1; y++)
                 {
                     double value = intervalTransform.TransformToFinishIntervalValue(array[i]);
-                    double correctedValue = CorrectBr.CorrectValueByClin(value, interpolatedClin);
+                    //double correctedValue = CorrectBr.CorrectValueByClin(value, interpolatedClin, qq);
+                    double correctedValue = value;
                     arrayDescriptor.array[x, y] = correctedValue;
                 }
             }

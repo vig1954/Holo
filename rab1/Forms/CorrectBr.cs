@@ -539,12 +539,11 @@ namespace rab1.Forms
 
             return resClin;
         }
-        public static double CorrectValueByClin(double idealValue, double[] clinArray)
+        public static double CorrectValueByClin(double idealValue, double[] clinArray, int idealCount)
         {
             if (clinArray == null) { return idealValue; }
             double clinArrayCount = 240;
-            double idealCount = 255;
-
+            
             int value = Convert.ToInt32(idealValue * clinArrayCount / idealCount);  // от 0 до 240
             double resValue = clinArray[value];
             return resValue;
