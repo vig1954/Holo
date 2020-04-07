@@ -75,7 +75,7 @@ namespace rab1.Forms
             int regComplex  = Number_kadr - 1;
 
             int nx = Number_Pont;
-            int ny = 100;
+            int ny = 256;
             int x0 = nx / 2 - Number_Pont_Rec / 2;
 
             ZArrayDescriptor cmpl = new ZArrayDescriptor(nx, ny);
@@ -429,15 +429,18 @@ namespace rab1.Forms
             Complex[] c = new Complex[nx];
             Complex[] c1 = new Complex[nx];
 
-            for (int i = 0; i < nx; i++) c[i] = Form1.zComplex[k1 - 1].array[i, ny/2];
+          
 
-            c1 = Furie.GetFourierTransform(c, m);     // /sqrt(nx)
-           
-            Form1.zComplex[k2-1] = new ZComplexDescriptor(nx, ny);
-            for (int i = 0; i < nx; i++)
-                for (int j = 0; j < ny; j++)
-                    Form1.zComplex[k2-1].array[i, j] = c1[i];
+            ZComplexDescriptor rez = new ZComplexDescriptor(nx, ny);
 
+            for (int j = 0; j < ny; j++)
+            {
+                for (int i = 0; i < nx; i++) c[i] = Form1.zComplex[k1 - 1].array[i, j];
+                c1 = Furie.GetFourierTransform(c, m);     // /sqrt(nx)
+                for (int i = 0; i < nx; i++)  rez.array[i, j] = c1[i];
+            }
+            
+            Form1.zComplex[k2 - 1] = rez;
             VisualComplex(k2-1);
             //Close();
         }
@@ -511,12 +514,16 @@ namespace rab1.Forms
             VisualComplex(k2 - 1);
         }
 
-
+/// <summary>
+/// Обратное БПФ
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
         private void button16_Click(object sender, EventArgs e)
         {
             k1 = Convert.ToInt32(textBox4.Text);
             k2 = Convert.ToInt32(textBox5.Text);
-            dx = Convert.ToInt32(textBox10.Text);
+           // dx = Convert.ToInt32(textBox10.Text);
 
             int nx = Form1.zComplex[k1 - 1].width;
             int ny = Form1.zComplex[k1 - 1].height;
@@ -527,17 +534,19 @@ namespace rab1.Forms
             Complex[] c = new Complex[nx];
             Complex[] c1 = new Complex[nx];
 
-            for (int i = 0; i < nx; i++) c[i] = Form1.zComplex[k1 - 1].array[i, ny / 2];
+          
 
-            c1 = Furie.GetInverseFourierTransform(c, m);
 
-            double d2 = 1; // Math.Sqrt(dx);
-            Form1.zComplex[k2 - 1] = new ZComplexDescriptor(nx, ny);
-            for (int i = 0; i < nx; i++)
-                for (int j = 0; j < ny; j++)
-                    //Form1.zComplex[k2 - 1].array[i, j] = dx*c1[i];
-                    Form1.zComplex[k2 - 1].array[i, j] = d2 * c1[i];
+            ZComplexDescriptor rez = new ZComplexDescriptor(nx, ny);
 
+            for (int j = 0; j < ny; j++)
+            {
+                for (int i = 0; i < nx; i++) c[i] = Form1.zComplex[k1 - 1].array[i, j];
+                c1 = Furie.GetInverseFourierTransform(c, m);
+                for (int i = 0; i < nx; i++) rez.array[i, j] = c1[i];
+            }
+
+            Form1.zComplex[k2 - 1] = rez;
             VisualComplex(k2 - 1);
             //Close();
         }
@@ -1157,7 +1166,48 @@ namespace rab1.Forms
             VisualComplex(k6 - 1);
 
         }
+/// <summary>
+///  Построение огибающей исходной в [1] sinc в [2] => в главное окно
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
+        private void button29_Click(object sender, EventArgs e)
+        {
+            k1 = Convert.ToInt32(textBox4.Text);       // 1
+            k2 = Convert.ToInt32(textBox5.Text);       // 2
+            //k6 = Convert.ToInt32(textBox11.Text);      // 3
 
-       
+            int nx = Form1.zArrayDescriptor[k1 - 1].width;
+            int ny = Form1.zArrayDescriptor[k1 - 1].height;
+
+            double [] a = new double[nx];
+            double [] c = new double[nx];
+            double [] rez = new double[nx];
+            for (int i = 0; i < nx; i++)
+            {
+                c[i] = Form1.zArrayDescriptor[k1 - 1].array[i, ny / 2];
+                a[i] = Form1.zArrayDescriptor[k2 - 1].array[i, ny / 2];
+            }
+
+            for (int i = 0; i < nx; i++)
+            {
+                double c1 = (2 * c[i] - a[i]) / (a[i]+0.00000001);
+                double s1 = Math.Sqrt(1-c1*c1);
+                double r = c1 / Math.Sqrt(s1 * s1 + c1 * c1);
+                if (Math.Abs(r) <= 1) rez[i] = r; else rez[i] = 1;
+
+
+            }
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(nx, ny);
+           
+            for (int i = 0; i < nx; i++)
+              for (int y = 0; y < ny; y++)
+                {
+                    cmpl.array[i, y] = rez[i];
+                }
+
+            Form1.zArrayPicture = cmpl;
+            VisualArray();
+        }
     }
 }

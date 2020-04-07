@@ -1477,7 +1477,7 @@ namespace rab1
             int w2 = zArrayDescriptor[0].width;
             int h2 = zArrayDescriptor[0].height;
             int w1 = w2 * 2;
-            int h1 = h2;
+            int h1 = h2 * 2;
             //ZArrayDescriptor tmp = new ZArrayDescriptor(w2, h2);
             ZArrayDescriptor res_array = new ZArrayDescriptor(w1, h1);
             /*
@@ -1487,10 +1487,15 @@ namespace rab1
             tmp = zArrayDescriptor[3];  for (int i = 0; i < w2 - 1; i++) for (int j = 0; j < h2 - 1; j++) { res_array.array[i * 2 + 1, j * 2 + 1] = tmp.array[i, j]; }
               */
 
-
-            for (int i = 0; i < w2;     i++) for (int j = 0; j < h2; j++) { res_array.array[i * 2, j]     = zArrayDescriptor[0].array[i, j]; }
-            for (int i = 0; i < w2 - 1; i++) for (int j = 0; j < h2; j++) { res_array.array[i * 2 + 1, j] = zArrayDescriptor[1].array[i, j]; }
-
+            double [] tmp = new double[h1];
+            for (int j = 0; j < h2 - 1; j++)
+            {
+                for (int i = 0; i < w2;     i++) { tmp[i * 2]                    = zArrayDescriptor[0].array[i, j]; }
+                for (int i = 0; i < w2 - 1; i++) { tmp[i * 2 + 1]                = zArrayDescriptor[1].array[i, j]; }
+                for (int i = 0; i < w1;     i++) { res_array.array[i, j * 2]     = tmp[i]; }
+                for (int i = 0; i < w1;     i++) { res_array.array[i, j * 2 + 1] = tmp[i]; }
+            }
+          
 
             zArrayPicture = res_array;
 

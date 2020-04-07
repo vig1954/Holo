@@ -317,6 +317,24 @@ namespace rab1.Forms
             Close();
         }
 
+        private void button13_Click_1(object sender, EventArgs e) //Транспонирование текущего файла
+        {
+            ADD_Math.TRNS_D();
+            Close();
+        }
+
+        private void button18_Click_1(object sender, EventArgs e) // Поворот на 180 градусов
+        {
+            ADD_Math.ROT180_D();
+            Close();
+        }
+
+        private void button25_Click(object sender, EventArgs e) // Зеркальное отображение
+        {
+            ADD_Math.Mirr_D();
+            Close();
+        }
+
 
 
         /*

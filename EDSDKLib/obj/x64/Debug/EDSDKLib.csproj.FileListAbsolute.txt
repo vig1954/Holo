@@ -69,3 +69,4 @@ R:\Программы\Holo\EDSDKLib\bin\x64\Debug\EDSDKLib.pdb
 R:\Программы\Holo\EDSDKLib\obj\x64\Debug\EDSDKLib.csproj.CoreCompileInputs.cache
 R:\Программы\Holo\EDSDKLib\obj\x64\Debug\EDSDKLib.dll
 R:\Программы\Holo\EDSDKLib\obj\x64\Debug\EDSDKLib.pdb
+R:\Программы\Holo\EDSDKLib\obj\x64\Debug\EDSDKLib.csprojAssemblyReference.cache

@@ -78,6 +78,7 @@
             this.button26 = new System.Windows.Forms.Button();
             this.button27 = new System.Windows.Forms.Button();
             this.button28 = new System.Windows.Forms.Button();
+            this.button29 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
@@ -381,7 +382,7 @@
             this.button13.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button13.Location = new System.Drawing.Point(23, 489);
             this.button13.Name = "button13";
-            this.button13.Size = new System.Drawing.Size(139, 27);
+            this.button13.Size = new System.Drawing.Size(154, 27);
             this.button13.TabIndex = 41;
             this.button13.Text = "Сжатие и ОБПФ";
             this.button13.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -603,11 +604,24 @@
             this.button28.UseVisualStyleBackColor = true;
             this.button28.Click += new System.EventHandler(this.button28_Click);
             // 
+            // button29
+            // 
+            this.button29.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button29.Location = new System.Drawing.Point(23, 522);
+            this.button29.Name = "button29";
+            this.button29.Size = new System.Drawing.Size(154, 41);
+            this.button29.TabIndex = 61;
+            this.button29.Text = "Огибающая. В [1] исходное в [2] sinc => в главное окно";
+            this.button29.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button29.UseVisualStyleBackColor = true;
+            this.button29.Click += new System.EventHandler(this.button29_Click);
+            // 
             // Teorema1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(583, 871);
+            this.Controls.Add(this.button29);
             this.Controls.Add(this.button28);
             this.Controls.Add(this.button27);
             this.Controls.Add(this.button26);
@@ -717,5 +731,6 @@
         private System.Windows.Forms.Button button26;
         private System.Windows.Forms.Button button27;
         private System.Windows.Forms.Button button28;
+        private System.Windows.Forms.Button button29;
     }
 }

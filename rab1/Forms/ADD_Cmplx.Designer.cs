@@ -95,6 +95,7 @@
             this.textBox17 = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
             this.textBox18 = new System.Windows.Forms.TextBox();
+            this.button25 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -640,7 +641,7 @@
             // 
             this.button19.Location = new System.Drawing.Point(405, 514);
             this.button19.Name = "button19";
-            this.button19.Size = new System.Drawing.Size(330, 34);
+            this.button19.Size = new System.Drawing.Size(153, 34);
             this.button19.TabIndex = 81;
             this.button19.Text = "ABS(текущий кадр)";
             this.button19.UseVisualStyleBackColor = true;
@@ -652,8 +653,9 @@
             this.button18.Name = "button18";
             this.button18.Size = new System.Drawing.Size(331, 36);
             this.button18.TabIndex = 80;
-            this.button18.Text = "Поворот на 180 гр. текущего кадра";
+            this.button18.Text = "Поворот на 180 гр. текущего кадра (свеху вниз)";
             this.button18.UseVisualStyleBackColor = true;
+            this.button18.Click += new System.EventHandler(this.button18_Click_1);
             // 
             // button13
             // 
@@ -663,6 +665,7 @@
             this.button13.TabIndex = 79;
             this.button13.Text = "Транспонирование текущего кадра";
             this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.button13_Click_1);
             // 
             // button24
             // 
@@ -698,11 +701,22 @@
             this.textBox18.TabIndex = 83;
             this.textBox18.Text = "255";
             // 
+            // button25
+            // 
+            this.button25.Location = new System.Drawing.Point(578, 514);
+            this.button25.Name = "button25";
+            this.button25.Size = new System.Drawing.Size(155, 34);
+            this.button25.TabIndex = 86;
+            this.button25.Text = "Зеркальное отображение";
+            this.button25.UseVisualStyleBackColor = true;
+            this.button25.Click += new System.EventHandler(this.button25_Click);
+            // 
             // ADD_Cmplx
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(750, 669);
+            this.Controls.Add(this.button25);
             this.Controls.Add(this.textBox17);
             this.Controls.Add(this.label24);
             this.Controls.Add(this.textBox18);
@@ -845,5 +859,6 @@
         private System.Windows.Forms.TextBox textBox17;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.TextBox textBox18;
+        private System.Windows.Forms.Button button25;
     }
 }

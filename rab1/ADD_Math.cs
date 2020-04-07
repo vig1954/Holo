@@ -228,7 +228,23 @@ namespace rab1
             VisualRegImage(Form1.regImage);
         }
 
+        public static void Mirr_D()             // Зеркальное отбражение по x координате
+        {
+            if (Form1.zArrayDescriptor[Form1.regImage] == null) { MessageBox.Show("ABS_D zArrayDescriptor[" + Form1.regImage + "] == NULL"); return; }
+            int nx = Form1.zArrayDescriptor[Form1.regImage].width;
+            int ny = Form1.zArrayDescriptor[Form1.regImage].height;
 
+            ZArrayDescriptor rez = new ZArrayDescriptor(nx, ny);
+
+            for (int i = 0; i < nx; i++)
+                for (int j = 0; j < ny; j++)
+                {
+                    rez.array[nx-i-1, j] = Math.Abs(Form1.zArrayDescriptor[Form1.regImage].array[i, j]);
+                }
+
+            Form1.zArrayDescriptor[Form1.regImage] = rez;
+            VisualRegImage(Form1.regImage);
+        }
 
 
         public static void ADD_D(int k1, int k2, int k3)             // Сложить два вещественных массива
@@ -520,15 +536,16 @@ namespace rab1
             if (Form1.zArrayDescriptor[k2] == null) { MessageBox.Show("zArrayDescriptor [" + k2 + "] == NULL"); return; }
             int nx = Form1.zArrayDescriptor[k1].width;
             int ny = Form1.zArrayDescriptor[k1].height;
-            Form1.zArrayDescriptor[k3] = new ZArrayDescriptor(nx, ny);
+
+            ZArrayDescriptor rez = new ZArrayDescriptor(nx, ny);
 
             for (int i = 0; i < nx; i++)
                 for (int j = 0; j < ny; j++)
                 {
                     double b = Form1.zArrayDescriptor[k2].array[i, j];
-                    if (b != 0)
-                        Form1.zArrayDescriptor[k3].array[i, j] = Form1.zArrayDescriptor[k1].array[i, j] / b;
+                    if (b != 0) rez.array[i, j] = Form1.zArrayDescriptor[k1].array[i, j] / b; else rez.array[i, j] = 0;
                 }
+            Form1.zArrayDescriptor[k3] = rez;
             VisualRegImage(k3);
         }
 
@@ -557,6 +574,7 @@ namespace rab1
 
             //zComplex[k5] = new ZComplexDescriptor(nx, ny);
             Form1.zComplex[k5] = a;
+            ComplexPictureImage(k5);
            // Complex_pictureBox(k5);
         }
 
