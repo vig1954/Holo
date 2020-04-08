@@ -470,7 +470,12 @@ namespace rab1.Forms
                 array[j] = currentValue;
                 currentValue++;
             }
-                       
+
+            CorrectBr correctBr = new CorrectBr();
+            double[] interpolatedClin = correctBr.InterpolateClin(clin);
+
+            int qq = Convert.ToInt32(maxIntensity);
+
             //Stretch wedge to image width
             int k = imageWidth / (array.Length) + 1;
             for (int x = 0; x < imageWidth - 1; x++)
@@ -478,7 +483,10 @@ namespace rab1.Forms
                 int i = x / k;
                 for (int y = 0; y < imageHeight - 1; y++)
                 {
-                    arrayDescriptor.array[x, y] = intervalTransform.TransformToFinishIntervalValue(array[i]);
+                    double value = intervalTransform.TransformToFinishIntervalValue(array[i]);
+                    //double correctedValue = CorrectBr.CorrectValueByClin(value, interpolatedClin, qq);
+                    double correctedValue = value;
+                    arrayDescriptor.array[x, y] = correctedValue;
                 }
             }
 
@@ -523,24 +531,9 @@ namespace rab1.Forms
         {
             ZArrayDescriptor arrayDescriptor1 = Form1.zArrayDescriptor[0];
             ZArrayDescriptor arrayDescriptor2 = Form1.zArrayDescriptor[1];
-
-            //Interval<double> intensityInterval = new Interval<double>(0, 255);
-            Interval<double> intensityInterval = new Interval<double>(30, 222);
-            
-            Interval<double> originInterval1 = new Interval<double>(45, 222);
-            Interval<double> originInterval2 = new Interval<double>(30, 222);
-
-            Interval<double> interval1 = new Interval<double>(0, WEDGE_M1 - 1);
-            Interval<double> interval2 = new Interval<double>(0, WEDGE_M2 - 1);
-
-            //RealIntervalTransform transform1 = new RealIntervalTransform(intensityInterval, interval1);
-            //RealIntervalTransform transform2 = new RealIntervalTransform(intensityInterval, interval2);
-
-            RealIntervalTransform transform1 = new RealIntervalTransform(originInterval1, interval1);
-            RealIntervalTransform transform2 = new RealIntervalTransform(originInterval2, interval2);
-
+                        
             int width = arrayDescriptor1.width;
-            
+
             int startY = 0;
             int height = 2;
 
@@ -552,8 +545,8 @@ namespace rab1.Forms
                     double intensity1 = arrayDescriptor1.array[x, y];
                     double intensity2 = arrayDescriptor2.array[x, y];
 
-                    int b1 = Convert.ToInt32(transform1.TransformToFinishIntervalValue(intensity1));
-                    int b2 = Convert.ToInt32(transform2.TransformToFinishIntervalValue(intensity2));
+                    int b1 = Convert.ToInt32(intensity1);
+                    int b2 = Convert.ToInt32(intensity2);
 
                     pointsList.Add(new Point2D(b1, b2));
                 }
