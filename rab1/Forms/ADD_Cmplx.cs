@@ -308,7 +308,7 @@ namespace rab1.Forms
 
       
 
-        private void button24_Click(object sender, EventArgs e)   // Приведение к диапазону
+        private void button24_Click(object sender, EventArgs e)   // Приведение к диапазону вещественный кадр
         {
             k17 = Convert.ToDouble(textBox17.Text);
             k18 = Convert.ToDouble(textBox18.Text);
@@ -316,13 +316,24 @@ namespace rab1.Forms
             ADD_Math.Diapazon(k17, k18);     // Переслать 4 вещественных файла
             Close();
         }
+        private void button26_Click(object sender, EventArgs e)  // Приведение к диапазону комплексный кадр
+        {
+            k17 = Convert.ToDouble(textBox17.Text);
+            k18 = Convert.ToDouble(textBox18.Text);
 
-        private void button13_Click_1(object sender, EventArgs e) //Транспонирование текущего файла
+            ADD_Math.Diapazon_С(k17, k18);     // Переслать 4 вещественных файла
+            Close();
+        }
+        private void button13_Click_1(object sender, EventArgs e) //Транспонирование текущего файла вещественный
         {
             ADD_Math.TRNS_D();
             Close();
         }
-
+        private void button27_Click(object sender, EventArgs e) //Транспонирование текущего файла комплексный
+        {
+            ADD_Math.TRNS_С();
+            Close();
+        }
         private void button18_Click_1(object sender, EventArgs e) // Поворот на 180 градусов
         {
             ADD_Math.ROT180_D();
@@ -334,6 +345,10 @@ namespace rab1.Forms
             ADD_Math.Mirr_D();
             Close();
         }
+
+      
+
+
 
 
 

@@ -80,6 +80,7 @@
             this.button17 = new System.Windows.Forms.Button();
             this.button16 = new System.Windows.Forms.Button();
             this.button18 = new System.Windows.Forms.Button();
+            this.button19 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -193,11 +194,11 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(579, 197);
+            this.button3.Location = new System.Drawing.Point(671, 64);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(232, 23);
+            this.button3.Size = new System.Drawing.Size(89, 23);
             this.button3.TabIndex = 13;
-            this.button3.Text = "Обратное преобразование Фурье (БПФ)";
+            this.button3.Text = "OБПФ";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -463,7 +464,7 @@
             // 
             // button15
             // 
-            this.button15.Location = new System.Drawing.Point(43, 642);
+            this.button15.Location = new System.Drawing.Point(49, 642);
             this.button15.Name = "button15";
             this.button15.Size = new System.Drawing.Size(572, 23);
             this.button15.TabIndex = 50;
@@ -542,11 +543,22 @@
             this.button18.UseVisualStyleBackColor = true;
             this.button18.Click += new System.EventHandler(this.button18_Click);
             // 
+            // button19
+            // 
+            this.button19.Location = new System.Drawing.Point(554, 64);
+            this.button19.Name = "button19";
+            this.button19.Size = new System.Drawing.Size(89, 23);
+            this.button19.TabIndex = 59;
+            this.button19.Text = "БПФ 2**M";
+            this.button19.UseVisualStyleBackColor = true;
+            this.button19.Click += new System.EventHandler(this.button19_Click);
+            // 
             // FrenelForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(903, 844);
+            this.Controls.Add(this.button19);
             this.Controls.Add(this.button18);
             this.Controls.Add(this.button16);
             this.Controls.Add(this.button17);
@@ -659,5 +671,6 @@
         private System.Windows.Forms.Button button17;
         private System.Windows.Forms.Button button16;
         private System.Windows.Forms.Button button18;
+        private System.Windows.Forms.Button button19;
     }
 }

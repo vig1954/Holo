@@ -96,6 +96,8 @@
             this.label24 = new System.Windows.Forms.Label();
             this.textBox18 = new System.Windows.Forms.TextBox();
             this.button25 = new System.Windows.Forms.Button();
+            this.button26 = new System.Windows.Forms.Button();
+            this.button27 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -711,11 +713,33 @@
             this.button25.UseVisualStyleBackColor = true;
             this.button25.Click += new System.EventHandler(this.button25_Click);
             // 
+            // button26
+            // 
+            this.button26.Location = new System.Drawing.Point(23, 564);
+            this.button26.Name = "button26";
+            this.button26.Size = new System.Drawing.Size(337, 34);
+            this.button26.TabIndex = 87;
+            this.button26.Text = "Приведение к диапазону (текущий кадр)";
+            this.button26.UseVisualStyleBackColor = true;
+            this.button26.Click += new System.EventHandler(this.button26_Click);
+            // 
+            // button27
+            // 
+            this.button27.Location = new System.Drawing.Point(23, 430);
+            this.button27.Name = "button27";
+            this.button27.Size = new System.Drawing.Size(327, 36);
+            this.button27.TabIndex = 88;
+            this.button27.Text = "Транспонирование текущего кадра";
+            this.button27.UseVisualStyleBackColor = true;
+            this.button27.Click += new System.EventHandler(this.button27_Click);
+            // 
             // ADD_Cmplx
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(750, 669);
+            this.Controls.Add(this.button27);
+            this.Controls.Add(this.button26);
             this.Controls.Add(this.button25);
             this.Controls.Add(this.textBox17);
             this.Controls.Add(this.label24);
@@ -860,5 +884,7 @@
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.TextBox textBox18;
         private System.Windows.Forms.Button button25;
+        private System.Windows.Forms.Button button26;
+        private System.Windows.Forms.Button button27;
     }
 }

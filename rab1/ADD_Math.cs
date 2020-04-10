@@ -194,7 +194,23 @@ namespace rab1
             VisualRegImage(Form1.regImage);
 
         }
+        public static void TRNS_С()             // Транспонирование zComplex[Form1.regComplex]
+        {
 
+            if (Form1.zComplex[Form1.regComplex] == null) { MessageBox.Show(" ROR_TRNS  zComplex [" + Form1.regComplex + "] == NULL"); return; }
+
+            int nx = Form1.zComplex[Form1.regComplex].width;
+            int ny = Form1.zComplex[Form1.regComplex].height;
+
+            ZComplexDescriptor zArray = new ZComplexDescriptor(nx, ny);
+            for (int i = 0; i < ny; i++)
+                for (int j = 0; j < nx; j++)
+                    zArray.array[i, j] = Form1.zComplex[Form1.regComplex].array[j, i];
+
+            Form1.zComplex[Form1.regComplex] = zArray;
+            ComplexPictureImage(Form1.regComplex);
+
+        }
         public static void ROT180_D()             // Поворот zArrayDescriptor[regImage] на 180 градусов
         {
             if (Form1.zArrayDescriptor[Form1.regImage] == null) { MessageBox.Show(" ROR_TRNS  zArrayDescriptor [" + Form1.regImage + "] == NULL"); return; }
@@ -705,7 +721,7 @@ namespace rab1
             VisualRegImage(k15);
         }
 
-        public static void Diapazon(double a1, double a2)             // Привести к диапазону
+        public static void Diapazon(double a1, double a2)             // Привести к диапазону вещественный кадр
         {
             if (Form1.zArrayDescriptor[Form1.regImage] == null) { MessageBox.Show("Diapazon zArrayDescriptor[" + Form1.regImage + "] == NULL"); return; }
             int nx = Form1.zArrayDescriptor[Form1.regImage].width;
@@ -727,7 +743,31 @@ namespace rab1
             VisualRegImage(Form1.regImage);
         }
 
+        public static void Diapazon_С(double a1, double a2)             // Привести к диапазону комплексный кадр
+        {
+            if (Form1.zComplex[Form1.regComplex] == null) { MessageBox.Show("Diapazon zComplex[" + Form1.regComplex + "] == NULL"); return; }
+           
+            int nx = Form1.zComplex[Form1.regComplex].width;
+            int ny = Form1.zComplex[Form1.regComplex].height;
 
+            ZArrayDescriptor rez = new ZArrayDescriptor(nx, ny);
+            for (int i = 0; i < nx; i++) for (int j = 0; j < ny; j++) { rez.array[i, j] = Form1.zComplex[Form1.regComplex].array[i, j].Magnitude; }
+
+            double min = SumClass.getMin(rez);
+            double max = SumClass.getMax(rez);
+
+            for (int i = 0; i < nx; i++)
+                for (int j = 0; j < ny; j++)
+                {
+                    double d = rez.array[i, j];
+                    rez.array[i, j] = (d - min) * (a2 - a1) / (max - min) + a1;
+                }
+
+            ZComplexDescriptor rezc = new ZComplexDescriptor(Form1.zComplex[Form1.regComplex], rez);  // Амплитуда в rez, фаза старая
+            Form1.zComplex[Form1.regComplex] = rezc;
+
+            ComplexPictureImage(Form1.regComplex);
+        }
         //-------------------------------------------------------------------------------------------------------------------------------
     }
 }

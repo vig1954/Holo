@@ -1794,7 +1794,7 @@ namespace rab1
             FrForm.OnFrenelN_CUDA   += FrComplexN_CUDA;         // Френель CUDA
 
             FrForm.OnFurie               += FurComplex;
-            FrForm.OnFurieM              += FurComplexM;
+            //FrForm.OnFurieM              += FurComplexM;
             FrForm.OnFurie_N             += FurComplex_N;
             FrForm.OnFurie_2Line         += FurComplex_2Line;   // Из k1 => k2 (Complex) по строкам
             FrForm.OnFurie_CUDA          += FurComplex_CUDA;
@@ -1989,7 +1989,7 @@ namespace rab1
             Complex_pictureBox(k2);
         }
 
-        private void FurComplexM(int k1, int k2)  // Обратное преобразование
+ /*       private void FurComplexM(int k1, int k2)  // Обратное преобразование
         {
 
             if (zComplex[k1] == null) { MessageBox.Show("zComplex[0] == NULL"); return; }
@@ -2000,13 +2000,13 @@ namespace rab1
 
             MessageBox.Show("n = " + Convert.ToString(n) + " m = " + Convert.ToString(m));
 
-            zComplex[k2] = new ZComplexDescriptor(n, n);
+            //zComplex[k2] = new ZComplexDescriptor(n, n);
 
             zComplex[k2] = Furie.InverseFourierTransform(zComplex[k1], m);
 
             Complex_pictureBox(k2);
         }
-
+*/
         private void FurComplex_N()                                            // Прямое преобразование Фурье с четным числом точек
         {
             //MessageBox.Show("Прямое преобразование Фурье с произвольным числом точек");

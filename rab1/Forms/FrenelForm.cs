@@ -35,7 +35,7 @@ namespace rab1.Forms
         public event FrenelF OnFrenelN_CUDA;       // Френель CUDA
 
         public event FrenelF1 OnFurie;
-        public event FrenelF2 OnFurieM;
+        //public event FrenelF2 OnFurieM;
         public event FrenelF2 OnFurie_CUDA_CMPLX;   // Фурье CUDA из к1 в k2
 
         public event FrenelF4 OnFurie_N;
@@ -89,6 +89,53 @@ namespace rab1.Forms
             textBox16.Text = Convert.ToString(fz[3]);
         }
 
+
+        private void button19_Click(object sender, EventArgs e)  // Преобразование Фурье 2**M
+        {
+            k1 = Convert.ToInt32(textBox4.Text);
+            k2 = Convert.ToInt32(textBox5.Text);
+
+            if (Form1.zComplex[k1] == null) { MessageBox.Show("zComplex[0] == NULL"); return; }
+            int m = 1;
+            int n = Form1.zComplex[k1].width;
+            int nn = 2;
+            for (int i = 1; ; i++) { nn = nn * 2; if (nn > n) { n = nn / 2; m = i; break; } }
+
+            MessageBox.Show("n = " + Convert.ToString(n) + " m = " + Convert.ToString(m));
+
+            ZComplexDescriptor rez = new ZComplexDescriptor(n, n);
+
+            rez = Furie.FourierTransform(Form1.zComplex[k1], m);
+
+            Form1.zComplex[k2] = rez;
+            Complex_pictureBox(k2);
+            //OnFurieM(k1, k2);
+            Close();
+        }
+        private void button3_Click(object sender, EventArgs e)     // Обратное преобразование Фурье 2**M
+        {
+
+            k1 = Convert.ToInt32(textBox4.Text);
+            k2 = Convert.ToInt32(textBox5.Text);
+
+            if (Form1.zComplex[k1] == null) { MessageBox.Show("zComplex[0] == NULL"); return; }
+            int m = 1;
+            int n = Form1.zComplex[k1].width;
+            int nn = 2;
+            for (int i = 1; ; i++) { nn = nn * 2; if (nn > n) { n = nn / 2; m = i; break; } }
+
+            MessageBox.Show("n = " + Convert.ToString(n) + " m = " + Convert.ToString(m));
+
+            ZComplexDescriptor rez = new ZComplexDescriptor(n, n);
+
+            rez = Furie.InverseFourierTransform(Form1.zComplex[k1], m);
+
+            Form1.zComplex[k2] = rez;
+            Complex_pictureBox(k2);
+            //OnFurieM(k1, k2);
+            Close();
+        }
+
         private void button1_Click(object sender, EventArgs e) // Френель с количеством точек 2**N
         {
             xm = Convert.ToDouble(textBox1.Text);
@@ -137,15 +184,7 @@ namespace rab1.Forms
             OnFurie( k1, k2);
             Close();
         }
-        private void button3_Click(object sender, EventArgs e)
-        {
-           
-            k1 = Convert.ToInt32(textBox4.Text);
-            k2 = Convert.ToInt32(textBox5.Text);
-
-            OnFurieM(k1, k2);
-            Close();
-        }
+       
 
         private void button8_Click(object sender, EventArgs e)    // Фурье (CUDA) из k1 в k2
         {
@@ -366,5 +405,7 @@ namespace rab1.Forms
             Close();
         
         }
+
+        
     }
 }
