@@ -1232,7 +1232,35 @@ namespace rab1.Forms
             Form1.zArrayPicture = cmpl;
             VisualArray();
         }
-
-      
+/// <summary>
+/// Фазы Sinc exp(-i2pik0r/N
+/// N - textBox3 Всего точек
+/// k0 - N/2
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
+        private void button31_Click(object sender, EventArgs e)
+        {
+            Number_Pont = Convert.ToInt32(textBox3.Text);       // Общее число точек
+            int N  = Number_Pont;
+            //int k0 = N / 2;
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(N, N);
+            //int k = 1;
+            for (int i = 0; i < N; i++)
+                for (int j = 0; j < N; j++)
+                {
+                    //double a = -2*Math.PI*k0*i/N - 2*Math.PI * k0 * j / N;
+                    //double a = - Math.PI *  i  - Math.PI * j;
+                    //int b = (int)(a / (2 * Math.PI));
+                    //cmpl.array[i, j] = a - b* (2 * Math.PI) + Math.PI;
+                    cmpl.array[i, j] = -Math.PI*i/N + -Math.PI * j / N + Math.PI;
+                    //k = k * (-1);
+                    //Form1.zArrayPicture.array[i, j] = Form1.zArrayPicture.array[i, j] + Math.PI* k;
+                }
+            Form1.zArrayPicture = Furie.Invers_Double(cmpl);
+            //Form1.zArrayPicture = cmpl;
+            VisualArray();
+            Close();
+        }
     }
 }

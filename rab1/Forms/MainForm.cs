@@ -640,7 +640,7 @@ namespace rab1
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+       /* private void rB_Checked(object sender)
         {
             regImage = 0;
 
@@ -662,13 +662,37 @@ namespace rab1
             if (rb == radioButton19) { regComplex = 0; }
             if (rb == radioButton20) { regComplex = 1; }
             if (rb == radioButton21) { regComplex = 2; }
-           // MessageBox.Show(" regImage = " + regImage + " regComplex = " + regComplex);
+            // MessageBox.Show(" regImage = " + regImage + " regComplex = " + regComplex);
 
-           // if (img[regImage] != null)
-           // {
-                //imageWidth.Text = img[regImage].Width.ToString();
-                //imageHeight.Text = img[regImage].Height.ToString();
-           // }
+            // if (img[regImage] != null)
+            // {
+            //imageWidth.Text = img[regImage].Width.ToString();
+            //imageHeight.Text = img[regImage].Height.ToString();
+            // }
+        }
+        */
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            //regImage = 0;
+
+            RadioButton rb = sender as RadioButton;
+
+            if (rb == radioButton1) { regImage = 0; }
+            if (rb == radioButton2) { regImage = 1; }
+            if (rb == radioButton3) { regImage = 2; }
+            if (rb == radioButton4) { regImage = 3; }
+            if (rb == radioButton5) { regImage = 4; }
+            if (rb == radioButton6) { regImage = 5; }
+            if (rb == radioButton7) { regImage = 6; }
+            if (rb == radioButton8) { regImage = 7; }
+            if (rb == radioButton9) { regImage = 8; }
+            if (rb == radioButton10) { regImage = 9; }
+            if (rb == radioButton11) { regImage = 10; }
+            if (rb == radioButton14) { regImage = 11; }
+
+            if (rb == radioButton19) { regComplex = 0; }
+            if (rb == radioButton20) { regComplex = 1; }
+            if (rb == radioButton21) { regComplex = 2; }
         }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //     <-
@@ -676,7 +700,8 @@ namespace rab1
 
         private void button3_Click(object sender, EventArgs e)          // Стрелка влево
         {
-            MessageBox.Show(" regImage = " + regImage + " regComplex = " + regComplex);
+            //rB_Checked(sender);
+            //MessageBox.Show(" regImage = " + regImage + " regComplex = " + regComplex);
             if (zArrayDescriptor[regImage] == null) return;
             applyScaleModeToPicturebox();
 
@@ -1707,7 +1732,7 @@ namespace rab1
 
             //ZArrayDescriptor fz = new ZArrayDescriptor(pictureBox01, Nx, Ny);
 
-            ZArrayDescriptor fz = new ZArrayDescriptor(zArrayPicture);
+            ZArrayDescriptor fz  = new ZArrayDescriptor(zArrayPicture);
             ZArrayDescriptor amp = new ZArrayDescriptor(zArrayDescriptor[regComplex * 4 + 2]);      // Амплитуда
 
             zComplex[regComplex] = new ZComplexDescriptor(fz, amp);
