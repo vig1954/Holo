@@ -1488,9 +1488,9 @@ namespace rab1
               */
 
 
-            for (int i = 0; i < w2; i++) for (int j = 0; j < h2; j++) { res_array.array[i * 2, j * 2] = zArrayDescriptor[0].array[i, j]; }
-            for (int i = 0; i < w2 - 1; i++) for (int j = 0; j < h2; j++) { res_array.array[i * 2 + 1, j * 2] = zArrayDescriptor[1].array[i, j]; }
-            for (int i = 0; i < w2; i++) for (int j = 0; j < h2 - 1; j++) { res_array.array[i * 2, j * 2 + 1] = zArrayDescriptor[2].array[i, j]; }
+            for (int i = 0; i < w2 - 1; i++) for (int j = 0; j < h2 - 1; j++) { res_array.array[i * 2,     j * 2]     = zArrayDescriptor[0].array[i, j]; }
+            for (int i = 0; i < w2 - 1; i++) for (int j = 0; j < h2 - 1; j++) { res_array.array[i * 2 + 1, j * 2]     = zArrayDescriptor[1].array[i, j]; }
+            for (int i = 0; i < w2 - 1; i++) for (int j = 0; j < h2 - 1; j++) { res_array.array[i * 2,     j * 2 + 1] = zArrayDescriptor[2].array[i, j]; }
             for (int i = 0; i < w2 - 1; i++) for (int j = 0; j < h2 - 1; j++) { res_array.array[i * 2 + 1, j * 2 + 1] = zArrayDescriptor[3].array[i, j]; }
 
             zArrayPicture = res_array;
