@@ -163,7 +163,6 @@ namespace rab1
 
         public static ZArrayDescriptor Filt_2х2(ZArrayDescriptor amp, int kx, int ky)   // int kx, int ky - сдвиг массива точек
         {
-
             int w1 = amp.width;
             int h1 = amp.height;
             int w2 = w1 / 2;
@@ -173,7 +172,7 @@ namespace rab1
             for (int i = 0; i < w1-1-kx; i+=2)
               for (int j = 0; j < h1-1-ky; j+=2)
                 {
-                    double a = (amp.array[i + kx, j + ky] + amp.array[i + kx, j + 1 + ky] +
+                    double a = (amp.array[i +     kx, j + ky] + amp.array[i +     kx, j + 1 + ky] +
                                 amp.array[i + 1 + kx, j + ky] + amp.array[i + 1 + kx, j + 1 + ky]);
                     res_array.array[i/2, j/2] = a / 4;
                 }
