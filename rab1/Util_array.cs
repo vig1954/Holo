@@ -33,7 +33,7 @@ namespace rab1
                 for (int j = 0; j < h1; j++)
                 {
 
-                    Color c = ImageProcessor.getPixel( j, i, data);
+                    Color c = ImageProcessor.getPixel( i, j, data);
                     result.array[i, j] = (c.R + c.G + c.B) / 3;
                     //result.array[i, j] = ImageProcessor.getPixel_blue(j, i, data);
 

@@ -359,7 +359,8 @@ namespace rab1
         //  -----------------------------------------------------------      График 3D
         private void dToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Graph3D graph_3D = new Graph3D(zArrayPicture);
+            //Graph3D graph_3D = new Graph3D(zArrayPicture);
+            Graph3D graph_3D = new Graph3D(pictureBox01);
             graph_3D.Show();
         }
         //  -----------------------------------------------------------      График 2D

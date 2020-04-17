@@ -39,6 +39,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.trackBar3 = new System.Windows.Forms.TrackBar();
+            this.button3 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picture3D)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -70,7 +71,7 @@
             this.trackBar1.Location = new System.Drawing.Point(843, 43);
             this.trackBar1.Maximum = 360;
             this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(151, 45);
+            this.trackBar1.Size = new System.Drawing.Size(151, 42);
             this.trackBar1.TabIndex = 1;
             this.trackBar1.TickFrequency = 20;
             this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
@@ -119,7 +120,7 @@
             this.trackBar2.Location = new System.Drawing.Point(843, 301);
             this.trackBar2.Maximum = 360;
             this.trackBar2.Name = "trackBar2";
-            this.trackBar2.Size = new System.Drawing.Size(151, 45);
+            this.trackBar2.Size = new System.Drawing.Size(151, 42);
             this.trackBar2.TabIndex = 6;
             this.trackBar2.TickFrequency = 20;
             this.trackBar2.TickStyle = System.Windows.Forms.TickStyle.Both;
@@ -146,22 +147,33 @@
             // trackBar3
             // 
             this.trackBar3.Cursor = System.Windows.Forms.Cursors.Default;
-            this.trackBar3.Location = new System.Drawing.Point(843, 138);
+            this.trackBar3.Location = new System.Drawing.Point(840, 138);
             this.trackBar3.Maximum = 100;
             this.trackBar3.Minimum = 1;
             this.trackBar3.Name = "trackBar3";
-            this.trackBar3.Size = new System.Drawing.Size(151, 45);
+            this.trackBar3.Size = new System.Drawing.Size(151, 42);
             this.trackBar3.TabIndex = 9;
             this.trackBar3.TickFrequency = 20;
             this.trackBar3.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.trackBar3.Value = 1;
             this.trackBar3.Scroll += new System.EventHandler(this.trackBar3_Scroll);
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(855, 374);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(139, 23);
+            this.button3.TabIndex = 10;
+            this.button3.Text = "Обратная матрица";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // Graph3D
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1006, 634);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.trackBar3);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -201,5 +213,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TrackBar trackBar3;
+        private System.Windows.Forms.Button button3;
     }
 }
