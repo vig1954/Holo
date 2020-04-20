@@ -320,9 +320,11 @@ namespace rab1.Forms
         /// <param name="e"></param>
         private void button3_Click(object sender, EventArgs e)
         {
-            double[,] arr = new double[,] { { -1, 2, -2}, { 2, -1, 5 }, { 3, -2, 4 } };
-            arr = matr_obr(arr);
+            //double[,] arr = new double[,] { { -1, 2, -2}, { 2, -1, 5 }, { 3, -2, 4 } };
+            double[,] arr1 = new double[3, 3];
             pr_arr(arr);
+            arr1 = matr_obr(arr);
+            pr_arr(arr1);
 
         }
 
