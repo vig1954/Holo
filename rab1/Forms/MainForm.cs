@@ -1456,6 +1456,35 @@ namespace rab1
         }
 
         // ----- 4 новых файла в четыре раза меньше в 1,2,3,4 
+       
+        // ----- Из  zArrayDescriptor[0] 1,2,3 в основное окно файл в 2 раза больший 
+        private void из1234НовыйМассивToolStripMenuItem_Click(object sender, EventArgs e)               // 
+        {
+            int w2 = zArrayDescriptor[0].width;
+            int h2 = zArrayDescriptor[0].height;
+            int w1 = w2 * 2;
+            int h1 = h2 * 2;
+            //ZArrayDescriptor tmp = new ZArrayDescriptor(w2, h2);
+            ZArrayDescriptor res_array = new ZArrayDescriptor(w1, h1);
+            /*
+            tmp = zArrayDescriptor[0];  for (int i = 0; i < w2; i++) for (int j = 0; j < h2; j++) { res_array.array[i * 2, j * 2] = tmp.array[i, j]; }
+            tmp = zArrayDescriptor[1];  for (int i = 0; i < w2 - 1; i++) for (int j = 0; j < h2; j++) { res_array.array[i * 2 + 1, j * 2] = tmp.array[i, j]; }
+            tmp = zArrayDescriptor[2];  for (int i = 0; i < w2; i++) for (int j = 0; j < h2 - 1; j++) { res_array.array[i * 2, j * 2 + 1] = tmp.array[i, j]; }
+            tmp = zArrayDescriptor[3];  for (int i = 0; i < w2 - 1; i++) for (int j = 0; j < h2 - 1; j++) { res_array.array[i * 2 + 1, j * 2 + 1] = tmp.array[i, j]; }
+              */
+
+            for (int i = 0; i < w1 ; i+=2)    for (int j = 0; j < h1 ; j+=2)
+                {
+                    res_array.array[i,     j]     = zArrayDescriptor[0].array[i / 2, j / 2];
+                    res_array.array[i + 1, j]     = zArrayDescriptor[1].array[i / 2, j / 2];
+                    res_array.array[i,     j + 1] = zArrayDescriptor[2].array[i / 2, j / 2];
+                    res_array.array[i + 1, j + 1] = zArrayDescriptor[3].array[i / 2, j / 2];
+                }
+        
+            zArrayPicture = res_array;
+
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        }
         private void массиваВ1234СоСдвигомНа12ПикселяToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             ZArrayDescriptor amp = new ZArrayDescriptor(zArrayPicture);                                   // Из главного окна
@@ -1472,32 +1501,6 @@ namespace rab1
             Vizual_regImage(0); Vizual_regImage(1); Vizual_regImage(2); Vizual_regImage(3);
         }
 
-
-        private void из1234НовыйМассивToolStripMenuItem_Click(object sender, EventArgs e)               // ----- Из  zArrayDescriptor[0] 1,2,3 в основное окно файл в 2 раза больший 
-        {
-            int w2 = zArrayDescriptor[0].width;
-            int h2 = zArrayDescriptor[0].height;
-            int w1 = w2 * 2;
-            int h1 = h2 * 2;
-            //ZArrayDescriptor tmp = new ZArrayDescriptor(w2, h2);
-            ZArrayDescriptor res_array = new ZArrayDescriptor(w1, h1);
-            /*
-            tmp = zArrayDescriptor[0];  for (int i = 0; i < w2; i++) for (int j = 0; j < h2; j++) { res_array.array[i * 2, j * 2] = tmp.array[i, j]; }
-            tmp = zArrayDescriptor[1];  for (int i = 0; i < w2 - 1; i++) for (int j = 0; j < h2; j++) { res_array.array[i * 2 + 1, j * 2] = tmp.array[i, j]; }
-            tmp = zArrayDescriptor[2];  for (int i = 0; i < w2; i++) for (int j = 0; j < h2 - 1; j++) { res_array.array[i * 2, j * 2 + 1] = tmp.array[i, j]; }
-            tmp = zArrayDescriptor[3];  for (int i = 0; i < w2 - 1; i++) for (int j = 0; j < h2 - 1; j++) { res_array.array[i * 2 + 1, j * 2 + 1] = tmp.array[i, j]; }
-              */
-
-
-            for (int i = 0; i < w2 - 1; i++) for (int j = 0; j < h2 - 1; j++) { res_array.array[i * 2,     j * 2]     = zArrayDescriptor[0].array[i, j]; }
-            for (int i = 0; i < w2 - 1; i++) for (int j = 0; j < h2 - 1; j++) { res_array.array[i * 2 + 1, j * 2]     = zArrayDescriptor[1].array[i, j]; }
-            for (int i = 0; i < w2 - 1; i++) for (int j = 0; j < h2 - 1; j++) { res_array.array[i * 2,     j * 2 + 1] = zArrayDescriptor[2].array[i, j]; }
-            for (int i = 0; i < w2 - 1; i++) for (int j = 0; j < h2 - 1; j++) { res_array.array[i * 2 + 1, j * 2 + 1] = zArrayDescriptor[3].array[i, j]; }
-
-            zArrayPicture = res_array;
-
-            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
-        }
 
         private void из12НовыйМассивToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1529,7 +1532,20 @@ namespace rab1
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
 
         }
+/// <summary>
+///   Массив каждая точка которого 2х2 (Центральное окно)
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
+        private void массивСУсреднением2х2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int w2 = zArrayPicture.width;
+            int h2 = zArrayPicture.height;
 
+            zArrayPicture = FiltrClass.Filt1_2х2(zArrayPicture);
+
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        }
         private void генерацияМассиваСоСдвигомНаПловинуПикселяToolStripMenuItem_Click(object sender, EventArgs e) // -----  Генерация файла со сдвигом на половину пикселя
         {
             ZArrayDescriptor amp = new ZArrayDescriptor(zArrayPicture);
@@ -3907,6 +3923,8 @@ namespace rab1
             zArrayPicture = resArray;
             Vizual.Vizual_Picture(resArray, pictureBox01);
         }
+
+       
 
         private void ExtractCoordinates(string formattedCoordinate, out string x, out string y)
         {

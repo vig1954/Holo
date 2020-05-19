@@ -156,8 +156,33 @@ namespace rab1
 
             return res_array;
         }
-        
 
+        //  Усреднение 2х2 точек 
+
+        public static double Sum_2х2(ZArrayDescriptor amp, int i, int j)   // int kx, int ky - сдвиг массива точек
+        {
+            int w1 = amp.width;
+            int h1 = amp.height;
+
+            double a = 0;
+          
+            a = amp.array[i , j ] + amp.array[i + 1, j ] + amp.array[i , j + 1] + amp.array[i + 1, j + 1];
+   
+            return a/4;
+        }
+        public static ZArrayDescriptor Filt1_2х2(ZArrayDescriptor amp)   
+        {
+            int w1 = amp.width;
+            int h1 = amp.height;
+          
+            ZArrayDescriptor res_array = new ZArrayDescriptor(w1, h1);
+
+            for (int i = 0; i < w1; i++)   for (int j = 0; j < h1; j++)  {  res_array.array[i, j] = amp.array[i, j];   }
+
+            for (int i = 0; i < w1-1; i++) for (int j = 0; j < h1-1; j++){  res_array.array[i , j ] = Sum_2х2( amp, i,  j); }
+
+            return res_array;
+        }
 
         //  Усреднение 2х2 точек с уменьшением размера файла со сдвигом
 
@@ -169,8 +194,14 @@ namespace rab1
             int h2 = h1 / 2;
             ZArrayDescriptor res_array = new ZArrayDescriptor(w2, h2);
 
-            for (int i = 0; i < w1-1-kx; i+=2)
-              for (int j = 0; j < h1-1-ky; j+=2)
+            for (int i = 0; i < w1 ; i += 2)
+                for (int j = 0; j < h1 ; j += 2)
+                {    
+                    res_array.array[i / 2, j / 2] = amp.array[i, j];
+                }
+
+            for (int i = 0; i < w1-kx-1;   i+=2)
+              for (int j = 0; j < h1-ky-1; j+=2)
                 {
                     double a = (amp.array[i +     kx, j + ky] + amp.array[i +     kx, j + 1 + ky] +
                                 amp.array[i + 1 + kx, j + ky] + amp.array[i + 1 + kx, j + 1 + ky]);

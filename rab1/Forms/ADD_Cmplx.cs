@@ -113,7 +113,7 @@ namespace rab1.Forms
             k4 = Convert.ToInt32(textBox4.Text);
             k5 = Convert.ToInt32(textBox5.Text);
             ADD_Math.Div_C(k3, k4, k5);     // Разделить комплекcные массивы
-            //On_Div(k3, k4, k5);     // Разделить комплекcные массивы
+         
             Close();
         }
         private void button5_Click_1(object sender, EventArgs e)     // Вычесть вещественные массивы

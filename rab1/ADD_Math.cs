@@ -585,15 +585,15 @@ namespace rab1
 
             for (int i = 0; i < nx; i++)
                 for (int j = 0; j < ny; j++)
-                    // a.array[i, j] = zComplex[k3].array[i, j] / zComplex[k4].array[i, j];
+                { 
                     a.array[i, j] = Div(Form1.zComplex[k3].array[i, j], Form1.zComplex[k4].array[i, j]);
-
-            //zComplex[k5] = new ZComplexDescriptor(nx, ny);
+                    //a.array[i, j] = Complex.Divide( Form1.zComplex[k3].array[i, j] , Form1.zComplex[k4].array[i, j] );
+                }
             Form1.zComplex[k5] = a;
             ComplexPictureImage(k5);
-           // Complex_pictureBox(k5);
+           
         }
-
+/*
         public static ZComplexDescriptor Div_CMPLX(ZComplexDescriptor a1, ZComplexDescriptor a2)             // Разделить два комплексных массива поэлементно 
         {
             
@@ -618,14 +618,14 @@ namespace rab1
                     a.array[i, j] = Div(a1.array[i, j], a2.array[i, j]); 
             return a; 
         }
-
+*/
         private static Complex Div(Complex a, Complex b)  // Деление комплексных чисел 
         {
             Complex res = new Complex(0, 0);
             double D = b.Real * b.Real + b.Imaginary * b.Imaginary;
             if (D != 0)
             {
-                double d = (a.Real * b.Real + a.Imaginary * b.Imaginary) / D;
+                double d = (a.Real * b.Real       + a.Imaginary * b.Imaginary) / D;
                 double im = (a.Imaginary * b.Real - a.Real * b.Imaginary) / D;
                 res = new Complex(d, im);
             }
