@@ -256,9 +256,9 @@ namespace rab1
             if (Nx > NxP)
             {
                 N2 = (Nx - NxP) / 2;
-                for (int i = 0; i < N2; i++) for (int j = 0; j < Ny; j++) array[i, j] = 127;
+                for (int i = 0; i < N2; i++) for (int j = 0; j < Ny; j++) array[i, j] = 0; // 127;
                 for (int i = N2; i < Nx - N2; i++) Stolb_a0(i, N2, zArrayPicture, Ny, NyP);
-                for (int i = Nx - N2; i < Nx; i++) for (int j = 0; j < Ny; j++) array[i, j] = 127;
+                for (int i = Nx - N2; i < Nx; i++) for (int j = 0; j < Ny; j++) array[i, j] = 0; // 127;
             }
             else
                 for (int i = 0; i < Nx; i++) Stolb_a0(i, 0, zArrayPicture, Ny, NyP);
@@ -271,9 +271,9 @@ namespace rab1
             if (Ny > NyP)
             {
                 N2 = (Ny - NyP) / 2;
-                for (int j = 0; j < N2; j++) array[i, j] = 127;
+                for (int j = 0; j < N2; j++) array[i, j] = 0; // 127;
                 for (int j = N2; j < Ny - N2; j++) { array[i, j] = data2.array[i - N2x, j - N2]; }
-                for (int j = Ny - N2; j < Ny; j++) array[i, j] = 127;
+                for (int j = Ny - N2; j < Ny; j++) array[i, j] = 0; // 127;
             }
             else
                 for (int j = 0; j < Ny; j++) { array[i, j] = data2.array[i - N2x, j]; }
