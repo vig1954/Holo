@@ -92,6 +92,7 @@
             this.массиваВ1234СоСдвигомНа12ПикселяToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.из1234НовыйМассивToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.из12НовыйМассивToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.массивСУсреднением2х2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.усреднениеДвухТочекПоСтрокеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.усреднение2х2ТочекToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.уменьшениеМассиваВ2РазаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -224,7 +225,7 @@
             this.button9 = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
-            this.массивСУсреднением2х2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.массивСУсреднениемNxNToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox01)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -762,6 +763,7 @@
             this.массиваВ1234СоСдвигомНа12ПикселяToolStripMenuItem,
             this.из1234НовыйМассивToolStripMenuItem,
             this.из12НовыйМассивToolStripMenuItem,
+            this.массивСУсреднениемNxNToolStripMenuItem,
             this.массивСУсреднением2х2ToolStripMenuItem,
             this.усреднениеДвухТочекПоСтрокеToolStripMenuItem,
             this.усреднение2х2ТочекToolStripMenuItem,
@@ -859,6 +861,13 @@
             this.из12НовыйМассивToolStripMenuItem.Size = new System.Drawing.Size(390, 22);
             this.из12НовыйМассивToolStripMenuItem.Text = "Из 1,2 новый массив";
             this.из12НовыйМассивToolStripMenuItem.Click += new System.EventHandler(this.из12НовыйМассивToolStripMenuItem_Click);
+            // 
+            // массивСУсреднением2х2ToolStripMenuItem
+            // 
+            this.массивСУсреднением2х2ToolStripMenuItem.Name = "массивСУсреднением2х2ToolStripMenuItem";
+            this.массивСУсреднением2х2ToolStripMenuItem.Size = new System.Drawing.Size(390, 22);
+            this.массивСУсреднением2х2ToolStripMenuItem.Text = "Массив с усреднением 2х2";
+            this.массивСУсреднением2х2ToolStripMenuItem.Click += new System.EventHandler(this.массивСУсреднением2х2ToolStripMenuItem_Click);
             // 
             // усреднениеДвухТочекПоСтрокеToolStripMenuItem
             // 
@@ -2077,12 +2086,12 @@
             this.vScrollBar2.TabIndex = 115;
             this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar2_Scroll);
             // 
-            // массивСУсреднением2х2ToolStripMenuItem
+            // массивСУсреднениемNxNToolStripMenuItem
             // 
-            this.массивСУсреднением2х2ToolStripMenuItem.Name = "массивСУсреднением2х2ToolStripMenuItem";
-            this.массивСУсреднением2х2ToolStripMenuItem.Size = new System.Drawing.Size(390, 22);
-            this.массивСУсреднением2х2ToolStripMenuItem.Text = "Массив с усреднением 2х2";
-            this.массивСУсреднением2х2ToolStripMenuItem.Click += new System.EventHandler(this.массивСУсреднением2х2ToolStripMenuItem_Click);
+            this.массивСУсреднениемNxNToolStripMenuItem.Name = "массивСУсреднениемNxNToolStripMenuItem";
+            this.массивСУсреднениемNxNToolStripMenuItem.Size = new System.Drawing.Size(390, 22);
+            this.массивСУсреднениемNxNToolStripMenuItem.Text = "Массив с усреднением NxN";
+            this.массивСУсреднениемNxNToolStripMenuItem.Click += new System.EventHandler(this.массивСУсреднениемNxNToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -2386,6 +2395,7 @@
         private System.Windows.Forms.ToolStripMenuItem разряжениеКомплексногоМассиваToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem убратьГеометрическиеИскаженияToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem массивСУсреднением2х2ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem массивСУсреднениемNxNToolStripMenuItem;
     }
 }
 

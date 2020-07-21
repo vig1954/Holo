@@ -170,6 +170,19 @@ namespace rab1
    
             return a/4;
         }
+        public static double Sum_NхN(ZArrayDescriptor amp, int k, int i, int j)   // int kx, int ky - сдвиг массива точек
+        {
+            int w1 = amp.width;
+            int h1 = amp.height;
+
+            //MessageBox.Show("k_filt = " + k);
+            double a = 0;
+            for (int ix = 0; ix < k; ix++)
+                for (int iy = 0; iy < k ; iy++)
+                     { a += amp.array[i + ix, j + iy]; }
+
+            return a / (k*k);
+        }
         public static ZArrayDescriptor Filt1_2х2(ZArrayDescriptor amp)   
         {
             int w1 = amp.width;
@@ -180,6 +193,20 @@ namespace rab1
             for (int i = 0; i < w1; i++)   for (int j = 0; j < h1; j++)  {  res_array.array[i, j] = amp.array[i, j];   }
 
             for (int i = 0; i < w1-1; i++) for (int j = 0; j < h1-1; j++){  res_array.array[i , j ] = Sum_2х2( amp, i,  j); }
+
+            return res_array;
+        }
+
+        public static ZArrayDescriptor Filt1_NхN(ZArrayDescriptor amp, int k)
+        {
+            int w1 = amp.width;
+            int h1 = amp.height;
+
+            ZArrayDescriptor res_array = new ZArrayDescriptor(w1, h1);
+
+            for (int i = 0; i < w1; i++) for (int j = 0; j < h1; j++) { res_array.array[i, j] = amp.array[i, j]; }
+
+            for (int i = 0; i < w1 - (k-1); i++) for (int j = 0; j < h1 - (k-1); j++) { res_array.array[i, j] = Sum_NхN(amp, k, i, j); }
 
             return res_array;
         }

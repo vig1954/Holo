@@ -1530,7 +1530,7 @@ namespace rab1
             zArrayPicture = res_array;
 
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
-
+           
         }
 /// <summary>
 ///   Массив каждая точка которого 2х2 (Центральное окно)
@@ -1546,6 +1546,25 @@ namespace rab1
 
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
         }
+ /// <summary>
+///   Массив каждая точка которого NхN (Центральное окно)
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
+        private void массивСУсреднениемNxNToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.FiltDialog(this.filt_NxN);
+        }
+        private void filt_NxN(object sender, EventArgs e)
+        {
+            if (tb1_filt.Text != "") k_filt = Convert.ToInt32(tb1_filt.Text);
+            
+            zArrayPicture = FiltrClass.Filt1_NхN(zArrayPicture, k_filt);
+
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+            f_filt.Close();
+        }
+//------------------------------------------------------------------------------------------
         private void генерацияМассиваСоСдвигомНаПловинуПикселяToolStripMenuItem_Click(object sender, EventArgs e) // -----  Генерация файла со сдвигом на половину пикселя
         {
             ZArrayDescriptor amp = new ZArrayDescriptor(zArrayPicture);
@@ -3924,7 +3943,7 @@ namespace rab1
             Vizual.Vizual_Picture(resArray, pictureBox01);
         }
 
-       
+        
 
         private void ExtractCoordinates(string formattedCoordinate, out string x, out string y)
         {
