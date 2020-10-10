@@ -531,7 +531,14 @@ namespace rab1.Forms
         {
             ZArrayDescriptor arrayDescriptor1 = Form1.zArrayDescriptor[0];
             ZArrayDescriptor arrayDescriptor2 = Form1.zArrayDescriptor[1];
-                        
+
+            Interval<double> intervalInt = new Interval<double>(0, 225);
+            Interval<double> intervalM1 = new Interval<double>(0, WEDGE_M1);
+            Interval<double> intervalM2 = new Interval<double>(0, WEDGE_M2);
+
+            RealIntervalTransform intervalTransformM1 = new RealIntervalTransform(intervalInt, intervalM1);
+            RealIntervalTransform intervalTransformM2 = new RealIntervalTransform(intervalInt, intervalM2);
+
             int width = arrayDescriptor1.width;
 
             int startY = 0;
@@ -544,6 +551,9 @@ namespace rab1.Forms
                 {
                     double intensity1 = arrayDescriptor1.array[x, y];
                     double intensity2 = arrayDescriptor2.array[x, y];
+
+                    intensity1 = intervalTransformM1.TransformToFinishIntervalValue(intensity1);
+                    intensity2 = intervalTransformM2.TransformToFinishIntervalValue(intensity2);
 
                     int b1 = Convert.ToInt32(intensity1);
                     int b2 = Convert.ToInt32(intensity2);
