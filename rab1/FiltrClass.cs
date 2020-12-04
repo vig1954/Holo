@@ -170,19 +170,7 @@ namespace rab1
    
             return a/4;
         }
-        public static double Sum_NхN(ZArrayDescriptor amp, int k, int i, int j)   // int kx, int ky - сдвиг массива точек
-        {
-            int w1 = amp.width;
-            int h1 = amp.height;
-
-            //MessageBox.Show("k_filt = " + k);
-            double a = 0;
-            for (int ix = 0; ix < k; ix++)
-                for (int iy = 0; iy < k ; iy++)
-                     { a += amp.array[i + ix, j + iy]; }
-
-            return a / (k*k);
-        }
+      
         public static ZArrayDescriptor Filt1_2х2(ZArrayDescriptor amp)   
         {
             int w1 = amp.width;
@@ -197,7 +185,7 @@ namespace rab1
             return res_array;
         }
 
-        public static ZArrayDescriptor Filt1_NхN(ZArrayDescriptor amp, int k)
+        public static ZArrayDescriptor Filt1_NхN(ZArrayDescriptor amp, int k) // Для нечетных k
         {
             int w1 = amp.width;
             int h1 = amp.height;
@@ -206,9 +194,23 @@ namespace rab1
 
             for (int i = 0; i < w1; i++) for (int j = 0; j < h1; j++) { res_array.array[i, j] = amp.array[i, j]; }
 
-            for (int i = 0; i < w1 - (k-1); i++) for (int j = 0; j < h1 - (k-1); j++) { res_array.array[i, j] = Sum_NхN(amp, k, i, j); }
+            for (int i = k/2; i < w1 - k/2-1; i++) 
+                for (int j = k / 2; j < h1 - k / 2 - 1; j++) { res_array.array[i, j] = Sum_NхN(amp, k, i, j); }
 
             return res_array;
+        }
+        public static double Sum_NхN(ZArrayDescriptor amp, int k, int i, int j)   // int kx, int ky - сдвиг массива точек
+        {
+            int w1 = amp.width;
+            int h1 = amp.height;
+
+            //MessageBox.Show("k_filt = " + k);
+            double a = 0;
+            for (int ix = -k/2; ix < k/2; ix++)
+                for (int iy = -k / 2; iy < k / 2; iy++)
+                     { a += amp.array[i + ix, j + iy]; }
+
+            return a / (k * k);
         }
 
         //  Усреднение 2х2 точек с уменьшением размера файла со сдвигом

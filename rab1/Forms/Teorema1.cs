@@ -89,21 +89,23 @@ namespace rab1.Forms
 
             //Close();
         }
- ///  Двухмерный прямоугольник в комплекный массив     
+ ///  Двухмерный прямоугольник в комплексный массив     
        private void button30_Click(object sender, EventArgs e)
         {
             Number_kadr     = Convert.ToInt32(textBox1.Text);       // Номер кадра
-            Number_Pont_Rec = Convert.ToInt32(textBox2.Text);   // Число точек в прямоугольнике
+            Number_Pont_Rec = Convert.ToInt32(textBox2.Text);       // Число точек в прямоугольнике
             Number_Pont     = Convert.ToInt32(textBox3.Text);       // Общее число точек
             int regComplex = Number_kadr - 1;
 
             int nx = Number_Pont;
             int ny = Number_Pont;
-            int x0 = nx / 2 - Number_Pont_Rec / 2;
+            
+            int x0 = Number_Pont / 2 - 1 - Number_Pont_Rec / 2;
 
             ZArrayDescriptor cmpl = new ZArrayDescriptor(nx, ny);
             for (int i = x0; i < x0 + Number_Pont_Rec; i++)
-                for (int j = x0; j < x0 + Number_Pont_Rec; j++) { cmpl.array[i, j] = 1; }
+                for (int j = x0; j < x0 + Number_Pont_Rec; j++)
+                        { cmpl.array[i, j] = 1; }
 
             // ZComplexDescriptor(ZArrayDescriptor descriptorToCopy)
             Form1.zComplex[regComplex] = new ZComplexDescriptor(nx, ny);
