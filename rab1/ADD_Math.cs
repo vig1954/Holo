@@ -630,7 +630,9 @@ namespace rab1
                 double im = (a.Imaginary * b.Real - a.Real * b.Imaginary) / D;
                 res = new Complex(d, im);
             }
-
+           // else
+           // { res = new Complex(0, 0); }
+           
             return res;
         }
 

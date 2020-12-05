@@ -100,7 +100,7 @@ namespace rab1.Forms
             int nx = Number_Pont;
             int ny = Number_Pont;
             
-            int x0 = Number_Pont / 2 - 1 - Number_Pont_Rec / 2;
+            int x0 = Number_Pont / 2 - Number_Pont_Rec / 2;
 
             ZArrayDescriptor cmpl = new ZArrayDescriptor(nx, ny);
             for (int i = x0; i < x0 + Number_Pont_Rec; i++)
@@ -679,6 +679,41 @@ namespace rab1.Forms
 
             Form1.zArrayPicture = cmpl;
             VisualArray();
+
+        }
+        /// <summary>
+        ///  Двумерное SinC => Главное окно
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button32_Click(object sender, EventArgs e)
+        {
+            int nx = Convert.ToInt32(textBox3.Text);       // Общее число точек
+            int ny = nx;
+            int t = Convert.ToInt32(textBox2.Text);        // Число точек в квадрате
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(nx, ny);
+
+            double sc = 0;
+            double[] snc = new double[nx];
+
+            for (int i = 0; i < nx; i++)
+            {
+                double x = (2 * Math.PI * i) / nx;
+                double d = t * (x - Math.PI) / 2;
+                if (d != 0) sc = Math.Sin(d) / d; else sc = 1;
+                snc[i] = sc;
+            }
+
+                
+            for (int i = 0; i < nx; i++)
+                for (int y = 0; y < ny; y++)
+                {
+                    cmpl.array[i, y] = snc[i]*snc[y];
+                }
+
+            Form1.zArrayPicture = cmpl;
+            VisualArray();
+
 
         }
         /// <summary>
@@ -1264,5 +1299,7 @@ namespace rab1.Forms
             VisualArray();
             Close();
         }
+
+        
     }
 }

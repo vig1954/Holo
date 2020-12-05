@@ -82,6 +82,7 @@
             this.button30 = new System.Windows.Forms.Button();
             this.button31 = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
+            this.button32 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
@@ -120,7 +121,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(37, 20);
             this.textBox2.TabIndex = 14;
-            this.textBox2.Text = "1024";
+            this.textBox2.Text = "2";
             // 
             // label1
             // 
@@ -652,11 +653,24 @@
             this.label10.TabIndex = 64;
             this.label10.Text = "Кадр";
             // 
+            // button32
+            // 
+            this.button32.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button32.Location = new System.Drawing.Point(284, 52);
+            this.button32.Name = "button32";
+            this.button32.Size = new System.Drawing.Size(219, 21);
+            this.button32.TabIndex = 65;
+            this.button32.Text = "sinc";
+            this.button32.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button32.UseVisualStyleBackColor = true;
+            this.button32.Click += new System.EventHandler(this.button32_Click);
+            // 
             // Teorema1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(955, 871);
+            this.Controls.Add(this.button32);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.button31);
             this.Controls.Add(this.button30);
@@ -774,5 +788,6 @@
         private System.Windows.Forms.Button button30;
         private System.Windows.Forms.Button button31;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button button32;
     }
 }
