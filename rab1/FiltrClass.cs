@@ -127,9 +127,34 @@ namespace rab1
             return res_array;
         }
 
+/// <summary>
+/// Увеличение массива в 2 раза с добавлением рамки
+/// </summary>
+/// <param name="amp"></param>
+/// <returns></returns>
 
-       
+        public static ZArrayDescriptor Filt_2_Ramka(ZArrayDescriptor amp)   
+        {
 
+            int w1 = amp.width;
+            int h1 = amp.height;
+            int w2 = 2 * w1;
+            int h2 = 2 * h1;
+          
+            ZArrayDescriptor res_array = new ZArrayDescriptor(w2, h2);
+
+            int x0, y0;
+            x0 = w2 / 2 - w1 / 2;
+            y0 = h2 / 2 - h1 / 2;
+                        
+            for (int i = 0; i < w1; i++)
+              for (int j = 0; j < h1; j++)
+                {
+                    res_array.array[i+x0, j+y0] = amp.array[i,j];
+                }
+            
+            return res_array;
+        }
 
 
         //  Усреднение 2х2 и генерация нового файла из 4 усредненных со сдвигом на половину пикселя

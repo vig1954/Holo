@@ -1572,19 +1572,30 @@ namespace rab1
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
         }
         // -------------------------------  Увеличение массива в два раза простым повторением
- //       private void увеличениеМассиваВ2РазаПростымПовторениемToolStripMenuItem_Click(object sender, EventArgs e)
- //       {
- //           ZArrayDescriptor amp = new ZArrayDescriptor(zArrayPicture);
-            //zArrayPicture = FiltrClass.Filt_2_1(amp);
- //           zArrayPicture = FiltrClass.Filt_2_1_s(amp);
-//            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
-//        }
+        //       private void увеличениеМассиваВ2РазаПростымПовторениемToolStripMenuItem_Click(object sender, EventArgs e)
+        //       {
+        //           ZArrayDescriptor amp = new ZArrayDescriptor(zArrayPicture);
+        //zArrayPicture = FiltrClass.Filt_2_1(amp);
+        //           zArrayPicture = FiltrClass.Filt_2_1_s(amp);
+        //            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        //        }
         // -------------------------------  Увеличение массива в два раза со сдвигом на пловину пикселя
         private void увеличениеМассиваВ2РазаПростымПовторениемToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             ZArrayDescriptor amp = new ZArrayDescriptor(zArrayPicture);
 
             zArrayPicture = FiltrClass.Filt_2_1_2(amp);
+            Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
+        }
+
+        // -------------------------------  Увеличение массива в два раза со сдвигом на пловину пикселя
+
+        private void увеличениеМассиваСРамкойToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            ZArrayDescriptor amp = new ZArrayDescriptor(zArrayPicture);
+
+            zArrayPicture = FiltrClass.Filt_2_Ramka(amp);
             Vizual.Vizual_Picture(zArrayPicture, pictureBox01);
         }
 
@@ -3943,7 +3954,7 @@ namespace rab1
             Vizual.Vizual_Picture(resArray, pictureBox01);
         }
 
-        
+      
 
         private void ExtractCoordinates(string formattedCoordinate, out string x, out string y)
         {
