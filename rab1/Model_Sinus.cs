@@ -189,7 +189,32 @@ namespace rab1.Forms
         }
 
 
+        public static ZArrayDescriptor Sinus3(double n_polos, int Nx, int Ny)
+        {
 
+            int NX = Nx*2;
+            double a = 256;        // Амплитуда
+           
+            //MessageBox.Show(" n_polos " + n_polos);
+
+            double[] sn  = new double[Nx];
+            double[] sn2 = new double[NX];
+
+            ZArrayDescriptor cmpl = new ZArrayDescriptor(NX, Ny);      // Результирующий фронт 
+
+            
+           for (int i = 0; i < NX; i++)   { sn2[i] = a * (Math.Sin(2.0 * Math.PI * i / n_polos) + 1.0) / 2.0; }
+           
+          
+            for (int j = 0; j < Ny; j++)
+               { for (int i = 0; i < NX; i+=2) { cmpl.array[i, j] = (sn2[i] + sn2[i + 1]) / 2; ; } }
+
+          
+            for (int j = 0; j < Ny; j++)
+               { for (int i = 1; i < NX-1; i+=2) { cmpl.array[i, j] = (sn2[i] + sn2[i + 1]) / 2; } }
+
+            return cmpl;
+        }
         // ---------------------------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Моделирование клина интенсивности

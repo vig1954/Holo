@@ -170,6 +170,32 @@ namespace rab1.Forms
             Close();
           
         }
+      /// <summary>
+      /// Сверхразрешение.
+      /// Синусоида в два раза больше. 
+      /// 1.Усредняется по двум точкам.
+      /// 2.Сдвиг на 1 точку
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
+        private void button9_Click(object sender, EventArgs e)
+        {
+           
+            N_pol = Convert.ToDouble(textBox6.Text);   // Число точек на полоссу
+            N_urovn = Convert.ToDouble(textBox8.Text);   // Амплитуда
+          
+            Nx = Convert.ToInt32(textBox10.Text);
+            Ny = Convert.ToInt32(textBox12.Text);
+          
+
+           Form1.zArrayDescriptor[Form1.regComplex] = Model_Sinus.Sinus3(N_pol, Nx, Ny);
+           VisualRegImageAsRaw(Form1.regComplex);
+            
+            Close();
+
+        }
+
+
         /// <summary>
         /// Синусоиды с 256 фазовыми сдвигами
         /// Число повторений в "Разрядить нулями" => kr
@@ -575,6 +601,7 @@ namespace rab1.Forms
             ShowGraphic(graphCollection);
         }
 
+       
         /*
         private void button2_Click(object sender, EventArgs e)
         {

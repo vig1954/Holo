@@ -70,6 +70,7 @@
             this.generateWedgeOneButton = new System.Windows.Forms.Button();
             this.generateWedgeTwoButton = new System.Windows.Forms.Button();
             this.CalcWedgeIntensityDistributionButton = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -133,7 +134,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(12, 309);
+            this.button4.Location = new System.Drawing.Point(12, 388);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(248, 23);
             this.button4.TabIndex = 9;
@@ -151,7 +152,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(12, 349);
+            this.button5.Location = new System.Drawing.Point(12, 428);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(248, 37);
             this.button5.TabIndex = 12;
@@ -195,7 +196,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(12, 399);
+            this.button6.Location = new System.Drawing.Point(12, 478);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(248, 34);
             this.button6.TabIndex = 18;
@@ -239,7 +240,7 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(319, 363);
+            this.button7.Location = new System.Drawing.Point(319, 442);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(167, 23);
             this.button7.TabIndex = 23;
@@ -361,7 +362,7 @@
             // 
             // loadClinButton
             // 
-            this.loadClinButton.Location = new System.Drawing.Point(319, 410);
+            this.loadClinButton.Location = new System.Drawing.Point(319, 489);
             this.loadClinButton.Name = "loadClinButton";
             this.loadClinButton.Size = new System.Drawing.Size(168, 23);
             this.loadClinButton.TabIndex = 37;
@@ -371,7 +372,7 @@
             // 
             // ModelSinByClinButton
             // 
-            this.ModelSinByClinButton.Location = new System.Drawing.Point(12, 439);
+            this.ModelSinByClinButton.Location = new System.Drawing.Point(12, 518);
             this.ModelSinByClinButton.Name = "ModelSinByClinButton";
             this.ModelSinByClinButton.Size = new System.Drawing.Size(248, 45);
             this.ModelSinByClinButton.TabIndex = 38;
@@ -418,7 +419,7 @@
             // 
             // generateWedgeOneButton
             // 
-            this.generateWedgeOneButton.Location = new System.Drawing.Point(12, 502);
+            this.generateWedgeOneButton.Location = new System.Drawing.Point(12, 581);
             this.generateWedgeOneButton.Name = "generateWedgeOneButton";
             this.generateWedgeOneButton.Size = new System.Drawing.Size(99, 23);
             this.generateWedgeOneButton.TabIndex = 42;
@@ -428,7 +429,7 @@
             // 
             // generateWedgeTwoButton
             // 
-            this.generateWedgeTwoButton.Location = new System.Drawing.Point(158, 502);
+            this.generateWedgeTwoButton.Location = new System.Drawing.Point(158, 581);
             this.generateWedgeTwoButton.Name = "generateWedgeTwoButton";
             this.generateWedgeTwoButton.Size = new System.Drawing.Size(102, 23);
             this.generateWedgeTwoButton.TabIndex = 43;
@@ -438,7 +439,7 @@
             // 
             // CalcWedgeIntensityDistributionButton
             // 
-            this.CalcWedgeIntensityDistributionButton.Location = new System.Drawing.Point(319, 502);
+            this.CalcWedgeIntensityDistributionButton.Location = new System.Drawing.Point(319, 581);
             this.CalcWedgeIntensityDistributionButton.Name = "CalcWedgeIntensityDistributionButton";
             this.CalcWedgeIntensityDistributionButton.Size = new System.Drawing.Size(166, 23);
             this.CalcWedgeIntensityDistributionButton.TabIndex = 44;
@@ -446,11 +447,22 @@
             this.CalcWedgeIntensityDistributionButton.UseVisualStyleBackColor = true;
             this.CalcWedgeIntensityDistributionButton.Click += new System.EventHandler(this.CalcWedgeIntensityDistributionButton_Click);
             // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(12, 277);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(248, 35);
+            this.button9.TabIndex = 45;
+            this.button9.Text = "Синусоиды  (размер периода  в точках)\r\nСверхразрешение. Файл в два раза больше";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
             // Model_Sin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(497, 537);
+            this.ClientSize = new System.Drawing.Size(497, 625);
+            this.Controls.Add(this.button9);
             this.Controls.Add(this.CalcWedgeIntensityDistributionButton);
             this.Controls.Add(this.generateWedgeTwoButton);
             this.Controls.Add(this.generateWedgeOneButton);
@@ -548,5 +560,6 @@
         private System.Windows.Forms.Button generateWedgeOneButton;
         private System.Windows.Forms.Button generateWedgeTwoButton;
         private System.Windows.Forms.Button CalcWedgeIntensityDistributionButton;
+        private System.Windows.Forms.Button button9;
     }
 }
